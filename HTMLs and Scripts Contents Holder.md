@@ -538,6 +538,145 @@ Test pattern before deployment:
 | 1.1 | 2025-12-01 | Added CRITICAL section: Methods that DO NOT EXIST (setShuffleOrder, setRandomize, shuffleChoices). Added Rules 5a-5c, 11-12. Updated summary to 6 rules. |
 | 1.2 | 2025-12-01 | Added CRITICAL section: Form Settings API vs Manual UI. Documented setRequireLogin(true) for verified email. Added Rules 5d-5f, 7-8. Updated summary to 8 rules. |
 | 1.3 | 2025-12-01 | Added requireTextLengthGreaterThan() to non-existent methods. Correct method is requireTextLengthGreaterThanOrEqualTo(). Added Rule 9. Updated summary to 9 rules. |
+| 1.4 | 2025-12-01 | Added Hierarchical Audit findings. Cross-pollination best practices for G7/G8. Psychometric guidelines for sensitivity, specificity, and rubric precision. |
+
+\---
+
+\#\# Hierarchical Audit: Cross-Pollination Best Practices
+
+The following practices were identified through a comprehensive audit of G7 and G8 form scripts and should be applied consistently across all future forms.
+
+\#\#\# Assessment Architecture Summary
+
+| Dimension | G7 (Greenhouse) | G8 (Cheetah-Gazelle) | Best Practice |
+|-----------|-----------------|---------------------|---------------|
+| Auto:Manual Ratio | 5:10 (33%) | 4:17 (19%) | Target 30-40% for balance |
+| Question Types | MCQ, checkbox, scale, paragraph | MCQ, checkbox, scale, paragraph, short text | Use variety for accessibility |
+| Cognitive Demand | Recall 20%, Apply 45%, Analyze 35% | Recall 15%, Apply 50%, Analyze 35% | Balance across levels |
+| Point Weighting | Station 3 highest (25 pts) | Station 3 highest (25 pts) | Highest points for synthesis |
+
+\#\#\# Psychometric Best Practices
+
+\*\*SENSITIVITY (detecting learning gains):\*\*
+\`\`\`
+HIGH sensitivity:
+- Open calculations with rubric tiers (G8 Station 1 Q3-Q4)
+- Multi-step calculations with work shown
+- Paragraph responses with graduated rubrics
+
+MODERATE sensitivity:
+- Checkbox with 4+ options and partial credit rubric
+
+LOW sensitivity:
+- Binary MCQ with no partial credit (G7 Hook Q4)
+→ For key concepts, prefer open-response with graduated rubrics
+\`\`\`
+
+\*\*SPECIFICITY (distinguishing misconceptions):\*\*
+\`\`\`
+G7 Misconception Targets:
+- "Bonds break when absorbing IR" → Station 1 Q2, Q4
+- "Carbon is destroyed" → Station 2 Q3, Q4
+
+G8 Misconception Targets:
+- "Bigger = more force" → Station 1 Q2, Exit Q2
+- "Individuals evolve" (Lamarckian) → Station 2 Q5 (auto-graded MCQ)
+
+BEST PRACTICE: Include explicit misconception distractors in MCQs
+Use setFeedbackForIncorrect() to address the specific error
+\`\`\`
+
+\*\*RUBRIC PRECISION:\*\*
+\`\`\`
+❌ AVOID subjective language:
+- "Clear explanation"
+- "Vague response"
+- "Good understanding"
+
+✅ USE observable behaviors:
+- "Uses [KEY_TERM_1] AND [KEY_TERM_2]"
+- "Explains mechanism connecting X to Y"
+- "Includes numerical calculation with units"
+
+RUBRIC PATTERN:
+5 pts: [Correct elements] + [Mechanism explained] + [Connection made]
+4 pts: [Correct elements] + [Mechanism OR connection]
+3 pts: [Correct elements] without mechanism
+2 pts: [Partial elements] without scientific vocabulary
+1 pt: [Attempt] with major misconceptions
+0 pts: No response or completely irrelevant
+\`\`\`
+
+\#\#\# Implemented Cross-Pollination Features
+
+\*\*From G8 → G7:\*\*
+- setRequireLogin(true) for verified email ✓
+- Character validation on paragraph items (minimum length)
+- Consistent calculation threading (F=ma pattern to emulate)
+
+\*\*From G7 → G8:\*\*
+- Explicit misconception targeting with distractors
+- Detailed feedback for incorrect answers
+- Strong vocabulary scaffolding in help text
+
+\*\*Both Scripts Now Include:\*\*
+1. \*\*SEP-1 Question Generator:\*\* Exit Ticket Q6 - students generate HOW/WHY questions
+2. \*\*0-Point Confidence Diagnostics:\*\* No grade inflation, labeled "FOR REFLECTION ONLY"
+3. \*\*Lamarckian Misconception Check:\*\* G8 Station 2 Q5 (auto-graded with detailed feedback)
+4. \*\*Standardized Rubrics:\*\* Observable behaviors, graduated descriptors (5/4/3/2/1/0)
+5. \*\*Spiral Integration Labels:\*\* Explicit "SPIRAL - Cycle 2" tags on review questions
+
+\#\#\# Point Allocation After Cross-Pollination
+
+\*\*G7 Final Totals (100 pts):\*\*
+\`\`\`
+Hook:        12 pts (confidence → 0-pt diagnostic, -3 from original 15)
+Station 1:   20 pts (unchanged)
+Station 2:   20 pts (unchanged)
+Station 3:   25 pts (unchanged)
+Exit Ticket: 23 pts (SEP-1 question generator added, +3)
+TOTAL:      100 pts ✓
+\`\`\`
+
+\*\*G8 Final Totals (100 pts):\*\*
+\`\`\`
+Hook:        12 pts (confidence → 0-pt diagnostic, -3 from original 15)
+Station 1:   20 pts (unchanged)
+Station 2:   21 pts (Lamarckian MCQ +4, prediction reduced -3)
+Station 3:   25 pts (unchanged)
+Exit Ticket: 22 pts (SEP-1 +3, Integration reduced -1)
+TOTAL:      100 pts ✓
+\`\`\`
+
+\#\#\# Exit Ticket Structure (Both Grades)
+
+\`\`\`
+Questions 1-2: NEW content (Cycle 3)
+Questions 3-4: SPIRAL content (Cycle 2)
+Question 5:   INTEGRATION (connects both cycles)
+Question 6:   SEP-1 Question Generator (2 HOW/WHY questions)
+
+Rubric for Q6 (SEP-1):
+3 pts: 2 testable HOW/WHY questions with specific variables
+2 pts: 2 questions, at least 1 testable
+1 pt: 1 question OR yes/no style questions
+0 pts: No response
+\`\`\`
+
+\#\#\# Future Improvements Noted (Not Yet Implemented)
+
+1. \*\*G7 Station Reordering:\*\* Station 2 (carbon cycle) disrupts energy thread from Station 1. Consider swapping Station 2 and Station 3 for better conceptual flow.
+
+2. \*\*Numerical Validation:\*\* Add \`requireTextMatchesPattern('.*[0-9].*')\` to all calculation items to ensure students include numbers.
+
+3. \*\*Partial Credit for Checkboxes:\*\* Current checkbox grading is all-or-nothing. Consider converting key checkboxes to manual grading with graduated rubrics.
+
+4. \*\*Enhanced Feedback Pattern:\*\*
+\`\`\`javascript
+// Pattern for rich feedback
+correct: "✓ [Why correct] | NEXT STEP: [Preview next concept]"
+incorrect: "✗ [Common error] | KEY CONCEPT: [Correct info] | TRY THIS: [Remediation]"
+\`\`\`
 
 \---
 

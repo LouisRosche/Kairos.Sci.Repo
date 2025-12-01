@@ -1,17 +1,122 @@
 /**
  * ============================================================================
  * SHARED FORM UTILITIES - Use for both G7 and G8 Forms
+ * Version: 1.0 | Last Updated: Cycle 3 Week 1
  * ============================================================================
  *
  * This library provides standardized helper functions for creating
  * Google Forms with consistent settings, validation, and rubrics.
  *
- * API CONSTRAINTS (Non-Negotiable Rules):
- * 1. setPoints() ONLY on auto-gradable items (MCQ, checkbox, scale)
- * 2. NEVER setPoints() on paragraph or text items
- * 3. setShuffleOrder() does NOT exist - manual config required
- * 4. Use requireTextLengthGreaterThanOrEqualTo() NOT requireTextLengthGreaterThan()
- * 5. setRequireLogin(true) for verified Google account emails
+ * ============================================================================
+ * GOOGLE FORMS API CONSTRAINTS - NON-NEGOTIABLE RULES
+ * ============================================================================
+ * These constraints were discovered through testing. Violating them causes errors.
+ *
+ * RULE 1: setPoints() ONLY on auto-gradable items
+ *   ✓ WORKS: MultipleChoiceItem, CheckboxItem, ScaleItem
+ *   ✗ FAILS: ParagraphTextItem, TextItem (causes "cannot set points" error)
+ *   → Use manual grading rubrics in section headers for paragraph/text items
+ *
+ * RULE 2: setShuffleOrder() does NOT exist
+ *   ✗ FAILS: form.setShuffleOrder() or item.setShuffleOrder()
+ *   → Must configure manually in Forms UI: Settings > Quizzes > Shuffle option order
+ *
+ * RULE 3: Use requireTextLengthGreaterThanOrEqualTo(), NOT requireTextLengthGreaterThan()
+ *   ✗ FAILS: .requireTextLengthGreaterThan(100) - method does not exist
+ *   ✓ WORKS: .requireTextLengthGreaterThanOrEqualTo(100)
+ *
+ * RULE 4: setRequireLogin(true) for verified email collection
+ *   → Prevents students from typing any email; forces Google account sign-in
+ *   → Critical for Canvas gradebook sync and preventing impersonation
+ *
+ * RULE 5: Validation builder pattern
+ *   ✓ WORKS: FormApp.createTextValidation().requireTextMatchesPattern('.*[0-9].*').build()
+ *   ✓ WORKS: FormApp.createParagraphTextValidation().requireTextLengthGreaterThanOrEqualTo(50).build()
+ *
+ * RULE 6: Feedback requires FormApp.createFeedback().setText().build()
+ *   → Cannot pass plain string to setFeedbackForCorrect/Incorrect
+ *
+ * RULE 7: Scale items support setPoints() but don't measure content mastery
+ *   → RECOMMENDATION: Use 0-point diagnostics for confidence/reflection items
+ *   → Prevents grade inflation from non-academic responses
+ *
+ * RULE 8: Checkbox grading is all-or-nothing
+ *   → Student must select EXACTLY the correct choices to earn points
+ *   → For partial credit, use manual grading with rubric in section header
+ *
+ * RULE 9: Form configuration that MUST be done manually in UI:
+ *   - Release grade timing: Settings > Quizzes > "Immediately after each submission"
+ *   - Visible feedback: Settings > Quizzes > Check all boxes for what respondent can see
+ *   - Shuffle options: Settings > Quizzes > "Shuffle option order"
+ *
+ * ============================================================================
+ * CROSS-POLLINATION BEST PRACTICES (from Hierarchical Audit)
+ * ============================================================================
+ *
+ * AUTO:MANUAL RATIO:
+ *   - G7: 5:10 (33% auto-graded) - better for scaling
+ *   - G8: 4:17 (19% auto-graded) - more rigorous but time-intensive
+ *   → Target: 30-40% auto-graded for balance of rigor and efficiency
+ *
+ * SENSITIVITY (detecting learning gains):
+ *   - HIGH: Open calculations with rubric tiers
+ *   - MODERATE: Checkbox with 4+ options
+ *   - LOW: Binary MCQ with no partial credit
+ *   → Use graduated rubrics for key conceptual questions
+ *
+ * SPECIFICITY (distinguishing misconceptions):
+ *   - Include explicit misconception distractors in MCQs
+ *   - G7 targets: "Bonds break when absorbing IR"
+ *   - G8 targets: "Bigger = more force", "Individuals evolve"
+ *   → Use setFeedbackForIncorrect to address the specific misconception
+ *
+ * CONFIDENCE ITEMS:
+ *   - Convert to 0-point diagnostics (don't inflate grades)
+ *   - Label: "FOR REFLECTION ONLY - does NOT affect your grade"
+ *   - Still valuable for metacognition and identifying struggling students
+ *
+ * SEP-1 COMPLIANCE (Asking Questions):
+ *   - Both MS-ESS3-5 and MS-LS4-4 require students to generate questions
+ *   - Exit Ticket Q6 addresses this via question generator
+ *   - Rubric: HOW/WHY questions with testable variables = full credit
+ *
+ * SPIRAL INTEGRATION:
+ *   - Explicitly label spiral questions with "SPIRAL - Cycle 2"
+ *   - Connect to prior learning in help text
+ *   - Exit Ticket structure: 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1
+ *
+ * CONCEPTUAL COHERENCE:
+ *   - G8 threads F=ma through every station (strength to emulate)
+ *   - G7 could reorder Station 2/3 for better energy flow (noted for future)
+ *
+ * RUBRIC PRECISION:
+ *   - Use observable behaviors, not subjective terms ("clear", "vague")
+ *   - Include graduated descriptors (5/4/3/2/1/0)
+ *   - Pattern: [Correct elements] + [Mechanism explained] + [Connection made]
+ *
+ * ============================================================================
+ * USAGE EXAMPLES
+ * ============================================================================
+ *
+ * // Security configuration (call on every form)
+ * FormUtils.configSecurity(form);
+ *
+ * // Calculation with numeric validation
+ * FormUtils.addCalcItem(form, 'Calculate F=ma', 'Show your work', 4, rubricString);
+ *
+ * // Explanation with minimum length
+ * FormUtils.addExplainItem(form, 'Explain why...', 'Use vocabulary', 5, rubric, 100);
+ *
+ * // Misconception MCQ with feedback
+ * FormUtils.addMisconceptionMCQ(form, 'Which is true?', 'Correct', ['Wrong1','Wrong2'], 4,
+ *   'Correct! Here is why...', 'Common misconception! Here is the truth...');
+ *
+ * // 0-point confidence diagnostic
+ * FormUtils.addConfidenceDiagnostic(form, 'explaining forces in collisions');
+ *
+ * // SEP-1 question generator
+ * FormUtils.addQuestionGenerator(form, 'natural selection',
+ *   'How would survival change if...', 'Why do some species...', 3);
  */
 
 var FormUtils = {

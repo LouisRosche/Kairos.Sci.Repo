@@ -12,6 +12,7 @@
  *
  * 3-DIMENSIONAL LEARNING:
  *   SEP-1: Asking Questions - Ask questions about why CO2 traps heat
+ *          ↳ Implemented via Exit Ticket Q6 (question generator)
  *   DCI ESS3.D: Human Impacts - Explain how human activities affect climate
  *   CCC Cause & Effect: Connect molecular behavior to temperature change
  *
@@ -28,7 +29,86 @@
  *   4. Station 3 - Design a Thermal Trap (25 pts, ~20 min)
  *   5. Exit Ticket - Chemistry & Climate (23 pts, ~15 min) - includes SEP-1 question generator
  *
- * DEPLOYMENT:
+ * ============================================================================
+ * GOOGLE FORMS API CONSTRAINTS - NON-NEGOTIABLE RULES
+ * ============================================================================
+ * These constraints were discovered through testing. Violating them causes errors.
+ *
+ * RULE 1: setPoints() ONLY on auto-gradable items
+ *   ✓ WORKS: MultipleChoiceItem, CheckboxItem, ScaleItem
+ *   ✗ FAILS: ParagraphTextItem, TextItem (causes "cannot set points" error)
+ *   → Use manual grading rubrics in section headers for paragraph/text items
+ *
+ * RULE 2: setShuffleOrder() does NOT exist
+ *   ✗ FAILS: form.setShuffleOrder() or item.setShuffleOrder()
+ *   → Must configure manually in Forms UI: Settings > Quizzes > Shuffle option order
+ *
+ * RULE 3: Use requireTextLengthGreaterThanOrEqualTo(), NOT requireTextLengthGreaterThan()
+ *   ✗ FAILS: .requireTextLengthGreaterThan(100) - method does not exist
+ *   ✓ WORKS: .requireTextLengthGreaterThanOrEqualTo(100)
+ *
+ * RULE 4: setRequireLogin(true) for verified email collection
+ *   → Prevents students from typing any email; forces Google account sign-in
+ *   → Critical for Canvas gradebook sync and preventing impersonation
+ *
+ * RULE 5: Validation builder pattern
+ *   ✓ WORKS: FormApp.createTextValidation().requireTextMatchesPattern('.*[0-9].*').build()
+ *   ✓ WORKS: FormApp.createParagraphTextValidation().requireTextLengthGreaterThanOrEqualTo(50).build()
+ *
+ * RULE 6: Feedback requires FormApp.createFeedback().setText().build()
+ *   → Cannot pass plain string to setFeedbackForCorrect/Incorrect
+ *
+ * RULE 7: Scale items support setPoints() but don't measure content mastery
+ *   → RECOMMENDATION: Use 0-point diagnostics for confidence/reflection items
+ *   → Prevents grade inflation from non-academic responses
+ *
+ * RULE 8: Checkbox grading is all-or-nothing
+ *   → Student must select EXACTLY the correct choices to earn points
+ *   → For partial credit, use manual grading with rubric in section header
+ *
+ * RULE 9: Form configuration that MUST be done manually in UI:
+ *   - Release grade timing: Settings > Quizzes > "Immediately after each submission"
+ *   - Visible feedback: Settings > Quizzes > Check all boxes for what respondent can see
+ *   - Shuffle options: Settings > Quizzes > "Shuffle option order"
+ *
+ * ============================================================================
+ * PSYCHOMETRIC BEST PRACTICES FROM HIERARCHICAL AUDIT
+ * ============================================================================
+ *
+ * SENSITIVITY (detecting learning gains):
+ *   - Open calculations with rubric tiers = HIGH sensitivity
+ *   - Binary MCQ with no partial credit = LOW sensitivity
+ *   → Prefer open-response with graduated rubrics for key concepts
+ *
+ * SPECIFICITY (distinguishing misconceptions):
+ *   - Include explicit misconception distractors in MCQs
+ *   - G7 targets: "Bonds break when absorbing IR" (Station 1 Q2, Q4)
+ *   - G7 targets: "Carbon is destroyed" (Station 2 Q3, Q4)
+ *   → Use setFeedbackForIncorrect to address the specific misconception
+ *
+ * RUBRIC PRECISION:
+ *   - Use observable behaviors, not subjective terms ("clear", "vague")
+ *   - Include graduated descriptors (5/4/3/2/1/0)
+ *   - Pattern: [Correct elements] + [Mechanism explained] + [Connection made]
+ *
+ * CONFIDENCE ITEMS:
+ *   - Convert to 0-point diagnostics (don't inflate grades)
+ *   - Label as "FOR REFLECTION ONLY - does NOT affect your grade"
+ *   - Still valuable for metacognition and identifying struggling students
+ *
+ * SEP-1 COMPLIANCE (Asking Questions):
+ *   - MS-ESS3-5 explicitly requires students to ASK questions
+ *   - Exit Ticket Q6 addresses this via question generator
+ *   - Rubric: HOW/WHY questions with testable variables = full credit
+ *
+ * SPIRAL INTEGRATION:
+ *   - Explicitly label spiral questions with "SPIRAL - Cycle 2"
+ *   - Connect to prior learning in help text
+ *   - Exit Ticket structure: 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1
+ *
+ * ============================================================================
+ * DEPLOYMENT CHECKLIST
+ * ============================================================================
  *   1. Open script.google.com, create new project
  *   2. Paste this entire script
  *   3. Run: createAllG7C3W1Forms()
@@ -36,13 +116,17 @@
  *   5. MANUAL CONFIG REQUIRED (Settings > Quizzes in each form):
  *      - Release grade: "Immediately after each submission"
  *      - Respondent can see: Check ALL boxes (Missed questions, Correct answers, Point values)
+ *      - Shuffle option order: ON (for anti-cheating)
+ *   6. Embed forms in LMS using the embed URLs from Logger
+ *   7. Test with a student account before going live
  *
  * FORM SETTINGS (set via API):
- *   - Quiz mode enabled
- *   - Requires Google sign-in (verified email, no manual entry)
- *   - Limit 1 response per user
- *   - Allow response editing after submit
- *   - Progress bar enabled
+ *   - Quiz mode enabled (setIsQuiz)
+ *   - Requires Google sign-in (setRequireLogin) - verified email, no manual entry
+ *   - Limit 1 response per user (setLimitOneResponsePerUser)
+ *   - Allow response editing after submit (setAllowResponseEdits)
+ *   - Progress bar enabled (setProgressBar)
+ *   - Confirmation message with next steps (setConfirmationMessage)
  */
 
 // ============================================================================

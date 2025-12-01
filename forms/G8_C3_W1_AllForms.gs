@@ -4,14 +4,127 @@
  * 5 Forms | 100 Points Total | MS-LS4-4 + Spiral MS-PS2-1, MS-PS2-2
  * ============================================================================
  *
- * FORMS CREATED:
- *   1. Hook - The Cheetah-Gazelle Mystery (12 pts) - confidence is 0-pt diagnostic
- *   2. Station 1 - Predator-Prey Force Analysis (20 pts)
- *   3. Station 2 - Trait Variation Simulation (21 pts) - includes Lamarckian misconception check
- *   4. Station 3 - Design a Survivor (25 pts)
- *   5. Exit Ticket - Forces & Evolution (22 pts) - includes SEP-1 question generator
+ * NGSS ALIGNMENT:
+ *   Primary: MS-LS4-4 - Construct explanations based on evidence for how
+ *            natural selection leads to adaptation
+ *   Spiral:  MS-PS2-1 - Apply Newton's Third Law (action-reaction pairs)
+ *            MS-PS2-2 - Plan investigation to determine relationship between
+ *                       force, mass, and acceleration (F=ma)
  *
- * DEPLOYMENT:
+ * 3-DIMENSIONAL LEARNING:
+ *   SEP-1: Asking Questions - Generate testable questions about natural selection
+ *          ↳ Implemented via Exit Ticket Q6 (question generator)
+ *   SEP-6: Constructing Explanations - Explain adaptations using physics
+ *   DCI LS4.B: Natural Selection - Trait variation + differential survival
+ *   CCC Cause & Effect: Connect forces to survival outcomes
+ *
+ * LEARNING TARGETS:
+ *   1. Apply Newton's Third Law to predator-prey interactions
+ *   2. Calculate forces and accelerations using F=ma
+ *   3. Explain how trait variation leads to differential survival
+ *   4. Connect physics concepts to natural selection outcomes
+ *
+ * FORMS:
+ *   1. Hook - The Cheetah-Gazelle Mystery (12 pts + diagnostic, ~10 min)
+ *   2. Station 1 - Predator-Prey Force Analysis (20 pts, ~18 min)
+ *   3. Station 2 - Trait Variation Simulation (21 pts, ~18 min) - Lamarckian check
+ *   4. Station 3 - Design a Survivor (25 pts, ~20 min)
+ *   5. Exit Ticket - Forces & Evolution (22 pts, ~15 min) - SEP-1 question generator
+ *
+ * ============================================================================
+ * GOOGLE FORMS API CONSTRAINTS - NON-NEGOTIABLE RULES
+ * ============================================================================
+ * These constraints were discovered through testing. Violating them causes errors.
+ *
+ * RULE 1: setPoints() ONLY on auto-gradable items
+ *   ✓ WORKS: MultipleChoiceItem, CheckboxItem, ScaleItem
+ *   ✗ FAILS: ParagraphTextItem, TextItem (causes "cannot set points" error)
+ *   → Use manual grading rubrics in section headers for paragraph/text items
+ *
+ * RULE 2: setShuffleOrder() does NOT exist
+ *   ✗ FAILS: form.setShuffleOrder() or item.setShuffleOrder()
+ *   → Must configure manually in Forms UI: Settings > Quizzes > Shuffle option order
+ *
+ * RULE 3: Use requireTextLengthGreaterThanOrEqualTo(), NOT requireTextLengthGreaterThan()
+ *   ✗ FAILS: .requireTextLengthGreaterThan(100) - method does not exist
+ *   ✓ WORKS: .requireTextLengthGreaterThanOrEqualTo(100)
+ *
+ * RULE 4: setRequireLogin(true) for verified email collection
+ *   → Prevents students from typing any email; forces Google account sign-in
+ *   → Critical for Canvas gradebook sync and preventing impersonation
+ *
+ * RULE 5: Validation builder pattern
+ *   ✓ WORKS: FormApp.createTextValidation().requireTextMatchesPattern('.*[0-9].*').build()
+ *   ✓ WORKS: FormApp.createParagraphTextValidation().requireTextLengthGreaterThanOrEqualTo(50).build()
+ *
+ * RULE 6: Feedback requires FormApp.createFeedback().setText().build()
+ *   → Cannot pass plain string to setFeedbackForCorrect/Incorrect
+ *
+ * RULE 7: Scale items support setPoints() but don't measure content mastery
+ *   → RECOMMENDATION: Use 0-point diagnostics for confidence/reflection items
+ *   → Prevents grade inflation from non-academic responses
+ *
+ * RULE 8: Checkbox grading is all-or-nothing
+ *   → Student must select EXACTLY the correct choices to earn points
+ *   → For partial credit, use manual grading with rubric in section header
+ *
+ * RULE 9: Form configuration that MUST be done manually in UI:
+ *   - Release grade timing: Settings > Quizzes > "Immediately after each submission"
+ *   - Visible feedback: Settings > Quizzes > Check all boxes for what respondent can see
+ *   - Shuffle options: Settings > Quizzes > "Shuffle option order"
+ *
+ * ============================================================================
+ * PSYCHOMETRIC BEST PRACTICES FROM HIERARCHICAL AUDIT
+ * ============================================================================
+ *
+ * SENSITIVITY (detecting learning gains):
+ *   - G8 Station 1 Q3-Q4: Open calculation with rubric tiers = HIGH sensitivity
+ *   - Multi-step calculations with work shown = HIGH sensitivity
+ *   → F=ma calculations thread through every station for consistency
+ *
+ * SPECIFICITY (distinguishing misconceptions):
+ *   - G8 CRITICAL: "Bigger = more force" misconception (Station 1 Q2, Exit Q2)
+ *     → Newton's Third Law: forces are EQUAL regardless of mass
+ *   - G8 CRITICAL: Lamarckian thinking "individuals evolve" (Station 2 Q5)
+ *     → Explicitly targeted with auto-graded MCQ + detailed feedback
+ *   - Use setFeedbackForIncorrect to address the specific misconception
+ *
+ * LAMARCKIAN MISCONCEPTION (Station 2 Q5):
+ *   - Students often think individuals change their traits to survive
+ *   - CORRECT: Populations change over generations; individuals do NOT change genes
+ *   - Distractor: "Individual prey animals changed their traits to survive better"
+ *   - Feedback explicitly addresses this common error
+ *
+ * RUBRIC PRECISION:
+ *   - Use observable behaviors, not subjective terms ("clear", "vague")
+ *   - Include graduated descriptors (5/4/3/2/1/0)
+ *   - Pattern: [Correct calculation] + [Work shown] + [Units included]
+ *
+ * CONFIDENCE ITEMS:
+ *   - Convert to 0-point diagnostics (don't inflate grades)
+ *   - Label as "FOR REFLECTION ONLY - does NOT affect your grade"
+ *   - Still valuable for metacognition and identifying struggling students
+ *
+ * SEP-1 COMPLIANCE (Asking Questions):
+ *   - MS-LS4-4 implicitly requires students to generate questions
+ *   - Exit Ticket Q6 addresses this via question generator
+ *   - Rubric: HOW/WHY questions with testable variables = full credit
+ *
+ * SPIRAL INTEGRATION:
+ *   - Explicitly label spiral questions with "SPIRAL - Cycle 2"
+ *   - F=ma threads through EVERY station (not just Exit Ticket)
+ *   - Exit Ticket structure: 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1
+ *
+ * CONCEPTUAL COHERENCE:
+ *   - Every station uses F=ma, creating a consistent physics thread
+ *   - Station 1: Calculate forces in predator-prey collision
+ *   - Station 2: Connect selection pressure to force analogy
+ *   - Station 3: Design organism using F=ma justification
+ *   - Exit: Integrate physics + natural selection concepts
+ *
+ * ============================================================================
+ * DEPLOYMENT CHECKLIST
+ * ============================================================================
  *   1. Open script.google.com, create new project
  *   2. Paste this entire script
  *   3. Run: createAllG8C3W1Forms()
@@ -20,14 +133,17 @@
  *   6. MANUAL CONFIG REQUIRED (Settings > Quizzes in each form):
  *      - Release grade: "Immediately after each submission"
  *      - Respondent can see: Check ALL boxes (Missed questions, Correct answers, Point values)
- *      - Enable "Shuffle option order" for anti-cheating
+ *      - Shuffle option order: ON (for anti-cheating)
+ *   7. Embed forms in LMS using the embed URLs from Logger
+ *   8. Test with a student account before going live
  *
  * FORM SETTINGS (set via API):
- *   - Quiz mode enabled
- *   - Requires Google sign-in (verified email, no manual entry)
- *   - Limit 1 response per user
- *   - Allow response editing after submit
- *   - Progress bar enabled
+ *   - Quiz mode enabled (setIsQuiz)
+ *   - Requires Google sign-in (setRequireLogin) - verified email, no manual entry
+ *   - Limit 1 response per user (setLimitOneResponsePerUser)
+ *   - Allow response editing after submit (setAllowResponseEdits)
+ *   - Progress bar enabled (setProgressBar)
+ *   - Confirmation message with next steps (setConfirmationMessage)
  */
 
 // ============================================================================
