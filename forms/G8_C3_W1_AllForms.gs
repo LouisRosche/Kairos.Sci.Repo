@@ -20,8 +20,8 @@
  *
  * FEATURES UTILIZED:
  *   - Quiz mode with auto-grading
- *   - Shuffled MCQ options (anti-cheating)
  *   - Progress bar for student pacing
+ *   - NOTE: Enable "Shuffle option order" manually in Forms UI for anti-cheating
  *   - Response validation on calculations
  *   - Page breaks for clear sections
  *   - Help text scaffolding
@@ -159,7 +159,7 @@ function createG8Hook_() {
     q4.createChoice('They exert equal forces on each other (Newton\'s Third Law)', true),
     q4.createChoice('Only the cheetah exerts a force during the collision', false)
   ]);
-  q4.setShuffleOrder(true);
+  // NOTE: Shuffle choices manually in Forms UI (setShuffleOrder not available in API)
   q4.setPoints(3);
   q4.setFeedbackForCorrect(
     FormApp.createFeedback()
@@ -254,7 +254,7 @@ function createG8Station1_() {
     q2.createChoice('Forces are equal (Newton\'s Third Law)', true),
     q2.createChoice('Cannot determine without knowing their speeds', false)
   ]);
-  q2.setShuffleOrder(true);
+  // NOTE: Shuffle choices manually in Forms UI (setShuffleOrder not available in API)
   q2.setPoints(4);
   q2.setFeedbackForCorrect(
     FormApp.createFeedback()
@@ -751,7 +751,7 @@ function createG8ExitTicket_() {
     q2.createChoice('Forces are equal, but accelerations are different', true),
     q2.createChoice('Cannot compare forces without knowing velocities', false)
   ]);
-  q2.setShuffleOrder(true);
+  // NOTE: Shuffle choices manually in Forms UI (setShuffleOrder not available in API)
   q2.setPoints(4);
   q2.setFeedbackForCorrect(
     FormApp.createFeedback()

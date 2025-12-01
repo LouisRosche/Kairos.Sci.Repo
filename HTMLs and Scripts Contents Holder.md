@@ -76,8 +76,49 @@ form.addSectionHeaderItem()
 \- \`addDateTimeItem()\`  
 \- \`addDurationItem()\`
 
-\*\*RULE 4:\*\* Check item type before calling \`setPoints()\` or \`setFeedback()\` methods    
+\*\*RULE 4:\*\* Check item type before calling \`setPoints()\` or \`setFeedback()\` methods
 \*\*RULE 5:\*\* Manual-grading items require separate documentation (section headers with rubrics)
+
+\---
+
+\#\# CRITICAL: Methods That DO NOT EXIST in FormApp API
+
+\#\#\# ❌ THESE METHODS DO NOT EXIST:
+
+\`\`\`javascript
+// ILLEGAL: setShuffleOrder() does NOT exist on any item type
+item.setShuffleOrder(true);  // TypeError: item.setShuffleOrder is not a function
+
+// ILLEGAL: setRandomize() does NOT exist
+item.setRandomize(true);  // TypeError: item.setRandomize is not a function
+
+// ILLEGAL: shuffleChoices() does NOT exist
+item.shuffleChoices();  // TypeError: item.shuffleChoices is not a function
+\`\`\`
+
+\#\#\# ✅ SHUFFLE CHOICES WORKAROUND:
+
+\`\`\`javascript
+// OPTION 1: Teacher manually enables shuffle in Google Forms UI
+// Forms > Settings > Presentation > Shuffle question order
+
+// OPTION 2: Randomize choices array BEFORE creating the item
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() \* (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+const choices = ['Option A', 'Option B', 'Option C'];
+const shuffled = shuffleArray([...choices]);
+// Then use shuffled array when creating choices
+\`\`\`
+
+\*\*RULE 5a:\*\* The Google Forms UI has shuffle options, but the Apps Script API does NOT expose them programmatically
+\*\*RULE 5b:\*\* If shuffle is needed, either: (1) enable manually in Forms UI, or (2) randomize the choices array before item creation
+\*\*RULE 5c:\*\* Add code comments noting where manual UI configuration is required
 
 \---
 
@@ -381,47 +422,52 @@ function testAllPatterns() {
 
 \---
 
-\#\# Summary: The 5 Non-Negotiable Rules
+\#\# Summary: The 6 Non-Negotiable Rules
 
-\`\`\`  
-1\. NEVER call setPoints(0) \- omit setPoints() instead  
-2\. NEVER call setPoints() on paragraph/text items  
-3\. NEVER call setFeedback() on paragraph/text items    
-4\. ALWAYS validate points \> 0 before calling setPoints()  
-5\. ALWAYS use FormApp.createFeedback().build() pattern for feedback  
+\`\`\`
+1\. NEVER call setPoints(0) \- omit setPoints() instead
+2\. NEVER call setPoints() on paragraph/text items
+3\. NEVER call setFeedback() on paragraph/text items
+4\. ALWAYS validate points \> 0 before calling setPoints()
+5\. ALWAYS use FormApp.createFeedback().build() pattern for feedback
+6\. NEVER use setShuffleOrder() \- it does NOT exist in the API (use Forms UI instead)
 \`\`\`
 
 \---
 
 \#\# Copy-Paste Template for AI Prompts
 
-\`\`\`  
+\`\`\`
 When generating Google Forms Apps Script code, STRICTLY follow these rules:
 
-1\. Check item type before using setPoints() or setFeedback() methods  
-2\. Only auto-gradable items (multiple choice, checkbox, dropdown, linear scale, grids) support setPoints() and setFeedback()  
-3\. Paragraph text items and short answer items CANNOT use setPoints() or setFeedback()  
-4\. Point values must be positive integers (≥1) \- NEVER use setPoints(0)  
-5\. For ungraded items, omit setPoints() entirely \- don't call it with 0  
-6\. Always use FormApp.createFeedback().setText().build() pattern for feedback  
-7\. Validate all configurations before calling FormApp methods  
-8\. Use try-catch around setFeedback() calls for graceful degradation  
-9\. Document manual grading rubrics in adjacent section headers  
+1\. Check item type before using setPoints() or setFeedback() methods
+2\. Only auto-gradable items (multiple choice, checkbox, dropdown, linear scale, grids) support setPoints() and setFeedback()
+3\. Paragraph text items and short answer items CANNOT use setPoints() or setFeedback()
+4\. Point values must be positive integers (≥1) \- NEVER use setPoints(0)
+5\. For ungraded items, omit setPoints() entirely \- don't call it with 0
+6\. Always use FormApp.createFeedback().setText().build() pattern for feedback
+7\. Validate all configurations before calling FormApp methods
+8\. Use try-catch around setFeedback() calls for graceful degradation
+9\. Document manual grading rubrics in adjacent section headers
 10\. Set form.setIsQuiz(true) if using any feedback features
+11\. NEVER use setShuffleOrder() \- this method does NOT exist in the FormApp API
+12\. For shuffle functionality: either enable in Forms UI manually, or randomize choices array before creating item
 
-Test pattern before deployment:  
-\- Verify auto-gradable items work with setPoints(5)  
-\- Verify text items work WITHOUT setPoints()  
-\- Verify validation catches setPoints(0) before runtime  
+Test pattern before deployment:
+\- Verify auto-gradable items work with setPoints(5)
+\- Verify text items work WITHOUT setPoints()
+\- Verify validation catches setPoints(0) before runtime
+\- Verify NO calls to setShuffleOrder(), setRandomize(), or shuffleChoices()
 \`\`\`
 
 \---
 
 \#\# Version History
 
-| Version | Date | Change |  
-|---------|------|--------|  
+| Version | Date | Change |
+|---------|------|--------|
 | 1.0 | 2025-11-04 | Initial documentation from systematic debugging |
+| 1.1 | 2025-12-01 | Added CRITICAL section: Methods that DO NOT EXIST (setShuffleOrder, setRandomize, shuffleChoices). Added Rules 5a-5c, 11-12. Updated summary to 6 rules. |
 
 \---
 

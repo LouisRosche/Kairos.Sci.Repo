@@ -166,7 +166,7 @@ function createG7Hook_() {
     q4.createChoice('Neither - no energy change occurs', false),
     q4.createChoice('Both at the same time', false)
   ]);
-  q4.setShuffleOrder(true);
+  // NOTE: Shuffle choices manually in Forms UI (setShuffleOrder not available in API)
   q4.setPoints(3);
   q4.setFeedbackForCorrect(
     FormApp.createFeedback()
@@ -272,7 +272,7 @@ function createG7Station1_() {
     q2.createChoice('It slows down and stops moving', false),
     q2.createChoice('Nothing happens - the IR passes right through', false)
   ]);
-  q2.setShuffleOrder(true);
+  // NOTE: Shuffle choices manually in Forms UI (setShuffleOrder not available in API)
   q2.setPoints(5);
   q2.setFeedbackForCorrect(
     FormApp.createFeedback()
@@ -425,7 +425,7 @@ function createG7Station2_() {
     q2.createChoice('Same number on both sides (36 atoms each)', true),
     q2.createChoice('Cannot tell without more information', false)
   ]);
-  q2.setShuffleOrder(true);
+  // NOTE: Shuffle choices manually in Forms UI (setShuffleOrder not available in API)
   q2.setPoints(4);
   q2.setFeedbackForCorrect(
     FormApp.createFeedback()
@@ -496,7 +496,7 @@ function createG7Station2_() {
     q5.createChoice('Stay the same - carbon in equals carbon out', true),
     q5.createChoice('Cannot determine', false)
   ]);
-  q5.setShuffleOrder(true);
+  // NOTE: Shuffle choices manually in Forms UI (setShuffleOrder not available in API)
   q5.setPoints(4);
   q5.setFeedbackForCorrect(
     FormApp.createFeedback()
@@ -743,7 +743,7 @@ function createG7ExitTicket_() {
     q2.createChoice('Energy is created from nothing', false),
     q2.createChoice('Energy is destroyed', false)
   ]);
-  q2.setShuffleOrder(true);
+  // NOTE: Shuffle choices manually in Forms UI (setShuffleOrder not available in API)
   q2.setPoints(4);
   q2.setFeedbackForCorrect(
     FormApp.createFeedback()
@@ -790,7 +790,7 @@ function createG7ExitTicket_() {
     q4.createChoice('Stays the same - atoms conserved (rearranged, not created/destroyed)', true),
     q4.createChoice('Depends on the reaction type', false)
   ]);
-  q4.setShuffleOrder(true);
+  // NOTE: Shuffle choices manually in Forms UI (setShuffleOrder not available in API)
   q4.setPoints(4);
   q4.setFeedbackForCorrect(
     FormApp.createFeedback()
