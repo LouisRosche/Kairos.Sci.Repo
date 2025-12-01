@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 8 | Cycle 3 Week 1: The Cheetah-Gazelle Arms Race</title>
+    <style>
+        :root {
+            --primary: #1a5f7a;
+            --secondary: #57c5b6;
+            --accent: #159895;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #198754;
+            --warning: #ffc107;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .overview-card h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .standard-box {
+            background: var(--light);
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .standard-box h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .standard-box .code {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .targets-list {
+            list-style: none;
+            counter-reset: target;
+        }
+
+        .targets-list li {
+            counter-increment: target;
+            padding: 10px 15px;
+            margin: 8px 0;
+            background: var(--light);
+            border-radius: 8px;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .targets-list li::before {
+            content: counter(target);
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-header h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        .points-badge {
+            background: var(--success);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .time-badge {
+            background: var(--warning);
+            color: var(--dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .form-description {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .scoring-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .scoring-table th,
+        .scoring-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .scoring-table th {
+            background: var(--primary);
+            color: white;
+        }
+
+        .scoring-table tr:nth-child(even) {
+            background: var(--light);
+        }
+
+        .scoring-table .type-auto {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .scoring-table .type-manual {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .form-embed {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .form-embed iframe {
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            max-width: 100%;
+        }
+
+        .form-link {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .form-link:hover {
+            background: var(--primary);
+        }
+
+        .exit-ticket-note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .exit-ticket-note h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .question-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .type-new {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .type-spiral {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .type-integration {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .total-summary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .total-summary h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .summary-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .summary-item .label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .summary-item .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Grade 8 | Cycle 3 Week 1</h1>
+        <p class="subtitle">The Cheetah-Gazelle Arms Race: Connecting Physics to Natural Selection</p>
+    </header>
+
+    <div class="container">
+        <!-- Overview -->
+        <section class="overview-card">
+            <h2>Week Overview</h2>
+            <p>This week, you will discover how physics principles (forces, acceleration, mass) drive natural selection in predator-prey relationships. Through the cheetah-gazelle "arms race," you will learn that survival is not just about speed - it is about the physics of escape!</p>
+
+            <div class="standards-grid">
+                <div class="standard-box">
+                    <h4>Primary Standard</h4>
+                    <p><span class="code">MS-LS4-4</span> - Construct an explanation based on evidence that describes how genetic variations of traits in a population increase some individuals' probability of surviving and reproducing in a specific environment.</p>
+                </div>
+                <div class="standard-box">
+                    <h4>Spiral Standards (Cycle 2)</h4>
+                    <p><span class="code">MS-PS2-1</span> - Apply Newton's Third Law to design a solution to a problem involving the motion of two colliding objects.</p>
+                    <p><span class="code">MS-PS2-2</span> - Plan an investigation to provide evidence that the change in an object's motion depends on the sum of the forces on the object and the mass of the object (F=ma).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Targets -->
+        <section class="overview-card">
+            <h2>Learning Targets</h2>
+            <p>By the end of this week, you will be able to:</p>
+            <ol class="targets-list">
+                <li>Apply Newton's Third Law to explain force interactions in predator-prey collisions</li>
+                <li>Use F=ma to explain why smaller prey can escape larger predators</li>
+                <li>Describe how trait variation leads to differential survival in populations</li>
+                <li>Connect physics principles to natural selection mechanisms</li>
+            </ol>
+        </section>
+
+        <!-- Form 1: Hook -->
+        <section class="form-section" id="hook">
+            <div class="form-header">
+                <h3>Form 1: Hook - The Cheetah-Gazelle Mystery</h3>
+                <span class="points-badge">15 Points</span>
+                <span class="time-badge">~10 minutes</span>
+            </div>
+
+            <div class="form-description">
+                <p><strong>The Mystery:</strong> Cheetahs can run 70 mph - the fastest land animal. Gazelles max out at 60 mph. If cheetahs are faster, why have gazelles NOT gone extinct?</p>
+                <p>Activate your Cycle 2 physics knowledge to begin solving this evolutionary puzzle!</p>
+            </div>
+
+            <table class="scoring-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Topic</th>
+                        <th>Type</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Q1</td>
+                        <td>Newton's Third Law (own words)</td>
+                        <td class="type-manual">Manual</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Q2</td>
+                        <td>Why gazelles survive</td>
+                        <td class="type-manual">Manual</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Q3</td>
+                        <td>Gazelle advantages (physics-based)</td>
+                        <td class="type-manual">Manual</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Q4</td>
+                        <td>Forces in collision (N3L MCQ)</td>
+                        <td class="type-auto">Auto</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Q5</td>
+                        <td>Confidence scale</td>
+                        <td class="type-auto">Auto</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="form-embed">
+                <a href="#" class="form-link">Open Hook Form</a>
+                <!-- Embed URL placeholder: Replace # with actual form URL after creation -->
+            </div>
+        </section>
+
+        <!-- Form 2: Station 1 -->
+        <section class="form-section" id="station1">
+            <div class="form-header">
+                <h3>Form 2: Station 1 - Predator-Prey Force Analysis</h3>
+                <span class="points-badge">20 Points</span>
+                <span class="time-badge">~18 minutes</span>
+            </div>
+
+            <div class="form-description">
+                <p><strong>Mission:</strong> Apply Newton's Third Law and F=ma to understand survival advantages.</p>
+                <p><strong>Scenario Data:</strong></p>
+                <ul>
+                    <li>Cheetah mass: 50 kg</li>
+                    <li>Gazelle mass: 25 kg</li>
+                    <li>During collision: Gazelle accelerates at 20 m/s^2</li>
+                </ul>
+                <p><em>Calculator required!</em></p>
+            </div>
+
+            <table class="scoring-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Topic</th>
+                        <th>Type</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Q1</td>
+                        <td>Action-reaction force pair identification</td>
+                        <td class="type-manual">Manual</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Q2</td>
+                        <td>Compare forces (N3L MCQ)</td>
+                        <td class="type-auto">Auto</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Q3</td>
+                        <td>Force on gazelle (F=ma calculation)</td>
+                        <td class="type-manual">Manual</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Q4</td>
+                        <td>Force on cheetah (N3L reasoning)</td>
+                        <td class="type-manual">Manual</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Q5</td>
+                        <td>Compare accelerations (a=F/m)</td>
+                        <td class="type-manual">Manual</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Q6</td>
+                        <td>Evolutionary advantage explanation</td>
+                        <td class="type-manual">Manual</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="form-embed">
+                <a href="#" class="form-link">Open Station 1 Form</a>
+            </div>
+        </section>
+
+        <!-- Form 3: Station 2 -->
+        <section class="form-section" id="station2">
+            <div class="form-header">
+                <h3>Form 3: Station 2 - Trait Variation Simulation</h3>
+                <span class="points-badge">20 Points</span>
+                <span class="time-badge">~15 minutes</span>
+            </div>
+
+            <div class="form-description">
+                <p><strong>Mission:</strong> Use a bean simulation to model how trait variation affects survival.</p>
+                <p><strong>Simulation Rules:</strong></p>
+                <ul>
+                    <li>Scatter beans on a background</li>
+                    <li>Hunt (grab beans) for 10 seconds</li>
+                    <li>Count survivors by color</li>
+                    <li>Survivors reproduce (add more of that color)</li>
+                    <li>Repeat for 3+ generations</li>
+                </ul>
+            </div>
+
+            <table class="scoring-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Topic</th>
+                        <th>Type</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Q1</td>
+                        <td>Simulation data recording</td>
+                        <td class="type-manual">Manual</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Q2</td>
+                        <td>Pattern identification</td>
+                        <td class="type-manual">Manual</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Q3</td>
+                        <td>Selection pressure identification</td>
+                        <td class="type-manual">Manual</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Q4</td>
+                        <td>Physics connection (force analogy)</td>
+                        <td class="type-manual">Manual</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Q5</td>
+                        <td>New environment prediction</td>
+                        <td class="type-manual">Manual</td>
+                        <td>4</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="form-embed">
+                <a href="#" class="form-link">Open Station 2 Form</a>
+            </div>
+        </section>
+
+        <!-- Form 4: Station 3 -->
+        <section class="form-section" id="station3">
+            <div class="form-header">
+                <h3>Form 4: Station 3 - Design a Survivor</h3>
+                <span class="points-badge">25 Points</span>
+                <span class="time-badge">~20 minutes</span>
+            </div>
+
+            <div class="form-description">
+                <p><strong>Engineering Challenge:</strong> Design an organism optimized to survive predation pressure.</p>
+                <p><strong>Constraints:</strong></p>
+                <ul>
+                    <li>Habitat: Open grassland</li>
+                    <li>Main predator: Wolves (can run 35 mph)</li>
+                    <li>Must choose a specific mass for your organism</li>
+                    <li>Must calculate the force needed to escape</li>
+                </ul>
+                <p><em>You MUST use physics principles (F=ma, momentum) to justify your choices!</em></p>
+            </div>
+
+            <table class="scoring-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Topic</th>
+                        <th>Type</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Q1</td>
+                        <td>Identify survival challenges</td>
+                        <td class="type-manual">Manual</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Q2</td>
+                        <td>Choose and justify mass (F=ma reasoning)</td>
+                        <td class="type-manual">Manual</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Q3</td>
+                        <td>Calculate escape force (F=ma)</td>
+                        <td class="type-manual">Manual</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Q4</td>
+                        <td>Design trade-offs analysis</td>
+                        <td class="type-manual">Manual</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Q5</td>
+                        <td>Connect physics to biology (paragraph)</td>
+                        <td class="type-manual">Manual</td>
+                        <td>5</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="form-embed">
+                <a href="#" class="form-link">Open Station 3 Form</a>
+            </div>
+        </section>
+
+        <!-- Form 5: Exit Ticket -->
+        <section class="form-section" id="exit-ticket">
+            <div class="form-header">
+                <h3>Form 5: Exit Ticket - Forces and Evolution</h3>
+                <span class="points-badge">20 Points</span>
+                <span class="time-badge">~15 minutes</span>
+            </div>
+
+            <div class="form-description">
+                <p><strong>Show What You Learned:</strong> Connect Cycle 2 physics to evolutionary biology.</p>
+            </div>
+
+            <div class="exit-ticket-note">
+                <h4>Question Types</h4>
+                <p>
+                    <span class="question-type type-new">NEW</span> = Cycle 3 natural selection content (2 questions)<br>
+                    <span class="question-type type-spiral">SPIRAL</span> = Cycle 2 forces review (2 questions)<br>
+                    <span class="question-type type-integration">INTEGRATION</span> = Connects both cycles (1 question)
+                </p>
+            </div>
+
+            <table class="scoring-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Topic</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Q1</td>
+                        <td>Explain natural selection</td>
+                        <td><span class="question-type type-new">NEW</span></td>
+                        <td class="type-manual">Manual</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Q2</td>
+                        <td>Newton's Third Law (MCQ)</td>
+                        <td><span class="question-type type-spiral">SPIRAL</span></td>
+                        <td class="type-auto">Auto</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Q3</td>
+                        <td>Selection math (population calculation)</td>
+                        <td><span class="question-type type-new">NEW</span></td>
+                        <td class="type-manual">Manual</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Q4</td>
+                        <td>Force calculation (a=F/m)</td>
+                        <td><span class="question-type type-spiral">SPIRAL</span></td>
+                        <td class="type-manual">Manual</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Q5</td>
+                        <td>Predict population change (physics + selection)</td>
+                        <td><span class="question-type type-integration">INTEGRATION</span></td>
+                        <td class="type-manual">Manual</td>
+                        <td>4</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="form-embed">
+                <a href="#" class="form-link">Open Exit Ticket Form</a>
+            </div>
+        </section>
+
+        <!-- Total Summary -->
+        <section class="total-summary">
+            <h2>Week 1 Total: 100 Points</h2>
+            <p>Complete all 5 forms to demonstrate your understanding of forces and natural selection.</p>
+
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="label">Hook</div>
+                    <div class="value">15 pts</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Station 1</div>
+                    <div class="value">20 pts</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Station 2</div>
+                    <div class="value">20 pts</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Station 3</div>
+                    <div class="value">25 pts</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Exit Ticket</div>
+                    <div class="value">20 pts</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3D Learning Summary -->
+        <section class="overview-card">
+            <h2>3-Dimensional Learning Integration</h2>
+            <div class="standards-grid">
+                <div class="standard-box">
+                    <h4>Science and Engineering Practices (SEP)</h4>
+                    <p><strong>Constructing Explanations:</strong> Use evidence from force calculations to explain survival advantages</p>
+                    <p><strong>Using Mathematics:</strong> Apply F=ma and population math to predict outcomes</p>
+                </div>
+                <div class="standard-box">
+                    <h4>Disciplinary Core Ideas (DCI)</h4>
+                    <p><strong>LS4.B Natural Selection:</strong> Trait variation affects survival probability</p>
+                    <p><strong>PS2.A Forces and Motion:</strong> F=ma determines acceleration from contact forces</p>
+                </div>
+                <div class="standard-box">
+                    <h4>Crosscutting Concepts (CCC)</h4>
+                    <p><strong>Cause and Effect:</strong> Mass differences cause acceleration differences, which cause survival differences</p>
+                    <p><strong>Systems and System Models:</strong> Population changes emerge from individual interactions</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Teacher Notes -->
+        <section class="overview-card">
+            <h2>Teacher Configuration Notes</h2>
+            <p>After running the Apps Script to create forms, manually configure these settings in each form:</p>
+            <ul>
+                <li><strong>Settings &gt; Quizzes:</strong> Release grade = "Immediately after each submission"</li>
+                <li><strong>Respondent can see:</strong> Check ALL boxes (Missed questions, Correct answers, Point values)</li>
+                <li><strong>Settings &gt; Responses:</strong> Enable "Shuffle option order" for anti-cheating</li>
+            </ul>
+            <p><em>Form links above should be updated with actual embed URLs after form creation.</em></p>
+        </section>
+    </div>
+
+    <footer>
+        <p>KAMS Middle School Science | Grade 8 Cycle 3 Week 1 | MS-LS4-4 + MS-PS2-1/MS-PS2-2</p>
+    </footer>
+</body>
+</html>
