@@ -1,778 +1,708 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade 8 | Cycle 3 Week 1: The Cheetah-Gazelle Arms Race</title>
-    <style>
-        :root {
-            --primary: #1a5f7a;
-            --secondary: #57c5b6;
-            --accent: #159895;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #198754;
-            --warning: #ffc107;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            border-radius: 0 0 20px 20px;
-        }
-
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-
-        header .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .overview-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .overview-card h2 {
-            color: var(--primary);
-            border-bottom: 3px solid var(--secondary);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        .standards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .standard-box {
-            background: var(--light);
-            border-left: 4px solid var(--accent);
-            padding: 15px;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .standard-box h4 {
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .standard-box .code {
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        .targets-list {
-            list-style: none;
-            counter-reset: target;
-        }
-
-        .targets-list li {
-            counter-increment: target;
-            padding: 10px 15px;
-            margin: 8px 0;
-            background: var(--light);
-            border-radius: 8px;
-            position: relative;
-            padding-left: 50px;
-        }
-
-        .targets-list li::before {
-            content: counter(target);
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--accent);
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .form-section {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .form-header h3 {
-            color: var(--primary);
-            font-size: 1.4rem;
-        }
-
-        .points-badge {
-            background: var(--success);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .time-badge {
-            background: var(--warning);
-            color: var(--dark);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        .form-description {
-            background: var(--light);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .scoring-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        .scoring-table th,
-        .scoring-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .scoring-table th {
-            background: var(--primary);
-            color: white;
-        }
-
-        .scoring-table tr:nth-child(even) {
-            background: var(--light);
-        }
-
-        .scoring-table .type-auto {
-            color: var(--success);
-            font-weight: bold;
-        }
-
-        .scoring-table .type-manual {
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .form-embed {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .form-embed iframe {
-            border: 2px solid var(--secondary);
-            border-radius: 10px;
-            max-width: 100%;
-        }
-
-        .form-link {
-            display: inline-block;
-            background: var(--accent);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: background 0.3s;
-        }
-
-        .form-link:hover {
-            background: var(--primary);
-        }
-
-        .exit-ticket-note {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-        }
-
-        .exit-ticket-note h4 {
-            color: #856404;
-            margin-bottom: 10px;
-        }
-
-        .question-type {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .type-new {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .type-spiral {
-            background: #cce5ff;
-            color: #004085;
-        }
-
-        .type-integration {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .total-summary {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .total-summary h2 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .summary-item {
-            background: rgba(255,255,255,0.2);
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .summary-item .label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .summary-item .value {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.6rem;
-            }
-
-            .summary-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .form-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Grade 8 | Cycle 3 Week 1</h1>
-        <p class="subtitle">The Cheetah-Gazelle Arms Race: Connecting Physics to Natural Selection</p>
-    </header>
-
-    <div class="container">
-        <!-- Overview -->
-        <section class="overview-card">
-            <h2>Week Overview</h2>
-            <p>This week, you will discover how physics principles (forces, acceleration, mass) drive natural selection in predator-prey relationships. Through the cheetah-gazelle "arms race," you will learn that survival is not just about speed - it is about the physics of escape!</p>
-
-            <div class="standards-grid">
-                <div class="standard-box">
-                    <h4>Primary Standard</h4>
-                    <p><span class="code">MS-LS4-4</span> - Construct an explanation based on evidence that describes how genetic variations of traits in a population increase some individuals' probability of surviving and reproducing in a specific environment.</p>
-                </div>
-                <div class="standard-box">
-                    <h4>Spiral Standards (Cycle 2)</h4>
-                    <p><span class="code">MS-PS2-1</span> - Apply Newton's Third Law to design a solution to a problem involving the motion of two colliding objects.</p>
-                    <p><span class="code">MS-PS2-2</span> - Plan an investigation to provide evidence that the change in an object's motion depends on the sum of the forces on the object and the mass of the object (F=ma).</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Learning Targets -->
-        <section class="overview-card">
-            <h2>Learning Targets</h2>
-            <p>By the end of this week, you will be able to:</p>
-            <ol class="targets-list">
-                <li>Apply Newton's Third Law to explain force interactions in predator-prey collisions</li>
-                <li>Use F=ma to explain why smaller prey can escape larger predators</li>
-                <li>Describe how trait variation leads to differential survival in populations</li>
-                <li>Connect physics principles to natural selection mechanisms</li>
-            </ol>
-        </section>
-
-        <!-- Form 1: Hook -->
-        <section class="form-section" id="hook">
-            <div class="form-header">
-                <h3>Form 1: Hook - The Cheetah-Gazelle Mystery</h3>
-                <span class="points-badge">15 Points</span>
-                <span class="time-badge">~10 minutes</span>
-            </div>
-
-            <div class="form-description">
-                <p><strong>The Mystery:</strong> Cheetahs can run 70 mph - the fastest land animal. Gazelles max out at 60 mph. If cheetahs are faster, why have gazelles NOT gone extinct?</p>
-                <p>Activate your Cycle 2 physics knowledge to begin solving this evolutionary puzzle!</p>
-            </div>
-
-            <table class="scoring-table">
-                <thead>
-                    <tr>
-                        <th>Question</th>
-                        <th>Topic</th>
-                        <th>Type</th>
-                        <th>Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Q1</td>
-                        <td>Newton's Third Law (own words)</td>
-                        <td class="type-manual">Manual</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Q2</td>
-                        <td>Why gazelles survive</td>
-                        <td class="type-manual">Manual</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Q3</td>
-                        <td>Gazelle advantages (physics-based)</td>
-                        <td class="type-manual">Manual</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Q4</td>
-                        <td>Forces in collision (N3L MCQ)</td>
-                        <td class="type-auto">Auto</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Q5</td>
-                        <td>Confidence scale</td>
-                        <td class="type-auto">Auto</td>
-                        <td>3</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="form-embed">
-                <a href="#" class="form-link">Open Hook Form</a>
-                <!-- Embed URL placeholder: Replace # with actual form URL after creation -->
-            </div>
-        </section>
-
-        <!-- Form 2: Station 1 -->
-        <section class="form-section" id="station1">
-            <div class="form-header">
-                <h3>Form 2: Station 1 - Predator-Prey Force Analysis</h3>
-                <span class="points-badge">20 Points</span>
-                <span class="time-badge">~18 minutes</span>
-            </div>
-
-            <div class="form-description">
-                <p><strong>Mission:</strong> Apply Newton's Third Law and F=ma to understand survival advantages.</p>
-                <p><strong>Scenario Data:</strong></p>
-                <ul>
-                    <li>Cheetah mass: 50 kg</li>
-                    <li>Gazelle mass: 25 kg</li>
-                    <li>During collision: Gazelle accelerates at 20 m/s^2</li>
-                </ul>
-                <p><em>Calculator required!</em></p>
-            </div>
-
-            <table class="scoring-table">
-                <thead>
-                    <tr>
-                        <th>Question</th>
-                        <th>Topic</th>
-                        <th>Type</th>
-                        <th>Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Q1</td>
-                        <td>Action-reaction force pair identification</td>
-                        <td class="type-manual">Manual</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Q2</td>
-                        <td>Compare forces (N3L MCQ)</td>
-                        <td class="type-auto">Auto</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Q3</td>
-                        <td>Force on gazelle (F=ma calculation)</td>
-                        <td class="type-manual">Manual</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Q4</td>
-                        <td>Force on cheetah (N3L reasoning)</td>
-                        <td class="type-manual">Manual</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Q5</td>
-                        <td>Compare accelerations (a=F/m)</td>
-                        <td class="type-manual">Manual</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Q6</td>
-                        <td>Evolutionary advantage explanation</td>
-                        <td class="type-manual">Manual</td>
-                        <td>3</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="form-embed">
-                <a href="#" class="form-link">Open Station 1 Form</a>
-            </div>
-        </section>
-
-        <!-- Form 3: Station 2 -->
-        <section class="form-section" id="station2">
-            <div class="form-header">
-                <h3>Form 3: Station 2 - Trait Variation Simulation</h3>
-                <span class="points-badge">20 Points</span>
-                <span class="time-badge">~15 minutes</span>
-            </div>
-
-            <div class="form-description">
-                <p><strong>Mission:</strong> Use a bean simulation to model how trait variation affects survival.</p>
-                <p><strong>Simulation Rules:</strong></p>
-                <ul>
-                    <li>Scatter beans on a background</li>
-                    <li>Hunt (grab beans) for 10 seconds</li>
-                    <li>Count survivors by color</li>
-                    <li>Survivors reproduce (add more of that color)</li>
-                    <li>Repeat for 3+ generations</li>
-                </ul>
-            </div>
-
-            <table class="scoring-table">
-                <thead>
-                    <tr>
-                        <th>Question</th>
-                        <th>Topic</th>
-                        <th>Type</th>
-                        <th>Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Q1</td>
-                        <td>Simulation data recording</td>
-                        <td class="type-manual">Manual</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Q2</td>
-                        <td>Pattern identification</td>
-                        <td class="type-manual">Manual</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Q3</td>
-                        <td>Selection pressure identification</td>
-                        <td class="type-manual">Manual</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Q4</td>
-                        <td>Physics connection (force analogy)</td>
-                        <td class="type-manual">Manual</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Q5</td>
-                        <td>New environment prediction</td>
-                        <td class="type-manual">Manual</td>
-                        <td>4</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="form-embed">
-                <a href="#" class="form-link">Open Station 2 Form</a>
-            </div>
-        </section>
-
-        <!-- Form 4: Station 3 -->
-        <section class="form-section" id="station3">
-            <div class="form-header">
-                <h3>Form 4: Station 3 - Design a Survivor</h3>
-                <span class="points-badge">25 Points</span>
-                <span class="time-badge">~20 minutes</span>
-            </div>
-
-            <div class="form-description">
-                <p><strong>Engineering Challenge:</strong> Design an organism optimized to survive predation pressure.</p>
-                <p><strong>Constraints:</strong></p>
-                <ul>
-                    <li>Habitat: Open grassland</li>
-                    <li>Main predator: Wolves (can run 35 mph)</li>
-                    <li>Must choose a specific mass for your organism</li>
-                    <li>Must calculate the force needed to escape</li>
-                </ul>
-                <p><em>You MUST use physics principles (F=ma, momentum) to justify your choices!</em></p>
-            </div>
-
-            <table class="scoring-table">
-                <thead>
-                    <tr>
-                        <th>Question</th>
-                        <th>Topic</th>
-                        <th>Type</th>
-                        <th>Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Q1</td>
-                        <td>Identify survival challenges</td>
-                        <td class="type-manual">Manual</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Q2</td>
-                        <td>Choose and justify mass (F=ma reasoning)</td>
-                        <td class="type-manual">Manual</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Q3</td>
-                        <td>Calculate escape force (F=ma)</td>
-                        <td class="type-manual">Manual</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Q4</td>
-                        <td>Design trade-offs analysis</td>
-                        <td class="type-manual">Manual</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Q5</td>
-                        <td>Connect physics to biology (paragraph)</td>
-                        <td class="type-manual">Manual</td>
-                        <td>5</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="form-embed">
-                <a href="#" class="form-link">Open Station 3 Form</a>
-            </div>
-        </section>
-
-        <!-- Form 5: Exit Ticket -->
-        <section class="form-section" id="exit-ticket">
-            <div class="form-header">
-                <h3>Form 5: Exit Ticket - Forces and Evolution</h3>
-                <span class="points-badge">20 Points</span>
-                <span class="time-badge">~15 minutes</span>
-            </div>
-
-            <div class="form-description">
-                <p><strong>Show What You Learned:</strong> Connect Cycle 2 physics to evolutionary biology.</p>
-            </div>
-
-            <div class="exit-ticket-note">
-                <h4>Question Types</h4>
-                <p>
-                    <span class="question-type type-new">NEW</span> = Cycle 3 natural selection content (2 questions)<br>
-                    <span class="question-type type-spiral">SPIRAL</span> = Cycle 2 forces review (2 questions)<br>
-                    <span class="question-type type-integration">INTEGRATION</span> = Connects both cycles (1 question)
-                </p>
-            </div>
-
-            <table class="scoring-table">
-                <thead>
-                    <tr>
-                        <th>Question</th>
-                        <th>Topic</th>
-                        <th>Category</th>
-                        <th>Type</th>
-                        <th>Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Q1</td>
-                        <td>Explain natural selection</td>
-                        <td><span class="question-type type-new">NEW</span></td>
-                        <td class="type-manual">Manual</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Q2</td>
-                        <td>Newton's Third Law (MCQ)</td>
-                        <td><span class="question-type type-spiral">SPIRAL</span></td>
-                        <td class="type-auto">Auto</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Q3</td>
-                        <td>Selection math (population calculation)</td>
-                        <td><span class="question-type type-new">NEW</span></td>
-                        <td class="type-manual">Manual</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Q4</td>
-                        <td>Force calculation (a=F/m)</td>
-                        <td><span class="question-type type-spiral">SPIRAL</span></td>
-                        <td class="type-manual">Manual</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Q5</td>
-                        <td>Predict population change (physics + selection)</td>
-                        <td><span class="question-type type-integration">INTEGRATION</span></td>
-                        <td class="type-manual">Manual</td>
-                        <td>4</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="form-embed">
-                <a href="#" class="form-link">Open Exit Ticket Form</a>
-            </div>
-        </section>
-
-        <!-- Total Summary -->
-        <section class="total-summary">
-            <h2>Week 1 Total: 100 Points</h2>
-            <p>Complete all 5 forms to demonstrate your understanding of forces and natural selection.</p>
-
-            <div class="summary-grid">
-                <div class="summary-item">
-                    <div class="label">Hook</div>
-                    <div class="value">15 pts</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Station 1</div>
-                    <div class="value">20 pts</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Station 2</div>
-                    <div class="value">20 pts</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Station 3</div>
-                    <div class="value">25 pts</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Exit Ticket</div>
-                    <div class="value">20 pts</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3D Learning Summary -->
-        <section class="overview-card">
-            <h2>3-Dimensional Learning Integration</h2>
-            <div class="standards-grid">
-                <div class="standard-box">
-                    <h4>Science and Engineering Practices (SEP)</h4>
-                    <p><strong>Constructing Explanations:</strong> Use evidence from force calculations to explain survival advantages</p>
-                    <p><strong>Using Mathematics:</strong> Apply F=ma and population math to predict outcomes</p>
-                </div>
-                <div class="standard-box">
-                    <h4>Disciplinary Core Ideas (DCI)</h4>
-                    <p><strong>LS4.B Natural Selection:</strong> Trait variation affects survival probability</p>
-                    <p><strong>PS2.A Forces and Motion:</strong> F=ma determines acceleration from contact forces</p>
-                </div>
-                <div class="standard-box">
-                    <h4>Crosscutting Concepts (CCC)</h4>
-                    <p><strong>Cause and Effect:</strong> Mass differences cause acceleration differences, which cause survival differences</p>
-                    <p><strong>Systems and System Models:</strong> Population changes emerge from individual interactions</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Teacher Notes -->
-        <section class="overview-card">
-            <h2>Teacher Configuration Notes</h2>
-            <p>After running the Apps Script to create forms, manually configure these settings in each form:</p>
-            <ul>
-                <li><strong>Settings &gt; Quizzes:</strong> Release grade = "Immediately after each submission"</li>
-                <li><strong>Respondent can see:</strong> Check ALL boxes (Missed questions, Correct answers, Point values)</li>
-                <li><strong>Settings &gt; Responses:</strong> Enable "Shuffle option order" for anti-cheating</li>
-            </ul>
-            <p><em>Form links above should be updated with actual embed URLs after form creation.</em></p>
-        </section>
-    </div>
-
-    <footer>
-        <p>KAMS Middle School Science | Grade 8 Cycle 3 Week 1 | MS-LS4-4 + MS-PS2-1/MS-PS2-2</p>
-    </footer>
-</body>
-</html>
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #2d3748; max-width: 100%; margin: 0 auto; padding: 0;">
+<div style="background: linear-gradient(135deg, #1a5f7a 0%, #234E52 100%); color: white; padding: 50px 40px; text-align: center; border-radius: 12px; margin: 0 0 20px 0;" role="banner" aria-labelledby="lesson-title">
+<div id="lesson-title" style="font-size: clamp(1.8em, 5vw, 3em); margin-bottom: 15px;" role="img" aria-label="Cheetah and science emoji">🐆 <strong>Week 1: The Cheetah-Gazelle Arms Race</strong> 🔬</div>
+<p style="margin: 0; font-size: clamp(1em, 2.5vw, 1.2em);">Grade 8 Science | Rosche | Kairos Academies</p>
+<p style="margin: 10px 0 0 0; font-size: clamp(0.9em, 2vw, 1em);">MS-LS4-4 Natural Selection + Cycle 2 Forces | 100 Points Total | ~75 Minutes</p>
+</div>
+<div id="quick-nav" style="background: linear-gradient(135deg, #1a5f7a 0%, #276749 100%); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+<h2 style="margin: 0 0 15px 0; text-align: center; color: white; font-size: clamp(1.1em, 3vw, 1.3em);">🧭 <strong>Quick Navigation</strong></h2>
+<div style="text-align: center;"><a style="background: rgba(255, 255, 255, 0.95); color: #1a5f7a; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#hook-heading">🎯 Hook (15 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #1a5f7a; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station1-heading">⚡ Station 1 (20 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #1a5f7a; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station2-heading">🧬 Station 2 (20 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #1a5f7a; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station3-heading">🔧 Station 3 (25 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #1a5f7a; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#exit-heading">🎓 Exit Ticket (20 pts)</a></div>
+</div>
+<div style="background: #FFF3CD; border-left: 5px solid #856404; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #856404;"><strong>Working on Your Chromebook - Important Tips</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #856404;">
+<li><strong>Your work saves automatically</strong> in Google Forms every time you click outside a text box. You can close this page and come back anytime&mdash;just scroll back to where you left off.</li>
+<li><strong>Complete sections in order</strong> (Hook &rarr; Station 1 &rarr; Station 2 &rarr; Station 3 &rarr; Exit) &mdash; each one builds on the last.</li>
+<li><strong>Keep a calculator handy</strong> for force and acceleration calculations (F=ma).</li>
+<li><strong>Take breaks if needed</strong> &mdash; the brain learns better with short breaks. Try 20 minutes work &rarr; 3 minute break.</li>
+<li><strong>If a form won't load:</strong> (1) Refresh the page, (2) Check your internet connection, (3) Try a different browser, (4) Email Rosche if still stuck.</li>
+<li><strong>Before submitting each form:</strong> Scroll up and review your answers. You cannot change them after clicking Submit!</li>
+</ul>
+</div>
+<div style="background: white; border-left: 5px solid #ED8936; padding: 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="standards-heading">
+<h2 id="standards-heading" style="margin: 0 0 15px 0; color: #c05621; font-size: clamp(1.2em, 3vw, 1.4em);">📚 <strong>NGSS Standards Covered This Week</strong></h2>
+<div style="background: #FFFAF0; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>MS-LS4-4</strong> (This Week's Focus)</p>
+<p style="margin: 0 0 8px 0; font-size: 0.95em; color: #4a5568;"><strong>What it means:</strong> Construct an explanation based on evidence that describes how genetic variations of traits in a population increase some individuals' probability of surviving and reproducing in a specific environment.</p>
+<p style="margin: 0; font-size: 0.9em; color: #718096;"><strong>In student language:</strong> I can explain why some animals survive better than others based on their traits.</p>
+</div>
+<div style="background: #EBF8FF; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>Spiral Standards from Cycle 2</strong> (You already learned these!)</p>
+<ul style="margin: 8px 0 0 0; padding-left: 20px; line-height: 1.7; color: #4a5568; font-size: 0.95em;">
+<li><strong>MS-PS2-1:</strong> Apply Newton's Third Law to design a solution involving two colliding objects</li>
+<li><strong>MS-PS2-2:</strong> Plan an investigation showing change in motion depends on forces and mass (F=ma)</li>
+</ul>
+</div>
+<div style="background: #F3E5F5; padding: 15px; border-radius: 6px;">
+<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>How These Connect (3-Dimensional Learning)</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 10px;">
+<thead>
+<tr style="background: #805AD5; color: white;">
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Dimension</th>
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">What You'll Practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>SEP</strong> Constructing Explanations</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Use F=ma calculations to explain survival advantages</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>DCI</strong> LS4.B Natural Selection</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Explain how trait variation affects survival probability</td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>CCC</strong> Cause and Effect</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Connect mass differences to acceleration differences to survival</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div style="background: linear-gradient(135deg, #F0FFF4 0%, #C6F6D5 100%); padding: 25px 20px; margin-bottom: 25px; border-radius: 8px; text-align: center;" role="region" aria-labelledby="targets-heading">
+<h2 id="targets-heading" style="margin: 0 0 10px 0; color: #2d3748; font-size: clamp(1.4em, 4vw, 1.8em);">🎯 <strong>Learning Targets</strong></h2>
+<p style="margin: 0; color: #4a5568; font-size: clamp(0.95em, 2.5vw, 1.05em);">By the end of this week, you will be able to:</p>
+</div>
+<div style="background: #F0FFF4; border: 2px solid #48BB78; padding: 20px; margin-bottom: 25px; border-radius: 8px;" role="region" aria-labelledby="success-heading">
+<h3 id="success-heading" style="margin: 0 0 15px 0; color: #2d3748; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>Success Criteria &ndash; How You'll Know You've Got It</strong></h3>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #1a5f7a;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 1:</strong> Apply Newton's Third Law to predator-prey collisions</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I explain why forces are equal even when animals have different sizes?</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #1a5f7a;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 2:</strong> Use F=ma to explain why smaller prey can escape larger predators</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I calculate acceleration when given force and mass?</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #2C7A7B;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 3:</strong> Describe how trait variation leads to differential survival</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I explain why some traits become more common over generations?</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px; border-left: 4px solid #2C7A7B;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 4:</strong> Connect physics principles to natural selection mechanisms</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I explain how F=ma creates selection pressure in predator-prey systems?</p>
+</div>
+</div>
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+<div style="background: linear-gradient(135deg, #E6FFFA 0%, #B2F5EA 100%); border-radius: 12px; padding: 30px 24px; margin: 35px 0;" role="region" aria-labelledby="phenomenon-heading">
+<h2 id="phenomenon-heading" style="margin: 0 0 15px 0; font-size: clamp(1.4em, 4vw, 1.8em); color: #234e52;">🐆 <strong>The Phenomenon: The Cheetah-Gazelle Mystery</strong></h2>
+<div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+<p style="font-size: clamp(0.95em, 2.5vw, 1.1em); margin: 0 0 15px 0; color: #4a5568; line-height: 1.7;">Consider this puzzle:</p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li>Cheetahs can run <strong>70 mph</strong> &ndash; the fastest land animal!</li>
+<li>Gazelles can only reach about <strong>60 mph</strong></li>
+<li>Cheetahs have been hunting gazelles for millions of years</li>
+</ul>
+<p style="font-size: clamp(0.95em, 2.5vw, 1.1em); margin: 15px 0 0 0; color: #4a5568; line-height: 1.7;">If cheetahs are faster, <strong>why haven't gazelles gone extinct?</strong></p>
+</div>
+<div style="background: linear-gradient(135deg, #1a5f7a 0%, #234E52 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 20px 0;">
+<p style="margin: 0; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🤔 Driving Question: What factors besides top speed determine survival in a predator-prey chase?</strong></p>
+</div>
+<div style="background: white; padding: 20px; border-radius: 8px; margin-top: 15px;">
+<p style="margin: 0 0 12px 0; font-size: 1em; color: #2d3748;">📊 <strong>Why This Matters:</strong></p>
+<p style="margin: 0; font-size: 0.95em; color: #4a5568; line-height: 1.7;">The physics of predator-prey interactions drives natural selection. Understanding how forces, mass, and acceleration determine survival helps explain why certain traits become more common in populations over time. This is evolution in action!</p>
+</div>
+</div>
+<div style="background: #EBF8FF; border-left: 4px solid #3182CE; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 12px 0; font-size: 1.1em; color: #2b6cb0;"><strong>What You Already Know from Cycle 2 (You'll Need This!)</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
+<thead>
+<tr style="background: #3182CE; color: white;">
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Cycle 2 Concept</th>
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">How You'll Use It Today</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Newton's Third Law</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Forces between predator and prey are always equal and opposite</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>F = ma (Newton's Second Law)</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Same force on smaller mass = greater acceleration = escape advantage</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>a = F/m (rearranged)</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Calculate how fast an animal accelerates given force and mass</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Action-Reaction Force Pairs</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Identify forces when animals push off ground or collide</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="background: white; border: 2px solid #1a5f7a; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #234e52; font-size: clamp(1.2em, 3vw, 1.4em);"><strong>📊 Points Breakdown (100 Total)</strong></h3>
+<table style="width: 100%; border-collapse: collapse; margin-top: 15px;"><caption style="padding: 10px; text-align: left; color: #2d3748;">How you'll earn your points this week</caption>
+<thead>
+<tr style="background: #1a5f7a; color: white;">
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Component</th>
+<th style="padding: 12px; text-align: center; border: 1px solid #dee2e6;" scope="col">Points</th>
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">What It Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #234e52; text-decoration: none;" href="#hook-heading">🎯 Hook</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>15</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Prior knowledge activation, predictions about survival</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #234e52; text-decoration: none;" href="#station1-heading">⚡ Station 1</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>20</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Force analysis + F=ma calculations</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #234e52; text-decoration: none;" href="#station2-heading">🧬 Station 2</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>20</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Trait variation simulation + selection pressure</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #234e52; text-decoration: none;" href="#station3-heading">🔧 Station 3</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>25</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Engineering design + physics justification</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #234e52; text-decoration: none;" href="#exit-heading">🎓 Exit Ticket</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>20</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Integration: 2 NEW + 2 SPIRAL + 1 INTEGRATION</td>
+</tr>
+<tr style="background: #1a5f7a; color: white;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>TOTAL</strong></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>100</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Natural Selection + Cycle 2 Forces</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+<div id="hook-heading" style="background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="hook-title">
+<h2 id="hook-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🎯 <strong>Hook &ndash; The Cheetah-Gazelle Mystery</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">15 Points | ~10 Minutes</p>
+</div>
+<div style="background: white; border: 2px solid #667EEA; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #667eea; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🔥 The Challenge</strong></h3>
+<div style="background: #F7F7FF; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #667EEA;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>What You'll Do (~10 minutes)</strong></p>
+<ol style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li>Recall what you know about Newton's Third Law (2 min)</li>
+<li>Make predictions about WHY gazelles survive (3 min)</li>
+<li>Connect to your Cycle 2 physics knowledge (3 min)</li>
+<li>Submit your predictions before moving on (2 min)</li>
+</ol>
+</div>
+<div style="background: #FFFAF0; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #2d3748;"><strong>Think About This:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li>When a cheetah and gazelle collide, what does Newton's Third Law tell us about the forces?</li>
+<li>If forces are equal, why might a smaller animal have an advantage?</li>
+<li>What factors besides top speed might help prey escape?</li>
+<li>How does F=ma relate to survival?</li>
+</ul>
+</div>
+<div style="background: #E6FFFA; border-left: 4px solid #1a5f7a; padding: 15px; margin-bottom: 15px; border-radius: 6px;">
+<p style="margin: 0 0 8px 0; font-size: 1em; color: #234e52;"><strong>Cycle 2 Connection Question:</strong></p>
+<p style="margin: 0; font-size: 0.95em; color: #4a5568; line-height: 1.7;">If a 50 kg cheetah and a 25 kg gazelle experience the same force during a collision (Newton's Third Law), which animal will accelerate more? Why?</p>
+</div>
+<details style="background: #FAF5FF; border: 1px solid #805AD5; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<summary style="cursor: pointer; color: #553c9a; font-size: 0.95em;">📖 Need vocabulary help? Click to expand</summary>
+<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #E9D8FD;">
+<p style="margin: 0 0 8px 0;"><strong>Newton's Third Law</strong> &ndash; For every action force, there is an equal and opposite reaction force</p>
+<p style="margin: 0 0 8px 0;"><strong>F = ma</strong> &ndash; Force equals mass times acceleration</p>
+<p style="margin: 0;"><strong>Natural Selection</strong> &ndash; Process where organisms with favorable traits survive and reproduce more</p>
+</div>
+</details>
+<div style="background: #F7FAFC; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1em; color: #2d3748;"><strong>Complete the Form Below:</strong></p>
+<p style="margin: 0 0 15px 0; font-size: 0.9em; color: #718096;">Your responses save automatically. When you finish all questions, click Submit.</p>
+<iframe style="border: none; width: 100%; display: block;" title="Hook Form - Cheetah-Gazelle Mystery Predictions" src="https://docs.google.com/forms/d/e/1FAIpQLSdvyyEAGJD368TUJ4PQJSSj72_KzbUjKT9BNgaX8_3Rl2CLQw/viewform?embedded=true" width="100%" height="1400" loading="lazy"></iframe></div>
+<div style="background: #C6F6D5; padding: 15px; border-radius: 6px;">
+<p style="margin: 0 0 8px 0; font-size: 1em; color: #276749;"><strong>Before Moving to Station 1, Check:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.7; color: #276749; font-size: 0.95em;">
+<li>☐ I stated Newton's Third Law in my own words</li>
+<li>☐ I made predictions about why gazelles survive</li>
+<li>☐ I identified physics-based advantages for prey</li>
+<li>☐ I clicked "Submit" on the form</li>
+</ul>
+<p style="margin: 15px 0 0 0; text-align: center;"><a style="color: #718096; text-decoration: none; font-size: 0.9em;" href="#quick-nav">&uarr; Back to Quick Navigation</a></p>
+</div>
+</div>
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+<div id="station1-heading" style="background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station1-title">
+<h2 id="station1-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">⚡ <strong>Station 1 &ndash; Predator-Prey Force Analysis</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">20 Points | ~18 Minutes | INTERLEAVED RETRIEVAL</p>
+</div>
+<div style="background: white; border: 2px solid #F5576C; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #f5576c; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>⚡ Your Mission: Use Physics to Explain Survival</strong></h3>
+<div style="background: #FFF5F7; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #F5576C;">
+<p style="margin: 0; font-size: 0.95em; color: #4a5568; line-height: 1.7;">Apply Newton's Third Law and F=ma to understand why smaller prey can escape larger predators. You'll calculate actual forces and accelerations!</p>
+</div>
+<div style="background: #EBF8FF; padding: 20px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #3182CE;">
+<p style="margin: 0 0 12px 0; font-size: 1.1em; color: #2b6cb0;"><strong>Scenario Data (Use for Calculations)</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
+<tbody>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6; background: #f8f9fa;"><strong>Cheetah mass:</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6;">50 kg</td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6; background: #f8f9fa;"><strong>Gazelle mass:</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6;">25 kg</td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6; background: #f8f9fa;"><strong>Gazelle acceleration during collision:</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6;">20 m/s&sup2;</td>
+</tr>
+</tbody>
+</table>
+<p style="margin: 12px 0 0 0; font-size: 0.9em; color: #2b6cb0;"><strong>You will need a calculator!</strong></p>
+</div>
+<div style="background: #F0FFF4; padding: 20px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #48BB78;">
+<p style="margin: 0 0 15px 0; font-size: 1.1em; color: #276749;"><strong>The Key Physics Insight</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+<thead>
+<tr style="background: #48BB78; color: white;">
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Step</th>
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Calculation</th>
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>1. Force on gazelle</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; font-family: monospace;">F = m &times; a = 25 kg &times; 20 m/s&sup2;</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #276749;"><strong>500 N</strong></td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>2. Force on cheetah</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; font-family: monospace;">Newton's 3rd Law: Equal!</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #276749;"><strong>500 N</strong></td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>3. Cheetah acceleration</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; font-family: monospace;">a = F/m = 500 N / 50 kg</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #276749;"><strong>10 m/s&sup2;</strong></td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>4. Gazelle acceleration</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; font-family: monospace;">a = F/m = 500 N / 25 kg</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #276749;"><strong>20 m/s&sup2;</strong></td>
+</tr>
+</tbody>
+</table>
+<p style="margin: 15px 0 0 0; font-size: 0.95em; color: #276749;"><strong>Conclusion:</strong> Same force, but the gazelle accelerates TWICE as fast! This is the physics of escape.</p>
+</div>
+<div style="background: #FED7D7; padding: 18px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #C53030;">
+<p style="margin: 0 0 12px 0; font-size: 1.1em; color: #742a2a;"><strong>CRITICAL CONCEPT - Newton's Third Law in Action</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+<tbody>
+<tr>
+<td style="padding: 12px; border: 1px solid #C53030; background: white; width: 50%; vertical-align: top;">
+<p style="margin: 0 0 8px 0; color: #c53030;"><strong>WRONG Thinking:</strong></p>
+<p style="margin: 0; color: #4a5568;">"The cheetah exerts more force because it's bigger"</p>
+</td>
+<td style="padding: 12px; border: 1px solid #276749; background: #F0FFF4; width: 50%; vertical-align: top;">
+<p style="margin: 0 0 8px 0; color: #276749;"><strong>CORRECT Thinking:</strong></p>
+<p style="margin: 0; color: #4a5568;">"Forces are ALWAYS equal. Mass determines acceleration."</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="background: #F7FAFC; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #E2E8F0;">
+<p style="margin: 0 0 10px 0; font-size: 1em; color: #2d3748;"><strong>How You'll Be Scored (20 points total):</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+<thead>
+<tr style="background: #E2E8F0;">
+<th style="padding: 8px; text-align: left; border: 1px solid #dee2e6;" scope="col">Criteria</th>
+<th style="padding: 8px; text-align: center; border: 1px solid #dee2e6;" scope="col">Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 8px; border: 1px solid #dee2e6;">Identify action-reaction force pairs correctly</td>
+<td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">4</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 8px; border: 1px solid #dee2e6;">Apply N3L to collision (forces are equal)</td>
+<td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">4</td>
+</tr>
+<tr>
+<td style="padding: 8px; border: 1px solid #dee2e6;">Calculate force using F=ma with work shown</td>
+<td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">6</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 8px; border: 1px solid #dee2e6;">Compare accelerations and connect to survival</td>
+<td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="background: #F7FAFC; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1em; color: #2d3748;"><strong>Complete the Form Below:</strong></p>
+<p style="margin: 0 0 15px 0; font-size: 0.9em; color: #718096;">Show your work on all calculations! Include units.</p>
+<iframe style="border: none; width: 100%; display: block;" title="Station 1 Form - Force Analysis" src="https://docs.google.com/forms/d/e/1FAIpQLSfmkLugYM4tcLGJCn54mIVZVQPGIXmtJyMUOVVi0S2XQWEhQQ/viewform?embedded=true" width="100%" height="1800" loading="lazy"></iframe></div>
+<div style="background: #C6F6D5; padding: 15px; border-radius: 6px;">
+<p style="margin: 0 0 8px 0; font-size: 1em; color: #276749;"><strong>Before Moving to Station 2, Check:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.7; color: #276749; font-size: 0.95em;">
+<li>☐ I can identify action-reaction force pairs</li>
+<li>☐ I calculated F = 500 N using F = ma</li>
+<li>☐ I understand forces are equal but accelerations differ</li>
+<li>☐ I can explain why smaller mass = survival advantage</li>
+<li>☐ I clicked "Submit" on the form</li>
+</ul>
+<p style="margin: 15px 0 0 0; text-align: center;"><a style="color: #718096; text-decoration: none; font-size: 0.9em;" href="#quick-nav">&uarr; Back to Quick Navigation</a></p>
+</div>
+</div>
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+<div id="station2-heading" style="background: linear-gradient(135deg, #48BB78 0%, #276749 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station2-title">
+<h2 id="station2-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🧬 <strong>Station 2 &ndash; Trait Variation Simulation</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">20 Points | ~15 Minutes | INTERLEAVED RETRIEVAL</p>
+</div>
+<div style="background: white; border: 2px solid #48BB78; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #276749; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🧬 Your Mission: Model Natural Selection in Action</strong></h3>
+<div style="background: #F0FFF4; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #48BB78;">
+<p style="margin: 0; font-size: 0.95em; color: #4a5568; line-height: 1.7;">Use a bean simulation to see how trait variation leads to different survival rates. Watch natural selection happen before your eyes!</p>
+</div>
+<div style="background: #EBF8FF; padding: 20px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #3182CE;">
+<p style="margin: 0 0 12px 0; font-size: 1.1em; color: #2b6cb0;"><strong>Simulation Rules</strong></p>
+<ol style="margin: 0; padding-left: 25px; line-height: 1.8; color: #2b6cb0;">
+<li>Scatter beans (different colors) on a background</li>
+<li>Hunt (grab beans) for 10 seconds &ndash; you're the predator!</li>
+<li>Count survivors by color</li>
+<li>Survivors "reproduce" &ndash; add more of that color</li>
+<li>Repeat for 3+ generations</li>
+</ol>
+</div>
+<div style="background: #F0FFF4; padding: 20px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #48BB78;">
+<p style="margin: 0 0 15px 0; font-size: 1.1em; color: #276749;"><strong>The Key Biology Insight</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+<thead>
+<tr style="background: #48BB78; color: white;">
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Concept</th>
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">What Happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Variation</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Different colored beans = different traits in population</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Selection Pressure</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">You (predator) catching beans based on visibility</td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Differential Survival</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Camouflaged beans survive more often</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Population Change</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Trait frequency shifts over generations</td>
+</tr>
+</tbody>
+</table>
+<p style="margin: 15px 0 0 0; font-size: 0.95em; color: #276749;"><strong>Key Point:</strong> The POPULATION changes over time. Individual beans don't change color!</p>
+</div>
+<div style="background: #FAF5FF; padding: 18px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #805AD5;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #553c9a;"><strong>Connect to Physics: Selection Pressure is Like Force!</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+<thead>
+<tr style="background: #805AD5; color: white;">
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Physics</th>
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Biology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;">Force changes motion</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Selection pressure changes trait frequency</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;">No force = no acceleration</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">No selection = no population change</td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;">Stronger force = faster change</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Stronger selection = faster evolution</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="background: #F7FAFC; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1em; color: #2d3748;"><strong>Complete the Form Below:</strong></p>
+<p style="margin: 0 0 15px 0; font-size: 0.9em; color: #718096;">Record your data from the simulation and analyze the patterns.</p>
+<iframe style="border: none; width: 100%; display: block;" title="Station 2 Form - Trait Variation Simulation" src="https://docs.google.com/forms/d/e/1FAIpQLSeuZrL05989wwEwV_ANufZ7gHo_a4qiI1SM-TKPgggf2kb3fQ/viewform?embedded=true" width="100%" height="1600" loading="lazy"></iframe></div>
+<div style="background: #C6F6D5; padding: 15px; border-radius: 6px;">
+<p style="margin: 0 0 8px 0; font-size: 1em; color: #276749;"><strong>Before Moving to Station 3, Check:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.7; color: #276749; font-size: 0.95em;">
+<li>☐ I recorded data for 3+ generations</li>
+<li>☐ I identified which trait became more/less common</li>
+<li>☐ I can explain what the selection pressure was</li>
+<li>☐ I connected selection pressure to force (both cause change)</li>
+<li>☐ I clicked "Submit" on the form</li>
+</ul>
+<p style="margin: 15px 0 0 0; text-align: center;"><a style="color: #718096; text-decoration: none; font-size: 0.9em;" href="#quick-nav">&uarr; Back to Quick Navigation</a></p>
+</div>
+</div>
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+<div id="station3-heading" style="background: linear-gradient(135deg, #ED8936 0%, #C05621 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station3-title">
+<h2 id="station3-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🔧 <strong>Station 3 &ndash; Design a Survivor</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">25 Points | ~20 Minutes | ENGINEERING DESIGN</p>
+</div>
+<div style="background: white; border: 2px solid #ED8936; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #c05621; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🛠️ Your Challenge: Design an Organism Optimized for Survival</strong></h3>
+<div style="background: #FFFAF0; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #ED8936;">
+<p style="margin: 0; font-size: 0.95em; color: #4a5568; line-height: 1.7;">Design an organism that can survive predation pressure. You MUST use physics principles (F=ma, Newton's Laws) to justify every design choice!</p>
+</div>
+<div style="background: #F7FAFC; padding: 18px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #E2E8F0;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>Design Constraints:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li><strong>Habitat:</strong> Open grassland</li>
+<li><strong>Main predator:</strong> Wolves (can run 35 mph, hunt in packs)</li>
+<li><strong>You must choose:</strong> A specific mass for your organism (in kg)</li>
+<li><strong>You must calculate:</strong> The force needed to escape (F = ma)</li>
+<li><strong>Required:</strong> Physics justification for EVERY choice!</li>
+</ul>
+</div>
+<div style="background: #EBF8FF; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+<p style="margin: 0 0 15px 0; font-size: 1.1em; color: #2b6cb0;"><strong>Design Decisions to Make</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+<thead>
+<tr style="background: #ED8936; color: white;">
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Decision</th>
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Physics Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Mass</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Smaller = faster acceleration, but less momentum</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Leg strength</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">More force = more acceleration, but costs energy</td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Body shape</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Streamlined = less air resistance, but less surface for muscles</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Speed vs. Endurance</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Sprint muscles vs. stamina muscles = different survival strategies</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="background: #FAF5FF; padding: 18px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #805AD5;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #553c9a;"><strong>Example of a GOOD Justification:</strong></p>
+<div style="background: white; padding: 15px; border-radius: 6px;">
+<p style="margin: 0; font-size: 0.95em; color: #4a5568; line-height: 1.8; font-style: italic;">"My organism has a mass of <strong>20 kg</strong> because smaller mass means higher acceleration when the same force is applied (a = F/m). If a wolf applies 400 N of force during contact, my organism would accelerate at 20 m/s&sup2; (400/20), while a heavier 40 kg animal would only accelerate at 10 m/s&sup2;. This higher acceleration helps escape after initial contact. The trade-off is less momentum, so my organism relies on agility rather than pushing through."</p>
+</div>
+<p style="margin: 12px 0 0 0; font-size: 0.9em; color: #553c9a;"><strong>Notice:</strong> Specific numbers, F=ma calculation, and explains the trade-off!</p>
+</div>
+<div style="background: #F7FAFC; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #E2E8F0;">
+<p style="margin: 0 0 10px 0; font-size: 1em; color: #2d3748;"><strong>How You'll Be Scored (25 points total):</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+<thead>
+<tr style="background: #E2E8F0;">
+<th style="padding: 8px; text-align: left; border: 1px solid #dee2e6;" scope="col">Criteria</th>
+<th style="padding: 8px; text-align: center; border: 1px solid #dee2e6;" scope="col">Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 8px; border: 1px solid #dee2e6;">Identify survival challenges in the environment</td>
+<td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">5</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 8px; border: 1px solid #dee2e6;">Choose and justify mass using F=ma reasoning</td>
+<td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">5</td>
+</tr>
+<tr>
+<td style="padding: 8px; border: 1px solid #dee2e6;">Calculate escape force correctly with work shown</td>
+<td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">5</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 8px; border: 1px solid #dee2e6;">Analyze design trade-offs using physics</td>
+<td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">5</td>
+</tr>
+<tr>
+<td style="padding: 8px; border: 1px solid #dee2e6;">Connect physics to biology in final paragraph</td>
+<td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="background: #F7FAFC; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1em; color: #2d3748;"><strong>Complete the Form Below:</strong></p>
+<p style="margin: 0 0 15px 0; font-size: 0.9em; color: #718096;">Describe your design and justify every choice with physics!</p>
+<iframe style="border: none; width: 100%; display: block;" title="Station 3 Form - Design a Survivor" src="https://docs.google.com/forms/d/e/1FAIpQLSe-0D7E4LZvdwi4vfq-06tXfMJp2YZu76pQc6Id5EklUK6boQ/viewform?embedded=true" width="100%" height="1800" loading="lazy"></iframe></div>
+<div style="background: #C6F6D5; padding: 15px; border-radius: 6px;">
+<p style="margin: 0 0 8px 0; font-size: 1em; color: #276749;"><strong>Before Moving to Exit Ticket, Check:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.7; color: #276749; font-size: 0.95em;">
+<li>☐ I chose a specific mass and explained why using F=ma</li>
+<li>☐ I calculated the escape force needed (F = m &times; 15 m/s&sup2;)</li>
+<li>☐ I explained what trade-offs I made</li>
+<li>☐ I connected physics principles to biological survival</li>
+<li>☐ I clicked "Submit" on the form</li>
+</ul>
+<p style="margin: 15px 0 0 0; text-align: center;"><a style="color: #718096; text-decoration: none; font-size: 0.9em;" href="#quick-nav">&uarr; Back to Quick Navigation</a></p>
+</div>
+</div>
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+<div id="exit-heading" style="background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="exit-title">
+<h2 id="exit-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🎓 <strong>Exit Ticket &ndash; Forces &amp; Evolution</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">20 Points | ~15 Minutes</p>
+</div>
+<div style="background: white; border: 2px solid #8E2DE2; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #6b21a8; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🎯 Final Check: Can You Connect Physics to Evolution?</strong></h3>
+<div style="background: #FAF5FF; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #8E2DE2;">
+<p style="margin: 0; font-size: 0.95em; color: #4a5568; line-height: 1.7;">This exit ticket tests whether you can apply Cycle 2 physics to understand natural selection. There are 5 questions: 2 NEW (natural selection), 2 SPIRAL (Cycle 2 forces), and 1 INTEGRATION (connects both).</p>
+</div>
+<div style="background: #FFFAF0; padding: 18px; border-radius: 8px; margin-bottom: 15px;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>What You'll Be Asked:</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+<thead>
+<tr style="background: #8E2DE2; color: white;">
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6; width: 10%;" scope="col">#</th>
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6; width: 60%;" scope="col">Topic</th>
+<th style="padding: 10px; text-align: center; border: 1px solid #dee2e6; width: 30%;" scope="col">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>1</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Explain how variation leads to natural selection</td>
+<td style="padding: 10px; text-align: center; border: 1px solid #dee2e6;"><span style="background: #48BB78; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.85em;">NEW</span></td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>2</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Compare forces when predator tackles prey (N3L)</td>
+<td style="padding: 10px; text-align: center; border: 1px solid #dee2e6;"><span style="background: #ED8936; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.85em;">SPIRAL</span></td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>3</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Calculate population change after selection (% survivors)</td>
+<td style="padding: 10px; text-align: center; border: 1px solid #dee2e6;"><span style="background: #48BB78; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.85em;">NEW</span></td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>4</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Calculate acceleration given force and mass (a = F/m)</td>
+<td style="padding: 10px; text-align: center; border: 1px solid #dee2e6;"><span style="background: #ED8936; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.85em;">SPIRAL</span></td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>5</strong></td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Predict population change using selection + physics concepts</td>
+<td style="padding: 10px; text-align: center; border: 1px solid #dee2e6;"><span style="background: #8E2DE2; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.85em;">INTEGRATION</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="background: #E6FFFA; padding: 15px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #1a5f7a;">
+<p style="margin: 0 0 8px 0; font-size: 1em; color: #234e52;"><strong>Tips for Strong Answers:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #234e52; font-size: 0.95em;">
+<li>Use vocabulary: natural selection, variation, trait frequency, force, acceleration, mass</li>
+<li>Show your math work with units on calculations</li>
+<li>Connect physics to biology: "Because of F=ma, smaller animals accelerate faster, which..."</li>
+<li>For population change: Populations change, individuals don't!</li>
+</ul>
+</div>
+<div style="background: #FED7D7; padding: 18px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #C53030;">
+<p style="margin: 0 0 12px 0; font-size: 1.1em; color: #742a2a;"><strong>STOP! Self-Check Before You Begin:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #742a2a; font-size: 0.95em;">
+<li>☐ I can state Newton's Third Law <a style="color: #2c7a7b;" href="#hook-heading">[Review Hook]</a></li>
+<li>☐ I can calculate F=ma and a=F/m <a style="color: #2c7a7b;" href="#station1-heading">[Review Station 1]</a></li>
+<li>☐ I can explain how selection pressure changes populations <a style="color: #2c7a7b;" href="#station2-heading">[Review Station 2]</a></li>
+<li>☐ I can connect physics to survival advantages <a style="color: #2c7a7b;" href="#station3-heading">[Review Station 3]</a></li>
+</ul>
+</div>
+<div style="background: #F7FAFC; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1em; color: #2d3748;"><strong>Complete the Exit Ticket Below:</strong></p>
+<p style="margin: 0 0 15px 0; font-size: 0.9em; color: #718096;">Take your time. Show what you've learned today!</p>
+<iframe style="border: none; width: 100%; display: block;" title="Exit Ticket Form - Forces and Evolution" src="https://docs.google.com/forms/d/e/1FAIpQLSc8rjBdbaLVU2ziD-bNdr3ar9o6NPktIm_4UCBGztwgdQyaWA/viewform?embedded=true" width="100%" height="1600" loading="lazy"></iframe></div>
+<div style="background: #C6F6D5; padding: 15px; border-radius: 6px;">
+<p style="margin: 0 0 8px 0; font-size: 1em; color: #276749;"><strong>You're Done When:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.7; color: #276749; font-size: 0.95em;">
+<li>☐ I answered all 5 questions thoughtfully</li>
+<li>☐ I showed my work on calculations</li>
+<li>☐ I connected physics concepts to natural selection</li>
+<li>☐ I clicked "Submit" on the form</li>
+</ul>
+<p style="margin: 15px 0 0 0; text-align: center;"><a style="color: #718096; text-decoration: none; font-size: 0.9em;" href="#quick-nav">&uarr; Back to Quick Navigation</a></p>
+</div>
+</div>
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+<div style="background: linear-gradient(135deg, #F0FFF4 0%, #E6FFFA 100%); background-color: #f0fff4; border: 3px solid #48BB78; padding: 25px 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="font-size: 1.4em; margin: 0 0 15px 0; color: #276749; text-align: center;"><strong>Congratulations! You Connected Physics to Evolution!</strong></p>
+<div style="background: white; padding: 20px; border-radius: 8px;">
+<p style="margin: 0; font-size: 1.05em; color: #2d3748; line-height: 1.7;">Today you discovered something powerful: the physics you learned in Cycle 2 explains how natural selection works! Forces, mass, and acceleration determine who survives&mdash;and that drives evolution over millions of years.</p>
+</div>
+</div>
+<div style="background: linear-gradient(135deg, #2C3E50 0%, #1a252f 100%); color: white; padding: 25px 20px; border-radius: 8px; margin-bottom: 25px;" role="region" aria-labelledby="takeaways-heading">
+<h2 id="takeaways-heading" style="margin: 0 0 15px 0; text-align: center; font-size: clamp(1.2em, 3vw, 1.5em);">🏆 <strong>What You Learned Today</strong></h2>
+<div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; font-size: 1em;"><strong>1. Newton's Third Law in Predator-Prey Interactions</strong></p>
+<ul style="margin: 0 0 0 20px; line-height: 1.7; font-size: 0.95em;">
+<li>Forces between predator and prey are ALWAYS equal and opposite</li>
+<li>Size and strength don't change this&mdash;physics is physics!</li>
+<li>What differs is acceleration (because of different masses)</li>
+</ul>
+</div>
+<div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; font-size: 1em;"><strong>2. F=ma Explains Survival Advantages</strong></p>
+<ul style="margin: 0 0 0 20px; line-height: 1.7; font-size: 0.95em;">
+<li>Same force on smaller mass = greater acceleration</li>
+<li>This is why smaller prey can escape larger predators after contact</li>
+<li>Gazelles accelerate faster than cheetahs even though forces are equal!</li>
+</ul>
+</div>
+<div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+<p style="margin: 0 0 8px 0; font-size: 1em;"><strong>3. Natural Selection Changes Populations</strong></p>
+<ul style="margin: 0 0 0 20px; line-height: 1.7; font-size: 0.95em;">
+<li>Variation exists in every population</li>
+<li>Selection pressure determines who survives</li>
+<li>Trait frequency changes over generations (NOT individuals changing)</li>
+</ul>
+</div>
+</div>
+<div style="background: white; border: 2px solid #1a5f7a; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 15px 0; font-size: 1.2em; color: #2c7a7b;"><strong>Need Help or Want to Learn More?</strong></p>
+<table style="width: 100%; border-collapse: collapse;">
+<thead>
+<tr style="background: #1a5f7a; color: white;">
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Contact Rosche</th>
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Extra Practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top;">
+<ul style="margin: 0; padding-left: 20px; color: #4a5568; font-size: 0.9em; line-height: 1.6;">
+<li>Email: <a style="color: #2c7a7b;" href="mailto:louis.rosche@kairosacademies.org">louis.rosche@kairosacademies.org</a></li>
+<li>Response within 24 hours on school days</li>
+<li>Include which question you're stuck on</li>
+</ul>
+</td>
+<td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top;">
+<ul style="margin: 0; padding-left: 20px; color: #4a5568; font-size: 0.9em; line-height: 1.6;">
+<li><a style="color: #2c7a7b;" href="https://phet.colorado.edu/en/simulations/forces-and-motion-basics" target="_blank" rel="noopener">PhET: Forces and Motion</a></li>
+<li><a style="color: #2c7a7b;" href="https://phet.colorado.edu/en/simulations/natural-selection" target="_blank" rel="noopener">PhET: Natural Selection</a></li>
+<li><a style="color: #2c7a7b;" href="https://www.hhmi.org/biointeractive/making-fittest-natural-selection-and-adaptation" target="_blank" rel="noopener">HHMI: Natural Selection</a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="background: #EBF8FF; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #3182CE;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #2b6cb0;"><strong>Coming Up: Week 2</strong></p>
+<p style="margin: 0; font-size: 0.95em; color: #2b6cb0; line-height: 1.7;"><strong>Next week:</strong> Why do whales have finger bones? You'll investigate evidence for evolution&mdash;fossils, homologous structures, and DNA evidence. How do we know evolution happened?</p>
+</div>
+<div style="text-align: center; padding: 25px 20px; border-top: 2px solid #E2E8F0; margin-top: 30px; background: #F8F9FA; border-radius: 8px;">
+<p style="margin: 0 0 8px 0; font-size: 1em; color: #495057;">Grade 8 Science | Cycle 3, Week 1</p>
+<p style="margin: 0 0 8px 0; font-size: 0.95em; color: #6c757d;">The Cheetah-Gazelle Arms Race</p>
+<p style="margin: 0 0 8px 0; font-size: 0.9em; color: #6c757d;">Louis Rosche | Kairos Academies | 2024-2025</p>
+<p style="margin: 0; font-size: 0.9em; color: #6c757d;">Questions? <a style="color: #2c7a7b;" href="mailto:louis.rosche@kairosacademies.org">louis.rosche@kairosacademies.org</a></p>
+</div>
+</div>
