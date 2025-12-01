@@ -33,6 +33,16 @@
  *   2. Paste this entire script
  *   3. Run: createAllG7C3W1Forms()
  *   4. Check Logger (View > Logs) for form URLs
+ *   5. MANUAL CONFIG REQUIRED (Settings > Quizzes in each form):
+ *      - Release grade: "Immediately after each submission"
+ *      - Respondent can see: Check ALL boxes (Missed questions, Correct answers, Point values)
+ *
+ * FORM SETTINGS (set via API):
+ *   - Quiz mode enabled
+ *   - Requires Google sign-in (verified email, no manual entry)
+ *   - Limit 1 response per user
+ *   - Allow response editing after submit
+ *   - Progress bar enabled
  */
 
 // ============================================================================
@@ -80,11 +90,16 @@ function createG7Hook_() {
     'Use what you learned in Cycle 2 about energy and reactions!'
   );
 
+  // Quiz and response settings
   form.setIsQuiz(true);
+  form.setRequireLogin(true);  // Forces Google sign-in for verified email
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
+  // NOTE: After creation, manually set in Forms UI (Settings > Quizzes):
+  // - Release grade: "Immediately after each submission"
+  // - Respondent can see: Missed questions, Correct answers, Point values
   form.setConfirmationMessage(
     'Hook submitted! You are ready for Station 1.\n\n' +
     'Next: Use the PhET simulation to discover WHY CO2 traps heat.\n' +
@@ -212,11 +227,16 @@ function createG7Station1_() {
     'CRITICAL QUESTION: Do molecules BREAK or just VIBRATE when absorbing IR?'
   );
 
+  // Quiz and response settings
   form.setIsQuiz(true);
+  form.setRequireLogin(true);  // Forces Google sign-in for verified email
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
+  // NOTE: After creation, manually set in Forms UI (Settings > Quizzes):
+  // - Release grade: "Immediately after each submission"
+  // - Respondent can see: Missed questions, Correct answers, Point values
   form.setConfirmationMessage(
     'Station 1 complete!\n\n' +
     'KEY INSIGHT: CO2 vibrates when absorbing IR - it does NOT break apart.\n' +
@@ -364,11 +384,16 @@ function createG7Station2_() {
     'You will need a calculator!'
   );
 
+  // Quiz and response settings
   form.setIsQuiz(true);
+  form.setRequireLogin(true);  // Forces Google sign-in for verified email
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
+  // NOTE: After creation, manually set in Forms UI (Settings > Quizzes):
+  // - Release grade: "Immediately after each submission"
+  // - Respondent can see: Missed questions, Correct answers, Point values
   form.setConfirmationMessage(
     'Station 2 complete!\n\n' +
     'KEY INSIGHT: Carbon cycles through Earth - never created or destroyed.\n' +
@@ -533,11 +558,16 @@ function createG7Station3_() {
     '- REQUIREMENT: Explain EVERY choice using thermal energy concepts!'
   );
 
+  // Quiz and response settings
   form.setIsQuiz(true);
+  form.setRequireLogin(true);  // Forces Google sign-in for verified email
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
+  // NOTE: After creation, manually set in Forms UI (Settings > Quizzes):
+  // - Release grade: "Immediately after each submission"
+  // - Respondent can see: Missed questions, Correct answers, Point values
   form.setConfirmationMessage(
     'Station 3 complete!\n\n' +
     'Your thermal trap uses the SAME physics as the greenhouse effect:\n' +
@@ -686,11 +716,16 @@ function createG7ExitTicket_() {
     '- 1 INTEGRATION question (connects both cycles)'
   );
 
+  // Quiz and response settings
   form.setIsQuiz(true);
+  form.setRequireLogin(true);  // Forces Google sign-in for verified email
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
+  // NOTE: After creation, manually set in Forms UI (Settings > Quizzes):
+  // - Release grade: "Immediately after each submission"
+  // - Respondent can see: Missed questions, Correct answers, Point values
   form.setConfirmationMessage(
     'WEEK 1 COMPLETE! Congratulations!\n\n' +
     'You connected chemistry to climate science.\n\n' +

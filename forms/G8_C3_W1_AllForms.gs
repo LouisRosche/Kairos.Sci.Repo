@@ -17,14 +17,17 @@
  *   3. Run: createAllG8C3W1Forms()
  *   4. Authorize when prompted
  *   5. Check Logger for form URLs (View > Logs)
+ *   6. MANUAL CONFIG REQUIRED (Settings > Quizzes in each form):
+ *      - Release grade: "Immediately after each submission"
+ *      - Respondent can see: Check ALL boxes (Missed questions, Correct answers, Point values)
+ *      - Enable "Shuffle option order" for anti-cheating
  *
- * FEATURES UTILIZED:
- *   - Quiz mode with auto-grading
- *   - Progress bar for student pacing
- *   - NOTE: Enable "Shuffle option order" manually in Forms UI for anti-cheating
- *   - Response validation on calculations
- *   - Page breaks for clear sections
- *   - Help text scaffolding
+ * FORM SETTINGS (set via API):
+ *   - Quiz mode enabled
+ *   - Requires Google sign-in (verified email, no manual entry)
+ *   - Limit 1 response per user
+ *   - Allow response editing after submit
+ *   - Progress bar enabled
  */
 
 // ============================================================================
@@ -70,11 +73,16 @@ function createG8Hook_() {
     'Tip: Use what you learned about forces in Cycle 2!'
   );
 
+  // Quiz and response settings
   form.setIsQuiz(true);
+  form.setRequireLogin(true);  // Forces Google sign-in for verified email
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
+  // NOTE: After creation, manually set in Forms UI (Settings > Quizzes):
+  // - Release grade: "Immediately after each submission"
+  // - Respondent can see: Missed questions, Correct answers, Point values
   form.setConfirmationMessage(
     'Hook submitted! You are ready for Station 1.\n\n' +
     'Next step: Analyze the forces between predator and prey using Newton\'s Laws.'
@@ -205,11 +213,16 @@ function createG8Station1_() {
     'You will need a calculator!'
   );
 
+  // Quiz and response settings
   form.setIsQuiz(true);
+  form.setRequireLogin(true);  // Forces Google sign-in for verified email
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
+  // NOTE: After creation, manually set in Forms UI (Settings > Quizzes):
+  // - Release grade: "Immediately after each submission"
+  // - Respondent can see: Missed questions, Correct answers, Point values
   form.setConfirmationMessage(
     'Station 1 complete!\n\n' +
     'KEY INSIGHT: Newton\'s Third Law means forces are equal.\n' +
@@ -385,11 +398,16 @@ function createG8Station2_() {
     '- Repeat for 3+ generations'
   );
 
+  // Quiz and response settings
   form.setIsQuiz(true);
+  form.setRequireLogin(true);  // Forces Google sign-in for verified email
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
+  // NOTE: After creation, manually set in Forms UI (Settings > Quizzes):
+  // - Release grade: "Immediately after each submission"
+  // - Respondent can see: Missed questions, Correct answers, Point values
   form.setConfirmationMessage(
     'Station 2 complete!\n\n' +
     'KEY INSIGHT: Selection pressure changes trait frequency over time.\n' +
@@ -520,11 +538,16 @@ function createG8Station3_() {
     '- You must calculate the force needed to escape'
   );
 
+  // Quiz and response settings
   form.setIsQuiz(true);
+  form.setRequireLogin(true);  // Forces Google sign-in for verified email
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
+  // NOTE: After creation, manually set in Forms UI (Settings > Quizzes):
+  // - Release grade: "Immediately after each submission"
+  // - Respondent can see: Missed questions, Correct answers, Point values
   form.setConfirmationMessage(
     'Station 3 complete!\n\n' +
     'Excellent work! You used physics to explain biological adaptations.\n' +
@@ -691,11 +714,16 @@ function createG8ExitTicket_() {
     '- 1 INTEGRATION question (connects both)'
   );
 
+  // Quiz and response settings
   form.setIsQuiz(true);
+  form.setRequireLogin(true);  // Forces Google sign-in for verified email
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
+  // NOTE: After creation, manually set in Forms UI (Settings > Quizzes):
+  // - Release grade: "Immediately after each submission"
+  // - Respondent can see: Missed questions, Correct answers, Point values
   form.setConfirmationMessage(
     'WEEK 1 COMPLETE! Congratulations!\n\n' +
     'You connected physics to evolutionary biology.\n\n' +
