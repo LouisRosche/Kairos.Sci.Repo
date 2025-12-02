@@ -424,7 +424,11 @@ function createG8Station1_() {
   form.addTextItem()
     .setTitle('The gazelle (25 kg) accelerates at 20 m/s^2.\n\nWhat force does the cheetah exert on the gazelle?\n\nUse F = ma. Show your work and include units.')
     .setHelpText('F = m x a = ? kg x ? m/s^2 = ? N')
-    .setRequired(true);
+    .setRequired(true)
+    .setValidation(FormApp.createTextValidation()
+      .requireTextMatchesPattern('.*[0-9].*')
+      .setHelpText('Your answer must include a number')
+      .build());
 
   // Q4: Force on cheetah (3 pts - manual)
   form.addSectionHeaderItem()
@@ -441,7 +445,11 @@ function createG8Station1_() {
   form.addTextItem()
     .setTitle('Using Newton\'s Third Law, what force does the gazelle exert ON the cheetah?\n\nExplain your reasoning.')
     .setHelpText('Newton\'s Third Law says that when two objects interact...')
-    .setRequired(true);
+    .setRequired(true)
+    .setValidation(FormApp.createTextValidation()
+      .requireTextMatchesPattern('.*[0-9].*')
+      .setHelpText('Your answer must include a number')
+      .build());
 
   // Q5: Acceleration comparison (3 pts - manual)
   form.addSectionHeaderItem()
@@ -793,7 +801,10 @@ function createG8Station3_() {
       'F = (your mass in kg) x 15 m/s^2\n' +
       'Include units in your answer (Newtons)'
     )
-    .setRequired(true);
+    .setRequired(true)
+    .setValidation(FormApp.createParagraphTextValidation()
+      .requireTextLengthGreaterThanOrEqualTo(20)
+      .build());
 
   // === PAGE 3: Trade-offs and Integration ===
   form.addPageBreakItem()
@@ -1000,7 +1011,11 @@ function createG8ExitTicket_() {
   form.addTextItem()
     .setTitle('A 20 N force is applied to a 4 kg object.\n\nWhat is its acceleration?\n\nShow your work and include units.')
     .setHelpText('Use a = F / m')
-    .setRequired(true);
+    .setRequired(true)
+    .setValidation(FormApp.createTextValidation()
+      .requireTextMatchesPattern('.*[0-9].*')
+      .setHelpText('Your answer must include a number')
+      .build());
 
   // === PAGE 2: Integration ===
   form.addPageBreakItem()

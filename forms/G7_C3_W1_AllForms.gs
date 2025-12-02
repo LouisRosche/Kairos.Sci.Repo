@@ -519,7 +519,10 @@ function createG7Station2_() {
       'SHOW YOUR WORK!'
     )
     .setHelpText('Steps: 1) Convert 27% to 0.27  2) Multiply 48 x 0.27  3) Include units')
-    .setRequired(true);
+    .setRequired(true)
+    .setValidation(FormApp.createParagraphTextValidation()
+      .requireTextLengthGreaterThanOrEqualTo(15)
+      .build());
 
   // Q2: Atom counting (4 pts auto)
   const q2 = form.addMultipleChoiceItem()
