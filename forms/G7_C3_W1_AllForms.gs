@@ -12,6 +12,7 @@
  *
  * 3-DIMENSIONAL LEARNING:
  *   SEP-1: Asking Questions - Ask questions about why CO2 traps heat
+ *          ↳ Implemented via Exit Ticket Q6 (question generator)
  *   DCI ESS3.D: Human Impacts - Explain how human activities affect climate
  *   CCC Cause & Effect: Connect molecular behavior to temperature change
  *
@@ -22,13 +23,92 @@
  *   4. Connect bond energy concepts to the greenhouse effect
  *
  * FORMS:
- *   1. Hook - The Hot Car Mystery (15 pts, ~10 min)
+ *   1. Hook - The Hot Car Mystery (12 pts + diagnostic, ~10 min)
  *   2. Station 1 - Molecular Vibration & IR (20 pts, ~18 min)
  *   3. Station 2 - Carbon Cycle Conservation (20 pts, ~15 min)
  *   4. Station 3 - Design a Thermal Trap (25 pts, ~20 min)
- *   5. Exit Ticket - Chemistry & Climate (20 pts, ~15 min)
+ *   5. Exit Ticket - Chemistry & Climate (23 pts, ~15 min) - includes SEP-1 question generator
  *
- * DEPLOYMENT:
+ * ============================================================================
+ * GOOGLE FORMS API CONSTRAINTS - NON-NEGOTIABLE RULES
+ * ============================================================================
+ * These constraints were discovered through testing. Violating them causes errors.
+ *
+ * RULE 1: setPoints() ONLY on auto-gradable items
+ *   ✓ WORKS: MultipleChoiceItem, CheckboxItem, ScaleItem
+ *   ✗ FAILS: ParagraphTextItem, TextItem (causes "cannot set points" error)
+ *   → Use manual grading rubrics in section headers for paragraph/text items
+ *
+ * RULE 2: setShuffleOrder() does NOT exist
+ *   ✗ FAILS: form.setShuffleOrder() or item.setShuffleOrder()
+ *   → Must configure manually in Forms UI: Settings > Quizzes > Shuffle option order
+ *
+ * RULE 3: Use requireTextLengthGreaterThanOrEqualTo(), NOT requireTextLengthGreaterThan()
+ *   ✗ FAILS: .requireTextLengthGreaterThan(100) - method does not exist
+ *   ✓ WORKS: .requireTextLengthGreaterThanOrEqualTo(100)
+ *
+ * RULE 4: setRequireLogin(true) for verified email collection
+ *   → Prevents students from typing any email; forces Google account sign-in
+ *   → Critical for Canvas gradebook sync and preventing impersonation
+ *
+ * RULE 5: Validation builder pattern
+ *   ✓ WORKS: FormApp.createTextValidation().requireTextMatchesPattern('.*[0-9].*').build()
+ *   ✓ WORKS: FormApp.createParagraphTextValidation().requireTextLengthGreaterThanOrEqualTo(50).build()
+ *
+ * RULE 6: Feedback requires FormApp.createFeedback().setText().build()
+ *   → Cannot pass plain string to setFeedbackForCorrect/Incorrect
+ *
+ * RULE 7: Scale items support setPoints() but don't measure content mastery
+ *   → RECOMMENDATION: Use 0-point diagnostics for confidence/reflection items
+ *   → Prevents grade inflation from non-academic responses
+ *
+ * RULE 8: Checkbox grading is all-or-nothing
+ *   → Student must select EXACTLY the correct choices to earn points
+ *   → For partial credit, use manual grading with rubric in section header
+ *
+ * RULE 9: Form configuration that MUST be done manually in UI:
+ *   - Release grade timing: Settings > Quizzes > "Immediately after each submission"
+ *   - Visible feedback: Settings > Quizzes > Check all boxes for what respondent can see
+ *   - Shuffle options: Settings > Quizzes > "Shuffle option order"
+ *
+ * ============================================================================
+ * PSYCHOMETRIC BEST PRACTICES FROM HIERARCHICAL AUDIT
+ * ============================================================================
+ *
+ * SENSITIVITY (detecting learning gains):
+ *   - Open calculations with rubric tiers = HIGH sensitivity
+ *   - Binary MCQ with no partial credit = LOW sensitivity
+ *   → Prefer open-response with graduated rubrics for key concepts
+ *
+ * SPECIFICITY (distinguishing misconceptions):
+ *   - Include explicit misconception distractors in MCQs
+ *   - G7 targets: "Bonds break when absorbing IR" (Station 1 Q2, Q4)
+ *   - G7 targets: "Carbon is destroyed" (Station 2 Q3, Q4)
+ *   → Use setFeedbackForIncorrect to address the specific misconception
+ *
+ * RUBRIC PRECISION:
+ *   - Use observable behaviors, not subjective terms ("clear", "vague")
+ *   - Include graduated descriptors (5/4/3/2/1/0)
+ *   - Pattern: [Correct elements] + [Mechanism explained] + [Connection made]
+ *
+ * CONFIDENCE ITEMS:
+ *   - Convert to 0-point diagnostics (don't inflate grades)
+ *   - Label as "FOR REFLECTION ONLY - does NOT affect your grade"
+ *   - Still valuable for metacognition and identifying struggling students
+ *
+ * SEP-1 COMPLIANCE (Asking Questions):
+ *   - MS-ESS3-5 explicitly requires students to ASK questions
+ *   - Exit Ticket Q6 addresses this via question generator
+ *   - Rubric: HOW/WHY questions with testable variables = full credit
+ *
+ * SPIRAL INTEGRATION:
+ *   - Explicitly label spiral questions with "SPIRAL - Cycle 2"
+ *   - Connect to prior learning in help text
+ *   - Exit Ticket structure: 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1
+ *
+ * ============================================================================
+ * DEPLOYMENT CHECKLIST
+ * ============================================================================
  *   1. Open script.google.com, create new project
  *   2. Paste this entire script
  *   3. Run: createAllG7C3W1Forms()
@@ -36,13 +116,17 @@
  *   5. MANUAL CONFIG REQUIRED (Settings > Quizzes in each form):
  *      - Release grade: "Immediately after each submission"
  *      - Respondent can see: Check ALL boxes (Missed questions, Correct answers, Point values)
+ *      - Shuffle option order: ON (for anti-cheating)
+ *   6. Embed forms in LMS using the embed URLs from Logger
+ *   7. Test with a student account before going live
  *
  * FORM SETTINGS (set via API):
- *   - Quiz mode enabled
- *   - Requires Google sign-in (verified email, no manual entry)
- *   - Limit 1 response per user
- *   - Allow response editing after submit
- *   - Progress bar enabled
+ *   - Quiz mode enabled (setIsQuiz)
+ *   - Requires Google sign-in (setRequireLogin) - verified email, no manual entry
+ *   - Limit 1 response per user (setLimitOneResponsePerUser)
+ *   - Allow response editing after submit (setAllowResponseEdits)
+ *   - Progress bar enabled (setProgressBar)
+ *   - Confirmation message with next steps (setConfirmationMessage)
  */
 
 // ============================================================================
@@ -70,8 +154,9 @@ function createAllG7C3W1Forms() {
 }
 
 // ============================================================================
-// HOOK - THE HOT CAR MYSTERY (15 points, ~10 min)
+// HOOK - THE HOT CAR MYSTERY (12 points + diagnostic, ~10 min)
 // Prior knowledge activation + predictions
+// Confidence item is 0-point diagnostic for student self-reflection
 // ============================================================================
 
 function createG7Hook_() {
@@ -86,7 +171,7 @@ function createG7Hook_() {
     'The car is not generating any heat. It is just sitting there.\n' +
     'So where is all this extra heat coming from?\n\n' +
     '---\n' +
-    'Time: About 10 minutes | Points: 15\n' +
+    'Time: About 10 minutes | Points: 12 (+ 1 self-reflection question)\n' +
     'Use what you learned in Cycle 2 about energy and reactions!'
   );
 
@@ -194,16 +279,17 @@ function createG7Hook_() {
       .build()
   );
 
-  // Q5: Confidence (3 pts auto)
-  const q5 = form.addScaleItem()
-    .setTitle('How confident are you in your explanation of why cars get hot inside?')
-    .setHelpText('Be honest - this helps us know where to focus learning!')
+  // Q5: Confidence (0 pts - diagnostic only)
+  // NOTE: Confidence items do NOT measure content mastery, so they are 0-point
+  form.addScaleItem()
+    .setTitle('Self-Assessment: How confident are you in your explanation of why cars get hot inside?')
+    .setHelpText('FOR REFLECTION ONLY - This does NOT affect your grade. Be honest!')
     .setBounds(1, 5)
-    .setLabels('Just guessing', 'Very confident')
+    .setLabels('Still learning', 'Got it!')
     .setRequired(true);
-  q5.setPoints(3);
+  // NO setPoints() - purely diagnostic
 
-  logFormInfo_(form, 'G7 Hook', 15);
+  logFormInfo_(form, 'G7 Hook', 12);
   return form;
 }
 
@@ -433,7 +519,10 @@ function createG7Station2_() {
       'SHOW YOUR WORK!'
     )
     .setHelpText('Steps: 1) Convert 27% to 0.27  2) Multiply 48 x 0.27  3) Include units')
-    .setRequired(true);
+    .setRequired(true)
+    .setValidation(FormApp.createParagraphTextValidation()
+      .requireTextLengthGreaterThanOrEqualTo(15)
+      .build());
 
   // Q2: Atom counting (4 pts auto)
   const q2 = form.addMultipleChoiceItem()
@@ -698,8 +787,8 @@ function createG7Station3_() {
 }
 
 // ============================================================================
-// EXIT TICKET - CHEMISTRY & CLIMATE (20 points, ~15 min)
-// 2 NEW + 2 SPIRAL + 1 INTEGRATION
+// EXIT TICKET - CHEMISTRY & CLIMATE (23 points, ~15 min)
+// 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1 (question generator)
 // ============================================================================
 
 function createG7ExitTicket_() {
@@ -709,11 +798,12 @@ function createG7ExitTicket_() {
     'EXIT TICKET: SHOW WHAT YOU LEARNED\n\n' +
     'This tests whether you can connect Cycle 2 chemistry to climate science.\n\n' +
     '---\n' +
-    'Time: About 15 minutes | Points: 20\n\n' +
+    'Time: About 15 minutes | Points: 23\n\n' +
     'QUESTION TYPES:\n' +
     '- 2 NEW questions (Cycle 3 content)\n' +
     '- 2 SPIRAL questions (Cycle 2 review)\n' +
-    '- 1 INTEGRATION question (connects both cycles)'
+    '- 1 INTEGRATION question (connects both cycles)\n' +
+    '- 1 SEP-1 question (generate your own scientific questions)'
   );
 
   // Quiz and response settings
@@ -870,7 +960,39 @@ function createG7ExitTicket_() {
     .setHelpText('Can atoms be destroyed? If not, where could the carbon go instead?')
     .setRequired(true);
 
-  logFormInfo_(form, 'G7 Exit Ticket', 20);
+  // --- SEP-1: ASKING QUESTIONS ---
+  form.addPageBreakItem()
+    .setTitle('SEP-1: Generate Scientific Questions (Question 6)')
+    .setHelpText(
+      'NGSS Practice: Asking Questions\n' +
+      'Good scientists always have MORE questions after learning something new!'
+    );
+
+  form.addSectionHeaderItem()
+    .setTitle('Question 6: Generate Scientific Questions (3 points)')
+    .setHelpText(
+      'RUBRIC - SEP-1: Asking Questions\n' +
+      '3 pts: 2 testable HOW/WHY questions with specific variables\n' +
+      '2 pts: 2 questions, at least 1 testable\n' +
+      '1 pt: 1 question OR yes/no style questions\n' +
+      '0 pts: No response'
+    );
+
+  form.addParagraphTextItem()
+    .setTitle(
+      'Write 2 scientific questions you still have about the greenhouse effect or carbon cycle.\n\n' +
+      'Requirements:\n' +
+      '- Start with HOW or WHY (not yes/no questions)\n' +
+      '- Include specific variables that could be tested'
+    )
+    .setHelpText(
+      'EXAMPLES of good scientific questions:\n' +
+      '- "How would the greenhouse effect change if CO2 molecules had 4 atoms instead of 3?"\n' +
+      '- "Why do some molecules absorb IR while others do not?"'
+    )
+    .setRequired(true);
+
+  logFormInfo_(form, 'G7 Exit Ticket', 23);
   return form;
 }
 

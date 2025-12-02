@@ -4,14 +4,127 @@
  * 5 Forms | 100 Points Total | MS-LS4-4 + Spiral MS-PS2-1, MS-PS2-2
  * ============================================================================
  *
- * FORMS CREATED:
- *   1. Hook - The Cheetah-Gazelle Mystery (15 pts)
- *   2. Station 1 - Predator-Prey Force Analysis (20 pts)
- *   3. Station 2 - Trait Variation Simulation (20 pts)
- *   4. Station 3 - Design a Survivor (25 pts)
- *   5. Exit Ticket - Forces & Evolution (20 pts)
+ * NGSS ALIGNMENT:
+ *   Primary: MS-LS4-4 - Construct explanations based on evidence for how
+ *            natural selection leads to adaptation
+ *   Spiral:  MS-PS2-1 - Apply Newton's Third Law (action-reaction pairs)
+ *            MS-PS2-2 - Plan investigation to determine relationship between
+ *                       force, mass, and acceleration (F=ma)
  *
- * DEPLOYMENT:
+ * 3-DIMENSIONAL LEARNING:
+ *   SEP-1: Asking Questions - Generate testable questions about natural selection
+ *          ↳ Implemented via Exit Ticket Q6 (question generator)
+ *   SEP-6: Constructing Explanations - Explain adaptations using physics
+ *   DCI LS4.B: Natural Selection - Trait variation + differential survival
+ *   CCC Cause & Effect: Connect forces to survival outcomes
+ *
+ * LEARNING TARGETS:
+ *   1. Apply Newton's Third Law to predator-prey interactions
+ *   2. Calculate forces and accelerations using F=ma
+ *   3. Explain how trait variation leads to differential survival
+ *   4. Connect physics concepts to natural selection outcomes
+ *
+ * FORMS:
+ *   1. Hook - The Cheetah-Gazelle Mystery (12 pts + diagnostic, ~10 min)
+ *   2. Station 1 - Predator-Prey Force Analysis (20 pts, ~18 min)
+ *   3. Station 2 - Trait Variation Simulation (21 pts, ~18 min) - Lamarckian check
+ *   4. Station 3 - Design a Survivor (25 pts, ~20 min)
+ *   5. Exit Ticket - Forces & Evolution (22 pts, ~15 min) - SEP-1 question generator
+ *
+ * ============================================================================
+ * GOOGLE FORMS API CONSTRAINTS - NON-NEGOTIABLE RULES
+ * ============================================================================
+ * These constraints were discovered through testing. Violating them causes errors.
+ *
+ * RULE 1: setPoints() ONLY on auto-gradable items
+ *   ✓ WORKS: MultipleChoiceItem, CheckboxItem, ScaleItem
+ *   ✗ FAILS: ParagraphTextItem, TextItem (causes "cannot set points" error)
+ *   → Use manual grading rubrics in section headers for paragraph/text items
+ *
+ * RULE 2: setShuffleOrder() does NOT exist
+ *   ✗ FAILS: form.setShuffleOrder() or item.setShuffleOrder()
+ *   → Must configure manually in Forms UI: Settings > Quizzes > Shuffle option order
+ *
+ * RULE 3: Use requireTextLengthGreaterThanOrEqualTo(), NOT requireTextLengthGreaterThan()
+ *   ✗ FAILS: .requireTextLengthGreaterThan(100) - method does not exist
+ *   ✓ WORKS: .requireTextLengthGreaterThanOrEqualTo(100)
+ *
+ * RULE 4: setRequireLogin(true) for verified email collection
+ *   → Prevents students from typing any email; forces Google account sign-in
+ *   → Critical for Canvas gradebook sync and preventing impersonation
+ *
+ * RULE 5: Validation builder pattern
+ *   ✓ WORKS: FormApp.createTextValidation().requireTextMatchesPattern('.*[0-9].*').build()
+ *   ✓ WORKS: FormApp.createParagraphTextValidation().requireTextLengthGreaterThanOrEqualTo(50).build()
+ *
+ * RULE 6: Feedback requires FormApp.createFeedback().setText().build()
+ *   → Cannot pass plain string to setFeedbackForCorrect/Incorrect
+ *
+ * RULE 7: Scale items support setPoints() but don't measure content mastery
+ *   → RECOMMENDATION: Use 0-point diagnostics for confidence/reflection items
+ *   → Prevents grade inflation from non-academic responses
+ *
+ * RULE 8: Checkbox grading is all-or-nothing
+ *   → Student must select EXACTLY the correct choices to earn points
+ *   → For partial credit, use manual grading with rubric in section header
+ *
+ * RULE 9: Form configuration that MUST be done manually in UI:
+ *   - Release grade timing: Settings > Quizzes > "Immediately after each submission"
+ *   - Visible feedback: Settings > Quizzes > Check all boxes for what respondent can see
+ *   - Shuffle options: Settings > Quizzes > "Shuffle option order"
+ *
+ * ============================================================================
+ * PSYCHOMETRIC BEST PRACTICES FROM HIERARCHICAL AUDIT
+ * ============================================================================
+ *
+ * SENSITIVITY (detecting learning gains):
+ *   - G8 Station 1 Q3-Q4: Open calculation with rubric tiers = HIGH sensitivity
+ *   - Multi-step calculations with work shown = HIGH sensitivity
+ *   → F=ma calculations thread through every station for consistency
+ *
+ * SPECIFICITY (distinguishing misconceptions):
+ *   - G8 CRITICAL: "Bigger = more force" misconception (Station 1 Q2, Exit Q2)
+ *     → Newton's Third Law: forces are EQUAL regardless of mass
+ *   - G8 CRITICAL: Lamarckian thinking "individuals evolve" (Station 2 Q5)
+ *     → Explicitly targeted with auto-graded MCQ + detailed feedback
+ *   - Use setFeedbackForIncorrect to address the specific misconception
+ *
+ * LAMARCKIAN MISCONCEPTION (Station 2 Q5):
+ *   - Students often think individuals change their traits to survive
+ *   - CORRECT: Populations change over generations; individuals do NOT change genes
+ *   - Distractor: "Individual prey animals changed their traits to survive better"
+ *   - Feedback explicitly addresses this common error
+ *
+ * RUBRIC PRECISION:
+ *   - Use observable behaviors, not subjective terms ("clear", "vague")
+ *   - Include graduated descriptors (5/4/3/2/1/0)
+ *   - Pattern: [Correct calculation] + [Work shown] + [Units included]
+ *
+ * CONFIDENCE ITEMS:
+ *   - Convert to 0-point diagnostics (don't inflate grades)
+ *   - Label as "FOR REFLECTION ONLY - does NOT affect your grade"
+ *   - Still valuable for metacognition and identifying struggling students
+ *
+ * SEP-1 COMPLIANCE (Asking Questions):
+ *   - MS-LS4-4 implicitly requires students to generate questions
+ *   - Exit Ticket Q6 addresses this via question generator
+ *   - Rubric: HOW/WHY questions with testable variables = full credit
+ *
+ * SPIRAL INTEGRATION:
+ *   - Explicitly label spiral questions with "SPIRAL - Cycle 2"
+ *   - F=ma threads through EVERY station (not just Exit Ticket)
+ *   - Exit Ticket structure: 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1
+ *
+ * CONCEPTUAL COHERENCE:
+ *   - Every station uses F=ma, creating a consistent physics thread
+ *   - Station 1: Calculate forces in predator-prey collision
+ *   - Station 2: Connect selection pressure to force analogy
+ *   - Station 3: Design organism using F=ma justification
+ *   - Exit: Integrate physics + natural selection concepts
+ *
+ * ============================================================================
+ * DEPLOYMENT CHECKLIST
+ * ============================================================================
  *   1. Open script.google.com, create new project
  *   2. Paste this entire script
  *   3. Run: createAllG8C3W1Forms()
@@ -20,14 +133,17 @@
  *   6. MANUAL CONFIG REQUIRED (Settings > Quizzes in each form):
  *      - Release grade: "Immediately after each submission"
  *      - Respondent can see: Check ALL boxes (Missed questions, Correct answers, Point values)
- *      - Enable "Shuffle option order" for anti-cheating
+ *      - Shuffle option order: ON (for anti-cheating)
+ *   7. Embed forms in LMS using the embed URLs from Logger
+ *   8. Test with a student account before going live
  *
  * FORM SETTINGS (set via API):
- *   - Quiz mode enabled
- *   - Requires Google sign-in (verified email, no manual entry)
- *   - Limit 1 response per user
- *   - Allow response editing after submit
- *   - Progress bar enabled
+ *   - Quiz mode enabled (setIsQuiz)
+ *   - Requires Google sign-in (setRequireLogin) - verified email, no manual entry
+ *   - Limit 1 response per user (setLimitOneResponsePerUser)
+ *   - Allow response editing after submit (setAllowResponseEdits)
+ *   - Progress bar enabled (setProgressBar)
+ *   - Confirmation message with next steps (setConfirmationMessage)
  */
 
 // ============================================================================
@@ -56,7 +172,8 @@ function createAllG8C3W1Forms() {
 }
 
 // ============================================================================
-// FORM 1: HOOK - THE CHEETAH-GAZELLE MYSTERY (15 points)
+// FORM 1: HOOK - THE CHEETAH-GAZELLE MYSTERY (12 points + diagnostic)
+// Confidence item is 0-point diagnostic for student self-reflection
 // ============================================================================
 
 function createG8Hook_() {
@@ -69,7 +186,7 @@ function createG8Hook_() {
     'If cheetahs are faster, why have gazelles not gone extinct?\n\n' +
     '---\n' +
     'Time: About 10 minutes\n' +
-    'Points: 15 total\n' +
+    'Points: 12 total (+ 1 self-reflection question)\n' +
     'Tip: Use what you learned about forces in Cycle 2!'
   );
 
@@ -180,16 +297,17 @@ function createG8Hook_() {
       .build()
   );
 
-  // Q5: Confidence (3 pts)
-  const q5 = form.addScaleItem()
-    .setTitle('How confident are you in explaining forces in predator-prey interactions?')
-    .setHelpText('Be honest - this helps us know where to focus!')
+  // Q5: Confidence (0 pts - diagnostic only)
+  // NOTE: Confidence items do NOT measure content mastery, so they are 0-point
+  form.addScaleItem()
+    .setTitle('Self-Assessment: How confident are you in explaining forces in predator-prey interactions?')
+    .setHelpText('FOR REFLECTION ONLY - This does NOT affect your grade. Be honest!')
     .setBounds(1, 5)
-    .setLabels('1 = Just guessing', '5 = Very confident')
+    .setLabels('Still learning', 'Got it!')
     .setRequired(true);
-  q5.setPoints(3);
+  // NO setPoints() - purely diagnostic
 
-  logFormInfo_(form, 'G8 Hook', 15);
+  logFormInfo_(form, 'G8 Hook', 12);
   return form;
 }
 
@@ -306,7 +424,11 @@ function createG8Station1_() {
   form.addTextItem()
     .setTitle('The gazelle (25 kg) accelerates at 20 m/s^2.\n\nWhat force does the cheetah exert on the gazelle?\n\nUse F = ma. Show your work and include units.')
     .setHelpText('F = m x a = ? kg x ? m/s^2 = ? N')
-    .setRequired(true);
+    .setRequired(true)
+    .setValidation(FormApp.createTextValidation()
+      .requireTextMatchesPattern('.*[0-9].*')
+      .setHelpText('Your answer must include a number')
+      .build());
 
   // Q4: Force on cheetah (3 pts - manual)
   form.addSectionHeaderItem()
@@ -323,7 +445,11 @@ function createG8Station1_() {
   form.addTextItem()
     .setTitle('Using Newton\'s Third Law, what force does the gazelle exert ON the cheetah?\n\nExplain your reasoning.')
     .setHelpText('Newton\'s Third Law says that when two objects interact...')
-    .setRequired(true);
+    .setRequired(true)
+    .setValidation(FormApp.createTextValidation()
+      .requireTextMatchesPattern('.*[0-9].*')
+      .setHelpText('Your answer must include a number')
+      .build());
 
   // Q5: Acceleration comparison (3 pts - manual)
   form.addSectionHeaderItem()
@@ -377,7 +503,8 @@ function createG8Station1_() {
 }
 
 // ============================================================================
-// FORM 3: STATION 2 - TRAIT VARIATION SIMULATION (20 points)
+// FORM 3: STATION 2 - TRAIT VARIATION SIMULATION (21 points)
+// Includes Lamarckian misconception check (anti-misconception MCQ)
 // ============================================================================
 
 function createG8Station2_() {
@@ -388,14 +515,15 @@ function createG8Station2_() {
     'Use a bean simulation to model how trait variation affects survival.\n' +
     'Different colored beans represent prey with different camouflage traits.\n\n' +
     '---\n' +
-    'Time: About 15 minutes\n' +
-    'Points: 20 total\n\n' +
+    'Time: About 18 minutes\n' +
+    'Points: 21 total\n\n' +
     'SIMULATION RULES:\n' +
     '- Scatter beans on a background\n' +
     '- Hunt (grab beans) for 10 seconds\n' +
     '- Count survivors by color\n' +
     '- Survivors reproduce (add more of that color)\n' +
-    '- Repeat for 3+ generations'
+    '- Repeat for 3+ generations\n\n' +
+    'CRITICAL: Remember - POPULATIONS change over generations, NOT individuals!'
   );
 
   // Quiz and response settings
@@ -491,29 +619,68 @@ function createG8Station2_() {
     .setHelpText('Think about what changed in your bean population over generations...')
     .setRequired(true);
 
-  // Q5: Prediction (4 pts - manual)
+  // Q5: Lamarckian Misconception Check (4 pts - auto) - NEW ADDITION
   form.addSectionHeaderItem()
-    .setTitle('Question 5: New Environment Prediction (4 points)')
+    .setTitle('Question 5: Misconception Check (4 points)')
     .setHelpText(
-      'MANUAL GRADING - 4 points\n' +
-      '4 pts: Specific prediction + clear reasoning based on simulation\n' +
-      '3 pts: Prediction with partial reasoning\n' +
-      '2 pts: Prediction without clear reasoning\n' +
-      '1 pt: Vague prediction\n' +
-      '0 pts: No response'
+      'AUTO-GRADED - 4 points\n' +
+      'This question checks for a common misconception about evolution.'
+    );
+
+  var q5 = form.addMultipleChoiceItem()
+    .setTitle(
+      'After 10 generations of predation in your simulation, which statement is SCIENTIFICALLY ACCURATE?'
+    )
+    .setHelpText('Think carefully about WHO or WHAT changes during natural selection.')
+    .setRequired(true);
+
+  q5.setChoices([
+    q5.createChoice('The population now contains more individuals with survival-enhancing traits', true),
+    q5.createChoice('Individual prey animals changed their traits to survive better', false),
+    q5.createChoice('Prey animals taught their offspring how to escape', false),
+    q5.createChoice('Predators evolved to be slower so prey could escape', false)
+  ]);
+  // NOTE: Shuffle choices manually in Forms UI (setShuffleOrder not available in API)
+  q5.setPoints(4);
+  q5.setFeedbackForCorrect(
+    FormApp.createFeedback()
+      .setText(
+        'Correct! POPULATIONS change over generations through natural selection. ' +
+        'Individual organisms do NOT change their inherited traits during their lifetime. ' +
+        'This is a key distinction from Lamarckian (incorrect) thinking.'
+      )
+      .build()
+  );
+  q5.setFeedbackForIncorrect(
+    FormApp.createFeedback()
+      .setText(
+        'Common misconception! Individual organisms CANNOT change their genes during their lifetime. ' +
+        'Natural selection changes POPULATION trait frequencies over time - ' +
+        'individuals with better traits survive more and reproduce more, ' +
+        'so the next generation has more of those traits.'
+      )
+      .build()
+  );
+
+  // Q6: Prediction (1 pt - manual) - RENUMBERED
+  form.addSectionHeaderItem()
+    .setTitle('Question 6: New Environment Prediction (1 point)')
+    .setHelpText(
+      'MANUAL GRADING - 1 point\n' +
+      '1 pt: Any reasonable prediction with explanation\n' +
+      '0 pts: No response or no explanation'
     );
 
   form.addParagraphTextItem()
-    .setTitle('If the environment changed (for example, a different colored background), predict how the trait frequency would shift over 5 generations.\n\nExplain your reasoning.')
+    .setTitle('If the environment changed (for example, a different colored background), predict how the trait frequency would shift over 5 generations.\n\nExplain your reasoning briefly.')
     .setHelpText(
       'Think about:\n' +
       '- Which color would now be hardest to see?\n' +
-      '- How would survival rates change?\n' +
-      '- What would happen to the population over time?'
+      '- How would survival rates change?'
     )
     .setRequired(true);
 
-  logFormInfo_(form, 'G8 Station 2', 20);
+  logFormInfo_(form, 'G8 Station 2', 21);
   return form;
 }
 
@@ -634,7 +801,10 @@ function createG8Station3_() {
       'F = (your mass in kg) x 15 m/s^2\n' +
       'Include units in your answer (Newtons)'
     )
-    .setRequired(true);
+    .setRequired(true)
+    .setValidation(FormApp.createParagraphTextValidation()
+      .requireTextLengthGreaterThanOrEqualTo(20)
+      .build());
 
   // === PAGE 3: Trade-offs and Integration ===
   form.addPageBreakItem()
@@ -696,7 +866,8 @@ function createG8Station3_() {
 }
 
 // ============================================================================
-// FORM 5: EXIT TICKET - FORCES & EVOLUTION (20 points)
+// FORM 5: EXIT TICKET - FORCES & EVOLUTION (22 points)
+// 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1 (question generator)
 // ============================================================================
 
 function createG8ExitTicket_() {
@@ -707,11 +878,12 @@ function createG8ExitTicket_() {
     'Show you can apply Cycle 2 physics to understand natural selection.\n\n' +
     '---\n' +
     'Time: About 15 minutes\n' +
-    'Points: 20 total\n\n' +
+    'Points: 22 total\n\n' +
     'QUESTION TYPES:\n' +
     '- 2 NEW questions (Cycle 3 natural selection)\n' +
     '- 2 SPIRAL questions (Cycle 2 forces)\n' +
-    '- 1 INTEGRATION question (connects both cycles)'
+    '- 1 INTEGRATION question (connects both cycles)\n' +
+    '- 1 SEP-1 question (generate your own scientific questions)'
   );
 
   // Quiz and response settings
@@ -839,22 +1011,25 @@ function createG8ExitTicket_() {
   form.addTextItem()
     .setTitle('A 20 N force is applied to a 4 kg object.\n\nWhat is its acceleration?\n\nShow your work and include units.')
     .setHelpText('Use a = F / m')
-    .setRequired(true);
+    .setRequired(true)
+    .setValidation(FormApp.createTextValidation()
+      .requireTextMatchesPattern('.*[0-9].*')
+      .setHelpText('Your answer must include a number')
+      .build());
 
   // === PAGE 2: Integration ===
   form.addPageBreakItem()
     .setTitle('INTEGRATION (Question 5)')
     .setHelpText('This question requires knowledge from BOTH Cycle 2 AND Cycle 3.');
 
-  // Q5: Integration (4 pts - manual)
+  // Q5: Integration (3 pts - manual)
   form.addSectionHeaderItem()
-    .setTitle('Question 5: INTEGRATION (4 points)')
+    .setTitle('Question 5: INTEGRATION (3 points)')
     .setHelpText(
-      'MANUAL GRADING - 4 points (3D Assessment)\n' +
-      '4 pts: Natural selection mechanism + physics concepts + prediction over time\n' +
-      '3 pts: Selection + physics OR detailed prediction\n' +
-      '2 pts: One concept applied well\n' +
-      '1 pt: Vague or Lamarckian thinking (individuals change)\n' +
+      'MANUAL GRADING - 3 points (3D Assessment)\n' +
+      '3 pts: Natural selection mechanism + physics concepts + prediction over time\n' +
+      '2 pts: Selection + physics OR detailed prediction\n' +
+      '1 pt: One concept applied OR Lamarckian thinking (individuals change)\n' +
       '0 pts: No response\n\n' +
       '3D Scoring:\n' +
       '- SEP: Does response use evidence-based prediction?\n' +
@@ -883,7 +1058,39 @@ function createG8ExitTicket_() {
       .requireTextLengthGreaterThanOrEqualTo(80)
       .build());
 
-  logFormInfo_(form, 'G8 Exit Ticket', 20);
+  // --- SEP-1: ASKING QUESTIONS ---
+  form.addPageBreakItem()
+    .setTitle('SEP-1: Generate Scientific Questions (Question 6)')
+    .setHelpText(
+      'NGSS Practice: Asking Questions\n' +
+      'Good scientists always have MORE questions after learning something new!'
+    );
+
+  form.addSectionHeaderItem()
+    .setTitle('Question 6: Generate Scientific Questions (3 points)')
+    .setHelpText(
+      'RUBRIC - SEP-1: Asking Questions\n' +
+      '3 pts: 2 testable HOW/WHY questions with specific variables\n' +
+      '2 pts: 2 questions, at least 1 testable\n' +
+      '1 pt: 1 question OR yes/no style questions\n' +
+      '0 pts: No response'
+    );
+
+  form.addParagraphTextItem()
+    .setTitle(
+      'Write 2 scientific questions you still have about natural selection or predator-prey physics.\n\n' +
+      'Requirements:\n' +
+      '- Start with HOW or WHY (not yes/no questions)\n' +
+      '- Include specific variables that could be tested'
+    )
+    .setHelpText(
+      'EXAMPLES of good scientific questions:\n' +
+      '- "How would the survival rate change if prey animals had twice the muscle mass?"\n' +
+      '- "Why do some predators hunt in packs while others hunt alone?"'
+    )
+    .setRequired(true);
+
+  logFormInfo_(form, 'G8 Exit Ticket', 22);
   return form;
 }
 
