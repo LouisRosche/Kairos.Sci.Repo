@@ -96,6 +96,36 @@ function createG7W2Hook_() {
     'Get ready to test different surfaces under a heat lamp!'
   );
 
+  // --- MTSS: CYCLE 2 MISCONCEPTION CHECK (0 pts - diagnostic only) ---
+  form.addPageBreakItem()
+    .setTitle('Quick Review: Week 1 Check')
+    .setHelpText('Let\'s make sure you remember key concepts from Week 1 and Cycle 2.');
+
+  // MTSS FLAG: Bond energy misconception (60% frequency)
+  const mtss1 = form.addMultipleChoiceItem()
+    .setTitle('QUICK CHECK (Cycle 2 Review): When chemical bonds BREAK, what happens to energy?')
+    .setHelpText('This is a review question - think carefully! This is one of the most common mistakes.')
+    .setRequired(true);
+
+  mtss1.setChoices([
+    mtss1.createChoice('Breaking bonds RELEASES energy', false),  // FLAG: bond-break-release misconception
+    mtss1.createChoice('Breaking bonds REQUIRES (uses up) energy', true),
+    mtss1.createChoice('Breaking bonds has no effect on energy', false),
+    mtss1.createChoice('It depends on the type of bond', false)
+  ]);
+  mtss1.setPoints(0);  // Diagnostic only - doesn't affect grade
+  mtss1.setFeedbackForCorrect(
+    FormApp.createFeedback()
+      .setText('✓ CORRECT! Breaking bonds REQUIRES energy. Forming bonds RELEASES energy. You remembered this from Cycle 2!')
+      .build()
+  );
+  mtss1.setFeedbackForIncorrect(
+    FormApp.createFeedback()
+      .setText('⚠️ COMMON MISTAKE! Breaking bonds requires energy (you have to PUT energy IN to break them). ' +
+               'Forming bonds releases energy. This is important for understanding how molecules absorb heat!')
+      .build()
+  );
+
   // --- PART 1: OBSERVATIONS ---
   form.addPageBreakItem()
     .setTitle('Part 1: What You Notice')
@@ -309,7 +339,12 @@ function createG7W2Station1_() {
     .setHelpText(
       'Remember: Albedo = fraction reflected.\n' +
       'High albedo (like snow) = reflects most light\n' +
-      'Low albedo (like ocean) = absorbs most light'
+      'Low albedo (like ocean) = absorbs most light\n\n' +
+      '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
+      '• "Black paper heated the most because its albedo is low, which means it..."\n' +
+      '• "Surfaces with high albedo, like aluminum foil, stayed cool because..."\n' +
+      '• "My data shows that [surface] had a [small/large] temperature change because its albedo..."\n\n' +
+      'WORD BANK: reflects, absorbs, albedo, light energy, temperature, molecules, vibrate'
     )
     .setRequired(true);
 
@@ -355,6 +390,14 @@ function createG7W2Station1_() {
       'Use your albedo data to explain the ice-albedo feedback loop:\n\n' +
       'Start: Ice (high albedo) → Ice melts → Ocean exposed (low albedo) → ???\n\n' +
       'Complete the chain and explain how this creates a feedback loop.'
+    )
+    .setHelpText(
+      '--- SENTENCE STARTERS ---\n' +
+      '• "When ice melts, it exposes dark ocean water. Ocean water has low albedo, so it..."\n' +
+      '• "This creates a positive feedback loop because more heat causes more _____, which causes more..."\n' +
+      '• "My albedo data supports this because [dark surface] absorbed ___ more degrees than [light surface]..."\n\n' +
+      'COMPLETE THE CHAIN:\n' +
+      'Ice melts → Ocean exposed → Ocean absorbs more heat → Temperature rises → More ice melts → MORE ocean exposed → ...'
     )
     .setRequired(true);
 

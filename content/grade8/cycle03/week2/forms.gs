@@ -98,6 +98,30 @@ function createG8W2Hook_() {
     'Look for patterns that reveal evolutionary relationships!'
   );
 
+  // --- MTSS FLAG: Lamarckian misconception (45% frequency per cycle config) ---
+  const mtss1 = form.addMultipleChoiceItem()
+    .setTitle('QUICK CHECK (Week 1 Review): Which statement correctly describes how evolution works?')
+    .setHelpText('This checks a common misconception from Week 1. Your answer does NOT affect your grade.')
+    .setRequired(true);
+
+  mtss1.setChoices([
+    mtss1.createChoice('Individual organisms change their bodies during their lifetime, then pass those changes to offspring', false),  // FLAG: Lamarckian misconception
+    mtss1.createChoice('Individuals with helpful traits survive better and have more offspring, so the trait becomes common in the population', true),
+    mtss1.createChoice('All organisms evolve at the same rate', false),
+    mtss1.createChoice('Evolution only happens to small organisms', false)
+  ]);
+  mtss1.setPoints(0);  // Diagnostic only - doesn't affect grade
+  mtss1.setFeedbackForCorrect(
+    FormApp.createFeedback()
+      .setText('Correct! Natural selection acts on EXISTING variation. Individuals don\'t change their genes - populations change over generations.')
+      .build()
+  );
+  mtss1.setFeedbackForIncorrect(
+    FormApp.createFeedback()
+      .setText('IMPORTANT: This is a common misconception! You CANNOT change your genes by your actions. Evolution happens to POPULATIONS, not individuals.')
+      .build()
+  );
+
   // --- PART 1: OBSERVATION ---
   form.addPageBreakItem()
     .setTitle('Part 1: Observe the Evidence')
@@ -140,7 +164,14 @@ function createG8W2Hook_() {
 
   form.addParagraphTextItem()
     .setTitle('Why might a whale have finger bones inside its flipper? Propose a hypothesis.')
-    .setHelpText('Think: Whales don\'t use fingers. So why would they have this structure?')
+    .setHelpText(
+      'Think: Whales don\'t use fingers. So why would they have this structure?\n\n' +
+      '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
+      '• "I think whales have finger bones because their ancestors..."\n' +
+      '• "The finger bones might be there because whales evolved from..."\n' +
+      '• "This structure could be evidence that whales used to..."\n\n' +
+      'WORD BANK: ancestors, evolved, inherited, common ancestor, land mammals, modified'
+    )
     .setRequired(true);
 
   // --- PART 2: COMPARING ORGANISMS ---
@@ -186,7 +217,14 @@ function createG8W2Hook_() {
 
   form.addParagraphTextItem()
     .setTitle('WEEK 1 CONNECTION: How does natural selection explain why whale flippers look different from human hands, even though they have the same bones?')
-    .setHelpText('Think: Different environments = different selection pressures = different shapes over time')
+    .setHelpText(
+      'Think: Different environments = different selection pressures = different shapes over time\n\n' +
+      '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
+      '• "Natural selection shaped the bones differently because whales needed to _____ while humans needed to _____."\n' +
+      '• "Even though they share the same bone pattern, selection pressures in water vs. land caused..."\n' +
+      '• "The flippers became _____ shaped because whales that could _____ survived better and had more offspring."\n\n' +
+      'WORD BANK: selection pressure, survive, reproduce, environment, adapted, modified, generations, population'
+    )
     .setRequired(true);
 
   // Q5: Confidence (0 pts)
@@ -313,6 +351,13 @@ function createG8W2Station1_() {
       'What does this suggest about the evolutionary history of these animals?\n' +
       'Why would animals that live in such different environments have the same bone structure?'
     )
+    .setHelpText(
+      '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
+      '• "The shared bone pattern suggests that these animals share a common _____ that lived millions of years ago."\n' +
+      '• "Even though they live in different environments, the same bone structure shows that they..."\n' +
+      '• "Natural selection modified the original limb pattern into different shapes because each species needed to..."\n\n' +
+      'WORD BANK: common ancestor, inherited, modified, natural selection, homologous, environment, adaptation'
+    )
     .setRequired(true);
 
   // Q4: Lamarckian check (3 pts auto) - MISCONCEPTION TARGET
@@ -357,7 +402,12 @@ function createG8W2Station1_() {
       'How did the same ancestral arm bone pattern become a flipper (in whales), a wing (in bats), and a digging claw (in moles)?'
     )
     .setHelpText(
-      'Remember from Week 1: Variation exists → Selection pressure → Survival/reproduction → Trait becomes common'
+      'Remember from Week 1: Variation exists → Selection pressure → Survival/reproduction → Trait becomes common\n\n' +
+      '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
+      '• "Variation in limb shape already existed in the population. In water environments, individuals with more _____ limbs survived better because..."\n' +
+      '• "Natural selection shaped the same bones differently: whales with _____ limbs caught more fish, while bats with _____ limbs caught more insects."\n' +
+      '• "Over many generations, each population\'s limbs became more specialized for their environment because individuals that could _____ better had more offspring."\n\n' +
+      'WORD BANK: variation, selection pressure, survival, reproduction, population, generations, specialized, adapted, environment'
     )
     .setRequired(true);
 
@@ -477,6 +527,13 @@ function createG8W2Station2_() {
       'If you found a fossil from 49.5 million years ago, what features would you PREDICT it would have?\n' +
       'Describe its legs, feet, tail, and habitat.'
     )
+    .setHelpText(
+      '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
+      '• "Since this fossil is between Pakicetus and Ambulocetus, I predict it would have legs that are _____ and feet that are _____."\n' +
+      '• "The 49.5 mya fossil would likely show intermediate features: it might have _____ legs with _____ feet for both walking and swimming."\n' +
+      '• "I predict this organism lived in _____ habitat because it\'s transitional between a land mammal and a semi-aquatic one."\n\n' +
+      'WORD BANK: intermediate, shorter, webbed, paddle-like, shallow water, coastline, transitional'
+    )
     .setRequired(true);
 
   // Q4: Evidence evaluation (4 pts manual)
@@ -495,6 +552,13 @@ function createG8W2Station2_() {
     .setTitle(
       'Someone claims: "There are no transitional fossils - evolution has no evidence."\n\n' +
       'Using what you learned about whale evolution, explain why this claim is incorrect.'
+    )
+    .setHelpText(
+      '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
+      '• "This claim is incorrect because whale fossils like Ambulocetus show _____ features that are in-between land mammals and whales."\n' +
+      '• "The whale fossil sequence proves this wrong because we can see how _____ changed over millions of years from Pakicetus to modern whales."\n' +
+      '• "Transitional fossils DO exist. For example, _____ had both legs AND swimming adaptations, which shows evolution happening."\n\n' +
+      'WORD BANK: transitional, intermediate, Pakicetus, Ambulocetus, Basilosaurus, legs, flippers, gradual change, millions of years'
     )
     .setRequired(true);
 
@@ -596,7 +660,14 @@ function createG8W2Station3_() {
       'Think: The ancestor had 4 legs, the descendant has flippers.\n' +
       'What would the in-between stage look like? Why?'
     )
-    .setHelpText('Consider: webbed feet? Shortened legs? Mix of features?')
+    .setHelpText(
+      'Consider: webbed feet? Shortened legs? Mix of features?\n\n' +
+      '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
+      '• "The limbs would be _____ because they need to be intermediate between legs and flippers."\n' +
+      '• "My transitional organism has front limbs that are _____ with _____ for both walking and swimming."\n' +
+      '• "Since the ancestor had 4 legs and the descendant has flippers, the 60 mya form probably had..."\n\n' +
+      'WORD BANK: shortened, webbed, paddle-shaped, partially flipper-like, reduced back legs, intermediate'
+    )
     .setRequired(true);
 
   // Q2: Body covering (5 pts manual)
@@ -617,6 +688,13 @@ function createG8W2Station3_() {
       'Describe the BODY COVERING of your transitional organism.\n\n' +
       'Think: Ancestor had fur, descendant has smooth skin.\n' +
       'What would the intermediate covering look like? Why would this be advantageous?'
+    )
+    .setHelpText(
+      '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
+      '• "The body covering would be _____ because this is intermediate between fur and smooth skin."\n' +
+      '• "My transitional organism has _____ fur/hair that would help it _____ while also allowing _____."\n' +
+      '• "Since the ancestor had thick fur and the descendant has smooth skin, at 60 mya it probably had..."\n\n' +
+      'WORD BANK: sparse, thin, reduced, patchy, short, streamlined, insulation, swimming, drag reduction'
     )
     .setRequired(true);
 
@@ -639,6 +717,13 @@ function createG8W2Station3_() {
       'Where did it live? What did it eat? How did it move?\n' +
       'Think: The ancestor lived on land, the descendant lives in water.'
     )
+    .setHelpText(
+      '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
+      '• "My transitional organism lived in _____ habitat, spending time both _____ and _____."\n' +
+      '• "It probably ate _____ because it could hunt in both water and on land."\n' +
+      '• "For movement, it could _____ on land and _____ in water, making it well-adapted to..."\n\n' +
+      'WORD BANK: coastal, shallow water, semi-aquatic, fish, small mammals, walk, swim, waddle, paddle, amphibious'
+    )
     .setRequired(true);
 
   // Q4: Natural selection explanation (7 pts manual) - highest value
@@ -660,6 +745,16 @@ function createG8W2Station3_() {
       '1. What variation existed in the population?\n' +
       '2. What selection pressure favored certain traits?\n' +
       '3. How did survival/reproduction change the population over time?'
+    )
+    .setHelpText(
+      '--- SENTENCE STARTERS (use all three parts) ---\n\n' +
+      'PART 1 - VARIATION:\n' +
+      '• "Variation existed in the transitional population: some individuals had _____ while others had _____."\n\n' +
+      'PART 2 - SELECTION PRESSURE:\n' +
+      '• "The selection pressure was _____. Individuals with more _____ traits could _____ better."\n\n' +
+      'PART 3 - CHANGE OVER TIME:\n' +
+      '• "Over many generations, individuals with _____ survived and reproduced more, so the trait became common. Eventually, the population became fully _____."\n\n' +
+      'WORD BANK: variation, selection pressure, aquatic traits, swimming ability, streamlined, reproduce, offspring, generations, population, fully aquatic'
     )
     .setRequired(true);
 
@@ -749,6 +844,16 @@ function createG8W2ExitTicket_() {
     .setTitle(
       'Define HOMOLOGOUS STRUCTURES and give an example.\n\n' +
       'Explain why homologous structures are evidence for evolution.'
+    )
+    .setHelpText(
+      '--- SENTENCE STARTERS (use all three parts) ---\n\n' +
+      'DEFINITION:\n' +
+      '• "Homologous structures are body parts that have the same _____ but different _____."\n\n' +
+      'EXAMPLE:\n' +
+      '• "For example, a whale flipper and a human arm both have _____, even though one is used for _____ and the other for _____."\n\n' +
+      'WHY IT\'S EVIDENCE:\n' +
+      '• "This is evidence for evolution because the shared structure suggests these organisms have a common _____."\n\n' +
+      'WORD BANK: bone structure, function, common ancestor, inherited, modified, humerus, radius, ulna, swimming, grabbing'
     )
     .setRequired(true);
 
@@ -852,6 +957,17 @@ function createG8W2ExitTicket_() {
       '- Week 2: Anatomical and fossil evidence\n\n' +
       'Give at least TWO specific pieces of evidence.'
     )
+    .setHelpText(
+      '--- SENTENCE STARTERS (include evidence from BOTH weeks) ---\n\n' +
+      'WEEK 1 EVIDENCE:\n' +
+      '• "In Week 1, we saw natural selection in action when... This shows that evolution is happening right now because..."\n\n' +
+      'WEEK 2 EVIDENCE:\n' +
+      '• "In Week 2, we learned that homologous structures like _____ prove common ancestry because..."\n' +
+      '• "The fossil sequence of whale ancestors (Pakicetus → Ambulocetus → modern whales) shows _____."\n\n' +
+      'CONCLUSION:\n' +
+      '• "Therefore, evolution is well-supported by multiple lines of evidence including..."\n\n' +
+      'WORD BANK: natural selection, variation, survival, homologous, transitional fossils, common ancestor, whale evolution, bean simulation'
+    )
     .setRequired(true);
 
   // Q6: SEP-6 - Constructing Explanations (3 pts manual)
@@ -878,6 +994,15 @@ function createG8W2ExitTicket_() {
       'Dolphins and sharks have similar streamlined body shapes, but dolphins are mammals (warm-blooded, give live birth) and sharks are fish (cold-blooded, lay eggs).\n\n' +
       'How can two unrelated organisms look so similar?\n' +
       'What type of structures are their body shapes (homologous or analogous)? Explain.'
+    )
+    .setHelpText(
+      '--- SENTENCE STARTERS (answer all parts) ---\n\n' +
+      'CLASSIFY THE STRUCTURE:\n' +
+      '• "The streamlined body shapes of dolphins and sharks are _____ structures because they have the same _____ but different underlying _____."\n\n' +
+      'EXPLAIN WHY:\n' +
+      '• "Even though dolphins and sharks are not closely related, they evolved similar shapes because both live in _____ and face the same _____."\n' +
+      '• "This is called convergent evolution, which means..."\n\n' +
+      'WORD BANK: analogous, function, structure, water, selection pressure, independently evolved, convergent evolution, streamlined, efficient swimming'
     )
     .setRequired(true);
 
