@@ -1,0 +1,146 @@
+<!--
+============================================================================
+STUDENT PAGE HTML TEMPLATE
+============================================================================
+
+PURPOSE: Template for generating Canvas module page HTML
+USAGE: Copy and customize for each grade/cycle/week
+
+REQUIRED SECTIONS:
+1. Skip-to-content link (accessibility)
+2. Accessibility banner
+3. Header with phenomenon
+4. Quick navigation
+5. Standards alignment
+6. Learning targets + Success criteria
+7. Phenomenon section
+8. Vocabulary table
+9. Points breakdown
+10. Hook section with form embed
+11. Station 1-3 with:
+    - Instructions
+    - Async alternatives
+    - Tiered support collapsibles
+    - "Stuck?" pathways
+    - Form embed placeholder
+12. Exit ticket
+13. Week summary
+
+ACCESSIBILITY REQUIREMENTS:
+- Skip links
+- ARIA labels
+- Alt text for images
+- Color contrast (WCAG AA)
+- Keyboard navigable
+- Screen reader compatible
+
+MTSS FEATURES:
+- Async alternatives for each station
+- Tiered support collapsibles (<details>)
+- Sentence starters
+- Word banks
+- "Stuck?" escalation pathways
+
+============================================================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>G[GRADE] C[CYCLE] W[WEEK]: [TOPIC]</title>
+</head>
+<body>
+
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #2d3748; max-width: 100%; margin: 0 auto; padding: 0;">
+
+<!-- ACCESSIBILITY: Skip to main content -->
+<a href="#main-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" onfocus="this.style.position='static';this.style.width='auto';this.style.height='auto';">Skip to main content</a>
+
+<!-- ACCESSIBILITY & ASYNC SUPPORT BANNER -->
+<div style="background:#FAF5FF;border-left:4px solid #805AD5;padding:15px;margin:0 0 15px 0;border-radius:0 8px 8px 0;">
+<p style="margin:0 0 8px 0;font-weight:bold;color:#553C9A;">🔊 Accessibility & Learning Support</p>
+<ul style="margin:0;padding-left:20px;font-size:0.9em;color:#6B46C1;">
+<li><strong>Need text read aloud?</strong> Chrome: Right-click → "Read aloud" | Edge: Click speaker icon</li>
+<li><strong>Working from home?</strong> Look for the 🏠 HOME ALTERNATIVE boxes</li>
+<li><strong>Need extra support?</strong> Click the green "📗 Need help?" buttons</li>
+<li><strong>Stuck?</strong> Look for the red "🆘 Stuck?" boxes</li>
+</ul>
+</div>
+
+<!-- HEADER -->
+<div id="main-content" style="background: linear-gradient(135deg, [COLOR1] 0%, [COLOR2] 100%); color: white; padding: 50px 40px; text-align: center; border-radius: 12px; margin: 0 0 20px 0;" role="banner" aria-labelledby="lesson-title">
+<div id="lesson-title" style="font-size: clamp(1.8em, 5vw, 3em); margin-bottom: 15px;" role="img" aria-label="[EMOJI DESCRIPTION]">[EMOJI] <strong>Week [X]: [TOPIC]</strong> [EMOJI]</div>
+<p style="margin: 0; font-size: clamp(1em, 2.5vw, 1.2em);">Grade [X] Science | Rosche | Kairos Academies</p>
+<p style="margin: 10px 0 0 0; font-size: clamp(0.9em, 2vw, 1em);">[NGSS STANDARD] | 100 Points Total | ~75 Minutes</p>
+</div>
+
+<!-- QUICK NAVIGATION -->
+<div id="quick-nav" style="background: linear-gradient(135deg, #48BB78 0%, #276749 100%); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+<h2 style="margin: 0 0 15px 0; text-align: center; color: white;">🧭 <strong>Quick Navigation</strong></h2>
+<div style="text-align: center;">
+<a style="background: rgba(255, 255, 255, 0.95); color: #276749; padding: 14px 24px; border-radius: 6px; text-decoration: none; display: inline-block; margin: 8px; min-height: 48px;" href="#hook-heading">🎯 Hook (12 pts)</a>
+<a style="background: rgba(255, 255, 255, 0.95); color: #276749; padding: 14px 24px; border-radius: 6px; text-decoration: none; display: inline-block; margin: 8px; min-height: 48px;" href="#station1-heading">[EMOJI] Station 1 (20 pts)</a>
+<a style="background: rgba(255, 255, 255, 0.95); color: #276749; padding: 14px 24px; border-radius: 6px; text-decoration: none; display: inline-block; margin: 8px; min-height: 48px;" href="#station2-heading">[EMOJI] Station 2 (20 pts)</a>
+<a style="background: rgba(255, 255, 255, 0.95); color: #276749; padding: 14px 24px; border-radius: 6px; text-decoration: none; display: inline-block; margin: 8px; min-height: 48px;" href="#station3-heading">[EMOJI] Station 3 (25 pts)</a>
+<a style="background: rgba(255, 255, 255, 0.95); color: #276749; padding: 14px 24px; border-radius: 6px; text-decoration: none; display: inline-block; margin: 8px; min-height: 48px;" href="#exit-heading">🎓 Exit Ticket (23 pts)</a>
+</div>
+</div>
+
+<!-- TODO: Add remaining sections following this pattern -->
+<!-- See content/grade7/cycle03/week2/student-page.html for complete example -->
+
+<!-- HOOK SECTION TEMPLATE -->
+<div id="hook-heading" style="background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;">
+<h2 style="margin: 0 0 10px 0; text-align: center;">🎯 <strong>Hook – [PHENOMENON NAME]</strong></h2>
+<p style="margin: 0; text-align: center;">12 Points | ~10 Minutes</p>
+</div>
+
+<!-- Hook form embed placeholder -->
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE HOOK FORM BELOW</strong></p>
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G[X].C[X].W[X] Hook Form Here]</p>
+</div>
+</div>
+
+<!-- STATION TEMPLATE (repeat for 1, 2, 3) -->
+<div id="station1-heading" style="background: linear-gradient(135deg, [COLOR1] 0%, [COLOR2] 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;">
+<h2 style="margin: 0 0 10px 0; text-align: center;">[EMOJI] <strong>Station 1 – [INVESTIGATION NAME]</strong></h2>
+<p style="margin: 0; text-align: center;">20 Points | ~18 Minutes</p>
+</div>
+
+<!-- ASYNC ALTERNATIVE TEMPLATE -->
+<div style="background: #FEF3C7; border: 2px dashed #D97706; padding: 18px; border-radius: 8px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #92400E;"><strong>🏠 COMPLETING THIS AT HOME?</strong></p>
+<p style="margin: 0; font-size: 0.95em; color: #78350F;">[Alternative data/resources for async students]</p>
+</div>
+
+<!-- TIERED SUPPORT TEMPLATE -->
+<details style="background:#F0FFF4;padding:15px;margin-bottom:15px;border-radius:8px;border:1px solid #9AE6B4;">
+<summary style="cursor:pointer;font-weight:bold;color:#276749;">📗 Need extra support? Click here</summary>
+<div style="margin-top:12px;">
+<p style="color:#276749;"><strong>HINT 1:</strong> [Hint]</p>
+<p style="color:#2F855A;font-weight:bold;">SENTENCE STARTERS:</p>
+<ul style="color:#276749;">
+<li>"[Sentence starter 1]"</li>
+<li>"[Sentence starter 2]"</li>
+</ul>
+<p style="padding:10px;background:#C6F6D5;border-radius:4px;color:#22543D;"><strong>WORD BANK:</strong> [terms]</p>
+</div>
+</details>
+
+<!-- STUCK? PATHWAY TEMPLATE -->
+<div style="background:#FED7D7;border-left:4px solid #C53030;padding:15px;margin-bottom:15px;border-radius:0 8px 8px 0;">
+<p style="margin:0 0 10px 0;font-weight:bold;color:#742A2A;">🆘 Stuck? Try these in order:</p>
+<ol style="margin:0;padding-left:20px;color:#9B2C2C;">
+<li>[Step 1]</li>
+<li>[Step 2]</li>
+<li>Raise your hand for Mr. Rosche</li>
+</ol>
+</div>
+
+</div>
+
+</body>
+</html>
