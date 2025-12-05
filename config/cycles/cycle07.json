@@ -1,0 +1,78 @@
+{
+  "$schema": "../schema/cycle-schema.json",
+  "cycle": 7,
+  "name": "Cycle 7: March 2026",
+  "status": "planned",
+  "dates": {
+    "start": "2026-03-09",
+    "end": "2026-03-27",
+    "week1": { "start": "2026-03-09", "end": "2026-03-13" },
+    "week2": { "start": "2026-03-23", "end": "2026-03-27" },
+    "week3": { "start": "2026-03-30", "end": "2026-04-03" }
+  },
+
+  "grades": {
+    "7": {
+      "topic": "Rock Cycle & Earth's History",
+      "phenomenon": {
+        "week1": "TODO: Define driving phenomenon",
+        "week2": "TODO: Define driving phenomenon",
+        "week3": "Synthesis & Assessment"
+      },
+      "ngss": {
+        "primary": {
+          "code": "MS-ESS1-4",
+          "description": "Construct a scientific explanation based on evidence from rock strata for how the geologic time scale is used to organize Earth's history."
+        },
+        "spiral": []
+      },
+      "threeDimensional": {
+        "sep": [],
+        "dci": ["ESS1.C: The History of Planet Earth", "ESS2.A: Earth's Materials and Systems"],
+        "ccc": []
+      },
+      "misconceptions": [],
+      "weeks": {
+        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
+        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
+        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+      },
+      "materials": {}
+    },
+
+    "8": {
+      "topic": "Chemical Reactions & Conservation",
+      "phenomenon": {
+        "week1": "TODO: Define driving phenomenon",
+        "week2": "TODO: Define driving phenomenon",
+        "week3": "Synthesis & Assessment"
+      },
+      "ngss": {
+        "primary": {
+          "code": "MS-PS1-2",
+          "description": "Analyze and interpret data on the properties of substances before and after the substances interact to determine if a chemical reaction has occurred."
+        },
+        "spiral": []
+      },
+      "threeDimensional": {
+        "sep": [],
+        "dci": ["PS1.A: Structure and Properties of Matter", "PS1.B: Chemical Reactions"],
+        "ccc": []
+      },
+      "misconceptions": [],
+      "weeks": {
+        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
+        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
+        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+      },
+      "materials": {}
+    }
+  },
+
+  "analytics": {
+    "lastDataPull": null,
+    "completionRates": {},
+    "averageScores": {},
+    "misconceptionFlags": []
+  }
+}

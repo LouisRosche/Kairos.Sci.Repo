@@ -1,0 +1,86 @@
+{
+  "$schema": "../schema/cycle-schema.json",
+  "cycle": 10,
+  "name": "Cycle 10: May-June 2026 (Final)",
+  "status": "planned",
+  "dates": {
+    "start": "2026-05-18",
+    "end": "2026-06-05",
+    "week1": { "start": "2026-05-18", "end": "2026-05-22" },
+    "week2": { "start": "2026-05-26", "end": "2026-05-29" },
+    "week3": { "start": "2026-06-01", "end": "2026-06-05" }
+  },
+
+  "grades": {
+    "7": {
+      "topic": "Year-End Integration & Review",
+      "phenomenon": {
+        "week1": "Student-selected investigation",
+        "week2": "Cross-cutting concept synthesis",
+        "week3": "Final Assessment & Celebration"
+      },
+      "ngss": {
+        "primary": {
+          "code": "INTEGRATION",
+          "description": "Synthesize learning across all G7 cycles to demonstrate mastery of MS-LS and MS-ESS standards."
+        },
+        "spiral": [
+          { "code": "MS-ESS3-5", "description": "Climate factors", "fromCycle": 3 },
+          { "code": "MS-ESS3-3", "description": "Human impact", "fromCycle": 4 },
+          { "code": "MS-ESS2-5", "description": "Weather systems", "fromCycle": 5 }
+        ]
+      },
+      "threeDimensional": {
+        "sep": ["All SEPs integrated"],
+        "dci": ["All G7 DCIs reviewed"],
+        "ccc": ["All CCCs synthesized"]
+      },
+      "misconceptions": [],
+      "weeks": {
+        "1": { "title": "Student Choice Investigation", "status": "not_started" },
+        "2": { "title": "CCC Synthesis Project", "status": "not_started" },
+        "3": { "title": "Final Assessment", "status": "not_started", "isAssessmentWeek": true }
+      },
+      "materials": {}
+    },
+
+    "8": {
+      "topic": "Year-End Integration & Review",
+      "phenomenon": {
+        "week1": "Student-selected investigation",
+        "week2": "Cross-cutting concept synthesis",
+        "week3": "Final Assessment & Celebration"
+      },
+      "ngss": {
+        "primary": {
+          "code": "INTEGRATION",
+          "description": "Synthesize learning across all G8 cycles to demonstrate mastery of MS-PS and MS-LS standards."
+        },
+        "spiral": [
+          { "code": "MS-LS4-4", "description": "Natural selection", "fromCycle": 3 },
+          { "code": "MS-LS2-3", "description": "Ecosystems", "fromCycle": 4 },
+          { "code": "MS-PS4-2", "description": "Waves", "fromCycle": 5 }
+        ]
+      },
+      "threeDimensional": {
+        "sep": ["All SEPs integrated"],
+        "dci": ["All G8 DCIs reviewed"],
+        "ccc": ["All CCCs synthesized"]
+      },
+      "misconceptions": [],
+      "weeks": {
+        "1": { "title": "Student Choice Investigation", "status": "not_started" },
+        "2": { "title": "CCC Synthesis Project", "status": "not_started" },
+        "3": { "title": "Final Assessment", "status": "not_started", "isAssessmentWeek": true }
+      },
+      "materials": {}
+    }
+  },
+
+  "analytics": {
+    "lastDataPull": null,
+    "completionRates": {},
+    "averageScores": {},
+    "misconceptionFlags": []
+  }
+}
