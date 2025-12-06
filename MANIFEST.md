@@ -1,7 +1,7 @@
 # KAMS Science Curriculum Repository Manifest
 ## Complete Content Inventory
 
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-06
 **Repository:** C3.Repo
 **Maintainer:** Louis Rosche
 
@@ -38,6 +38,7 @@ C3.Repo/
 │   │   ├── cycle04/             # 📋 Placeholder
 │   │   ├── cycle05-10/          # 📋 Placeholder
 │   └── resources/               # Cross-grade resources
+│       └── source-content/      # Source HTML/scripts holders
 │
 ├── data/                        # Data aggregation & analysis
 │   ├── FormRegistry.gs
@@ -158,6 +159,7 @@ Each placeholder cycle includes:
 |------|---------|--------|
 | `audit-w2-content.md` | Accessibility/MTSS audit report | ✅ Complete |
 | `exemplars-cycle03-week2.md` | Model student responses | ✅ Complete |
+| `source-content/htmls-and-scripts-contents-holder.docx` | Source HTML content & scripts for C2-C3 | ✅ Complete |
 
 ### `/data/` - Data Infrastructure
 
@@ -285,4 +287,4 @@ cat content/grade{7,8}/cycle{03-10}/cycle-status.json
 
 ---
 
-*This manifest is maintained manually. Last update: 2025-12-05*
+*This manifest is maintained manually. Last update: 2025-12-06*
