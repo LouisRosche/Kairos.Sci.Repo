@@ -33,10 +33,12 @@ C3.Repo/
 │
 ├── content/                     # All instructional content
 │   ├── grade7/                  # Grade 7: Life & Earth Science
+│   │   ├── cycle02/             # ✅ Complete (4 weeks)
 │   │   ├── cycle03/             # ✅ Complete
 │   │   ├── cycle04/             # 🟡 In Progress
 │   │   ├── cycle05-10/          # 📋 Placeholder
 │   ├── grade8/                  # Grade 8: Physical Science
+│   │   ├── cycle02/             # ✅ Complete (4 weeks)
 │   │   ├── cycle03/             # ✅ Complete
 │   │   ├── cycle04/             # 📋 Placeholder
 │   │   ├── cycle05-10/          # 📋 Placeholder
@@ -89,6 +91,7 @@ C3.Repo/
 
 | Cycle | Grade 7 | Grade 8 | Status |
 |-------|---------|---------|--------|
+| **C2** | 75% ✅ | 75% ✅ | **CONTENT READY** |
 | **C3** | 100% ✅ | 100% ✅ | **DEPLOYED** |
 | **C4** | 45% 🟡 | 10% 📋 | In Progress |
 | **C5** | 0% 📋 | 0% 📋 | Placeholder |
@@ -99,6 +102,28 @@ C3.Repo/
 | **C10** | 0% 📋 | 0% 📋 | Placeholder |
 
 **Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | ❌ Not Started
+
+---
+
+## Cycle 2 - 75% COMPLETE ✅
+
+### Grade 7: Molecular Structure, Bonding & Reactions (4 weeks)
+
+| Week | forms.gs | student-page.html | lesson-plan.md | curriculum-design.md | Status |
+|------|----------|-------------------|----------------|----------------------|--------|
+| W1 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
+| W2 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
+| W3 | ✅ | ✅ | ❌ | ✅ (shared) | **CONTENT READY** |
+| W4 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
+
+### Grade 8: Forces, Energy & Collisions (4 weeks)
+
+| Week | forms.gs | student-page.html | lesson-plan.md | curriculum-design.md | Status |
+|------|----------|-------------------|----------------|----------------------|--------|
+| W1 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
+| W2 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
+| W3 | ✅ | ✅ | ❌ | ✅ (shared) | **CONTENT READY** |
+| W4 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
 
 ---
 
@@ -285,13 +310,13 @@ Each placeholder cycle includes:
 
 | Metric | Count |
 |--------|-------|
-| Total files | 145+ |
-| Complete content files | 32 |
+| Total files | 150+ |
+| Complete content files | 50+ |
 | Placeholder files | 90+ |
 | Template files | 9 |
-| Configuration files | 11 |
-| Infrastructure files | 18 |
-| Active cycles | 1 (C3) |
+| Configuration files | 10 |
+| Infrastructure files | 12 |
+| Complete cycles | 2 (C2, C3) |
 | In-progress cycles | 1 (C4) |
 | Placeholder cycles | 6 (C5-C10) |
 
@@ -326,19 +351,3 @@ cat content/grade{7,8}/cycle{03-10}/cycle-status.json
 ---
 
 *This manifest is maintained manually. Last update: 2025-12-06*
-
----
-
-## Audit Log
-
-### 2025-12-06: Architectural Compliance Audit
-- Created `config/schema/cycle-schema.json` (was missing)
-- Created `framework/standards-alignment.md` (was missing)
-- Created `data/hub/` directory with hub-setup-guide.md
-- Moved `KAMS-Science-Hub.xlsx` from `/shared/` to `/data/hub/`
-- Created MTSS infrastructure: `InterventionGenerator.gs`, `tier-definitions.json`, output files
-- Created Analysis tools: `MisconceptionTracker.gs`, `SpiralEffectiveness.gs`, `analysis-dashboard.json`
-- Renamed scripts: `generate-cycle-config.js` → `generate-cycle.js`, `validate-cycle.js` → `validate-config.js`
-- Renamed template: `FormGenerator.gs` → `FormTemplate.gs`
-- Moved legacy docx to `/archive/`
-- Deleted orphaned `content/grade7/cycle02` file

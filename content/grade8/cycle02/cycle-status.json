@@ -1,0 +1,24 @@
+{
+  "cycle": 2,
+  "grade": 8,
+  "status": "complete",
+  "lastUpdated": "2025-12-06",
+  "topic": "Forces, Energy & Collisions",
+  "weeks": 4,
+  "completion": {
+    "overall": 75,
+    "curriculumDesign": 100,
+    "rubrics": 0,
+    "week1": { "forms": 0, "lessonPlan": 0, "studentPage": 100, "slides": 0 },
+    "week2": { "forms": 0, "lessonPlan": 0, "studentPage": 100, "slides": 0 },
+    "week3": { "forms": 100, "lessonPlan": 0, "studentPage": 100, "slides": 0 },
+    "week4": { "forms": 0, "lessonPlan": 0, "studentPage": 100, "slides": 0 }
+  },
+  "deployed": {
+    "week1": false,
+    "week2": false,
+    "week3": false,
+    "week4": false
+  },
+  "notes": "Extracted from HTMLs and Scripts Contents Holder. Student pages and curriculum design complete. Forms only for week3."
+}
