@@ -407,6 +407,25 @@ Examples:
 
 ---
 
+## Legacy Content: Cycle 2
+
+Cycle 2 exists as **pre-architecture legacy content** that was developed before the formal system was established. It is retained for reference and backward compatibility but does not follow all architecture conventions:
+
+| Attribute | Standard (C3-C10) | Cycle 2 (Legacy) |
+|-----------|-------------------|------------------|
+| Weeks per cycle | 3 | 4 |
+| Config file | `config/cycles/cycleXX.json` | None |
+| Structure | Full architecture compliance | Partial |
+| Status | Managed by cycle-status.json | Legacy tracking |
+
+**Note:** Cycle 2 content is fully functional for teaching but is not part of the automated configuration system. Future updates may migrate C2 content to full compliance if needed.
+
+Content locations:
+- `content/grade7/cycle02/` - G7 Molecular Structure, Bonding & Reactions
+- `content/grade8/cycle02/` - G8 Forces, Energy & Collisions
+
+---
+
 ## Migration Path
 
 ### Phase 1: Foundation (Complete) ✅
@@ -467,4 +486,4 @@ Status values:
 
 ---
 
-*Architecture Version 2.1 | December 2025 | Organizational Audit Complete*
+*Architecture Version 2.2 | December 2025 | Hierarchical Compliance Audit Complete*
