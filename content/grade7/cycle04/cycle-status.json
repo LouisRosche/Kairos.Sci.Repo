@@ -1,0 +1,21 @@
+{
+  "cycle": 4,
+  "grade": 7,
+  "status": "in_progress",
+  "lastUpdated": "2025-12-05",
+  "topic": "Biogeochemical Cycles & Human Impact",
+  "completion": {
+    "overall": 45,
+    "curriculumDesign": 100,
+    "rubrics": 100,
+    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
+    "week2": { "forms": 5, "lessonPlan": 5, "studentPage": 5, "slides": 0 },
+    "week3": { "forms": 5, "lessonPlan": 5, "studentPage": 5, "slides": 0 }
+  },
+  "deployed": {
+    "week1": false,
+    "week2": false,
+    "week3": false
+  },
+  "notes": "Week 1 content complete (missing slides). Weeks 2-3 are placeholders."
+}

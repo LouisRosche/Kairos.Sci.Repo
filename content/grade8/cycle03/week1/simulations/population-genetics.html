@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Population Genetics - Watch Evolution Happen!</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1E3A5F 0%, #0F172A 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: clamp(1.5em, 4vw, 2em);
+        }
+        .subtitle {
+            text-align: center;
+            color: #7DD3FC;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        .sim-container {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .generation-display {
+            text-align: center;
+            font-size: 1.5em;
+            color: #1E293B;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .habitat {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            transition: background 0.5s ease;
+        }
+        .habitat.grass { background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 40%, #22C55E 40%, #16A34A 100%); }
+        .habitat.sand { background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 40%, #EAB308 40%, #CA8A04 100%); }
+        .habitat.snow { background: linear-gradient(180deg, #BAE6FD 0%, #BAE6FD 40%, #F1F5F9 40%, #E2E8F0 100%); }
+        .habitat.dark { background: linear-gradient(180deg, #374151 0%, #374151 40%, #1F2937 40%, #111827 100%); }
+        .organism {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .organism.green { background: radial-gradient(circle at 30% 30%, #22C55E, #15803D); }
+        .organism.brown { background: radial-gradient(circle at 30% 30%, #A16207, #713F12); }
+        .organism.white { background: radial-gradient(circle at 30% 30%, #F8FAFC, #CBD5E1); }
+        .organism.black { background: radial-gradient(circle at 30% 30%, #374151, #111827); }
+        .organism.dead {
+            opacity: 0;
+            transform: scale(0);
+        }
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+            .stats-panel { grid-template-columns: repeat(2, 1fr); }
+        }
+        .stat-card {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-card.green { background: #DCFCE7; border: 2px solid #22C55E; }
+        .stat-card.brown { background: #FEF3C7; border: 2px solid #A16207; }
+        .stat-card.white { background: #F1F5F9; border: 2px solid #94A3B8; }
+        .stat-card.black { background: #374151; border: 2px solid #111827; color: white; }
+        .stat-card .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+        }
+        .stat-card.green .color-dot { background: #22C55E; }
+        .stat-card.brown .color-dot { background: #A16207; }
+        .stat-card.white .color-dot { background: #E2E8F0; border: 1px solid #94A3B8; }
+        .stat-card.black .color-dot { background: #1F2937; }
+        .stat-card .count { font-size: 1.8em; font-weight: bold; }
+        .stat-card .percent { font-size: 0.9em; color: #64748B; }
+        .stat-card.black .percent { color: #94A3B8; }
+        .graph-container {
+            background: #1E293B;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .graph-container h3 {
+            color: #94A3B8;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+        .graph {
+            height: 150px;
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            overflow-x: auto;
+        }
+        .gen-bar {
+            display: flex;
+            flex-direction: column;
+            min-width: 20px;
+            height: 100%;
+        }
+        .gen-segment {
+            transition: flex 0.3s ease;
+        }
+        .gen-segment.green { background: #22C55E; }
+        .gen-segment.brown { background: #A16207; }
+        .gen-segment.white { background: #E2E8F0; }
+        .gen-segment.black { background: #374151; }
+        .controls {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .control-group {
+            flex: 1;
+            min-width: 180px;
+        }
+        .control-group label {
+            display: block;
+            font-size: 0.85em;
+            color: #374151;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 1em;
+            background: white;
+        }
+        .slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #E2E8F0;
+            border-radius: 4px;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #3B82F6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider-value {
+            text-align: center;
+            font-weight: bold;
+            color: #1E293B;
+            margin-top: 5px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        button:hover { transform: translateY(-2px); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-gen { background: linear-gradient(135deg, #10B981, #059669); color: white; }
+        .btn-run { background: linear-gradient(135deg, #3B82F6, #2563EB); color: white; }
+        .btn-reset { background: linear-gradient(135deg, #6B7280, #4B5563); color: white; }
+        .key-concept {
+            background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+            border: 2px solid #10B981;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .key-concept h4 { color: #047857; margin-bottom: 10px; }
+        .key-concept p { color: #065F46; line-height: 1.6; font-size: 0.95em; }
+        .key-concept ul { margin-top: 10px; padding-left: 20px; color: #065F46; }
+        .key-concept li { margin-bottom: 5px; }
+        .insight-box {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border: 2px solid #F59E0B;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .insight-box h4 { color: #92400E; margin-bottom: 10px; }
+        .insight-box p { color: #78350F; line-height: 1.6; font-size: 0.95em; }
+        .legend {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8em;
+            color: #94A3B8;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧬 Population Genetics Simulator</h1>
+        <p class="subtitle">Watch natural selection change trait frequencies over generations!</p>
+
+        <div class="sim-container">
+            <div class="generation-display">Generation: <span id="gen-num">1</span></div>
+
+            <div class="habitat grass" id="habitat"></div>
+
+            <div class="stats-panel">
+                <div class="stat-card green">
+                    <div class="color-dot"></div>
+                    <div class="count" id="green-count">10</div>
+                    <div class="percent" id="green-pct">25%</div>
+                </div>
+                <div class="stat-card brown">
+                    <div class="color-dot"></div>
+                    <div class="count" id="brown-count">10</div>
+                    <div class="percent" id="brown-pct">25%</div>
+                </div>
+                <div class="stat-card white">
+                    <div class="color-dot"></div>
+                    <div class="count" id="white-count">10</div>
+                    <div class="percent" id="white-pct">25%</div>
+                </div>
+                <div class="stat-card black">
+                    <div class="color-dot"></div>
+                    <div class="count" id="black-count">10</div>
+                    <div class="percent" id="black-pct">25%</div>
+                </div>
+            </div>
+
+            <div class="graph-container">
+                <h3>📈 Trait Frequency Over Generations</h3>
+                <div class="graph" id="graph"></div>
+                <div class="legend">
+                    <div class="legend-item"><div class="legend-color" style="background:#22C55E;"></div>Green</div>
+                    <div class="legend-item"><div class="legend-color" style="background:#A16207;"></div>Brown</div>
+                    <div class="legend-item"><div class="legend-color" style="background:#E2E8F0;border:1px solid #94A3B8;"></div>White</div>
+                    <div class="legend-item"><div class="legend-color" style="background:#374151;"></div>Black</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="control-row">
+                    <div class="control-group">
+                        <label>🌍 Environment (Selection Pressure)</label>
+                        <select id="environment" onchange="changeEnvironment()">
+                            <option value="grass">Grassland (Green favored)</option>
+                            <option value="sand">Desert (Brown favored)</option>
+                            <option value="snow">Arctic (White favored)</option>
+                            <option value="dark">Night/Cave (Black favored)</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>🎯 Selection Strength</label>
+                        <input type="range" class="slider" id="selection" min="0" max="100" value="50" oninput="updateSelection()">
+                        <div class="slider-value"><span id="selection-val">50</span>% predation on non-camouflaged</div>
+                    </div>
+                </div>
+                <div class="control-row">
+                    <div class="control-group">
+                        <label>👥 Population Size</label>
+                        <input type="range" class="slider" id="pop-size" min="20" max="100" value="40" oninput="updatePopSize()">
+                        <div class="slider-value"><span id="pop-val">40</span> individuals</div>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="btn-gen" onclick="runGeneration()" id="gen-btn">⏭️ Next Generation</button>
+                    <button class="btn-run" onclick="runMultiple(10)" id="run-btn">▶️ Run 10 Generations</button>
+                    <button class="btn-reset" onclick="resetSim()">🔄 Reset</button>
+                </div>
+            </div>
+
+            <div class="key-concept">
+                <h4>🔬 Natural Selection in Action</h4>
+                <p>This simulation shows the four requirements for natural selection:</p>
+                <ul>
+                    <li><strong>Variation:</strong> Individuals have different traits (colors)</li>
+                    <li><strong>Inheritance:</strong> Offspring inherit their parent's color</li>
+                    <li><strong>Selection:</strong> Some colors survive better in certain environments</li>
+                    <li><strong>Time:</strong> Changes accumulate over many generations</li>
+                </ul>
+            </div>
+
+            <div class="insight-box">
+                <h4>💡 What's Happening?</h4>
+                <p id="insight-text">
+                    Start with equal numbers of each color, then run generations. In each generation,
+                    organisms that blend in with the environment are more likely to survive and reproduce.
+                    Watch how the population changes over time!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let generation = 1;
+        let population = [];
+        let environment = 'grass';
+        let selectionStrength = 0.5;
+        let popSize = 40;
+        let history = [];
+        let isRunning = false;
+
+        const favoredColors = {
+            grass: 'green',
+            sand: 'brown',
+            snow: 'white',
+            dark: 'black'
+        };
+
+        function initPopulation() {
+            population = [];
+            const perColor = Math.floor(popSize / 4);
+            const colors = ['green', 'brown', 'white', 'black'];
+
+            colors.forEach(color => {
+                for (let i = 0; i < perColor; i++) {
+                    population.push({
+                        color: color,
+                        x: Math.random() * 90 + 5,
+                        y: Math.random() * 50 + 45
+                    });
+                }
+            });
+
+            // Add any remaining to make exact pop size
+            while (population.length < popSize) {
+                population.push({
+                    color: colors[Math.floor(Math.random() * 4)],
+                    x: Math.random() * 90 + 5,
+                    y: Math.random() * 50 + 45
+                });
+            }
+
+            renderPopulation();
+            updateStats();
+            recordHistory();
+        }
+
+        function renderPopulation() {
+            const habitat = document.getElementById('habitat');
+            habitat.innerHTML = '';
+
+            population.forEach((org, i) => {
+                const div = document.createElement('div');
+                div.className = `organism ${org.color}`;
+                div.style.left = org.x + '%';
+                div.style.top = org.y + '%';
+                div.id = `org-${i}`;
+                habitat.appendChild(div);
+            });
+        }
+
+        function updateStats() {
+            const counts = { green: 0, brown: 0, white: 0, black: 0 };
+            population.forEach(org => counts[org.color]++);
+
+            const total = population.length;
+            ['green', 'brown', 'white', 'black'].forEach(color => {
+                document.getElementById(`${color}-count`).textContent = counts[color];
+                document.getElementById(`${color}-pct`).textContent =
+                    total > 0 ? Math.round(counts[color] / total * 100) + '%' : '0%';
+            });
+        }
+
+        function recordHistory() {
+            const counts = { green: 0, brown: 0, white: 0, black: 0 };
+            population.forEach(org => counts[org.color]++);
+
+            const total = population.length || 1;
+            history.push({
+                green: counts.green / total,
+                brown: counts.brown / total,
+                white: counts.white / total,
+                black: counts.black / total
+            });
+
+            renderGraph();
+        }
+
+        function renderGraph() {
+            const graph = document.getElementById('graph');
+            graph.innerHTML = '';
+
+            history.forEach((gen, i) => {
+                const bar = document.createElement('div');
+                bar.className = 'gen-bar';
+                bar.innerHTML = `
+                    <div class="gen-segment black" style="flex:${gen.black}"></div>
+                    <div class="gen-segment white" style="flex:${gen.white}"></div>
+                    <div class="gen-segment brown" style="flex:${gen.brown}"></div>
+                    <div class="gen-segment green" style="flex:${gen.green}"></div>
+                `;
+                graph.appendChild(bar);
+            });
+        }
+
+        function runGeneration() {
+            if (population.length === 0) return;
+
+            const favored = favoredColors[environment];
+
+            // Selection: some organisms survive
+            const survivors = population.filter(org => {
+                if (org.color === favored) {
+                    // Camouflaged - higher survival
+                    return Math.random() > selectionStrength * 0.2;
+                } else {
+                    // Not camouflaged - lower survival
+                    return Math.random() > selectionStrength;
+                }
+            });
+
+            // If everyone died, keep at least 2
+            if (survivors.length < 2) {
+                survivors.push(...population.slice(0, 2));
+            }
+
+            // Reproduction: survivors reproduce to fill population
+            const newPop = [];
+            while (newPop.length < popSize && survivors.length > 0) {
+                const parent = survivors[Math.floor(Math.random() * survivors.length)];
+                newPop.push({
+                    color: parent.color,
+                    x: Math.random() * 90 + 5,
+                    y: Math.random() * 50 + 45
+                });
+            }
+
+            population = newPop;
+            generation++;
+
+            document.getElementById('gen-num').textContent = generation;
+            renderPopulation();
+            updateStats();
+            recordHistory();
+            updateInsight();
+        }
+
+        function runMultiple(n) {
+            if (isRunning) return;
+            isRunning = true;
+            document.getElementById('gen-btn').disabled = true;
+            document.getElementById('run-btn').disabled = true;
+
+            let count = 0;
+            const interval = setInterval(() => {
+                runGeneration();
+                count++;
+                if (count >= n) {
+                    clearInterval(interval);
+                    isRunning = false;
+                    document.getElementById('gen-btn').disabled = false;
+                    document.getElementById('run-btn').disabled = false;
+                }
+            }, 300);
+        }
+
+        function changeEnvironment() {
+            environment = document.getElementById('environment').value;
+            const habitat = document.getElementById('habitat');
+            habitat.className = 'habitat ' + environment;
+            updateInsight();
+        }
+
+        function updateSelection() {
+            selectionStrength = parseInt(document.getElementById('selection').value) / 100;
+            document.getElementById('selection-val').textContent =
+                Math.round(selectionStrength * 100);
+        }
+
+        function updatePopSize() {
+            popSize = parseInt(document.getElementById('pop-size').value);
+            document.getElementById('pop-val').textContent = popSize;
+        }
+
+        function updateInsight() {
+            const favored = favoredColors[environment];
+            const counts = { green: 0, brown: 0, white: 0, black: 0 };
+            population.forEach(org => counts[org.color]++);
+
+            const total = population.length || 1;
+            const favoredPct = Math.round(counts[favored] / total * 100);
+
+            let text = '';
+            if (generation === 1) {
+                text = `In the ${environment} environment, ${favored} organisms are best camouflaged. ` +
+                    `Run generations to see how the population changes as predators catch the visible ones!`;
+            } else if (favoredPct > 80) {
+                text = `After ${generation} generations, ${favored} now dominates at ${favoredPct}%! ` +
+                    `This is natural selection in action — the environment 'selected' for camouflage. ` +
+                    `Try changing the environment to see what happens!`;
+            } else if (favoredPct > 50) {
+                text = `${favored} is becoming more common (${favoredPct}%) because it's camouflaged in this environment. ` +
+                    `Predators catch the visible colors more often, so they have fewer offspring.`;
+            } else {
+                text = `Keep running generations! Natural selection takes time to shift the population. ` +
+                    `The ${favored} organisms have a survival advantage here.`;
+            }
+
+            document.getElementById('insight-text').textContent = text;
+        }
+
+        function resetSim() {
+            generation = 1;
+            history = [];
+            document.getElementById('gen-num').textContent = 1;
+            initPopulation();
+            updateInsight();
+        }
+
+        // Initialize
+        initPopulation();
+        updateInsight();
+    </script>
+</body>
+</html>

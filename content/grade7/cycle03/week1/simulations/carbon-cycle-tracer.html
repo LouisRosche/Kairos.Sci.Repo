@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Cycle Tracer - Follow the Carbon Atom</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2d3748;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: clamp(1.5em, 4vw, 2em);
+        }
+        .subtitle {
+            text-align: center;
+            color: #a0aec0;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        .sim-container {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .cycle-diagram {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 60%, #8B4513 60%, #8B4513 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .reservoir {
+            position: absolute;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .reservoir:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .reservoir.active {
+            animation: pulse 1s infinite;
+            box-shadow: 0 0 20px 5px gold;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        #atmosphere {
+            top: 10px; left: 50%; transform: translateX(-50%);
+            background: linear-gradient(135deg, #E0F2FE, #BAE6FD);
+            border: 3px solid #0EA5E9;
+            color: #0369A1;
+            width: 150px;
+        }
+        #plant {
+            top: 150px; left: 15%;
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+            border: 3px solid #10B981;
+            color: #047857;
+            width: 120px;
+        }
+        #animal {
+            top: 150px; right: 15%;
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            border: 3px solid #EF4444;
+            color: #B91C1C;
+            width: 120px;
+        }
+        #ocean {
+            top: 180px; left: 50%; transform: translateX(-50%);
+            background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+            border: 3px solid #3B82F6;
+            color: #1D4ED8;
+            width: 130px;
+        }
+        #fossil {
+            bottom: 30px; left: 25%;
+            background: linear-gradient(135deg, #374151, #4B5563);
+            border: 3px solid #1F2937;
+            color: #F9FAFB;
+            width: 120px;
+        }
+        #factory {
+            bottom: 30px; right: 20%;
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border: 3px solid #F59E0B;
+            color: #92400E;
+            width: 130px;
+        }
+        .carbon-atom {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 30% 30%, #4B5563, #1F2937);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            z-index: 100;
+            transition: all 1.5s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .carbon-atom::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid gold;
+            animation: glow 1.5s infinite;
+        }
+        @keyframes glow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        .info-panel {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .info-panel h3 {
+            color: #1E40AF;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .info-panel p {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+        .process-info {
+            background: #FFFBEB;
+            border-left: 4px solid #F59E0B;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        .process-info strong {
+            color: #92400E;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+        button:hover { transform: translateY(-2px); }
+        button:active { transform: translateY(0); }
+        .btn-primary {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: white;
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+        }
+        .btn-warning {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: white;
+        }
+        .journey-log {
+            background: #1E293B;
+            border-radius: 12px;
+            padding: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .journey-log h3 {
+            color: #94A3B8;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        .log-entry {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            background: #334155;
+            border-radius: 6px;
+            color: #E2E8F0;
+            font-size: 0.9em;
+        }
+        .log-entry .step {
+            background: #3B82F6;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .counter {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        .counter-item {
+            text-align: center;
+            background: #EFF6FF;
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 2px solid #3B82F6;
+        }
+        .counter-item .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1E40AF;
+        }
+        .counter-item .label {
+            font-size: 0.85em;
+            color: #64748B;
+        }
+        .equation {
+            background: #F0FDF4;
+            border: 2px solid #10B981;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+        .arrow {
+            position: absolute;
+            color: #64748B;
+            font-size: 1.5em;
+            opacity: 0.7;
+        }
+        .instructions {
+            background: #ECFDF5;
+            border: 2px solid #10B981;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .instructions h4 {
+            color: #047857;
+            margin-bottom: 8px;
+        }
+        .instructions p {
+            color: #065F46;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Carbon Cycle Tracer</h1>
+        <p class="subtitle">Follow a carbon atom as it moves through Earth's systems - atoms are NEVER created or destroyed!</p>
+
+        <div class="sim-container">
+            <div class="instructions">
+                <h4>How to Use This Simulation</h4>
+                <p><strong>Click on any location</strong> where your carbon atom can travel next. Watch the carbon atom move and see the chemical process that carries it there. Track your journey and prove that carbon is always conserved!</p>
+            </div>
+
+            <div class="counter">
+                <div class="counter-item">
+                    <div class="number" id="carbon-count">1</div>
+                    <div class="label">Carbon Atoms</div>
+                </div>
+                <div class="counter-item">
+                    <div class="number" id="step-count">0</div>
+                    <div class="label">Journey Steps</div>
+                </div>
+            </div>
+
+            <div class="cycle-diagram" id="diagram">
+                <div class="reservoir" id="atmosphere" onclick="moveTo('atmosphere')">
+                    ☁️ ATMOSPHERE<br><small>CO₂ Gas</small>
+                </div>
+                <div class="reservoir" id="plant" onclick="moveTo('plant')">
+                    🌿 PLANTS<br><small>Glucose (C₆H₁₂O₆)</small>
+                </div>
+                <div class="reservoir" id="animal" onclick="moveTo('animal')">
+                    🐄 ANIMALS<br><small>Body Tissues</small>
+                </div>
+                <div class="reservoir" id="ocean" onclick="moveTo('ocean')">
+                    🌊 OCEAN<br><small>Dissolved CO₂</small>
+                </div>
+                <div class="reservoir" id="fossil" onclick="moveTo('fossil')">
+                    ⛽ FOSSIL FUELS<br><small>Coal/Oil/Gas</small>
+                </div>
+                <div class="reservoir" id="factory" onclick="moveTo('factory')">
+                    🏭 COMBUSTION<br><small>Burning Fuels</small>
+                </div>
+                <div class="carbon-atom" id="carbon">C</div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-primary" onclick="resetSimulation()">🔄 Reset Journey</button>
+                <button class="btn-secondary" onclick="autoJourney()">▶️ Auto Journey</button>
+                <button class="btn-warning" onclick="showAllPaths()">🗺️ Show All Paths</button>
+            </div>
+
+            <div class="info-panel" id="info-panel">
+                <h3>📍 Current Location: <span id="location-name">Atmosphere</span></h3>
+                <p id="location-description">Your carbon atom is floating in the atmosphere as part of a CO₂ (carbon dioxide) molecule. From here, it can be absorbed by plants during photosynthesis or dissolve into the ocean.</p>
+                <div class="process-info" id="process-info" style="display: none;">
+                    <strong>Process:</strong> <span id="process-text"></span>
+                    <div class="equation" id="equation"></div>
+                </div>
+            </div>
+
+            <div class="journey-log">
+                <h3>📜 YOUR CARBON ATOM'S JOURNEY</h3>
+                <div id="log-entries"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const locations = {
+            atmosphere: {
+                name: "Atmosphere",
+                description: "Your carbon atom is floating in the atmosphere as part of a CO₂ (carbon dioxide) molecule. From here, it can be absorbed by plants during photosynthesis or dissolve into the ocean.",
+                canMoveTo: ['plant', 'ocean'],
+                position: { top: '10px', left: '50%', transform: 'translateX(-50%)' },
+                icon: '☁️'
+            },
+            plant: {
+                name: "Plants (Photosynthesis)",
+                description: "Your carbon atom has been captured by a plant! Through photosynthesis, the plant used sunlight energy to build glucose (sugar) molecules. Your carbon is now part of the plant's body.",
+                canMoveTo: ['atmosphere', 'animal', 'fossil'],
+                position: { top: '150px', left: '15%' },
+                icon: '🌿',
+                processFrom: {
+                    atmosphere: {
+                        name: "Photosynthesis",
+                        equation: "6CO₂ + 6H₂O + Light Energy → C₆H₁₂O₆ + 6O₂",
+                        text: "The plant absorbs CO₂ and uses sunlight to convert it into glucose (sugar). Notice: 6 carbon atoms in, 6 carbon atoms out in the glucose!"
+                    }
+                }
+            },
+            animal: {
+                name: "Animals (Consumption)",
+                description: "Your carbon atom is now part of an animal! The animal ate a plant (or another animal) and digested it. Your carbon is being used to build the animal's muscles, bones, or other tissues.",
+                canMoveTo: ['atmosphere', 'fossil'],
+                position: { top: '150px', right: '15%' },
+                icon: '🐄',
+                processFrom: {
+                    plant: {
+                        name: "Eating & Digestion",
+                        equation: "Plant Glucose → Animal Body Tissues",
+                        text: "The animal breaks down plant sugars and rebuilds them into animal proteins and fats. Same carbon atoms, just rearranged!"
+                    }
+                }
+            },
+            ocean: {
+                name: "Ocean (Dissolved CO₂)",
+                description: "Your carbon atom has dissolved into the ocean! CO₂ from the atmosphere dissolves into seawater. Marine organisms can use this carbon, or it can return to the atmosphere.",
+                canMoveTo: ['atmosphere', 'fossil'],
+                position: { top: '180px', left: '50%', transform: 'translateX(-50%)' },
+                icon: '🌊',
+                processFrom: {
+                    atmosphere: {
+                        name: "Ocean Absorption",
+                        equation: "CO₂ (gas) ⇌ CO₂ (dissolved)",
+                        text: "CO₂ gas dissolves into ocean water at the surface. This is how oceans act as a carbon 'sink' - absorbing CO₂ from the air."
+                    }
+                }
+            },
+            fossil: {
+                name: "Fossil Fuels (Underground)",
+                description: "Your carbon atom is now trapped underground! Over millions of years, dead plants and animals were buried and compressed into coal, oil, or natural gas. This carbon was locked away... until humans dig it up.",
+                canMoveTo: ['factory'],
+                position: { bottom: '30px', left: '25%' },
+                icon: '⛽',
+                processFrom: {
+                    plant: {
+                        name: "Fossil Formation",
+                        equation: "Dead Plants + Pressure + Time (millions of years) → Coal/Oil/Gas",
+                        text: "When plants die and get buried without decomposing, they slowly transform into fossil fuels. This removes carbon from the active cycle for millions of years."
+                    },
+                    animal: {
+                        name: "Fossil Formation",
+                        equation: "Dead Animals + Pressure + Time → Oil/Natural Gas",
+                        text: "Marine organisms that died and sank to the ocean floor became petroleum over millions of years."
+                    },
+                    ocean: {
+                        name: "Sediment Formation",
+                        equation: "Marine Shells + Sediment → Limestone (CaCO₃)",
+                        text: "Shells and coral made from dissolved ocean carbon sink and form limestone rock over millions of years."
+                    }
+                }
+            },
+            factory: {
+                name: "Combustion (Burning)",
+                description: "Your carbon atom is being released back into the atmosphere! When we burn fossil fuels (in cars, power plants, factories), the carbon that was trapped for millions of years is released as CO₂ gas.",
+                canMoveTo: ['atmosphere'],
+                position: { bottom: '30px', right: '20%' },
+                icon: '🏭',
+                processFrom: {
+                    fossil: {
+                        name: "Combustion (Burning)",
+                        equation: "CH₄ + 2O₂ → CO₂ + 2H₂O + Energy",
+                        text: "Burning fossil fuels combines the carbon with oxygen, releasing CO₂ and energy. This is why burning fuels releases the carbon that was stored underground!"
+                    }
+                }
+            }
+        };
+
+        let currentLocation = 'atmosphere';
+        let stepCount = 0;
+        let journeyLog = [];
+
+        function moveTo(newLocation) {
+            const current = locations[currentLocation];
+
+            if (newLocation === currentLocation) {
+                alert("You're already here! Click a different location.");
+                return;
+            }
+
+            if (!current.canMoveTo.includes(newLocation)) {
+                const allowed = current.canMoveTo.map(loc => locations[loc].name).join(', ');
+                alert(`From ${current.name}, you can only move to: ${allowed}`);
+                return;
+            }
+
+            // Move the carbon atom
+            const carbon = document.getElementById('carbon');
+            const target = document.getElementById(newLocation);
+            const rect = target.getBoundingClientRect();
+            const diagram = document.getElementById('diagram').getBoundingClientRect();
+
+            carbon.style.left = (rect.left - diagram.left + rect.width/2 - 20) + 'px';
+            carbon.style.top = (rect.top - diagram.top + rect.height/2 - 20) + 'px';
+
+            // Update active states
+            document.querySelectorAll('.reservoir').forEach(r => r.classList.remove('active'));
+            target.classList.add('active');
+
+            // Update info
+            const newLoc = locations[newLocation];
+            document.getElementById('location-name').textContent = newLoc.name;
+            document.getElementById('location-description').textContent = newLoc.description;
+
+            // Show process info if coming from somewhere
+            if (newLoc.processFrom && newLoc.processFrom[currentLocation]) {
+                const process = newLoc.processFrom[currentLocation];
+                document.getElementById('process-info').style.display = 'block';
+                document.getElementById('process-text').textContent = process.text;
+                document.getElementById('equation').textContent = process.equation;
+            } else {
+                document.getElementById('process-info').style.display = 'none';
+            }
+
+            // Update journey log
+            stepCount++;
+            document.getElementById('step-count').textContent = stepCount;
+            journeyLog.push({
+                step: stepCount,
+                from: current.name,
+                to: newLoc.name,
+                icon: newLoc.icon
+            });
+            updateLog();
+
+            currentLocation = newLocation;
+        }
+
+        function updateLog() {
+            const logContainer = document.getElementById('log-entries');
+            logContainer.innerHTML = journeyLog.map(entry => `
+                <div class="log-entry">
+                    <span class="step">${entry.step}</span>
+                    ${entry.icon} ${entry.from} → ${entry.to}
+                </div>
+            `).join('');
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function resetSimulation() {
+            currentLocation = 'atmosphere';
+            stepCount = 0;
+            journeyLog = [];
+
+            document.getElementById('step-count').textContent = '0';
+            document.getElementById('log-entries').innerHTML = '';
+
+            const carbon = document.getElementById('carbon');
+            carbon.style.left = '50%';
+            carbon.style.top = '30px';
+            carbon.style.transform = 'translateX(-50%)';
+
+            document.querySelectorAll('.reservoir').forEach(r => r.classList.remove('active'));
+            document.getElementById('atmosphere').classList.add('active');
+
+            document.getElementById('location-name').textContent = 'Atmosphere';
+            document.getElementById('location-description').textContent = locations.atmosphere.description;
+            document.getElementById('process-info').style.display = 'none';
+        }
+
+        function autoJourney() {
+            const paths = [
+                ['plant', 'animal', 'atmosphere'],
+                ['plant', 'fossil', 'factory', 'atmosphere'],
+                ['ocean', 'atmosphere', 'plant']
+            ];
+            const randomPath = paths[Math.floor(Math.random() * paths.length)];
+
+            resetSimulation();
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < randomPath.length) {
+                    moveTo(randomPath[i]);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 2000);
+        }
+
+        function showAllPaths() {
+            alert("CARBON CAN TRAVEL:\n\n" +
+                "☁️ Atmosphere → 🌿 Plants (Photosynthesis)\n" +
+                "☁️ Atmosphere → 🌊 Ocean (Dissolving)\n" +
+                "🌿 Plants → ☁️ Atmosphere (Respiration/Decay)\n" +
+                "🌿 Plants → 🐄 Animals (Eating)\n" +
+                "🌿 Plants → ⛽ Fossil Fuels (Burial)\n" +
+                "🐄 Animals → ☁️ Atmosphere (Respiration/Decay)\n" +
+                "🐄 Animals → ⛽ Fossil Fuels (Burial)\n" +
+                "🌊 Ocean → ☁️ Atmosphere (Outgassing)\n" +
+                "🌊 Ocean → ⛽ Fossil Fuels (Sediments)\n" +
+                "⛽ Fossil Fuels → 🏭 Combustion (Extraction)\n" +
+                "🏭 Combustion → ☁️ Atmosphere (Burning)\n\n" +
+                "KEY INSIGHT: Carbon atoms are NEVER created or destroyed - they just move between reservoirs!");
+        }
+
+        // Initialize
+        document.getElementById('atmosphere').classList.add('active');
+        const carbon = document.getElementById('carbon');
+        carbon.style.left = '50%';
+        carbon.style.top = '30px';
+        carbon.style.transform = 'translateX(-50%)';
+    </script>
+</body>
+</html>

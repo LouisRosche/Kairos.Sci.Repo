@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predator-Prey Physics - F=ma in Nature</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #7C2D12 0%, #451A03 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: clamp(1.5em, 4vw, 2em);
+        }
+        .subtitle {
+            text-align: center;
+            color: #FDBA74;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        .sim-container {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .scenario-header {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border: 2px solid #F59E0B;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .scenario-header h2 {
+            color: #92400E;
+            margin-bottom: 10px;
+        }
+        .scenario-header p {
+            color: #78350F;
+            font-size: 0.95em;
+        }
+        .arena {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 60%, #D4A574 60%, #C4956A 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .animal {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: left 0.1s linear, bottom 0.1s linear;
+        }
+        .animal .emoji {
+            font-size: 2.5em;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));
+        }
+        .animal .label {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            margin-top: 2px;
+        }
+        #predator {
+            left: 10%;
+            bottom: 30%;
+        }
+        #prey {
+            left: 70%;
+            bottom: 30%;
+        }
+        .force-arrow {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(90deg, #EF4444, #FCD34D);
+            border-radius: 2px;
+            transform-origin: left center;
+        }
+        .force-arrow::after {
+            content: '▶';
+            position: absolute;
+            right: -10px;
+            top: -8px;
+            color: #FCD34D;
+            font-size: 0.8em;
+        }
+        .physics-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+            .physics-panel { grid-template-columns: 1fr; }
+        }
+        .animal-card {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid #E2E8F0;
+        }
+        .animal-card.predator { border-color: #EF4444; }
+        .animal-card.prey { border-color: #10B981; }
+        .animal-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .animal-card.predator h3 { color: #DC2626; }
+        .animal-card.prey h3 { color: #059669; }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-label { color: #64748B; font-size: 0.9em; }
+        .stat-value { font-weight: bold; color: #1E293B; }
+        .equation-box {
+            background: #1E293B;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+        .equation-box .formula {
+            font-size: 1.3em;
+            color: #FCD34D;
+            margin-bottom: 8px;
+        }
+        .equation-box .calculation {
+            font-size: 0.9em;
+            color: #94A3B8;
+        }
+        .equation-box .result {
+            font-size: 1.2em;
+            color: #34D399;
+            margin-top: 8px;
+        }
+        .controls {
+            background: #F1F5F9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        .control-group label {
+            display: block;
+            font-size: 0.85em;
+            color: #374151;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        select, input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        .slider {
+            -webkit-appearance: none;
+            height: 8px;
+            background: #E2E8F0;
+            border-radius: 4px;
+            padding: 0;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #3B82F6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider-value {
+            text-align: center;
+            font-weight: bold;
+            color: #1E293B;
+            margin-top: 5px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        button:hover { transform: translateY(-2px); }
+        .btn-chase { background: linear-gradient(135deg, #EF4444, #DC2626); color: white; }
+        .btn-reset { background: linear-gradient(135deg, #6B7280, #4B5563); color: white; }
+        .btn-scenario { background: linear-gradient(135deg, #8B5CF6, #7C3AED); color: white; }
+        .outcome-panel {
+            background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+            border: 2px solid #10B981;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .outcome-panel.show { display: block; }
+        .outcome-panel.caught {
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            border-color: #EF4444;
+        }
+        .outcome-panel h3 {
+            margin-bottom: 10px;
+        }
+        .outcome-panel.escaped h3 { color: #059669; }
+        .outcome-panel.caught h3 { color: #DC2626; }
+        .outcome-panel p {
+            color: #374151;
+            line-height: 1.6;
+        }
+        .newtons-law {
+            background: #EFF6FF;
+            border: 2px solid #3B82F6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .newtons-law h4 {
+            color: #1D4ED8;
+            margin-bottom: 10px;
+        }
+        .newtons-law p {
+            color: #1E40AF;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        .law-highlight {
+            background: #DBEAFE;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        .insight-box {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border: 2px solid #F59E0B;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .insight-box h4 { color: #92400E; margin-bottom: 10px; }
+        .insight-box p { color: #78350F; line-height: 1.6; font-size: 0.95em; }
+        .timer {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: #FCD34D;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+        }
+        .distance-marker {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 6px;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐆 Predator-Prey Physics</h1>
+        <p class="subtitle">Use F=ma to understand why smaller prey can escape larger predators!</p>
+
+        <div class="sim-container">
+            <div class="scenario-header">
+                <h2>🤔 The Puzzle</h2>
+                <p>A cheetah can run 70 mph. A gazelle only reaches 60 mph. Yet gazelles survive millions of chases. <strong>How does physics explain this?</strong></p>
+            </div>
+
+            <div class="arena" id="arena">
+                <div class="timer" id="timer">Time: 0.0s</div>
+                <div class="animal" id="predator">
+                    <span class="emoji">🐆</span>
+                    <span class="label" id="pred-speed">0 m/s</span>
+                </div>
+                <div class="animal" id="prey">
+                    <span class="emoji">🦌</span>
+                    <span class="label" id="prey-speed">0 m/s</span>
+                </div>
+                <div class="distance-marker" id="distance">Distance: 50m</div>
+            </div>
+
+            <div class="physics-panel">
+                <div class="animal-card predator">
+                    <h3>🐆 Predator (Cheetah)</h3>
+                    <div class="stat-row">
+                        <span class="stat-label">Mass</span>
+                        <span class="stat-value" id="pred-mass-display">50 kg</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Leg Force</span>
+                        <span class="stat-value" id="pred-force-display">2000 N</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Top Speed</span>
+                        <span class="stat-value">31 m/s (70 mph)</span>
+                    </div>
+                    <div class="equation-box">
+                        <div class="formula">a = F ÷ m</div>
+                        <div class="calculation" id="pred-calc">a = 2000 N ÷ 50 kg</div>
+                        <div class="result" id="pred-accel">a = 40 m/s²</div>
+                    </div>
+                </div>
+
+                <div class="animal-card prey">
+                    <h3>🦌 Prey (Gazelle)</h3>
+                    <div class="stat-row">
+                        <span class="stat-label">Mass</span>
+                        <span class="stat-value" id="prey-mass-display">25 kg</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Leg Force</span>
+                        <span class="stat-value" id="prey-force-display">1500 N</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Top Speed</span>
+                        <span class="stat-value">27 m/s (60 mph)</span>
+                    </div>
+                    <div class="equation-box">
+                        <div class="formula">a = F ÷ m</div>
+                        <div class="calculation" id="prey-calc">a = 1500 N ÷ 25 kg</div>
+                        <div class="result" id="prey-accel">a = 60 m/s²</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="newtons-law">
+                <h4>⚖️ Newton's Laws in Action</h4>
+                <div class="law-highlight">
+                    <strong>Newton's 2nd Law:</strong> F = ma → a = F/m
+                </div>
+                <p>
+                    Same force + less mass = MORE acceleration!<br>
+                    The gazelle has LESS force but MUCH less mass, giving it HIGHER acceleration.
+                    This means it can change speed and direction faster than the cheetah!
+                </p>
+                <div class="law-highlight" style="margin-top: 10px;">
+                    <strong>Newton's 3rd Law:</strong> When animals push the ground, the ground pushes back equally!
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="control-row">
+                    <div class="control-group">
+                        <label>🐆 Predator Mass (kg)</label>
+                        <input type="range" class="slider" id="pred-mass" min="30" max="80" value="50" oninput="updatePhysics()">
+                        <div class="slider-value"><span id="pred-mass-val">50</span> kg</div>
+                    </div>
+                    <div class="control-group">
+                        <label>🦌 Prey Mass (kg)</label>
+                        <input type="range" class="slider" id="prey-mass" min="15" max="50" value="25" oninput="updatePhysics()">
+                        <div class="slider-value"><span id="prey-mass-val">25</span> kg</div>
+                    </div>
+                </div>
+                <div class="control-row">
+                    <div class="control-group">
+                        <label>Starting Distance (m)</label>
+                        <input type="range" class="slider" id="start-distance" min="20" max="100" value="50" oninput="updateDistance()">
+                        <div class="slider-value"><span id="distance-val">50</span> m</div>
+                    </div>
+                    <div class="control-group">
+                        <label>Prey Reaction Time (s)</label>
+                        <input type="range" class="slider" id="reaction-time" min="0" max="1" step="0.1" value="0.3" oninput="updateReaction()">
+                        <div class="slider-value"><span id="reaction-val">0.3</span> s</div>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="btn-chase" onclick="runChase()">🏃 Run Chase!</button>
+                    <button class="btn-scenario" onclick="loadScenario('lion')">🦁 Lion vs Zebra</button>
+                    <button class="btn-scenario" onclick="loadScenario('wolf')">🐺 Wolf vs Rabbit</button>
+                    <button class="btn-reset" onclick="resetChase()">🔄 Reset</button>
+                </div>
+            </div>
+
+            <div class="outcome-panel" id="outcome">
+                <h3 id="outcome-title">Result</h3>
+                <p id="outcome-text"></p>
+            </div>
+
+            <div class="insight-box">
+                <h4>💡 The Physics of Survival</h4>
+                <p id="insight-text">
+                    Adjust the mass sliders and watch how acceleration changes. Even though predators are often
+                    faster, prey animals can survive by having better acceleration (ability to speed up and turn quickly).
+                    This is why smaller prey often escape — their lower mass means higher acceleration for the same force!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Physics constants
+        const PRED_FORCE = 2000; // Newtons
+        const PREY_FORCE = 1500; // Newtons
+        const PRED_TOP_SPEED = 31; // m/s
+        const PREY_TOP_SPEED = 27; // m/s
+
+        let predMass = 50;
+        let preyMass = 25;
+        let startDistance = 50;
+        let reactionTime = 0.3;
+        let isRunning = false;
+
+        function updatePhysics() {
+            predMass = parseInt(document.getElementById('pred-mass').value);
+            preyMass = parseInt(document.getElementById('prey-mass').value);
+
+            document.getElementById('pred-mass-val').textContent = predMass;
+            document.getElementById('prey-mass-val').textContent = preyMass;
+            document.getElementById('pred-mass-display').textContent = predMass + ' kg';
+            document.getElementById('prey-mass-display').textContent = preyMass + ' kg';
+
+            // Calculate accelerations
+            const predAccel = PRED_FORCE / predMass;
+            const preyAccel = PREY_FORCE / preyMass;
+
+            document.getElementById('pred-calc').textContent = `a = ${PRED_FORCE} N ÷ ${predMass} kg`;
+            document.getElementById('pred-accel').textContent = `a = ${predAccel.toFixed(1)} m/s²`;
+
+            document.getElementById('prey-calc').textContent = `a = ${PREY_FORCE} N ÷ ${preyMass} kg`;
+            document.getElementById('prey-accel').textContent = `a = ${preyAccel.toFixed(1)} m/s²`;
+
+            updateInsight(predAccel, preyAccel);
+        }
+
+        function updateDistance() {
+            startDistance = parseInt(document.getElementById('start-distance').value);
+            document.getElementById('distance-val').textContent = startDistance;
+            document.getElementById('distance').textContent = `Distance: ${startDistance}m`;
+        }
+
+        function updateReaction() {
+            reactionTime = parseFloat(document.getElementById('reaction-time').value);
+            document.getElementById('reaction-val').textContent = reactionTime.toFixed(1);
+        }
+
+        function updateInsight(predAccel, preyAccel) {
+            let text = '';
+            if (preyAccel > predAccel) {
+                text = `The prey has HIGHER acceleration (${preyAccel.toFixed(1)} m/s²) than the predator (${predAccel.toFixed(1)} m/s²)! ` +
+                    `Even though the predator is faster at top speed, the prey can accelerate and turn faster. ` +
+                    `This is the physics advantage that helps prey survive — F=ma means less mass = more acceleration for the same force!`;
+            } else {
+                text = `With these settings, the predator has higher acceleration. This makes catching prey easier. ` +
+                    `Try decreasing the prey mass to see how having less mass gives a survival advantage!`;
+            }
+            document.getElementById('insight-text').textContent = text;
+        }
+
+        function runChase() {
+            if (isRunning) return;
+            isRunning = true;
+
+            const predAccel = PRED_FORCE / predMass;
+            const preyAccel = PREY_FORCE / preyMass;
+
+            let predPos = 10; // Starting position %
+            let preyPos = 10 + (startDistance / 100) * 60; // Starting ahead
+            let predSpeed = 0;
+            let preySpeed = 0;
+            let time = 0;
+            let preyReacted = false;
+            let distance = startDistance;
+
+            const predator = document.getElementById('predator');
+            const prey = document.getElementById('prey');
+
+            // Reset positions
+            predator.style.left = predPos + '%';
+            prey.style.left = preyPos + '%';
+
+            const interval = setInterval(() => {
+                time += 0.05;
+
+                // Predator always accelerates
+                predSpeed = Math.min(PRED_TOP_SPEED, predSpeed + predAccel * 0.05);
+
+                // Prey reacts after reaction time
+                if (time >= reactionTime) {
+                    preyReacted = true;
+                    preySpeed = Math.min(PREY_TOP_SPEED, preySpeed + preyAccel * 0.05);
+                }
+
+                // Update positions (convert m/s to % of arena per tick)
+                const arenaWidth = 80; // % usable
+                const metersPerPercent = 100 / arenaWidth; // ~1.25m per %
+
+                predPos += (predSpeed * 0.05) / metersPerPercent;
+                preyPos += (preySpeed * 0.05) / metersPerPercent;
+
+                // Calculate actual distance
+                distance = (preyPos - predPos) * metersPerPercent;
+
+                // Update display
+                predator.style.left = Math.min(85, predPos) + '%';
+                prey.style.left = Math.min(90, preyPos) + '%';
+                document.getElementById('pred-speed').textContent = predSpeed.toFixed(1) + ' m/s';
+                document.getElementById('prey-speed').textContent = preySpeed.toFixed(1) + ' m/s';
+                document.getElementById('timer').textContent = `Time: ${time.toFixed(1)}s`;
+                document.getElementById('distance').textContent = `Distance: ${Math.max(0, distance).toFixed(1)}m`;
+
+                // Check outcomes
+                if (distance <= 0 || predPos >= preyPos - 2) {
+                    clearInterval(interval);
+                    showOutcome('caught', time, predAccel, preyAccel);
+                    isRunning = false;
+                } else if (preyPos >= 88 || time > 10) {
+                    clearInterval(interval);
+                    showOutcome('escaped', time, predAccel, preyAccel);
+                    isRunning = false;
+                } else if (preyReacted && preySpeed >= PREY_TOP_SPEED && predSpeed >= PRED_TOP_SPEED) {
+                    // Both at top speed - predator faster, will eventually catch
+                    if (PRED_TOP_SPEED > PREY_TOP_SPEED && distance < 30) {
+                        // Let it play out a bit more
+                    } else if (distance > startDistance) {
+                        // Prey is gaining ground!
+                        clearInterval(interval);
+                        showOutcome('escaped', time, predAccel, preyAccel);
+                        isRunning = false;
+                    }
+                }
+            }, 50);
+        }
+
+        function showOutcome(result, time, predAccel, preyAccel) {
+            const panel = document.getElementById('outcome');
+            panel.classList.add('show');
+            panel.classList.remove('caught', 'escaped');
+            panel.classList.add(result);
+
+            if (result === 'caught') {
+                document.getElementById('outcome-title').textContent = '🐆 Predator Wins!';
+                document.getElementById('outcome-text').textContent =
+                    `The predator caught the prey in ${time.toFixed(1)} seconds. ` +
+                    `With predator acceleration of ${predAccel.toFixed(1)} m/s² and higher top speed, ` +
+                    `the prey couldn't escape. Try giving the prey more distance or lower mass!`;
+            } else {
+                document.getElementById('outcome-title').textContent = '🦌 Prey Escapes!';
+                document.getElementById('outcome-text').textContent =
+                    `The prey escaped after ${time.toFixed(1)} seconds! ` +
+                    `With acceleration of ${preyAccel.toFixed(1)} m/s² (vs predator's ${predAccel.toFixed(1)} m/s²), ` +
+                    `the prey could accelerate fast enough to reach safety. This is F=ma in action — less mass means more acceleration!`;
+            }
+        }
+
+        function resetChase() {
+            isRunning = false;
+            document.getElementById('predator').style.left = '10%';
+            document.getElementById('prey').style.left = (10 + (startDistance / 100) * 60) + '%';
+            document.getElementById('pred-speed').textContent = '0 m/s';
+            document.getElementById('prey-speed').textContent = '0 m/s';
+            document.getElementById('timer').textContent = 'Time: 0.0s';
+            document.getElementById('distance').textContent = `Distance: ${startDistance}m`;
+            document.getElementById('outcome').classList.remove('show');
+        }
+
+        function loadScenario(type) {
+            resetChase();
+
+            if (type === 'lion') {
+                // Lion (190kg) vs Zebra (350kg) - both heavy!
+                document.getElementById('pred-mass').value = 70;
+                document.getElementById('prey-mass').value = 45;
+                document.getElementById('start-distance').value = 30;
+                document.getElementById('reaction-time').value = 0.5;
+            } else if (type === 'wolf') {
+                // Wolf (40kg) vs Rabbit (2kg) - prey MUCH lighter
+                document.getElementById('pred-mass').value = 40;
+                document.getElementById('prey-mass').value = 15;
+                document.getElementById('start-distance').value = 20;
+                document.getElementById('reaction-time').value = 0.1;
+            }
+
+            updatePhysics();
+            updateDistance();
+            updateReaction();
+        }
+
+        // Initialize
+        updatePhysics();
+        updateDistance();
+    </script>
+</body>
+</html>

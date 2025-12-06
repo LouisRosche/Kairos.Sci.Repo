@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ice-Albedo Feedback Loop Simulator</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1E3A5F 0%, #0F172A 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: clamp(1.5em, 4vw, 2em);
+        }
+        .subtitle {
+            text-align: center;
+            color: #7DD3FC;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        .sim-container {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .arctic-view {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(180deg, #87CEEB 0%, #60A5FA 50%, #1E40AF 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .sun-arctic {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #FCD34D 0%, #F59E0B 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 30px #F59E0B;
+        }
+        .ice-sheet {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 50%, #BAE6FD 100%);
+            transition: height 1s ease, width 1s ease;
+            border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+        }
+        .ocean {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(180deg, #1E40AF 0%, #1E3A8A 100%);
+        }
+        .ice-coverage {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.95);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+        .ice-coverage .label { color: #64748B; }
+        .ice-coverage .value { font-weight: bold; color: #0EA5E9; font-size: 1.3em; }
+        .temp-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(239, 68, 68, 0.95);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+        .feedback-diagram {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .feedback-loop {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        .feedback-node {
+            background: white;
+            border: 3px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: center;
+            min-width: 140px;
+            transition: all 0.3s ease;
+        }
+        .feedback-node.active {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        .feedback-node.temp { border-color: #EF4444; background: #FEF2F2; }
+        .feedback-node.temp.active { box-shadow: 0 5px 20px rgba(239, 68, 68, 0.3); }
+        .feedback-node.ice { border-color: #0EA5E9; background: #F0F9FF; }
+        .feedback-node.ice.active { box-shadow: 0 5px 20px rgba(14, 165, 233, 0.3); }
+        .feedback-node.albedo { border-color: #8B5CF6; background: #F5F3FF; }
+        .feedback-node.albedo.active { box-shadow: 0 5px 20px rgba(139, 92, 246, 0.3); }
+        .feedback-node.absorb { border-color: #F59E0B; background: #FFFBEB; }
+        .feedback-node.absorb.active { box-shadow: 0 5px 20px rgba(245, 158, 11, 0.3); }
+        .feedback-node .icon { font-size: 1.5em; margin-bottom: 5px; }
+        .feedback-node .label { font-size: 0.85em; color: #64748B; }
+        .feedback-node .value { font-weight: bold; color: #1E293B; }
+        .arrow-node {
+            font-size: 2em;
+            color: #94A3B8;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .control-group {
+            background: #F1F5F9;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .control-group label {
+            display: block;
+            font-size: 0.85em;
+            color: #64748B;
+            margin-bottom: 8px;
+        }
+        .slider {
+            width: 200px;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #E2E8F0;
+            border-radius: 4px;
+            outline: none;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #3B82F6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        button:hover { transform: translateY(-2px); }
+        .btn-start { background: linear-gradient(135deg, #10B981, #059669); color: white; }
+        .btn-reset { background: linear-gradient(135deg, #6B7280, #4B5563); color: white; }
+        .btn-step { background: linear-gradient(135deg, #3B82F6, #2563EB); color: white; }
+        .year-display {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1E293B;
+            margin-bottom: 15px;
+        }
+        .graph-container {
+            background: #1E293B;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .graph-container h3 {
+            color: #94A3B8;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+        .graph {
+            height: 150px;
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            padding: 10px 0;
+        }
+        .graph-bar {
+            flex: 1;
+            background: linear-gradient(180deg, #EF4444 0%, #F59E0B 100%);
+            border-radius: 4px 4px 0 0;
+            min-width: 15px;
+            transition: height 0.5s ease;
+            position: relative;
+        }
+        .graph-bar.ice {
+            background: linear-gradient(180deg, #0EA5E9 0%, #38BDF8 100%);
+        }
+        .graph-labels {
+            display: flex;
+            justify-content: space-between;
+            color: #64748B;
+            font-size: 0.75em;
+            margin-top: 5px;
+        }
+        .insight-panel {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border: 2px solid #F59E0B;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .insight-panel h4 {
+            color: #92400E;
+            margin-bottom: 10px;
+        }
+        .insight-panel p {
+            color: #78350F;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+        .key-concept {
+            background: #ECFDF5;
+            border-left: 4px solid #10B981;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        .key-concept strong { color: #047857; }
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8em;
+            color: #94A3B8;
+        }
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧊 Ice-Albedo Feedback Loop</h1>
+        <p class="subtitle">Watch how melting ice creates a POSITIVE feedback loop that accelerates warming!</p>
+
+        <div class="sim-container">
+            <div class="year-display">Year: <span id="year">2024</span></div>
+
+            <div class="arctic-view">
+                <div class="sun-arctic"></div>
+                <div class="ocean"></div>
+                <div class="ice-sheet" id="ice-sheet"></div>
+                <div class="ice-coverage">
+                    <span class="label">Ice Coverage:</span><br>
+                    <span class="value" id="ice-percent">100%</span>
+                </div>
+                <div class="temp-badge">
+                    🌡️ <span id="temp-anomaly">+0.0°C</span>
+                </div>
+            </div>
+
+            <div class="feedback-diagram">
+                <h3 style="text-align: center; color: #1E293B; margin-bottom: 20px;">The Positive Feedback Loop</h3>
+                <div class="feedback-loop">
+                    <div class="feedback-node temp" id="node-temp">
+                        <div class="icon">🌡️</div>
+                        <div class="label">Temperature</div>
+                        <div class="value" id="node-temp-val">+0.0°C</div>
+                    </div>
+                    <div class="arrow-node">→</div>
+                    <div class="feedback-node ice" id="node-ice">
+                        <div class="icon">🧊</div>
+                        <div class="label">Ice Melts</div>
+                        <div class="value" id="node-ice-val">0%</div>
+                    </div>
+                    <div class="arrow-node">→</div>
+                    <div class="feedback-node albedo" id="node-albedo">
+                        <div class="icon">☀️</div>
+                        <div class="label">Albedo Drops</div>
+                        <div class="value" id="node-albedo-val">0.9</div>
+                    </div>
+                    <div class="arrow-node">→</div>
+                    <div class="feedback-node absorb" id="node-absorb">
+                        <div class="icon">🔥</div>
+                        <div class="label">More Absorbed</div>
+                        <div class="value" id="node-absorb-val">+0%</div>
+                    </div>
+                    <div class="arrow-node">↩️</div>
+                </div>
+                <p style="text-align: center; color: #64748B; margin-top: 15px; font-size: 0.9em;">
+                    ⚠️ This is a <strong>POSITIVE</strong> feedback loop — it amplifies the initial change!
+                </p>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>Initial CO₂ Level (ppm)</label>
+                    <input type="range" class="slider" id="co2-slider" min="280" max="560" value="420" oninput="updateCO2()">
+                    <div style="font-weight: bold; color: #1E293B; margin-top: 5px;"><span id="co2-value">420</span> ppm</div>
+                </div>
+                <div class="control-group">
+                    <label>Simulation Speed</label>
+                    <input type="range" class="slider" id="speed-slider" min="1" max="5" value="2">
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-step" onclick="stepYear()">📅 Step 1 Year</button>
+                <button class="btn-start" onclick="startSimulation()">▶️ Run 50 Years</button>
+                <button class="btn-reset" onclick="resetSimulation()">🔄 Reset</button>
+            </div>
+
+            <div class="graph-container">
+                <h3>📈 Temperature & Ice Over Time</h3>
+                <div class="graph" id="temp-graph"></div>
+                <div class="graph-labels">
+                    <span>Start</span>
+                    <span id="graph-end">Year 50</span>
+                </div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(180deg, #EF4444, #F59E0B);"></div>
+                        <span>Temperature Rise</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(180deg, #0EA5E9, #38BDF8);"></div>
+                        <span>Ice Coverage</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-panel">
+                <h4>💡 What's Happening?</h4>
+                <p id="insight-text">
+                    Start the simulation to see the ice-albedo feedback in action. As temperature rises, ice melts.
+                    Dark ocean water absorbs more sunlight than white ice (lower albedo), causing more warming,
+                    which melts more ice... and the cycle continues!
+                </p>
+                <div class="key-concept">
+                    <strong>Key Concept:</strong> This is why climate scientists are concerned about Arctic ice —
+                    once melting begins, it can accelerate beyond what the initial warming would cause alone.
+                    This is called a "tipping point" effect.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let year = 2024;
+        let ice = 100;
+        let tempAnomaly = 0;
+        let co2 = 420;
+        let isRunning = false;
+        let history = [];
+        let animationStep = 0;
+
+        function updateCO2() {
+            co2 = parseInt(document.getElementById('co2-slider').value);
+            document.getElementById('co2-value').textContent = co2;
+        }
+
+        function calculateFeedback() {
+            // Base warming from CO2 (simplified climate sensitivity)
+            const co2Warming = (co2 - 280) * 0.005; // ~2.75°C per doubling from 280
+
+            // Ice-albedo feedback amplification
+            const iceLost = 100 - ice;
+            const albedoChange = iceLost * 0.005; // Albedo drops as ice melts
+            const feedbackWarming = albedoChange * 3; // Amplification factor
+
+            // Total temperature anomaly
+            const newTemp = co2Warming + feedbackWarming;
+
+            // Ice melts based on temperature (accelerating feedback)
+            const meltRate = Math.max(0, tempAnomaly * 0.8 + (tempAnomaly > 1 ? tempAnomaly * 0.5 : 0));
+
+            return { newTemp, meltRate };
+        }
+
+        function stepYear() {
+            if (ice <= 0) return;
+
+            year++;
+            const { newTemp, meltRate } = calculateFeedback();
+
+            tempAnomaly = Math.min(8, newTemp);
+            ice = Math.max(0, ice - meltRate);
+
+            history.push({ year, temp: tempAnomaly, ice });
+
+            updateDisplay();
+            animateFeedbackLoop();
+        }
+
+        function updateDisplay() {
+            document.getElementById('year').textContent = year;
+            document.getElementById('ice-percent').textContent = Math.round(ice) + '%';
+            document.getElementById('temp-anomaly').textContent = '+' + tempAnomaly.toFixed(1) + '°C';
+
+            // Update ice sheet visual
+            const iceSheet = document.getElementById('ice-sheet');
+            iceSheet.style.height = (ice * 0.6) + '%';
+            iceSheet.style.width = (50 + ice * 0.5) + '%';
+            iceSheet.style.left = ((100 - (50 + ice * 0.5)) / 2) + '%';
+
+            // Update feedback nodes
+            document.getElementById('node-temp-val').textContent = '+' + tempAnomaly.toFixed(1) + '°C';
+            document.getElementById('node-ice-val').textContent = '-' + (100 - Math.round(ice)) + '%';
+            document.getElementById('node-albedo-val').textContent = (0.9 - (100 - ice) * 0.004).toFixed(2);
+            document.getElementById('node-absorb-val').textContent = '+' + Math.round((100 - ice) * 0.3) + '%';
+
+            // Update graph
+            updateGraph();
+
+            // Update insight
+            updateInsight();
+        }
+
+        function animateFeedbackLoop() {
+            const nodes = ['node-temp', 'node-ice', 'node-albedo', 'node-absorb'];
+            let i = 0;
+            const interval = setInterval(() => {
+                nodes.forEach(n => document.getElementById(n).classList.remove('active'));
+                if (i < nodes.length) {
+                    document.getElementById(nodes[i]).classList.add('active');
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 300);
+        }
+
+        function updateGraph() {
+            const container = document.getElementById('temp-graph');
+            container.innerHTML = '';
+
+            const maxBars = 50;
+            const displayHistory = history.slice(-maxBars);
+
+            displayHistory.forEach((point, i) => {
+                // Temperature bar
+                const tempBar = document.createElement('div');
+                tempBar.className = 'graph-bar';
+                tempBar.style.height = (point.temp / 8 * 100) + '%';
+                tempBar.title = `Year ${point.year}: +${point.temp.toFixed(1)}°C`;
+
+                // Ice bar (inverted - shows ice loss)
+                const iceBar = document.createElement('div');
+                iceBar.className = 'graph-bar ice';
+                iceBar.style.height = ((100 - point.ice) / 100 * 100) + '%';
+                iceBar.title = `Year ${point.year}: ${Math.round(point.ice)}% ice`;
+
+                container.appendChild(tempBar);
+                container.appendChild(iceBar);
+            });
+
+            if (displayHistory.length > 0) {
+                document.getElementById('graph-end').textContent = 'Year ' + (year - 2024);
+            }
+        }
+
+        function updateInsight() {
+            let text = '';
+            if (ice > 90) {
+                text = "The ice sheet is mostly intact. Notice how temperature is rising slowly. The feedback loop hasn't kicked in strongly yet.";
+            } else if (ice > 70) {
+                text = "Ice is starting to melt significantly! As white ice is replaced by dark ocean, more sunlight is being absorbed. Watch the feedback accelerate.";
+            } else if (ice > 50) {
+                text = "Major ice loss! The albedo drop is now causing substantial additional warming. This is the feedback loop in full effect — warming causes ice loss, which causes more warming.";
+            } else if (ice > 20) {
+                text = "Critical ice loss! The Arctic is dramatically darker, absorbing far more solar energy. The positive feedback has amplified the initial warming several times over.";
+            } else {
+                text = "Near-total ice loss! This represents a potential 'tipping point' — a state change that would be very difficult to reverse even if CO₂ emissions stopped. The dark ocean now dominates.";
+            }
+            document.getElementById('insight-text').textContent = text;
+        }
+
+        function startSimulation() {
+            if (isRunning) return;
+            isRunning = true;
+
+            const speed = parseInt(document.getElementById('speed-slider').value);
+            const delay = 500 / speed;
+
+            const interval = setInterval(() => {
+                if (year >= 2074 || ice <= 0) {
+                    clearInterval(interval);
+                    isRunning = false;
+                    return;
+                }
+                stepYear();
+            }, delay);
+        }
+
+        function resetSimulation() {
+            isRunning = false;
+            year = 2024;
+            ice = 100;
+            tempAnomaly = 0;
+            history = [];
+
+            document.getElementById('temp-graph').innerHTML = '';
+            document.getElementById('graph-end').textContent = 'Year 50';
+
+            updateDisplay();
+
+            // Reset ice sheet position
+            const iceSheet = document.getElementById('ice-sheet');
+            iceSheet.style.height = '60%';
+            iceSheet.style.width = '100%';
+            iceSheet.style.left = '0';
+
+            document.getElementById('insight-text').textContent =
+                "Start the simulation to see the ice-albedo feedback in action. As temperature rises, ice melts. Dark ocean water absorbs more sunlight than white ice (lower albedo), causing more warming, which melts more ice... and the cycle continues!";
+        }
+
+        // Initialize
+        updateDisplay();
+    </script>
+</body>
+</html>

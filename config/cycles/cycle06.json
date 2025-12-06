@@ -1,0 +1,78 @@
+{
+  "$schema": "../schema/cycle-schema.json",
+  "cycle": 6,
+  "name": "Cycle 6: February-March 2026",
+  "status": "planned",
+  "dates": {
+    "start": "2026-02-16",
+    "end": "2026-03-06",
+    "week1": { "start": "2026-02-16", "end": "2026-02-20" },
+    "week2": { "start": "2026-02-23", "end": "2026-02-27" },
+    "week3": { "start": "2026-03-02", "end": "2026-03-06" }
+  },
+
+  "grades": {
+    "7": {
+      "topic": "Plate Tectonics & Earth's Interior",
+      "phenomenon": {
+        "week1": "TODO: Define driving phenomenon",
+        "week2": "TODO: Define driving phenomenon",
+        "week3": "Synthesis & Assessment"
+      },
+      "ngss": {
+        "primary": {
+          "code": "MS-ESS2-2",
+          "description": "Construct an explanation based on evidence for how geoscience processes have changed Earth's surface at varying time and spatial scales."
+        },
+        "spiral": []
+      },
+      "threeDimensional": {
+        "sep": [],
+        "dci": ["ESS2.A: Earth's Materials and Systems", "ESS2.B: Plate Tectonics"],
+        "ccc": []
+      },
+      "misconceptions": [],
+      "weeks": {
+        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
+        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
+        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+      },
+      "materials": {}
+    },
+
+    "8": {
+      "topic": "Electricity & Magnetism",
+      "phenomenon": {
+        "week1": "TODO: Define driving phenomenon",
+        "week2": "TODO: Define driving phenomenon",
+        "week3": "Synthesis & Assessment"
+      },
+      "ngss": {
+        "primary": {
+          "code": "MS-PS2-3",
+          "description": "Ask questions about data to determine the factors that affect the strength of electric and magnetic forces."
+        },
+        "spiral": []
+      },
+      "threeDimensional": {
+        "sep": [],
+        "dci": ["PS2.B: Types of Interactions", "PS3.A: Definitions of Energy"],
+        "ccc": []
+      },
+      "misconceptions": [],
+      "weeks": {
+        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
+        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
+        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+      },
+      "materials": {}
+    }
+  },
+
+  "analytics": {
+    "lastDataPull": null,
+    "completionRates": {},
+    "averageScores": {},
+    "misconceptionFlags": []
+  }
+}

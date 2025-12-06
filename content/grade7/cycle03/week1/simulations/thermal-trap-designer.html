@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermal Trap Designer - Build a Greenhouse</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #F59E0B 0%, #DC2626 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: clamp(1.5em, 4vw, 2em);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            text-align: center;
+            color: #FEF3C7;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        .sim-container {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+        .design-area {
+            background: linear-gradient(180deg, #7DD3FC 0%, #7DD3FC 70%, #86EFAC 70%);
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 400px;
+            position: relative;
+        }
+        .sun {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #FCD34D 0%, #F59E0B 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 40px #F59E0B, 0 0 80px #FCD34D;
+            animation: sunPulse 3s infinite;
+        }
+        @keyframes sunPulse {
+            0%, 100% { box-shadow: 0 0 40px #F59E0B, 0 0 80px #FCD34D; }
+            50% { box-shadow: 0 0 60px #F59E0B, 0 0 100px #FCD34D; }
+        }
+        .rays {
+            position: absolute;
+            top: 90px;
+            right: 60px;
+            width: 200px;
+            height: 250px;
+            overflow: hidden;
+        }
+        .ray {
+            position: absolute;
+            width: 3px;
+            height: 100px;
+            background: linear-gradient(180deg, #FCD34D, transparent);
+            animation: rayMove 2s infinite;
+            opacity: 0.7;
+        }
+        @keyframes rayMove {
+            0% { transform: translateY(-20px); opacity: 0; }
+            50% { opacity: 0.7; }
+            100% { transform: translateY(150px); opacity: 0; }
+        }
+        .structure {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            height: 180px;
+        }
+        .structure-walls {
+            width: 100%;
+            height: 100%;
+            border: 4px solid transparent;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+        .structure-floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            border-radius: 0 0 4px 4px;
+            transition: all 0.5s ease;
+        }
+        .thermometer {
+            position: absolute;
+            bottom: 60px;
+            left: 20px;
+            width: 30px;
+            height: 120px;
+            background: #fff;
+            border-radius: 15px;
+            border: 3px solid #64748B;
+            overflow: hidden;
+        }
+        .therm-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(0deg, #DC2626, #F59E0B);
+            transition: height 1s ease;
+            border-radius: 0 0 12px 12px;
+        }
+        .therm-bulb {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35px;
+            height: 35px;
+            background: #DC2626;
+            border-radius: 50%;
+            border: 3px solid #64748B;
+        }
+        .temp-display {
+            position: absolute;
+            bottom: 140px;
+            left: 5px;
+            background: #1E293B;
+            color: #F59E0B;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .control-panel {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .control-section {
+            margin-bottom: 20px;
+        }
+        .control-section h3 {
+            color: #1E293B;
+            font-size: 1em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .material-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .material-btn {
+            padding: 12px;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-size: 0.9em;
+        }
+        .material-btn:hover {
+            border-color: #3B82F6;
+            background: #EFF6FF;
+        }
+        .material-btn.selected {
+            border-color: #3B82F6;
+            background: #DBEAFE;
+        }
+        .material-btn .name {
+            font-weight: bold;
+            color: #1E293B;
+        }
+        .material-btn .desc {
+            color: #64748B;
+            font-size: 0.85em;
+            margin-top: 4px;
+        }
+        .results-panel {
+            background: #1E293B;
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            margin-top: 20px;
+        }
+        .results-panel h3 {
+            color: #94A3B8;
+            margin-bottom: 15px;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #334155;
+        }
+        .result-row:last-child { border-bottom: none; }
+        .result-label { color: #94A3B8; }
+        .result-value {
+            font-weight: bold;
+            color: #F59E0B;
+        }
+        .insight-box {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border: 2px solid #F59E0B;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .insight-box h4 {
+            color: #92400E;
+            margin-bottom: 8px;
+        }
+        .insight-box p {
+            color: #78350F;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        .run-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #DC2626, #B91C1C);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+        .run-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(220, 38, 38, 0.4);
+        }
+        .trapped-rays {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .trapped-ray {
+            position: absolute;
+            width: 2px;
+            height: 30px;
+            background: #FCA5A5;
+            opacity: 0;
+            animation: trappedBounce 3s infinite;
+        }
+        @keyframes trappedBounce {
+            0%, 100% { opacity: 0; transform: translateY(0); }
+            25% { opacity: 0.8; transform: translateY(20px); }
+            50% { opacity: 0.6; transform: translateY(-10px); }
+            75% { opacity: 0.4; transform: translateY(15px); }
+        }
+        .ir-label {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(220, 38, 38, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.75em;
+        }
+        .comparison-chart {
+            margin-top: 20px;
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 15px;
+        }
+        .comparison-chart h4 {
+            color: #1E293B;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        .bar-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .bar-label {
+            width: 80px;
+            font-size: 0.8em;
+            color: #64748B;
+        }
+        .bar {
+            height: 20px;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        .bar-value {
+            margin-left: 8px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: #1E293B;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏠 Thermal Trap Designer</h1>
+        <p class="subtitle">Design a structure that traps heat - just like a greenhouse or Earth's atmosphere!</p>
+
+        <div class="sim-container">
+            <div class="main-grid">
+                <div class="design-area">
+                    <div class="sun"></div>
+                    <div class="rays" id="sun-rays"></div>
+
+                    <div class="structure" id="structure">
+                        <div class="structure-walls" id="walls">
+                            <div class="trapped-rays" id="trapped-rays"></div>
+                            <div class="ir-label" id="ir-label" style="display:none;">IR trapped inside</div>
+                        </div>
+                        <div class="structure-floor" id="floor"></div>
+                    </div>
+
+                    <div class="thermometer">
+                        <div class="therm-fill" id="therm-fill" style="height: 20%;"></div>
+                    </div>
+                    <div class="therm-bulb"></div>
+                    <div class="temp-display" id="temp-display">20°C</div>
+                </div>
+
+                <div class="control-panel">
+                    <div class="control-section">
+                        <h3>🧱 Wall Material</h3>
+                        <div class="material-options" id="wall-options">
+                            <button class="material-btn" data-type="wall" data-value="none" onclick="selectMaterial(this, 'wall')">
+                                <div class="name">No Walls (Open Air)</div>
+                                <div class="desc">Heat escapes freely</div>
+                            </button>
+                            <button class="material-btn selected" data-type="wall" data-value="glass" onclick="selectMaterial(this, 'wall')">
+                                <div class="name">Glass (Transparent)</div>
+                                <div class="desc">Lets light in, traps IR</div>
+                            </button>
+                            <button class="material-btn" data-type="wall" data-value="plastic" onclick="selectMaterial(this, 'wall')">
+                                <div class="name">Plastic Wrap</div>
+                                <div class="desc">Some IR escapes</div>
+                            </button>
+                            <button class="material-btn" data-type="wall" data-value="brick" onclick="selectMaterial(this, 'wall')">
+                                <div class="name">Opaque Brick</div>
+                                <div class="desc">Blocks all light</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <h3>🎨 Floor Color</h3>
+                        <div class="material-options" id="floor-options">
+                            <button class="material-btn selected" data-type="floor" data-value="black" onclick="selectMaterial(this, 'floor')">
+                                <div class="name">Black (Low Albedo)</div>
+                                <div class="desc">Absorbs most light → heats up</div>
+                            </button>
+                            <button class="material-btn" data-type="floor" data-value="gray" onclick="selectMaterial(this, 'floor')">
+                                <div class="name">Gray (Medium)</div>
+                                <div class="desc">Absorbs some, reflects some</div>
+                            </button>
+                            <button class="material-btn" data-type="floor" data-value="white" onclick="selectMaterial(this, 'floor')">
+                                <div class="name">White (High Albedo)</div>
+                                <div class="desc">Reflects most light → stays cool</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="run-btn" onclick="runSimulation()">☀️ Run 10-Minute Simulation</button>
+                </div>
+            </div>
+
+            <div class="results-panel" id="results" style="display: none;">
+                <h3>📊 Simulation Results</h3>
+                <div class="result-row">
+                    <span class="result-label">Starting Temperature</span>
+                    <span class="result-value">20°C (68°F)</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Final Temperature</span>
+                    <span class="result-value" id="final-temp">--</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Temperature Change</span>
+                    <span class="result-value" id="temp-change">--</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Heat Trapping Efficiency</span>
+                    <span class="result-value" id="efficiency">--</span>
+                </div>
+            </div>
+
+            <div class="comparison-chart" id="comparison" style="display: none;">
+                <h4>📈 Compare Your Results</h4>
+                <div class="bar-container">
+                    <span class="bar-label">Your Design</span>
+                    <div class="bar" id="your-bar" style="width: 0%; background: #F59E0B;"></div>
+                    <span class="bar-value" id="your-value">--</span>
+                </div>
+                <div class="bar-container">
+                    <span class="bar-label">Open Air</span>
+                    <div class="bar" style="width: 30%; background: #94A3B8;"></div>
+                    <span class="bar-value">+6°C</span>
+                </div>
+                <div class="bar-container">
+                    <span class="bar-label">Real Car</span>
+                    <div class="bar" style="width: 70%; background: #EF4444;"></div>
+                    <span class="bar-value">+41°C</span>
+                </div>
+            </div>
+
+            <div class="insight-box" id="insight" style="display: none;">
+                <h4>💡 Science Insight</h4>
+                <p id="insight-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let wallMaterial = 'glass';
+        let floorColor = 'black';
+        let currentTemp = 20;
+        let isRunning = false;
+
+        const materials = {
+            wall: {
+                none: { trap: 0, opacity: 0, border: 'transparent', style: 'none' },
+                glass: { trap: 0.85, opacity: 0.1, border: '#60A5FA', style: 'rgba(96, 165, 250, 0.2)' },
+                plastic: { trap: 0.5, opacity: 0.05, border: '#A3E635', style: 'rgba(163, 230, 53, 0.15)' },
+                brick: { trap: 0.3, opacity: 1, border: '#9CA3AF', style: '#9CA3AF' }
+            },
+            floor: {
+                black: { absorb: 0.95, color: '#1F2937' },
+                gray: { absorb: 0.5, color: '#6B7280' },
+                white: { absorb: 0.1, color: '#F3F4F6' }
+            }
+        };
+
+        const insights = {
+            'glass-black': "Perfect greenhouse effect! Glass lets visible light in but traps infrared radiation. The black floor absorbs maximum light and re-emits it as heat (infrared). This is exactly how Earth's atmosphere works - CO₂ and other greenhouse gases act like the glass!",
+            'glass-white': "Interesting! Even with glass walls, the white floor reflects most light back out before it can become heat. This is why snow-covered areas stay cool even in sunny weather - high albedo means less absorption.",
+            'none-black': "Without walls to trap the heat, even the black floor can't raise the temperature much. Heat radiates away freely into the surrounding air. This shows why greenhouse gases are so important for keeping Earth warm.",
+            'plastic-black': "Plastic traps some heat but not as effectively as glass. This is because plastic allows some infrared radiation to escape. It's like having greenhouse gases but not enough of them.",
+            'brick-black': "Brick blocks ALL light from entering! Without incoming solar energy, there's no heat to trap. This is like being in a cave - sheltered but not warm from sunlight."
+        };
+
+        function selectMaterial(btn, type) {
+            // Remove selected class from siblings
+            document.querySelectorAll(`[data-type="${type}"]`).forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+
+            if (type === 'wall') {
+                wallMaterial = btn.dataset.value;
+                updateWalls();
+            } else {
+                floorColor = btn.dataset.value;
+                updateFloor();
+            }
+        }
+
+        function updateWalls() {
+            const mat = materials.wall[wallMaterial];
+            const walls = document.getElementById('walls');
+            const irLabel = document.getElementById('ir-label');
+
+            if (wallMaterial === 'none') {
+                walls.style.border = '4px dashed #94A3B8';
+                walls.style.background = 'transparent';
+            } else if (wallMaterial === 'brick') {
+                walls.style.border = '4px solid ' + mat.border;
+                walls.style.background = mat.style;
+            } else {
+                walls.style.border = '4px solid ' + mat.border;
+                walls.style.background = mat.style;
+            }
+
+            irLabel.style.display = mat.trap > 0.5 ? 'block' : 'none';
+        }
+
+        function updateFloor() {
+            document.getElementById('floor').style.background = materials.floor[floorColor].color;
+        }
+
+        function createSunRays() {
+            const container = document.getElementById('sun-rays');
+            container.innerHTML = '';
+            for (let i = 0; i < 8; i++) {
+                const ray = document.createElement('div');
+                ray.className = 'ray';
+                ray.style.left = (i * 25) + 'px';
+                ray.style.animationDelay = (i * 0.3) + 's';
+                container.appendChild(ray);
+            }
+        }
+
+        function createTrappedRays() {
+            const container = document.getElementById('trapped-rays');
+            container.innerHTML = '';
+            if (wallMaterial !== 'none' && wallMaterial !== 'brick') {
+                for (let i = 0; i < 6; i++) {
+                    const ray = document.createElement('div');
+                    ray.className = 'trapped-ray';
+                    ray.style.left = (20 + i * 40) + 'px';
+                    ray.style.top = (30 + (i % 3) * 40) + 'px';
+                    ray.style.animationDelay = (i * 0.5) + 's';
+                    container.appendChild(ray);
+                }
+            }
+        }
+
+        function runSimulation() {
+            if (isRunning) return;
+            isRunning = true;
+
+            // Calculate final temperature
+            const wallMat = materials.wall[wallMaterial];
+            const floorMat = materials.floor[floorColor];
+
+            // Base solar input: 1000 W/m² on a sunny day
+            // Temperature rise depends on absorption and trapping
+            const absorbed = floorMat.absorb;
+            const trapped = wallMat.trap;
+            const lightBlocked = wallMaterial === 'brick' ? 1 : 0;
+
+            // Maximum possible rise with perfect conditions: ~45°C
+            // Factors: light reaching floor, absorption, heat trapping
+            const lightIn = 1 - lightBlocked;
+            const heatGenerated = lightIn * absorbed;
+            const heatKept = heatGenerated * (0.3 + trapped * 0.7);
+            const tempRise = Math.round(heatKept * 45);
+
+            // Animate temperature
+            currentTemp = 20;
+            const finalTemp = 20 + tempRise;
+            const increment = tempRise / 50;
+
+            createTrappedRays();
+
+            let step = 0;
+            const interval = setInterval(() => {
+                step++;
+                currentTemp = Math.min(finalTemp, 20 + increment * step);
+                updateTemperature(currentTemp);
+
+                if (step >= 50) {
+                    clearInterval(interval);
+                    showResults(finalTemp, tempRise);
+                    isRunning = false;
+                }
+            }, 60);
+        }
+
+        function updateTemperature(temp) {
+            document.getElementById('temp-display').textContent = Math.round(temp) + '°C';
+            // Map temp (20-65) to height (20%-95%)
+            const height = 20 + ((temp - 20) / 45) * 75;
+            document.getElementById('therm-fill').style.height = Math.min(95, height) + '%';
+        }
+
+        function showResults(finalTemp, rise) {
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('comparison').style.display = 'block';
+            document.getElementById('insight').style.display = 'block';
+
+            document.getElementById('final-temp').textContent = finalTemp + '°C (' + Math.round(finalTemp * 9/5 + 32) + '°F)';
+            document.getElementById('temp-change').textContent = '+' + rise + '°C';
+
+            const efficiency = Math.round((rise / 45) * 100);
+            document.getElementById('efficiency').textContent = efficiency + '%';
+
+            // Update comparison bar
+            const barWidth = (rise / 45) * 100;
+            document.getElementById('your-bar').style.width = barWidth + '%';
+            document.getElementById('your-value').textContent = '+' + rise + '°C';
+
+            // Get insight
+            const key = wallMaterial + '-' + floorColor;
+            let insightText = insights[key];
+            if (!insightText) {
+                if (rise < 10) {
+                    insightText = "Low heat trapping! Your design doesn't effectively capture solar energy. Either light isn't getting in, it's being reflected, or heat is escaping.";
+                } else if (rise < 25) {
+                    insightText = "Moderate heat trapping. Your design captures some solar energy but could be more efficient. Think about what's limiting the temperature rise.";
+                } else {
+                    insightText = "Excellent heat trapping! Your design effectively captures solar energy and converts it to trapped heat.";
+                }
+            }
+            document.getElementById('insight-text').textContent = insightText;
+        }
+
+        // Initialize
+        createSunRays();
+        updateWalls();
+        updateFloor();
+    </script>
+</body>
+</html>

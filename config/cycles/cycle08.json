@@ -1,0 +1,78 @@
+{
+  "$schema": "../schema/cycle-schema.json",
+  "cycle": 8,
+  "name": "Cycle 8: April 2026",
+  "status": "planned",
+  "dates": {
+    "start": "2026-04-06",
+    "end": "2026-04-24",
+    "week1": { "start": "2026-04-06", "end": "2026-04-10" },
+    "week2": { "start": "2026-04-13", "end": "2026-04-17" },
+    "week3": { "start": "2026-04-20", "end": "2026-04-24" }
+  },
+
+  "grades": {
+    "7": {
+      "topic": "Ecosystems & Biodiversity",
+      "phenomenon": {
+        "week1": "TODO: Define driving phenomenon",
+        "week2": "TODO: Define driving phenomenon",
+        "week3": "Synthesis & Assessment"
+      },
+      "ngss": {
+        "primary": {
+          "code": "MS-LS2-4",
+          "description": "Construct an argument supported by empirical evidence that changes to physical or biological components of an ecosystem affect populations."
+        },
+        "spiral": []
+      },
+      "threeDimensional": {
+        "sep": [],
+        "dci": ["LS2.A: Interdependent Relationships in Ecosystems", "LS2.C: Ecosystem Dynamics"],
+        "ccc": []
+      },
+      "misconceptions": [],
+      "weeks": {
+        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
+        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
+        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+      },
+      "materials": {}
+    },
+
+    "8": {
+      "topic": "Thermal Energy & Heat Transfer",
+      "phenomenon": {
+        "week1": "TODO: Define driving phenomenon",
+        "week2": "TODO: Define driving phenomenon",
+        "week3": "Synthesis & Assessment"
+      },
+      "ngss": {
+        "primary": {
+          "code": "MS-PS3-4",
+          "description": "Plan an investigation to determine the relationships among the energy transferred, the type of matter, the mass, and the change in the average kinetic energy."
+        },
+        "spiral": []
+      },
+      "threeDimensional": {
+        "sep": [],
+        "dci": ["PS3.A: Definitions of Energy", "PS3.B: Conservation of Energy"],
+        "ccc": []
+      },
+      "misconceptions": [],
+      "weeks": {
+        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
+        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
+        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+      },
+      "materials": {}
+    }
+  },
+
+  "analytics": {
+    "lastDataPull": null,
+    "completionRates": {},
+    "averageScores": {},
+    "misconceptionFlags": []
+  }
+}

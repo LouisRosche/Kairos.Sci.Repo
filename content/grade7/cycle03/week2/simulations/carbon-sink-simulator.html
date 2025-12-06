@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Sink Simulator - Where Does CO₂ Go?</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #065F46 0%, #064E3B 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: clamp(1.5em, 4vw, 2em);
+        }
+        .subtitle {
+            text-align: center;
+            color: #A7F3D0;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        .sim-container {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .budget-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .budget-card {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .budget-card.emissions {
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            border: 2px solid #EF4444;
+        }
+        .budget-card.ocean {
+            background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+            border: 2px solid #3B82F6;
+        }
+        .budget-card.forest {
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+            border: 2px solid #10B981;
+        }
+        .budget-card.atmosphere {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border: 2px solid #F59E0B;
+        }
+        .budget-card .icon { font-size: 2em; margin-bottom: 8px; }
+        .budget-card .label { font-size: 0.85em; color: #64748B; }
+        .budget-card .value {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .budget-card .unit { font-size: 0.8em; color: #64748B; }
+        .budget-card.emissions .value { color: #DC2626; }
+        .budget-card.ocean .value { color: #2563EB; }
+        .budget-card.forest .value { color: #059669; }
+        .budget-card.atmosphere .value { color: #D97706; }
+        .visualization {
+            position: relative;
+            height: 350px;
+            background: linear-gradient(180deg, #87CEEB 0%, #60A5FA 40%, #1E40AF 60%, #1E3A5F 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .atmosphere-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 35%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .co2-cloud {
+            background: rgba(251, 191, 36, 0.3);
+            border: 2px dashed #F59E0B;
+            border-radius: 50%;
+            padding: 20px 30px;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+        .co2-cloud .amount {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #92400E;
+        }
+        .co2-cloud .label {
+            font-size: 0.8em;
+            color: #78350F;
+        }
+        .ocean-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60%;
+            height: 50%;
+        }
+        .ocean-sink {
+            position: absolute;
+            bottom: 20px;
+            left: 20%;
+            background: rgba(59, 130, 246, 0.5);
+            border: 3px solid #3B82F6;
+            border-radius: 12px;
+            padding: 15px 25px;
+            text-align: center;
+        }
+        .forest-layer {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 45%;
+            height: 60%;
+        }
+        .trees {
+            position: absolute;
+            bottom: 0;
+            right: 10%;
+            display: flex;
+            gap: 5px;
+        }
+        .tree {
+            width: 40px;
+            height: 80px;
+            position: relative;
+        }
+        .tree::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 25px;
+            background: #78350F;
+        }
+        .tree::after {
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 60px solid #059669;
+        }
+        .forest-sink {
+            position: absolute;
+            bottom: 90px;
+            right: 5%;
+            background: rgba(16, 185, 129, 0.5);
+            border: 3px solid #10B981;
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        .sink-label {
+            font-size: 0.75em;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .sink-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .capacity-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        .capacity-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease, background 0.5s ease;
+        }
+        .ocean-sink .capacity-fill { background: #60A5FA; }
+        .forest-sink .capacity-fill { background: #34D399; }
+        .arrows-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .flow-arrow {
+            position: absolute;
+            font-size: 1.5em;
+            animation: flowDown 2s infinite;
+        }
+        @keyframes flowDown {
+            0% { opacity: 0; transform: translateY(-10px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
+        .controls {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        .control-group label {
+            display: block;
+            font-size: 0.9em;
+            color: #374151;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #E2E8F0;
+            border-radius: 4px;
+            outline: none;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #3B82F6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider-value {
+            text-align: center;
+            font-weight: bold;
+            color: #1E293B;
+            margin-top: 5px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        button:hover { transform: translateY(-2px); }
+        .btn-run { background: linear-gradient(135deg, #10B981, #059669); color: white; }
+        .btn-reset { background: linear-gradient(135deg, #6B7280, #4B5563); color: white; }
+        .btn-scenario { background: linear-gradient(135deg, #8B5CF6, #7C3AED); color: white; }
+        .year-display {
+            text-align: center;
+            font-size: 1.3em;
+            color: #1E293B;
+            margin-bottom: 10px;
+        }
+        .results-panel {
+            background: #1E293B;
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .results-panel h3 {
+            color: #94A3B8;
+            margin-bottom: 15px;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .result-item {
+            background: #334155;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .result-item .label { color: #94A3B8; font-size: 0.85em; }
+        .result-item .value { font-size: 1.5em; font-weight: bold; margin-top: 5px; }
+        .result-item.danger .value { color: #F87171; }
+        .result-item.warning .value { color: #FBBF24; }
+        .result-item.safe .value { color: #34D399; }
+        .insight-box {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border: 2px solid #F59E0B;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .insight-box h4 {
+            color: #92400E;
+            margin-bottom: 10px;
+        }
+        .insight-box p {
+            color: #78350F;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+        .saturation-warning {
+            background: #FEE2E2;
+            border: 2px solid #EF4444;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        .saturation-warning.show { display: block; }
+        .saturation-warning p {
+            color: #991B1B;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Carbon Sink Simulator</h1>
+        <p class="subtitle">Where does all the CO₂ we emit actually go? Explore carbon sinks and what happens when they fill up!</p>
+
+        <div class="sim-container">
+            <div class="year-display">Year: <span id="year">2024</span> | Cumulative Emissions: <span id="total-emissions">0</span> Gt CO₂</div>
+
+            <div class="budget-overview">
+                <div class="budget-card emissions">
+                    <div class="icon">🏭</div>
+                    <div class="label">Annual Emissions</div>
+                    <div class="value" id="emission-rate">40</div>
+                    <div class="unit">Gt CO₂/year</div>
+                </div>
+                <div class="budget-card ocean">
+                    <div class="icon">🌊</div>
+                    <div class="label">Ocean Absorbs</div>
+                    <div class="value" id="ocean-absorb">10</div>
+                    <div class="unit">Gt CO₂/year</div>
+                </div>
+                <div class="budget-card forest">
+                    <div class="icon">🌲</div>
+                    <div class="label">Forests Absorb</div>
+                    <div class="value" id="forest-absorb">6</div>
+                    <div class="unit">Gt CO₂/year</div>
+                </div>
+                <div class="budget-card atmosphere">
+                    <div class="icon">☁️</div>
+                    <div class="label">Stays in Air</div>
+                    <div class="value" id="atm-increase">24</div>
+                    <div class="unit">Gt CO₂/year</div>
+                </div>
+            </div>
+
+            <div class="visualization">
+                <div class="arrows-container">
+                    <div class="flow-arrow" style="top: 35%; left: 30%;">⬇️</div>
+                    <div class="flow-arrow" style="top: 35%; right: 30%; animation-delay: 0.5s;">⬇️</div>
+                </div>
+                <div class="atmosphere-layer">
+                    <div class="co2-cloud" id="co2-cloud">
+                        <div class="amount" id="atm-co2">420</div>
+                        <div class="label">ppm CO₂</div>
+                    </div>
+                </div>
+                <div class="ocean-layer">
+                    <div class="ocean-sink" id="ocean-sink">
+                        <div class="sink-label">Ocean Carbon Sink</div>
+                        <div class="sink-value"><span id="ocean-stored">0</span> Gt</div>
+                        <div class="capacity-bar">
+                            <div class="capacity-fill" id="ocean-capacity" style="width: 0%;"></div>
+                        </div>
+                        <div class="sink-label"><span id="ocean-cap-text">0%</span> saturated</div>
+                    </div>
+                </div>
+                <div class="forest-layer">
+                    <div class="trees">
+                        <div class="tree"></div>
+                        <div class="tree"></div>
+                        <div class="tree"></div>
+                        <div class="tree"></div>
+                        <div class="tree"></div>
+                    </div>
+                    <div class="forest-sink" id="forest-sink">
+                        <div class="sink-label">Forest Carbon Sink</div>
+                        <div class="sink-value"><span id="forest-stored">0</span> Gt</div>
+                        <div class="capacity-bar">
+                            <div class="capacity-fill" id="forest-capacity" style="width: 0%;"></div>
+                        </div>
+                        <div class="sink-label"><span id="forest-cap-text">0%</span> saturated</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="control-row">
+                    <div class="control-group">
+                        <label>🏭 Annual CO₂ Emissions (Gt/year)</label>
+                        <input type="range" class="slider" id="emissions-slider" min="0" max="80" value="40" oninput="updateEmissions()">
+                        <div class="slider-value"><span id="emissions-display">40</span> Gt/year</div>
+                    </div>
+                    <div class="control-group">
+                        <label>🌲 Forest Area (% of current)</label>
+                        <input type="range" class="slider" id="forest-slider" min="50" max="150" value="100" oninput="updateForest()">
+                        <div class="slider-value"><span id="forest-display">100</span>%</div>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="btn-run" onclick="runDecade()">▶️ Run 10 Years</button>
+                    <button class="btn-scenario" onclick="runScenario('business')">📈 Business as Usual</button>
+                    <button class="btn-scenario" onclick="runScenario('netzero')">🎯 Net Zero by 2050</button>
+                    <button class="btn-reset" onclick="resetSim()">🔄 Reset</button>
+                </div>
+            </div>
+
+            <div class="results-panel">
+                <h3>📊 Simulation Status</h3>
+                <div class="result-grid">
+                    <div class="result-item" id="temp-result">
+                        <div class="label">Temperature Rise</div>
+                        <div class="value">+0.0°C</div>
+                    </div>
+                    <div class="result-item" id="ocean-health">
+                        <div class="label">Ocean Acidification</div>
+                        <div class="value">pH 8.1</div>
+                    </div>
+                    <div class="result-item" id="budget-status">
+                        <div class="label">Carbon Budget Used</div>
+                        <div class="value">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="saturation-warning" id="saturation-warning">
+                <p>⚠️ WARNING: Carbon sinks are becoming saturated! As oceans warm and forests are stressed, they absorb less CO₂. More emissions now stay in the atmosphere!</p>
+            </div>
+
+            <div class="insight-box">
+                <h4>💡 Understanding Carbon Sinks</h4>
+                <p id="insight-text">
+                    Earth's carbon sinks (oceans and forests) currently absorb about 50% of human CO₂ emissions.
+                    But these sinks have limits! Warm water holds less CO₂, and stressed forests can actually
+                    release carbon. Adjust the sliders and run the simulation to see what happens over time.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let year = 2024;
+        let emissions = 40;
+        let forestPercent = 100;
+        let oceanStored = 0;
+        let forestStored = 0;
+        let atmCO2 = 420;
+        let totalEmissions = 0;
+
+        // Constants
+        const OCEAN_CAPACITY = 300; // Gt before saturation effects
+        const FOREST_CAPACITY = 200; // Gt before saturation effects
+        const CO2_PER_GT = 0.5; // ppm per Gt staying in atmosphere
+        const TEMP_PER_PPM = 0.008; // °C per ppm above 280
+
+        function updateEmissions() {
+            emissions = parseInt(document.getElementById('emissions-slider').value);
+            document.getElementById('emissions-display').textContent = emissions;
+            updateBudgetDisplay();
+        }
+
+        function updateForest() {
+            forestPercent = parseInt(document.getElementById('forest-slider').value);
+            document.getElementById('forest-display').textContent = forestPercent;
+            updateBudgetDisplay();
+        }
+
+        function calculateAbsorption() {
+            // Ocean absorption: ~10 Gt/year base, decreases with saturation and warming
+            const oceanSaturation = Math.min(1, oceanStored / OCEAN_CAPACITY);
+            const tempEffect = Math.max(0, 1 - (atmCO2 - 280) * 0.001);
+            let oceanAbsorb = 10 * (1 - oceanSaturation * 0.5) * tempEffect;
+
+            // Forest absorption: ~6 Gt/year base, scales with forest area, decreases with saturation
+            const forestSaturation = Math.min(1, forestStored / FOREST_CAPACITY);
+            let forestAbsorb = 6 * (forestPercent / 100) * (1 - forestSaturation * 0.3);
+
+            // Can't absorb more than emissions
+            oceanAbsorb = Math.min(oceanAbsorb, emissions * 0.4);
+            forestAbsorb = Math.min(forestAbsorb, emissions * 0.3);
+
+            return { oceanAbsorb: Math.max(0, oceanAbsorb), forestAbsorb: Math.max(0, forestAbsorb) };
+        }
+
+        function updateBudgetDisplay() {
+            const { oceanAbsorb, forestAbsorb } = calculateAbsorption();
+            const atmIncrease = Math.max(0, emissions - oceanAbsorb - forestAbsorb);
+
+            document.getElementById('emission-rate').textContent = emissions;
+            document.getElementById('ocean-absorb').textContent = oceanAbsorb.toFixed(1);
+            document.getElementById('forest-absorb').textContent = forestAbsorb.toFixed(1);
+            document.getElementById('atm-increase').textContent = atmIncrease.toFixed(1);
+        }
+
+        function stepYear() {
+            const { oceanAbsorb, forestAbsorb } = calculateAbsorption();
+            const atmIncrease = Math.max(0, emissions - oceanAbsorb - forestAbsorb);
+
+            // Update stores
+            oceanStored += oceanAbsorb;
+            forestStored += forestAbsorb;
+            atmCO2 += atmIncrease * CO2_PER_GT;
+            totalEmissions += emissions;
+            year++;
+
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById('year').textContent = year;
+            document.getElementById('total-emissions').textContent = Math.round(totalEmissions);
+
+            updateBudgetDisplay();
+
+            // Update visualization
+            document.getElementById('atm-co2').textContent = Math.round(atmCO2);
+            document.getElementById('ocean-stored').textContent = Math.round(oceanStored);
+            document.getElementById('forest-stored').textContent = Math.round(forestStored);
+
+            // Update capacity bars
+            const oceanCap = Math.min(100, (oceanStored / OCEAN_CAPACITY) * 100);
+            const forestCap = Math.min(100, (forestStored / FOREST_CAPACITY) * 100);
+
+            document.getElementById('ocean-capacity').style.width = oceanCap + '%';
+            document.getElementById('forest-capacity').style.width = forestCap + '%';
+            document.getElementById('ocean-cap-text').textContent = Math.round(oceanCap) + '%';
+            document.getElementById('forest-cap-text').textContent = Math.round(forestCap) + '%';
+
+            // Color capacity bars based on saturation
+            document.getElementById('ocean-capacity').style.background =
+                oceanCap > 70 ? '#F87171' : oceanCap > 40 ? '#FBBF24' : '#60A5FA';
+            document.getElementById('forest-capacity').style.background =
+                forestCap > 70 ? '#F87171' : forestCap > 40 ? '#FBBF24' : '#34D399';
+
+            // Update CO2 cloud size
+            const cloudScale = 1 + (atmCO2 - 420) / 200;
+            document.getElementById('co2-cloud').style.transform = `scale(${Math.min(1.5, cloudScale)})`;
+
+            // Update results
+            const tempRise = (atmCO2 - 280) * TEMP_PER_PPM;
+            const pH = 8.1 - (atmCO2 - 280) * 0.0012; // Ocean acidification
+            const budgetUsed = (totalEmissions / 500) * 100; // 500 Gt carbon budget for 1.5°C
+
+            const tempResult = document.getElementById('temp-result');
+            tempResult.querySelector('.value').textContent = '+' + tempRise.toFixed(1) + '°C';
+            tempResult.className = 'result-item ' + (tempRise > 2 ? 'danger' : tempRise > 1.5 ? 'warning' : 'safe');
+
+            const oceanHealth = document.getElementById('ocean-health');
+            oceanHealth.querySelector('.value').textContent = 'pH ' + pH.toFixed(2);
+            oceanHealth.className = 'result-item ' + (pH < 7.9 ? 'danger' : pH < 8.0 ? 'warning' : 'safe');
+
+            const budgetStatus = document.getElementById('budget-status');
+            budgetStatus.querySelector('.value').textContent = Math.round(budgetUsed) + '%';
+            budgetStatus.className = 'result-item ' + (budgetUsed > 100 ? 'danger' : budgetUsed > 80 ? 'warning' : 'safe');
+
+            // Saturation warning
+            const warning = document.getElementById('saturation-warning');
+            if (oceanCap > 50 || forestCap > 50) {
+                warning.classList.add('show');
+            } else {
+                warning.classList.remove('show');
+            }
+
+            // Update insight
+            updateInsight();
+        }
+
+        function updateInsight() {
+            let text = '';
+            const { oceanAbsorb, forestAbsorb } = calculateAbsorption();
+            const totalAbsorb = oceanAbsorb + forestAbsorb;
+            const percentAbsorbed = emissions > 0 ? (totalAbsorb / emissions * 100) : 0;
+
+            if (year === 2024) {
+                text = "Earth's carbon sinks (oceans and forests) currently absorb about 50% of human CO₂ emissions. But these sinks have limits! Warm water holds less CO₂, and stressed forests can actually release carbon.";
+            } else if (percentAbsorbed > 45) {
+                text = `Carbon sinks are still healthy, absorbing ${percentAbsorbed.toFixed(0)}% of emissions. But watch what happens as they fill up over time.`;
+            } else if (percentAbsorbed > 30) {
+                text = `Warning: Sinks are becoming saturated! Only ${percentAbsorbed.toFixed(0)}% of emissions are being absorbed. The rest stays in the atmosphere, accelerating warming.`;
+            } else {
+                text = `Critical: Carbon sinks are severely degraded! Only ${percentAbsorbed.toFixed(0)}% of emissions are absorbed. This is a dangerous feedback loop - warming degrades sinks, which causes more warming.`;
+            }
+            document.getElementById('insight-text').textContent = text;
+        }
+
+        function runDecade() {
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i >= 10) {
+                    clearInterval(interval);
+                    return;
+                }
+                stepYear();
+                i++;
+            }, 300);
+        }
+
+        function runScenario(type) {
+            resetSim();
+
+            if (type === 'business') {
+                // Business as usual: emissions grow 1% per year
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (year >= 2100) {
+                        clearInterval(interval);
+                        return;
+                    }
+                    emissions = Math.min(80, 40 * Math.pow(1.01, i));
+                    document.getElementById('emissions-slider').value = emissions;
+                    document.getElementById('emissions-display').textContent = Math.round(emissions);
+                    stepYear();
+                    i++;
+                }, 100);
+            } else if (type === 'netzero') {
+                // Net zero by 2050: linear decrease
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (year >= 2100) {
+                        clearInterval(interval);
+                        return;
+                    }
+                    if (year < 2050) {
+                        emissions = 40 - (40 / 26) * (year - 2024);
+                    } else {
+                        emissions = 0;
+                    }
+                    emissions = Math.max(0, emissions);
+                    document.getElementById('emissions-slider').value = emissions;
+                    document.getElementById('emissions-display').textContent = Math.round(emissions);
+                    stepYear();
+                    i++;
+                }, 100);
+            }
+        }
+
+        function resetSim() {
+            year = 2024;
+            emissions = 40;
+            forestPercent = 100;
+            oceanStored = 0;
+            forestStored = 0;
+            atmCO2 = 420;
+            totalEmissions = 0;
+
+            document.getElementById('emissions-slider').value = 40;
+            document.getElementById('forest-slider').value = 100;
+            document.getElementById('emissions-display').textContent = '40';
+            document.getElementById('forest-display').textContent = '100';
+            document.getElementById('co2-cloud').style.transform = 'scale(1)';
+
+            updateDisplay();
+        }
+
+        // Initialize
+        updateDisplay();
+    </script>
+</body>
+</html>

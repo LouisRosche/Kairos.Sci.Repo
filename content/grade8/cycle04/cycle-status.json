@@ -1,0 +1,21 @@
+{
+  "cycle": 4,
+  "grade": 8,
+  "status": "not_started",
+  "lastUpdated": "2025-12-05",
+  "topic": "Ecosystems & Energy Transfer",
+  "completion": {
+    "overall": 10,
+    "curriculumDesign": 25,
+    "rubrics": 10,
+    "week1": { "forms": 5, "lessonPlan": 5, "studentPage": 5, "slides": 0 },
+    "week2": { "forms": 5, "lessonPlan": 5, "studentPage": 5, "slides": 0 },
+    "week3": { "forms": 5, "lessonPlan": 5, "studentPage": 5, "slides": 0 }
+  },
+  "deployed": {
+    "week1": false,
+    "week2": false,
+    "week3": false
+  },
+  "notes": "Minimal placeholder structure. Needs full development."
+}
