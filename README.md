@@ -5,7 +5,7 @@
 
 ## Quick Navigation
 
-### For Teaching This Week (Cycle 3 - Active)
+### Active Cycle Resources (Cycle 3)
 
 | Task | Grade 7 | Grade 8 |
 |------|---------|---------|

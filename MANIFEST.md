@@ -33,12 +33,12 @@ C3.Repo/
 │
 ├── content/                     # All instructional content
 │   ├── grade7/                  # Grade 7: Life & Earth Science
-│   │   ├── cycle02/             # ✅ Complete (4 weeks)
+│   │   ├── cycle02/             # 📦 Legacy (4 weeks, pre-architecture)
 │   │   ├── cycle03/             # ✅ Complete
 │   │   ├── cycle04/             # 🟡 In Progress
 │   │   ├── cycle05-10/          # 📋 Placeholder
 │   ├── grade8/                  # Grade 8: Physical Science
-│   │   ├── cycle02/             # ✅ Complete (4 weeks)
+│   │   ├── cycle02/             # 📦 Legacy (4 weeks, pre-architecture)
 │   │   ├── cycle03/             # ✅ Complete
 │   │   ├── cycle04/             # 📋 Placeholder
 │   │   ├── cycle05-10/          # 📋 Placeholder
@@ -91,7 +91,7 @@ C3.Repo/
 
 | Cycle | Grade 7 | Grade 8 | Status |
 |-------|---------|---------|--------|
-| **C2** | 75% ✅ | 75% ✅ | **CONTENT READY** |
+| **C2** | 75% 📦 | 75% 📦 | **LEGACY** (pre-architecture) |
 | **C3** | 100% ✅ | 100% ✅ | **DEPLOYED** |
 | **C4** | 45% 🟡 | 10% 📋 | In Progress |
 | **C5** | 0% 📋 | 0% 📋 | Placeholder |
@@ -101,11 +101,13 @@ C3.Repo/
 | **C9** | 0% 📋 | 0% 📋 | Placeholder |
 | **C10** | 0% 📋 | 0% 📋 | Placeholder |
 
-**Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | ❌ Not Started
+**Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | 📦 Legacy | ❌ Not Started
 
 ---
 
-## Cycle 2 - 75% COMPLETE ✅
+## Cycle 2 - LEGACY CONTENT 📦
+
+> **Note:** Cycle 2 is pre-architecture legacy content with 4 weeks instead of 3. See ARCHITECTURE.md for details.
 
 ### Grade 7: Molecular Structure, Bonding & Reactions (4 weeks)
 
@@ -301,8 +303,8 @@ Each placeholder cycle includes:
 - Example: `G7.C3.W2: Station 1 - Albedo Investigation`
 
 ### Question IDs
-- `G{grade}-C{cycle}-W{week}-{Type}{num}-Q{num}`
-- Example: `G7-C3-W2-S1-Q3`
+- `g{grade}_c{cycle}_w{week}_{station}_q{number}`
+- Example: `g7_c3_w2_s1_q3`
 
 ---
 
