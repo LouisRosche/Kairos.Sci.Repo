@@ -1,0 +1,249 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://kams.edu/schemas/cycle-schema.json",
+  "title": "KAMS Cycle Configuration Schema",
+  "description": "Validation schema for cycle configuration files",
+  "type": "object",
+  "required": ["cycle", "name", "status", "dates", "grades"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to this schema file"
+    },
+    "cycle": {
+      "type": "integer",
+      "minimum": 3,
+      "maximum": 10,
+      "description": "Cycle number (3-10)"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^Cycle \\d+:",
+      "description": "Cycle display name"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "planned", "complete", "not_started"],
+      "description": "Current development status"
+    },
+    "dates": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date",
+          "description": "Cycle start date (YYYY-MM-DD)"
+        },
+        "end": {
+          "type": "string",
+          "format": "date",
+          "description": "Cycle end date (YYYY-MM-DD)"
+        },
+        "week1": {
+          "$ref": "#/definitions/weekDates"
+        },
+        "week2": {
+          "$ref": "#/definitions/weekDates"
+        },
+        "week3": {
+          "$ref": "#/definitions/weekDates"
+        }
+      }
+    },
+    "grades": {
+      "type": "object",
+      "required": ["7", "8"],
+      "properties": {
+        "7": {
+          "$ref": "#/definitions/gradeConfig"
+        },
+        "8": {
+          "$ref": "#/definitions/gradeConfig"
+        }
+      }
+    },
+    "analytics": {
+      "type": "object",
+      "properties": {
+        "lastDataPull": {
+          "type": ["string", "null"]
+        },
+        "completionRates": {
+          "type": "object"
+        },
+        "averageScores": {
+          "type": "object"
+        },
+        "misconceptionFlags": {
+          "type": "array"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "weekDates": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date"
+        },
+        "end": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "gradeConfig": {
+      "type": "object",
+      "required": ["topic", "ngss", "weeks"],
+      "properties": {
+        "topic": {
+          "type": "string",
+          "description": "Main topic for this grade in this cycle"
+        },
+        "phenomenon": {
+          "type": "object",
+          "properties": {
+            "week1": { "type": "string" },
+            "week2": { "type": "string" },
+            "week3": { "type": "string" }
+          }
+        },
+        "ngss": {
+          "type": "object",
+          "required": ["primary"],
+          "properties": {
+            "primary": {
+              "type": "object",
+              "required": ["code", "description"],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "pattern": "^MS-[A-Z]{2,3}[0-9]+-[0-9]+$|^INTEGRATION$"
+                },
+                "description": { "type": "string" }
+              }
+            },
+            "spiral": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": { "type": "string" },
+                  "description": { "type": "string" },
+                  "fromCycle": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "threeDimensional": {
+          "type": "object",
+          "properties": {
+            "sep": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "dci": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "ccc": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "misconceptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "description"],
+            "properties": {
+              "id": { "type": "string" },
+              "description": { "type": "string" },
+              "correctUnderstanding": { "type": "string" },
+              "frequency": { "type": "integer", "minimum": 0, "maximum": 100 },
+              "targetedIn": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "weeks": {
+          "type": "object",
+          "required": ["1", "2", "3"],
+          "properties": {
+            "1": { "$ref": "#/definitions/weekConfig" },
+            "2": { "$ref": "#/definitions/weekConfig" },
+            "3": { "$ref": "#/definitions/weekConfig" }
+          }
+        },
+        "materials": {
+          "type": "object"
+        }
+      }
+    },
+    "weekConfig": {
+      "type": "object",
+      "required": ["title", "status"],
+      "properties": {
+        "title": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["complete", "planned", "not_started"]
+        },
+        "isAssessmentWeek": { "type": "boolean" },
+        "files": {
+          "type": "object",
+          "properties": {
+            "forms": { "type": "string" },
+            "studentPage": { "type": "string" },
+            "lessonPlan": { "type": "string" }
+          }
+        },
+        "stations": {
+          "type": "object",
+          "properties": {
+            "hook": { "$ref": "#/definitions/stationConfig" },
+            "station1": { "$ref": "#/definitions/stationConfig" },
+            "station2": { "$ref": "#/definitions/stationConfig" },
+            "station3": { "$ref": "#/definitions/stationConfig" },
+            "exitTicket": { "$ref": "#/definitions/stationConfig" }
+          }
+        },
+        "assessmentParts": {
+          "type": "object"
+        },
+        "formIds": { "type": "object" },
+        "responseSheetIds": { "type": "object" }
+      }
+    },
+    "stationConfig": {
+      "type": "object",
+      "required": ["title", "points"],
+      "properties": {
+        "title": { "type": "string" },
+        "points": { "type": "integer" },
+        "resource": { "type": "string" },
+        "resourceUrl": { "type": "string" },
+        "questions": { "type": "integer" },
+        "focus": { "type": "string" },
+        "spiralTarget": { "type": "string" },
+        "structure": {
+          "type": "object",
+          "properties": {
+            "new": { "type": "integer" },
+            "spiral": { "type": "integer" },
+            "integration": { "type": "integer" },
+            "sep1": { "type": "integer" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "$schema": "../../schema/analysis-schema.json",
+  "version": "1.0.0",
+  "title": "KAMS Science Analysis Dashboard Template",
+  "description": "Template for generating analysis dashboards from collected data",
+
+  "dashboardSections": [
+    {
+      "id": "overview",
+      "title": "Cycle Overview",
+      "type": "summary",
+      "metrics": [
+        {
+          "id": "overall_completion",
+          "label": "Overall Completion Rate",
+          "dataSource": "aggregation/completion-rates.json",
+          "format": "percentage",
+          "thresholds": {
+            "good": 80,
+            "warning": 60,
+            "critical": 40
+          }
+        },
+        {
+          "id": "average_score",
+          "label": "Average Score",
+          "dataSource": "aggregation/scores.json",
+          "format": "percentage",
+          "thresholds": {
+            "good": 70,
+            "warning": 50,
+            "critical": 30
+          }
+        },
+        {
+          "id": "tier_distribution",
+          "label": "MTSS Tier Distribution",
+          "dataSource": "mtss/tier-summary.json",
+          "format": "distribution",
+          "categories": ["Tier 1", "Tier 2", "Tier 3"]
+        }
+      ]
+    },
+    {
+      "id": "misconceptions",
+      "title": "Misconception Tracking",
+      "type": "table",
+      "dataSource": "analysis/misconception-patterns.json",
+      "columns": [
+        { "field": "misconceptionId", "label": "ID" },
+        { "field": "description", "label": "Misconception" },
+        { "field": "frequency", "label": "Frequency", "format": "percentage" },
+        { "field": "trend", "label": "Trend", "format": "icon" },
+        { "field": "affectedStudentCount", "label": "Students Affected" }
+      ],
+      "sortBy": "frequency",
+      "sortOrder": "desc",
+      "highlightRules": [
+        { "condition": "frequency >= 50", "style": "critical" },
+        { "condition": "frequency >= 30", "style": "warning" }
+      ]
+    },
+    {
+      "id": "spiral",
+      "title": "Spiral Effectiveness",
+      "type": "chart",
+      "chartType": "line",
+      "dataSource": "analysis/spiral-effectiveness.json",
+      "xAxis": {
+        "field": "week",
+        "label": "Week"
+      },
+      "yAxis": {
+        "field": "averageScore",
+        "label": "Average Spiral Score (%)",
+        "min": 0,
+        "max": 100
+      },
+      "series": [
+        { "field": "grade7", "label": "Grade 7", "color": "#4CAF50" },
+        { "field": "grade8", "label": "Grade 8", "color": "#2196F3" }
+      ],
+      "referenceLine": {
+        "value": 60,
+        "label": "Minimum Threshold",
+        "style": "dashed"
+      }
+    },
+    {
+      "id": "weekly_performance",
+      "title": "Weekly Performance by Station",
+      "type": "chart",
+      "chartType": "bar",
+      "dataSource": "aggregation/weekly-by-station.json",
+      "xAxis": {
+        "field": "station",
+        "label": "Station"
+      },
+      "yAxis": {
+        "field": "averageScore",
+        "label": "Average Score (%)"
+      },
+      "groupBy": "week",
+      "stacked": false
+    },
+    {
+      "id": "student_heatmap",
+      "title": "Student Performance Heatmap",
+      "type": "heatmap",
+      "dataSource": "aggregation/student-performance-matrix.json",
+      "xAxis": {
+        "field": "date",
+        "label": "Date"
+      },
+      "yAxis": {
+        "field": "student",
+        "label": "Student"
+      },
+      "valueField": "score",
+      "colorScale": {
+        "low": { "value": 0, "color": "#f44336" },
+        "medium": { "value": 50, "color": "#ffeb3b" },
+        "high": { "value": 100, "color": "#4caf50" }
+      }
+    },
+    {
+      "id": "intervention_list",
+      "title": "Active Interventions",
+      "type": "table",
+      "dataSource": "mtss/active-interventions.json",
+      "columns": [
+        { "field": "studentName", "label": "Student" },
+        { "field": "tier", "label": "Tier" },
+        { "field": "primaryStruggle", "label": "Primary Struggle" },
+        { "field": "intervention", "label": "Current Intervention" },
+        { "field": "startDate", "label": "Started", "format": "date" },
+        { "field": "progress", "label": "Progress", "format": "status" }
+      ],
+      "filters": [
+        { "field": "tier", "label": "Filter by Tier", "type": "select" },
+        { "field": "grade", "label": "Filter by Grade", "type": "select" }
+      ]
+    }
+  ],
+
+  "refreshSchedule": {
+    "frequency": "daily",
+    "time": "18:00",
+    "timezone": "America/Chicago"
+  },
+
+  "notifications": {
+    "criticalAlerts": {
+      "enabled": true,
+      "channels": ["email", "slack"],
+      "recipients": ["teacher@kams.edu"]
+    },
+    "weeklyDigest": {
+      "enabled": true,
+      "dayOfWeek": "Friday",
+      "time": "15:00"
+    }
+  },
+
+  "exportFormats": ["pdf", "xlsx", "json"]
+}

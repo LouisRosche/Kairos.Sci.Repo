@@ -1,0 +1,11 @@
+{
+  "generated": null,
+  "cycle": null,
+  "week": null,
+  "tier": 3,
+  "studentCount": 0,
+  "students": [],
+  "sstReferrals": [],
+  "parentContacts": [],
+  "_comment": "This file is populated by InterventionGenerator.gs. Initial placeholder for repository structure."
+}

@@ -1,0 +1,116 @@
+{
+  "$schema": "../schema/mtss-schema.json",
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-06",
+
+  "tiers": {
+    "1": {
+      "name": "Universal",
+      "scoreRange": {
+        "min": 70,
+        "max": 100
+      },
+      "description": "Students meeting grade-level expectations",
+      "intervention": "Core instruction with standard differentiation",
+      "monitoringFrequency": "Weekly exit tickets",
+      "supports": [
+        "Differentiated instruction within core lesson",
+        "Flexible grouping during stations",
+        "Choice in demonstration of learning"
+      ]
+    },
+    "2": {
+      "name": "Targeted",
+      "scoreRange": {
+        "min": 50,
+        "max": 69
+      },
+      "description": "Students requiring additional support beyond core instruction",
+      "intervention": "Small group reteach, peer tutoring, modified assignments",
+      "monitoringFrequency": "Every 2-3 days",
+      "supports": [
+        "Small group reteaching (3-5 students)",
+        "Peer tutoring partnerships",
+        "Modified assignments with scaffolding",
+        "Extended time on assessments",
+        "Additional practice with feedback"
+      ],
+      "triggerCriteria": {
+        "consecutiveWeeksBelow70": 2,
+        "misconceptionPersistence": true,
+        "exitTicketPattern": "Below 60% for 3 consecutive tickets"
+      }
+    },
+    "3": {
+      "name": "Intensive",
+      "scoreRange": {
+        "min": 0,
+        "max": 49
+      },
+      "description": "Students requiring intensive, individualized intervention",
+      "intervention": "1:1 intervention, alternative assessment, extended time",
+      "monitoringFrequency": "Daily check-ins",
+      "supports": [
+        "1:1 intervention sessions",
+        "Alternative assessment formats",
+        "Significantly extended time",
+        "Reduced assignment load with focus on core concepts",
+        "Visual and manipulative-based instruction",
+        "Parent/guardian communication and involvement"
+      ],
+      "triggerCriteria": {
+        "consecutiveWeeksBelow50": 2,
+        "tier2Ineffective": "No improvement after 2 weeks of Tier 2",
+        "assessmentPattern": "Below 40% on cycle assessment"
+      },
+      "escalationPath": "SST referral if no improvement after 4 weeks"
+    }
+  },
+
+  "alerts": {
+    "misconceptionThreshold": {
+      "value": 30,
+      "description": "Flag when 30%+ of class misses same concept",
+      "action": "Whole-class reteach triggered"
+    },
+    "wholeClassReteachThreshold": {
+      "value": 40,
+      "description": "Mandatory reteach when 40%+ miss question",
+      "action": "Pause progression, full-class intervention"
+    },
+    "spiralEffectivenessMin": {
+      "value": 60,
+      "description": "Minimum expected score on spiral questions",
+      "action": "Review previous cycle content if below threshold"
+    }
+  },
+
+  "dataCollection": {
+    "sources": [
+      "Hook responses (daily)",
+      "Station 1-3 responses (daily)",
+      "Exit ticket scores (daily)",
+      "Cycle assessment scores (weekly)"
+    ],
+    "refreshInterval": "daily",
+    "storageFormat": ["json", "xlsx"]
+  },
+
+  "reportGeneration": {
+    "tier2Report": {
+      "frequency": "weekly",
+      "output": "data/mtss/output/tier2-students.json",
+      "includes": ["student_list", "struggles", "recommended_actions"]
+    },
+    "tier3Report": {
+      "frequency": "weekly",
+      "output": "data/mtss/output/tier3-students.json",
+      "includes": ["student_list", "intensive_needs", "parent_contact_log", "sst_status"]
+    },
+    "classPatterns": {
+      "frequency": "daily",
+      "output": "data/mtss/output/class-patterns.json",
+      "includes": ["high_miss_questions", "misconception_rates", "reteach_recommendations"]
+    }
+  }
+}
