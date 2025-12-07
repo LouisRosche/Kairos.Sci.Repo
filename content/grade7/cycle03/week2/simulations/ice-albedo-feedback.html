@@ -265,6 +265,37 @@
             height: 15px;
             border-radius: 3px;
         }
+        /* Chromebook/Embedded Display Optimization */
+        @media (max-width: 900px), (max-height: 700px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.3em; margin-bottom: 5px; }
+            .subtitle { margin-bottom: 10px; font-size: 0.85em; }
+            .sim-container { padding: 12px; }
+            .arctic-view { height: 200px; margin-bottom: 12px; }
+            .feedback-diagram { padding: 12px; margin-bottom: 12px; }
+            .feedback-node { padding: 8px 12px; min-width: 100px; font-size: 0.8em; }
+            .feedback-node .icon { font-size: 1.2em; }
+            .arrow-node { font-size: 1.5em; }
+            .controls { gap: 8px; margin-bottom: 12px; }
+            .control-group { padding: 10px 12px; }
+            .control-group label { font-size: 0.8em; margin-bottom: 5px; }
+            .slider { width: 150px; }
+            button { padding: 8px 16px; font-size: 0.9em; }
+            .year-display { font-size: 1.2em; margin-bottom: 10px; }
+            .graph-container { padding: 12px; margin-bottom: 12px; }
+            .graph { height: 100px; }
+            .insight-panel { padding: 12px; }
+            .insight-panel h4 { font-size: 0.95em; }
+            .insight-panel p { font-size: 0.85em; }
+            .key-concept { padding: 10px; margin-top: 10px; font-size: 0.85em; }
+            .ice-coverage, .temp-badge { padding: 6px 10px; font-size: 0.8em; }
+        }
+        @media (max-height: 550px) {
+            .arctic-view { height: 150px; }
+            .graph { height: 80px; }
+            .feedback-diagram { padding: 8px; }
+            .feedback-node { padding: 6px 8px; min-width: 80px; }
+        }
     </style>
 </head>
 <body>

@@ -284,6 +284,37 @@
             font-size: 0.9em;
             line-height: 1.5;
         }
+        /* Chromebook/Embedded Display Optimization */
+        @media (max-width: 900px), (max-height: 700px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.3em; margin-bottom: 5px; }
+            .subtitle { margin-bottom: 10px; font-size: 0.85em; }
+            .sim-container { padding: 12px; }
+            .instructions { padding: 10px; margin-bottom: 12px; }
+            .instructions h4 { font-size: 0.9em; margin-bottom: 5px; }
+            .instructions p { font-size: 0.8em; }
+            .counter { gap: 15px; margin-bottom: 12px; }
+            .counter-item { padding: 10px 15px; }
+            .counter-item .number { font-size: 1.5em; }
+            .counter-item .label { font-size: 0.75em; }
+            .cycle-diagram { height: 300px; margin-bottom: 12px; }
+            .reservoir { padding: 8px; font-size: 0.75em; }
+            .carbon-atom { width: 32px; height: 32px; font-size: 1em; }
+            .controls { gap: 6px; margin-bottom: 12px; }
+            button { padding: 8px 16px; font-size: 0.9em; }
+            .info-panel { padding: 12px; margin-bottom: 12px; }
+            .info-panel h3 { font-size: 0.95em; margin-bottom: 8px; }
+            .info-panel p { font-size: 0.85em; }
+            .process-info { padding: 10px; margin-top: 10px; }
+            .equation { padding: 10px; font-size: 0.95em; }
+            .journey-log { padding: 12px; max-height: 150px; }
+            .log-entry { padding: 6px 10px; font-size: 0.8em; }
+        }
+        @media (max-height: 550px) {
+            .cycle-diagram { height: 220px; }
+            .reservoir { padding: 6px; font-size: 0.7em; }
+            .journey-log { max-height: 100px; }
+        }
     </style>
 </head>
 <body>
@@ -333,6 +364,7 @@
             <div class="controls">
                 <button class="btn-primary" onclick="resetSimulation()">🔄 Reset Journey</button>
                 <button class="btn-secondary" onclick="autoJourney()">▶️ Auto Journey</button>
+                <button style="padding: 12px 24px; border: none; border-radius: 8px; font-size: 1em; cursor: pointer; font-weight: 600; background: linear-gradient(135deg, #EF4444, #DC2626); color: white;" onclick="stopAutoJourney()">⏹️ Stop</button>
                 <button class="btn-warning" onclick="showAllPaths()">🗺️ Show All Paths</button>
             </div>
 
@@ -446,6 +478,7 @@
         let currentLocation = 'atmosphere';
         let stepCount = 0;
         let journeyLog = [];
+        let autoJourneyInterval = null; // Track interval for proper cleanup
 
         function moveTo(newLocation) {
             const current = locations[currentLocation];
@@ -514,7 +547,17 @@
             logContainer.scrollTop = logContainer.scrollHeight;
         }
 
+        function stopAutoJourney() {
+            if (autoJourneyInterval) {
+                clearInterval(autoJourneyInterval);
+                autoJourneyInterval = null;
+            }
+        }
+
         function resetSimulation() {
+            // Stop any running auto journey first
+            stopAutoJourney();
+
             currentLocation = 'atmosphere';
             stepCount = 0;
             journeyLog = [];
@@ -536,6 +579,9 @@
         }
 
         function autoJourney() {
+            // Stop any running auto journey first
+            stopAutoJourney();
+
             const paths = [
                 ['plant', 'animal', 'atmosphere'],
                 ['plant', 'fossil', 'factory', 'atmosphere'],
@@ -545,12 +591,13 @@
 
             resetSimulation();
             let i = 0;
-            const interval = setInterval(() => {
+            autoJourneyInterval = setInterval(() => {
                 if (i < randomPath.length) {
                     moveTo(randomPath[i]);
                     i++;
                 } else {
-                    clearInterval(interval);
+                    clearInterval(autoJourneyInterval);
+                    autoJourneyInterval = null;
                 }
             }, 2000);
         }
