@@ -511,15 +511,21 @@
             // Ocean absorption: ~10 Gt/year base, decreases with saturation and warming
             const oceanSaturation = Math.min(1, oceanStored / OCEAN_CAPACITY);
             const tempEffect = Math.max(0, 1 - (atmCO2 - 280) * 0.001);
-            let oceanAbsorb = 10 * (1 - oceanSaturation * 0.5) * tempEffect;
+            // At 100% saturation, absorption stops completely
+            let oceanAbsorb = oceanSaturation >= 1 ? 0 : 10 * (1 - oceanSaturation) * tempEffect;
 
             // Forest absorption: ~6 Gt/year base, scales with forest area, decreases with saturation
             const forestSaturation = Math.min(1, forestStored / FOREST_CAPACITY);
-            let forestAbsorb = 6 * (forestPercent / 100) * (1 - forestSaturation * 0.3);
+            // At 100% saturation, absorption stops completely
+            let forestAbsorb = forestSaturation >= 1 ? 0 : 6 * (forestPercent / 100) * (1 - forestSaturation);
 
             // Can't absorb more than emissions
             oceanAbsorb = Math.min(oceanAbsorb, emissions * 0.4);
             forestAbsorb = Math.min(forestAbsorb, emissions * 0.3);
+
+            // Can't absorb more than remaining capacity
+            oceanAbsorb = Math.min(oceanAbsorb, OCEAN_CAPACITY - oceanStored);
+            forestAbsorb = Math.min(forestAbsorb, FOREST_CAPACITY - forestStored);
 
             return { oceanAbsorb: Math.max(0, oceanAbsorb), forestAbsorb: Math.max(0, forestAbsorb) };
         }
@@ -538,9 +544,9 @@
             const { oceanAbsorb, forestAbsorb } = calculateAbsorption();
             const atmIncrease = Math.max(0, emissions - oceanAbsorb - forestAbsorb);
 
-            // Update stores
-            oceanStored += oceanAbsorb;
-            forestStored += forestAbsorb;
+            // Update stores (capped at capacity)
+            oceanStored = Math.min(OCEAN_CAPACITY, oceanStored + oceanAbsorb);
+            forestStored = Math.min(FOREST_CAPACITY, forestStored + forestAbsorb);
             atmCO2 += atmIncrease * CO2_PER_GT;
             totalEmissions += emissions;
             year++;
