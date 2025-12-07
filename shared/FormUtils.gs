@@ -1,11 +1,27 @@
 /**
  * ============================================================================
  * SHARED FORM UTILITIES - Use for both G7 and G8 Forms
- * Version: 1.0 | Last Updated: Cycle 3 Week 1
+ * Version: 1.1 | Last Updated: December 2025
  * ============================================================================
  *
  * This library provides standardized helper functions for creating
  * Google Forms with consistent settings, validation, and rubrics.
+ *
+ * USAGE NOTE:
+ * Currently, content/grade{7,8}/cycle{XX}/week{N}/forms.gs files have inline
+ * implementations of similar functions. For new forms, import these utilities:
+ *
+ *   // At top of forms.gs:
+ *   // Copy FormUtils.gs to same Apps Script project, then call:
+ *   // configSecurity(form), addCalcItem(form, ...), etc.
+ *
+ * DUPLICATE FUNCTION REFERENCE:
+ * The following functions exist both here and in content forms.gs files:
+ *   - configSecurity() / configureForm() - Line 127 here
+ *   - logFormInfo_() / logForm() - Line 335 here
+ *   - addCalcItem() - Line 140 here (use instead of inline implementations)
+ *   - addExplainItem() - Line 162 here
+ *   - generateRubric() - Line 273 here
  *
  * ============================================================================
  * GOOGLE FORMS API CONSTRAINTS - NON-NEGOTIABLE RULES

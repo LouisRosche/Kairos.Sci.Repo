@@ -83,6 +83,9 @@ C3.Repo/
 │       └── exemplars-cycle03-week2.md     # Model responses
 │
 ├── data/                                  # Data aggregation & MTSS
+│   ├── hub/
+│   │   ├── KAMS-Science-Hub.xlsx          # Master data hub
+│   │   └── HubOrchestrator.gs
 │   ├── aggregation/
 │   │   ├── ResponseCollector.gs
 │   │   ├── DataAggregator.gs
@@ -90,7 +93,10 @@ C3.Repo/
 │   ├── analysis/
 │   │   ├── ThreeDimensionalAnalyzer.gs
 │   │   └── templates/
-│   └── mtss/
+│   ├── mtss/
+│   │   ├── InterventionGenerator.gs
+│   │   └── InterventionGrouping.gs
+│   └── FormRegistry.gs
 │
 ├── framework/                             # Pedagogical documentation
 │   ├── pedagogical-approach.md
@@ -99,7 +105,8 @@ C3.Repo/
 │
 ├── shared/                                # Cross-grade utilities
 │   ├── FormUtils.gs
-│   └── KAMS-Science-Hub.xlsx
+│   ├── DataUtils.gs
+│   └── ValidationUtils.gs
 │
 ├── templates/                             # Content generation
 │   ├── forms/
@@ -107,6 +114,11 @@ C3.Repo/
 │   └── docs/
 │
 ├── scripts/                               # Automation
+│   ├── generate-cycle.js
+│   ├── validate-config.js
+│   ├── deploy-forms.gs
+│   └── nightly-aggregation.gs
+│
 └── archive/                               # Historical reference
 ```
 

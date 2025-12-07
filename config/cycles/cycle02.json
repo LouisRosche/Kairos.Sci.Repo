@@ -1,0 +1,148 @@
+{
+  "$schema": "../schema/cycle-schema.json",
+  "$comment": "LEGACY CYCLE - Pre-architecture content with 4 weeks instead of standard 3",
+  "cycle": 2,
+  "name": "Cycle 2: Foundation Concepts (Legacy)",
+  "status": "complete",
+  "isLegacy": true,
+  "weeksOverride": 4,
+  "dates": {
+    "start": "2025-11-04",
+    "end": "2025-11-29",
+    "week1": { "start": "2025-11-04", "end": "2025-11-08" },
+    "week2": { "start": "2025-11-11", "end": "2025-11-15" },
+    "week3": { "start": "2025-11-18", "end": "2025-11-22" },
+    "week4": { "start": "2025-11-25", "end": "2025-11-29" }
+  },
+
+  "grades": {
+    "7": {
+      "topic": "Molecular Structure, Bonding & Reactions",
+      "phenomenon": {
+        "week1": "Why does stuff act different? (Molecular Rizz)",
+        "week2": "What happens when molecules meet?",
+        "week3": "How do reactions change matter?",
+        "week4": "Assessment & Integration"
+      },
+      "ngss": {
+        "primary": {
+          "code": "MS-PS1-1",
+          "description": "Develop models to describe the atomic composition of simple molecules and extended structures."
+        },
+        "secondary": [
+          { "code": "MS-PS1-5", "description": "Energy changes in chemical reactions" },
+          { "code": "MS-PS1-6", "description": "Design solutions for exo/endothermic reactions" }
+        ]
+      },
+      "threeDimensional": {
+        "sep": ["SEP-2: Developing and Using Models"],
+        "dci": ["PS1.A: Structure and Properties of Matter"],
+        "ccc": ["CCC-7: Structure and Function"]
+      },
+      "weeks": {
+        "1": {
+          "title": "Molecular Rizz - Why Stuff Acts Different",
+          "status": "complete",
+          "files": {
+            "studentPage": "content/grade7/cycle02/week1/student-page.html"
+          },
+          "stations": {
+            "hook": { "title": "TBD", "points": 12 },
+            "station1": { "title": "PhET Molecular Construction", "points": 20 },
+            "station2": { "title": "Structure-Property Patterns", "points": 20 },
+            "station3": { "title": "Model Building Challenge", "points": 25 },
+            "exitTicket": { "title": "Weekly Check", "points": 23 }
+          }
+        },
+        "2": {
+          "title": "Molecular Interactions",
+          "status": "complete",
+          "files": {
+            "studentPage": "content/grade7/cycle02/week2/student-page.html"
+          }
+        },
+        "3": {
+          "title": "Chemical Reactions",
+          "status": "complete",
+          "files": {
+            "forms": "content/grade7/cycle02/week3/forms.gs",
+            "studentPage": "content/grade7/cycle02/week3/student-page.html"
+          }
+        },
+        "4": {
+          "title": "Assessment & Integration",
+          "status": "complete",
+          "isAssessmentWeek": true,
+          "files": {
+            "studentPage": "content/grade7/cycle02/week4/student-page.html"
+          }
+        }
+      }
+    },
+
+    "8": {
+      "topic": "Forces, Energy & Collisions",
+      "phenomenon": {
+        "week1": "What makes things move?",
+        "week2": "How do forces interact?",
+        "week3": "Energy in collisions",
+        "week4": "Assessment & Integration"
+      },
+      "ngss": {
+        "primary": {
+          "code": "MS-PS2-1",
+          "description": "Apply Newton's Third Law to design a solution to a problem involving the motion of two colliding objects."
+        },
+        "secondary": [
+          { "code": "MS-PS2-2", "description": "Plan an investigation to provide evidence that change in motion depends on net force and mass" },
+          { "code": "MS-PS3-1", "description": "Construct and interpret graphical displays of data on kinetic energy" }
+        ]
+      },
+      "threeDimensional": {
+        "sep": ["SEP-3: Planning and Carrying Out Investigations"],
+        "dci": ["PS2.A: Forces and Motion", "PS3.A: Definitions of Energy"],
+        "ccc": ["CCC-2: Cause and Effect", "CCC-5: Energy and Matter"]
+      },
+      "weeks": {
+        "1": {
+          "title": "Forces Introduction",
+          "status": "complete",
+          "files": {
+            "studentPage": "content/grade8/cycle02/week1/student-page.html"
+          }
+        },
+        "2": {
+          "title": "Force Interactions",
+          "status": "complete",
+          "files": {
+            "studentPage": "content/grade8/cycle02/week2/student-page.html"
+          }
+        },
+        "3": {
+          "title": "Energy in Collisions",
+          "status": "complete",
+          "files": {
+            "forms": "content/grade8/cycle02/week3/forms.gs",
+            "studentPage": "content/grade8/cycle02/week3/student-page.html"
+          }
+        },
+        "4": {
+          "title": "Assessment & Integration",
+          "status": "complete",
+          "isAssessmentWeek": true,
+          "files": {
+            "studentPage": "content/grade8/cycle02/week4/student-page.html"
+          }
+        }
+      }
+    }
+  },
+
+  "analytics": {
+    "lastDataPull": null,
+    "completionRates": {},
+    "averageScores": {},
+    "misconceptionFlags": [],
+    "notes": "Legacy cycle - limited analytics available. Student pages and curriculum design complete. Forms only for week3 in both grades."
+  }
+}

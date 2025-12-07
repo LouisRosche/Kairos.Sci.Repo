@@ -48,6 +48,7 @@ C3.Repo/
 │   ├── FormRegistry.gs
 │   ├── hub/                     # Central data hub
 │   │   ├── KAMS-Science-Hub.xlsx
+│   │   ├── HubOrchestrator.gs   # ✅ Orchestration script
 │   │   └── hub-setup-guide.md
 │   ├── aggregation/
 │   │   ├── ResponseCollector.gs
@@ -64,6 +65,7 @@ C3.Repo/
 │   │       └── analysis-dashboard.json
 │   └── mtss/
 │       ├── InterventionGenerator.gs
+│       ├── InterventionGrouping.gs  # ✅ Student grouping engine
 │       ├── tier-definitions.json
 │       └── output/
 │           ├── tier2-students.json
@@ -78,7 +80,9 @@ C3.Repo/
 │   ├── generate-cycle.js        # Config generation
 │   └── validate-config.js       # Cycle validation
 ├── shared/                      # Cross-grade utilities
-│   └── FormUtils.gs
+│   ├── FormUtils.gs             # Form creation helpers
+│   ├── DataUtils.gs             # Data retrieval utilities
+│   └── ValidationUtils.gs       # Config validation
 ├── templates/                   # Content generation templates
 └── archive/                     # Legacy/backup files
 ```
@@ -93,7 +97,7 @@ C3.Repo/
 |-------|---------|---------|--------|
 | **C2** | 75% 📦 | 75% 📦 | **LEGACY** (pre-architecture) |
 | **C3** | 100% ✅ | 100% ✅ | **DEPLOYED** |
-| **C4** | 45% 🟡 | 10% 📋 | In Progress |
+| **C4** | 75% 🟡 | 70% 🟡 | In Progress |
 | **C5** | 0% 📋 | 0% 📋 | Placeholder |
 | **C6** | 0% 📋 | 0% 📋 | Placeholder |
 | **C7** | 0% 📋 | 0% 📋 | Placeholder |
