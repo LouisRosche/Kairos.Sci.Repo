@@ -28,11 +28,13 @@
 | Document | Purpose |
 |----------|---------|
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Complete system design, data flow, scaling plan |
+| [LESSONS-LEARNED.md](LESSONS-LEARNED.md) | **Institutional knowledge - read before making changes** |
 | [MANIFEST.md](MANIFEST.md) | Complete content inventory with status |
 | [Master Config](config/master-config.json) | Central configuration for all cycles |
 | [MTSS Framework](framework/mtss-framework.md) | Multi-tiered intervention system |
 | [Pedagogical Approach](framework/pedagogical-approach.md) | 3D learning, differentiation |
 | [Technical Reference](framework/technical-reference.md) | Forms API rules, troubleshooting |
+| [Content Design Guide](framework/CONTENT-DESIGN-GUIDE.md) | SST for content creation standards |
 
 ---
 
