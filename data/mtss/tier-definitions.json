@@ -1,5 +1,5 @@
 {
-  "$schema": "../schema/mtss-schema.json",
+  "$schema": "../../config/schema/mtss-schema.json",
   "version": "1.0.0",
   "lastUpdated": "2025-12-06",
 

@@ -11,8 +11,8 @@
 ## TODO: Content Development Checklist
 
 - [ ] Define driving phenomena for Week 1 and Week 2
-- [ ] Map NGSS standards (MS-PS4-2 primary)
-- [ ] Identify spiral connections to Cycles 3-4
+- [ ] Map NGSS standards (MS-PS2-3 primary)
+- [ ] Identify spiral connections to Cycles 3-5
 - [ ] Document target misconceptions
 - [ ] Create station content outlines
 - [ ] Develop assessment rubrics
@@ -34,7 +34,7 @@
 ## Standards Alignment
 
 ### Primary Standard
-- **MS-PS4-2:** Collect data to provide evidence for how the motions and complex interactions of air masses result in changes in weather conditions.
+- **MS-PS2-3:** Ask questions about data to determine the factors that affect the strength of electric and magnetic forces.
 
 ### Spiral Standards
 *To be determined based on Cycles 3-4 completion data*

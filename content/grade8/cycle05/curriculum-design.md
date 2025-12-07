@@ -34,7 +34,7 @@
 ## Standards Alignment
 
 ### Primary Standard
-- **MS-PS4-2:** Collect data to provide evidence for how the motions and complex interactions of air masses result in changes in weather conditions.
+- **MS-PS4-2:** Develop and use a model to describe that waves are reflected, absorbed, or transmitted through various materials depending on the wave type and material.
 
 ### Spiral Standards
 *To be determined based on Cycles 3-4 completion data*
