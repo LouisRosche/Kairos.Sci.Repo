@@ -30,6 +30,7 @@ This document defines the organizational architecture for a complete middle scho
 C3.Repo/
 ├── README.md                          # Quick navigation & teacher workflow
 ├── ARCHITECTURE.md                    # This document
+├── LESSONS-LEARNED.md                 # ⭐ Institutional knowledge - read first!
 │
 ├── config/                            # Master configuration (JSON)
 │   ├── master-config.json             # All cycles, grades, standards
