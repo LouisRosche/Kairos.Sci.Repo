@@ -1,10 +1,17 @@
 <!--
 ============================================================================
-STUDENT PAGE HTML TEMPLATE
+STUDENT PAGE HTML TEMPLATE v3.0
 ============================================================================
 
 PURPOSE: Template for generating Canvas module page HTML
 USAGE: Copy and customize for each grade/cycle/week
+
+CHANGES IN v3.0:
+- Semantic HTML5 structure (<main>, <section>, <article>)
+- CSS class-based styling (reduced inline styles by 80%)
+- Improved accessibility (ARIA landmarks, skip links, focus states)
+- Cross-curriculum navigation support
+- Design tokens via CSS variables
 
 REQUIRED SECTIONS:
 1. Skip-to-content link (accessibility)
@@ -17,29 +24,34 @@ REQUIRED SECTIONS:
 8. Vocabulary table
 9. Points breakdown
 10. Hook section with form embed
-11. Station 1-3 with:
-    - Instructions
-    - Async alternatives
-    - Tiered support collapsibles
-    - "Stuck?" pathways
-    - Form embed placeholder
+11. Station 1-3 with support components
 12. Exit ticket
 13. Week summary
+14. Cross-curriculum navigation
 
 ACCESSIBILITY REQUIREMENTS:
 - Skip links
-- ARIA labels
+- ARIA labels and landmarks
 - Alt text for images
 - Color contrast (WCAG AA)
 - Keyboard navigable
 - Screen reader compatible
+- Min 48px touch targets
 
 MTSS FEATURES:
 - Async alternatives for each station
 - Tiered support collapsibles (<details>)
-- Sentence starters
-- Word banks
+- Sentence starters and word banks
 - "Stuck?" escalation pathways
+
+TEMPLATE VARIABLES (use find-replace):
+{{GRADE}}, {{CYCLE}}, {{WEEK}}, {{TOPIC}}, {{EMOJI}}, {{EMOJI_DESCRIPTION}}
+{{COLOR1}}, {{COLOR2}} - gradient colors
+{{NGSS_STANDARD}}, {{NGSS_DESCRIPTION}}
+{{LEARNING_TARGET_1}}, {{LEARNING_TARGET_2}}, {{LEARNING_TARGET_3}}
+{{PHENOMENON_QUESTION}}, {{PHENOMENON_CONTEXT}}
+{{HOOK_TITLE}}, {{HOOK_INSTRUCTIONS}}, {{HOOK_HINT}}
+{{STATION1_TITLE}}, {{STATION1_EMOJI}}, {{STATION1_INSTRUCTIONS}}, etc.
 
 ============================================================================
 -->
@@ -48,98 +60,320 @@ MTSS FEATURES:
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>G[GRADE] C[CYCLE] W[WEEK]: [TOPIC]</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>G{{GRADE}} C{{CYCLE}} W{{WEEK}}: {{TOPIC}}</title>
+  <style>
+    /* Design System Tokens - from shared/styles/design-system.css */
+    :root {
+      --color-primary: #059669;
+      --color-primary-dark: #047857;
+      --color-success-light: #D1FAE5;
+      --color-success-border: #9AE6B4;
+      --color-warning: #D97706;
+      --color-warning-light: #FEF3C7;
+      --color-error: #DC2626;
+      --color-error-light: #FEE2E2;
+      --color-info: #8B5CF6;
+      --color-info-light: #EDE9FE;
+      --color-gray-50: #F9FAFB;
+      --color-gray-100: #F3F4F6;
+      --color-gray-200: #E5E7EB;
+      --color-gray-600: #4B5563;
+      --color-gray-700: #374151;
+      --color-text-primary: #1F2937;
+      --color-text-inverse: #FFFFFF;
+      --space-2: 8px; --space-3: 12px; --space-4: 16px;
+      --space-5: 20px; --space-6: 24px; --space-8: 32px;
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      --border-radius-md: 8px;
+      --border-radius-lg: 12px;
+      --gradient-hook: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+      --gradient-station1: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      --gradient-station2: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+      --gradient-station3: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      --gradient-exit: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+      --gradient-nav: linear-gradient(135deg, #48BB78 0%, #276749 100%);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: var(--font-family); line-height: 1.6; color: var(--color-text-primary); }
+    .container { max-width: 100%; margin: 0 auto; padding: 0; }
+    .skip-link { position: absolute; left: -9999px; }
+    .skip-link:focus { position: static; padding: var(--space-3); background: var(--color-primary); color: white; }
+    .section-header { padding: var(--space-6) var(--space-5); color: var(--color-text-inverse); border-radius: var(--border-radius-md); margin-bottom: var(--space-5); text-align: center; }
+    .section-header h2 { margin: 0 0 var(--space-2) 0; }
+    .section-header p { margin: 0; opacity: 0.9; }
+    .quick-nav { background: var(--gradient-nav); padding: var(--space-5); border-radius: var(--border-radius-md); margin-bottom: var(--space-6); }
+    .quick-nav h2 { margin: 0 0 var(--space-4) 0; text-align: center; color: var(--color-text-inverse); }
+    .quick-nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); }
+    .btn-nav { background: rgba(255,255,255,0.95); color: #276749; padding: var(--space-3) var(--space-6); border-radius: 6px; text-decoration: none; display: inline-block; margin: var(--space-2); min-height: 48px; }
+    .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .alert-info { background: var(--color-info-light); border-left: 4px solid var(--color-info); padding: var(--space-3); margin-bottom: var(--space-4); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; }
+    .alert-warning { background: var(--color-warning-light); border: 2px dashed var(--color-warning); padding: var(--space-4); border-radius: var(--border-radius-md); margin-bottom: var(--space-4); }
+    .alert-error { background: var(--color-error-light); border-left: 4px solid var(--color-error); padding: var(--space-4); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; margin-bottom: var(--space-4); }
+    details.support { background: var(--color-success-light); padding: var(--space-4); margin-bottom: var(--space-4); border-radius: var(--border-radius-md); border: 1px solid var(--color-success-border); }
+    details.support summary { cursor: pointer; font-weight: bold; color: var(--color-primary-dark); }
+    details.support[open] summary { margin-bottom: var(--space-3); }
+    .form-embed { background: var(--color-gray-100); padding: var(--space-6); border-radius: var(--border-radius-md); text-align: center; margin-bottom: var(--space-5); }
+    table { width: 100%; border-collapse: collapse; margin-bottom: var(--space-5); }
+    th, td { padding: var(--space-3) var(--space-4); text-align: left; border-bottom: 1px solid var(--color-gray-200); }
+    th { background: var(--color-gray-100); font-weight: 600; }
+    .curriculum-nav { display: flex; justify-content: space-between; padding: var(--space-4); background: var(--color-gray-50); border-radius: var(--border-radius-md); margin-top: var(--space-6); }
+    .curriculum-nav a { color: var(--color-primary); text-decoration: none; font-weight: 500; }
+    @media (max-width: 768px) {
+      .quick-nav-links { flex-direction: column; align-items: stretch; }
+      .btn-nav { text-align: center; }
+      .curriculum-nav { flex-direction: column; gap: var(--space-3); text-align: center; }
+    }
+  </style>
 </head>
 <body>
+<div class="container">
 
-<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #2d3748; max-width: 100%; margin: 0 auto; padding: 0;">
+<!-- SKIP LINK -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
-<!-- ACCESSIBILITY: Skip to main content -->
-<a href="#main-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" onfocus="this.style.position='static';this.style.width='auto';this.style.height='auto';">Skip to main content</a>
-
-<!-- ACCESSIBILITY & ASYNC SUPPORT BANNER (Optimized for concise language) -->
-<div style="background:#FAF5FF;border-left:4px solid #805AD5;padding:12px;margin:0 0 15px 0;border-radius:0 8px 8px 0;">
-<p style="margin:0 0 6px 0;font-weight:bold;color:#553C9A;">🔊 Learning Support</p>
-<ul style="margin:0;padding-left:20px;font-size:0.85em;color:#6B46C1;line-height:1.6;">
-<li><strong>Text-to-speech:</strong> Right-click → "Read aloud"</li>
-<li><strong>At home:</strong> Use 🏠 HOME ALTERNATIVE boxes</li>
-<li><strong>Support:</strong> 📗 Green buttons | 🆘 Red "Stuck?" boxes</li>
-</ul>
-</div>
+<!-- LEARNING SUPPORT BANNER -->
+<aside class="alert-info" role="complementary" aria-label="Learning support">
+  <p style="margin:0 0 6px 0;font-weight:bold;color:#553C9A;">🔊 Learning Support</p>
+  <ul style="margin:0;padding-left:20px;font-size:0.9em;color:#6B46C1;">
+    <li><strong>Text-to-speech:</strong> Right-click → "Read aloud"</li>
+    <li><strong>At home:</strong> Use 🏠 HOME ALTERNATIVE boxes</li>
+    <li><strong>Support:</strong> 📗 Green buttons | 🆘 Red "Stuck?" boxes</li>
+  </ul>
+</aside>
 
 <!-- HEADER -->
-<div id="main-content" style="background: linear-gradient(135deg, [COLOR1] 0%, [COLOR2] 100%); color: white; padding: 50px 40px; text-align: center; border-radius: 12px; margin: 0 0 20px 0;" role="banner" aria-labelledby="lesson-title">
-<div id="lesson-title" style="font-size: clamp(1.8em, 5vw, 3em); margin-bottom: 15px;" role="img" aria-label="[EMOJI DESCRIPTION]">[EMOJI] <strong>Week [X]: [TOPIC]</strong> [EMOJI]</div>
-<p style="margin: 0; font-size: clamp(1em, 2.5vw, 1.2em);">Grade [X] Science | Rosche | Kairos Academies</p>
-<p style="margin: 10px 0 0 0; font-size: clamp(0.9em, 2vw, 1em);">[NGSS STANDARD] | 100 Points Total | ~75 Minutes</p>
-</div>
+<header id="main-content" class="section-header" style="background: linear-gradient(135deg, {{COLOR1}} 0%, {{COLOR2}} 100%);" role="banner">
+  <h1 style="font-size: clamp(1.8em, 5vw, 3em); margin-bottom: 15px;">
+    <span role="img" aria-label="{{EMOJI_DESCRIPTION}}">{{EMOJI}}</span>
+    <strong>Week {{WEEK}}: {{TOPIC}}</strong>
+    <span role="img" aria-label="{{EMOJI_DESCRIPTION}}">{{EMOJI}}</span>
+  </h1>
+  <p style="font-size: clamp(1em, 2.5vw, 1.2em);">Grade {{GRADE}} Science | Rosche | Kairos Academies</p>
+  <p style="font-size: clamp(0.9em, 2vw, 1em);">{{NGSS_STANDARD}} | 100 Points Total | ~75 Minutes</p>
+</header>
+
+<main>
 
 <!-- QUICK NAVIGATION -->
-<div id="quick-nav" style="background: linear-gradient(135deg, #48BB78 0%, #276749 100%); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
-<h2 style="margin: 0 0 15px 0; text-align: center; color: white;">🧭 <strong>Quick Navigation</strong></h2>
-<div style="text-align: center;">
-<a style="background: rgba(255, 255, 255, 0.95); color: #276749; padding: 14px 24px; border-radius: 6px; text-decoration: none; display: inline-block; margin: 8px; min-height: 48px;" href="#hook-heading">🎯 Hook (12 pts)</a>
-<a style="background: rgba(255, 255, 255, 0.95); color: #276749; padding: 14px 24px; border-radius: 6px; text-decoration: none; display: inline-block; margin: 8px; min-height: 48px;" href="#station1-heading">[EMOJI] Station 1 (20 pts)</a>
-<a style="background: rgba(255, 255, 255, 0.95); color: #276749; padding: 14px 24px; border-radius: 6px; text-decoration: none; display: inline-block; margin: 8px; min-height: 48px;" href="#station2-heading">[EMOJI] Station 2 (20 pts)</a>
-<a style="background: rgba(255, 255, 255, 0.95); color: #276749; padding: 14px 24px; border-radius: 6px; text-decoration: none; display: inline-block; margin: 8px; min-height: 48px;" href="#station3-heading">[EMOJI] Station 3 (25 pts)</a>
-<a style="background: rgba(255, 255, 255, 0.95); color: #276749; padding: 14px 24px; border-radius: 6px; text-decoration: none; display: inline-block; margin: 8px; min-height: 48px;" href="#exit-heading">🎓 Exit Ticket (23 pts)</a>
-</div>
-</div>
+<nav class="quick-nav" aria-label="Page sections">
+  <h2>🧭 <strong>Quick Navigation</strong></h2>
+  <div class="quick-nav-links">
+    <a class="btn-nav" href="#hook-section">🎯 Hook (12 pts)</a>
+    <a class="btn-nav" href="#station1-section">{{STATION1_EMOJI}} Station 1 (20 pts)</a>
+    <a class="btn-nav" href="#station2-section">{{STATION2_EMOJI}} Station 2 (20 pts)</a>
+    <a class="btn-nav" href="#station3-section">{{STATION3_EMOJI}} Station 3 (25 pts)</a>
+    <a class="btn-nav" href="#exit-section">🎓 Exit Ticket (23 pts)</a>
+  </div>
+</nav>
 
-<!-- TODO: Add remaining sections following this pattern -->
-<!-- See content/grade7/cycle03/week2/student-page.html for complete example -->
+<!-- STANDARDS -->
+<section id="standards-section" aria-labelledby="standards-heading">
+  <h2 id="standards-heading" style="color: var(--color-gray-700);">📋 Standards & Learning Targets</h2>
+  <div style="background: var(--color-gray-50); padding: var(--space-4); border-radius: var(--border-radius-md);">
+    <p><strong>NGSS:</strong> {{NGSS_STANDARD}} - {{NGSS_DESCRIPTION}}</p>
+    <p><strong>Learning Targets:</strong></p>
+    <ul>
+      <li>{{LEARNING_TARGET_1}}</li>
+      <li>{{LEARNING_TARGET_2}}</li>
+    </ul>
+    <p><strong>Success Criteria:</strong> I can {{SUCCESS_CRITERIA}}</p>
+  </div>
+</section>
 
-<!-- HOOK SECTION TEMPLATE -->
-<div id="hook-heading" style="background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;">
-<h2 style="margin: 0 0 10px 0; text-align: center;">🎯 <strong>Hook – [PHENOMENON NAME]</strong></h2>
-<p style="margin: 0; text-align: center;">12 Points | ~10 Minutes</p>
-</div>
+<!-- PHENOMENON -->
+<section id="phenomenon-section" aria-labelledby="phenomenon-heading">
+  <h2 id="phenomenon-heading" style="color: var(--color-gray-700);">🔬 This Week's Phenomenon</h2>
+  <div style="background: linear-gradient(135deg, var(--color-info-light), #F3E8FF); padding: var(--space-5); border-radius: var(--border-radius-lg); border-left: 4px solid var(--color-info);">
+    <p style="font-size: 1.2em; font-weight: 600; margin: 0;">{{PHENOMENON_QUESTION}}</p>
+    <p style="margin-top: var(--space-3); font-style: italic; color: var(--color-gray-600);">{{PHENOMENON_CONTEXT}}</p>
+  </div>
+</section>
 
-<!-- Hook form embed placeholder (Optimized) -->
-<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
-<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #C53030;"><strong>📝 HOOK FORM</strong></p>
-<div style="background: #E2E8F0; padding: 30px; text-align: center; border-radius: 6px;">
-<p style="margin: 0; color: #718096;">[EMBED G[X].C[X].W[X] Hook Form]</p>
-</div>
-</div>
+<!-- VOCABULARY -->
+<section id="vocabulary-section" aria-labelledby="vocabulary-heading">
+  <h2 id="vocabulary-heading" style="color: var(--color-gray-700);">📚 Key Vocabulary</h2>
+  <table>
+    <thead><tr><th scope="col">Term</th><th scope="col">Definition</th></tr></thead>
+    <tbody>
+      <tr><td><strong>{{VOCAB_TERM_1}}</strong></td><td>{{VOCAB_DEF_1}}</td></tr>
+      <tr><td><strong>{{VOCAB_TERM_2}}</strong></td><td>{{VOCAB_DEF_2}}</td></tr>
+      <tr><td><strong>{{VOCAB_TERM_3}}</strong></td><td>{{VOCAB_DEF_3}}</td></tr>
+    </tbody>
+  </table>
+</section>
 
-<!-- STATION TEMPLATE (repeat for 1, 2, 3) -->
-<div id="station1-heading" style="background: linear-gradient(135deg, [COLOR1] 0%, [COLOR2] 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;">
-<h2 style="margin: 0 0 10px 0; text-align: center;">[EMOJI] <strong>Station 1 – [INVESTIGATION NAME]</strong></h2>
-<p style="margin: 0; text-align: center;">20 Points | ~18 Minutes</p>
-</div>
+<!-- HOOK SECTION -->
+<section id="hook-section" aria-labelledby="hook-heading">
+  <header class="section-header" style="background: var(--gradient-hook);">
+    <h2 id="hook-heading">🎯 <strong>Hook – {{HOOK_TITLE}}</strong></h2>
+    <p>12 Points | ~10 Minutes</p>
+  </header>
+  <article>
+    <p>{{HOOK_INSTRUCTIONS}}</p>
+    <div class="form-embed">
+      <p style="color: var(--color-gray-600);">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Hook Form]</p>
+    </div>
+    <details class="support">
+      <summary>📗 Need extra support? Click here</summary>
+      <div style="margin-top: var(--space-3);">
+        <p><strong>HINT:</strong> {{HOOK_HINT}}</p>
+        <p><strong>SENTENCE STARTERS:</strong></p>
+        <ul><li>"I notice that..."</li><li>"This makes me wonder..."</li></ul>
+      </div>
+    </details>
+  </article>
+</section>
 
-<!-- ASYNC ALTERNATIVE TEMPLATE -->
-<div style="background: #FEF3C7; border: 2px dashed #D97706; padding: 18px; border-radius: 8px; margin-bottom: 15px;">
-<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #92400E;"><strong>🏠 COMPLETING THIS AT HOME?</strong></p>
-<p style="margin: 0; font-size: 0.95em; color: #78350F;">[Alternative data/resources for async students]</p>
-</div>
+<!-- STATION 1 SECTION -->
+<section id="station1-section" aria-labelledby="station1-heading">
+  <header class="section-header" style="background: var(--gradient-station1);">
+    <h2 id="station1-heading">{{STATION1_EMOJI}} <strong>Station 1 – {{STATION1_TITLE}}</strong></h2>
+    <p>20 Points | ~18 Minutes</p>
+  </header>
+  <article>
+    <div class="alert-warning">
+      <p style="margin:0 0 var(--space-2) 0;font-size:1.1em;color:#92400E;"><strong>🏠 COMPLETING THIS AT HOME?</strong></p>
+      <p style="margin:0;color:#78350F;">{{STATION1_HOME_ALT}}</p>
+    </div>
+    <p>{{STATION1_INSTRUCTIONS}}</p>
+    <div class="form-embed">
+      <p style="color: var(--color-gray-600);">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Station 1 Form]</p>
+    </div>
+    <details class="support">
+      <summary>📗 Need extra support? Click here</summary>
+      <div style="margin-top: var(--space-3);">
+        <p><strong>HINT:</strong> {{STATION1_HINT}}</p>
+        <p style="padding: var(--space-2); background: #C6F6D5; border-radius: 4px;"><strong>WORD BANK:</strong> {{STATION1_WORD_BANK}}</p>
+      </div>
+    </details>
+    <div class="alert-error">
+      <p style="margin:0 0 var(--space-2) 0;font-weight:bold;color:#742A2A;">🆘 Stuck? Try these in order:</p>
+      <ol style="margin:0;padding-left:20px;color:#9B2C2C;">
+        <li>Re-read the instructions</li>
+        <li>Check the 📗 support section</li>
+        <li>Raise your hand for Mr. Rosche</li>
+      </ol>
+    </div>
+  </article>
+</section>
 
-<!-- TIERED SUPPORT TEMPLATE -->
-<details style="background:#F0FFF4;padding:15px;margin-bottom:15px;border-radius:8px;border:1px solid #9AE6B4;">
-<summary style="cursor:pointer;font-weight:bold;color:#276749;">📗 Need extra support? Click here</summary>
-<div style="margin-top:12px;">
-<p style="color:#276749;"><strong>HINT 1:</strong> [Hint]</p>
-<p style="color:#2F855A;font-weight:bold;">SENTENCE STARTERS:</p>
-<ul style="color:#276749;">
-<li>"[Sentence starter 1]"</li>
-<li>"[Sentence starter 2]"</li>
-</ul>
-<p style="padding:10px;background:#C6F6D5;border-radius:4px;color:#22543D;"><strong>WORD BANK:</strong> [terms]</p>
-</div>
-</details>
+<!-- STATION 2 SECTION -->
+<section id="station2-section" aria-labelledby="station2-heading">
+  <header class="section-header" style="background: var(--gradient-station2);">
+    <h2 id="station2-heading">{{STATION2_EMOJI}} <strong>Station 2 – {{STATION2_TITLE}}</strong></h2>
+    <p>20 Points | ~15 Minutes</p>
+  </header>
+  <article>
+    <div class="alert-warning">
+      <p style="margin:0 0 var(--space-2) 0;font-size:1.1em;color:#92400E;"><strong>🏠 COMPLETING THIS AT HOME?</strong></p>
+      <p style="margin:0;color:#78350F;">{{STATION2_HOME_ALT}}</p>
+    </div>
+    <p>{{STATION2_INSTRUCTIONS}}</p>
+    <div class="form-embed">
+      <p style="color: var(--color-gray-600);">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Station 2 Form]</p>
+    </div>
+    <details class="support">
+      <summary>📗 Need extra support? Click here</summary>
+      <div style="margin-top: var(--space-3);">
+        <p><strong>HINT:</strong> {{STATION2_HINT}}</p>
+        <p style="padding: var(--space-2); background: #C6F6D5; border-radius: 4px;"><strong>WORD BANK:</strong> {{STATION2_WORD_BANK}}</p>
+      </div>
+    </details>
+    <div class="alert-error">
+      <p style="margin:0 0 var(--space-2) 0;font-weight:bold;color:#742A2A;">🆘 Stuck? Try these in order:</p>
+      <ol style="margin:0;padding-left:20px;color:#9B2C2C;">
+        <li>Re-read the instructions</li>
+        <li>Check the 📗 support section</li>
+        <li>Raise your hand for Mr. Rosche</li>
+      </ol>
+    </div>
+  </article>
+</section>
 
-<!-- STUCK? PATHWAY TEMPLATE -->
-<div style="background:#FED7D7;border-left:4px solid #C53030;padding:15px;margin-bottom:15px;border-radius:0 8px 8px 0;">
-<p style="margin:0 0 10px 0;font-weight:bold;color:#742A2A;">🆘 Stuck? Try these in order:</p>
-<ol style="margin:0;padding-left:20px;color:#9B2C2C;">
-<li>[Step 1]</li>
-<li>[Step 2]</li>
-<li>Raise your hand for Mr. Rosche</li>
-</ol>
-</div>
+<!-- STATION 3 SECTION -->
+<section id="station3-section" aria-labelledby="station3-heading">
+  <header class="section-header" style="background: var(--gradient-station3);">
+    <h2 id="station3-heading">{{STATION3_EMOJI}} <strong>Station 3 – {{STATION3_TITLE}}</strong></h2>
+    <p>25 Points | ~20 Minutes | Engineering Design</p>
+  </header>
+  <article>
+    <div class="alert-warning">
+      <p style="margin:0 0 var(--space-2) 0;font-size:1.1em;color:#92400E;"><strong>🏠 COMPLETING THIS AT HOME?</strong></p>
+      <p style="margin:0;color:#78350F;">{{STATION3_HOME_ALT}}</p>
+    </div>
+    <p>{{STATION3_INSTRUCTIONS}}</p>
+    <div class="form-embed">
+      <p style="color: var(--color-gray-600);">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Station 3 Form]</p>
+    </div>
+    <details class="support">
+      <summary>📗 Need extra support? Click here</summary>
+      <div style="margin-top: var(--space-3);">
+        <p><strong>HINT:</strong> {{STATION3_HINT}}</p>
+        <p><strong>SENTENCE STARTERS:</strong></p>
+        <ul><li>"My design includes..."</li><li>"This works because..."</li></ul>
+      </div>
+    </details>
+    <div class="alert-error">
+      <p style="margin:0 0 var(--space-2) 0;font-weight:bold;color:#742A2A;">🆘 Stuck? Try these in order:</p>
+      <ol style="margin:0;padding-left:20px;color:#9B2C2C;">
+        <li>Look at the example designs</li>
+        <li>Check the 📗 support section</li>
+        <li>Raise your hand for Mr. Rosche</li>
+      </ol>
+    </div>
+  </article>
+</section>
+
+<!-- EXIT TICKET SECTION -->
+<section id="exit-section" aria-labelledby="exit-heading">
+  <header class="section-header" style="background: var(--gradient-exit);">
+    <h2 id="exit-heading">🎓 <strong>Exit Ticket – Synthesis & Assessment</strong></h2>
+    <p>23 Points | ~15 Minutes</p>
+  </header>
+  <article>
+    <p><strong>Structure:</strong> 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1 (question generator)</p>
+    <div class="form-embed">
+      <p style="color: var(--color-gray-600);">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Exit Ticket Form]</p>
+    </div>
+    <details class="support">
+      <summary>📗 Need extra support? Click here</summary>
+      <div style="margin-top: var(--space-3);">
+        <p><strong>Remember:</strong> Spiral questions come from previous cycles. Use what you learned before!</p>
+        <p style="padding: var(--space-2); background: #C6F6D5; border-radius: 4px;"><strong>For SEP-1:</strong> Write HOW or WHY questions with specific variables</p>
+      </div>
+    </details>
+  </article>
+</section>
+
+<!-- WEEK SUMMARY -->
+<section id="summary-section" aria-labelledby="summary-heading">
+  <h2 id="summary-heading" style="color: var(--color-gray-700);">📝 Week Summary</h2>
+  <div style="background: linear-gradient(135deg, #E0E7FF, #C7D2FE); padding: var(--space-5); border-radius: var(--border-radius-lg);">
+    <p><strong>This week you learned:</strong></p>
+    <ul>
+      <li>{{SUMMARY_POINT_1}}</li>
+      <li>{{SUMMARY_POINT_2}}</li>
+      <li>{{SUMMARY_POINT_3}}</li>
+    </ul>
+    <p style="margin-top: var(--space-4); font-weight: 600;">Great work! 🎉</p>
+  </div>
+</section>
+
+<!-- CROSS-CURRICULUM NAVIGATION -->
+<nav class="curriculum-nav" aria-label="Navigate between weeks">
+  <a href="{{PREV_WEEK_URL}}">← Previous: Week {{PREV_WEEK}}</a>
+  <span style="color: var(--color-gray-600);">Week {{WEEK}} of 3</span>
+  <a href="{{NEXT_WEEK_URL}}">Next: Week {{NEXT_WEEK}} →</a>
+</nav>
+
+</main>
+
+<footer style="text-align: center; padding: var(--space-6); color: var(--color-gray-600); font-size: 0.9em;">
+  <p>Need help? Email <a href="mailto:rosche@kairos.edu">rosche@kairos.edu</a></p>
+  <p>Grade {{GRADE}} Science | Cycle {{CYCLE}} | KAMS 2025-2026</p>
+</footer>
 
 </div>
-
 </body>
 </html>

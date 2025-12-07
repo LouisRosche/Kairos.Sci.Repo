@@ -1,6 +1,8 @@
 # KAMS Science Curriculum System Architecture
 ## Scalable Design for 8 Cycles × 2 Grades × 3 Weeks
 
+**Version 3.0.0** | December 2025
+
 ---
 
 ## Overview
@@ -11,6 +13,14 @@ This document defines the organizational architecture for a complete middle scho
 - **3 Weeks per Cycle** (24 total weeks of instruction)
 - **5 Forms per Week** (480 total Google Forms)
 - **Data-driven MTSS** (Multi-Tiered System of Supports)
+
+### v3.0 Architectural Principles
+
+1. **Single Source of Truth** - All configuration flows from `config/master-config.json` → `shared/Config.gs`
+2. **Centralized Constants** - Immutable system values in `shared/Constants.gs`
+3. **Unified Trigger Management** - No race conditions via `scripts/TriggerManager.gs`
+4. **Design Token System** - CSS variables in `shared/styles/design-system.css`
+5. **Semantic HTML** - Accessible, well-structured templates
 
 ---
 
@@ -83,10 +93,14 @@ C3.Repo/
 │       ├── audit-w2-content.md
 │       └── exemplars-cycle03-week2.md
 │
-├── shared/                            # Cross-grade utilities
+├── shared/                            # Cross-grade utilities & core modules
+│   ├── Config.gs                      # ⭐ SINGLE SOURCE OF TRUTH - centralized config
+│   ├── Constants.gs                   # Immutable system constants
 │   ├── FormUtils.gs                   # Form creation helpers
 │   ├── DataUtils.gs                   # Data retrieval helpers
-│   └── ValidationUtils.gs             # Config validation
+│   ├── ValidationUtils.gs             # Config validation
+│   └── styles/
+│       └── design-system.css          # ⭐ CSS design tokens & components
 │
 ├── data/                              # Data aggregation & analysis
 │   ├── hub/
@@ -112,6 +126,7 @@ C3.Repo/
 │           └── tier3-students.json    # Students needing Tier 3
 │
 ├── scripts/                           # Build & deployment automation
+│   ├── TriggerManager.gs              # ⭐ Centralized trigger coordination
 │   ├── generate-cycle.js              # Creates all files for a cycle
 │   ├── validate-config.js             # Checks config completeness
 │   ├── deploy-forms.gs                # Batch creates Google Forms
@@ -218,6 +233,114 @@ Detailed configuration for each cycle:
 
 ---
 
+## v3.0 Core Modules
+
+### Config.gs - Centralized Configuration
+
+All runtime configuration flows through the `Config` module. **Never hardcode configuration values in individual scripts.**
+
+```javascript
+// Usage in any module:
+var Config = Config || {};
+
+// Get configuration values
+Config.getActiveGrades();           // ["7", "8"]
+Config.getActiveCycles();           // [3, 4, 5, ...]
+Config.getFormTypes();              // ["hook", "station1", "station2", "station3", "exitTicket"]
+Config.getFormPoints();             // { hook: 12, station1: 20, ... }
+Config.getMTSSThresholds();         // { tier1Min: 70, tier2Min: 50, tier3Min: 30, ... }
+Config.getTierForScore(percentage); // Returns 1, 2, or 3
+Config.getCurrentCycle();           // Current active cycle based on date
+Config.getOutputFolderId();         // Drive folder for data output
+```
+
+**Migration Note:** All `HUB_CONFIG`, `RESPONSE_CONFIG`, `MTSS_TIERS`, and similar local constants have been deprecated. Use Config module methods instead.
+
+### Constants.gs - Immutable System Values
+
+System constants that never change at runtime. Use for validation, API limits, and pedagogical standards.
+
+```javascript
+// Google Forms API constraints
+Constants.FORMS.MAX_CHOICES_PER_QUESTION;     // 30
+Constants.FORMS.MAX_QUESTIONS_PER_FORM;       // 200
+Constants.FORMS.MAX_TITLE_LENGTH;             // 150
+
+// NGSS pedagogical constants
+Constants.NGSS.SEP_CODES;    // ["SEP-1", "SEP-2", ...]
+Constants.NGSS.CCC_CONCEPTS; // ["Patterns", "Cause and Effect", ...]
+
+// Trigger schedules (used by TriggerManager)
+Constants.TRIGGERS.RESPONSE_COLLECTION_HOUR;  // 17 (5 PM)
+Constants.TRIGGERS.ORCHESTRATION_HOUR;        // 18 (6 PM)
+```
+
+### TriggerManager.gs - Unified Trigger Coordination
+
+Prevents race conditions by managing all time-based triggers centrally.
+
+```javascript
+// Schedule (staggered to prevent conflicts):
+//   5:30 PM - Response Collection
+//   6:00 PM - Daily Orchestration (after collection completes)
+//   Friday 4:00 PM - Weekly Summary
+
+// Setup all triggers
+TriggerManager.setupAllTriggers();
+
+// Clear all managed triggers
+TriggerManager.clearAllTriggers();
+
+// Query current status
+TriggerManager.getStatus();
+
+// Validate schedule for conflicts
+TriggerManager.validateSchedule();
+```
+
+**Important:** Individual modules (ResponseCollector, HubOrchestrator) no longer set up their own triggers. They delegate to TriggerManager.
+
+### design-system.css - CSS Design Tokens
+
+Centralized design tokens eliminate inline styles and ensure visual consistency.
+
+```css
+/* Usage in HTML templates */
+<link rel="stylesheet" href="../../shared/styles/design-system.css">
+
+/* Or embed via Apps Script HtmlService */
+<?!= include('shared/styles/design-system.css'); ?>
+
+/* Available tokens */
+:root {
+  /* Colors */
+  --color-primary: #1a73e8;
+  --color-success: #34a853;
+  --color-warning: #fbbc04;
+  --color-error: #ea4335;
+
+  /* Support tiers */
+  --support-tier1-bg: #e8f5e9;
+  --support-tier2-bg: #fff3e0;
+  --support-tier3-bg: #ffebee;
+
+  /* Spacing (8px baseline) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+}
+
+/* Component classes */
+.btn, .btn-primary, .btn-secondary
+.card, .card-header, .card-body
+.alert-success, .alert-warning, .alert-error
+.support-tier1, .support-tier2, .support-tier3
+```
+
+---
+
 ## Form Question Schema
 
 Each question in the system follows this schema:
@@ -259,6 +382,28 @@ Each question in the system follows this schema:
 
 ## Data Flow Architecture
 
+### v3.0 Configuration Hierarchy
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    CONFIGURATION LAYER                               │
+├─────────────────────────────────────────────────────────────────────┤
+│  config/master-config.json (Single Source of Truth)                  │
+│           │                                                          │
+│           ↓                                                          │
+│  shared/Config.gs (Runtime accessor)                                 │
+│           │                                                          │
+│           ├──→ HubOrchestrator.gs (via getHubConfig())              │
+│           ├──→ ResponseCollector.gs (via getResponseConfig())       │
+│           ├──→ DataAggregator.gs (via getAggregatorConfig())        │
+│           └──→ All other modules                                     │
+│                                                                      │
+│  shared/Constants.gs ──→ Immutable values (API limits, NGSS codes)  │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Data Pipeline Flow
+
 ```
 ┌──────────────────────────────────────────────────────────────────┐
 │                    CONTENT GENERATION                             │
@@ -282,14 +427,25 @@ Each question in the system follows this schema:
 │                    STUDENT INTERACTION                            │
 ├──────────────────────────────────────────────────────────────────┤
 │  Canvas LMS ← student-page.html ← Google Forms (embedded)         │
+│  (uses design-system.css for consistent styling)                  │
 │                                                                   │
 │  Students complete forms, responses auto-captured                 │
 └──────────────────────────────────────────────────────────────────┘
                               ↓
 ┌──────────────────────────────────────────────────────────────────┐
+│                    TRIGGER COORDINATION                           │
+├──────────────────────────────────────────────────────────────────┤
+│  TriggerManager.gs coordinates all scheduled tasks:               │
+│    5:30 PM → ResponseCollector (fetch responses)                  │
+│    6:00 PM → HubOrchestrator (run pipeline)                       │
+│    Friday 4 PM → Weekly summary                                   │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓
+┌──────────────────────────────────────────────────────────────────┐
 │                    DATA AGGREGATION                               │
 ├──────────────────────────────────────────────────────────────────┤
-│  nightly-aggregation.gs → ResponseCollector.gs → DataAggregator   │
+│  ResponseCollector.gs → DataAggregator.gs                         │
+│  (both use Config module for thresholds & settings)               │
 │                                                                   │
 │  Fetches all response sheets, converts to JSON,                   │
 │  outputs: data/aggregation/output/responses/*.json                │
@@ -299,6 +455,7 @@ Each question in the system follows this schema:
 │                    ANALYSIS & MTSS                                │
 ├──────────────────────────────────────────────────────────────────┤
 │  MisconceptionTracker.gs → InterventionGenerator.gs               │
+│  Tier assignment: Config.getTierForScore(percentage)              │
 │                                                                   │
 │  Identifies patterns, flags students by tier,                     │
 │  outputs: data/mtss/output/tier*-students.json                   │
@@ -451,6 +608,30 @@ Content locations:
 - Implement MTSS alerts
 - Create teacher dashboard
 
+### Phase 5: Architectural Refactor v3.0 (Complete) ✅
+Comprehensive refactoring to eliminate configuration fragmentation and establish single sources of truth:
+
+**New Modules Created:**
+- `shared/Config.gs` - Centralized configuration accessor
+- `shared/Constants.gs` - Immutable system constants
+- `scripts/TriggerManager.gs` - Unified trigger coordination
+- `shared/styles/design-system.css` - CSS design tokens
+
+**Modules Refactored:**
+- `HubOrchestrator.gs` - Now uses `getHubConfig()` via Config module
+- `ResponseCollector.gs` - Now uses `getResponseConfig()` via Config module
+- `DataAggregator.gs` - Now uses `getAggregatorConfig()` via Config module
+- `student-page-template.html` - Semantic HTML5 with CSS variables
+
+**Issues Resolved:**
+- Eliminated 5 duplicate configuration sources
+- Fixed trigger race condition (5:30 PM / 6:00 PM staggering)
+- Removed ~80% inline CSS from templates
+- Added semantic HTML structure for accessibility
+- Established clear module boundaries
+
+See `AUDIT-REPORT.md` for full audit details and remediation summary.
+
 ---
 
 ## Cycle Status Tracking
@@ -488,4 +669,4 @@ Status values:
 
 ---
 
-*Architecture Version 2.2 | December 2025 | Hierarchical Compliance Audit Complete*
+*Architecture Version 3.0.0 | December 2025 | Centralized Configuration Refactor Complete*

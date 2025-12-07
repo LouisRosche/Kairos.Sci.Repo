@@ -8,45 +8,55 @@
  */
 
 /**
- * Hub configuration - IDs populated after Google Sheets creation
+ * Hub configuration - Now uses centralized Config module
+ *
+ * MIGRATION NOTE (v3.0):
+ * Previously, configuration was duplicated here. Now all config flows from:
+ *   config/master-config.json -> shared/Config.gs -> this module
+ *
+ * To set runtime values:
+ *   Config.setHubSheetId('your-sheet-id');
+ *   Config.setOutputFolderId('your-folder-id');
+ *   Config.setCurrentPeriod(4, 1);  // cycle 4, week 1
  */
-const HUB_CONFIG = {
-  hubSheetId: '', // Master hub spreadsheet ID
-  outputFolderId: '', // Drive folder for JSON outputs
-  grades: [7, 8],
-  currentCycle: 4,
-  currentWeek: 1,
 
-  // Tab names in hub sheet
-  tabs: {
-    overview: 'Overview',
-    grade7: 'Grade 7',
-    grade8: 'Grade 8',
-    analysis: 'Analysis',
-    mtss: 'MTSS',
-    settings: 'Settings',
-    dataConnections: 'Data Connections'
-  },
-
-  // Thresholds (loaded from tier-definitions.json)
-  thresholds: {
-    tier1Min: 70,
-    tier2Min: 50,
-    tier3Max: 49,
-    misconceptionAlert: 30,
-    wholeClassReteach: 40,
-    spiralEffectivenessMin: 60
-  }
+// Tab names in hub sheet (structural, not configurable)
+const HUB_TABS = {
+  overview: 'Overview',
+  grade7: 'Grade 7',
+  grade8: 'Grade 8',
+  analysis: 'Analysis',
+  mtss: 'MTSS',
+  settings: 'Settings',
+  dataConnections: 'Data Connections'
 };
+
+/**
+ * Get hub configuration from centralized Config module
+ * @returns {Object} Hub configuration
+ */
+function getHubConfig() {
+  return {
+    hubSheetId: Config.getHubSheetId(),
+    outputFolderId: Config.getOutputFolderId(),
+    grades: Config.getActiveGrades(),
+    currentCycle: Config.getCurrentCycle(),
+    currentWeek: Config.getCurrentWeek(),
+    tabs: HUB_TABS,
+    thresholds: Config.getMTSSThresholds()
+  };
+}
 
 /**
  * Master orchestration function - runs complete data pipeline
  * Recommended trigger: Daily at 6 PM
  */
 function runDailyOrchestration() {
+  const hubConfig = getHubConfig();
+
   Logger.log('=== KAMS Science Hub Orchestration Started ===');
   Logger.log(`Date: ${new Date().toISOString()}`);
-  Logger.log(`Cycle: ${HUB_CONFIG.currentCycle}, Week: ${HUB_CONFIG.currentWeek}`);
+  Logger.log(`Cycle: ${hubConfig.currentCycle}, Week: ${hubConfig.currentWeek}`);
 
   const results = {
     started: new Date().toISOString(),
@@ -91,8 +101,8 @@ function runDailyOrchestration() {
       timestamp: new Date().toISOString()
     });
     const misconceptionReport = analyzeMisconceptions(
-      HUB_CONFIG.currentCycle,
-      HUB_CONFIG.currentWeek
+      hubConfig.currentCycle,
+      hubConfig.currentWeek
     );
     results.steps[results.steps.length - 1].status = 'complete';
     results.steps[results.steps.length - 1].alertCount = countAlerts(misconceptionReport);
@@ -104,8 +114,8 @@ function runDailyOrchestration() {
       timestamp: new Date().toISOString()
     });
     const spiralReport = analyzeSpiralEffectiveness(
-      HUB_CONFIG.currentCycle,
-      HUB_CONFIG.currentWeek
+      hubConfig.currentCycle,
+      hubConfig.currentWeek
     );
     results.steps[results.steps.length - 1].status = 'complete';
 
@@ -157,14 +167,15 @@ function runDailyOrchestration() {
  * @returns {Object} Aggregated data by grade
  */
 function aggregateAllGrades(responses) {
+  const hubConfig = getHubConfig();
   const aggregated = {};
 
-  HUB_CONFIG.grades.forEach(grade => {
+  hubConfig.grades.forEach(grade => {
     aggregated[grade] = aggregateWeekData(
       responses,
       grade,
-      HUB_CONFIG.currentCycle,
-      HUB_CONFIG.currentWeek
+      hubConfig.currentCycle,
+      hubConfig.currentWeek
     );
   });
 
@@ -177,9 +188,10 @@ function aggregateAllGrades(responses) {
  * @returns {Object} MTSS reports by grade
  */
 function generateAllMTSSReports(aggregatedData) {
+  const hubConfig = getHubConfig();
   const reports = {};
 
-  HUB_CONFIG.grades.forEach(grade => {
+  hubConfig.grades.forEach(grade => {
     if (aggregatedData[grade]) {
       reports[grade] = aggregatedData[grade].mtss;
     }
@@ -194,14 +206,15 @@ function generateAllMTSSReports(aggregatedData) {
  * @returns {Object} Intervention groups by grade
  */
 function generateAllInterventionGroups(mtssReports) {
+  const hubConfig = getHubConfig();
   const groups = {};
 
-  HUB_CONFIG.grades.forEach(grade => {
+  hubConfig.grades.forEach(grade => {
     if (mtssReports[grade]) {
       groups[grade] = generateInterventionGroups(
         mtssReports[grade],
         grade,
-        HUB_CONFIG.currentCycle
+        hubConfig.currentCycle
       );
     }
   });
@@ -216,19 +229,21 @@ function generateAllInterventionGroups(mtssReports) {
  * @param {Object} interventionGroups - Intervention groups
  */
 function updateHubSheet(aggregatedData, mtssReports, interventionGroups) {
-  if (!HUB_CONFIG.hubSheetId) {
+  const hubConfig = getHubConfig();
+
+  if (!hubConfig.hubSheetId) {
     Logger.log('Hub sheet ID not configured - skipping update');
     return;
   }
 
   try {
-    const ss = SpreadsheetApp.openById(HUB_CONFIG.hubSheetId);
+    const ss = SpreadsheetApp.openById(hubConfig.hubSheetId);
 
     // Update Overview tab
     updateOverviewTab(ss, aggregatedData, mtssReports);
 
     // Update Grade-specific tabs
-    HUB_CONFIG.grades.forEach(grade => {
+    hubConfig.grades.forEach(grade => {
       updateGradeTab(ss, grade, aggregatedData[grade], mtssReports[grade]);
     });
 
@@ -252,7 +267,8 @@ function updateHubSheet(aggregatedData, mtssReports, interventionGroups) {
  * @param {Object} mtssReports - MTSS reports
  */
 function updateOverviewTab(ss, aggregatedData, mtssReports) {
-  const sheet = ss.getSheetByName(HUB_CONFIG.tabs.overview);
+  const hubConfig = getHubConfig();
+  const sheet = ss.getSheetByName(hubConfig.tabs.overview);
   if (!sheet) return;
 
   // Update last refresh timestamp
@@ -260,7 +276,7 @@ function updateOverviewTab(ss, aggregatedData, mtssReports) {
   refreshCell.setValue(new Date().toISOString());
 
   // Update tier distribution summary
-  HUB_CONFIG.grades.forEach((grade, idx) => {
+  hubConfig.grades.forEach((grade, idx) => {
     const row = 5 + idx;
     const report = mtssReports[grade];
 
@@ -280,7 +296,8 @@ function updateOverviewTab(ss, aggregatedData, mtssReports) {
  * @param {Object} mtssReport - MTSS report
  */
 function updateGradeTab(ss, grade, gradeData, mtssReport) {
-  const sheet = ss.getSheetByName(HUB_CONFIG.tabs[`grade${grade}`]);
+  const hubConfig = getHubConfig();
+  const sheet = ss.getSheetByName(hubConfig.tabs[`grade${grade}`]);
   if (!sheet || !gradeData) return;
 
   // Clear existing data (preserve headers)
@@ -311,7 +328,8 @@ function updateGradeTab(ss, grade, gradeData, mtssReport) {
  * @param {Object} interventionGroups - Intervention groups
  */
 function updateMTSSTab(ss, mtssReports, interventionGroups) {
-  const sheet = ss.getSheetByName(HUB_CONFIG.tabs.mtss);
+  const hubConfig = getHubConfig();
+  const sheet = ss.getSheetByName(hubConfig.tabs.mtss);
   if (!sheet) return;
 
   // Clear existing intervention data
@@ -322,7 +340,7 @@ function updateMTSSTab(ss, mtssReports, interventionGroups) {
 
   let currentRow = 4;
 
-  HUB_CONFIG.grades.forEach(grade => {
+  hubConfig.grades.forEach(grade => {
     const groups = interventionGroups[grade];
     if (!groups) return;
 
@@ -358,11 +376,12 @@ function updateMTSSTab(ss, mtssReports, interventionGroups) {
  * @param {Object} aggregatedData - Aggregated data
  */
 function updateAnalysisTab(ss, aggregatedData) {
-  const sheet = ss.getSheetByName(HUB_CONFIG.tabs.analysis);
+  const hubConfig = getHubConfig();
+  const sheet = ss.getSheetByName(hubConfig.tabs.analysis);
   if (!sheet) return;
 
   // Update class statistics
-  HUB_CONFIG.grades.forEach((grade, idx) => {
+  hubConfig.grades.forEach((grade, idx) => {
     const row = 3 + idx;
     const stats = aggregatedData[grade]?.classStats;
 
@@ -400,7 +419,8 @@ function sendAlerts(misconceptionReport, mtssReports) {
   });
 
   // Check for high Tier 3 counts
-  HUB_CONFIG.grades.forEach(grade => {
+  const hubConfig = getHubConfig();
+  hubConfig.grades.forEach(grade => {
     const report = mtssReports[grade];
     if (report && report.tier3Students.length > 5) {
       alerts.push({
@@ -518,23 +538,35 @@ function countGroups(interventionGroups) {
 
 /**
  * Setup daily trigger for orchestration
+ *
+ * DEPRECATED: Use TriggerManager.setupOrchestrationTrigger() instead
+ * This function is kept for backwards compatibility but delegates to TriggerManager.
+ *
+ * @deprecated Use scripts/TriggerManager.gs
  */
 function setupOrchestrationTrigger() {
-  // Delete existing triggers
-  ScriptApp.getProjectTriggers().forEach(trigger => {
-    if (trigger.getHandlerFunction() === 'runDailyOrchestration') {
-      ScriptApp.deleteTrigger(trigger);
-    }
-  });
+  Logger.log('DEPRECATED: Use TriggerManager.setupOrchestrationTrigger() instead');
+  Logger.log('Delegating to TriggerManager...');
 
-  // Create new trigger at 6 PM daily
-  ScriptApp.newTrigger('runDailyOrchestration')
-    .timeBased()
-    .atHour(18)
-    .everyDays(1)
-    .create();
+  // Delegate to TriggerManager if available
+  if (typeof TriggerManager !== 'undefined') {
+    TriggerManager.setupOrchestrationTrigger();
+  } else {
+    // Fallback for backwards compatibility
+    ScriptApp.getProjectTriggers().forEach(trigger => {
+      if (trigger.getHandlerFunction() === 'runDailyOrchestration') {
+        ScriptApp.deleteTrigger(trigger);
+      }
+    });
 
-  Logger.log('Daily orchestration trigger set for 6 PM');
+    ScriptApp.newTrigger('runDailyOrchestration')
+      .timeBased()
+      .atHour(18)
+      .everyDays(1)
+      .create();
+
+    Logger.log('Daily orchestration trigger set for 6 PM (legacy method)');
+  }
 }
 
 /**
