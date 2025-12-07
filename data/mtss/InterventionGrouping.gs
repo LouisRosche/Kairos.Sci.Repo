@@ -538,13 +538,63 @@ function runInterventionGrouping(grade, cycle, week) {
 }
 
 /**
- * Placeholder for loading MTSS report
+ * Load MTSS report from stored data
  * @param {number} grade - Grade level
  * @param {number} cycle - Cycle number
  * @param {number} week - Week number
- * @returns {Object|null} MTSS report
+ * @returns {Object|null} MTSS report with tier-grouped students
  */
 function loadMTSSReport(grade, cycle, week) {
-  // In production, load from saved JSON
-  return null;
+  // Build filename based on parameters
+  const filename = `mtss-report-g${grade}-c${cycle}-w${week}.json`;
+
+  // Attempt to load from Properties Service (Apps Script storage)
+  const scriptProperties = PropertiesService.getScriptProperties();
+  const storedData = scriptProperties.getProperty(filename);
+
+  if (storedData) {
+    try {
+      return JSON.parse(storedData);
+    } catch (e) {
+      Logger.log('loadMTSSReport: Failed to parse stored data - ' + e.message);
+    }
+  }
+
+  // Return empty structure if no data found
+  Logger.log('loadMTSSReport: No MTSS report found for G' + grade + ' C' + cycle + ' W' + week);
+  return {
+    generated: null,
+    grade: grade,
+    cycle: cycle,
+    week: week,
+    tier1Students: [],
+    tier2Students: [],
+    tier3Students: [],
+    dataAvailable: false
+  };
+}
+
+/**
+ * Save MTSS report to storage
+ * @param {Object} report - MTSS report to save
+ */
+function saveMTSSReport(report) {
+  if (!report || !report.grade || !report.cycle || !report.week) {
+    Logger.log('saveMTSSReport: Invalid report structure');
+    return false;
+  }
+
+  const filename = `mtss-report-g${report.grade}-c${report.cycle}-w${report.week}.json`;
+  const scriptProperties = PropertiesService.getScriptProperties();
+
+  try {
+    report.generated = new Date().toISOString();
+    report.dataAvailable = true;
+    scriptProperties.setProperty(filename, JSON.stringify(report));
+    Logger.log('saveMTSSReport: Saved ' + filename);
+    return true;
+  } catch (e) {
+    Logger.log('saveMTSSReport: Failed to save - ' + e.message);
+    return false;
+  }
 }

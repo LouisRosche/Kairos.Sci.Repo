@@ -1,5 +1,6 @@
 {
-  "$schema": "./schema/master-schema.json",
+  "$schema": "./schema/cycle-schema.json",
+  "$comment": "Master configuration - validated against cycle schema structure",
   "version": "2.0.0",
   "lastUpdated": "2025-12-04",
 

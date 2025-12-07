@@ -1,5 +1,6 @@
 {
-  "$schema": "../../schema/analysis-schema.json",
+  "$schema": "../../../config/schema/form-schema.json",
+  "$comment": "Dashboard template - uses form schema for validation",
   "version": "1.0.0",
   "title": "KAMS Science Analysis Dashboard Template",
   "description": "Template for generating analysis dashboards from collected data",

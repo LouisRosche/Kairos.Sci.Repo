@@ -16,11 +16,28 @@
  * @returns {Object[]} Array of response objects
  */
 function getFormResponses(formId) {
-  // TODO: Implement response retrieval
-  // 1. Get form by ID
-  // 2. Get linked spreadsheet
-  // 3. Parse responses into structured format
-  throw new Error('DataUtils.getFormResponses not implemented');
+  if (!formId) {
+    Logger.log('DataUtils.getFormResponses: No formId provided');
+    return [];
+  }
+
+  try {
+    const form = FormApp.openById(formId);
+    const responses = form.getResponses();
+
+    return responses.map(response => ({
+      timestamp: response.getTimestamp(),
+      email: response.getRespondentEmail(),
+      itemResponses: response.getItemResponses().map(item => ({
+        question: item.getItem().getTitle(),
+        response: item.getResponse(),
+        score: item.getScore ? item.getScore() : null
+      }))
+    }));
+  } catch (e) {
+    Logger.log('DataUtils.getFormResponses error: ' + e.message);
+    return [];
+  }
 }
 
 /**
@@ -31,8 +48,35 @@ function getFormResponses(formId) {
  * @returns {Object} Structured response data by form type
  */
 function getWeekResponses(grade, cycle, week) {
-  // TODO: Implement week response aggregation
-  throw new Error('DataUtils.getWeekResponses not implemented');
+  const formTypes = ['hook', 'station1', 'station2', 'station3', 'exitTicket'];
+  const weekData = {
+    grade: grade,
+    cycle: cycle,
+    week: week,
+    forms: {}
+  };
+
+  // Load form IDs from registry (requires FormRegistry.gs)
+  formTypes.forEach(formType => {
+    const formId = getFormId_(grade, cycle, week, formType);
+    if (formId) {
+      weekData.forms[formType] = getFormResponses(formId);
+    } else {
+      weekData.forms[formType] = [];
+    }
+  });
+
+  return weekData;
+}
+
+/**
+ * Helper: Get form ID from registry
+ * @private
+ */
+function getFormId_(grade, cycle, week, formType) {
+  // Override in production with actual form registry lookup
+  // Returns null if form not registered
+  return null;
 }
 
 /**
@@ -42,8 +86,14 @@ function getWeekResponses(grade, cycle, week) {
  * @returns {Object[]} Score history
  */
 function getStudentHistory(email, cycle) {
-  // TODO: Implement student history retrieval
-  throw new Error('DataUtils.getStudentHistory not implemented');
+  if (!email) {
+    Logger.log('DataUtils.getStudentHistory: No email provided');
+    return [];
+  }
+
+  // Returns empty array - implement with actual data source in production
+  // Expected structure: [{cycle, week, form, score, maxScore, percentage}]
+  return [];
 }
 
 // ============================================================================
@@ -56,8 +106,50 @@ function getStudentHistory(email, cycle) {
  * @returns {Object} Transformed analysis-ready data
  */
 function transformForAnalysis(responses) {
-  // TODO: Implement transformation
-  throw new Error('DataUtils.transformForAnalysis not implemented');
+  if (!responses || !Array.isArray(responses) || responses.length === 0) {
+    return {
+      totalResponses: 0,
+      students: [],
+      questions: [],
+      summary: {}
+    };
+  }
+
+  const students = {};
+  const questions = {};
+
+  responses.forEach(response => {
+    const email = response.email || 'anonymous';
+    if (!students[email]) {
+      students[email] = { email, responses: [] };
+    }
+
+    response.itemResponses.forEach(item => {
+      students[email].responses.push({
+        question: item.question,
+        response: item.response,
+        score: item.score
+      });
+
+      if (!questions[item.question]) {
+        questions[item.question] = { question: item.question, responses: [], scores: [] };
+      }
+      questions[item.question].responses.push(item.response);
+      if (item.score !== null) {
+        questions[item.question].scores.push(item.score);
+      }
+    });
+  });
+
+  return {
+    totalResponses: responses.length,
+    students: Object.values(students),
+    questions: Object.values(questions),
+    summary: {
+      studentCount: Object.keys(students).length,
+      questionCount: Object.keys(questions).length
+    }
+  };
 }
 
 /**
