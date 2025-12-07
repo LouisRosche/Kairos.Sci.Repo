@@ -132,7 +132,7 @@ Central source of truth for the entire system:
 
 ```json
 {
-  "version": "2.0",
+  "version": "2.1.0",
   "school": "KAMS",
   "academicYear": "2025-2026",
   "grades": {
@@ -461,15 +461,15 @@ Each cycle now includes a `cycle-status.json` file for tracking development prog
   "cycle": 4,
   "grade": 7,
   "status": "in_progress",
-  "lastUpdated": "2025-12-05",
+  "lastUpdated": "2025-12-07",
   "topic": "Biogeochemical Cycles & Human Impact",
   "completion": {
-    "overall": 45,
+    "overall": 75,
     "curriculumDesign": 100,
     "rubrics": 100,
     "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
-    "week2": { "forms": 5, "lessonPlan": 5, "studentPage": 5, "slides": 0 },
-    "week3": { "forms": 5, "lessonPlan": 5, "studentPage": 5, "slides": 0 }
+    "week2": { "forms": 100, "lessonPlan": 50, "studentPage": 50, "slides": 0 },
+    "week3": { "forms": 100, "lessonPlan": 50, "studentPage": 50, "slides": 0 }
   },
   "deployed": {
     "week1": false,
@@ -483,6 +483,7 @@ Status values:
 - `complete` - Fully developed and deployed
 - `in_progress` - Active development
 - `not_started` - Placeholder only
+- `legacy` - Pre-architecture content, functional but not fully compliant
 
 ---
 
