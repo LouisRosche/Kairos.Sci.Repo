@@ -53,7 +53,7 @@
       "weeks": {
         "1": {
           "title": "Ocean Acidification Investigation",
-          "status": "planned",
+          "status": "complete",
           "files": {
             "forms": "content/grade7/cycle04/week1/forms.gs",
             "studentPage": "content/grade7/cycle04/week1/student-page.html",
@@ -107,7 +107,7 @@
         },
         "2": {
           "title": "Eutrophication & Dead Zones",
-          "status": "planned",
+          "status": "complete",
           "files": {
             "forms": "content/grade7/cycle04/week2/forms.gs",
             "studentPage": "content/grade7/cycle04/week2/student-page.html",
@@ -159,8 +159,35 @@
         },
         "3": {
           "title": "Synthesis & Assessment",
-          "status": "planned",
-          "isAssessmentWeek": true
+          "status": "complete",
+          "isAssessmentWeek": true,
+          "files": {
+            "forms": "content/grade7/cycle04/week3/forms.gs",
+            "studentPage": "content/grade7/cycle04/week3/student-page.html",
+            "lessonPlan": "content/grade7/cycle04/week3/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect W1 ocean acidification + W2 eutrophication"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Ocean Chemistry", "B: Eutrophication", "C: Data Analysis", "D: Engineering Design"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["ocean-acid-co2-only", "nutrients-always-good"]
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
         }
       },
       "materials": {
@@ -211,7 +238,7 @@
       "weeks": {
         "1": {
           "title": "Energy Pyramids & Trophic Levels",
-          "status": "planned",
+          "status": "complete",
           "files": {
             "forms": "content/grade8/cycle04/week1/forms.gs",
             "studentPage": "content/grade8/cycle04/week1/student-page.html",
@@ -264,7 +291,7 @@
         },
         "2": {
           "title": "Ecosystem Disruption & Invasive Species",
-          "status": "planned",
+          "status": "complete",
           "files": {
             "forms": "content/grade8/cycle04/week2/forms.gs",
             "studentPage": "content/grade8/cycle04/week2/student-page.html",
@@ -316,8 +343,35 @@
         },
         "3": {
           "title": "Synthesis & Assessment",
-          "status": "planned",
-          "isAssessmentWeek": true
+          "status": "complete",
+          "isAssessmentWeek": true,
+          "files": {
+            "forms": "content/grade8/cycle04/week3/forms.gs",
+            "studentPage": "content/grade8/cycle04/week3/student-page.html",
+            "lessonPlan": "content/grade8/cycle04/week3/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect W1 energy flow + W2 ecosystem disruption"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Energy Pyramids", "B: Ecosystem Disruption", "C: Data Analysis", "D: Engineering Design"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["energy-recycled", "pyramid-stability"]
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
         }
       },
       "materials": {
