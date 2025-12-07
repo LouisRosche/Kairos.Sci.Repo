@@ -1,3 +1,15 @@
+<!--
+================================================================================
+⛔ READ-ONLY PRODUCTION CONTENT - DO NOT EDIT ⛔
+================================================================================
+This file is PRODUCTION content deployed December 2025.
+It serves as legacy documentation and must NOT be modified.
+Any changes risk breaking deployed student-facing materials.
+
+Status: READONLY | Deployed: December 2025 | See: cycle-status.json
+================================================================================
+-->
+
 # Grade 7 Cycle 3 Week 2: Implementation Guide
 ## December 8-12, 2025 | Feedback Loops & Tipping Points
 

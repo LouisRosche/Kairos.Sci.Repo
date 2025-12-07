@@ -109,6 +109,12 @@ var Constants = {
       LEGACY: 'legacy'
     },
 
+    // Content protection status (for deployed content)
+    CONTENT: {
+      READONLY: 'readonly',       // Production content - DO NOT EDIT
+      EDITABLE: 'editable'        // Can be modified
+    },
+
     // Pipeline execution status
     PIPELINE: {
       PENDING: 'pending',

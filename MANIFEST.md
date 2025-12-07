@@ -1,7 +1,7 @@
 # KAMS Science Curriculum Repository Manifest
 ## Complete Content Inventory
 
-**Last Updated:** 2025-12-06
+**Last Updated:** 2025-12-07
 **Repository:** C3.Repo
 **Maintainer:** Louis Rosche
 
@@ -105,7 +105,7 @@ C3.Repo/
 | **C9** | 0% 📋 | 0% 📋 | Placeholder |
 | **C10** | 0% 📋 | 0% 📋 | Placeholder |
 
-**Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | 📦 Legacy | ❌ Not Started
+**Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | 📦 Legacy | ❌ Not Started | ⛔ Read-Only (Production)
 
 ---
 
@@ -135,12 +135,15 @@ C3.Repo/
 
 ## Cycle 3 (ACTIVE) - 100% COMPLETE ✅
 
+> **⛔ READ-ONLY NOTICE:** Week 2 content for both grades is **PRODUCTION** and must NOT be edited.
+> It serves as legacy documentation. See `cycle-status.json` for details.
+
 ### Grade 7: Climate Change & Energy Flow
 
 | Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | Status |
 |------|----------|-------------------|----------------|-------------|--------|
 | W1 | ✅ 1,021 lines | ✅ | ✅ | ✅ | **COMPLETE** |
-| W2 | ✅ 960 lines | ✅ | ✅ | ✅ | **COMPLETE** |
+| W2 | ✅ 960 lines | ✅ | ✅ | ✅ | **⛔ READONLY** |
 | W3 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
 
 ### Grade 8: Natural Selection & Forces
@@ -148,7 +151,7 @@ C3.Repo/
 | Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | Status |
 |------|----------|-------------------|----------------|-------------|--------|
 | W1 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
-| W2 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
+| W2 | ✅ | ✅ | ✅ | ✅ | **⛔ READONLY** |
 | W3 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
 
 ---
