@@ -56,6 +56,7 @@ C3.Repo/
 │       └── lesson-plan-template.md    # Lesson plan template
 │
 ├── framework/                         # Foundational documentation
+│   ├── CONTENT-DESIGN-GUIDE.md        # ⭐ SINGLE SOURCE OF TRUTH for content creation
 │   ├── pedagogical-approach.md        # Teaching philosophy
 │   ├── technical-reference.md         # Forms API constraints
 │   ├── mtss-framework.md              # Intervention tiers & triggers
