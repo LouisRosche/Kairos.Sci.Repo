@@ -39,6 +39,8 @@ Grade-specific progressions building on Cycle 2 foundations while introducing ne
 
 ## Station-Based Learning Model
 
+> **Note for Remote/Async Learners:** The term "station" refers to **timed learning segments** that scholars complete sequentially, NOT physical locations. Whether in-class or at home, scholars work through each station in order on their Chromebook. All materials are embedded in the student page — no physical setup required for remote learners.
+
 ### Structure
 Each week follows a consistent station rotation:
 1. **Hook (Day 1):** Phenomenon-driven engagement, prior knowledge activation
@@ -121,7 +123,7 @@ Rather than re-teaching Cycle 2 content directly, we:
 | Extended time | Async model allows unlimited time; no time-based penalties |
 | Reduced questions | Mark "required" questions; others optional |
 | Text-to-speech | Google Forms compatible with screen readers |
-| Simplified language | Vocabulary glossary QR code at each station |
+| Simplified language | Vocabulary glossary QR code (accessible on student page) |
 | Graphic organizers | Blank cause-effect diagrams, calculation templates |
 | Frequent breaks | Pomodoro structure (25 on/5 off) |
 | Calculator use | Permitted for all calculation questions |
