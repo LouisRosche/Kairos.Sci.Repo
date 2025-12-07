@@ -3,373 +3,563 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive bone homology explorer comparing skeletal structures across species to understand evolutionary evidence">
     <title>Bone Homology Explorer - Evidence for Evolution</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary: #7C3AED;
+            --primary-dark: #5B21B6;
+            --primary-light: #EDE9FE;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --error: #EF4444;
+            --error-light: #FEE2E2;
+            --warning: #F59E0B;
+            --warning-light: #FEF3C7;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gray-900: #0F172A;
+            --text: #1E293B;
+            --text-muted: #64748B;
+            --radius: 10px;
+            --radius-sm: 6px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #581C87 0%, #3B0764 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.5;
         }
+
         .container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
         }
+
         h1 {
             text-align: center;
             color: #fff;
-            margin-bottom: 10px;
-            font-size: clamp(1.5em, 4vw, 2em);
+            margin-bottom: 6px;
+            font-size: clamp(1.3em, 3.5vw, 1.7em);
         }
+
         .subtitle {
             text-align: center;
             color: #E9D5FF;
-            margin-bottom: 20px;
-            font-size: 0.95em;
+            margin-bottom: 12px;
+            font-size: 0.85em;
         }
+
         .sim-container {
             background: #fff;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border-radius: var(--radius);
+            padding: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
         }
+
+        /* Instructions Panel */
+        .instructions {
+            background: var(--primary-light);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+
+        .instructions summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary-dark);
+            font-size: 0.9em;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .instructions summary::-webkit-details-marker { display: none; }
+        .instructions summary::before { content: ""; }
+
+        .instructions[open] summary { margin-bottom: 10px; }
+
+        .instructions-content {
+            color: var(--primary-dark);
+            font-size: 0.82em;
+            line-height: 1.6;
+        }
+
+        .instructions-content p { margin-bottom: 6px; }
+        .instructions-content p:last-child { margin-bottom: 0; }
+
+        /* Intro Panel */
         .intro-panel {
             background: linear-gradient(135deg, #F5F3FF, #EDE9FE);
-            border: 2px solid #8B5CF6;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 14px;
             text-align: center;
         }
-        .intro-panel h2 { color: #6D28D9; margin-bottom: 10px; }
-        .intro-panel p { color: #5B21B6; font-size: 0.95em; }
+
+        .intro-panel h2 {
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+            font-size: 1.1em;
+        }
+
+        .intro-panel p {
+            color: var(--primary-dark);
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+
+        /* Species Grid */
         .comparison-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 14px;
         }
-        @media (max-width: 800px) {
+
+        @media (max-width: 700px) {
             .comparison-grid { grid-template-columns: repeat(3, 1fr); }
         }
-        @media (max-width: 500px) {
+
+        @media (max-width: 450px) {
             .comparison-grid { grid-template-columns: repeat(2, 1fr); }
         }
+
         .species-card {
-            background: #F8FAFC;
-            border: 3px solid #E2E8F0;
-            border-radius: 12px;
-            padding: 15px;
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 10px 6px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
+
         .species-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
         }
+
+        .species-card:focus {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
         .species-card.selected {
-            border-color: #8B5CF6;
-            background: #F5F3FF;
-            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+            border-color: var(--primary);
+            background: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
         }
-        .species-card .emoji { font-size: 2.5em; margin-bottom: 8px; }
-        .species-card .name { font-weight: bold; color: #1E293B; font-size: 0.9em; }
-        .species-card .function { font-size: 0.75em; color: #64748B; margin-top: 4px; }
+
+        .species-card .emoji { font-size: 2em; margin-bottom: 4px; }
+        .species-card .name { font-weight: bold; color: var(--text); font-size: 0.82em; }
+        .species-card .function { font-size: 0.7em; color: var(--text-muted); margin-top: 2px; }
+
+        /* Skeleton View */
         .skeleton-view {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
-        @media (max-width: 600px) {
+
+        @media (max-width: 550px) {
             .skeleton-view { grid-template-columns: 1fr; }
         }
+
         .skeleton-panel {
-            background: #1E293B;
-            border-radius: 12px;
-            padding: 20px;
+            background: var(--gray-800);
+            border-radius: var(--radius);
+            padding: 12px;
             text-align: center;
         }
+
         .skeleton-panel h3 {
             color: #94A3B8;
-            margin-bottom: 15px;
-            font-size: 1em;
+            margin-bottom: 10px;
+            font-size: 0.85em;
         }
+
         .bone-diagram {
-            background: #0F172A;
-            border-radius: 8px;
-            padding: 20px;
-            min-height: 200px;
+            background: var(--gray-900);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            min-height: 160px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
+
         .bone-svg {
             max-width: 100%;
-            height: 180px;
+            height: 140px;
         }
-        .bone { transition: all 0.3s ease; }
-        .bone.highlighted { filter: drop-shadow(0 0 8px gold); }
+
+        .bone { transition: all 0.2s ease; }
+        .bone.highlighted { filter: drop-shadow(0 0 6px gold) drop-shadow(0 0 10px gold); }
+
+        /* Bone Legend */
         .bone-legend {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 6px;
             justify-content: center;
-            margin-top: 15px;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: var(--gray-800);
+            border-radius: var(--radius);
         }
+
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 0.8em;
-            color: #94A3B8;
+            gap: 4px;
+            font-size: 0.72em;
+            color: #CBD5E1;
             cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 6px;
+            padding: 5px 8px;
+            border-radius: var(--radius-sm);
             transition: background 0.2s;
+            border: 1px solid transparent;
         }
-        .legend-item:hover { background: #334155; }
-        .legend-item.active { background: #475569; }
+
+        .legend-item:hover { background: var(--gray-700); }
+        .legend-item:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+        .legend-item.active { background: var(--gray-600); border-color: #94A3B8; }
+
         .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            flex-shrink: 0;
         }
+
+        /* Info Panel */
         .info-panel {
-            background: #F8FAFC;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 12px;
         }
+
         .info-panel h3 {
-            color: #6D28D9;
-            margin-bottom: 15px;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            font-size: 0.95em;
         }
+
         .bone-comparison {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
         }
+
+        @media (max-width: 600px) {
+            .bone-comparison { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 400px) {
+            .bone-comparison { grid-template-columns: repeat(2, 1fr); }
+        }
+
         .bone-item {
             background: white;
-            border: 2px solid #E2E8F0;
-            border-radius: 8px;
-            padding: 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            padding: 8px;
             text-align: center;
         }
-        .bone-item.same { border-color: #10B981; background: #ECFDF5; }
-        .bone-item.different { border-color: #EF4444; background: #FEF2F2; }
-        .bone-item .label { font-size: 0.8em; color: #64748B; }
-        .bone-item .value { font-weight: bold; color: #1E293B; margin-top: 5px; }
+
+        .bone-item.same { border-color: var(--success); background: var(--success-light); }
+        .bone-item.different { border-color: var(--error); background: var(--error-light); }
+        .bone-item .label { font-size: 0.7em; color: var(--text-muted); text-transform: capitalize; }
+        .bone-item .value { font-weight: bold; color: var(--text); margin-top: 2px; font-size: 0.82em; }
+
+        /* Key Insight */
         .key-insight {
-            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
-            border: 2px solid #F59E0B;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--warning-light), #FDE68A);
+            border: 2px solid var(--warning);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 12px;
         }
-        .key-insight h4 { color: #92400E; margin-bottom: 10px; }
-        .key-insight p { color: #78350F; line-height: 1.6; font-size: 0.95em; }
+
+        .key-insight h4 { color: #92400E; margin-bottom: 6px; font-size: 0.9em; }
+        .key-insight p { color: #78350F; line-height: 1.5; font-size: 0.82em; }
+
+        /* Concept Box */
         .concept-box {
             background: #EFF6FF;
             border: 2px solid #3B82F6;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 12px;
         }
-        .concept-box h4 { color: #1D4ED8; margin-bottom: 15px; }
+
+        .concept-box h4 { color: #1D4ED8; margin-bottom: 10px; font-size: 0.9em; }
+
         .concept-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 10px;
         }
+
         @media (max-width: 500px) {
             .concept-grid { grid-template-columns: 1fr; }
         }
+
         .concept-card {
             background: white;
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: var(--radius-sm);
+            padding: 10px;
         }
-        .concept-card.homologous { border-left: 4px solid #10B981; }
-        .concept-card.analogous { border-left: 4px solid #EF4444; }
-        .concept-card h5 { margin-bottom: 8px; }
+
+        .concept-card.homologous { border-left: 3px solid var(--success); }
+        .concept-card.analogous { border-left: 3px solid var(--error); }
+        .concept-card h5 { margin-bottom: 4px; font-size: 0.85em; }
         .concept-card.homologous h5 { color: #059669; }
         .concept-card.analogous h5 { color: #DC2626; }
-        .concept-card p { font-size: 0.9em; color: #4B5563; line-height: 1.5; }
+        .concept-card p { font-size: 0.78em; color: #4B5563; line-height: 1.4; }
+
+        /* Quiz Section */
         .quiz-section {
             background: #F0FDF4;
-            border: 2px solid #10B981;
-            border-radius: 12px;
-            padding: 20px;
+            border: 2px solid var(--success);
+            border-radius: var(--radius);
+            padding: 14px;
         }
-        .quiz-section h4 { color: #047857; margin-bottom: 15px; }
-        .quiz-question { margin-bottom: 15px; }
-        .quiz-question p { color: #1E293B; margin-bottom: 10px; }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header h4 { color: #047857; font-size: 0.9em; }
+
+        .reset-btn {
+            padding: 5px 10px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.75em;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: none;
+        }
+
+        .reset-btn:hover { background: #059669; }
+        .reset-btn:focus { outline: 2px solid var(--success); outline-offset: 2px; }
+        .reset-btn.show { display: inline-block; }
+
+        .quiz-question { margin-bottom: 10px; }
+        .quiz-question p { color: var(--text); margin-bottom: 8px; font-size: 0.85em; line-height: 1.5; }
+
         .quiz-options {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 6px;
         }
+
         .quiz-btn {
-            padding: 10px 20px;
-            border: 2px solid #10B981;
+            padding: 8px 12px;
+            border: 2px solid var(--success);
             background: white;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 0.9em;
+            font-size: 0.78em;
         }
-        .quiz-btn:hover { background: #D1FAE5; }
-        .quiz-btn.correct { background: #10B981; color: white; }
-        .quiz-btn.incorrect { background: #EF4444; color: white; border-color: #EF4444; }
+
+        .quiz-btn:hover:not(:disabled) { background: var(--success-light); }
+        .quiz-btn:focus { outline: 2px solid var(--success); outline-offset: 2px; }
+        .quiz-btn:disabled { cursor: default; opacity: 0.9; }
+        .quiz-btn.correct { background: var(--success); color: white; }
+        .quiz-btn.incorrect { background: var(--error); color: white; border-color: var(--error); }
+
         .quiz-feedback {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 8px;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: var(--radius-sm);
             display: none;
+            font-size: 0.82em;
+            line-height: 1.5;
         }
+
         .quiz-feedback.show { display: block; }
-        .quiz-feedback.correct { background: #D1FAE5; color: #047857; }
-        .quiz-feedback.incorrect { background: #FEE2E2; color: #B91C1C; }
+        .quiz-feedback.correct { background: var(--success-light); color: #047857; }
+        .quiz-feedback.incorrect { background: var(--error-light); color: #B91C1C; }
+
+        /* Print styles */
+        @media print {
+            body { background: white; padding: 0; }
+            .sim-container { box-shadow: none; }
+            .instructions, .quiz-section { break-inside: avoid; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🦴 Bone Homology Explorer</h1>
-        <p class="subtitle">Compare skeletal structures across species — what does the same pattern tell us?</p>
+        <h1>Bone Homology Explorer</h1>
+        <p class="subtitle">Compare skeletal structures across species - what does the same pattern tell us?</p>
 
         <div class="sim-container">
-            <details style="margin-bottom: 20px; background: #F5F3FF; padding: 15px; border-radius: 10px; border: 2px solid #8B5CF6;">
-                <summary style="cursor: pointer; font-weight: bold; color: #6D28D9; font-size: 1em;">📖 How to Use This Simulation</summary>
-                <div style="margin-top: 12px; color: #5B21B6; font-size: 0.9em; line-height: 1.6;">
+            <details class="instructions">
+                <summary role="button" aria-expanded="false">How to Use This Simulation</summary>
+                <div class="instructions-content">
                     <p><strong>Step 1:</strong> Click on two different species (human, whale, bat, cat, or bird) to compare them.</p>
-                    <p><strong>Step 2:</strong> Examine the bone diagrams — notice the same pattern: humerus → radius/ulna → carpals → digits.</p>
+                    <p><strong>Step 2:</strong> Examine the bone diagrams - notice the same pattern: humerus, radius/ulna, carpals, digits.</p>
                     <p><strong>Step 3:</strong> Click on bone names in the legend to highlight them across both species.</p>
                     <p><strong>Key concept:</strong> Same bones, different functions = evidence of common ancestry (homologous structures)!</p>
                 </div>
             </details>
+
             <div class="intro-panel">
-                <h2>🤔 The Mystery</h2>
+                <h2>The Mystery</h2>
                 <p>Why do whales have finger bones? Why does a bat's wing have the same bones as your arm?<br>
                 <strong>Click two species below to compare their limb bones!</strong></p>
             </div>
 
-            <div class="comparison-grid">
-                <div class="species-card" onclick="selectSpecies('human')" id="card-human">
-                    <div class="emoji">🧑</div>
+            <div class="comparison-grid" role="group" aria-label="Select species to compare">
+                <button class="species-card" onclick="selectSpecies('human')" id="card-human" aria-pressed="false" aria-label="Select Human for comparison">
+                    <div class="emoji" aria-hidden="true">🧑</div>
                     <div class="name">Human</div>
                     <div class="function">Grasping, Tool Use</div>
-                </div>
-                <div class="species-card" onclick="selectSpecies('whale')" id="card-whale">
-                    <div class="emoji">🐋</div>
+                </button>
+                <button class="species-card" onclick="selectSpecies('whale')" id="card-whale" aria-pressed="false" aria-label="Select Whale for comparison">
+                    <div class="emoji" aria-hidden="true">🐋</div>
                     <div class="name">Whale</div>
                     <div class="function">Swimming</div>
-                </div>
-                <div class="species-card" onclick="selectSpecies('bat')" id="card-bat">
-                    <div class="emoji">🦇</div>
+                </button>
+                <button class="species-card" onclick="selectSpecies('bat')" id="card-bat" aria-pressed="false" aria-label="Select Bat for comparison">
+                    <div class="emoji" aria-hidden="true">🦇</div>
                     <div class="name">Bat</div>
                     <div class="function">Flying</div>
-                </div>
-                <div class="species-card" onclick="selectSpecies('cat')" id="card-cat">
-                    <div class="emoji">🐱</div>
+                </button>
+                <button class="species-card" onclick="selectSpecies('cat')" id="card-cat" aria-pressed="false" aria-label="Select Cat for comparison">
+                    <div class="emoji" aria-hidden="true">🐱</div>
                     <div class="name">Cat</div>
                     <div class="function">Running, Pouncing</div>
-                </div>
-                <div class="species-card" onclick="selectSpecies('bird')" id="card-bird">
-                    <div class="emoji">🦅</div>
+                </button>
+                <button class="species-card" onclick="selectSpecies('bird')" id="card-bird" aria-pressed="false" aria-label="Select Bird for comparison">
+                    <div class="emoji" aria-hidden="true">🦅</div>
                     <div class="name">Bird</div>
                     <div class="function">Flying</div>
-                </div>
+                </button>
             </div>
 
-            <div class="skeleton-view">
+            <div class="skeleton-view" role="region" aria-label="Bone comparison diagrams">
                 <div class="skeleton-panel" id="panel1">
                     <h3>Species 1: <span id="species1-name">Select a species</span></h3>
-                    <div class="bone-diagram" id="diagram1">
-                        <p style="color: #64748B;">Click a species above</p>
+                    <div class="bone-diagram" id="diagram1" aria-label="Bone diagram for species 1">
+                        <p style="color: #64748B; font-size: 0.85em;">Click a species above</p>
                     </div>
                 </div>
                 <div class="skeleton-panel" id="panel2">
                     <h3>Species 2: <span id="species2-name">Select a species</span></h3>
-                    <div class="bone-diagram" id="diagram2">
-                        <p style="color: #64748B;">Click a species above</p>
+                    <div class="bone-diagram" id="diagram2" aria-label="Bone diagram for species 2">
+                        <p style="color: #64748B; font-size: 0.85em;">Click a species above</p>
                     </div>
                 </div>
             </div>
 
-            <div class="bone-legend">
-                <div class="legend-item" onclick="highlightBone('humerus')">
+            <div class="bone-legend" role="group" aria-label="Click to highlight bones">
+                <button class="legend-item" onclick="highlightBone('humerus', this)" aria-label="Highlight humerus bone">
                     <div class="legend-color" style="background: #EF4444;"></div>
-                    <span>Humerus (Upper arm)</span>
-                </div>
-                <div class="legend-item" onclick="highlightBone('radius')">
+                    <span>Humerus</span>
+                </button>
+                <button class="legend-item" onclick="highlightBone('radius', this)" aria-label="Highlight radius bone">
                     <div class="legend-color" style="background: #F59E0B;"></div>
                     <span>Radius</span>
-                </div>
-                <div class="legend-item" onclick="highlightBone('ulna')">
+                </button>
+                <button class="legend-item" onclick="highlightBone('ulna', this)" aria-label="Highlight ulna bone">
                     <div class="legend-color" style="background: #EAB308;"></div>
                     <span>Ulna</span>
-                </div>
-                <div class="legend-item" onclick="highlightBone('carpals')">
+                </button>
+                <button class="legend-item" onclick="highlightBone('carpals', this)" aria-label="Highlight carpals bones">
                     <div class="legend-color" style="background: #22C55E;"></div>
-                    <span>Carpals (Wrist)</span>
-                </div>
-                <div class="legend-item" onclick="highlightBone('digits')">
+                    <span>Carpals</span>
+                </button>
+                <button class="legend-item" onclick="highlightBone('digits', this)" aria-label="Highlight digit bones">
                     <div class="legend-color" style="background: #3B82F6;"></div>
-                    <span>Digits (Fingers)</span>
-                </div>
+                    <span>Digits</span>
+                </button>
             </div>
 
-            <div class="info-panel" id="comparison-info" style="display: none;">
-                <h3>📊 Bone Comparison: <span id="comparison-title"></span></h3>
+            <div class="info-panel" id="comparison-info" style="display: none;" aria-live="polite">
+                <h3>Bone Comparison: <span id="comparison-title"></span></h3>
                 <div class="bone-comparison" id="bone-details"></div>
             </div>
 
             <div class="concept-box">
-                <h4>📚 Key Concepts</h4>
+                <h4>Key Concepts</h4>
                 <div class="concept-grid">
                     <div class="concept-card homologous">
-                        <h5>✅ Homologous Structures</h5>
+                        <h5>Homologous Structures</h5>
                         <p><strong>Same bones, different functions</strong><br>
                         Evidence of COMMON ANCESTRY<br>
                         Example: Human arm, whale flipper, bat wing all have humerus, radius, ulna, carpals, digits</p>
                     </div>
                     <div class="concept-card analogous">
-                        <h5>❌ Analogous Structures</h5>
+                        <h5>Analogous Structures</h5>
                         <p><strong>Different bones, same function</strong><br>
                         NOT evidence of recent common ancestry<br>
-                        Example: Bat wing (bone) vs Insect wing (no bone) — both fly but different structures</p>
+                        Example: Bat wing (bone) vs Insect wing (no bone) - both fly but different structures</p>
                     </div>
                 </div>
             </div>
 
             <div class="key-insight" id="insight-panel">
-                <h4>💡 What This Means</h4>
+                <h4>What This Means</h4>
                 <p id="insight-text">
                     Select two species to see how their bone structures compare. The fact that such different
                     animals have the SAME bone pattern is powerful evidence that they share a common ancestor!
                 </p>
             </div>
 
-            <div class="quiz-section">
-                <h4>🧠 Check Your Understanding</h4>
+            <div class="quiz-section" role="region" aria-label="Quiz section">
+                <div class="quiz-header">
+                    <h4>Check Your Understanding</h4>
+                    <button class="reset-btn" id="reset-quiz-btn" onclick="resetQuiz()" aria-label="Reset quiz">Try Again</button>
+                </div>
                 <div class="quiz-question">
                     <p><strong>A whale's flipper and a human's arm both have a humerus, radius, ulna, and finger bones.
                     This is evidence that:</strong></p>
-                    <div class="quiz-options">
+                    <div class="quiz-options" role="group" aria-label="Quiz options">
                         <button class="quiz-btn" onclick="checkAnswer(this, false)">Whales evolved from humans</button>
-                        <button class="quiz-btn" onclick="checkAnswer(this, false)">They need the same bones to move</button>
+                        <button class="quiz-btn" onclick="checkAnswer(this, false)">They need same bones to move</button>
                         <button class="quiz-btn" onclick="checkAnswer(this, true)">They share a common ancestor</button>
                         <button class="quiz-btn" onclick="checkAnswer(this, false)">It's just a coincidence</button>
                     </div>
-                    <div class="quiz-feedback" id="quiz-feedback"></div>
+                    <div class="quiz-feedback" id="quiz-feedback" role="alert"></div>
                 </div>
             </div>
         </div>
@@ -415,110 +605,123 @@
         };
 
         let selected = [];
+        let activeLegend = null;
 
         function selectSpecies(species) {
-            // Remove from selection if already selected
+            const card = document.getElementById(`card-${species}`);
+            if (!card) return;
+
             const index = selected.indexOf(species);
             if (index > -1) {
                 selected.splice(index, 1);
-                document.getElementById(`card-${species}`).classList.remove('selected');
+                card.classList.remove('selected');
+                card.setAttribute('aria-pressed', 'false');
             } else {
-                // Add to selection (max 2)
                 if (selected.length >= 2) {
-                    // Remove first selection
-                    document.getElementById(`card-${selected[0]}`).classList.remove('selected');
+                    const oldCard = document.getElementById(`card-${selected[0]}`);
+                    if (oldCard) {
+                        oldCard.classList.remove('selected');
+                        oldCard.setAttribute('aria-pressed', 'false');
+                    }
                     selected.shift();
                 }
                 selected.push(species);
-                document.getElementById(`card-${species}`).classList.add('selected');
+                card.classList.add('selected');
+                card.setAttribute('aria-pressed', 'true');
             }
-
             updateDisplay();
         }
 
         function updateDisplay() {
-            // Update panels
+            const diagram1 = document.getElementById('diagram1');
+            const diagram2 = document.getElementById('diagram2');
+            const species1Name = document.getElementById('species1-name');
+            const species2Name = document.getElementById('species2-name');
+
             if (selected.length >= 1) {
                 const s1 = speciesData[selected[0]];
-                document.getElementById('species1-name').textContent = s1.emoji + ' ' + s1.name;
-                document.getElementById('diagram1').innerHTML = createBoneSVG(selected[0]);
+                species1Name.textContent = s1.emoji + ' ' + s1.name;
+                diagram1.innerHTML = createBoneSVG(selected[0]);
             } else {
-                document.getElementById('species1-name').textContent = 'Select a species';
-                document.getElementById('diagram1').innerHTML = '<p style="color: #64748B;">Click a species above</p>';
+                species1Name.textContent = 'Select a species';
+                diagram1.innerHTML = '<p style="color: #64748B; font-size: 0.85em;">Click a species above</p>';
             }
 
             if (selected.length >= 2) {
                 const s2 = speciesData[selected[1]];
-                document.getElementById('species2-name').textContent = s2.emoji + ' ' + s2.name;
-                document.getElementById('diagram2').innerHTML = createBoneSVG(selected[1]);
+                species2Name.textContent = s2.emoji + ' ' + s2.name;
+                diagram2.innerHTML = createBoneSVG(selected[1]);
                 showComparison();
             } else {
-                document.getElementById('species2-name').textContent = 'Select a species';
-                document.getElementById('diagram2').innerHTML = '<p style="color: #64748B;">Click another species</p>';
+                species2Name.textContent = 'Select a species';
+                diagram2.innerHTML = '<p style="color: #64748B; font-size: 0.85em;">Click another species</p>';
                 document.getElementById('comparison-info').style.display = 'none';
+            }
+
+            // Re-apply highlight if active
+            if (activeLegend) {
+                const boneName = activeLegend.querySelector('span').textContent.toLowerCase();
+                document.querySelectorAll(`.bone.${boneName}`).forEach(b => b.classList.add('highlighted'));
             }
         }
 
         function createBoneSVG(species) {
-            const s = speciesData[species];
-            // Create a simplified bone diagram using shapes
             const shapes = {
                 human: `
-                    <rect class="bone humerus" x="45" y="10" width="12" height="50" rx="6" fill="#EF4444"/>
-                    <rect class="bone radius" x="40" y="65" width="8" height="45" rx="4" fill="#F59E0B"/>
-                    <rect class="bone ulna" x="52" y="65" width="8" height="45" rx="4" fill="#EAB308"/>
-                    <rect class="bone carpals" x="38" y="115" width="25" height="12" rx="4" fill="#22C55E"/>
-                    <rect class="bone digits" x="35" y="130" width="5" height="35" rx="2" fill="#3B82F6"/>
-                    <rect class="bone digits" x="42" y="130" width="5" height="40" rx="2" fill="#3B82F6"/>
-                    <rect class="bone digits" x="49" y="130" width="5" height="42" rx="2" fill="#3B82F6"/>
-                    <rect class="bone digits" x="56" y="130" width="5" height="38" rx="2" fill="#3B82F6"/>
-                    <rect class="bone digits" x="63" y="130" width="5" height="30" rx="2" fill="#3B82F6"/>
+                    <rect class="bone humerus" x="44" y="10" width="12" height="45" rx="6" fill="#EF4444"/>
+                    <rect class="bone radius" x="40" y="58" width="8" height="40" rx="4" fill="#F59E0B"/>
+                    <rect class="bone ulna" x="52" y="58" width="8" height="40" rx="4" fill="#EAB308"/>
+                    <rect class="bone carpals" x="38" y="102" width="25" height="10" rx="4" fill="#22C55E"/>
+                    <rect class="bone digits" x="36" y="115" width="4" height="28" rx="2" fill="#3B82F6"/>
+                    <rect class="bone digits" x="42" y="115" width="4" height="32" rx="2" fill="#3B82F6"/>
+                    <rect class="bone digits" x="48" y="115" width="4" height="34" rx="2" fill="#3B82F6"/>
+                    <rect class="bone digits" x="54" y="115" width="4" height="30" rx="2" fill="#3B82F6"/>
+                    <rect class="bone digits" x="60" y="115" width="4" height="24" rx="2" fill="#3B82F6"/>
                 `,
                 whale: `
-                    <rect class="bone humerus" x="40" y="30" width="20" height="30" rx="8" fill="#EF4444"/>
-                    <rect class="bone radius" x="35" y="65" width="15" height="25" rx="6" fill="#F59E0B"/>
-                    <rect class="bone ulna" x="52" y="65" width="15" height="25" rx="6" fill="#EAB308"/>
-                    <rect class="bone carpals" x="30" y="95" width="42" height="15" rx="6" fill="#22C55E"/>
-                    <rect class="bone digits" x="25" y="115" width="8" height="45" rx="4" fill="#3B82F6"/>
-                    <rect class="bone digits" x="35" y="115" width="8" height="50" rx="4" fill="#3B82F6"/>
-                    <rect class="bone digits" x="45" y="115" width="8" height="55" rx="4" fill="#3B82F6"/>
-                    <rect class="bone digits" x="55" y="115" width="8" height="50" rx="4" fill="#3B82F6"/>
-                    <rect class="bone digits" x="65" y="115" width="8" height="40" rx="4" fill="#3B82F6"/>
+                    <rect class="bone humerus" x="40" y="25" width="20" height="28" rx="8" fill="#EF4444"/>
+                    <rect class="bone radius" x="36" y="56" width="14" height="22" rx="6" fill="#F59E0B"/>
+                    <rect class="bone ulna" x="52" y="56" width="14" height="22" rx="6" fill="#EAB308"/>
+                    <rect class="bone carpals" x="32" y="82" width="38" height="12" rx="5" fill="#22C55E"/>
+                    <rect class="bone digits" x="28" y="98" width="7" height="38" rx="3" fill="#3B82F6"/>
+                    <rect class="bone digits" x="37" y="98" width="7" height="42" rx="3" fill="#3B82F6"/>
+                    <rect class="bone digits" x="46" y="98" width="7" height="45" rx="3" fill="#3B82F6"/>
+                    <rect class="bone digits" x="55" y="98" width="7" height="42" rx="3" fill="#3B82F6"/>
+                    <rect class="bone digits" x="64" y="98" width="7" height="35" rx="3" fill="#3B82F6"/>
                 `,
                 bat: `
-                    <rect class="bone humerus" x="45" y="10" width="10" height="35" rx="5" fill="#EF4444"/>
-                    <rect class="bone radius" x="42" y="50" width="6" height="30" rx="3" fill="#F59E0B"/>
-                    <rect class="bone ulna" x="52" y="50" width="6" height="30" rx="3" fill="#EAB308"/>
-                    <rect class="bone carpals" x="40" y="85" width="22" height="10" rx="4" fill="#22C55E"/>
-                    <rect class="bone digits" x="20" y="95" width="3" height="70" rx="1" fill="#3B82F6" transform="rotate(-15 20 95)"/>
-                    <rect class="bone digits" x="35" y="95" width="3" height="75" rx="1" fill="#3B82F6" transform="rotate(-5 35 95)"/>
-                    <rect class="bone digits" x="50" y="95" width="3" height="80" rx="1" fill="#3B82F6"/>
-                    <rect class="bone digits" x="65" y="95" width="3" height="75" rx="1" fill="#3B82F6" transform="rotate(5 65 95)"/>
-                    <rect class="bone digits" x="78" y="95" width="3" height="65" rx="1" fill="#3B82F6" transform="rotate(12 78 95)"/>
+                    <rect class="bone humerus" x="45" y="8" width="10" height="30" rx="5" fill="#EF4444"/>
+                    <rect class="bone radius" x="42" y="42" width="6" height="26" rx="3" fill="#F59E0B"/>
+                    <rect class="bone ulna" x="52" y="42" width="6" height="26" rx="3" fill="#EAB308"/>
+                    <rect class="bone carpals" x="40" y="72" width="20" height="8" rx="3" fill="#22C55E"/>
+                    <rect class="bone digits" x="25" y="82" width="2" height="55" rx="1" fill="#3B82F6" transform="rotate(-12 25 82)"/>
+                    <rect class="bone digits" x="38" y="82" width="2" height="58" rx="1" fill="#3B82F6" transform="rotate(-4 38 82)"/>
+                    <rect class="bone digits" x="50" y="82" width="2" height="60" rx="1" fill="#3B82F6"/>
+                    <rect class="bone digits" x="62" y="82" width="2" height="58" rx="1" fill="#3B82F6" transform="rotate(4 62 82)"/>
+                    <rect class="bone digits" x="73" y="82" width="2" height="50" rx="1" fill="#3B82F6" transform="rotate(10 73 82)"/>
                 `,
                 cat: `
-                    <rect class="bone humerus" x="45" y="10" width="10" height="40" rx="5" fill="#EF4444"/>
-                    <rect class="bone radius" x="42" y="55" width="7" height="35" rx="3" fill="#F59E0B"/>
-                    <rect class="bone ulna" x="52" y="55" width="7" height="35" rx="3" fill="#EAB308"/>
-                    <rect class="bone carpals" x="40" y="95" width="22" height="10" rx="4" fill="#22C55E"/>
-                    <rect class="bone digits" x="38" y="108" width="5" height="25" rx="2" fill="#3B82F6"/>
-                    <rect class="bone digits" x="44" y="108" width="5" height="28" rx="2" fill="#3B82F6"/>
-                    <rect class="bone digits" x="50" y="108" width="5" height="30" rx="2" fill="#3B82F6"/>
-                    <rect class="bone digits" x="56" y="108" width="5" height="28" rx="2" fill="#3B82F6"/>
-                    <rect class="bone digits" x="62" y="108" width="5" height="22" rx="2" fill="#3B82F6"/>
+                    <rect class="bone humerus" x="45" y="8" width="10" height="35" rx="5" fill="#EF4444"/>
+                    <rect class="bone radius" x="42" y="46" width="7" height="32" rx="3" fill="#F59E0B"/>
+                    <rect class="bone ulna" x="52" y="46" width="7" height="32" rx="3" fill="#EAB308"/>
+                    <rect class="bone carpals" x="40" y="82" width="22" height="9" rx="4" fill="#22C55E"/>
+                    <rect class="bone digits" x="38" y="94" width="5" height="22" rx="2" fill="#3B82F6"/>
+                    <rect class="bone digits" x="44" y="94" width="5" height="25" rx="2" fill="#3B82F6"/>
+                    <rect class="bone digits" x="50" y="94" width="5" height="26" rx="2" fill="#3B82F6"/>
+                    <rect class="bone digits" x="56" y="94" width="5" height="25" rx="2" fill="#3B82F6"/>
+                    <rect class="bone digits" x="62" y="94" width="5" height="20" rx="2" fill="#3B82F6"/>
                 `,
                 bird: `
-                    <rect class="bone humerus" x="45" y="20" width="10" height="35" rx="5" fill="#EF4444"/>
-                    <rect class="bone radius" x="42" y="60" width="6" height="40" rx="3" fill="#F59E0B"/>
-                    <rect class="bone ulna" x="53" y="60" width="6" height="40" rx="3" fill="#EAB308"/>
-                    <rect class="bone carpals" x="42" y="105" width="18" height="8" rx="3" fill="#22C55E"/>
-                    <rect class="bone digits" x="40" y="118" width="4" height="30" rx="2" fill="#3B82F6"/>
-                    <rect class="bone digits" x="48" y="118" width="4" height="40" rx="2" fill="#3B82F6"/>
-                    <rect class="bone digits" x="56" y="118" width="4" height="25" rx="2" fill="#3B82F6"/>
+                    <rect class="bone humerus" x="45" y="15" width="10" height="30" rx="5" fill="#EF4444"/>
+                    <rect class="bone radius" x="42" y="50" width="6" height="35" rx="3" fill="#F59E0B"/>
+                    <rect class="bone ulna" x="53" y="50" width="6" height="35" rx="3" fill="#EAB308"/>
+                    <rect class="bone carpals" x="42" y="90" width="18" height="7" rx="3" fill="#22C55E"/>
+                    <rect class="bone digits" x="40" y="100" width="4" height="25" rx="2" fill="#3B82F6"/>
+                    <rect class="bone digits" x="48" y="100" width="4" height="32" rx="2" fill="#3B82F6"/>
+                    <rect class="bone digits" x="56" y="100" width="4" height="20" rx="2" fill="#3B82F6"/>
                 `
             };
-
-            return `<svg class="bone-svg" viewBox="0 0 100 180">${shapes[species]}</svg>`;
+            return `<svg class="bone-svg" viewBox="0 0 100 150" role="img" aria-label="Bone diagram of ${speciesData[species].name}">${shapes[species]}</svg>`;
         }
 
         function showComparison() {
@@ -535,7 +738,7 @@
                 const same = s1.bones[bone] === s2.bones[bone];
                 html += `
                     <div class="bone-item ${same ? 'same' : 'different'}">
-                        <div class="label">${bone.charAt(0).toUpperCase() + bone.slice(1)}</div>
+                        <div class="label">${bone}</div>
                         <div class="value">${s1.bones[bone]} vs ${s2.bones[bone]}</div>
                     </div>
                 `;
@@ -543,30 +746,35 @@
 
             document.getElementById('bone-details').innerHTML = html;
 
-            // Update insight
-            const insight = `
-                Both ${s1.name} and ${s2.name} have the SAME basic bone pattern: humerus → radius/ulna → carpals → digits.
-                Despite their very different functions (${s1.function} vs ${s2.function}), the underlying structure is the same.
-                This is powerful evidence of COMMON ANCESTRY — they inherited this bone pattern from a shared ancestor millions of years ago!
-            `;
+            const insight = `Both ${s1.name} and ${s2.name} have the SAME basic bone pattern: humerus → radius/ulna → carpals → digits. Despite their very different functions (${s1.function} vs ${s2.function}), the underlying structure is the same. This is powerful evidence of COMMON ANCESTRY — they inherited this bone pattern from a shared ancestor millions of years ago!`;
             document.getElementById('insight-text').textContent = insight;
         }
 
-        function highlightBone(boneName) {
+        function highlightBone(boneName, element) {
             // Remove all highlights
             document.querySelectorAll('.bone').forEach(b => b.classList.remove('highlighted'));
             document.querySelectorAll('.legend-item').forEach(l => l.classList.remove('active'));
+
+            // Toggle - if clicking same bone, just clear
+            if (activeLegend === element) {
+                activeLegend = null;
+                return;
+            }
 
             // Add highlight to selected bone type
             document.querySelectorAll(`.bone.${boneName}`).forEach(b => b.classList.add('highlighted'));
 
             // Highlight legend item
-            event.target.closest('.legend-item').classList.add('active');
+            if (element) {
+                element.classList.add('active');
+                activeLegend = element;
+            }
         }
 
         function checkAnswer(btn, correct) {
             const feedback = document.getElementById('quiz-feedback');
             const allBtns = document.querySelectorAll('.quiz-btn');
+            const resetBtn = document.getElementById('reset-quiz-btn');
 
             allBtns.forEach(b => {
                 b.disabled = true;
@@ -576,25 +784,43 @@
             if (correct) {
                 btn.classList.add('correct');
                 feedback.className = 'quiz-feedback show correct';
-                feedback.innerHTML = `
-                    <strong>✅ Correct!</strong> Homologous structures (same bones, different functions) are
-                    evidence that species share a common ancestor. The ancestor had this bone pattern,
-                    and different descendants modified it for different uses (swimming, flying, grasping, etc.)
-                `;
+                feedback.innerHTML = `<strong>Correct!</strong> Homologous structures (same bones, different functions) are evidence that species share a common ancestor. The ancestor had this bone pattern, and different descendants modified it for different uses (swimming, flying, grasping, etc.)`;
             } else {
                 btn.classList.add('incorrect');
-                // Find correct answer
                 allBtns.forEach(b => {
                     if (b.onclick.toString().includes('true')) b.classList.add('correct');
                 });
                 feedback.className = 'quiz-feedback show incorrect';
-                feedback.innerHTML = `
-                    <strong>❌ Not quite.</strong> The correct answer is "They share a common ancestor."
-                    When very different animals have the SAME bone structure for DIFFERENT functions,
-                    it's evidence they inherited that pattern from a common ancestor.
-                `;
+                feedback.innerHTML = `<strong>Not quite.</strong> The correct answer is "They share a common ancestor." When very different animals have the SAME bone structure for DIFFERENT functions, it's evidence they inherited that pattern from a common ancestor.`;
             }
+
+            resetBtn.classList.add('show');
         }
+
+        function resetQuiz() {
+            const feedback = document.getElementById('quiz-feedback');
+            const allBtns = document.querySelectorAll('.quiz-btn');
+            const resetBtn = document.getElementById('reset-quiz-btn');
+
+            allBtns.forEach(b => {
+                b.disabled = false;
+                b.classList.remove('correct', 'incorrect');
+            });
+
+            feedback.className = 'quiz-feedback';
+            feedback.innerHTML = '';
+            resetBtn.classList.remove('show');
+        }
+
+        // Keyboard navigation for species cards
+        document.querySelectorAll('.species-card').forEach(card => {
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.click();
+                }
+            });
+        });
     </script>
 </body>
 </html>
