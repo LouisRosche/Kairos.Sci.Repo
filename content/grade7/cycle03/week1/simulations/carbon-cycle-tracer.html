@@ -284,6 +284,43 @@
             font-size: 0.9em;
             line-height: 1.5;
         }
+        /* Responsive Design for Chromebook and smaller screens */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .sim-container { padding: 15px; }
+            .cycle-diagram { height: 350px; }
+            .reservoir {
+                padding: 8px;
+                font-size: 0.75em;
+                min-width: 90px;
+            }
+            #atmosphere { width: 120px; }
+            #plant, #animal { width: 100px; }
+            #ocean { width: 110px; }
+            #fossil, #factory { width: 100px; }
+            .counter { gap: 15px; }
+            .counter-item { padding: 10px 15px; }
+            .counter-item .number { font-size: 1.5em; }
+            .carbon-atom { width: 30px; height: 30px; font-size: 1em; }
+            .journey-log { max-height: 150px; }
+        }
+        @media (max-width: 500px) {
+            .cycle-diagram { height: 300px; }
+            .reservoir {
+                padding: 6px;
+                font-size: 0.7em;
+                border-width: 2px;
+            }
+            #atmosphere { width: 100px; }
+            #plant { left: 5%; width: 85px; }
+            #animal { right: 5%; width: 85px; }
+            #ocean { width: 90px; }
+            #fossil { left: 10%; width: 85px; }
+            #factory { right: 5%; width: 90px; }
+            .controls { gap: 8px; }
+            button { padding: 10px 16px; font-size: 0.9em; }
+            .counter { flex-direction: column; gap: 10px; }
+        }
     </style>
 </head>
 <body>

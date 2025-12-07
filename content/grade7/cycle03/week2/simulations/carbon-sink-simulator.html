@@ -344,6 +344,37 @@
             color: #991B1B;
             font-weight: 600;
         }
+        /* Responsive Design for Chromebook and smaller screens */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .sim-container { padding: 15px; }
+            .budget-overview { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .budget-card { padding: 15px; }
+            .budget-card .icon { font-size: 1.5em; }
+            .budget-card .value { font-size: 1.4em; }
+            .visualization { height: 300px; }
+            .control-row { gap: 15px; }
+            .control-group { min-width: 180px; }
+            .result-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 500px) {
+            .budget-overview { grid-template-columns: 1fr 1fr; }
+            .budget-card { padding: 12px; }
+            .budget-card .icon { font-size: 1.3em; margin-bottom: 5px; }
+            .budget-card .value { font-size: 1.2em; }
+            .visualization { height: 250px; }
+            .ocean-sink, .forest-sink {
+                padding: 10px 12px;
+                font-size: 0.85em;
+            }
+            .co2-cloud { padding: 12px 20px; }
+            .co2-cloud .amount { font-size: 1.2em; }
+            .control-row { flex-direction: column; }
+            .control-group { min-width: 100%; }
+            .buttons { flex-direction: column; }
+            button { width: 100%; }
+            .result-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -352,6 +383,15 @@
         <p class="subtitle">Where does all the CO₂ we emit actually go? Explore carbon sinks and what happens when they fill up!</p>
 
         <div class="sim-container">
+            <details style="margin-bottom: 20px; background: #ECFDF5; padding: 15px; border-radius: 10px; border: 2px solid #10B981;">
+                <summary style="cursor: pointer; font-weight: bold; color: #047857; font-size: 1em;">📖 How to Use This Simulation</summary>
+                <div style="margin-top: 12px; color: #065F46; font-size: 0.9em; line-height: 1.6;">
+                    <p><strong>Step 1:</strong> Use sliders to adjust annual CO₂ emissions and forest area.</p>
+                    <p><strong>Step 2:</strong> Click "Run 10 Years" to simulate a decade, or try preset scenarios like "Business as Usual" or "Net Zero by 2050".</p>
+                    <p><strong>Step 3:</strong> Watch how carbon sinks (oceans and forests) absorb CO₂, and what happens when they become saturated.</p>
+                    <p><strong>Key concept:</strong> Earth's carbon sinks absorb ~50% of our emissions, but they have limits. As they fill up, more CO₂ stays in the atmosphere!</p>
+                </div>
+            </details>
             <div class="year-display">Year: <span id="year">2024</span> | Cumulative Emissions: <span id="total-emissions">0</span> Gt CO₂</div>
 
             <div class="budget-overview">
