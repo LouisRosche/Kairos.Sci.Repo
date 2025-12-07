@@ -3,7 +3,7 @@
   "$comment": "LEGACY CYCLE - Pre-architecture content with 4 weeks instead of standard 3",
   "cycle": 2,
   "name": "Cycle 2: Foundation Concepts (Legacy)",
-  "status": "complete",
+  "status": "legacy",
   "isLegacy": true,
   "weeksOverride": 4,
   "dates": {
