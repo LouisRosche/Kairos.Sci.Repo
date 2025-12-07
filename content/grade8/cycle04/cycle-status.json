@@ -1,21 +1,21 @@
 {
   "cycle": 4,
   "grade": 8,
-  "status": "not_started",
-  "lastUpdated": "2025-12-05",
+  "status": "in_progress",
+  "lastUpdated": "2025-12-07",
   "topic": "Ecosystems & Energy Transfer",
   "completion": {
-    "overall": 10,
-    "curriculumDesign": 25,
-    "rubrics": 10,
-    "week1": { "forms": 5, "lessonPlan": 5, "studentPage": 5, "slides": 0 },
-    "week2": { "forms": 5, "lessonPlan": 5, "studentPage": 5, "slides": 0 },
-    "week3": { "forms": 5, "lessonPlan": 5, "studentPage": 5, "slides": 0 }
+    "overall": 70,
+    "curriculumDesign": 100,
+    "rubrics": 75,
+    "week1": { "forms": 100, "lessonPlan": 50, "studentPage": 50, "slides": 0 },
+    "week2": { "forms": 100, "lessonPlan": 50, "studentPage": 50, "slides": 0 },
+    "week3": { "forms": 100, "lessonPlan": 50, "studentPage": 50, "slides": 0 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
     "week3": false
   },
-  "notes": "Minimal placeholder structure. Needs full development."
+  "notes": "Forms scripts complete (W1: 991 lines, W2: 982 lines, W3: 482 lines). Lesson plans and student pages need completion."
 }
