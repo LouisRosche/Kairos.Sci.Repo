@@ -3,33 +3,45 @@
  * Fetches form responses from all cycles and exports to JSON
  *
  * KAMS Science Curriculum System
- * Version: 2.0
+ * Version: 3.0.0
+ *
+ * MIGRATION NOTE (v3.0):
+ * Previously, configuration was duplicated here. Now all config flows from:
+ *   config/master-config.json -> shared/Config.gs -> this module
+ *
+ * TRIGGER NOTE:
+ * This module previously set up a 6 PM trigger which conflicted with
+ * HubOrchestrator. Now triggers are managed by scripts/TriggerManager.gs
+ * Response collection runs at 5:30 PM (before orchestration at 6 PM).
  */
 
 /**
- * Configuration - Update with actual form/sheet IDs after deployment
+ * Get response collection configuration from centralized Config module
+ * @returns {Object} Response collection configuration
  */
-const RESPONSE_CONFIG = {
-  outputFolderId: '', // Google Drive folder for JSON output
-  grades: [7, 8],
-  activeCycles: [3, 4], // Cycles 3 and 4 active
-  formsPerWeek: ['hook', 'station1', 'station2', 'station3', 'exitTicket'],
-  assessmentWeekForms: ['synthesis', 'assessment', 'misconceptionCheck'] // Week 3 assessment structure
-};
+function getResponseConfig() {
+  return {
+    outputFolderId: Config.getOutputFolderId(),
+    grades: Config.getActiveGrades(),
+    activeCycles: Config.getActiveCycles(),
+    formsPerWeek: Config.getFormTypes()
+  };
+}
 
 /**
  * Main entry point - collect all responses and export to JSON
  */
 function collectAllResponses() {
+  const config = getResponseConfig();
   const results = {
     collected: new Date().toISOString(),
     grades: {}
   };
 
-  RESPONSE_CONFIG.grades.forEach(grade => {
+  config.grades.forEach(grade => {
     results.grades[grade] = {};
 
-    RESPONSE_CONFIG.activeCycles.forEach(cycle => {
+    config.activeCycles.forEach(cycle => {
       results.grades[grade][`cycle${String(cycle).padStart(2, '0')}`] =
         collectCycleResponses(grade, cycle);
     });
@@ -64,13 +76,14 @@ function collectCycleResponses(grade, cycle) {
  * Collect responses for a specific week
  */
 function collectWeekResponses(grade, cycle, week) {
+  const config = getResponseConfig();
   const weekData = {
     forms: {},
     totalResponses: 0,
     completionRate: 0
   };
 
-  RESPONSE_CONFIG.formsPerWeek.forEach(formType => {
+  config.formsPerWeek.forEach(formType => {
     const formId = getFormId(grade, cycle, week, formType);
 
     if (formId) {
@@ -159,9 +172,10 @@ function getItemPoints(item) {
  * Save data to JSON file in Drive
  */
 function saveToJson(filename, data) {
+  const config = getResponseConfig();
   const jsonString = JSON.stringify(data, null, 2);
-  const folder = RESPONSE_CONFIG.outputFolderId
-    ? DriveApp.getFolderById(RESPONSE_CONFIG.outputFolderId)
+  const folder = config.outputFolderId
+    ? DriveApp.getFolderById(config.outputFolderId)
     : DriveApp.getRootFolder();
 
   // Check if file exists
@@ -222,21 +236,37 @@ function aggregateByStudent(responses) {
 
 /**
  * Schedule nightly collection (run this once to set up trigger)
+ *
+ * DEPRECATED: Use TriggerManager.setupResponseCollectionTrigger() instead
+ * This function is kept for backwards compatibility but delegates to TriggerManager.
+ *
+ * NOTE: Trigger now runs at 5:30 PM (not 6 PM) to avoid conflict with orchestration.
+ *
+ * @deprecated Use scripts/TriggerManager.gs
  */
 function setupNightlyTrigger() {
-  // Delete existing triggers
-  ScriptApp.getProjectTriggers().forEach(trigger => {
-    if (trigger.getHandlerFunction() === 'collectAllResponses') {
-      ScriptApp.deleteTrigger(trigger);
-    }
-  });
+  Logger.log('DEPRECATED: Use TriggerManager.setupResponseCollectionTrigger() instead');
+  Logger.log('Delegating to TriggerManager...');
 
-  // Create new trigger at 6 PM daily
-  ScriptApp.newTrigger('collectAllResponses')
-    .timeBased()
-    .atHour(18)
-    .everyDays(1)
-    .create();
+  // Delegate to TriggerManager if available
+  if (typeof TriggerManager !== 'undefined') {
+    TriggerManager.setupResponseCollectionTrigger();
+  } else {
+    // Fallback - use 5:30 PM (17:30) to avoid conflict with orchestration
+    ScriptApp.getProjectTriggers().forEach(trigger => {
+      if (trigger.getHandlerFunction() === 'collectAllResponses') {
+        ScriptApp.deleteTrigger(trigger);
+      }
+    });
 
-  Logger.log('Nightly trigger set for 6 PM');
+    // Note: Apps Script time triggers run at start of hour
+    // Using hour 17 (5 PM) to ensure completion before 6 PM orchestration
+    ScriptApp.newTrigger('collectAllResponses')
+      .timeBased()
+      .atHour(17)
+      .everyDays(1)
+      .create();
+
+    Logger.log('Nightly trigger set for 5 PM (legacy method - before 6 PM orchestration)');
+  }
 }

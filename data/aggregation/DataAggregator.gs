@@ -3,32 +3,33 @@
  * Aggregates response data for analysis and MTSS intervention
  *
  * KAMS Science Curriculum System
- * Version: 2.0
+ * Version: 3.0.0
+ *
+ * MIGRATION NOTE (v3.0):
+ * Previously, POINTS, MTSS_TIERS, and thresholds were duplicated here.
+ * Now all config flows from:
+ *   config/master-config.json -> shared/Config.gs -> this module
+ *
+ * To get thresholds: Config.getMTSSThresholds()
+ * To get points: Config.getFormPoints()
+ * To determine tier: Config.getTierForScore(percentage)
  */
 
 /**
- * Point values by form type (from master config)
+ * Get aggregation configuration from centralized Config module
+ * @returns {Object} Aggregation configuration
  */
-const POINTS = {
-  hook: 12,
-  station1: 20,
-  station2: 20,
-  station3: 25,
-  exitTicket: 23
-};
+function getAggregatorConfig() {
+  const points = Config.getFormPoints();
+  const thresholds = Config.getMTSSThresholds();
 
-const TOTAL_POINTS_PER_WEEK = 100;
-
-/**
- * MTSS tier thresholds (percentage)
- */
-const MTSS_TIERS = {
-  tier1: { min: 70, max: 100 },
-  tier2: { min: 50, max: 69 },
-  tier3: { min: 0, max: 49 }
-};
-
-const MISCONCEPTION_ALERT_THRESHOLD = 30; // Percent
+  return {
+    points: points,
+    totalPointsPerWeek: points.total,
+    thresholds: thresholds,
+    misconceptionAlertThreshold: thresholds.misconceptionAlert
+  };
+}
 
 /**
  * Main aggregation function
@@ -74,6 +75,7 @@ function aggregateWeekData(rawResponses, grade, cycle, week) {
  * Build student scores from week data
  */
 function buildStudentScores(weekData) {
+  const config = getAggregatorConfig();
   const students = {};
 
   Object.keys(weekData.forms).forEach(formType => {
@@ -95,7 +97,7 @@ function buildStudentScores(weekData) {
 
       // Calculate form score
       let formEarned = 0;
-      let formPossible = POINTS[formType] || 0;
+      let formPossible = config.points[formType] || 0;
 
       Object.keys(response.answers).forEach(qKey => {
         const answer = response.answers[qKey];
@@ -131,15 +133,8 @@ function buildStudentScores(weekData) {
         ? (students[email].totalEarned / students[email].totalPossible) * 100
         : 0;
 
-    // Assign MTSS tier
-    const pct = students[email].overallPercentage;
-    if (pct >= MTSS_TIERS.tier1.min) {
-      students[email].tier = 1;
-    } else if (pct >= MTSS_TIERS.tier2.min) {
-      students[email].tier = 2;
-    } else {
-      students[email].tier = 3;
-    }
+    // Assign MTSS tier using centralized Config
+    students[email].tier = Config.getTierForScore(students[email].overallPercentage);
   });
 
   return students;
@@ -228,7 +223,8 @@ function identifyMisconceptionPatterns(weekData) {
       ? ((stat.totalResponses - stat.correctCount) / stat.totalResponses) * 100
       : 0;
 
-    if (stat.missRate >= MISCONCEPTION_ALERT_THRESHOLD) {
+    const config = getAggregatorConfig();
+    if (stat.missRate >= config.misconceptionAlertThreshold) {
       patterns.highMissQuestions.push({
         questionId: qId,
         question: stat.question,
