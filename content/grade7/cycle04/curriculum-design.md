@@ -164,10 +164,14 @@ Pteropod shells (sea butterflies) collected today are thinner and more fragile t
 - [x] Week 1 forms.gs
 - [x] Week 1 student-page.html
 - [x] Week 1 lesson-plan.md
-- [ ] Week 2 content
-- [ ] Week 3 content
+- [x] Week 2 forms.gs
+- [x] Week 2 student-page.html
+- [x] Week 2 lesson-plan.md
+- [x] Week 3 forms.gs
+- [x] Week 3 student-page.html
+- [x] Week 3 lesson-plan.md
+- [x] Rubrics
 - [ ] Presentation slides
-- [ ] Rubrics
 
 ---
 

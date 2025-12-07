@@ -31,6 +31,24 @@ const KNOWN_MISCONCEPTIONS = {
       { id: 'lamarckian', description: 'Individual organisms evolve', correct: 'Populations evolve' },
       { id: 'fma-weak', description: 'F=ma conceptual weakness', correct: 'Apply F=ma to novel scenarios' }
     ]
+  },
+  'cycle04': {
+    'grade7': [
+      { id: 'ocean-acid-co2-only', description: 'Ocean acidification is only from CO2', correct: 'Multiple sources contribute; CO2 is primary but not sole cause', targetedIn: ['w1_s1_q3', 'w1_exit_q2'] },
+      { id: 'ph-linear', description: '0.1 pH change is tiny/insignificant', correct: 'pH is logarithmic; 0.1 = 26% more acidic', targetedIn: ['w1_s1_q4', 'w1_exit_q1'] },
+      { id: 'carbon-destroyed', description: 'Carbon is destroyed when dissolved', correct: 'Matter is conserved; carbon changes form', targetedIn: ['w1_s2_q2', 'w1_exit_q5'] },
+      { id: 'nutrients-always-good', description: 'More nutrients are always better for ecosystems', correct: 'Excess nutrients cause eutrophication and dead zones', targetedIn: ['w2_s1_q4', 'w2_exit_q2'] },
+      { id: 'dead-zones-permanent', description: 'Dead zones are permanent', correct: 'Dead zones can recover with intervention', targetedIn: ['w2_s3_q3'] },
+      { id: 'energy-recycled', description: 'Energy is recycled like matter', correct: 'Energy flows one-way; matter cycles', targetedIn: ['w3_part3_q1'] }
+    ],
+    'grade8': [
+      { id: 'energy-recycled', description: 'Energy is recycled like matter in ecosystems', correct: 'Energy flows through (lost as heat); matter cycles', targetedIn: ['w1_s1_q2', 'w1_exit_q1', 'w3_part3_q1'] },
+      { id: 'pyramid-stability', description: 'Energy pyramids are always stable', correct: 'Pyramids can be disrupted by invasives, disease, or climate', targetedIn: ['w2_s2_q4', 'w2_exit_q3'] },
+      { id: 'ecosystems-always-recover', description: 'Ecosystems always return to normal after disturbance', correct: 'Some changes are irreversible; extinctions are permanent', targetedIn: ['w2_s1_q4', 'w3_part3_q2'] },
+      { id: 'removal-local-only', description: 'Removing one species only affects direct connections', correct: 'Keystone removal causes trophic cascades through entire web', targetedIn: ['w2_s1_q2', 'w2_exit_q2'] },
+      { id: 'bigger-more-energy', description: 'Bigger predators have more energy', correct: 'Apex predators have LEAST energy available (10% rule)', targetedIn: ['w1_s1_q3', 'w1_s2_q4'] },
+      { id: 'biocontrol-always-safe', description: 'Biocontrol (introducing predators) is always safe', correct: 'Biocontrol agents can become invasive themselves', targetedIn: ['w2_s3_q3'] }
+    ]
   }
 };
 

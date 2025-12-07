@@ -12,8 +12,9 @@
 const RESPONSE_CONFIG = {
   outputFolderId: '', // Google Drive folder for JSON output
   grades: [7, 8],
-  activeCycles: [3], // Add cycles as they become active
-  formsPerWeek: ['hook', 'station1', 'station2', 'station3', 'exitTicket']
+  activeCycles: [3, 4], // Cycles 3 and 4 active
+  formsPerWeek: ['hook', 'station1', 'station2', 'station3', 'exitTicket'],
+  assessmentWeekForms: ['synthesis', 'assessment', 'misconceptionCheck'] // Week 3 assessment structure
 };
 
 /**
