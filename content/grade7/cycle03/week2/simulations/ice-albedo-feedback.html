@@ -336,6 +336,7 @@
             <div class="controls">
                 <button class="btn-step" onclick="stepYear()">📅 Step 1 Year</button>
                 <button class="btn-start" onclick="startSimulation()">▶️ Run 50 Years</button>
+                <button class="btn-reset" onclick="stopSimulation()" style="background: linear-gradient(135deg, #EF4444, #DC2626);">⏹️ Stop</button>
                 <button class="btn-reset" onclick="resetSimulation()">🔄 Reset</button>
             </div>
 
@@ -380,15 +381,22 @@
         let tempAnomaly = 0;
         let co2 = 420;
         let isRunning = false;
+        let simulationInterval = null; // Track interval for proper cleanup
         let history = [];
-        let animationStep = 0;
 
         function updateCO2() {
             co2 = parseInt(document.getElementById('co2-slider').value);
             document.getElementById('co2-value').textContent = co2;
+            // Update display when CO2 changes to show immediate effect
+            if (!isRunning && history.length === 0) {
+                updateDisplay();
+            }
         }
 
         function calculateFeedback() {
+            // Re-read CO2 from slider to ensure current value is used
+            co2 = parseInt(document.getElementById('co2-slider').value);
+
             // Base warming from CO2 (simplified climate sensitivity)
             const co2Warming = (co2 - 280) * 0.005; // ~2.75°C per doubling from 280
 
@@ -400,8 +408,10 @@
             // Total temperature anomaly
             const newTemp = co2Warming + feedbackWarming;
 
-            // Ice melts based on temperature (accelerating feedback)
-            const meltRate = Math.max(0, tempAnomaly * 0.8 + (tempAnomaly > 1 ? tempAnomaly * 0.5 : 0));
+            // Ice melts based on temperature (use newTemp for immediate response, not old tempAnomaly)
+            // This fixes the bug where first step had 0 melt rate
+            const effectiveTemp = Math.max(tempAnomaly, newTemp);
+            const meltRate = Math.max(0, effectiveTemp * 0.8 + (effectiveTemp > 1 ? effectiveTemp * 0.5 : 0));
 
             return { newTemp, meltRate };
         }
@@ -511,9 +521,10 @@
             const speed = parseInt(document.getElementById('speed-slider').value);
             const delay = 500 / speed;
 
-            const interval = setInterval(() => {
+            simulationInterval = setInterval(() => {
                 if (year >= 2074 || ice <= 0) {
-                    clearInterval(interval);
+                    clearInterval(simulationInterval);
+                    simulationInterval = null;
                     isRunning = false;
                     return;
                 }
@@ -521,11 +532,22 @@
             }, delay);
         }
 
-        function resetSimulation() {
+        function stopSimulation() {
+            if (simulationInterval) {
+                clearInterval(simulationInterval);
+                simulationInterval = null;
+            }
             isRunning = false;
+        }
+
+        function resetSimulation() {
+            // Stop any running simulation first
+            stopSimulation();
+
             year = 2024;
             ice = 100;
             tempAnomaly = 0;
+            co2 = parseInt(document.getElementById('co2-slider').value); // Sync with slider
             history = [];
 
             document.getElementById('temp-graph').innerHTML = '';
@@ -533,7 +555,7 @@
 
             updateDisplay();
 
-            // Reset ice sheet position
+            // Reset ice sheet position (matches initial state)
             const iceSheet = document.getElementById('ice-sheet');
             iceSheet.style.height = '60%';
             iceSheet.style.width = '100%';

@@ -438,6 +438,7 @@
                     <button class="btn-run" onclick="runDecade()">▶️ Run 10 Years</button>
                     <button class="btn-scenario" onclick="runScenario('business')">📈 Business as Usual</button>
                     <button class="btn-scenario" onclick="runScenario('netzero')">🎯 Net Zero by 2050</button>
+                    <button class="btn-reset" onclick="stopSimulation()" style="background: linear-gradient(135deg, #EF4444, #DC2626);">⏹️ Stop</button>
                     <button class="btn-reset" onclick="resetSim()">🔄 Reset</button>
                 </div>
             </div>
@@ -483,6 +484,10 @@
         let forestStored = 0;
         let atmCO2 = 420;
         let totalEmissions = 0;
+
+        // Simulation state management
+        let isRunning = false;
+        let simulationInterval = null;
 
         // Constants
         const OCEAN_CAPACITY = 300; // Gt before saturation effects
@@ -620,11 +625,24 @@
             document.getElementById('insight-text').textContent = text;
         }
 
+        function stopSimulation() {
+            if (simulationInterval) {
+                clearInterval(simulationInterval);
+                simulationInterval = null;
+            }
+            isRunning = false;
+        }
+
         function runDecade() {
+            if (isRunning) return; // Prevent multiple simultaneous runs
+            isRunning = true;
+
             let i = 0;
-            const interval = setInterval(() => {
+            simulationInterval = setInterval(() => {
                 if (i >= 10) {
-                    clearInterval(interval);
+                    clearInterval(simulationInterval);
+                    simulationInterval = null;
+                    isRunning = false;
                     return;
                 }
                 stepYear();
@@ -633,14 +651,19 @@
         }
 
         function runScenario(type) {
+            // Stop any running simulation first
+            stopSimulation();
             resetSim();
+            isRunning = true;
 
             if (type === 'business') {
                 // Business as usual: emissions grow 1% per year
                 let i = 0;
-                const interval = setInterval(() => {
+                simulationInterval = setInterval(() => {
                     if (year >= 2100) {
-                        clearInterval(interval);
+                        clearInterval(simulationInterval);
+                        simulationInterval = null;
+                        isRunning = false;
                         return;
                     }
                     emissions = Math.min(80, 40 * Math.pow(1.01, i));
@@ -652,9 +675,11 @@
             } else if (type === 'netzero') {
                 // Net zero by 2050: linear decrease
                 let i = 0;
-                const interval = setInterval(() => {
+                simulationInterval = setInterval(() => {
                     if (year >= 2100) {
-                        clearInterval(interval);
+                        clearInterval(simulationInterval);
+                        simulationInterval = null;
+                        isRunning = false;
                         return;
                     }
                     if (year < 2050) {
@@ -672,6 +697,9 @@
         }
 
         function resetSim() {
+            // Stop any running simulation first
+            stopSimulation();
+
             year = 2024;
             emissions = 40;
             forestPercent = 100;
@@ -685,6 +713,7 @@
             document.getElementById('emissions-display').textContent = '40';
             document.getElementById('forest-display').textContent = '100';
             document.getElementById('co2-cloud').style.transform = 'scale(1)';
+            document.getElementById('saturation-warning').classList.remove('show');
 
             updateDisplay();
         }
