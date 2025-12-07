@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/cycle-schema.json",
   "$comment": "Master configuration - validated against cycle schema structure",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "lastUpdated": "2025-12-07",
 
   "school": {
@@ -183,6 +183,6 @@
     "example": "g7_c3_w1_hook_q1"
   },
 
-  "activeCycles": ["cycle03"],
-  "plannedCycles": ["cycle04", "cycle05", "cycle06", "cycle07", "cycle08", "cycle09", "cycle10"]
+  "activeCycles": ["cycle03", "cycle04"],
+  "plannedCycles": ["cycle05", "cycle06", "cycle07", "cycle08", "cycle09", "cycle10"]
 }

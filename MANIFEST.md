@@ -1,7 +1,7 @@
 # KAMS Science Curriculum Repository Manifest
 ## Complete Content Inventory
 
-**Last Updated:** 2025-12-06
+**Last Updated:** 2025-12-07
 **Repository:** C3.Repo
 **Maintainer:** Louis Rosche
 
@@ -34,14 +34,16 @@ C3.Repo/
 ├── content/                     # All instructional content
 │   ├── grade7/                  # Grade 7: Life & Earth Science
 │   │   ├── cycle02/             # 📦 Legacy (4 weeks, pre-architecture)
-│   │   ├── cycle03/             # ✅ Complete
-│   │   ├── cycle04/             # 🟡 In Progress
-│   │   ├── cycle05-10/          # 📋 Placeholder
+│   │   ├── cycle03/             # ✅ Complete (W2 READ-ONLY)
+│   │   ├── cycle04/             # 🟡 In Progress (75%)
+│   │   ├── cycle05/             # 📋 Placeholder
+│   │   ├── cycle06-10/          # 📋 Placeholder (individual directories)
 │   ├── grade8/                  # Grade 8: Physical Science
 │   │   ├── cycle02/             # 📦 Legacy (4 weeks, pre-architecture)
-│   │   ├── cycle03/             # ✅ Complete
-│   │   ├── cycle04/             # 📋 Placeholder
-│   │   ├── cycle05-10/          # 📋 Placeholder
+│   │   ├── cycle03/             # ✅ Complete (W2 READ-ONLY)
+│   │   ├── cycle04/             # 🟡 In Progress (70%)
+│   │   ├── cycle05/             # 📋 Placeholder
+│   │   ├── cycle06-10/          # 📋 Placeholder (individual directories)
 │   └── resources/               # Cross-grade resources
 │
 ├── data/                        # Data aggregation & analysis
@@ -105,7 +107,7 @@ C3.Repo/
 | **C9** | 0% 📋 | 0% 📋 | Placeholder |
 | **C10** | 0% 📋 | 0% 📋 | Placeholder |
 
-**Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | 📦 Legacy | ❌ Not Started
+**Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | 📦 Legacy | ❌ Not Started | ⛔ Read-Only (Production)
 
 ---
 
@@ -135,12 +137,15 @@ C3.Repo/
 
 ## Cycle 3 (ACTIVE) - 100% COMPLETE ✅
 
+> **⛔ READ-ONLY NOTICE:** Week 2 content for both grades is **PRODUCTION** and must NOT be edited.
+> It serves as legacy documentation. See `cycle-status.json` for details.
+
 ### Grade 7: Climate Change & Energy Flow
 
 | Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | Status |
 |------|----------|-------------------|----------------|-------------|--------|
 | W1 | ✅ 1,021 lines | ✅ | ✅ | ✅ | **COMPLETE** |
-| W2 | ✅ 960 lines | ✅ | ✅ | ✅ | **COMPLETE** |
+| W2 | ✅ 960 lines | ✅ | ✅ | ✅ | **⛔ READONLY** |
 | W3 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
 
 ### Grade 8: Natural Selection & Forces
@@ -148,7 +153,7 @@ C3.Repo/
 | Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | Status |
 |------|----------|-------------------|----------------|-------------|--------|
 | W1 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
-| W2 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
+| W2 | ✅ | ✅ | ✅ | ✅ | **⛔ READONLY** |
 | W3 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
 
 ---
@@ -356,4 +361,4 @@ cat content/grade{7,8}/cycle{03-10}/cycle-status.json
 
 ---
 
-*This manifest is maintained manually. Last update: 2025-12-06*
+*This manifest is maintained manually. Last update: 2025-12-07*

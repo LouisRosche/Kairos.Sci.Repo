@@ -29,7 +29,8 @@ This living document captures patterns, anti-patterns, and insights discovered t
 3. [CSS & Styling](#css--styling)
 4. [Content Development](#content-development)
 5. [Data Pipeline](#data-pipeline)
-6. [Common Pitfalls](#common-pitfalls)
+6. [Content Lifecycle & Protection](#content-lifecycle--protection)
+7. [Common Pitfalls](#common-pitfalls)
 
 ---
 
@@ -184,6 +185,45 @@ This living document captures patterns, anti-patterns, and insights discovered t
 
 ---
 
+## Content Lifecycle & Protection
+
+### [2025-12] Legacy Content Handling (Cycle 02)
+**Context:** Cycle 02 was created before the v3.0 architecture with 4 weeks instead of 3, and incomplete content.
+
+**Lesson:** Legacy content requires special handling - it can't be fully deprecated (has historical value) but shouldn't be actively maintained.
+
+**Action:**
+- Mark legacy cycles with `"status": "legacy"` and `"isLegacy": true` in config
+- Use `"weeksOverride": 4` for non-standard week counts
+- Keep content in place but document it's reference-only
+- Do NOT attempt to "fix" legacy content to match new architecture
+- See `config/cycles/cycle02.json` for proper legacy marking pattern
+
+### [2025-12] Production Content Protection
+**Context:** Deployed content (C3.W2) was at risk of accidental modification.
+
+**Lesson:** Once content is in production with students, it becomes legacy documentation and must be protected.
+
+**Action:**
+- Add `readonly` flags to `cycle-status.json` for deployed content
+- Add read-only header comments to all protected files (HTML, GS, MD)
+- Use `Constants.STATUS.CONTENT.READONLY` status for protected content
+- Document protection reason in `readonly.[week]_reason` field
+- Pattern: `⛔ READ-ONLY PRODUCTION CONTENT - DO NOT EDIT ⛔`
+
+### [2025-12] Deployment Status vs Completion Status
+**Context:** Confusion between "100% complete" and "deployed to students."
+
+**Lesson:** A file can be 100% complete but not yet deployed, or deployed but needing protection.
+
+**Action:**
+- Use `completion` object for development progress (0-100%)
+- Use `deployed` object for deployment state (true/false per week)
+- Use `readonly` object for protection state (true/false per week)
+- These are independent: deployed content should eventually become readonly
+
+---
+
 ## Common Pitfalls
 
 ### Don't...
@@ -234,6 +274,7 @@ When you discover something worth documenting:
 
 | Date | Session Focus | Key Lessons Added |
 |------|---------------|-------------------|
+| 2025-12-07 | Repository Audit & Production Protection | Content lifecycle, legacy handling (C2), production content protection (C3.W2), version synchronization |
 | 2025-12-07 | Architectural Refactor v3.0 | Configuration centralization, trigger management, CSS design system |
 
 ---

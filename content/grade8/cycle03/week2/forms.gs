@@ -1,5 +1,17 @@
 /**
  * ============================================================================
+ * ⛔ READ-ONLY PRODUCTION CONTENT - DO NOT EDIT ⛔
+ * ============================================================================
+ * This file is PRODUCTION content deployed December 2025.
+ * It serves as legacy documentation and must NOT be modified.
+ * Any changes risk breaking deployed student-facing materials.
+ *
+ * Status: READONLY | Deployed: December 2025 | See: cycle-status.json
+ * ============================================================================
+ */
+
+/**
+ * ============================================================================
  * GRADE 8 - CYCLE 3 WEEK 2: EVIDENCE OF EVOLUTION
  * 5 Forms | 100 Points Total | ~75 Minutes
  * ============================================================================
