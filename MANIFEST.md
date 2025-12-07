@@ -34,14 +34,16 @@ C3.Repo/
 ├── content/                     # All instructional content
 │   ├── grade7/                  # Grade 7: Life & Earth Science
 │   │   ├── cycle02/             # 📦 Legacy (4 weeks, pre-architecture)
-│   │   ├── cycle03/             # ✅ Complete
-│   │   ├── cycle04/             # 🟡 In Progress
-│   │   ├── cycle05-10/          # 📋 Placeholder
+│   │   ├── cycle03/             # ✅ Complete (W2 READ-ONLY)
+│   │   ├── cycle04/             # 🟡 In Progress (75%)
+│   │   ├── cycle05/             # 📋 Placeholder
+│   │   ├── cycle06-10/          # 📋 Placeholder (individual directories)
 │   ├── grade8/                  # Grade 8: Physical Science
 │   │   ├── cycle02/             # 📦 Legacy (4 weeks, pre-architecture)
-│   │   ├── cycle03/             # ✅ Complete
-│   │   ├── cycle04/             # 📋 Placeholder
-│   │   ├── cycle05-10/          # 📋 Placeholder
+│   │   ├── cycle03/             # ✅ Complete (W2 READ-ONLY)
+│   │   ├── cycle04/             # 🟡 In Progress (70%)
+│   │   ├── cycle05/             # 📋 Placeholder
+│   │   ├── cycle06-10/          # 📋 Placeholder (individual directories)
 │   └── resources/               # Cross-grade resources
 │
 ├── data/                        # Data aggregation & analysis
@@ -359,4 +361,4 @@ cat content/grade{7,8}/cycle{03-10}/cycle-status.json
 
 ---
 
-*This manifest is maintained manually. Last update: 2025-12-06*
+*This manifest is maintained manually. Last update: 2025-12-07*

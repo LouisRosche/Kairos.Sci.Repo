@@ -5,7 +5,7 @@
 
 ## Quick Navigation
 
-### Active Cycle Resources (Cycle 3)
+### Active Cycle Resources (Cycles 3-4)
 
 | Task | Grade 7 | Grade 8 |
 |------|---------|---------|
@@ -64,19 +64,19 @@ C3.Repo/
 ├── config/                                # Master configuration
 │   ├── master-config.json                 # Global settings
 │   ├── cycles/                            # Per-cycle configuration
-│   │   ├── cycle03.json                   # ✅ Active
-│   │   ├── cycle04.json                   # 🟡 In Progress
-│   │   └── cycle05-10.json                # 📋 Planned
+│   │   ├── cycle03.json                   # ✅ Complete (Production)
+│   │   ├── cycle04.json                   # 🟡 Active (In Progress)
+│   │   └── cycle05-10.json                # 📋 Placeholder
 │   └── schema/                            # Validation schemas
 │
 ├── content/                               # All instructional content
 │   ├── grade7/
-│   │   ├── cycle03/                       # ✅ Complete
+│   │   ├── cycle03/                       # ✅ Complete (W2 READ-ONLY)
 │   │   │   ├── cycle-status.json          # Status tracking
 │   │   │   ├── curriculum-design.md
 │   │   │   ├── rubrics.md
 │   │   │   └── week{1,2,3}/
-│   │   ├── cycle04/                       # 🟡 In Progress
+│   │   ├── cycle04/                       # 🟡 In Progress (75%)
 │   │   └── cycle05-10/                    # 📋 Placeholder
 │   ├── grade8/
 │   │   └── ... (same structure)
@@ -201,4 +201,4 @@ C3.Repo/
 
 ---
 
-*KAMS Science Curriculum System | Version 2.2 | December 2025*
+*KAMS Science Curriculum System | Version 3.0.0 | December 2025*
