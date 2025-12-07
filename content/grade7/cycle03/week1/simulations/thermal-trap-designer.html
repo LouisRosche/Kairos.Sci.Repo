@@ -320,6 +320,42 @@
             font-weight: bold;
             color: #1E293B;
         }
+        /* Chromebook/Embedded Display Optimization */
+        @media (max-width: 900px), (max-height: 700px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.3em; margin-bottom: 5px; }
+            .subtitle { margin-bottom: 10px; font-size: 0.85em; }
+            .sim-container { padding: 12px; }
+            .main-grid { gap: 12px; }
+            .design-area { padding: 12px; min-height: 280px; }
+            .sun { width: 45px; height: 45px; top: 10px; right: 15px; }
+            .structure { width: 200px; height: 140px; bottom: 30px; }
+            .thermometer { height: 90px; width: 24px; bottom: 40px; left: 12px; }
+            .temp-display { bottom: 110px; left: 3px; padding: 5px 8px; font-size: 1em; }
+            .control-panel { padding: 12px; }
+            .control-section { margin-bottom: 12px; }
+            .control-section h3 { font-size: 0.9em; margin-bottom: 8px; }
+            .material-btn { padding: 8px; font-size: 0.8em; }
+            .material-btn .desc { font-size: 0.75em; }
+            .run-btn { padding: 10px; font-size: 0.95em; }
+            .results-panel { padding: 12px; margin-top: 12px; }
+            .result-row { padding: 8px 0; font-size: 0.9em; }
+            .comparison-chart { padding: 10px; margin-top: 12px; }
+            .bar-label { width: 70px; font-size: 0.75em; }
+            .insight-box { padding: 10px; margin-top: 12px; }
+            .insight-box h4 { font-size: 0.9em; }
+            .insight-box p { font-size: 0.8em; }
+        }
+        @media (max-height: 550px) {
+            .design-area { min-height: 220px; }
+            .structure { width: 160px; height: 110px; }
+            .control-section { margin-bottom: 8px; }
+            .material-options { gap: 4px; }
+            .material-btn { padding: 6px; }
+        }
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -399,6 +435,10 @@
                     </div>
 
                     <button class="run-btn" onclick="runSimulation()">☀️ Run 10-Minute Simulation</button>
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <button onclick="stopSimulation()" style="flex: 1; padding: 10px; background: linear-gradient(135deg, #EF4444, #DC2626); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">⏹️ Stop</button>
+                        <button onclick="resetSimulation()" style="flex: 1; padding: 10px; background: linear-gradient(135deg, #6B7280, #4B5563); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">🔄 Reset</button>
+                    </div>
                 </div>
             </div>
 
@@ -453,6 +493,7 @@
         let floorColor = 'black';
         let currentTemp = 20;
         let isRunning = false;
+        let simulationInterval = null; // Track interval for proper cleanup
 
         const materials = {
             wall: {
@@ -540,8 +581,29 @@
             }
         }
 
+        function stopSimulation() {
+            if (simulationInterval) {
+                clearInterval(simulationInterval);
+                simulationInterval = null;
+            }
+            isRunning = false;
+        }
+
+        function resetSimulation() {
+            stopSimulation();
+            currentTemp = 20;
+            updateTemperature(20);
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('comparison').style.display = 'none';
+            document.getElementById('insight').style.display = 'none';
+            document.getElementById('trapped-rays').innerHTML = '';
+        }
+
         function runSimulation() {
             if (isRunning) return;
+
+            // Reset before starting new simulation
+            resetSimulation();
             isRunning = true;
 
             // Calculate final temperature
@@ -569,13 +631,14 @@
             createTrappedRays();
 
             let step = 0;
-            const interval = setInterval(() => {
+            simulationInterval = setInterval(() => {
                 step++;
                 currentTemp = Math.min(finalTemp, 20 + increment * step);
                 updateTemperature(currentTemp);
 
                 if (step >= 50) {
-                    clearInterval(interval);
+                    clearInterval(simulationInterval);
+                    simulationInterval = null;
                     showResults(finalTemp, tempRise);
                     isRunning = false;
                 }

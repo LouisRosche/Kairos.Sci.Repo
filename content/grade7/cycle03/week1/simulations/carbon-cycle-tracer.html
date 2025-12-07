@@ -370,6 +370,7 @@
             <div class="controls">
                 <button class="btn-primary" onclick="resetSimulation()">🔄 Reset Journey</button>
                 <button class="btn-secondary" onclick="autoJourney()">▶️ Auto Journey</button>
+                <button style="padding: 12px 24px; border: none; border-radius: 8px; font-size: 1em; cursor: pointer; font-weight: 600; background: linear-gradient(135deg, #EF4444, #DC2626); color: white;" onclick="stopAutoJourney()">⏹️ Stop</button>
                 <button class="btn-warning" onclick="showAllPaths()">🗺️ Show All Paths</button>
             </div>
 
@@ -483,6 +484,7 @@
         let currentLocation = 'atmosphere';
         let stepCount = 0;
         let journeyLog = [];
+        let autoJourneyInterval = null; // Track interval for proper cleanup
 
         function moveTo(newLocation) {
             const current = locations[currentLocation];
@@ -551,7 +553,17 @@
             logContainer.scrollTop = logContainer.scrollHeight;
         }
 
+        function stopAutoJourney() {
+            if (autoJourneyInterval) {
+                clearInterval(autoJourneyInterval);
+                autoJourneyInterval = null;
+            }
+        }
+
         function resetSimulation() {
+            // Stop any running auto journey first
+            stopAutoJourney();
+
             currentLocation = 'atmosphere';
             stepCount = 0;
             journeyLog = [];
@@ -573,6 +585,9 @@
         }
 
         function autoJourney() {
+            // Stop any running auto journey first
+            stopAutoJourney();
+
             const paths = [
                 ['plant', 'animal', 'atmosphere'],
                 ['plant', 'fossil', 'factory', 'atmosphere'],
@@ -582,12 +597,13 @@
 
             resetSimulation();
             let i = 0;
-            const interval = setInterval(() => {
+            autoJourneyInterval = setInterval(() => {
                 if (i < randomPath.length) {
                     moveTo(randomPath[i]);
                     i++;
                 } else {
-                    clearInterval(interval);
+                    clearInterval(autoJourneyInterval);
+                    autoJourneyInterval = null;
                 }
             }, 2000);
         }
