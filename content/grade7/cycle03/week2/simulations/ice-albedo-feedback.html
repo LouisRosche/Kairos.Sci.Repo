@@ -265,36 +265,41 @@
             height: 15px;
             border-radius: 3px;
         }
-        /* Chromebook/Embedded Display Optimization */
-        @media (max-width: 900px), (max-height: 700px) {
+        /* Responsive Design for Chromebook and smaller screens */
+        @media (max-width: 768px) {
             body { padding: 10px; }
-            h1 { font-size: 1.3em; margin-bottom: 5px; }
-            .subtitle { margin-bottom: 10px; font-size: 0.85em; }
-            .sim-container { padding: 12px; }
-            .arctic-view { height: 200px; margin-bottom: 12px; }
-            .feedback-diagram { padding: 12px; margin-bottom: 12px; }
-            .feedback-node { padding: 8px 12px; min-width: 100px; font-size: 0.8em; }
+            .sim-container { padding: 15px; }
+            .arctic-view { height: 250px; }
+            .feedback-loop { gap: 10px; }
+            .feedback-node {
+                padding: 10px 15px;
+                min-width: 110px;
+                font-size: 0.9em;
+            }
             .feedback-node .icon { font-size: 1.2em; }
             .arrow-node { font-size: 1.5em; }
-            .controls { gap: 8px; margin-bottom: 12px; }
-            .control-group { padding: 10px 12px; }
-            .control-group label { font-size: 0.8em; margin-bottom: 5px; }
-            .slider { width: 150px; }
-            button { padding: 8px 16px; font-size: 0.9em; }
-            .year-display { font-size: 1.2em; margin-bottom: 10px; }
-            .graph-container { padding: 12px; margin-bottom: 12px; }
-            .graph { height: 100px; }
-            .insight-panel { padding: 12px; }
-            .insight-panel h4 { font-size: 0.95em; }
-            .insight-panel p { font-size: 0.85em; }
-            .key-concept { padding: 10px; margin-top: 10px; font-size: 0.85em; }
-            .ice-coverage, .temp-badge { padding: 6px 10px; font-size: 0.8em; }
+            .controls { gap: 10px; }
+            .control-group { padding: 12px 15px; }
+            .slider { width: 160px; }
+            .graph { height: 120px; }
         }
-        @media (max-height: 550px) {
-            .arctic-view { height: 150px; }
-            .graph { height: 80px; }
-            .feedback-diagram { padding: 8px; }
-            .feedback-node { padding: 6px 8px; min-width: 80px; }
+        @media (max-width: 500px) {
+            .arctic-view { height: 200px; }
+            .feedback-loop {
+                flex-direction: column;
+                align-items: center;
+            }
+            .feedback-node {
+                width: 90%;
+                min-width: auto;
+            }
+            .arrow-node { transform: rotate(90deg); }
+            .controls { flex-direction: column; }
+            .control-group { width: 100%; }
+            .slider { width: 100%; }
+            button { padding: 10px 18px; font-size: 0.9em; }
+            .graph { height: 100px; }
+            .legend { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
@@ -304,6 +309,15 @@
         <p class="subtitle">Watch how melting ice creates a POSITIVE feedback loop that accelerates warming!</p>
 
         <div class="sim-container">
+            <details style="margin-bottom: 20px; background: #F0F9FF; padding: 15px; border-radius: 10px; border: 2px solid #0EA5E9;">
+                <summary style="cursor: pointer; font-weight: bold; color: #0369A1; font-size: 1em;">📖 How to Use This Simulation</summary>
+                <div style="margin-top: 12px; color: #0C4A6E; font-size: 0.9em; line-height: 1.6;">
+                    <p><strong>Step 1:</strong> Adjust the CO₂ level slider to set initial conditions.</p>
+                    <p><strong>Step 2:</strong> Click "Step 1 Year" to advance one year at a time, or "Run 50 Years" to watch the feedback loop in action.</p>
+                    <p><strong>Step 3:</strong> Watch how temperature rise causes ice melt, which lowers albedo (reflectivity), which causes more warming — a positive feedback loop!</p>
+                    <p><strong>Key concept:</strong> This simulation shows why Arctic ice loss can accelerate beyond what initial warming would cause alone.</p>
+                </div>
+            </details>
             <div class="year-display">Year: <span id="year">2024</span></div>
 
             <div class="arctic-view">

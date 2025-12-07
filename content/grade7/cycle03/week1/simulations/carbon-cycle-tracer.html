@@ -284,36 +284,42 @@
             font-size: 0.9em;
             line-height: 1.5;
         }
-        /* Chromebook/Embedded Display Optimization */
-        @media (max-width: 900px), (max-height: 700px) {
+        /* Responsive Design for Chromebook and smaller screens */
+        @media (max-width: 768px) {
             body { padding: 10px; }
-            h1 { font-size: 1.3em; margin-bottom: 5px; }
-            .subtitle { margin-bottom: 10px; font-size: 0.85em; }
-            .sim-container { padding: 12px; }
-            .instructions { padding: 10px; margin-bottom: 12px; }
-            .instructions h4 { font-size: 0.9em; margin-bottom: 5px; }
-            .instructions p { font-size: 0.8em; }
-            .counter { gap: 15px; margin-bottom: 12px; }
+            .sim-container { padding: 15px; }
+            .cycle-diagram { height: 350px; }
+            .reservoir {
+                padding: 8px;
+                font-size: 0.75em;
+                min-width: 90px;
+            }
+            #atmosphere { width: 120px; }
+            #plant, #animal { width: 100px; }
+            #ocean { width: 110px; }
+            #fossil, #factory { width: 100px; }
+            .counter { gap: 15px; }
             .counter-item { padding: 10px 15px; }
             .counter-item .number { font-size: 1.5em; }
-            .counter-item .label { font-size: 0.75em; }
-            .cycle-diagram { height: 300px; margin-bottom: 12px; }
-            .reservoir { padding: 8px; font-size: 0.75em; }
-            .carbon-atom { width: 32px; height: 32px; font-size: 1em; }
-            .controls { gap: 6px; margin-bottom: 12px; }
-            button { padding: 8px 16px; font-size: 0.9em; }
-            .info-panel { padding: 12px; margin-bottom: 12px; }
-            .info-panel h3 { font-size: 0.95em; margin-bottom: 8px; }
-            .info-panel p { font-size: 0.85em; }
-            .process-info { padding: 10px; margin-top: 10px; }
-            .equation { padding: 10px; font-size: 0.95em; }
-            .journey-log { padding: 12px; max-height: 150px; }
-            .log-entry { padding: 6px 10px; font-size: 0.8em; }
+            .carbon-atom { width: 30px; height: 30px; font-size: 1em; }
+            .journey-log { max-height: 150px; }
         }
-        @media (max-height: 550px) {
-            .cycle-diagram { height: 220px; }
-            .reservoir { padding: 6px; font-size: 0.7em; }
-            .journey-log { max-height: 100px; }
+        @media (max-width: 500px) {
+            .cycle-diagram { height: 300px; }
+            .reservoir {
+                padding: 6px;
+                font-size: 0.7em;
+                border-width: 2px;
+            }
+            #atmosphere { width: 100px; }
+            #plant { left: 5%; width: 85px; }
+            #animal { right: 5%; width: 85px; }
+            #ocean { width: 90px; }
+            #fossil { left: 10%; width: 85px; }
+            #factory { right: 5%; width: 90px; }
+            .controls { gap: 8px; }
+            button { padding: 10px 16px; font-size: 0.9em; }
+            .counter { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
