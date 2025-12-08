@@ -1,15 +1,3 @@
-<!--
-================================================================================
-⛔ READ-ONLY PRODUCTION CONTENT - DO NOT EDIT ⛔
-================================================================================
-This file is PRODUCTION content deployed December 2025.
-It serves as legacy documentation and must NOT be modified.
-Any changes risk breaking deployed student-facing materials.
-
-Status: READONLY | Deployed: December 2025 | See: cycle-status.json
-================================================================================
--->
-
 # Grade 8 Cycle 3 Week 2: Implementation Guide
 ## December 8-12, 2025 | Evidence of Evolution
 
@@ -27,17 +15,17 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 | G8.C3.W2: Station 3 - Design a Transitional Form | 5 | 25 |
 | G8.C3.W2: Exit Ticket - Evidence Integration | 6 | 23 |
 
-### Physical Materials
+### Materials (100% Digital Instruction)
 
-| Station | Materials | Quantity |
-|---------|-----------|----------|
-| 1 | Bone comparison diagrams (whale, bat, human, dog) | 1 set per group |
-| 1 | Colored pencils for matching bones | 1 set per group |
-| 2 | Whale evolution fossil cards (Pakicetus → modern whale) | 1 set per group |
-| 2 | Fossil timeline poster | 1 per class |
-| 3 | Transitional form design templates | 1 per student |
-| 3 | Ancestor/descendant reference cards | 1 set per group |
-| All | Chromebooks | 1 per student |
+| Item | Purpose | Access |
+|------|---------|--------|
+| Chromebooks | All activities | 1 per student |
+| Bone Homology Explorer | Station 1 - Interactive bone comparison | Student page simulation |
+| Transitional Form Designer | Station 3 - Design activity | Student page simulation |
+| Google Forms | All assessments (Hook, S1-S3, Exit) | Embedded in student page |
+| **Notecard (1 per student)** | Key concept capture | Physical - write "Homologous vs Analogous" definitions |
+
+**NOTE:** This lesson uses 100% digital instruction via simulations and Google Forms. The only physical material is ONE notecard per student for capturing the key vocabulary distinction (homologous vs analogous structures).
 
 ### Resource Links
 
@@ -55,11 +43,11 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 | Time | Activity | Teacher Actions |
 |------|----------|-----------------|
 | 0:00-0:05 | Entry + Settle | Display whale flipper X-ray; "What do you notice?" |
-| 0:05-0:15 | Hook Form | Independent completion |
-| 0:15-0:17 | Transition | Assign groups; distribute bone diagrams |
-| 0:17-0:37 | Station 1 | Circulate; watch for homologous/analogous confusion |
-| 0:37-0:40 | Pomodoro Break | Movement; water |
-| 0:40-0:60 | Station 2 | Use fossil cards for sequencing activity |
+| 0:05-0:15 | Hook Form | Independent completion on Chromebooks |
+| 0:15-0:17 | Transition | Assign groups; open Bone Homology Explorer simulation |
+| 0:17-0:37 | Station 1 | Circulate; watch for homologous/analogous confusion; students use interactive simulation |
+| 0:37-0:40 | Pomodoro Break | Movement; water; **NOTECARD:** Write homologous vs analogous definitions |
+| 0:40-0:60 | Station 2 | Students use whale timeline in student page + embedded video; complete Google Form |
 | 0:60-0:65 | Wrap + Preview | "Tomorrow: Design your own transitional organism!" |
 
 **Station 1 Probing Questions:**
@@ -68,10 +56,10 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 - "If the function is different, why would the bones be the same?"
 - "Is a bird wing and bat wing homologous or analogous? Why?"
 
-**Station 2 Probing Questions:**
-- "Put the fossils in order from oldest to youngest."
-- "What changes do you notice as we move through time?"
-- "What would you predict the fossil between Pakicetus and Ambulocetus looks like?"
+**Station 2 Probing Questions (Digital Timeline):**
+- "Looking at the timeline on your screen, which fossil is oldest? Youngest?"
+- "What changes do you notice as we scroll through time?"
+- "What would you predict a fossil between Pakicetus and Ambulocetus looks like?"
 - "Why are these called 'transitional' fossils?"
 
 ---
@@ -80,10 +68,10 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 
 | Time | Activity | Teacher Actions |
 |------|----------|-----------------|
-| 0:00-0:03 | Entry + Review | "Quick check: homologous = ___? analogous = ___?" |
-| 0:03-0:08 | Station 3 Setup | Distribute templates; explain ancestor/descendant |
-| 0:08-0:38 | Station 3 | Push for INTERMEDIATE features, not either/or |
-| 0:38-0:43 | Share Out | 2-3 groups share; class votes most scientifically accurate |
+| 0:00-0:03 | Entry + Review | "Quick check: homologous = ___? analogous = ___?" (Check notecards!) |
+| 0:03-0:08 | Station 3 Setup | Open Transitional Form Designer simulation; explain ancestor/descendant |
+| 0:08-0:38 | Station 3 | Push for INTERMEDIATE features, not either/or; students design in simulation |
+| 0:38-0:43 | Share Out | 2-3 groups screen-share; class votes most scientifically accurate |
 | 0:43-0:45 | Preview | "Thursday: Exit ticket" |
 
 **Station 3 Probing Questions:**
@@ -145,10 +133,10 @@ This is THE most common and persistent misconception. Students often say:
 ## Differentiation Quick-Reference
 
 ### More Support
-- Provide bone matching worksheet (color-code humerus, radius, ulna across species)
+- Use Bone Homology Explorer simulation with guided walkthrough (highlight one bone at a time)
 - Sentence frames: "The ___ is homologous to ___ because they have the same ___"
-- Simplified transitional form template with checkboxes
-- Allow verbal explanations recorded on phone
+- Transitional Form Designer "guided mode" with checkboxes (built into simulation)
+- Allow verbal explanations recorded on phone/Chromebook
 
 ### More Challenge
 - "Research: What is molecular evidence for whale evolution?"
@@ -239,14 +227,14 @@ Pakicetus (50 mya) → Ambulocetus (49 mya) → Rodhocetus (47 mya) → Basilosa
 ## Emergency Backup Plans
 
 ### If Chromebooks fail:
-- Print bone comparison diagrams
-- Paper fossil cards work without tech
-- Paper Exit Ticket in emergency folder
+- Use classroom projector to display simulations as class demo
+- Students complete Google Forms on phones (mobile-responsive)
+- Paper Exit Ticket in emergency folder as last resort
 
 ### If time runs short:
 - Priority: Hook + Station 1 + Exit Ticket
-- Station 2 fossils can be shown as class demo
-- Station 3 can be completed async
+- Station 2 can be shown as class demo via projector
+- Station 3 can be completed async (simulation works from home)
 - **Never skip Exit Ticket**
 
 ---
