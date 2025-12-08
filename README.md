@@ -1,5 +1,5 @@
 # KAMS Science Curriculum System
-## Scalable Architecture for 8 Cycles × 2 Grades × 3 Weeks
+## Scalable Architecture for 8 Cycles × Grades 7 and 8
 
 ---
 
