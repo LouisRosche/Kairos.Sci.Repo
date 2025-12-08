@@ -1,14 +1,25 @@
 {
   "$schema": "../schema/cycle-schema.json",
   "cycle": 10,
-  "name": "Cycle 10: May-June 2026 (Final)",
-  "status": "planned",
+  "name": "Cycle 10: Year-End Integration (MERGED INTO C8)",
+  "status": "merged",
+  "_resolution": {
+    "decision": "MERGED into Cycle 8 Week 3",
+    "decisionDate": "2025-12-08",
+    "details": "Year-End Integration activities merged into Cycle 8 Week 3. See cycle08.json for integrated structure."
+  },
+  "_calendarWarning": "RESOLVED - Year-End Integration merged into Cycle 8 Week 3 per decision on 2025-12-08.",
   "dates": {
-    "start": "2026-05-18",
-    "end": "2026-06-05",
-    "week1": { "start": "2026-05-18", "end": "2026-05-22" },
-    "week2": { "start": "2026-05-26", "end": "2026-05-29" },
-    "week3": { "start": "2026-06-01", "end": "2026-06-05" }
+    "start": null,
+    "end": null,
+    "week1": null,
+    "week2": null,
+    "week3": null,
+    "_originalDates": {
+      "start": "2026-05-18",
+      "end": "2026-06-05",
+      "note": "These dates overlap with Calendar Cycle 7 end and Cycle 8 start"
+    }
   },
 
   "grades": {

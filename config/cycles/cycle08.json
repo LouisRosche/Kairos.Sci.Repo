@@ -1,69 +1,119 @@
 {
   "$schema": "../schema/cycle-schema.json",
   "cycle": 8,
-  "name": "Cycle 8: April 2026",
+  "name": "Cycle 8: June 2026 (Final Cycle + Year-End Integration)",
   "status": "planned",
   "dates": {
-    "start": "2026-04-06",
-    "end": "2026-04-24",
-    "week1": { "start": "2026-04-06", "end": "2026-04-10" },
-    "week2": { "start": "2026-04-13", "end": "2026-04-17" },
-    "week3": { "start": "2026-04-20", "end": "2026-04-24" }
+    "start": "2026-06-01",
+    "end": "2026-06-26",
+    "week1": { "start": "2026-06-01", "end": "2026-06-05" },
+    "week2": { "start": "2026-06-08", "end": "2026-06-12" },
+    "week3": { "start": "2026-06-15", "end": "2026-06-18" },
+    "_notes": "Juneteenth 6/19; buffer 6/22-6/26 for Year-End activities; school year ends 6/30"
+  },
+  "_yearEndIntegration": {
+    "note": "Week 3 combines cycle assessment with Year-End Integration activities (merged from deferred C10)",
+    "components": [
+      "Cycle 8 content assessment (Part 1)",
+      "Student-selected investigation presentations",
+      "Cross-cutting concept synthesis",
+      "Year-end cumulative reflection"
+    ]
   },
 
   "grades": {
     "7": {
-      "topic": "Ecosystems & Biodiversity",
+      "topic": "Ecosystems, Biodiversity & Year-End Integration",
       "phenomenon": {
         "week1": "TODO: Define driving phenomenon",
         "week2": "TODO: Define driving phenomenon",
-        "week3": "Synthesis & Assessment"
+        "week3": "Year-End Integration: Student-selected ecosystem investigation + CCC synthesis"
       },
       "ngss": {
         "primary": {
           "code": "MS-LS2-4",
           "description": "Construct an argument supported by empirical evidence that changes to physical or biological components of an ecosystem affect populations."
         },
-        "spiral": []
+        "secondary": {
+          "code": "MS-ESS1-2",
+          "description": "Develop and use a model to describe the role of gravity in the motions within galaxies and the solar system.",
+          "_integration": "Integrated from deferred C9 - addressed through Earth's place in solar system context within ecosystem/biodiversity discussions"
+        },
+        "spiral": [
+          { "code": "MS-ESS1-4", "description": "Geologic time scale", "fromCycle": 7 },
+          { "code": "MS-ESS3-5", "description": "Climate change factors", "fromCycle": 3 },
+          { "code": "MS-ESS3-3", "description": "Human impact", "fromCycle": 4 }
+        ]
       },
       "threeDimensional": {
-        "sep": [],
-        "dci": ["LS2.A: Interdependent Relationships in Ecosystems", "LS2.C: Ecosystem Dynamics"],
-        "ccc": []
+        "sep": ["SEP-7: Engaging in Argument", "SEP-6: Constructing Explanations", "All SEPs (Year-End)"],
+        "dci": ["LS2.A: Interdependent Relationships", "LS2.C: Ecosystem Dynamics", "ESS1.B: Earth and Solar System"],
+        "ccc": ["CCC-7: Stability and Change", "CCC-2: Cause and Effect", "All CCCs (Year-End Synthesis)"]
       },
       "misconceptions": [],
       "weeks": {
-        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
-        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
-        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+        "1": { "title": "Ecosystem Dynamics & Biodiversity", "status": "not_started" },
+        "2": { "title": "Human Impact on Ecosystems", "status": "not_started" },
+        "3": {
+          "title": "Year-End Integration & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "isYearEndIntegration": true,
+          "_structure": {
+            "part1": "Cycle 8 Assessment (Ecosystems)",
+            "part2": "Student-selected investigation presentation",
+            "part3": "CCC Synthesis activity (all 7 CCCs)",
+            "part4": "Year-end reflection and celebration"
+          }
+        }
       },
       "materials": {}
     },
 
     "8": {
-      "topic": "Thermal Energy & Heat Transfer",
+      "topic": "Thermal Energy, Heat Transfer & Year-End Integration",
       "phenomenon": {
         "week1": "TODO: Define driving phenomenon",
         "week2": "TODO: Define driving phenomenon",
-        "week3": "Synthesis & Assessment"
+        "week3": "Year-End Integration: Engineering design showcase + CCC synthesis"
       },
       "ngss": {
         "primary": {
           "code": "MS-PS3-4",
           "description": "Plan an investigation to determine the relationships among the energy transferred, the type of matter, the mass, and the change in the average kinetic energy."
         },
-        "spiral": []
+        "secondary": {
+          "code": "MS-ETS1-2",
+          "description": "Evaluate competing design solutions using a systematic process to determine how well they meet the criteria and constraints of the problem.",
+          "_integration": "Integrated from deferred C9 - addressed through Station 3 engineering challenges and Year-End design showcase"
+        },
+        "spiral": [
+          { "code": "MS-PS1-2", "description": "Chemical reactions", "fromCycle": 7 },
+          { "code": "MS-LS4-4", "description": "Natural selection", "fromCycle": 3 },
+          { "code": "MS-LS2-3", "description": "Energy flow in ecosystems", "fromCycle": 4 }
+        ]
       },
       "threeDimensional": {
-        "sep": [],
-        "dci": ["PS3.A: Definitions of Energy", "PS3.B: Conservation of Energy"],
-        "ccc": []
+        "sep": ["SEP-3: Planning Investigations", "SEP-6: Constructing Explanations", "All SEPs (Year-End)"],
+        "dci": ["PS3.A: Definitions of Energy", "PS3.B: Conservation of Energy", "ETS1.B: Developing Solutions"],
+        "ccc": ["CCC-5: Energy and Matter", "CCC-1: Patterns", "All CCCs (Year-End Synthesis)"]
       },
       "misconceptions": [],
       "weeks": {
-        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
-        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
-        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+        "1": { "title": "Thermal Energy & Heat Transfer", "status": "not_started" },
+        "2": { "title": "Energy Conservation & Applications", "status": "not_started" },
+        "3": {
+          "title": "Year-End Integration & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "isYearEndIntegration": true,
+          "_structure": {
+            "part1": "Cycle 8 Assessment (Thermal Energy)",
+            "part2": "Engineering Design Showcase (cumulative Station 3 projects)",
+            "part3": "CCC Synthesis activity (all 7 CCCs)",
+            "part4": "Year-end reflection and celebration"
+          }
+        }
       },
       "materials": {}
     }

@@ -1,14 +1,15 @@
 {
   "$schema": "../schema/cycle-schema.json",
   "cycle": 5,
-  "name": "Cycle 5: February 2026",
+  "name": "Cycle 5: February-March 2026",
   "status": "planned",
   "dates": {
-    "start": "2026-01-27",
-    "end": "2026-02-13",
-    "week1": { "start": "2026-01-27", "end": "2026-01-30" },
-    "week2": { "start": "2026-02-02", "end": "2026-02-06" },
-    "week3": { "start": "2026-02-09", "end": "2026-02-13" }
+    "start": "2026-02-23",
+    "end": "2026-03-12",
+    "week1": { "start": "2026-02-23", "end": "2026-02-27" },
+    "week2": { "start": "2026-03-02", "end": "2026-03-06" },
+    "week3": { "start": "2026-03-09", "end": "2026-03-12" },
+    "_notes": "After Presidents Day PD week (2/17-2/20); ends before Spring Break 3/16"
   },
 
   "grades": {

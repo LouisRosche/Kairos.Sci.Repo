@@ -8,6 +8,49 @@ Colors matched to student-page.html
 PPTX DESIGN BEST PRACTICES - SINGLE SOURCE OF TRUTH
 =============================================================================
 
+CYCLE STRUCTURE (All cycles follow this pattern):
+-------------------------------------------------
+Week 1 (Intro): Hook (12pts) + Station 1 (20pts) + Station 2 (20pts) + Station 3 (25pts) + Exit Ticket (23pts) = 100 pts
+Week 2 (Deep Dive): Same structure as W1 - builds on W1 concepts
+Week 3 (Assessment): Part 1 Synthesis (20pts) + Part 2 Assessment (60pts) + Part 3 Misconceptions (20pts) = 100 pts
+
+EXCEPTION: Cycle 2 has Week 4 (extended cycle)
+
+SLIDE STRUCTURE PATTERNS:
+-------------------------
+W1/W2 Standard (16 slides):
+  1. Title slide
+  2. Phenomenon slide
+  3. Driving Question slide
+  4. Prior Knowledge slide
+  5. Learning Targets slide
+  6. Vocabulary slide
+  7. Hook intro slide
+  8. Hook support slide
+  9. Station 1 intro slide
+  10. Station 1 support slide
+  11. Station 2 intro slide
+  12. Station 2 support slide
+  13. Station 3 intro slide
+  14. Station 3 support slide
+  15. Exit Ticket intro slide
+  16. Summary/What You Learned slide
+
+W3 Assessment (11-12 slides):
+  1. Title slide
+  2. Assessment overview slide
+  3. What you'll be assessed on slide
+  4. Part 1 intro slide
+  5. Part 1 support slide
+  6. Part 2 intro slide
+  7. Part 2 support slide
+  8. Part 3 intro slide
+  9. Part 3 support slide
+  10. Tips for success slide
+  11. Summary slide
+
+=============================================================================
+
 1. TEXT BOX POSITIONING:
    - Text boxes do NOT visually show actual text boundaries
    - Always add PADDING between text box edges and shape edges
