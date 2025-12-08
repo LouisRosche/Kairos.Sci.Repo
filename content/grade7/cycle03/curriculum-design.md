@@ -121,12 +121,14 @@ By the end of Week 1, students will be able to:
 
 **Phenomenon:** "Why might melting ice cause MORE melting?"
 
-### Station 1: Albedo Effect Investigation
+### Station 1: Albedo Effect Investigation (Digital Simulation)
 
-**Task:** Use light sensors and different surfaces to measure reflected vs. absorbed energy
-- Calculate albedo ratios for ice, water, soil, vegetation
-- Model positive feedback loop with cause-effect diagram
+**Task:** Use the Ice-Albedo Feedback Simulator to explore albedo and its effects
+- Analyze reference data showing how surfaces with different albedos heat up
+- Model positive feedback loop with cause-effect diagram using simulation results
 - **INTERLEAVED:** Express energy transformations using bond energy vocabulary
+
+**Resource:** Ice-Albedo Feedback Simulator (embedded in student page)
 
 ### Station 2: Carbon Sink Analysis (Data Interpretation)
 
@@ -181,23 +183,29 @@ By the end of Week 1, students will be able to:
 
 ---
 
-## Materials Checklist
+## Digital Tools Checklist (100% Material-Free Instruction)
 
-### Station 1
-- [ ] Chromebooks with PhET access
-- [ ] Molecular model printouts (CO₂, N₂, H₂O)
+### Week 1: Greenhouse Effect
+- [ ] Chromebooks with PhET access (1 per student)
+- [ ] PhET "Molecules and Light" simulation
+- [ ] Carbon Cycle Tracer simulation (embedded)
+- [ ] Thermal Trap Designer simulation (embedded)
+- [ ] Google Forms for all stations
 
-### Station 2
-- [ ] Carbon atom manipulatives (black pompoms or beads) - 20 per group
-- [ ] Carbon cycle diagram (large poster) - 1 per group
-- [ ] Calculators
+### Week 2: Feedback Loops
+- [ ] Chromebooks (1 per student)
+- [ ] Ice-Albedo Feedback Simulator (embedded)
+- [ ] Carbon Sink Simulator (embedded)
+- [ ] Calculators (digital or physical)
+- [ ] Google Forms for all stations
 
-### Station 3
-- [ ] Material samples: black paper, aluminum foil, bubble wrap, cardboard, plastic wrap
-- [ ] Small containers for building - 3 per group
-- [ ] Heat lamp OR sunny window access
-- [ ] Thermometers or temperature probes
+### Week 3: Synthesis
+- [ ] Chromebooks (1 per student)
+- [ ] Access to all previous simulations for review
+- [ ] Assessment forms
+
+**Note:** All instruction is 100% digital/simulation-based. No physical lab materials required.
 
 ---
 
-*Grade 7 Cycle 3 Curriculum Design | Version 1.0 | December 2025*
+*Grade 7 Cycle 3 Curriculum Design | Version 2.0 | December 2025 | Updated for material-free instruction*

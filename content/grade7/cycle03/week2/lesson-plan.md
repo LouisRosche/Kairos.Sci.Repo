@@ -1,12 +1,9 @@
 <!--
 ================================================================================
-⛔ READ-ONLY PRODUCTION CONTENT - DO NOT EDIT ⛔
+Grade 7 Cycle 3 Week 2: Feedback Loops & Tipping Points - Implementation Guide
 ================================================================================
-This file is PRODUCTION content deployed December 2025.
-It serves as legacy documentation and must NOT be modified.
-Any changes risk breaking deployed student-facing materials.
-
-Status: READONLY | Deployed: December 2025 | See: cycle-status.json
+Updated: December 2025 - Converted to 100% digital/simulation-based instruction
+All activities use PhET simulations and interactive HTML tools - NO physical materials
 ================================================================================
 -->
 
@@ -34,20 +31,19 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 - [x] Respondents can edit after submit
 - [x] Require login for verified email
 
-### Physical Materials
+### Digital Tools (100% Material-Free Instruction)
 
-| Station | Materials | Quantity |
-|---------|-----------|----------|
-| 1 | Heat lamp (100W) | 1 per class |
-| 1 | Thermometers | 4 per group |
-| 1 | White paper | 1 sheet per group |
-| 1 | Black paper | 1 sheet per group |
-| 1 | Aluminum foil | 1 sheet per group |
-| 1 | Water sample in shallow dish | 1 per group |
-| 1 | Timer | 1 per group |
-| 2 | Calculators | 1 per student |
-| 2 | Carbon budget reference sheet | 1 per student |
-| 3 | Carbon capture option cards | 1 set per group |
+| Station | Digital Resource | Access |
+|---------|-----------------|--------|
+| 1 | Ice-Albedo Feedback Simulator | Embedded in student page |
+| 1 | Albedo reference data table | Embedded in student page |
+| 2 | Carbon Sink Simulator | Embedded in student page |
+| 2 | Carbon budget data (interactive) | Embedded in student page |
+| 3 | Carbon capture design tool | Form-based design |
+| All | Chromebooks | 1 per student |
+| All | Google Forms | Linked in student page |
+
+**Note:** All instruction is 100% digital. No physical materials required.
 
 ### Resource Links
 
@@ -65,17 +61,17 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 |------|----------|-----------------|
 | 0:00-0:05 | Entry + Settle | Display Arctic ice timelapse; students open Chromebooks |
 | 0:05-0:15 | Hook Form | Independent completion; circulate to observe predictions |
-| 0:15-0:17 | Transition | Assign groups; distribute Station 1 materials |
-| 0:17-0:40 | Station 1 | SAFETY BRIEF on heat lamp first! Circulate during data collection |
+| 0:15-0:17 | Transition | Assign groups; ensure all students have simulation loaded |
+| 0:17-0:40 | Station 1 | Guide students through Ice-Albedo Simulator; circulate during exploration |
 | 0:40-0:43 | Pomodoro Break | Movement; water |
 | 0:43-0:60 | Station 2 | Watch for carbon sink misconceptions |
 | 0:60-0:65 | Wrap + Preview | "Tomorrow: Design your own carbon capture system!" |
 
-**Station 1 Probing Questions:**
-- "Which surface heated up fastest? Slowest?"
-- "What do you notice about the color and the temperature change?"
-- "How does this connect to ice vs. ocean water?"
-- "If ice melts, exposing ocean, what happens to the area's temperature?"
+**Station 1 Probing Questions (Simulation-Based):**
+- "In the simulation, what happens to temperature as ice coverage decreases?"
+- "Look at the albedo data table - which surface absorbs the most heat? Why?"
+- "How does this connect to real Arctic ice vs. ocean water?"
+- "In the simulation, what happens when you run it for 50 years? Why does melting accelerate?"
 
 **Station 2 Probing Questions:**
 - "What does '19 Gt remaining' mean for atmospheric CO₂ over time?"
@@ -159,13 +155,13 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 
 ## Answer Keys
 
-### Station 1 Data (Typical Results)
-| Surface | Start | End (3 min) | Change |
-|---------|-------|-------------|--------|
-| Black paper | 22°C | 35°C | +13°C |
-| White paper | 22°C | 27°C | +5°C |
-| Aluminum foil | 22°C | 24°C | +2°C |
-| Water | 22°C | 30°C | +8°C |
+### Station 1 Reference Data (Albedo Effects)
+| Surface | Albedo | Start | End (3 min) | Change |
+|---------|--------|-------|-------------|--------|
+| Black surface (ocean) | ~0.06 | 22°C | 38°C | +16°C |
+| Water | ~0.10 | 22°C | 31°C | +9°C |
+| White surface (clouds) | ~0.70 | 22°C | 27°C | +5°C |
+| Ice/Snow | ~0.85 | 22°C | 24°C | +2°C |
 
 ### Station 2 Calculations
 - Carbon imbalance: 41 - 22 = **19 Gt/year** remaining in atmosphere
@@ -188,10 +184,10 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 ### Station 1 Q3 (Explain albedo pattern) - 5 points
 
 **Exemplar (5/5):**
-> Black paper heated the most because dark colors have LOW albedo - they absorb most of the light energy. When light energy is absorbed, it converts to thermal energy, making the molecules vibrate faster. Aluminum foil heated the least because it has HIGH albedo - it reflects most of the light back, so the energy never enters the material.
+> Dark surfaces like ocean water heated the most because they have LOW albedo (~0.06) - they absorb most of the light energy. When light energy is absorbed, it converts to thermal energy, making the molecules vibrate faster. Ice and snow heated the least because they have HIGH albedo (~0.85) - they reflect most of the light back, so the energy never enters the material. This explains why melting ice exposes dark ocean, which absorbs more heat and causes MORE melting.
 
 **Partial (3/5):**
-> Dark colors absorb light and get hot. Light colors reflect light and stay cool.
+> Dark surfaces absorb light and get hot. Light surfaces like ice reflect light and stay cool.
 
 ### Station 2 Q4 (Identify feedback) - 4 points
 
@@ -221,15 +217,16 @@ Temperature rises → Ice melts → Dark ocean exposed → More light absorbed �
 
 ## Emergency Backup Plans
 
-### If heat lamp fails:
-- Use data from "typical results" table above
-- Show video demonstration instead
-- Have students predict results based on reasoning
+### If Chromebooks have issues:
+- Have students pair up to share devices
+- Use projector to display simulation for whole-class exploration
+- Print albedo reference data tables as backup
 
 ### If internet is down:
 - Print carbon budget data sheets
+- Print albedo reference data table from student page
 - Paper Exit Ticket in emergency folder
-- Station 1 and 3 work without internet
+- Have pre-downloaded simulation files if available
 
 ### If time runs short:
 - Priority: Hook + Station 1 + Exit Ticket

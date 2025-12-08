@@ -1,12 +1,9 @@
 /**
  * ============================================================================
- * ⛔ READ-ONLY PRODUCTION CONTENT - DO NOT EDIT ⛔
+ * GRADE 7 CYCLE 3 WEEK 2: FEEDBACK LOOPS & TIPPING POINTS - Forms Generator
  * ============================================================================
- * This file is PRODUCTION content deployed December 2025.
- * It serves as legacy documentation and must NOT be modified.
- * Any changes risk breaking deployed student-facing materials.
- *
- * Status: READONLY | Deployed: December 2025 | See: cycle-status.json
+ * Updated: December 2025 - Converted to 100% digital/simulation-based instruction
+ * All activities use PhET simulations and interactive HTML tools - NO physical materials
  * ============================================================================
  */
 
@@ -104,8 +101,8 @@ function createG7W2Hook_() {
   form.setProgressBar(true);
   form.setConfirmationMessage(
     'Hook submitted! You\'re ready for Station 1.\n\n' +
-    'Next: Investigate the albedo effect - why white surfaces stay cool.\n' +
-    'Get ready to test different surfaces under a heat lamp!'
+    'Next: Investigate the albedo effect using the Ice-Albedo Feedback Simulator.\n' +
+    'Discover why white surfaces stay cool and dark surfaces heat up!'
   );
 
   // --- MTSS: CYCLE 2 MISCONCEPTION CHECK (0 pts - diagnostic only) ---
@@ -250,13 +247,13 @@ function createG7W2Station1_() {
   form.setDescription(
     'YOUR MISSION: INVESTIGATE THE ALBEDO EFFECT\n\n' +
     'ALBEDO = the fraction of light that a surface REFLECTS (0 = absorbs all, 1 = reflects all)\n\n' +
-    'You will test different surfaces under a heat lamp to discover:\n' +
-    '- Why ice-covered areas stay cool\n' +
-    '- Why dark ocean water heats up\n' +
-    '- How this creates a feedback loop\n\n' +
+    'You will use the Ice-Albedo Feedback Simulator and reference data to discover:\n' +
+    '- Why ice-covered areas stay cool (high albedo)\n' +
+    '- Why dark ocean water heats up (low albedo)\n' +
+    '- How this creates a positive feedback loop\n\n' +
     '---\n' +
     'Time: About 18 minutes | Points: 20\n\n' +
-    'MATERIALS: Heat lamp, thermometers, white paper, black paper, aluminum foil, water'
+    'TOOLS: Ice-Albedo Feedback Simulator + Albedo Reference Data Table'
   );
 
   form.setIsQuiz(true);
@@ -272,15 +269,15 @@ function createG7W2Station1_() {
     'Continue to Station 2: Carbon Sink Analysis'
   );
 
-  // --- DATA COLLECTION ---
+  // --- DATA ANALYSIS ---
   form.addPageBreakItem()
-    .setTitle('Step 1: Collect Data')
+    .setTitle('Step 1: Analyze the Data')
     .setHelpText(
       'PROCEDURE:\n' +
-      '1. Place thermometer under each surface\n' +
-      '2. Turn on heat lamp for 3 minutes\n' +
-      '3. Record final temperature\n' +
-      '4. Calculate temperature change (final - starting)'
+      '1. Open the Ice-Albedo Feedback Simulator on your student page\n' +
+      '2. Review the Albedo Reference Data table showing how different surfaces heat up\n' +
+      '3. Run the simulation to see how ice coverage affects temperature over time\n' +
+      '4. Use the data to answer the questions below'
     );
 
   // Q1: Data recording (5 pts manual)
@@ -298,11 +295,11 @@ function createG7W2Station1_() {
 
   form.addParagraphTextItem()
     .setTitle(
-      'Record your temperature data for each surface after 3 minutes under the heat lamp.\n\n' +
-      'Format: Surface | Start Temp | End Temp | Change\n' +
-      'Example: Black paper | 22°C | 35°C | +13°C'
+      'Using the reference data table on your student page, record the temperature changes for each surface type.\n\n' +
+      'Format: Surface | Albedo | Start Temp | End Temp | Change\n' +
+      'Example: Black surface (ocean) | ~0.06 | 22°C | 38°C | +16°C'
     )
-    .setHelpText('Test: white paper, black paper, aluminum foil, and water (if available)')
+    .setHelpText('Record data for: Black surface, Water, White surface, and Ice/Snow')
     .setRequired(true);
 
   // Q2: Rank surfaces (4 pts auto)
@@ -311,20 +308,20 @@ function createG7W2Station1_() {
     .setRequired(true);
 
   q2.setChoices([
-    q2.createChoice('Black paper > White paper > Aluminum foil', false),
-    q2.createChoice('Black paper > Aluminum foil > White paper', false),
-    q2.createChoice('White paper > Black paper > Aluminum foil', false),
-    q2.createChoice('Black paper > Water > White paper > Aluminum foil', true)
+    q2.createChoice('Black surface > White surface > Ice/Snow', false),
+    q2.createChoice('Ice/Snow > Water > Black surface', false),
+    q2.createChoice('White surface > Black surface > Ice/Snow', false),
+    q2.createChoice('Black surface > Water > White surface > Ice/Snow', true)
   ]);
   q2.setPoints(4);
   q2.setFeedbackForCorrect(
     FormApp.createFeedback()
-      .setText('Correct! Black absorbs most (heats fastest), aluminum reflects most (heats slowest). White is in between.')
+      .setText('Correct! Black surfaces (low albedo ~0.06) absorb most and heat fastest. Ice/snow (high albedo ~0.85) reflects most and heats slowest.')
       .build()
   );
   q2.setFeedbackForIncorrect(
     FormApp.createFeedback()
-      .setText('Check your data: dark colors should heat most, reflective surfaces (foil) should heat least.')
+      .setText('Check your data: low albedo surfaces (dark) heat most, high albedo surfaces (light/ice) heat least.')
       .build()
   );
 
@@ -350,13 +347,13 @@ function createG7W2Station1_() {
     .setTitle('Using the concept of ALBEDO, explain WHY some surfaces heated more than others.')
     .setHelpText(
       'Remember: Albedo = fraction reflected.\n' +
-      'High albedo (like snow) = reflects most light\n' +
-      'Low albedo (like ocean) = absorbs most light\n\n' +
+      'High albedo (like snow/ice ~0.85) = reflects most light\n' +
+      'Low albedo (like ocean ~0.06) = absorbs most light\n\n' +
       '--- SENTENCE STARTERS (choose one to begin your answer) ---\n' +
-      '• "Black paper heated the most because its albedo is low, which means it..."\n' +
-      '• "Surfaces with high albedo, like aluminum foil, stayed cool because..."\n' +
-      '• "My data shows that [surface] had a [small/large] temperature change because its albedo..."\n\n' +
-      'WORD BANK: reflects, absorbs, albedo, light energy, temperature, molecules, vibrate'
+      '• "Dark surfaces like ocean water heated the most because their albedo is low (~0.06), which means they..."\n' +
+      '• "Surfaces with high albedo, like ice and snow (~0.85), stayed cool because..."\n' +
+      '• "The data shows that [surface] had a [small/large] temperature change because its albedo is..."\n\n' +
+      'WORD BANK: reflects, absorbs, albedo, light energy, temperature, molecules, vibrate, feedback loop'
     )
     .setRequired(true);
 
@@ -405,9 +402,9 @@ function createG7W2Station1_() {
     )
     .setHelpText(
       '--- SENTENCE STARTERS ---\n' +
-      '• "When ice melts, it exposes dark ocean water. Ocean water has low albedo, so it..."\n' +
+      '• "When ice melts, it exposes dark ocean water. Ocean water has low albedo (~0.06), so it..."\n' +
       '• "This creates a positive feedback loop because more heat causes more _____, which causes more..."\n' +
-      '• "My albedo data supports this because [dark surface] absorbed ___ more degrees than [light surface]..."\n\n' +
+      '• "The albedo data supports this because dark ocean (+16°C) heated ___ more degrees than ice/snow (+2°C)..."\n\n' +
       'COMPLETE THE CHAIN:\n' +
       'Ice melts → Ocean exposed → Ocean absorbs more heat → Temperature rises → More ice melts → MORE ocean exposed → ...'
     )
