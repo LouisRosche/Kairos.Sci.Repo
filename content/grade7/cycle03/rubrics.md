@@ -79,46 +79,162 @@
 
 ## Week 2 Rubrics
 
-### Station 1: Feedback Loop Completion
-
-**Question:** Complete: Ice melts → albedo _____ → energy absorbed _____ → temperature _____ → more ice _____
-
-| Score | Criteria | Example Response |
-|-------|----------|------------------|
-| **4** | All 4 correct + can explain WHY | "decreases, increases, increases, melts — because dark water absorbs more than white ice" |
-| **3** | All 4 correct OR 3 correct with explanation | "decreases, increases, increases, melts" |
-| **2** | 2-3 blanks correct | "decreases, increases, stays same, melts" |
-| **1** | 1 blank correct or logic reversed | "increases, decreases, decreases, freezes" |
-| **0** | No response or all incorrect | Blank |
-
----
-
-### Station 2: pH Calculation
-
-**Question:** If ocean pH dropped 0.1 over 50 years, how long until it drops another 0.15?
+### Hook Q2: Prediction - Ice Exposes Ocean (3 pts)
+**Question:** When ice melts, it exposes dark ocean water underneath. How might this affect the temperature of the area?
 
 | Score | Criteria | Example Response |
 |-------|----------|------------------|
-| **4** | Correct (75 years) + clear work + units | "Rate = 0.1/50 = 0.002/year. Time = 0.15/0.002 = 75 years" |
-| **3** | Correct with partial work OR correct method with arithmetic error | "75 years" or "0.15 ÷ 0.002 = 70 years" |
-| **2** | Correct rate but wrong final | "0.002 per year, so... 50 years?" |
-| **1** | Attempt with conceptual error | "0.1 + 0.15 = 0.25 years" |
+| **3** | Connects color to absorption/reflection with temperature consequence | "Dark water absorbs more sunlight (low albedo) so the area will warm up. Ice reflects sunlight, so losing ice means more heat absorbed." |
+| **2** | Mentions color difference with partial explanation | "Dark water absorbs more light and gets hotter than ice." |
+| **1** | Vague response | "It gets warmer because the ocean is warmer." |
 | **0** | No response | Blank |
 
 ---
 
-### Exit Ticket: Integration (3D)
+### Hook Q4: Week 1 Connection (3 pts)
+**Question:** How does the greenhouse effect (CO₂ trapping heat) connect to this ice-melting feedback loop?
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **3** | Correctly connects CO₂/greenhouse as initiating cause | "The greenhouse effect causes initial warming which melts ice. This exposes dark ocean, absorbing more heat, which melts more ice. Greenhouse effect starts it, ice-albedo amplifies it." |
+| **2** | Mentions Week 1 concepts but unclear connection | "CO₂ traps heat which makes ice melt. Then more heat gets absorbed." |
+| **1** | Vague connection | "They both involve heat." |
+| **0** | No response | Blank |
+
+---
+
+### Station 1 Q1: Data Recording (5 pts)
+**Question:** Record temperature data for each surface after 3 minutes under heat lamp.
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **5** | All 4 surfaces with start, end, and change temps | "Black: 22→35°C (+13°C), White: 22→27°C (+5°C), Foil: 22→24°C (+2°C), Water: 22→30°C (+8°C)" |
+| **4** | All 4 surfaces but missing one measurement | All recorded but one end temp missing |
+| **3** | 3 surfaces complete | Missing one surface entirely |
+| **2** | 2 surfaces complete | Only partial data |
+| **1** | Incomplete data | Vague descriptions only |
+| **0** | No data | Blank |
+
+---
+
+### Station 1 Q3: Explain Albedo Pattern (5 pts)
+**Question:** Using the concept of ALBEDO, explain WHY some surfaces heated more than others.
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **5** | Explains dark absorbs + light reflects using albedo correctly | "Black has LOW albedo—absorbs most light energy, converts to heat, molecules vibrate faster. Foil has HIGH albedo—reflects light back, never heats up." |
+| **4** | Correct explanation missing one element | Missing molecular connection OR one surface |
+| **3** | Partially correct | "Dark absorbs, light reflects" but no albedo term |
+| **2** | Vague explanation | "Some got hot, some didn't" |
+| **1** | Incorrect | "Black is a hotter color" |
+| **0** | No response | Blank |
+
+---
+
+### Station 1 Q5: Ice-Albedo Feedback Application (3 pts)
+**Question:** Complete: Ice (high albedo) → Ice melts → Ocean exposed (low albedo) → ??? Explain how this creates a feedback loop.
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **3** | Full feedback loop + labels as positive feedback | "Ocean absorbs more → temp rises → more ice melts → more ocean exposed → [cycle continues]. POSITIVE feedback—amplifies itself." |
+| **2** | Partial feedback loop | "Ocean absorbs more → warmer → more ice melts. It's positive feedback." |
+| **1** | Missing feedback concept | "The ocean gets warmer." |
+| **0** | No response | Blank |
+
+---
+
+### Station 2 Q1: Carbon Budget Calculation (4 pts)
+**Question:** How many gigatons of CO₂ remain in atmosphere each year? Explain what this means over time.
+Reference: Sources = 41 Gt/year, Sinks = 22 Gt/year
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **4** | Correct (19 Gt) with work AND interpretation | "41 - 22 = 19 Gt/year remaining. This means CO₂ increases every year because we emit more than Earth absorbs." |
+| **3** | Correct answer with work | "41 - 22 = 19 gigatons stay in atmosphere." |
+| **2** | Correct setup but calculation error | "41 - 22 = 21" or setup shown wrong |
+| **1** | Attempted but incorrect | "There's more CO₂ than Earth can handle." |
+| **0** | No response | Blank |
+
+---
+
+### Station 2 Q4: Identify the Feedback (4 pts)
+**Question:** Complete: More CO₂ → Warmer climate → Ocean absorbs LESS CO₂ → ??? Is this positive or negative feedback?
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **4** | Positive feedback with complete chain | "→ MORE CO₂ stays in atmosphere → even warmer. POSITIVE feedback—amplifying, not 'good'. System pushes further in same direction." |
+| **3** | Identifies positive with partial chain | "More CO₂ stays → warmer → absorbs even less. Positive feedback." |
+| **2** | Identifies feedback but wrong type | "Negative feedback because CO₂ is bad." |
+| **1** | No feedback concept | Just repeats question |
+| **0** | No response | Blank |
+
+**RED FLAG:** "Negative because CO₂ is bad" = confusing positive/negative with good/bad
+
+---
+
+### Station 2 Q5: System Prediction (4 pts)
+**Question:** Will climate change happen at a CONSTANT rate, or ACCELERATE over time? Explain using feedback loops.
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **4** | Predicts acceleration with feedback reasoning | "ACCELERATE because of positive feedback. Ice-albedo: more melting → more absorption → more melting. Each cycle stronger than last." |
+| **3** | Correct prediction with partial reasoning | "Will accelerate because feedbacks amplify the change." |
+| **2** | Prediction without feedback reasoning | "Will speed up" with no explanation |
+| **1** | Incorrect prediction | "Will stay constant because CO₂ emissions are steady." |
+| **0** | No response | Blank |
+
+---
+
+### Station 3 Q3: Scientific Justification (8 pts)
+**Question:** Explain HOW your system captures CO₂, WHERE the carbon goes, and HOW LONG it stays stored.
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **8** | HOW (molecular) + WHERE + HOW LONG | "HOW: Trees do photosynthesis—CO₂ + H₂O → glucose → cellulose. WHERE: Carbon goes into trunk, branches, roots as wood. HOW LONG: Decades to centuries while tree lives; released if burned." |
+| **6** | 2 of 3 elements well | Missing one element or depth |
+| **4** | 1 element well | Only explains HOW or only WHERE |
+| **2** | General explanation | "Trees absorb carbon and store it." |
+| **0** | No response | Blank |
+
+---
+
+### Exit Ticket Q1: Define Albedo (4 pts)
+**Question:** Define ALBEDO and explain how it affects Earth's temperature. Use ice and ocean as examples.
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **4** | Definition + ice/ocean example + temperature consequence | "Albedo = fraction of light reflected. Ice has HIGH albedo (~0.8), reflects sunlight, stays cool. Ocean has LOW albedo (~0.06), absorbs sunlight, warms. More ice → more reflection → cooler; more ocean → more absorption → warmer." |
+| **3** | Correct definition with example | "Albedo measures reflection. Ice reflects, ocean absorbs." |
+| **2** | Partial definition | "Albedo is about reflection" |
+| **1** | Vague response | "Albedo is about light and temperature" |
+| **0** | No response | Blank |
+
+---
+
+### Exit Ticket Q5: Integration (3D)
 **SEP 7 + DCI ESS3.D + CCC Stability and Change**
 
-**Question:** Evaluate the proposal to paint roofs white to combat climate change.
+**Question:** Explain how greenhouse effect, ice-albedo feedback, and carbon sink feedback connect and amplify each other.
 
 | Score | 3D Check | Criteria | Example Response |
 |-------|----------|----------|------------------|
-| **4** | ✓SEP ✓DCI ✓CCC | Evaluates using albedo + acknowledges limitations + connects to carbon cycle | "White roofs increase albedo, reflecting more sunlight and reducing absorption. This lowers local temps and reduces AC energy use (which reduces CO₂). However, it doesn't remove existing CO₂—it's a partial solution." |
-| **3** | ✓SEP ✓DCI ~CCC | Evaluates using albedo + partial bigger picture | "White roofs reflect sunlight so buildings stay cooler. Good because less energy absorbed. But won't fix climate change completely." |
-| **2** | ~SEP ✓DCI ✗CCC | Correct albedo reasoning but no system connection | "White reflects, so roofs would be cooler." |
-| **1** | ✗SEP ~DCI ✗CCC | Opinion without scientific reasoning | "I think it's a good idea because white is cooler." |
+| **4** | ✓SEP ✓DCI ✓CCC | Connects all 3 feedbacks as amplifying system | "Greenhouse effect warms → ice melts (albedo feedback) → absorbs more heat AND warm oceans absorb less CO₂ (carbon sink feedback) → more CO₂ → stronger greenhouse. Three positive feedbacks amplifying each other." |
+| **3** | ✓SEP ✓DCI ~CCC | Connects 2 of 3 concepts | "CO₂ traps heat, ice melting absorbs more heat. They both cause more warming." |
+| **2** | ~SEP ~DCI ✗CCC | Connects 1 concept | "All three involve warming." |
+| **1** | ✗SEP ✗DCI ✗CCC | No real integration | "They all involve heat and climate change." |
 | **0** | ✗all | No response | Blank |
+
+---
+
+### Exit Ticket Q6: Feedback Loop Model (3 pts)
+**Question:** Create a feedback loop model in text format for ice-albedo feedback.
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **3** | Complete loop with arrows AND explanatory labels | "Temp↑ → Ice melts → Dark ocean → More absorption → Temp↑↑ → [loops back]. POSITIVE feedback—output amplifies input." |
+| **2** | Loop with arrows OR labels (not both) | "Temp up → ice melts → ocean → absorbs → temp up" |
+| **1** | Incomplete loop | "Ice melts → ocean exposed" (no loop back) |
+| **0** | No response | Blank |
 
 ---
 
