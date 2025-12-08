@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Air Mass Collision Simulator | G7 C5 W1</title>
+  <style>
+    :root {
+      --primary: #2563EB;
+      --primary-light: #DBEAFE;
+      --primary-dark: #1D4ED8;
+      --secondary: #DC2626;
+      --warm: #F97316;
+      --cold: #06B6D4;
+      --bg: #F0F9FF;
+      --text: #1E293B;
+      --text-muted: #64748B;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --surface: #FFFFFF;
+      --border: #CBD5E1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    header h1 {
+      font-size: 1.8em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    header .icon {
+      font-size: 1.2em;
+    }
+
+    header .subtitle {
+      opacity: 0.95;
+      font-size: 1.05em;
+    }
+
+    header .meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    header .meta span {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85em;
+    }
+
+    /* Instructions Section */
+    details.instructions {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    details.instructions summary {
+      font-weight: 600;
+      font-size: 1.1em;
+      cursor: pointer;
+      color: var(--primary);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    details.instructions summary::-webkit-details-marker { display: none; }
+
+    details.instructions summary::before {
+      content: '▶';
+      font-size: 0.7em;
+      transition: transform 0.2s;
+    }
+
+    details.instructions[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    details.instructions .content {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    details.instructions ol {
+      margin-left: 20px;
+    }
+
+    details.instructions li {
+      margin-bottom: 8px;
+    }
+
+    /* Simulator Main Area */
+    .simulator-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    /* Control Panel */
+    .control-panel {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .control-panel h2 {
+      font-size: 1.1em;
+      color: var(--primary);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary-light);
+    }
+
+    .control-group {
+      margin-bottom: 20px;
+    }
+
+    .control-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+
+    .air-mass-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .air-mass-btn {
+      padding: 12px 8px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .air-mass-btn:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .air-mass-btn:focus {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .air-mass-btn.selected {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+    }
+
+    .air-mass-btn.warm { border-left: 4px solid var(--warm); }
+    .air-mass-btn.cold { border-left: 4px solid var(--cold); }
+
+    .air-mass-btn .code {
+      font-size: 1.1em;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .air-mass-btn .name {
+      font-size: 0.75em;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+
+    /* Speed Control */
+    .speed-control {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .speed-control input[type="range"] {
+      flex: 1;
+      height: 8px;
+      border-radius: 4px;
+      -webkit-appearance: none;
+      background: var(--primary-light);
+    }
+
+    .speed-control input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+    }
+
+    .speed-value {
+      min-width: 40px;
+      text-align: right;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Action Buttons */
+    .action-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 8px;
+    }
+
+    .action-btn:focus {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .action-btn.primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .action-btn.primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .action-btn.secondary {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .action-btn.secondary:hover {
+      background: #BFDBFE;
+    }
+
+    /* Visualization Area */
+    .visualization {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .viz-header {
+      background: var(--primary-light);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .viz-header h2 {
+      font-size: 1em;
+      color: var(--primary-dark);
+    }
+
+    .front-indicator {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+      background: var(--surface);
+      border: 2px solid var(--border);
+    }
+
+    .front-indicator.cold-front {
+      background: #E0F2FE;
+      border-color: var(--cold);
+      color: #0E7490;
+    }
+
+    .front-indicator.warm-front {
+      background: #FFF7ED;
+      border-color: var(--warm);
+      color: #C2410C;
+    }
+
+    .front-indicator.stationary {
+      background: #F3E8FF;
+      border-color: #A855F7;
+      color: #7C3AED;
+    }
+
+    .front-indicator.occluded {
+      background: #FCE7F3;
+      border-color: #EC4899;
+      color: #BE185D;
+    }
+
+    /* Canvas Container */
+    .canvas-container {
+      position: relative;
+      height: 400px;
+      background: linear-gradient(180deg, #87CEEB 0%, #B0E0E6 50%, #98D8C8 100%);
+    }
+
+    #simulationCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Weather Display */
+    .weather-display {
+      padding: 16px 20px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .weather-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .weather-item {
+      text-align: center;
+      padding: 12px;
+      background: var(--bg);
+      border-radius: 8px;
+    }
+
+    .weather-item .label {
+      font-size: 0.75em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .weather-item .value {
+      font-size: 1.3em;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .weather-item .unit {
+      font-size: 0.8em;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    /* Key Concepts Section */
+    .concepts-section {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .concepts-section h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .concepts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .concept-card {
+      background: var(--primary-light);
+      padding: 16px;
+      border-radius: 10px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .concept-card h3 {
+      font-size: 1em;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .concept-card p {
+      font-size: 0.9em;
+      color: var(--text);
+    }
+
+    .concept-card.warm-concept {
+      background: #FFF7ED;
+      border-left-color: var(--warm);
+    }
+
+    .concept-card.warm-concept h3 { color: #C2410C; }
+
+    .concept-card.cold-concept {
+      background: #E0F2FE;
+      border-left-color: var(--cold);
+    }
+
+    .concept-card.cold-concept h3 { color: #0E7490; }
+
+    /* Air Mass Reference */
+    .air-mass-reference {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .air-mass-reference h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .air-mass-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .air-mass-table th,
+    .air-mass-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .air-mass-table th {
+      background: var(--primary-light);
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    .air-mass-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .temp-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+
+    .temp-tag.warm {
+      background: #FED7AA;
+      color: #C2410C;
+    }
+
+    .temp-tag.cold {
+      background: #A5F3FC;
+      color: #0E7490;
+    }
+
+    .humidity-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+
+    .humidity-tag.humid {
+      background: #BBF7D0;
+      color: #166534;
+    }
+
+    .humidity-tag.dry {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+
+    /* Quiz Section */
+    .quiz-section {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .quiz-section h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .quiz-question {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quiz-question:last-of-type {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .quiz-question p {
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .quiz-option:focus-within {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .quiz-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .quiz-option.correct {
+      border-color: var(--success);
+      background: #D1FAE5;
+    }
+
+    .quiz-option.incorrect {
+      border-color: var(--secondary);
+      background: #FEE2E2;
+    }
+
+    .quiz-feedback {
+      margin-top: 12px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.95em;
+      display: none;
+    }
+
+    .quiz-feedback.show { display: block; }
+
+    .quiz-feedback.correct {
+      background: #D1FAE5;
+      color: #065F46;
+      border-left: 4px solid var(--success);
+    }
+
+    .quiz-feedback.incorrect {
+      background: #FEE2E2;
+      color: #991B1B;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .quiz-submit {
+      margin-top: 20px;
+      padding: 14px 28px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .quiz-submit:hover {
+      background: var(--primary-dark);
+    }
+
+    .quiz-submit:focus {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .quiz-score {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary-dark);
+      display: none;
+    }
+
+    .quiz-score.show { display: block; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-muted);
+      font-size: 0.85em;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      .simulator-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .control-panel {
+        order: 2;
+      }
+
+      .visualization {
+        order: 1;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .container { padding: 12px; }
+
+      header { padding: 16px; }
+      header h1 { font-size: 1.4em; }
+
+      .weather-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .canvas-container {
+        height: 300px;
+      }
+
+      .air-mass-table {
+        font-size: 0.85em;
+      }
+
+      .air-mass-table th,
+      .air-mass-table td {
+        padding: 8px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      header .meta {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .weather-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .weather-item {
+        padding: 8px;
+      }
+
+      .weather-item .value {
+        font-size: 1.1em;
+      }
+
+      .concepts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* High Contrast Mode */
+    @media (prefers-contrast: high) {
+      :root {
+        --border: #000;
+      }
+
+      .air-mass-btn,
+      .quiz-option {
+        border-width: 3px;
+      }
+    }
+
+    /* Screen Reader Only */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><span class="icon" aria-hidden="true">🌤️</span> Air Mass Collision Simulator</h1>
+      <div class="subtitle">Explore how different air masses interact to create weather fronts</div>
+      <div class="meta">
+        <span>Grade 7 Cycle 5 Week 1</span>
+        <span>MS-ESS2-5</span>
+        <span>Station 2: Frontal Boundaries</span>
+      </div>
+    </header>
+
+    <details class="instructions" open>
+      <summary>How to Use This Simulator</summary>
+      <div class="content">
+        <ol>
+          <li><strong>Select two air masses:</strong> Choose one advancing air mass and one retreating air mass from the control panel.</li>
+          <li><strong>Start the collision:</strong> Click "Start Collision" to watch the air masses interact and form a front.</li>
+          <li><strong>Observe the results:</strong> Watch how temperature, pressure, and humidity change at the collision boundary.</li>
+          <li><strong>Identify the front type:</strong> Based on which air mass is advancing, the simulator will show you what type of weather front forms.</li>
+          <li><strong>Predict the weather:</strong> Use what you observe to predict what weather conditions would occur.</li>
+        </ol>
+      </div>
+    </details>
+
+    <div class="simulator-grid">
+      <aside class="control-panel">
+        <h2>Control Panel</h2>
+
+        <div class="control-group">
+          <label id="advancing-label">Advancing Air Mass</label>
+          <div class="air-mass-selector" role="radiogroup" aria-labelledby="advancing-label">
+            <button class="air-mass-btn cold" data-mass="cP" data-type="advancing" role="radio" aria-checked="false">
+              <span class="code">cP</span>
+              <span class="name">Continental Polar</span>
+            </button>
+            <button class="air-mass-btn cold" data-mass="mP" data-type="advancing" role="radio" aria-checked="false">
+              <span class="code">mP</span>
+              <span class="name">Maritime Polar</span>
+            </button>
+            <button class="air-mass-btn warm" data-mass="cT" data-type="advancing" role="radio" aria-checked="false">
+              <span class="code">cT</span>
+              <span class="name">Continental Tropical</span>
+            </button>
+            <button class="air-mass-btn warm" data-mass="mT" data-type="advancing" role="radio" aria-checked="false">
+              <span class="code">mT</span>
+              <span class="name">Maritime Tropical</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label id="retreating-label">Retreating Air Mass</label>
+          <div class="air-mass-selector" role="radiogroup" aria-labelledby="retreating-label">
+            <button class="air-mass-btn cold" data-mass="cP" data-type="retreating" role="radio" aria-checked="false">
+              <span class="code">cP</span>
+              <span class="name">Continental Polar</span>
+            </button>
+            <button class="air-mass-btn cold" data-mass="mP" data-type="retreating" role="radio" aria-checked="false">
+              <span class="code">mP</span>
+              <span class="name">Maritime Polar</span>
+            </button>
+            <button class="air-mass-btn warm" data-mass="cT" data-type="retreating" role="radio" aria-checked="false">
+              <span class="code">cT</span>
+              <span class="name">Continental Tropical</span>
+            </button>
+            <button class="air-mass-btn warm" data-mass="mT" data-type="retreating" role="radio" aria-checked="false">
+              <span class="code">mT</span>
+              <span class="name">Maritime Tropical</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="speed-slider">Animation Speed</label>
+          <div class="speed-control">
+            <input type="range" id="speed-slider" min="1" max="5" value="3" aria-describedby="speed-value">
+            <span class="speed-value" id="speed-value">3x</span>
+          </div>
+        </div>
+
+        <button class="action-btn primary" id="startBtn" disabled>Start Collision</button>
+        <button class="action-btn secondary" id="resetBtn">Reset</button>
+      </aside>
+
+      <main class="visualization">
+        <div class="viz-header">
+          <h2>Air Mass Collision Zone</h2>
+          <span class="front-indicator" id="frontIndicator" aria-live="polite">Select air masses</span>
+        </div>
+
+        <div class="canvas-container">
+          <canvas id="simulationCanvas" aria-label="Air mass collision visualization showing two air masses meeting and forming a weather front"></canvas>
+        </div>
+
+        <div class="weather-display">
+          <div class="weather-grid">
+            <div class="weather-item">
+              <div class="label">Temperature</div>
+              <div class="value" id="tempValue">--<span class="unit">°F</span></div>
+            </div>
+            <div class="weather-item">
+              <div class="label">Pressure</div>
+              <div class="value" id="pressureValue">--<span class="unit">mb</span></div>
+            </div>
+            <div class="weather-item">
+              <div class="label">Humidity</div>
+              <div class="value" id="humidityValue">--<span class="unit">%</span></div>
+            </div>
+            <div class="weather-item">
+              <div class="label">Precipitation</div>
+              <div class="value" id="precipValue">--</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <section class="air-mass-reference">
+      <h2>Air Mass Types Reference</h2>
+      <table class="air-mass-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Source Region</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>cP</strong></td>
+            <td>Continental Polar</td>
+            <td><span class="temp-tag cold">Cold</span></td>
+            <td><span class="humidity-tag dry">Dry</span></td>
+            <td>Canada, Siberia</td>
+          </tr>
+          <tr>
+            <td><strong>mP</strong></td>
+            <td>Maritime Polar</td>
+            <td><span class="temp-tag cold">Cold</span></td>
+            <td><span class="humidity-tag humid">Humid</span></td>
+            <td>North Pacific, North Atlantic</td>
+          </tr>
+          <tr>
+            <td><strong>cT</strong></td>
+            <td>Continental Tropical</td>
+            <td><span class="temp-tag warm">Warm</span></td>
+            <td><span class="humidity-tag dry">Dry</span></td>
+            <td>Southwest US, Mexico</td>
+          </tr>
+          <tr>
+            <td><strong>mT</strong></td>
+            <td>Maritime Tropical</td>
+            <td><span class="temp-tag warm">Warm</span></td>
+            <td><span class="humidity-tag humid">Humid</span></td>
+            <td>Gulf of Mexico, Caribbean</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="concepts-section">
+      <h2>Key Concepts</h2>
+      <div class="concepts-grid">
+        <div class="concept-card cold-concept">
+          <h3>Cold Front</h3>
+          <p>Forms when a <strong>cold air mass advances</strong> and pushes under warm air. Cold air is denser, so it wedges beneath the warm air, forcing it to rise rapidly. This creates <strong>tall clouds, heavy rain, and thunderstorms</strong> along a narrow band.</p>
+        </div>
+        <div class="concept-card warm-concept">
+          <h3>Warm Front</h3>
+          <p>Forms when a <strong>warm air mass advances</strong> and rises over retreating cold air. The warm air slides up gradually over the cold air, creating <strong>wide bands of clouds and steady, light precipitation</strong> over a large area.</p>
+        </div>
+        <div class="concept-card">
+          <h3>Stationary Front</h3>
+          <p>Forms when <strong>neither air mass advances</strong>—they meet but don't move. Weather can persist for days, with <strong>clouds and precipitation</strong> along the boundary. Like a weather traffic jam!</p>
+        </div>
+        <div class="concept-card">
+          <h3>Occluded Front</h3>
+          <p>Forms when a <strong>fast-moving cold front catches up</strong> to a warm front, lifting the warm air completely off the ground. Creates <strong>complex weather patterns</strong> with various precipitation types.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="quiz-section" aria-labelledby="quiz-heading">
+      <h2 id="quiz-heading">Check Your Understanding</h2>
+
+      <div class="quiz-question" data-question="1">
+        <p>1. A cold air mass from Canada is advancing toward warm air over the Gulf states. What type of front will form?</p>
+        <div class="quiz-options">
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="a">
+            <span>Warm front</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="b">
+            <span>Cold front</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="c">
+            <span>Stationary front</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="d">
+            <span>Occluded front</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback1"></div>
+      </div>
+
+      <div class="quiz-question" data-question="2">
+        <p>2. Which air mass type would bring hot, dry weather to the southwestern United States?</p>
+        <div class="quiz-options">
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="a">
+            <span>cP (Continental Polar)</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="b">
+            <span>mP (Maritime Polar)</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="c">
+            <span>cT (Continental Tropical)</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="d">
+            <span>mT (Maritime Tropical)</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback2"></div>
+      </div>
+
+      <div class="quiz-question" data-question="3">
+        <p>3. Why does a cold front typically produce more intense but shorter-duration precipitation than a warm front?</p>
+        <div class="quiz-options">
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="a">
+            <span>Cold air holds more moisture than warm air</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="b">
+            <span>Cold air is denser and forces warm air up rapidly, creating tall thunderstorm clouds</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="c">
+            <span>Warm fronts don't produce any precipitation</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="d">
+            <span>Cold fronts only occur in winter when precipitation is heavier</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback3"></div>
+      </div>
+
+      <button class="quiz-submit" id="submitQuiz">Check Answers</button>
+      <div class="quiz-score" id="quizScore"></div>
+    </section>
+
+    <footer>
+      <p>Grade 7 Cycle 5 Week 1 | Air Mass Collision Simulator | MS-ESS2-5</p>
+      <p>KAMS Science Department</p>
+    </footer>
+  </div>
+
+  <script>
+    // Air mass data
+    const airMassData = {
+      cP: { name: 'Continental Polar', temp: 'cold', humidity: 'dry', avgTemp: 25, avgHumidity: 30, color: '#06B6D4' },
+      mP: { name: 'Maritime Polar', temp: 'cold', humidity: 'humid', avgTemp: 35, avgHumidity: 75, color: '#0EA5E9' },
+      cT: { name: 'Continental Tropical', temp: 'warm', humidity: 'dry', avgTemp: 95, avgHumidity: 25, color: '#F97316' },
+      mT: { name: 'Maritime Tropical', temp: 'warm', humidity: 'humid', avgTemp: 85, avgHumidity: 85, color: '#EF4444' }
+    };
+
+    // State
+    let advancingMass = null;
+    let retreatingMass = null;
+    let animationId = null;
+    let collisionProgress = 0;
+    let speed = 3;
+    let isAnimating = false;
+
+    // DOM Elements
+    const canvas = document.getElementById('simulationCanvas');
+    const ctx = canvas.getContext('2d');
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const frontIndicator = document.getElementById('frontIndicator');
+    const speedSlider = document.getElementById('speed-slider');
+    const speedValue = document.getElementById('speed-value');
+    const tempValue = document.getElementById('tempValue');
+    const pressureValue = document.getElementById('pressureValue');
+    const humidityValue = document.getElementById('humidityValue');
+    const precipValue = document.getElementById('precipValue');
+
+    // Initialize canvas
+    function initCanvas() {
+      const container = canvas.parentElement;
+      canvas.width = container.clientWidth * window.devicePixelRatio;
+      canvas.height = container.clientHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      drawInitialState();
+    }
+
+    // Draw initial empty state
+    function drawInitialState() {
+      const width = canvas.width / window.devicePixelRatio;
+      const height = canvas.height / window.devicePixelRatio;
+
+      // Clear canvas
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw ground
+      ctx.fillStyle = '#4ADE80';
+      ctx.fillRect(0, height - 40, width, 40);
+
+      // Draw instruction text
+      ctx.fillStyle = '#64748B';
+      ctx.font = '16px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Select two different air masses to begin', width / 2, height / 2);
+    }
+
+    // Draw air masses
+    function drawAirMasses() {
+      const width = canvas.width / window.devicePixelRatio;
+      const height = canvas.height / window.devicePixelRatio;
+      const groundHeight = 40;
+      const airHeight = height - groundHeight;
+
+      // Clear canvas
+      ctx.clearRect(0, 0, width, height);
+
+      if (!advancingMass || !retreatingMass) {
+        drawInitialState();
+        return;
+      }
+
+      const advData = airMassData[advancingMass];
+      const retData = airMassData[retreatingMass];
+
+      // Calculate collision boundary position
+      const boundaryX = width * 0.3 + (collisionProgress / 100) * (width * 0.4);
+
+      // Determine front type
+      const frontType = determineFrontType();
+
+      // Draw retreating air mass (right side)
+      drawAirMassRegion(boundaryX, 0, width - boundaryX, airHeight, retData, 'right');
+
+      // Draw advancing air mass (left side)
+      drawAirMassRegion(0, 0, boundaryX, airHeight, advData, 'left');
+
+      // Draw front boundary
+      drawFrontBoundary(boundaryX, airHeight, frontType);
+
+      // Draw clouds and precipitation at front
+      if (collisionProgress > 20) {
+        drawWeatherAtFront(boundaryX, airHeight, frontType);
+      }
+
+      // Draw ground
+      ctx.fillStyle = '#4ADE80';
+      ctx.fillRect(0, height - groundHeight, width, groundHeight);
+
+      // Draw labels
+      drawLabels(boundaryX, width, advData, retData);
+    }
+
+    // Draw air mass region with gradient
+    function drawAirMassRegion(x, y, w, h, data, side) {
+      const gradient = ctx.createLinearGradient(x, y, x, h);
+
+      if (data.temp === 'cold') {
+        gradient.addColorStop(0, 'rgba(6, 182, 212, 0.3)');
+        gradient.addColorStop(1, 'rgba(6, 182, 212, 0.6)');
+      } else {
+        gradient.addColorStop(0, 'rgba(249, 115, 22, 0.3)');
+        gradient.addColorStop(1, 'rgba(249, 115, 22, 0.6)');
+      }
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(x, y, w, h);
+
+      // Draw flow arrows
+      drawFlowArrows(x, w, h, side, data.color);
+    }
+
+    // Draw flow arrows
+    function drawFlowArrows(x, w, h, side, color) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.fillStyle = color;
+
+      const arrowSpacing = 60;
+      const startY = 50;
+
+      for (let y = startY; y < h - 50; y += arrowSpacing) {
+        const arrowX = side === 'left' ? x + w * 0.3 : x + w * 0.7;
+        const direction = side === 'left' ? 1 : -1;
+
+        // Animate arrow position
+        const offset = (collisionProgress % 30) * direction;
+
+        ctx.beginPath();
+        ctx.moveTo(arrowX - 20 * direction + offset, y);
+        ctx.lineTo(arrowX + 20 * direction + offset, y);
+        ctx.stroke();
+
+        // Arrow head
+        ctx.beginPath();
+        ctx.moveTo(arrowX + 20 * direction + offset, y);
+        ctx.lineTo(arrowX + 10 * direction + offset, y - 6);
+        ctx.lineTo(arrowX + 10 * direction + offset, y + 6);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+
+    // Draw front boundary
+    function drawFrontBoundary(x, h, frontType) {
+      ctx.lineWidth = 4;
+
+      if (frontType === 'cold') {
+        ctx.strokeStyle = '#06B6D4';
+        drawColdFrontSymbols(x, h);
+      } else if (frontType === 'warm') {
+        ctx.strokeStyle = '#F97316';
+        drawWarmFrontSymbols(x, h);
+      } else if (frontType === 'stationary') {
+        drawStationaryFrontSymbols(x, h);
+      } else {
+        ctx.strokeStyle = '#EC4899';
+        drawOccludedFrontSymbols(x, h);
+      }
+    }
+
+    // Draw cold front symbols (triangles pointing direction of movement)
+    function drawColdFrontSymbols(x, h) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+      ctx.stroke();
+
+      ctx.fillStyle = '#06B6D4';
+      for (let y = 30; y < h; y += 50) {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + 15, y + 10);
+        ctx.lineTo(x, y + 20);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+
+    // Draw warm front symbols (semicircles)
+    function drawWarmFrontSymbols(x, h) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+      ctx.stroke();
+
+      ctx.fillStyle = '#F97316';
+      for (let y = 30; y < h; y += 50) {
+        ctx.beginPath();
+        ctx.arc(x, y + 10, 10, -Math.PI / 2, Math.PI / 2);
+        ctx.fill();
+      }
+    }
+
+    // Draw stationary front symbols
+    function drawStationaryFrontSymbols(x, h) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+      ctx.strokeStyle = '#A855F7';
+      ctx.stroke();
+
+      // Alternating triangles and semicircles
+      for (let y = 30; y < h; y += 40) {
+        if (y % 80 === 30) {
+          ctx.fillStyle = '#06B6D4';
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + 12, y + 8);
+          ctx.lineTo(x, y + 16);
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          ctx.fillStyle = '#F97316';
+          ctx.beginPath();
+          ctx.arc(x, y + 8, 8, Math.PI / 2, -Math.PI / 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    // Draw occluded front symbols
+    function drawOccludedFrontSymbols(x, h) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+      ctx.stroke();
+
+      ctx.fillStyle = '#EC4899';
+      for (let y = 30; y < h; y += 40) {
+        // Triangles and semicircles combined
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + 10, y + 8);
+        ctx.lineTo(x, y + 16);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+
+    // Draw weather at front
+    function drawWeatherAtFront(x, h, frontType) {
+      const cloudY = frontType === 'cold' ? 40 : 80;
+      const cloudWidth = frontType === 'cold' ? 60 : 120;
+
+      // Draw clouds
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      drawCloud(x - cloudWidth / 2, cloudY, cloudWidth);
+
+      if (frontType === 'warm') {
+        drawCloud(x - cloudWidth, cloudY + 30, cloudWidth * 0.8);
+        drawCloud(x + cloudWidth * 0.3, cloudY + 20, cloudWidth * 0.6);
+      }
+
+      // Draw precipitation
+      if (collisionProgress > 40) {
+        drawPrecipitation(x, cloudY + 40, h - cloudY - 80, frontType);
+      }
+    }
+
+    // Draw cloud shape
+    function drawCloud(x, y, w) {
+      const h = w * 0.4;
+      ctx.beginPath();
+      ctx.arc(x + w * 0.25, y + h * 0.6, w * 0.25, 0, Math.PI * 2);
+      ctx.arc(x + w * 0.5, y + h * 0.3, w * 0.3, 0, Math.PI * 2);
+      ctx.arc(x + w * 0.75, y + h * 0.5, w * 0.25, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Draw precipitation
+    function drawPrecipitation(x, y, h, frontType) {
+      ctx.strokeStyle = '#60A5FA';
+      ctx.lineWidth = 2;
+
+      const dropCount = frontType === 'cold' ? 15 : 8;
+      const spreadWidth = frontType === 'cold' ? 40 : 100;
+
+      for (let i = 0; i < dropCount; i++) {
+        const dropX = x - spreadWidth / 2 + Math.random() * spreadWidth;
+        const dropY = y + (collisionProgress % 50) + Math.random() * (h - 50);
+        const dropLength = frontType === 'cold' ? 15 : 8;
+
+        ctx.beginPath();
+        ctx.moveTo(dropX, dropY);
+        ctx.lineTo(dropX, dropY + dropLength);
+        ctx.stroke();
+      }
+    }
+
+    // Draw labels
+    function drawLabels(boundaryX, width, advData, retData) {
+      ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'center';
+
+      // Advancing air mass label
+      ctx.fillStyle = advData.color;
+      ctx.fillText(advancingMass.toUpperCase(), boundaryX / 2, 25);
+      ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillText('(Advancing)', boundaryX / 2, 42);
+
+      // Retreating air mass label
+      ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillStyle = retData.color;
+      ctx.fillText(retreatingMass.toUpperCase(), boundaryX + (width - boundaryX) / 2, 25);
+      ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillText('(Retreating)', boundaryX + (width - boundaryX) / 2, 42);
+    }
+
+    // Determine front type
+    function determineFrontType() {
+      if (!advancingMass || !retreatingMass) return null;
+
+      const advTemp = airMassData[advancingMass].temp;
+      const retTemp = airMassData[retreatingMass].temp;
+
+      if (advTemp === 'cold' && retTemp === 'warm') {
+        return 'cold';
+      } else if (advTemp === 'warm' && retTemp === 'cold') {
+        return 'warm';
+      } else {
+        return 'stationary';
+      }
+    }
+
+    // Update front indicator
+    function updateFrontIndicator() {
+      const frontType = determineFrontType();
+
+      frontIndicator.className = 'front-indicator';
+
+      if (!advancingMass || !retreatingMass) {
+        frontIndicator.textContent = 'Select air masses';
+      } else if (advancingMass === retreatingMass) {
+        frontIndicator.textContent = 'Select different masses';
+      } else if (frontType === 'cold') {
+        frontIndicator.textContent = 'Cold Front';
+        frontIndicator.classList.add('cold-front');
+      } else if (frontType === 'warm') {
+        frontIndicator.textContent = 'Warm Front';
+        frontIndicator.classList.add('warm-front');
+      } else {
+        frontIndicator.textContent = 'Stationary Front';
+        frontIndicator.classList.add('stationary');
+      }
+    }
+
+    // Update weather display
+    function updateWeatherDisplay() {
+      if (!advancingMass || !retreatingMass || collisionProgress < 20) {
+        tempValue.innerHTML = '--<span class="unit">°F</span>';
+        pressureValue.innerHTML = '--<span class="unit">mb</span>';
+        humidityValue.innerHTML = '--<span class="unit">%</span>';
+        precipValue.textContent = '--';
+        return;
+      }
+
+      const advData = airMassData[advancingMass];
+      const retData = airMassData[retreatingMass];
+      const frontType = determineFrontType();
+
+      // Calculate mixed values at front
+      const mixedTemp = Math.round((advData.avgTemp + retData.avgTemp) / 2);
+      const mixedHumidity = Math.round((advData.avgHumidity + retData.avgHumidity) / 2);
+
+      // Pressure drops at fronts
+      const basePressure = 1013;
+      const pressureDrop = frontType === 'cold' ? 15 : (frontType === 'warm' ? 8 : 5);
+      const pressure = basePressure - Math.round(pressureDrop * (collisionProgress / 100));
+
+      // Precipitation type
+      let precip = 'None';
+      if (collisionProgress > 40) {
+        if (frontType === 'cold') {
+          precip = mixedHumidity > 50 ? 'Heavy rain/storms' : 'Light showers';
+        } else if (frontType === 'warm') {
+          precip = mixedHumidity > 60 ? 'Steady rain' : 'Drizzle';
+        } else {
+          precip = 'Variable';
+        }
+      }
+
+      tempValue.innerHTML = `${mixedTemp}<span class="unit">°F</span>`;
+      pressureValue.innerHTML = `${pressure}<span class="unit">mb</span>`;
+      humidityValue.innerHTML = `${mixedHumidity}<span class="unit">%</span>`;
+      precipValue.textContent = precip;
+    }
+
+    // Animation loop
+    function animate() {
+      if (!isAnimating) return;
+
+      collisionProgress += 0.5 * speed;
+
+      if (collisionProgress >= 100) {
+        collisionProgress = 100;
+        isAnimating = false;
+        startBtn.textContent = 'Collision Complete';
+        startBtn.disabled = true;
+      }
+
+      drawAirMasses();
+      updateWeatherDisplay();
+
+      if (isAnimating) {
+        animationId = requestAnimationFrame(animate);
+      }
+    }
+
+    // Event Listeners
+    document.querySelectorAll('.air-mass-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const mass = this.dataset.mass;
+        const type = this.dataset.type;
+
+        // Deselect other buttons in same group
+        document.querySelectorAll(`.air-mass-btn[data-type="${type}"]`).forEach(b => {
+          b.classList.remove('selected');
+          b.setAttribute('aria-checked', 'false');
+        });
+
+        // Select this button
+        this.classList.add('selected');
+        this.setAttribute('aria-checked', 'true');
+
+        if (type === 'advancing') {
+          advancingMass = mass;
+        } else {
+          retreatingMass = mass;
+        }
+
+        updateFrontIndicator();
+        drawAirMasses();
+
+        // Enable start button if both selected and different
+        startBtn.disabled = !advancingMass || !retreatingMass || advancingMass === retreatingMass;
+        if (startBtn.disabled) {
+          startBtn.textContent = 'Start Collision';
+        }
+      });
+    });
+
+    startBtn.addEventListener('click', function() {
+      if (!isAnimating && collisionProgress < 100) {
+        isAnimating = true;
+        startBtn.textContent = 'Collision in Progress...';
+        animate();
+      }
+    });
+
+    resetBtn.addEventListener('click', function() {
+      // Stop animation
+      isAnimating = false;
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      collisionProgress = 0;
+
+      // Reset selections
+      advancingMass = null;
+      retreatingMass = null;
+
+      document.querySelectorAll('.air-mass-btn').forEach(btn => {
+        btn.classList.remove('selected');
+        btn.setAttribute('aria-checked', 'false');
+      });
+
+      // Reset UI
+      startBtn.disabled = true;
+      startBtn.textContent = 'Start Collision';
+      updateFrontIndicator();
+      updateWeatherDisplay();
+      drawInitialState();
+    });
+
+    speedSlider.addEventListener('input', function() {
+      speed = parseInt(this.value);
+      speedValue.textContent = speed + 'x';
+    });
+
+    // Quiz functionality
+    const quizAnswers = {
+      q1: { correct: 'b', feedback: {
+        correct: 'Correct! When a cold air mass advances toward warm air, it creates a cold front. The dense cold air wedges under the warm air, pushing it up rapidly.',
+        incorrect: 'Not quite. When a COLD air mass is ADVANCING (pushing forward), it creates a cold front. The cold air pushes under the warm air because cold air is denser.'
+      }},
+      q2: { correct: 'c', feedback: {
+        correct: 'Correct! Continental Tropical (cT) air masses form over hot, dry land areas like the Southwest US and bring hot, dry weather.',
+        incorrect: 'Not quite. Continental Tropical (cT) air masses form over hot, dry land. Continental = dry (formed over land), Tropical = warm (from low latitudes).'
+      }},
+      q3: { correct: 'b', feedback: {
+        correct: 'Correct! Cold air is denser than warm air, so it acts like a wedge, forcing warm air to rise very quickly. This rapid uplift creates tall cumulonimbus clouds that produce intense thunderstorms but pass quickly.',
+        incorrect: 'Not quite. The key is that cold air is DENSER than warm air. When cold air advances, it wedges under warm air and forces it to rise rapidly, creating tall thunderstorm clouds with intense but brief precipitation.'
+      }}
+    };
+
+    document.getElementById('submitQuiz').addEventListener('click', function() {
+      let score = 0;
+      const totalQuestions = Object.keys(quizAnswers).length;
+
+      Object.keys(quizAnswers).forEach((qNum, index) => {
+        const selected = document.querySelector(`input[name="${qNum}"]:checked`);
+        const feedback = document.getElementById(`feedback${index + 1}`);
+        const options = document.querySelectorAll(`input[name="${qNum}"]`);
+
+        // Clear previous styling
+        options.forEach(opt => {
+          opt.closest('.quiz-option').classList.remove('correct', 'incorrect');
+        });
+
+        if (selected) {
+          const isCorrect = selected.value === quizAnswers[qNum].correct;
+
+          if (isCorrect) {
+            score++;
+            selected.closest('.quiz-option').classList.add('correct');
+            feedback.textContent = quizAnswers[qNum].feedback.correct;
+            feedback.className = 'quiz-feedback show correct';
+          } else {
+            selected.closest('.quiz-option').classList.add('incorrect');
+            // Highlight correct answer
+            options.forEach(opt => {
+              if (opt.value === quizAnswers[qNum].correct) {
+                opt.closest('.quiz-option').classList.add('correct');
+              }
+            });
+            feedback.textContent = quizAnswers[qNum].feedback.incorrect;
+            feedback.className = 'quiz-feedback show incorrect';
+          }
+        } else {
+          feedback.textContent = 'Please select an answer.';
+          feedback.className = 'quiz-feedback show incorrect';
+        }
+      });
+
+      // Show score
+      const scoreDisplay = document.getElementById('quizScore');
+      scoreDisplay.textContent = `You got ${score} out of ${totalQuestions} correct!`;
+      scoreDisplay.classList.add('show');
+
+      // Scroll to see results
+      scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // Initialize
+    window.addEventListener('load', initCanvas);
+    window.addEventListener('resize', () => {
+      initCanvas();
+      if (advancingMass && retreatingMass) {
+        drawAirMasses();
+      }
+    });
+
+    // Keyboard navigation for air mass buttons
+    document.querySelectorAll('.air-mass-selector').forEach(selector => {
+      const buttons = selector.querySelectorAll('.air-mass-btn');
+
+      buttons.forEach((btn, index) => {
+        btn.addEventListener('keydown', (e) => {
+          let targetIndex = index;
+
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            targetIndex = (index + 1) % buttons.length;
+            e.preventDefault();
+          } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            targetIndex = (index - 1 + buttons.length) % buttons.length;
+            e.preventDefault();
+          }
+
+          if (targetIndex !== index) {
+            buttons[targetIndex].focus();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
