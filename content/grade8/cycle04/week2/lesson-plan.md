@@ -89,17 +89,21 @@ Students investigate how invasive species disrupt energy flow and cause trophic 
 
 ## Materials Checklist
 
-### Digital Resources
+### Digital Resources (100% Material-Free)
+- [ ] Chromebooks (class set)
 - [ ] Food web simulation (PhET or equivalent)
 - [ ] Cane toad documentary clip
-- [ ] Invasive species data tables (zebra mussels, kudzu, brown tree snake)
+- [ ] Invasive species data tables (zebra mussels, kudzu, brown tree snake - embedded in student page)
 - [ ] Student page with form links
+- [ ] Case study analysis questions (embedded in Google Form)
+- [ ] Intervention options comparison (embedded in Google Form)
+- [ ] Design template (embedded in Google Form)
+- [ ] Calculator app (on Chromebooks)
 
 ### Physical Materials
-- [ ] Case study analysis worksheets
-- [ ] Intervention options comparison cards
-- [ ] Design template for Station 3
-- [ ] Calculators
+- [ ] Notecards (1 per student for exit ticket notes)
+
+> **Note:** This lesson is designed for 100% material-free digital instruction. All case studies, comparison options, and design templates are embedded in the student page and Google Forms.
 
 ---
 

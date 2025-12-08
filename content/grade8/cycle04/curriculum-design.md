@@ -99,19 +99,23 @@ In the Serengeti, there are millions of wildebeest, zebras, and gazelles. But th
 
 ## Materials List
 
+> **100% Material-Free Digital Instruction:** All lessons are designed for digital delivery via Chromebooks. The only physical material is one notecard per student per lesson for exit ticket notes.
+
 ### Week 1: Energy Pyramids
 - Chromebooks (class set)
-- Serengeti food web diagram
-- Energy transfer simulation
-- Ecosystem data sets
-- Farm design constraints handout
+- Serengeti food web diagram (embedded in student page)
+- Energy transfer simulation (embedded in student page)
+- Ecosystem data sets (embedded in student page)
+- Farm design constraints (embedded in Google Form)
+- Notecard (1 per student)
 
 ### Week 2: Ecosystem Disruption
 - Chromebooks (class set)
 - Food web simulation (removal feature)
-- Invasive species case study materials
-- Biocontrol option cards
-- Risk assessment templates
+- Invasive species case study materials (embedded in student page)
+- Biocontrol options (embedded in Google Form)
+- Risk assessment questions (embedded in Google Form)
+- Notecard (1 per student)
 
 ---
 
