@@ -1,0 +1,975 @@
+<!--
+================================================================================
+Interactive Trophic Cascade Simulator - G8.C4.W2
+================================================================================
+This simulation helps students understand trophic cascades by allowing them to:
+- Add or remove species from an ecosystem
+- See how changes ripple through all trophic levels
+- Understand top-down vs bottom-up cascades
+- Model invasive species impacts
+
+Standards: MS-LS2-3 & MS-LS2-4 Ecosystem Disruption
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive trophic cascade simulator showing how species changes affect entire ecosystems">
+    <title>Trophic Cascade Simulator - Ecosystem Dynamics</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary: #DC2626;
+            --primary-dark: #B91C1C;
+            --primary-light: #FEE2E2;
+            --secondary: #3B82F6;
+            --secondary-light: #DBEAFE;
+            --success: #059669;
+            --success-light: #D1FAE5;
+            --warning: #F59E0B;
+            --warning-light: #FEF3C7;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --text: #1E293B;
+            --text-muted: #64748B;
+            --radius: 10px;
+            --radius-sm: 6px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #991B1B 0%, #7F1D1D 100%);
+            min-height: 100vh;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 6px;
+            font-size: clamp(1.3em, 3.5vw, 1.7em);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #FECACA;
+            margin-bottom: 12px;
+            font-size: 0.85em;
+        }
+
+        .sim-container {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+        }
+
+        /* Instructions */
+        .instructions {
+            background: var(--primary-light);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+
+        .instructions summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary-dark);
+            font-size: 0.9em;
+            list-style: none;
+        }
+
+        .instructions summary::-webkit-details-marker { display: none; }
+        .instructions[open] summary { margin-bottom: 10px; }
+
+        .instructions-content {
+            color: var(--primary-dark);
+            font-size: 0.82em;
+            line-height: 1.6;
+        }
+
+        .instructions-content p { margin-bottom: 6px; }
+
+        /* Scenario selector */
+        .scenario-panel {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .scenario-panel h3 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .scenario-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .scenario-btn {
+            padding: 10px 16px;
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .scenario-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .scenario-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .scenario-btn .emoji { font-size: 1.2em; }
+
+        /* Main ecosystem display */
+        .ecosystem-display {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        @media (max-width: 700px) {
+            .ecosystem-display { grid-template-columns: 1fr; }
+        }
+
+        /* Food web visualization */
+        .foodweb-panel {
+            background: var(--gray-800);
+            border-radius: var(--radius);
+            padding: 14px;
+        }
+
+        .foodweb-panel h3 {
+            color: #94A3B8;
+            margin-bottom: 12px;
+            font-size: 0.85em;
+            text-align: center;
+        }
+
+        .foodweb {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .trophic-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .species-card {
+            background: var(--gray-700);
+            border: 2px solid var(--gray-600);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            text-align: center;
+            min-width: 80px;
+            transition: all 0.3s ease;
+        }
+
+        .species-card .emoji { font-size: 1.8em; display: block; margin-bottom: 4px; }
+        .species-card .name { color: #E2E8F0; font-size: 0.7em; display: block; }
+        .species-card .pop {
+            color: #94A3B8;
+            font-size: 0.65em;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .species-card.increase {
+            border-color: var(--success);
+            background: rgba(5, 150, 105, 0.2);
+        }
+
+        .species-card.decrease {
+            border-color: var(--primary);
+            background: rgba(220, 38, 38, 0.2);
+        }
+
+        .species-card.extinct {
+            border-color: var(--gray-600);
+            background: var(--gray-800);
+            opacity: 0.4;
+        }
+
+        .species-card.invasive {
+            border-color: #F59E0B;
+            background: rgba(245, 158, 11, 0.2);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+        }
+
+        .trophic-label {
+            color: #64748B;
+            font-size: 0.7em;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .arrow-row {
+            display: flex;
+            justify-content: center;
+            color: #64748B;
+            font-size: 0.7em;
+        }
+
+        /* Controls panel */
+        .controls-panel {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 14px;
+        }
+
+        .controls-panel h3 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-size: 0.85em;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 10px 14px;
+            border: 2px solid var(--gray-200);
+            background: white;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.8em;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover { border-color: var(--secondary); background: var(--secondary-light); }
+        .action-btn.active { border-color: var(--secondary); background: var(--secondary); color: white; }
+        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .action-btn.remove:hover { border-color: var(--primary); background: var(--primary-light); }
+        .action-btn.remove.active { background: var(--primary); border-color: var(--primary); }
+
+        .action-btn.add:hover { border-color: var(--success); background: var(--success-light); }
+        .action-btn.add.active { background: var(--success); border-color: var(--success); }
+
+        .reset-ecosystem {
+            margin-top: 12px;
+            padding: 10px;
+            width: 100%;
+            background: var(--gray-200);
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .reset-ecosystem:hover { background: var(--gray-300); }
+
+        /* Cascade explanation */
+        .cascade-panel {
+            background: var(--warning-light);
+            border: 2px solid var(--warning);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .cascade-panel h4 {
+            color: #92400E;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .cascade-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .cascade-step {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            font-size: 0.8em;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cascade-step .emoji { font-size: 1.2em; }
+
+        .cascade-step.increase { border-left: 3px solid var(--success); }
+        .cascade-step.decrease { border-left: 3px solid var(--primary); }
+
+        .cascade-arrow {
+            color: var(--warning);
+            font-weight: bold;
+        }
+
+        /* Summary stats */
+        .stats-panel {
+            background: var(--secondary-light);
+            border: 2px solid var(--secondary);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .stats-panel h4 {
+            color: #1D4ED8;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        @media (max-width: 500px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .stat-box {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-box .value {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .stat-box .label {
+            font-size: 0.7em;
+            color: var(--text-muted);
+        }
+
+        .stat-box.positive .value { color: var(--success); }
+        .stat-box.negative .value { color: var(--primary); }
+
+        /* Key insight */
+        .insight-panel {
+            background: var(--success-light);
+            border: 2px solid var(--success);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .insight-panel h4 {
+            color: #047857;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .insight-panel p {
+            color: #065F46;
+            font-size: 0.85em;
+            line-height: 1.6;
+        }
+
+        /* Quiz section */
+        .quiz-section {
+            background: #FEF2F2;
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 14px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header h4 { color: var(--primary-dark); font-size: 0.9em; }
+
+        .reset-quiz-btn {
+            padding: 5px 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.75em;
+            display: none;
+        }
+
+        .reset-quiz-btn.show { display: inline-block; }
+
+        .quiz-question { margin-bottom: 10px; }
+        .quiz-question p { color: var(--text); margin-bottom: 8px; font-size: 0.85em; }
+
+        .quiz-options { display: flex; flex-wrap: wrap; gap: 6px; }
+
+        .quiz-btn {
+            padding: 8px 12px;
+            border: 2px solid var(--primary);
+            background: white;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.78em;
+            transition: all 0.2s;
+        }
+
+        .quiz-btn:hover:not(:disabled) { background: var(--primary-light); }
+        .quiz-btn:disabled { cursor: default; }
+        .quiz-btn.correct { background: var(--success); color: white; border-color: var(--success); }
+        .quiz-btn.incorrect { background: var(--primary); color: white; }
+
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            display: none;
+            font-size: 0.82em;
+        }
+
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct { background: var(--success-light); color: #047857; }
+        .quiz-feedback.incorrect { background: var(--primary-light); color: var(--primary-dark); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Trophic Cascade Simulator</h1>
+        <p class="subtitle">See how changes to one species affect the ENTIRE ecosystem</p>
+
+        <div class="sim-container">
+            <details class="instructions" open>
+                <summary>How to Use This Simulation</summary>
+                <div class="instructions-content">
+                    <p><strong>Step 1:</strong> Choose a scenario (Yellowstone, Australia, or Guam) to see different ecosystems.</p>
+                    <p><strong>Step 2:</strong> Click action buttons to add or remove species and watch the cascade effects.</p>
+                    <p><strong>Step 3:</strong> Observe how changes ripple through ALL trophic levels - up AND down!</p>
+                    <p><strong>Key concept:</strong> Removing a predator causes prey to increase, which causes plants to decrease!</p>
+                </div>
+            </details>
+
+            <div class="scenario-panel">
+                <h3>Choose an Ecosystem Scenario</h3>
+                <div class="scenario-buttons">
+                    <button class="scenario-btn active" onclick="setScenario('yellowstone')">
+                        <span class="emoji">🐺</span> Yellowstone (Wolves)
+                    </button>
+                    <button class="scenario-btn" onclick="setScenario('australia')">
+                        <span class="emoji">🐸</span> Australia (Cane Toads)
+                    </button>
+                    <button class="scenario-btn" onclick="setScenario('guam')">
+                        <span class="emoji">🐍</span> Guam (Brown Tree Snake)
+                    </button>
+                </div>
+            </div>
+
+            <div class="ecosystem-display">
+                <div class="foodweb-panel">
+                    <h3 id="ecosystem-title">Yellowstone Food Web</h3>
+                    <div class="foodweb" id="foodweb">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <h3>Modify Ecosystem</h3>
+                    <div class="action-buttons" id="action-buttons">
+                        <!-- Rendered by JS -->
+                    </div>
+                    <button class="reset-ecosystem" onclick="resetEcosystem()">Reset to Original State</button>
+                </div>
+            </div>
+
+            <div class="cascade-panel">
+                <h4 id="cascade-title">Cascade Effect</h4>
+                <div class="cascade-steps" id="cascade-steps">
+                    <p style="color: #78350F; font-size: 0.85em;">Make a change to see the cascade effect...</p>
+                </div>
+            </div>
+
+            <div class="stats-panel">
+                <h4>Ecosystem Health</h4>
+                <div class="stats-grid" id="stats-grid">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+
+            <div class="insight-panel">
+                <h4>Key Insight</h4>
+                <p id="insight-text">
+                    Every species in an ecosystem is connected. When you change one population,
+                    the effects cascade through the entire food web. This is why invasive species
+                    are so dangerous - they disrupt these delicate connections!
+                </p>
+            </div>
+
+            <div class="quiz-section">
+                <div class="quiz-header">
+                    <h4>Check Your Understanding</h4>
+                    <button class="reset-quiz-btn" id="reset-quiz-btn" onclick="resetQuiz()">Try Again</button>
+                </div>
+                <div class="quiz-question">
+                    <p><strong>When wolves were removed from Yellowstone, what happened to the willow trees near rivers?</strong></p>
+                    <div class="quiz-options">
+                        <button class="quiz-btn" onclick="checkAnswer(this, false)">They grew taller because elk protected them</button>
+                        <button class="quiz-btn" onclick="checkAnswer(this, true)">They were eaten by overpopulated elk</button>
+                        <button class="quiz-btn" onclick="checkAnswer(this, false)">They weren't affected</button>
+                        <button class="quiz-btn" onclick="checkAnswer(this, false)">They died from disease</button>
+                    </div>
+                    <div class="quiz-feedback" id="quiz-feedback"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scenarios = {
+            yellowstone: {
+                name: 'Yellowstone',
+                title: 'Yellowstone National Park',
+                levels: [
+                    { name: 'Apex Predators', species: [
+                        { id: 'wolf', name: 'Wolves', emoji: '🐺', pop: 100, original: 100 }
+                    ]},
+                    { name: 'Predators', species: [
+                        { id: 'coyote', name: 'Coyotes', emoji: '🦊', pop: 80, original: 80 }
+                    ]},
+                    { name: 'Herbivores', species: [
+                        { id: 'elk', name: 'Elk', emoji: '🦌', pop: 100, original: 100 },
+                        { id: 'rabbit', name: 'Rabbits', emoji: '🐰', pop: 100, original: 100 }
+                    ]},
+                    { name: 'Producers', species: [
+                        { id: 'willow', name: 'Willows', emoji: '🌳', pop: 100, original: 100 },
+                        { id: 'grass', name: 'Grasses', emoji: '🌾', pop: 100, original: 100 }
+                    ]}
+                ],
+                actions: [
+                    { id: 'remove-wolves', label: 'Remove Wolves (1926)', type: 'remove', target: 'wolf' },
+                    { id: 'add-wolves', label: 'Reintroduce Wolves (1995)', type: 'add', target: 'wolf' }
+                ],
+                cascadeRules: {
+                    wolf: {
+                        0: { elk: 180, willow: 30, coyote: 60, rabbit: 140, grass: 50 },
+                        100: { elk: 100, willow: 100, coyote: 80, rabbit: 100, grass: 100 }
+                    }
+                }
+            },
+            australia: {
+                name: 'Australia',
+                title: 'Australian Ecosystem',
+                levels: [
+                    { name: 'Apex Predators', species: [
+                        { id: 'quoll', name: 'Quolls', emoji: '🐱', pop: 100, original: 100 },
+                        { id: 'goanna', name: 'Goannas', emoji: '🦎', pop: 100, original: 100 }
+                    ]},
+                    { name: 'Consumers', species: [
+                        { id: 'canetoad', name: 'Cane Toads', emoji: '🐸', pop: 0, original: 0, invasive: true }
+                    ]},
+                    { name: 'Primary Consumers', species: [
+                        { id: 'beetle', name: 'Beetles', emoji: '🪲', pop: 100, original: 100 },
+                        { id: 'frog', name: 'Native Frogs', emoji: '🐸', pop: 100, original: 100 }
+                    ]},
+                    { name: 'Producers', species: [
+                        { id: 'sugarcane', name: 'Sugar Cane', emoji: '🌿', pop: 100, original: 100 }
+                    ]}
+                ],
+                actions: [
+                    { id: 'add-toads', label: 'Introduce Cane Toads (1935)', type: 'add', target: 'canetoad' },
+                    { id: 'remove-toads', label: 'Remove Cane Toads', type: 'remove', target: 'canetoad' }
+                ],
+                cascadeRules: {
+                    canetoad: {
+                        0: { quoll: 100, goanna: 100, beetle: 100, frog: 100, sugarcane: 100 },
+                        200: { quoll: 20, goanna: 30, beetle: 90, frog: 40, sugarcane: 95 }
+                    }
+                }
+            },
+            guam: {
+                name: 'Guam',
+                title: 'Guam Island Ecosystem',
+                levels: [
+                    { name: 'Predators', species: [
+                        { id: 'snake', name: 'Brown Tree Snake', emoji: '🐍', pop: 0, original: 0, invasive: true }
+                    ]},
+                    { name: 'Consumers', species: [
+                        { id: 'bird', name: 'Native Birds', emoji: '🐦', pop: 100, original: 100 },
+                        { id: 'bat', name: 'Fruit Bats', emoji: '🦇', pop: 100, original: 100 }
+                    ]},
+                    { name: 'Primary Consumers', species: [
+                        { id: 'insect', name: 'Insects', emoji: '🦗', pop: 100, original: 100 },
+                        { id: 'spider', name: 'Spiders', emoji: '🕷️', pop: 100, original: 100 }
+                    ]},
+                    { name: 'Producers', species: [
+                        { id: 'tree', name: 'Forest Trees', emoji: '🌴', pop: 100, original: 100 },
+                        { id: 'flower', name: 'Flowers', emoji: '🌺', pop: 100, original: 100 }
+                    ]}
+                ],
+                actions: [
+                    { id: 'add-snake', label: 'Brown Tree Snake Arrives (1950s)', type: 'add', target: 'snake' },
+                    { id: 'remove-snake', label: 'Remove Snakes', type: 'remove', target: 'snake' }
+                ],
+                cascadeRules: {
+                    snake: {
+                        0: { bird: 100, bat: 100, insect: 100, spider: 100, tree: 100, flower: 100 },
+                        200: { bird: 5, bat: 20, insect: 300, spider: 400, tree: 70, flower: 40 }
+                    }
+                }
+            }
+        };
+
+        let currentScenario = 'yellowstone';
+        let ecosystemState = {};
+
+        function setScenario(name) {
+            currentScenario = name;
+            document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+            event.target.closest('.scenario-btn').classList.add('active');
+            resetEcosystem();
+        }
+
+        function resetEcosystem() {
+            const scenario = scenarios[currentScenario];
+            ecosystemState = {};
+
+            scenario.levels.forEach(level => {
+                level.species.forEach(sp => {
+                    ecosystemState[sp.id] = sp.original;
+                });
+            });
+
+            document.getElementById('cascade-steps').innerHTML =
+                '<p style="color: #78350F; font-size: 0.85em;">Make a change to see the cascade effect...</p>';
+
+            renderEcosystem();
+            renderActions();
+            updateStats();
+        }
+
+        function renderEcosystem() {
+            const scenario = scenarios[currentScenario];
+            document.getElementById('ecosystem-title').textContent = scenario.title + ' Food Web';
+
+            const foodweb = document.getElementById('foodweb');
+            foodweb.innerHTML = '';
+
+            scenario.levels.forEach((level, i) => {
+                const labelDiv = document.createElement('div');
+                labelDiv.className = 'trophic-label';
+                labelDiv.textContent = level.name;
+                foodweb.appendChild(labelDiv);
+
+                const row = document.createElement('div');
+                row.className = 'trophic-row';
+
+                level.species.forEach(sp => {
+                    const pop = ecosystemState[sp.id];
+                    const original = sp.original;
+                    let statusClass = '';
+
+                    if (pop === 0 && !sp.invasive) statusClass = 'extinct';
+                    else if (pop === 0 && sp.invasive) statusClass = '';
+                    else if (sp.invasive && pop > 0) statusClass = 'invasive';
+                    else if (pop > original * 1.2) statusClass = 'increase';
+                    else if (pop < original * 0.8) statusClass = 'decrease';
+
+                    const card = document.createElement('div');
+                    card.className = `species-card ${statusClass}`;
+                    card.innerHTML = `
+                        <span class="emoji">${sp.emoji}</span>
+                        <span class="name">${sp.name}</span>
+                        <span class="pop">${pop > 0 ? pop + '%' : (sp.invasive ? 'Not present' : 'EXTINCT')}</span>
+                    `;
+                    row.appendChild(card);
+                });
+
+                foodweb.appendChild(row);
+
+                if (i < scenario.levels.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'arrow-row';
+                    arrow.textContent = '↓ eats ↓';
+                    foodweb.appendChild(arrow);
+                }
+            });
+        }
+
+        function renderActions() {
+            const scenario = scenarios[currentScenario];
+            const container = document.getElementById('action-buttons');
+            container.innerHTML = '';
+
+            scenario.actions.forEach(action => {
+                const btn = document.createElement('button');
+                btn.className = `action-btn ${action.type}`;
+                btn.textContent = action.label;
+                btn.onclick = () => executeAction(action);
+
+                // Disable if already in that state
+                const currentPop = ecosystemState[action.target];
+                if (action.type === 'add' && currentPop > 0) btn.disabled = true;
+                if (action.type === 'remove' && currentPop === 0) btn.disabled = true;
+
+                container.appendChild(btn);
+            });
+        }
+
+        function executeAction(action) {
+            const scenario = scenarios[currentScenario];
+            const rules = scenario.cascadeRules[action.target];
+
+            if (action.type === 'add') {
+                ecosystemState[action.target] = 200; // Invasive explosion or reintroduction
+                Object.keys(rules[200] || {}).forEach(sp => {
+                    ecosystemState[sp] = rules[200][sp];
+                });
+                showCascade(action, 'add');
+            } else {
+                ecosystemState[action.target] = 0;
+                Object.keys(rules[0] || {}).forEach(sp => {
+                    ecosystemState[sp] = rules[0][sp];
+                });
+                showCascade(action, 'remove');
+            }
+
+            renderEcosystem();
+            renderActions();
+            updateStats();
+        }
+
+        function showCascade(action, type) {
+            const container = document.getElementById('cascade-steps');
+            let html = '';
+
+            if (currentScenario === 'yellowstone') {
+                if (type === 'remove') {
+                    html = `
+                        <div class="cascade-step decrease"><span class="emoji">🐺</span> Wolves removed</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step increase"><span class="emoji">🦌</span> Elk explode (+80%)</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step decrease"><span class="emoji">🌳</span> Willows eaten (-70%)</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step decrease"><span class="emoji">🦫</span> Beavers decline (no wood)</div>
+                    `;
+                    document.getElementById('cascade-title').textContent = 'Top-Down Cascade: Wolf Removal';
+                } else {
+                    html = `
+                        <div class="cascade-step increase"><span class="emoji">🐺</span> Wolves return</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step decrease"><span class="emoji">🦌</span> Elk controlled</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step increase"><span class="emoji">🌳</span> Willows recover</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step increase"><span class="emoji">🦫</span> Beavers return</div>
+                    `;
+                    document.getElementById('cascade-title').textContent = 'Ecosystem Recovery: Wolf Reintroduction';
+                }
+            } else if (currentScenario === 'australia') {
+                if (type === 'add') {
+                    html = `
+                        <div class="cascade-step increase"><span class="emoji">🐸</span> Cane toads introduced</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step decrease"><span class="emoji">🐱</span> Quolls die (poison)</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step decrease"><span class="emoji">🦎</span> Goannas die (poison)</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step decrease"><span class="emoji">🐸</span> Native frogs outcompeted</div>
+                    `;
+                    document.getElementById('cascade-title').textContent = 'Invasive Species Cascade: Cane Toads';
+                } else {
+                    html = `
+                        <div class="cascade-step decrease"><span class="emoji">🐸</span> Cane toads removed</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step increase"><span class="emoji">🐱</span> Quolls recover</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step increase"><span class="emoji">🦎</span> Goannas recover</div>
+                    `;
+                    document.getElementById('cascade-title').textContent = 'Ecosystem Recovery: Cane Toad Removal';
+                }
+            } else if (currentScenario === 'guam') {
+                if (type === 'add') {
+                    html = `
+                        <div class="cascade-step increase"><span class="emoji">🐍</span> Snakes arrive</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step decrease"><span class="emoji">🐦</span> Birds go EXTINCT</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step increase"><span class="emoji">🕷️</span> Spiders explode (+300%)</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step decrease"><span class="emoji">🌺</span> Flowers decline (no pollinators)</div>
+                    `;
+                    document.getElementById('cascade-title').textContent = 'Invasive Predator Cascade: Brown Tree Snake';
+                } else {
+                    html = `
+                        <div class="cascade-step decrease"><span class="emoji">🐍</span> Snakes removed</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step increase"><span class="emoji">🐦</span> Birds can recover (slowly)</div>
+                        <span class="cascade-arrow">→</span>
+                        <div class="cascade-step decrease"><span class="emoji">🕷️</span> Spider numbers normalize</div>
+                    `;
+                    document.getElementById('cascade-title').textContent = 'Ecosystem Recovery: Snake Removal';
+                }
+            }
+
+            container.innerHTML = html;
+        }
+
+        function updateStats() {
+            const scenario = scenarios[currentScenario];
+            const stats = document.getElementById('stats-grid');
+
+            let total = 0, original = 0, extinctions = 0, invasives = 0;
+
+            scenario.levels.forEach(level => {
+                level.species.forEach(sp => {
+                    const pop = ecosystemState[sp.id];
+                    if (!sp.invasive) {
+                        total += pop;
+                        original += sp.original;
+                        if (pop === 0) extinctions++;
+                    } else if (pop > 0) {
+                        invasives++;
+                    }
+                });
+            });
+
+            const health = Math.round((total / original) * 100);
+            const healthClass = health > 80 ? 'positive' : (health < 50 ? 'negative' : '');
+
+            stats.innerHTML = `
+                <div class="stat-box ${healthClass}">
+                    <div class="value">${health}%</div>
+                    <div class="label">Ecosystem Health</div>
+                </div>
+                <div class="stat-box ${extinctions > 0 ? 'negative' : ''}">
+                    <div class="value">${extinctions}</div>
+                    <div class="label">Extinctions</div>
+                </div>
+                <div class="stat-box ${invasives > 0 ? 'negative' : 'positive'}">
+                    <div class="value">${invasives}</div>
+                    <div class="label">Invasive Species</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value">${scenario.levels.reduce((sum, l) => sum + l.species.length, 0)}</div>
+                    <div class="label">Total Species</div>
+                </div>
+            `;
+
+            // Update insight
+            if (extinctions > 0 || invasives > 0) {
+                document.getElementById('insight-text').innerHTML = `
+                    <strong>Warning!</strong> This ecosystem has been disrupted. ${extinctions > 0 ? `${extinctions} species have gone extinct. ` : ''}
+                    ${invasives > 0 ? `${invasives} invasive species are present, disrupting the natural food web. ` : ''}
+                    Ecosystem health is at <strong>${health}%</strong>. Recovery takes decades!
+                `;
+            } else {
+                document.getElementById('insight-text').innerHTML = `
+                    This ecosystem is in balance. All native species are present at healthy population levels.
+                    Ecosystem health is at <strong>${health}%</strong>. The food web is functioning normally.
+                `;
+            }
+        }
+
+        function checkAnswer(btn, correct) {
+            const feedback = document.getElementById('quiz-feedback');
+            const allBtns = document.querySelectorAll('.quiz-btn');
+            const resetBtn = document.getElementById('reset-quiz-btn');
+
+            allBtns.forEach(b => {
+                b.disabled = true;
+                b.classList.remove('correct', 'incorrect');
+            });
+
+            if (correct) {
+                btn.classList.add('correct');
+                feedback.className = 'quiz-feedback show correct';
+                feedback.innerHTML = `<strong>Correct!</strong> Without wolves, the elk population exploded.
+                    The overpopulated elk ate all the willow trees near rivers. This is a classic example of a
+                    <strong>top-down trophic cascade</strong> - removing a predator affected all levels below it!`;
+            } else {
+                btn.classList.add('incorrect');
+                allBtns.forEach(b => {
+                    if (b.onclick.toString().includes('true')) b.classList.add('correct');
+                });
+                feedback.className = 'quiz-feedback show incorrect';
+                feedback.innerHTML = `<strong>Not quite.</strong> When wolves were removed, elk populations exploded
+                    because nothing was hunting them. The overpopulated elk then ate all the willow trees.
+                    This shows how predators indirectly protect plants!`;
+            }
+
+            resetBtn.classList.add('show');
+        }
+
+        function resetQuiz() {
+            const feedback = document.getElementById('quiz-feedback');
+            const allBtns = document.querySelectorAll('.quiz-btn');
+            const resetBtn = document.getElementById('reset-quiz-btn');
+
+            allBtns.forEach(b => {
+                b.disabled = false;
+                b.classList.remove('correct', 'incorrect');
+            });
+
+            feedback.className = 'quiz-feedback';
+            resetBtn.classList.remove('show');
+        }
+
+        // Initialize
+        resetEcosystem();
+    </script>
+</body>
+</html>

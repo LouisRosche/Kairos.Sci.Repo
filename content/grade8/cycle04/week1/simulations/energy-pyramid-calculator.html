@@ -1,0 +1,727 @@
+<!--
+================================================================================
+Interactive Energy Pyramid Calculator - G8.C4.W1
+================================================================================
+This simulation helps students understand the 10% rule by allowing them to:
+- Set producer energy and see how it transfers up trophic levels
+- Visualize energy loss at each level
+- Calculate and predict energy at any trophic level
+- Understand why ecosystems have pyramid shapes
+
+Standards: MS-LS2-3 Energy Flow in Ecosystems
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive energy pyramid calculator demonstrating the 10% rule in ecosystems">
+    <title>Energy Pyramid Calculator - 10% Rule Explorer</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --primary-light: #D1FAE5;
+            --secondary: #3B82F6;
+            --secondary-light: #DBEAFE;
+            --accent: #F59E0B;
+            --accent-light: #FEF3C7;
+            --error: #EF4444;
+            --error-light: #FEE2E2;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --text: #1E293B;
+            --text-muted: #64748B;
+            --radius: 10px;
+            --radius-sm: 6px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #065F46 0%, #064E3B 100%);
+            min-height: 100vh;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 6px;
+            font-size: clamp(1.3em, 3.5vw, 1.7em);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #A7F3D0;
+            margin-bottom: 12px;
+            font-size: 0.85em;
+        }
+
+        .sim-container {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+        }
+
+        /* Instructions */
+        .instructions {
+            background: var(--primary-light);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+
+        .instructions summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary-dark);
+            font-size: 0.9em;
+            list-style: none;
+        }
+
+        .instructions summary::-webkit-details-marker { display: none; }
+        .instructions[open] summary { margin-bottom: 10px; }
+
+        .instructions-content {
+            color: var(--primary-dark);
+            font-size: 0.82em;
+            line-height: 1.6;
+        }
+
+        .instructions-content p { margin-bottom: 6px; }
+
+        /* Controls */
+        .controls-panel {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .controls-panel h3 {
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+
+        .control-group {
+            margin-bottom: 12px;
+        }
+
+        .control-group label {
+            display: block;
+            color: var(--text);
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.85em;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--gray-200);
+            cursor: pointer;
+            -webkit-appearance: none;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+
+        .slider-value {
+            min-width: 100px;
+            padding: 6px 10px;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.85em;
+        }
+
+        /* Main display area */
+        .main-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        @media (max-width: 650px) {
+            .main-display { grid-template-columns: 1fr; }
+        }
+
+        /* Pyramid visualization */
+        .pyramid-panel {
+            background: var(--gray-800);
+            border-radius: var(--radius);
+            padding: 14px;
+        }
+
+        .pyramid-panel h3 {
+            color: #94A3B8;
+            margin-bottom: 12px;
+            font-size: 0.85em;
+            text-align: center;
+        }
+
+        .pyramid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .pyramid-level {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            padding: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.75em;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 40px;
+        }
+
+        .pyramid-level.level-4 { background: linear-gradient(135deg, #DC2626, #B91C1C); }
+        .pyramid-level.level-3 { background: linear-gradient(135deg, #F59E0B, #D97706); }
+        .pyramid-level.level-2 { background: linear-gradient(135deg, #3B82F6, #2563EB); }
+        .pyramid-level.level-1 { background: linear-gradient(135deg, #059669, #047857); }
+
+        .level-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .level-name { font-size: 0.8em; opacity: 0.9; }
+        .level-energy { font-size: 1em; }
+        .level-percent { font-size: 0.7em; opacity: 0.8; }
+
+        /* Energy flow arrow */
+        .energy-arrow {
+            color: #F59E0B;
+            font-size: 0.7em;
+            text-align: center;
+            padding: 2px 0;
+        }
+
+        /* Data table panel */
+        .data-panel {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 14px;
+        }
+
+        .data-panel h3 {
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            font-size: 0.85em;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8em;
+        }
+
+        .data-table th, .data-table td {
+            padding: 8px 6px;
+            border: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        .data-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .data-table tr:nth-child(even) { background: var(--gray-100); }
+        .data-table tr.highlight { background: var(--accent-light); }
+
+        .energy-lost {
+            color: var(--error);
+            font-weight: 600;
+        }
+
+        .energy-transferred {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Key insight panel */
+        .insight-panel {
+            background: var(--accent-light);
+            border: 2px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .insight-panel h4 {
+            color: #92400E;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .insight-panel p {
+            color: #78350F;
+            font-size: 0.85em;
+            line-height: 1.6;
+        }
+
+        /* Where does energy go? */
+        .energy-breakdown {
+            background: var(--secondary-light);
+            border: 2px solid var(--secondary);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .energy-breakdown h4 {
+            color: #1D4ED8;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .breakdown-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breakdown-label {
+            min-width: 120px;
+            font-size: 0.8em;
+            color: var(--text);
+        }
+
+        .breakdown-bar {
+            flex: 1;
+            height: 20px;
+            background: var(--gray-200);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .breakdown-fill {
+            height: 100%;
+            border-radius: var(--radius-sm);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+
+        .fill-heat { background: linear-gradient(90deg, #EF4444, #DC2626); }
+        .fill-waste { background: linear-gradient(90deg, #F59E0B, #D97706); }
+        .fill-uneaten { background: linear-gradient(90deg, #8B5CF6, #7C3AED); }
+        .fill-stored { background: linear-gradient(90deg, #10B981, #059669); }
+
+        /* Quiz section */
+        .quiz-section {
+            background: #F0FDF4;
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 14px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header h4 { color: #047857; font-size: 0.9em; }
+
+        .reset-btn {
+            padding: 5px 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.75em;
+            display: none;
+        }
+
+        .reset-btn:hover { background: var(--primary-dark); }
+        .reset-btn.show { display: inline-block; }
+
+        .quiz-question { margin-bottom: 10px; }
+        .quiz-question p { color: var(--text); margin-bottom: 8px; font-size: 0.85em; }
+
+        .quiz-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .quiz-btn {
+            padding: 8px 12px;
+            border: 2px solid var(--primary);
+            background: white;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.78em;
+        }
+
+        .quiz-btn:hover:not(:disabled) { background: var(--primary-light); }
+        .quiz-btn:disabled { cursor: default; }
+        .quiz-btn.correct { background: var(--primary); color: white; }
+        .quiz-btn.incorrect { background: var(--error); color: white; border-color: var(--error); }
+
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            display: none;
+            font-size: 0.82em;
+        }
+
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct { background: var(--primary-light); color: #047857; }
+        .quiz-feedback.incorrect { background: var(--error-light); color: #B91C1C; }
+
+        /* Scenario buttons */
+        .scenario-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .scenario-btn {
+            padding: 8px 14px;
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.2s;
+        }
+
+        .scenario-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .scenario-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Energy Pyramid Calculator</h1>
+        <p class="subtitle">Explore the 10% Rule - Where does energy go in ecosystems?</p>
+
+        <div class="sim-container">
+            <details class="instructions" open>
+                <summary>How to Use This Simulation</summary>
+                <div class="instructions-content">
+                    <p><strong>Step 1:</strong> Use the slider to set the starting energy from producers (plants).</p>
+                    <p><strong>Step 2:</strong> Watch how energy decreases at each trophic level - only 10% transfers up!</p>
+                    <p><strong>Step 3:</strong> Try the preset scenarios to see real ecosystem examples.</p>
+                    <p><strong>Key concept:</strong> 90% of energy is "lost" to heat, waste, and uneaten parts at each level!</p>
+                </div>
+            </details>
+
+            <div class="controls-panel">
+                <h3>Set Producer Energy</h3>
+                <div class="control-group">
+                    <label for="producer-energy">Starting Energy from Producers (kcal/m<sup>2</sup>/year):</label>
+                    <div class="slider-container">
+                        <input type="range" id="producer-energy" min="1000" max="20000" value="10000" step="500"
+                               aria-label="Producer energy" onchange="updatePyramid()" oninput="updatePyramid()">
+                        <div class="slider-value" id="producer-value">10,000 kcal</div>
+                    </div>
+                </div>
+                <div class="scenario-buttons">
+                    <button class="scenario-btn active" onclick="setScenario(10000, this)">Grassland</button>
+                    <button class="scenario-btn" onclick="setScenario(5000, this)">Desert</button>
+                    <button class="scenario-btn" onclick="setScenario(15000, this)">Rainforest</button>
+                    <button class="scenario-btn" onclick="setScenario(8000, this)">Ocean</button>
+                </div>
+            </div>
+
+            <div class="main-display">
+                <div class="pyramid-panel">
+                    <h3>Energy Pyramid</h3>
+                    <div class="pyramid-container" id="pyramid">
+                        <!-- Pyramid levels rendered by JS -->
+                    </div>
+                </div>
+
+                <div class="data-panel">
+                    <h3>Energy at Each Trophic Level</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Organisms</th>
+                                <th>Energy</th>
+                                <th>% of Original</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-body">
+                            <!-- Data rows rendered by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="energy-breakdown">
+                <h4>Where Does the 90% Go? (Energy Loss at Each Level)</h4>
+                <div class="breakdown-bars">
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Heat (metabolism)</span>
+                        <div class="breakdown-bar">
+                            <div class="breakdown-fill fill-heat" style="width: 60%;">60%</div>
+                        </div>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Waste (feces, urine)</span>
+                        <div class="breakdown-bar">
+                            <div class="breakdown-fill fill-waste" style="width: 25%;">25%</div>
+                        </div>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Uneaten parts</span>
+                        <div class="breakdown-bar">
+                            <div class="breakdown-fill fill-uneaten" style="width: 5%;">5%</div>
+                        </div>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Stored in body (transferred)</span>
+                        <div class="breakdown-bar">
+                            <div class="breakdown-fill fill-stored" style="width: 10%;">10%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-panel">
+                <h4>Key Insight</h4>
+                <p id="insight-text">
+                    With <strong id="insight-producer">10,000</strong> kcal from producers, only <strong id="insight-apex">10</strong> kcal
+                    reaches apex predators at the 4th trophic level. That's only <strong>0.1%</strong> of the original energy!
+                    This is why there are always fewer predators than prey - there simply isn't enough energy to support large predator populations.
+                </p>
+            </div>
+
+            <div class="quiz-section">
+                <div class="quiz-header">
+                    <h4>Check Your Understanding</h4>
+                    <button class="reset-btn" id="reset-btn" onclick="resetQuiz()">Try Again</button>
+                </div>
+                <div class="quiz-question">
+                    <p><strong>If a grassland ecosystem has 20,000 kcal of energy from producers, how much energy is available to tertiary consumers (level 4)?</strong></p>
+                    <div class="quiz-options">
+                        <button class="quiz-btn" onclick="checkAnswer(this, false, 2000)">2,000 kcal</button>
+                        <button class="quiz-btn" onclick="checkAnswer(this, false, 200)">200 kcal</button>
+                        <button class="quiz-btn" onclick="checkAnswer(this, true, 20)">20 kcal</button>
+                        <button class="quiz-btn" onclick="checkAnswer(this, false, 2)">2 kcal</button>
+                    </div>
+                    <div class="quiz-feedback" id="quiz-feedback"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const levels = [
+            { level: 1, name: 'Producers', organisms: 'Plants, algae', emoji: '' },
+            { level: 2, name: 'Primary Consumers', organisms: 'Herbivores', emoji: '' },
+            { level: 3, name: 'Secondary Consumers', organisms: 'Carnivores', emoji: '' },
+            { level: 4, name: 'Tertiary Consumers', organisms: 'Apex Predators', emoji: '' }
+        ];
+
+        function updatePyramid() {
+            const producerEnergy = parseInt(document.getElementById('producer-energy').value);
+            document.getElementById('producer-value').textContent = producerEnergy.toLocaleString() + ' kcal';
+
+            // Calculate energy at each level
+            const energyLevels = [
+                producerEnergy,
+                producerEnergy * 0.10,
+                producerEnergy * 0.01,
+                producerEnergy * 0.001
+            ];
+
+            // Update pyramid visualization
+            const pyramidContainer = document.getElementById('pyramid');
+            pyramidContainer.innerHTML = '';
+
+            for (let i = 3; i >= 0; i--) {
+                const level = levels[i];
+                const energy = energyLevels[i];
+                const widthPercent = 30 + (3 - i) * 20; // Level 4 = 30%, Level 1 = 90%
+
+                const levelDiv = document.createElement('div');
+                levelDiv.className = `pyramid-level level-${level.level}`;
+                levelDiv.style.width = widthPercent + '%';
+                levelDiv.innerHTML = `
+                    <div class="level-info">
+                        <span class="level-name">${level.name}</span>
+                        <span class="level-energy">${formatEnergy(energy)} kcal</span>
+                        <span class="level-percent">${(energy / producerEnergy * 100).toFixed(1)}%</span>
+                    </div>
+                `;
+                pyramidContainer.appendChild(levelDiv);
+
+                if (i > 0) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'energy-arrow';
+                    arrow.innerHTML = '10% transfers up';
+                    pyramidContainer.appendChild(arrow);
+                }
+            }
+
+            // Update data table
+            const tableBody = document.getElementById('data-body');
+            tableBody.innerHTML = '';
+
+            levels.forEach((level, i) => {
+                const energy = energyLevels[i];
+                const percent = (energy / producerEnergy * 100);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${level.level}</strong></td>
+                    <td>${level.organisms}</td>
+                    <td class="energy-transferred">${formatEnergy(energy)}</td>
+                    <td>${percent >= 1 ? percent.toFixed(0) : percent.toFixed(1)}%</td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Update insight text
+            document.getElementById('insight-producer').textContent = producerEnergy.toLocaleString();
+            document.getElementById('insight-apex').textContent = formatEnergy(energyLevels[3]);
+        }
+
+        function formatEnergy(value) {
+            if (value >= 1000) {
+                return value.toLocaleString();
+            } else if (value >= 1) {
+                return value.toFixed(0);
+            } else {
+                return value.toFixed(1);
+            }
+        }
+
+        function setScenario(energy, btn) {
+            document.getElementById('producer-energy').value = energy;
+            document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updatePyramid();
+        }
+
+        function checkAnswer(btn, correct, value) {
+            const feedback = document.getElementById('quiz-feedback');
+            const allBtns = document.querySelectorAll('.quiz-btn');
+            const resetBtn = document.getElementById('reset-btn');
+
+            allBtns.forEach(b => {
+                b.disabled = true;
+                b.classList.remove('correct', 'incorrect');
+            });
+
+            if (correct) {
+                btn.classList.add('correct');
+                feedback.className = 'quiz-feedback show correct';
+                feedback.innerHTML = `<strong>Correct!</strong> 20,000 &times; 0.10 &times; 0.10 &times; 0.10 = 20 kcal.
+                    The 10% rule means you multiply by 0.10 for each trophic level. After 3 transfers
+                    (producer &rarr; primary &rarr; secondary &rarr; tertiary), only 0.1% of the original energy remains!`;
+            } else {
+                btn.classList.add('incorrect');
+                allBtns.forEach(b => {
+                    if (b.onclick.toString().includes('true')) b.classList.add('correct');
+                });
+                feedback.className = 'quiz-feedback show incorrect';
+                feedback.innerHTML = `<strong>Not quite.</strong> Remember: you need to apply the 10% rule THREE times
+                    (producer &rarr; primary &rarr; secondary &rarr; tertiary).<br>
+                    <strong>Calculation:</strong> 20,000 &times; 0.10 = 2,000 &times; 0.10 = 200 &times; 0.10 = <strong>20 kcal</strong>`;
+            }
+
+            resetBtn.classList.add('show');
+        }
+
+        function resetQuiz() {
+            const feedback = document.getElementById('quiz-feedback');
+            const allBtns = document.querySelectorAll('.quiz-btn');
+            const resetBtn = document.getElementById('reset-btn');
+
+            allBtns.forEach(b => {
+                b.disabled = false;
+                b.classList.remove('correct', 'incorrect');
+            });
+
+            feedback.className = 'quiz-feedback';
+            feedback.innerHTML = '';
+            resetBtn.classList.remove('show');
+        }
+
+        // Initialize
+        updatePyramid();
+    </script>
+</body>
+</html>
