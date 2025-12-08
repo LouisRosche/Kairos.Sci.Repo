@@ -1,15 +1,15 @@
 {
   "cycle": 5,
   "grade": 7,
-  "status": "not_started",
-  "lastUpdated": "2025-12-05",
+  "status": "in_progress",
+  "lastUpdated": "2025-12-08",
   "topic": "Weather & Climate Systems",
   "completion": {
-    "overall": 0,
-    "curriculumDesign": 0,
+    "overall": 35,
+    "curriculumDesign": 100,
     "rubrics": 0,
-    "week1": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
-    "week2": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
+    "week1": { "forms": 100, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
+    "week2": { "forms": 100, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
     "week3": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 }
   },
   "deployed": {
@@ -17,5 +17,5 @@
     "week2": false,
     "week3": false
   },
-  "notes": "Placeholder structure created. Development pending."
+  "notes": "Curriculum design complete. W1 and W2 forms complete. W3 forms, lesson plans, student pages, and slides pending."
 }
