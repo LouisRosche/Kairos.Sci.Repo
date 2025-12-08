@@ -1,11 +1,8 @@
 <!--
-================================================================================
 Grade 8 Cycle 3 Week 2 - Evidence of Evolution
-================================================================================
 100% DIGITAL/SIMULATION-BASED INSTRUCTION
 No physical materials required except one notecard per class.
 Updated: December 2025 | Material-Free Audit Complete
-================================================================================
 -->
 
 # Grade 8 Cycle 3 Week 2: Implementation Guide
@@ -56,11 +53,11 @@ Updated: December 2025 | Material-Free Audit Complete
 | Time | Activity | Teacher Actions |
 |------|----------|-----------------|
 | 0:00-0:05 | Entry + Settle | Display whale flipper X-ray; "What do you notice?" |
-| 0:05-0:15 | Hook Form | Independent completion |
+| 0:05-0:15 | Hook Form | Independent completion on Chromebooks |
 | 0:15-0:17 | Transition | Assign groups; open Bone Homology Explorer simulation |
-| 0:17-0:37 | Station 1 | Circulate; watch for homologous/analogous confusion |
-| 0:37-0:40 | Pomodoro Break | Movement; water |
-| 0:40-0:60 | Station 2 | Use embedded whale timeline table + video |
+| 0:17-0:37 | Station 1 | Circulate; watch for homologous/analogous confusion; students use interactive simulation |
+| 0:37-0:40 | Pomodoro Break | Movement; water; **NOTECARD:** Write homologous vs analogous definitions |
+| 0:40-0:60 | Station 2 | Students use whale timeline in student page + embedded video; complete Google Form |
 | 0:60-0:65 | Wrap + Preview | "Tomorrow: Design your own transitional organism!" |
 
 **Station 1 Probing Questions:**
@@ -69,10 +66,10 @@ Updated: December 2025 | Material-Free Audit Complete
 - "If the function is different, why would the bones be the same?"
 - "Is a bird wing and bat wing homologous or analogous? Why?"
 
-**Station 2 Probing Questions:**
-- "Put the fossils in order from oldest to youngest."
-- "What changes do you notice as we move through time?"
-- "What would you predict the fossil between Pakicetus and Ambulocetus looks like?"
+**Station 2 Probing Questions (Digital Timeline):**
+- "Looking at the timeline on your screen, which fossil is oldest? Youngest?"
+- "What changes do you notice as we scroll through time?"
+- "What would you predict a fossil between Pakicetus and Ambulocetus looks like?"
 - "Why are these called 'transitional' fossils?"
 
 ---
@@ -81,10 +78,10 @@ Updated: December 2025 | Material-Free Audit Complete
 
 | Time | Activity | Teacher Actions |
 |------|----------|-----------------|
-| 0:00-0:03 | Entry + Review | "Quick check: homologous = ___? analogous = ___?" |
+| 0:00-0:03 | Entry + Review | "Quick check: homologous = ___? analogous = ___?" (Check notecards!) |
 | 0:03-0:08 | Station 3 Setup | Open Transitional Form Designer simulation; explain ancestor/descendant |
-| 0:08-0:38 | Station 3 | Push for INTERMEDIATE features, not either/or |
-| 0:38-0:43 | Share Out | 2-3 groups share; class votes most scientifically accurate |
+| 0:08-0:38 | Station 3 | Push for INTERMEDIATE features, not either/or; students design in simulation |
+| 0:38-0:43 | Share Out | 2-3 groups screen-share; class votes most scientifically accurate |
 | 0:43-0:45 | Preview | "Thursday: Exit ticket" |
 
 **Station 3 Probing Questions:**
@@ -146,10 +143,10 @@ This is THE most common and persistent misconception. Students often say:
 ## Differentiation Quick-Reference
 
 ### More Support
-- Use Bone Homology Explorer simulation's bone highlighting feature (click legend to highlight same bone across species)
+- Use Bone Homology Explorer simulation with guided walkthrough (highlight one bone at a time)
 - Sentence frames: "The ___ is homologous to ___ because they have the same ___"
-- Use Transitional Form Designer's multiple-choice format (simplified from open-ended)
-- Allow verbal explanations recorded on phone
+- Transitional Form Designer "guided mode" with checkboxes (built into simulation)
+- Allow verbal explanations recorded on Chromebook
 
 ### More Challenge
 - "Research: What is molecular evidence for whale evolution?"
@@ -240,14 +237,14 @@ Pakicetus (50 mya) → Ambulocetus (49 mya) → Rodhocetus (47 mya) → Basilosa
 ## Emergency Backup Plans
 
 ### If Chromebooks fail:
-- Use teacher device to project simulations on screen for whole-class exploration
-- Students discuss in pairs and share observations verbally
-- Teacher records student responses on whiteboard for form entry later
+- Use classroom projector to display simulations as class demo
+- Students complete Google Forms on phones (mobile-responsive)
+- Paper Exit Ticket in emergency folder as last resort
 
 ### If time runs short:
 - Priority: Hook + Station 1 + Exit Ticket
-- Station 2 fossils can be shown as class demo
-- Station 3 can be completed async
+- Station 2 can be shown as class demo via projector
+- Station 3 can be completed async (simulation works from home)
 - **Never skip Exit Ticket**
 
 ---
