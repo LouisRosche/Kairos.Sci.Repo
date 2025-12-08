@@ -1,14 +1,15 @@
 {
   "$schema": "../schema/cycle-schema.json",
   "cycle": 6,
-  "name": "Cycle 6: February-March 2026",
+  "name": "Cycle 6: March-April 2026",
   "status": "planned",
   "dates": {
-    "start": "2026-02-16",
-    "end": "2026-03-06",
-    "week1": { "start": "2026-02-16", "end": "2026-02-20" },
-    "week2": { "start": "2026-02-23", "end": "2026-02-27" },
-    "week3": { "start": "2026-03-02", "end": "2026-03-06" }
+    "start": "2026-03-24",
+    "end": "2026-04-24",
+    "week1": { "start": "2026-03-24", "end": "2026-03-27" },
+    "week2": { "start": "2026-03-30", "end": "2026-04-03" },
+    "week3": { "start": "2026-04-06", "end": "2026-04-10" },
+    "_notes": "After Spring Break 3/16-3/20; 4/3 tentative PD; buffer 4/13-4/24"
   },
 
   "grades": {

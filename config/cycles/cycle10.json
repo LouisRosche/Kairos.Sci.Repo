@@ -1,14 +1,20 @@
 {
   "$schema": "../schema/cycle-schema.json",
   "cycle": 10,
-  "name": "Cycle 10: May-June 2026 (Final)",
-  "status": "planned",
+  "name": "Cycle 10: Year-End Integration (UNSCHEDULED)",
+  "status": "deferred",
+  "_calendarWarning": "NO CALENDAR SLOT - This cycle does not fit in SY25-26. Calendar ends with Cycle 8 (6/1-6/26). Options: (1) merge Year-End Integration into Cycle 8 Week 3, (2) defer to SY26-27, (3) extend Cycle 8.",
   "dates": {
-    "start": "2026-05-18",
-    "end": "2026-06-05",
-    "week1": { "start": "2026-05-18", "end": "2026-05-22" },
-    "week2": { "start": "2026-05-26", "end": "2026-05-29" },
-    "week3": { "start": "2026-06-01", "end": "2026-06-05" }
+    "start": null,
+    "end": null,
+    "week1": null,
+    "week2": null,
+    "week3": null,
+    "_originalDates": {
+      "start": "2026-05-18",
+      "end": "2026-06-05",
+      "note": "These dates overlap with Calendar Cycle 7 end and Cycle 8 start"
+    }
   },
 
   "grades": {

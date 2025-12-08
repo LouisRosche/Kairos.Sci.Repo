@@ -22,10 +22,10 @@ C3.Repo/
 │   │   ├── cycle04.json         # ✅ Complete
 │   │   ├── cycle05.json         # 📋 Planned
 │   │   ├── cycle06.json         # 📋 Planned
-│   │   ├── cycle07.json         # 📋 Planned
-│   │   ├── cycle08.json         # 📋 Planned
-│   │   ├── cycle09.json         # 📋 Planned
-│   │   └── cycle10.json         # 📋 Planned
+│   │   ├── cycle07.json         # 📋 Planned (4/27-5/22)
+│   │   ├── cycle08.json         # 📋 Planned (6/1-6/26, last in SY25-26)
+│   │   ├── cycle09.json         # ⚠️ DEFERRED - No SY25-26 slot
+│   │   └── cycle10.json         # ⚠️ DEFERRED - No SY25-26 slot
 │   └── schema/                  # Validation schemas
 │       ├── cycle-schema.json    # ✅ Cycle config validation
 │       ├── form-schema.json     # Form validation
@@ -102,10 +102,10 @@ C3.Repo/
 | **C4** | 100% ✅ | 100% ✅ | **READY FOR DEPLOYMENT** |
 | **C5** | 0% 📋 | 0% 📋 | Placeholder |
 | **C6** | 0% 📋 | 0% 📋 | Placeholder |
-| **C7** | 0% 📋 | 0% 📋 | Placeholder |
-| **C8** | 0% 📋 | 0% 📋 | Placeholder |
-| **C9** | 0% 📋 | 0% 📋 | Placeholder |
-| **C10** | 0% 📋 | 0% 📋 | Placeholder |
+| **C7** | 0% 📋 | 0% 📋 | Placeholder (4/27-5/22) |
+| **C8** | 0% 📋 | 0% 📋 | Placeholder (6/1-6/26, last cycle SY25-26) |
+| **C9** | ⚠️ | ⚠️ | **DEFERRED** - No calendar slot in SY25-26 |
+| **C10** | ⚠️ | ⚠️ | **DEFERRED** - No calendar slot in SY25-26 |
 
 **Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | 📦 Legacy | ❌ Not Started | ⛔ Read-Only (Production)
 
@@ -180,18 +180,25 @@ C3.Repo/
 
 ---
 
-## Cycles 5-10 (PLACEHOLDER STRUCTURE READY)
+## Cycles 5-8 (PLACEHOLDER STRUCTURE READY - SY25-26)
 
-All cycles 5-10 have standardized placeholder structure created:
+Cycles 5-8 have standardized placeholder structure created and align with the SY25-26 calendar:
+
+| Cycle | Calendar Dates | G7 Topic | G8 Topic | Status |
+|-------|----------------|----------|----------|--------|
+| C5 | 2/23-3/12/2026 | Weather & Climate Systems | Waves & Information Transfer | 📋 |
+| C6 | 3/24-4/24/2026 | Plate Tectonics & Earth's Interior | Electricity & Magnetism | 📋 |
+| C7 | 4/27-5/22/2026 | Rock Cycle & Earth's History | Chemical Reactions & Conservation | 📋 |
+| C8 | 6/1-6/26/2026 | Ecosystems & Biodiversity | Thermal Energy & Heat Transfer | 📋 |
+
+## Cycles 9-10 (DEFERRED - No SY25-26 Calendar Slot)
+
+> ⚠️ **Calendar Alignment Issue:** The school calendar only has 8 cycles (Cycles 1-8). Cycles 9-10 exist in the config system but cannot be delivered in SY25-26. A decision is needed on whether to consolidate these topics into cycles 3-8 or defer to SY26-27.
 
 | Cycle | G7 Topic | G8 Topic | Status |
 |-------|----------|----------|--------|
-| C5 | Weather & Climate Systems | Waves & Information Transfer | 📋 |
-| C6 | Plate Tectonics & Earth's Interior | Electricity & Magnetism | 📋 |
-| C7 | Rock Cycle & Earth's History | Chemical Reactions & Conservation | 📋 |
-| C8 | Ecosystems & Biodiversity | Thermal Energy & Heat Transfer | 📋 |
-| C9 | Space Systems & Earth's Place | Engineering Design & Systems | 📋 |
-| C10 | Year-End Integration & Review | Year-End Integration & Review | 📋 |
+| C9 | Space Systems & Earth's Place | Engineering Design & Systems | ⚠️ DEFERRED |
+| C10 | Year-End Integration & Review | Year-End Integration & Review | ⚠️ DEFERRED |
 
 Each placeholder cycle includes:
 - `curriculum-design.md` with TODO checklist
@@ -212,10 +219,10 @@ Each placeholder cycle includes:
 | `cycles/cycle04.json` | C4 specs (337 lines) | ✅ Complete |
 | `cycles/cycle05.json` | C5 specs placeholder | 📋 Placeholder |
 | `cycles/cycle06.json` | C6 specs placeholder | 📋 Placeholder |
-| `cycles/cycle07.json` | C7 specs placeholder | 📋 Placeholder |
-| `cycles/cycle08.json` | C8 specs placeholder | 📋 Placeholder |
-| `cycles/cycle09.json` | C9 specs placeholder | 📋 Placeholder |
-| `cycles/cycle10.json` | C10 specs placeholder | 📋 Placeholder |
+| `cycles/cycle07.json` | C7 specs (4/27-5/22) | 📋 Placeholder |
+| `cycles/cycle08.json` | C8 specs (6/1-6/26, last cycle) | 📋 Placeholder |
+| `cycles/cycle09.json` | C9 specs | ⚠️ DEFERRED (no SY25-26 slot) |
+| `cycles/cycle10.json` | C10 Year-End Integration | ⚠️ DEFERRED (no SY25-26 slot) |
 | `schema/cycle-schema.json` | Cycle config validation | ✅ Complete |
 | `schema/form-schema.json` | Form validation | ✅ Complete |
 | `schema/mtss-schema.json` | MTSS validation | ✅ Complete |
@@ -331,7 +338,8 @@ Each placeholder cycle includes:
 | Infrastructure files | 12 |
 | Complete cycles | 3 (C2, C3, C4) |
 | In-progress cycles | 0 |
-| Placeholder cycles | 6 (C5-C10) |
+| Placeholder cycles | 4 (C5-C8, within SY25-26 calendar) |
+| Deferred cycles | 2 (C9-C10, no SY25-26 calendar slot) |
 
 ---
 
