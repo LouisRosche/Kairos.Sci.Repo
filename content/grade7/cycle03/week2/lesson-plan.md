@@ -35,6 +35,7 @@ All activities use PhET simulations and interactive HTML tools - NO physical mat
 
 | Station | Digital Resource | Access |
 |---------|-----------------|--------|
+| Hook | Ice Melt Mystery Demo | Embedded in student page |
 | 1 | Ice-Albedo Feedback Simulator | Embedded in student page |
 | 1 | Albedo reference data table | Embedded in student page |
 | 2 | Carbon Sink Simulator | Embedded in student page |
@@ -47,7 +48,7 @@ All activities use PhET simulations and interactive HTML tools - NO physical mat
 
 ### Resource Links
 
-- Arctic ice timelapse: Search "Arctic sea ice minimum timelapse NASA"
+- Ice melt phenomenon demo: Embedded in student page (shows accelerating melt rate)
 - Albedo visualization: Search "Earth albedo animation"
 - Carbon sink infographic: Search "global carbon cycle diagram"
 
@@ -59,7 +60,7 @@ All activities use PhET simulations and interactive HTML tools - NO physical mat
 
 | Time | Activity | Teacher Actions |
 |------|----------|-----------------|
-| 0:00-0:05 | Entry + Settle | Display Arctic ice timelapse; students open Chromebooks |
+| 0:00-0:05 | Entry + Settle | Students open Chromebooks to student page; run Ice Melt Mystery demo as class |
 | 0:05-0:15 | Hook Form | Independent completion; circulate to observe predictions |
 | 0:15-0:17 | Transition | Assign groups; ensure all students have simulation loaded |
 | 0:17-0:40 | Station 1 | Guide students through Ice-Albedo Simulator; circulate during exploration |
