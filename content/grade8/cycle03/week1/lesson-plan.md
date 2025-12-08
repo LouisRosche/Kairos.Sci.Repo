@@ -39,21 +39,24 @@ Add pages in order:
 - Available: Dec 1 at 12:00am
 - Due: Dec 19 at 11:59pm (forgiving policy)
 
-### Physical Materials
+### Digital Resources (100% Material-Free)
 
-| Station | Materials | Quantity |
-|---------|-----------|----------|
+| Station | Materials | Notes |
+|---------|-----------|-------|
 | 1 | Chromebooks for video | 1 per student |
-| 1 | Slow-mo cheetah video queued | Link ready |
-| 1 | Calculators | 1 per student |
-| 1 | F=ma reference card | 1 per student |
-| 2 | Dried beans (3 colors) | ~100 each per group |
-| 2 | Large tray | 1 per group |
-| 2 | Timer | 1 per group |
-| 2 | Data table printout | 1 per student |
-| 3 | Constraint cards | 1 set per group |
-| 3 | Graph paper | 2 per student |
-| 3 | Colored pencils | 1 set per group |
+| 1 | Slow-mo cheetah video | Embedded in student page |
+| 1 | Calculator app | On Chromebooks |
+| 1 | F=ma reference | Embedded in student page |
+| 2 | Natural selection simulation | PhET or equivalent digital simulation |
+| 2 | Timer | On Chromebooks |
+| 2 | Data table | Embedded in Google Form |
+| 3 | Design constraint options | Embedded in Google Form |
+| 3 | Digital drawing/design tool | Google Drawings or form sketch |
+
+### Physical Materials
+- [ ] Notecards (1 per student for exit ticket notes)
+
+> **Note:** This lesson is designed for 100% material-free digital instruction. The bean simulation has been replaced with the PhET Natural Selection simulation (https://phet.colorado.edu/en/simulations/natural-selection). All design work is completed digitally through Google Forms and Drawings.
 
 ### Resource Links
 

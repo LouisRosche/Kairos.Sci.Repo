@@ -180,22 +180,23 @@ By the end of Week 1, students will be able to:
 
 ## Materials Checklist
 
+> **100% Material-Free Digital Instruction:** All lessons are designed for digital delivery via Chromebooks. The only physical material is one notecard per student per lesson for exit ticket notes.
+
 ### Station 1
 - [ ] Chromebooks for video analysis
-- [ ] Slow-mo cheetah video queued (YouTube/SafeShare)
-- [ ] Calculators
-- [ ] F=ma reference cards
+- [ ] Slow-mo cheetah video (embedded in student page)
+- [ ] Calculator app (on Chromebooks)
+- [ ] F=ma reference (embedded in student page)
 
 ### Station 2
-- [ ] Dried beans (3 colors: ~100 each of brown, green, white)
-- [ ] Large tray or container (hunting ground) per group
-- [ ] Timers
-- [ ] Data table printouts
+- [ ] PhET Natural Selection simulation (replaces bean activity)
+- [ ] Timer (on Chromebooks)
+- [ ] Data table (embedded in Google Form)
 
 ### Station 3
-- [ ] "Design a Survivor" constraint cards
-- [ ] Graph paper - 2 per student
-- [ ] Colored pencils
+- [ ] Design constraint options (embedded in Google Form)
+- [ ] Digital design tool (Google Drawings or form sketch)
+- [ ] Notecard (1 per student for exit ticket notes)
 
 ---
 

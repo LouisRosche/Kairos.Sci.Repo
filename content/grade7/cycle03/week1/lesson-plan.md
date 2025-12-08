@@ -39,19 +39,23 @@ Add pages in order:
 - Available: Dec 1 at 12:00am
 - Due: Dec 19 at 11:59pm (forgiving policy)
 
-### Physical Materials
+### Digital Resources (100% Material-Free)
 
-| Station | Materials | Quantity |
-|---------|-----------|----------|
+| Station | Materials | Notes |
+|---------|-----------|-------|
 | 1 | Chromebooks with PhET | 1 per student |
-| 1 | Molecular model printout | 1 per pair |
-| 2 | Carbon atom manipulatives | 20 per group |
-| 2 | Carbon cycle poster | 1 per group |
-| 2 | Calculators | 1 per student |
-| 3 | Material samples set | 1 per group |
-| 3 | Building containers | 3 per group |
-| 3 | Heat lamp | 1 per class |
-| 3 | Thermometers | 1 per group |
+| 1 | Molecular model diagram | Embedded in student page |
+| 2 | Carbon atom tracking simulation | PhET or digital manipulative |
+| 2 | Carbon cycle diagram | Embedded in student page |
+| 2 | Calculator app | On Chromebooks |
+| 3 | Material properties comparison | Embedded in Google Form |
+| 3 | Thermal trap simulation | Virtual design challenge in form |
+| All | Timer/stopwatch | On Chromebooks |
+
+### Physical Materials
+- [ ] Notecards (1 per student for exit ticket notes)
+
+> **Note:** This lesson is designed for 100% material-free digital instruction. All manipulatives, posters, and lab materials have been replaced with digital simulations and embedded resources. Students complete thermal trap design virtually using the Google Form design interface.
 
 ### Resource Links
 
