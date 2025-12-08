@@ -16,8 +16,8 @@
     "7": {
       "topic": "Weather & Climate Systems",
       "phenomenon": {
-        "week1": "TODO: Define driving phenomenon",
-        "week2": "TODO: Define driving phenomenon",
+        "week1": "Why do some storms spin while others don't?",
+        "week2": "Why is weather so hard to predict more than a week out?",
         "week3": "Synthesis & Assessment"
       },
       "ngss": {
@@ -25,27 +25,191 @@
           "code": "MS-ESS2-5",
           "description": "Collect data to provide evidence for how the motions and complex interactions of air masses result in changes in weather conditions."
         },
-        "spiral": []
+        "spiral": [
+          { "code": "MS-ESS3-3", "description": "Human impact on environment", "fromCycle": 4 },
+          { "code": "MS-ESS3-5", "description": "Climate change factors", "fromCycle": 3 }
+        ]
       },
       "threeDimensional": {
-        "sep": [],
+        "sep": ["SEP-3: Planning and Carrying Out Investigations", "SEP-4: Analyzing and Interpreting Data", "SEP-2: Developing and Using Models"],
         "dci": ["ESS2.C: The Roles of Water in Earth's Surface Processes", "ESS2.D: Weather and Climate"],
-        "ccc": []
+        "ccc": ["CCC-2: Cause and Effect", "CCC-4: Systems and System Models", "CCC-1: Patterns"]
       },
-      "misconceptions": [],
+      "misconceptions": [
+        {
+          "id": "weather-climate-same",
+          "description": "Weather and climate are the same thing",
+          "correctUnderstanding": "Weather is short-term atmospheric conditions; climate is long-term patterns over decades",
+          "frequency": 55,
+          "targetedIn": ["w1_hook_q2", "w1_s1_q4", "w1_exit_q3"]
+        },
+        {
+          "id": "cold-air-rises",
+          "description": "Cold air rises and warm air sinks",
+          "correctUnderstanding": "Warm air rises (less dense), cold air sinks (more dense) - drives convection",
+          "frequency": 50,
+          "targetedIn": ["w1_s1_q2", "w1_s2_q3", "w2_exit_q2"]
+        },
+        {
+          "id": "seasons-distance",
+          "description": "Seasons are caused by Earth's distance from the sun",
+          "correctUnderstanding": "Seasons are caused by Earth's axial tilt, not distance",
+          "frequency": 45,
+          "targetedIn": ["w2_s1_q5", "w2_exit_q4"]
+        }
+      ],
       "weeks": {
-        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
-        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
-        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+        "1": {
+          "title": "Air Masses & Storm Formation",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle05/week1/forms.gs",
+            "studentPage": "content/grade7/cycle05/week1/student-page.html",
+            "lessonPlan": "content/grade7/cycle05/week1/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Spinning Storm Mystery",
+              "points": 12,
+              "resource": "Satellite hurricane footage + tornado video comparison",
+              "questions": 5,
+              "focus": "Activate prior knowledge about storms, observe rotation patterns"
+            },
+            "station1": {
+              "title": "Air Mass Collision Lab",
+              "points": 20,
+              "resource": "Convection tank demonstration + temperature data",
+              "questions": 6,
+              "focus": "Density-driven air movement, front formation",
+              "spiralTarget": "Human impact on atmosphere from Cycle 4"
+            },
+            "station2": {
+              "title": "Pressure Systems Mapping",
+              "points": 20,
+              "resource": "Weather map data + isobar analysis",
+              "questions": 5,
+              "focus": "High/low pressure, wind direction patterns"
+            },
+            "station3": {
+              "title": "Design a Storm Warning System",
+              "points": 25,
+              "resource": "Sensor data constraints + community maps",
+              "questions": 5,
+              "focus": "Apply air mass knowledge to public safety design"
+            },
+            "exitTicket": {
+              "title": "Air Mass Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": {
+                "new": 2,
+                "spiral": 2,
+                "integration": 1,
+                "sep1": 1
+              }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "2": {
+          "title": "Weather Prediction & Climate Patterns",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle05/week2/forms.gs",
+            "studentPage": "content/grade7/cycle05/week2/student-page.html",
+            "lessonPlan": "content/grade7/cycle05/week2/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Failed Forecast Mystery",
+              "points": 12,
+              "resource": "Forecast vs actual weather comparison data",
+              "questions": 5,
+              "focus": "Why predictions become less accurate over time"
+            },
+            "station1": {
+              "title": "Data Collection & Analysis",
+              "points": 20,
+              "resource": "Weather station data sets + graphing tools",
+              "questions": 6,
+              "focus": "Interpret real weather data, identify patterns",
+              "spiralTarget": "Climate factors from Cycle 3"
+            },
+            "station2": {
+              "title": "Climate vs Weather Investigation",
+              "points": 20,
+              "resource": "30-year climate data + daily weather records",
+              "questions": 5,
+              "focus": "Distinguish weather variability from climate trends"
+            },
+            "station3": {
+              "title": "Design a Climate Monitoring Station",
+              "points": 25,
+              "resource": "Sensor options + budget constraints",
+              "questions": 5,
+              "focus": "Apply understanding to long-term data collection"
+            },
+            "exitTicket": {
+              "title": "Prediction & Patterns Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": {
+                "new": 2,
+                "spiral": 2,
+                "integration": 1,
+                "sep1": 1
+              }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "3": {
+          "title": "Synthesis & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "files": {
+            "forms": "content/grade7/cycle05/week3/forms.gs",
+            "studentPage": "content/grade7/cycle05/week3/student-page.html",
+            "lessonPlan": "content/grade7/cycle05/week3/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect W1 air masses + W2 prediction/climate"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Air Mass Interactions", "B: Weather vs Climate", "C: Data Analysis", "D: System Models"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["weather-climate-same", "cold-air-rises", "seasons-distance"]
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        }
       },
-      "materials": {}
+      "materials": {
+        "station1": ["Convection tank", "Food coloring", "Hot/cold water", "Thermometers", "Data tables"],
+        "station2": ["Weather maps (printed)", "Colored pencils", "Isobar reference guide"],
+        "station3": ["Sensor specification cards", "Community maps", "Budget worksheets"]
+      }
     },
 
     "8": {
       "topic": "Waves & Information Transfer",
       "phenomenon": {
-        "week1": "TODO: Define driving phenomenon",
-        "week2": "TODO: Define driving phenomenon",
+        "week1": "How can we see through walls with WiFi but not with flashlights?",
+        "week2": "Why do some materials block cell signals while others don't?",
         "week3": "Synthesis & Assessment"
       },
       "ngss": {
@@ -53,20 +217,185 @@
           "code": "MS-PS4-2",
           "description": "Develop and use a model to describe that waves are reflected, absorbed, or transmitted through various materials."
         },
-        "spiral": []
+        "spiral": [
+          { "code": "MS-LS2-3", "description": "Energy flow in ecosystems", "fromCycle": 4 },
+          { "code": "MS-LS4-4", "description": "Natural selection", "fromCycle": 3 }
+        ]
       },
       "threeDimensional": {
-        "sep": [],
-        "dci": ["PS4.A: Wave Properties", "PS4.B: Electromagnetic Radiation"],
-        "ccc": []
+        "sep": ["SEP-2: Developing and Using Models", "SEP-3: Planning and Carrying Out Investigations", "SEP-4: Analyzing and Interpreting Data"],
+        "dci": ["PS4.A: Wave Properties", "PS4.B: Electromagnetic Radiation", "PS4.C: Information Technologies"],
+        "ccc": ["CCC-1: Patterns", "CCC-6: Structure and Function", "CCC-2: Cause and Effect"]
       },
-      "misconceptions": [],
+      "misconceptions": [
+        {
+          "id": "waves-move-matter",
+          "description": "Waves carry matter from one place to another",
+          "correctUnderstanding": "Waves transfer energy, not matter; particles oscillate but don't travel with the wave",
+          "frequency": 60,
+          "targetedIn": ["w1_s1_q2", "w1_s1_q4", "w1_exit_q2"]
+        },
+        {
+          "id": "all-waves-same",
+          "description": "All waves behave the same way",
+          "correctUnderstanding": "Different waves interact differently with materials based on wavelength and energy",
+          "frequency": 50,
+          "targetedIn": ["w1_s2_q3", "w2_s1_q2", "w2_exit_q3"]
+        },
+        {
+          "id": "light-instant",
+          "description": "Light travels instantly",
+          "correctUnderstanding": "Light has a finite speed (~3×10⁸ m/s); we can measure travel time over long distances",
+          "frequency": 40,
+          "targetedIn": ["w2_s2_q4", "w2_exit_q5"]
+        }
+      ],
       "weeks": {
-        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
-        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
-        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+        "1": {
+          "title": "Wave Properties & Behavior",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle05/week1/forms.gs",
+            "studentPage": "content/grade8/cycle05/week1/student-page.html",
+            "lessonPlan": "content/grade8/cycle05/week1/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The WiFi vs Flashlight Mystery",
+              "points": 12,
+              "resource": "WiFi signal strength demo + flashlight through materials",
+              "questions": 5,
+              "focus": "Observe different wave behaviors, generate questions"
+            },
+            "station1": {
+              "title": "Wave Tank Investigation",
+              "points": 20,
+              "resource": "Ripple tank + barriers + wave generator",
+              "questions": 6,
+              "focus": "Observe reflection, refraction, diffraction patterns",
+              "spiralTarget": "Energy transfer concepts from Cycle 4"
+            },
+            "station2": {
+              "title": "Electromagnetic Spectrum Exploration",
+              "points": 20,
+              "resource": "PhET Wave Interference + EM spectrum cards",
+              "resourceUrl": "https://phet.colorado.edu/en/simulations/wave-interference",
+              "questions": 5,
+              "focus": "Compare wave types, wavelength-energy relationship"
+            },
+            "station3": {
+              "title": "Design a Wave Barrier",
+              "points": 25,
+              "resource": "Material samples + wave generator + constraints",
+              "questions": 5,
+              "focus": "Apply wave properties to engineering problem"
+            },
+            "exitTicket": {
+              "title": "Wave Behavior Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": {
+                "new": 2,
+                "spiral": 2,
+                "integration": 1,
+                "sep1": 1
+              }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "2": {
+          "title": "Waves & Material Interactions",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle05/week2/forms.gs",
+            "studentPage": "content/grade8/cycle05/week2/student-page.html",
+            "lessonPlan": "content/grade8/cycle05/week2/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Signal Blocker Mystery",
+              "points": 12,
+              "resource": "Cell signal test through various materials",
+              "questions": 5,
+              "focus": "Why do different materials affect signals differently?"
+            },
+            "station1": {
+              "title": "Transmission-Absorption Lab",
+              "points": 20,
+              "resource": "Light sensors + various materials + data tables",
+              "questions": 6,
+              "focus": "Quantify how materials affect wave transmission",
+              "spiralTarget": "Natural selection as example of information transfer in biology"
+            },
+            "station2": {
+              "title": "Information Encoding Investigation",
+              "points": 20,
+              "resource": "Binary/wave encoding demo + decoding challenge",
+              "questions": 5,
+              "focus": "How waves carry information (digital signals)"
+            },
+            "station3": {
+              "title": "Design a Communication System",
+              "points": 25,
+              "resource": "Signal constraints + environment maps",
+              "questions": 5,
+              "focus": "Apply wave-material knowledge to real communication problem"
+            },
+            "exitTicket": {
+              "title": "Material Interaction Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": {
+                "new": 2,
+                "spiral": 2,
+                "integration": 1,
+                "sep1": 1
+              }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "3": {
+          "title": "Synthesis & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "files": {
+            "forms": "content/grade8/cycle05/week3/forms.gs",
+            "studentPage": "content/grade8/cycle05/week3/student-page.html",
+            "lessonPlan": "content/grade8/cycle05/week3/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect W1 wave properties + W2 material interactions"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Wave Properties", "B: Material Interactions", "C: Information Transfer", "D: Model Development"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["waves-move-matter", "all-waves-same", "light-instant"]
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        }
       },
-      "materials": {}
+      "materials": {
+        "station1": ["Ripple tank", "Wave generator", "Barriers (various)", "Rulers", "Stopwatches"],
+        "station2": ["Chromebooks", "PhET access", "EM spectrum posters", "Wavelength cards"],
+        "station3": ["Material samples (foam, metal, fabric, glass)", "Signal meters", "Design templates"]
+      }
     }
   },
 
