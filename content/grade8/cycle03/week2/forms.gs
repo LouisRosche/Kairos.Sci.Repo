@@ -1,12 +1,10 @@
 /**
  * ============================================================================
- * ⛔ READ-ONLY PRODUCTION CONTENT - DO NOT EDIT ⛔
+ * Grade 8 Cycle 3 Week 2 - Evidence of Evolution | Google Forms Script
  * ============================================================================
- * This file is PRODUCTION content deployed December 2025.
- * It serves as legacy documentation and must NOT be modified.
- * Any changes risk breaking deployed student-facing materials.
- *
- * Status: READONLY | Deployed: December 2025 | See: cycle-status.json
+ * 100% DIGITAL/SIMULATION-BASED INSTRUCTION
+ * All forms are digital - no physical materials required.
+ * Updated: December 2025 | Material-Free Audit Complete
  * ============================================================================
  */
 

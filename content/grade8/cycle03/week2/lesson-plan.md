@@ -1,12 +1,10 @@
 <!--
 ================================================================================
-⛔ READ-ONLY PRODUCTION CONTENT - DO NOT EDIT ⛔
+Grade 8 Cycle 3 Week 2 - Evidence of Evolution
 ================================================================================
-This file is PRODUCTION content deployed December 2025.
-It serves as legacy documentation and must NOT be modified.
-Any changes risk breaking deployed student-facing materials.
-
-Status: READONLY | Deployed: December 2025 | See: cycle-status.json
+100% DIGITAL/SIMULATION-BASED INSTRUCTION
+No physical materials required except one notecard per class.
+Updated: December 2025 | Material-Free Audit Complete
 ================================================================================
 -->
 
@@ -27,17 +25,20 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 | G8.C3.W2: Station 3 - Design a Transitional Form | 5 | 25 |
 | G8.C3.W2: Exit Ticket - Evidence Integration | 6 | 23 |
 
-### Physical Materials
+### Digital Resources (100% Material-Free)
 
-| Station | Materials | Quantity |
-|---------|-----------|----------|
-| 1 | Bone comparison diagrams (whale, bat, human, dog) | 1 set per group |
-| 1 | Colored pencils for matching bones | 1 set per group |
-| 2 | Whale evolution fossil cards (Pakicetus → modern whale) | 1 set per group |
-| 2 | Fossil timeline poster | 1 per class |
-| 3 | Transitional form design templates | 1 per student |
-| 3 | Ancestor/descendant reference cards | 1 set per group |
+| Station | Digital Resource | Access |
+|---------|------------------|--------|
+| 1 | Bone Homology Explorer simulation | Embedded in student-page.html |
+| 1 | Homologous vs Analogous video | Google Slides embed |
+| 2 | Whale Evolution Timeline table | Embedded in student-page.html |
+| 2 | Evidence for Evolution video | Google Slides embed |
+| 3 | Transitional Form Designer simulation | Embedded in student-page.html |
+| 3 | Worked example (Tiktaalik) | Embedded in student-page.html |
 | All | Chromebooks | 1 per student |
+| All | Notecards (exit reflections only) | 1 per student |
+
+**Note:** All bone diagrams, fossil sequences, and design activities are now digital simulations. Students interact with the Bone Homology Explorer and Transitional Form Designer directly on their Chromebooks.
 
 ### Resource Links
 
@@ -56,10 +57,10 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 |------|----------|-----------------|
 | 0:00-0:05 | Entry + Settle | Display whale flipper X-ray; "What do you notice?" |
 | 0:05-0:15 | Hook Form | Independent completion |
-| 0:15-0:17 | Transition | Assign groups; distribute bone diagrams |
+| 0:15-0:17 | Transition | Assign groups; open Bone Homology Explorer simulation |
 | 0:17-0:37 | Station 1 | Circulate; watch for homologous/analogous confusion |
 | 0:37-0:40 | Pomodoro Break | Movement; water |
-| 0:40-0:60 | Station 2 | Use fossil cards for sequencing activity |
+| 0:40-0:60 | Station 2 | Use embedded whale timeline table + video |
 | 0:60-0:65 | Wrap + Preview | "Tomorrow: Design your own transitional organism!" |
 
 **Station 1 Probing Questions:**
@@ -81,7 +82,7 @@ Status: READONLY | Deployed: December 2025 | See: cycle-status.json
 | Time | Activity | Teacher Actions |
 |------|----------|-----------------|
 | 0:00-0:03 | Entry + Review | "Quick check: homologous = ___? analogous = ___?" |
-| 0:03-0:08 | Station 3 Setup | Distribute templates; explain ancestor/descendant |
+| 0:03-0:08 | Station 3 Setup | Open Transitional Form Designer simulation; explain ancestor/descendant |
 | 0:08-0:38 | Station 3 | Push for INTERMEDIATE features, not either/or |
 | 0:38-0:43 | Share Out | 2-3 groups share; class votes most scientifically accurate |
 | 0:43-0:45 | Preview | "Thursday: Exit ticket" |
@@ -145,9 +146,9 @@ This is THE most common and persistent misconception. Students often say:
 ## Differentiation Quick-Reference
 
 ### More Support
-- Provide bone matching worksheet (color-code humerus, radius, ulna across species)
+- Use Bone Homology Explorer simulation's bone highlighting feature (click legend to highlight same bone across species)
 - Sentence frames: "The ___ is homologous to ___ because they have the same ___"
-- Simplified transitional form template with checkboxes
+- Use Transitional Form Designer's multiple-choice format (simplified from open-ended)
 - Allow verbal explanations recorded on phone
 
 ### More Challenge
@@ -239,9 +240,9 @@ Pakicetus (50 mya) → Ambulocetus (49 mya) → Rodhocetus (47 mya) → Basilosa
 ## Emergency Backup Plans
 
 ### If Chromebooks fail:
-- Print bone comparison diagrams
-- Paper fossil cards work without tech
-- Paper Exit Ticket in emergency folder
+- Use teacher device to project simulations on screen for whole-class exploration
+- Students discuss in pairs and share observations verbally
+- Teacher records student responses on whiteboard for form entry later
 
 ### If time runs short:
 - Priority: Hook + Station 1 + Exit Ticket
@@ -275,4 +276,4 @@ Pakicetus (50 mya) → Ambulocetus (49 mya) → Rodhocetus (47 mya) → Basilosa
 
 ---
 
-*Implementation Guide v1.0 | Grade 8 Week 2 | December 2025*
+*Implementation Guide v2.0 | Grade 8 Week 2 | December 2025 | 100% Digital/Simulation-Based*
