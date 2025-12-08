@@ -5,17 +5,17 @@
   "lastUpdated": "2025-12-08",
   "topic": "Weather & Climate Systems",
   "completion": {
-    "overall": 35,
+    "overall": 85,
     "curriculumDesign": 100,
     "rubrics": 0,
-    "week1": { "forms": 100, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
-    "week2": { "forms": 100, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
-    "week3": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 }
+    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
+    "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
+    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
     "week3": false
   },
-  "notes": "Curriculum design complete. W1 and W2 forms complete. W3 forms, lesson plans, student pages, and slides pending."
+  "notes": "All lesson plans, student pages, and forms complete for W1-W3. Slides and rubrics pending. Ready for deployment after slides are created."
 }
