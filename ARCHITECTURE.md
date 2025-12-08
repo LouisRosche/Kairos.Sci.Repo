@@ -8,11 +8,13 @@
 ## Overview
 
 This document defines the organizational architecture for a complete middle school science curriculum system supporting:
-- **8 Cycles** (Cycle 3-10, academic year progression)
+- **6 Cycles in SY25-26** (Cycles 3-8 per Kairos_SY25-26_Calendar.md; cycles 9-10 deferred)
 - **2 Grades** (7 & 8, expandable to 6-9)
-- **3 Weeks per Cycle** (24 total weeks of instruction)
-- **5 Forms per Week** (480 total Google Forms)
+- **3 Weeks per Cycle** (18 total weeks of instruction in SY25-26)
+- **5 Forms per Week** (360 total Google Forms in SY25-26)
 - **Data-driven MTSS** (Multi-Tiered System of Supports)
+
+> **Calendar Alignment Note (Dec 2025):** The school calendar only accommodates cycles 3-8 within SY25-26. Cycles 9-10 exist in the config system but have been marked as "deferred" pending a decision on whether to consolidate their topics into cycles 3-8 or defer to SY26-27.
 
 ### v3.0 Architectural Principles
 
@@ -43,10 +45,10 @@ C3.Repo/
 │       ├── cycle04.json               # 🟡 In Progress
 │       ├── cycle05.json               # 📋 Placeholder
 │       ├── cycle06.json               # 📋 Placeholder
-│       ├── cycle07.json               # 📋 Placeholder
-│       ├── cycle08.json               # 📋 Placeholder
-│       ├── cycle09.json               # 📋 Placeholder
-│       └── cycle10.json               # 📋 Placeholder
+│       ├── cycle07.json               # 📋 Placeholder (4/27-5/22)
+│       ├── cycle08.json               # 📋 Placeholder (6/1-6/26, last cycle)
+│       ├── cycle09.json               # ⚠️ DEFERRED - No calendar slot in SY25-26
+│       └── cycle10.json               # ⚠️ DEFERRED - No calendar slot in SY25-26
 │
 ├── templates/                         # Reusable generation templates
 │   ├── forms/
@@ -157,9 +159,10 @@ Central source of truth for the entire system:
     "8": { "name": "Grade 8", "subject": "Physical Science" }
   },
   "cycles": {
-    "range": [3, 10],
+    "range": [3, 8],
     "weeksPerCycle": 3,
-    "pointsPerWeek": 100
+    "pointsPerWeek": 100,
+    "_note": "SY25-26 supports cycles 3-8 only per official calendar"
   },
   "assessment": {
     "formStructure": {

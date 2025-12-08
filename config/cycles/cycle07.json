@@ -1,14 +1,15 @@
 {
   "$schema": "../schema/cycle-schema.json",
   "cycle": 7,
-  "name": "Cycle 7: March 2026",
+  "name": "Cycle 7: April-May 2026",
   "status": "planned",
   "dates": {
-    "start": "2026-03-09",
-    "end": "2026-03-27",
-    "week1": { "start": "2026-03-09", "end": "2026-03-13" },
-    "week2": { "start": "2026-03-23", "end": "2026-03-27" },
-    "week3": { "start": "2026-03-30", "end": "2026-04-03" }
+    "start": "2026-04-27",
+    "end": "2026-05-22",
+    "week1": { "start": "2026-04-27", "end": "2026-05-01" },
+    "week2": { "start": "2026-05-04", "end": "2026-05-08" },
+    "week3": { "start": "2026-05-11", "end": "2026-05-15" },
+    "_notes": "Memorial Day 5/25; buffer 5/18-5/22"
   },
 
   "grades": {

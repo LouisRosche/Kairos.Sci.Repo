@@ -28,12 +28,18 @@
   "cycles": {
     "range": {
       "start": 3,
-      "end": 10
+      "end": 8,
+      "_note": "SY25-26 calendar supports cycles 3-8 only (cycles 1-2 predate this system)"
     },
-    "totalCycles": 8,
+    "totalCycles": 6,
     "weeksPerCycle": 3,
     "pointsPerWeek": 100,
-    "formsPerWeek": 5
+    "formsPerWeek": 5,
+    "_calendarAlignment": {
+      "source": "Kairos_SY25-26_Calendar.md",
+      "lastVerified": "2025-12-08",
+      "note": "Cycles 9-10 exist in config but have no corresponding calendar slots in SY25-26"
+    }
   },
 
   "assessment": {
@@ -184,5 +190,9 @@
   },
 
   "activeCycles": ["cycle03", "cycle04"],
-  "plannedCycles": ["cycle05", "cycle06", "cycle07", "cycle08", "cycle09", "cycle10"]
+  "plannedCycles": ["cycle05", "cycle06", "cycle07", "cycle08"],
+  "futureCycles": {
+    "cycles": ["cycle09", "cycle10"],
+    "_note": "These cycles exist in config but do not fit in SY25-26 calendar. Decision needed: consolidate into cycles 3-8, defer to SY26-27, or reassign topics."
+  }
 }
