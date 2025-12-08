@@ -5,28 +5,63 @@
  * ============================================================================
  *
  * NGSS ALIGNMENT:
- *   Primary: MS-ESS2-5 - Collect data to provide evidence for how the motions
- *            and complex interactions of air masses result in changes in
- *            weather conditions
- *   Spiral:  MS-ESS3-5 - Climate change factors (Cycle 3)
- *            MS-ESS3-3 - Human impact on environment (Cycle 4)
+ * ---------------
+ * Primary:    MS-ESS2-5 - Collect data to provide evidence for how the motions
+ *             and complex interactions of air masses result in changes in
+ *             weather conditions
+ *
+ * Secondary:  MS-ESS2-6 - Develop and use a model to describe how unequal
+ *             heating and rotation of the Earth cause patterns of atmospheric
+ *             and oceanic circulation
+ *
+ * Spiral:     MS-ESS3-5 - Climate change factors (Cycle 3)
+ *             MS-ESS3-3 - Human impact on environment (Cycle 4)
+ *             MS-ESS2-4 - Water cycle (Cycle 4)
  *
  * 3-DIMENSIONAL LEARNING:
- *   SEP-4: Analyzing and Interpreting Data - Interpret weather maps and data
- *   SEP-2: Developing and Using Models - Model frontal boundary interactions
- *   DCI ESS2.C: The Roles of Water in Earth's Surface Processes
- *   DCI ESS2.D: Weather and Climate
- *   CCC-1: Patterns - Recognize patterns in air mass movement
- *   CCC-2: Cause and Effect - Front collisions cause weather changes
- *   CCC-4: Systems and System Models - Atmosphere as interconnected system
+ * -----------------------
+ * SEP-4: Analyzing and Interpreting Data
+ *        - Analyze weather maps to identify patterns in air mass movement
+ *        - Interpret pressure and temperature data from multiple sources
+ *
+ * SEP-2: Developing and Using Models
+ *        - Model frontal boundary interactions using cross-section diagrams
+ *        - Use air mass classification system to predict weather
+ *
+ * DCI ESS2.C: The Roles of Water in Earth's Surface Processes
+ *        - Water vapor in air masses affects weather at fronts
+ *
+ * DCI ESS2.D: Weather and Climate
+ *        - Air masses have distinct temperature and humidity properties
+ *        - Fronts form where air masses with different properties meet
+ *
+ * CCC-1: Patterns
+ *        - Recognize patterns in air mass classification (mT, cT, mP, cP)
+ *        - Identify recurring patterns in frontal weather
+ *
+ * CCC-2: Cause and Effect
+ *        - Air mass collisions cause frontal weather changes
+ *        - Pressure differences cause wind and air movement
+ *
+ * CCC-4: Systems and System Models
+ *        - Atmosphere as an interconnected system of air masses
+ *        - Weather as emergent property of air mass interactions
  *
  * LEARNING TARGETS:
- *   1. Identify characteristics of different air mass types (mT, cT, mP, cP)
- *   2. Explain how frontal boundaries form where air masses meet
- *   3. Interpret weather maps showing pressure systems and fronts
- *   4. Predict weather changes based on approaching fronts
+ * -----------------
+ * LT1: Identify characteristics of different air mass types (mT, cT, mP, cP)
+ * LT2: Explain how frontal boundaries form where air masses meet
+ * LT3: Interpret weather maps showing pressure systems and fronts
+ * LT4: Predict weather changes based on approaching fronts
+ *
+ * SPIRAL FROM PREVIOUS WEEK (C4.W3):
+ * ----------------------------------
+ * - Water cycle processes (evaporation, condensation)
+ * - Energy transfer in Earth systems
+ * - Human impacts on natural cycles
  *
  * FORMS:
+ * ------
  *   1. Hook - The Sudden Storm Mystery (12 pts, ~10 min)
  *   2. Station 1 - Air Mass Properties (20 pts, ~18 min)
  *   3. Station 2 - Frontal Boundary Modeling (20 pts, ~15 min)
@@ -57,6 +92,27 @@
  *      - Shuffle option order: ON
  *   6. Embed forms in LMS using the embed URLs from Logger
  */
+
+// ============================================================================
+// HELPER FUNCTION - Standardized logging for all forms
+// ============================================================================
+
+/**
+ * Logs form information in a standardized format.
+ * @param {GoogleAppsScript.Forms.Form} form - The form object
+ * @param {string} name - Display name for the form
+ * @param {number} points - Total points for the form
+ */
+function logFormInfo_(form, name, points) {
+  const editUrl = form.getEditUrl();
+  const pubUrl = form.getPublishedUrl();
+  const embedUrl = pubUrl.replace('/viewform', '/viewform?embedded=true');
+
+  Logger.log('----------------------------------------');
+  Logger.log(name + ' (' + points + ' pts)');
+  Logger.log('Edit:  ' + editUrl);
+  Logger.log('Embed: ' + embedUrl);
+}
 
 // ============================================================================
 // MAIN FUNCTION
@@ -95,10 +151,10 @@ function createG7C5W1Hook_() {
     'On a February morning in 2011, Chicago residents woke to partly cloudy skies.\n' +
     'By that evening, a historic blizzard had buried the city under 21.2 inches of snow.\n\n' +
     'Key observations:\n' +
-    '- Temperature dropped 25°F in just 4 hours\n' +
-    '- Wind speeds reached 70 mph\n' +
-    '- Thunder and lightning occurred DURING the snowstorm\n' +
-    '- Cities just 50 miles away got only 6 inches of snow\n\n' +
+    '• Temperature dropped 25°F in just 4 hours\n' +
+    '• Wind speeds reached 70 mph\n' +
+    '• Thunder and lightning occurred DURING the snowstorm\n' +
+    '• Cities just 50 miles away got only 6 inches of snow\n\n' +
     'What invisible forces created such a dramatic weather change?\n\n' +
     '---\n' +
     'Time: About 10 minutes | Points: 12\n' +
@@ -115,6 +171,31 @@ function createG7C5W1Hook_() {
     'Hook submitted! You\'re ready for Station 1.\n\n' +
     'Next: Learn about air masses and how their properties affect weather.\n' +
     'You\'ll classify different air masses and predict their behavior!'
+  );
+
+  // --- MTSS DIAGNOSTIC (0 points) ---
+  // Check prior knowledge from Cycle 4 - does NOT affect grade
+  const mtss1 = form.addMultipleChoiceItem()
+    .setTitle('QUICK CHECK (Cycle 4 Review): What happens to water when it evaporates from the ocean?')
+    .setHelpText('This checks your understanding from Cycle 4. Your answer does NOT affect your grade.')
+    .setRequired(true);
+
+  mtss1.setChoices([
+    mtss1.createChoice('It becomes water vapor (gas) in the air', true),
+    mtss1.createChoice('It disappears completely', false),
+    mtss1.createChoice('It turns into salt', false),
+    mtss1.createChoice('It sinks to the ocean floor', false)
+  ]);
+  mtss1.setPoints(0);  // Diagnostic only - doesn't affect grade
+  mtss1.setFeedbackForCorrect(
+    FormApp.createFeedback()
+      .setText('✓ Great! You remember that evaporation adds water vapor to air. This is key for understanding humid air masses!')
+      .build()
+  );
+  mtss1.setFeedbackForIncorrect(
+    FormApp.createFeedback()
+      .setText('Review: Water evaporates (becomes gas) and enters the air. This is how air over oceans becomes humid!')
+      .build()
   );
 
   // --- PART 1: CYCLE 3-4 RETRIEVAL ---
@@ -199,10 +280,28 @@ function createG7C5W1Hook_() {
       .build()
   );
 
+  // --- SECTION HEADER WITH RUBRIC for open-response ---
+  form.addSectionHeaderItem()
+    .setTitle('Question 4 (3 points)')
+    .setHelpText(
+      'RUBRIC:\n' +
+      '3 pts: Explains geographic or atmospheric factors affecting snow distribution\n' +
+      '2 pts: Mentions location difference with partial reasoning\n' +
+      '1 pt:  Vague response about distance or location\n' +
+      '0 pts: No response or unrelated answer'
+    );
+
   // Q4: Prediction (open response, 3 pts manual)
   const q4 = form.addParagraphTextItem()
     .setTitle('PREDICT: Why might cities just 50 miles away have gotten so much less snow?')
-    .setHelpText('Use what you know about weather and location. (3 points)')
+    .setHelpText(
+      'Use what you know about weather and location.\n\n' +
+      'SENTENCE STARTERS:\n' +
+      '• Cities 50 miles away may have received less snow because...\n' +
+      '• The difference in snowfall could be explained by...\n' +
+      '• Geographic or atmospheric factors that might affect this include...\n\n' +
+      'WORD BANK: air mass, front, temperature, moisture, location, boundary, collision'
+    )
     .setRequired(true);
 
   q4.setValidation(
@@ -211,8 +310,20 @@ function createG7C5W1Hook_() {
       .build()
   );
 
-  Logger.log('Hook form created: ' + form.getEditUrl());
-  Logger.log('  Shareable URL: ' + form.shortenFormUrl(form.getPublishedUrl()));
+  // --- SELF-ASSESSMENT (0 points) ---
+  form.addPageBreakItem()
+    .setTitle('Self-Assessment')
+    .setHelpText('Rate your understanding. This does NOT affect your grade.');
+
+  const selfAssess = form.addScaleItem()
+    .setTitle('How confident do you feel about explaining how weather can change suddenly?')
+    .setHelpText('Be honest! This helps your teacher know what to review.')
+    .setBounds(1, 5)
+    .setLabels('Not confident yet', 'Very confident')
+    .setRequired(true);
+  selfAssess.setPoints(0);  // Diagnostic only
+
+  logFormInfo_(form, 'G7.C5.W1 Hook', 12);
   return form;
 }
 
@@ -248,6 +359,30 @@ function createG7C5W1Station1_() {
   form.setConfirmationMessage(
     'Station 1 complete! You\'ve learned to classify air masses.\n\n' +
     'Next at Station 2: See what happens when these different air masses collide!'
+  );
+
+  // --- MTSS DIAGNOSTIC (0 points) ---
+  const mtss1 = form.addMultipleChoiceItem()
+    .setTitle('QUICK CHECK: Which location would have MORE water vapor in the air?')
+    .setHelpText('This checks your understanding of humidity. Does NOT affect your grade.')
+    .setRequired(true);
+
+  mtss1.setChoices([
+    mtss1.createChoice('Above the middle of the Pacific Ocean', true),
+    mtss1.createChoice('Above the Sahara Desert', false),
+    mtss1.createChoice('Both would have the same amount', false),
+    mtss1.createChoice('Neither has water vapor', false)
+  ]);
+  mtss1.setPoints(0);  // Diagnostic only
+  mtss1.setFeedbackForCorrect(
+    FormApp.createFeedback()
+      .setText('✓ Correct! Oceans add moisture to air through evaporation. This is why "maritime" air is humid.')
+      .build()
+  );
+  mtss1.setFeedbackForIncorrect(
+    FormApp.createFeedback()
+      .setText('Think about water sources: Oceans have lots of water evaporating, deserts have very little.')
+      .build()
   );
 
   // Q1: Maritime definition (3 pts auto)
@@ -370,10 +505,28 @@ function createG7C5W1Station1_() {
       .build()
   );
 
+  // --- SECTION HEADER WITH RUBRIC for open-response ---
+  form.addSectionHeaderItem()
+    .setTitle('Question 6 (3 points)')
+    .setHelpText(
+      'RUBRIC:\n' +
+      '3 pts: Correctly identifies cP AND explains both letters (continental = dry, Polar = cold)\n' +
+      '2 pts: Correct classification with partial explanation\n' +
+      '1 pt:  Correct classification only, no explanation\n' +
+      '0 pts: Incorrect classification or no response'
+    );
+
   // Q6: Classification practice (3 pts, open response)
   const q6 = form.addParagraphTextItem()
     .setTitle('CLASSIFY: An air mass forms over the frozen tundra of northern Russia. What would its classification be? Explain your reasoning using the classification system.')
-    .setHelpText('State the two-letter code and explain each letter. (3 points)')
+    .setHelpText(
+      'State the two-letter code and explain each letter.\n\n' +
+      'SENTENCE STARTERS:\n' +
+      '• This air mass would be classified as ___ because...\n' +
+      '• The first letter is ___ because...\n' +
+      '• The second letter is ___ because...\n\n' +
+      'WORD BANK: continental, maritime, polar, tropical, cold, warm, dry, humid, land, water'
+    )
     .setRequired(true);
 
   q6.setValidation(
@@ -382,8 +535,20 @@ function createG7C5W1Station1_() {
       .build()
   );
 
-  Logger.log('Station 1 form created: ' + form.getEditUrl());
-  Logger.log('  Shareable URL: ' + form.shortenFormUrl(form.getPublishedUrl()));
+  // --- SELF-ASSESSMENT (0 points) ---
+  form.addPageBreakItem()
+    .setTitle('Self-Assessment')
+    .setHelpText('Rate your understanding. This does NOT affect your grade.');
+
+  const selfAssess = form.addScaleItem()
+    .setTitle('How confident do you feel about classifying air masses using the mT/cP/mP/cT system?')
+    .setHelpText('Be honest! This helps your teacher plan support.')
+    .setBounds(1, 5)
+    .setLabels('Not confident yet', 'Very confident')
+    .setRequired(true);
+  selfAssess.setPoints(0);  // Diagnostic only
+
+  logFormInfo_(form, 'G7.C5.W1 Station 1', 20);
   return form;
 }
 
@@ -422,6 +587,30 @@ function createG7C5W1Station2_() {
   form.setConfirmationMessage(
     'Station 2 complete! You now understand frontal boundaries.\n\n' +
     'Next at Station 3: Analyze pressure systems and read weather maps!'
+  );
+
+  // --- MTSS DIAGNOSTIC (0 points) ---
+  const mtss1 = form.addMultipleChoiceItem()
+    .setTitle('QUICK CHECK: Which is MORE dense (heavier per volume)?')
+    .setHelpText('This checks your understanding of density. Does NOT affect your grade.')
+    .setRequired(true);
+
+  mtss1.setChoices([
+    mtss1.createChoice('Cold air', true),
+    mtss1.createChoice('Warm air', false),
+    mtss1.createChoice('They have the same density', false),
+    mtss1.createChoice('Air doesn\'t have density', false)
+  ]);
+  mtss1.setPoints(0);  // Diagnostic only
+  mtss1.setFeedbackForCorrect(
+    FormApp.createFeedback()
+      .setText('✓ Correct! Cold air molecules are closer together, making cold air denser. This is why cold air sinks!')
+      .build()
+  );
+  mtss1.setFeedbackForIncorrect(
+    FormApp.createFeedback()
+      .setText('Remember: Cold = molecules slow down and pack together = denser. This is key for understanding fronts!')
+      .build()
   );
 
   // Q1: Cold front mechanism (4 pts auto)
@@ -544,10 +733,28 @@ function createG7C5W1Station2_() {
       .build()
   );
 
+  // --- SECTION HEADER WITH RUBRIC for open-response ---
+  form.addSectionHeaderItem()
+    .setTitle('Question 6 (3 points)')
+    .setHelpText(
+      'RUBRIC:\n' +
+      '3 pts: Correctly uses density, rises, AND condenses in a logical sequence\n' +
+      '2 pts: Uses 2 of 3 terms correctly with reasonable explanation\n' +
+      '1 pt:  Uses 1 term correctly or vague explanation\n' +
+      '0 pts: No response or incorrect use of all terms'
+    );
+
   // Q6: Model creation (3 pts, open response)
   const q6 = form.addParagraphTextItem()
     .setTitle('MODEL: Describe what happens to the warm, moist air when a cold front arrives. Use the terms "density," "rises," and "condenses" in your explanation.')
-    .setHelpText('Explain the process step by step. (3 points)')
+    .setHelpText(
+      'Explain the process step by step.\n\n' +
+      'SENTENCE STARTERS:\n' +
+      '• When a cold front arrives, the warm air...\n' +
+      '• Because cold air has greater density, it...\n' +
+      '• As the warm air rises, the water vapor...\n\n' +
+      'WORD BANK: density, rises, condenses, clouds, precipitation, pushes, wedge, forced, upward'
+    )
     .setRequired(true);
 
   q6.setValidation(
@@ -556,8 +763,20 @@ function createG7C5W1Station2_() {
       .build()
   );
 
-  Logger.log('Station 2 form created: ' + form.getEditUrl());
-  Logger.log('  Shareable URL: ' + form.shortenFormUrl(form.getPublishedUrl()));
+  // --- SELF-ASSESSMENT (0 points) ---
+  form.addPageBreakItem()
+    .setTitle('Self-Assessment')
+    .setHelpText('Rate your understanding. This does NOT affect your grade.');
+
+  const selfAssess = form.addScaleItem()
+    .setTitle('How confident do you feel about explaining the difference between cold fronts and warm fronts?')
+    .setHelpText('Be honest! This helps your teacher plan the next lesson.')
+    .setBounds(1, 5)
+    .setLabels('Not confident yet', 'Very confident')
+    .setRequired(true);
+  selfAssess.setPoints(0);  // Diagnostic only
+
+  logFormInfo_(form, 'G7.C5.W1 Station 2', 20);
   return form;
 }
 
@@ -596,6 +815,30 @@ function createG7C5W1Station3_() {
   form.setConfirmationMessage(
     'Station 3 complete! You can now read weather maps like a meteorologist.\n\n' +
     'Next: Exit Ticket to bring all your learning together!'
+  );
+
+  // --- MTSS DIAGNOSTIC (0 points) ---
+  const mtss1 = form.addMultipleChoiceItem()
+    .setTitle('QUICK CHECK: When air rises and cools, what usually happens to the water vapor in it?')
+    .setHelpText('This checks understanding from the water cycle. Does NOT affect your grade.')
+    .setRequired(true);
+
+  mtss1.setChoices([
+    mtss1.createChoice('It condenses into water droplets (clouds)', true),
+    mtss1.createChoice('It stays as invisible vapor', false),
+    mtss1.createChoice('It disappears completely', false),
+    mtss1.createChoice('It gets warmer', false)
+  ]);
+  mtss1.setPoints(0);  // Diagnostic only
+  mtss1.setFeedbackForCorrect(
+    FormApp.createFeedback()
+      .setText('✓ Correct! Cooling air can\'t hold as much water vapor, so it condenses into clouds. This is why low pressure = clouds!')
+      .build()
+  );
+  mtss1.setFeedbackForIncorrect(
+    FormApp.createFeedback()
+      .setText('Remember: Cool air holds less water vapor → condensation → clouds form. This connects to pressure systems!')
+      .build()
   );
 
   // Q1: Low pressure and weather (4 pts auto)
@@ -742,10 +985,28 @@ function createG7C5W1Station3_() {
       .build()
   );
 
+  // --- SECTION HEADER WITH RUBRIC for open-response ---
+  form.addSectionHeaderItem()
+    .setTitle('Question 7 (3 points)')
+    .setHelpText(
+      'RUBRIC:\n' +
+      '3 pts: Correctly predicts strong winds AND stormy/cloudy conditions with evidence from both isobars and L\n' +
+      '2 pts: Predicts either wind or clouds correctly with some reasoning\n' +
+      '1 pt:  Vague prediction without connecting to map features\n' +
+      '0 pts: No response or completely incorrect prediction'
+    );
+
   // Q7: Weather map interpretation (3 pts, open response)
   const q7 = form.addParagraphTextItem()
     .setTitle('PREDICT: A weather map shows a large L (low pressure) with tightly packed isobars moving toward your city. Describe what weather you would expect over the next 24 hours.')
-    .setHelpText('Include wind conditions, sky conditions, and how weather might change. (3 points)')
+    .setHelpText(
+      'Include wind conditions, sky conditions, and how weather might change.\n\n' +
+      'SENTENCE STARTERS:\n' +
+      '• Based on the low pressure system, I would expect...\n' +
+      '• The tightly packed isobars tell me that...\n' +
+      '• Over the next 24 hours, the weather will likely...\n\n' +
+      'WORD BANK: low pressure, isobars, rising air, clouds, precipitation, strong winds, counterclockwise, stormy'
+    )
     .setRequired(true);
 
   q7.setValidation(
@@ -754,8 +1015,20 @@ function createG7C5W1Station3_() {
       .build()
   );
 
-  Logger.log('Station 3 form created: ' + form.getEditUrl());
-  Logger.log('  Shareable URL: ' + form.shortenFormUrl(form.getPublishedUrl()));
+  // --- SELF-ASSESSMENT (0 points) ---
+  form.addPageBreakItem()
+    .setTitle('Self-Assessment')
+    .setHelpText('Rate your understanding. This does NOT affect your grade.');
+
+  const selfAssess = form.addScaleItem()
+    .setTitle('How confident do you feel about reading a weather map with pressure systems and isobars?')
+    .setHelpText('Be honest! This helps your teacher know what to review.')
+    .setBounds(1, 5)
+    .setLabels('Not confident yet', 'Very confident')
+    .setRequired(true);
+  selfAssess.setPoints(0);  // Diagnostic only
+
+  logFormInfo_(form, 'G7.C5.W1 Station 3', 25);
   return form;
 }
 
@@ -789,6 +1062,30 @@ function createG7C5W1ExitTicket_() {
     'Week 1 Exit Ticket complete!\n\n' +
     'Great work learning about weather fronts and air masses!\n' +
     'Next week: Learn to predict severe weather using data analysis!'
+  );
+
+  // --- MTSS DIAGNOSTIC (0 points) ---
+  const mtss1 = form.addMultipleChoiceItem()
+    .setTitle('QUICK CHECK (Week 1 Review): What does "cP" stand for in air mass classification?')
+    .setHelpText('This checks a key concept from today. Your answer does NOT affect your grade.')
+    .setRequired(true);
+
+  mtss1.setChoices([
+    mtss1.createChoice('Continental Polar', true),
+    mtss1.createChoice('Cold Precipitation', false),
+    mtss1.createChoice('Cloudy Pressure', false),
+    mtss1.createChoice('Canadian Pacific', false)
+  ]);
+  mtss1.setPoints(0);  // Diagnostic only
+  mtss1.setFeedbackForCorrect(
+    FormApp.createFeedback()
+      .setText('✓ Correct! cP = continental (dry, from land) + Polar (cold, from high latitudes).')
+      .build()
+  );
+  mtss1.setFeedbackForIncorrect(
+    FormApp.createFeedback()
+      .setText('Review: c = continental (over land), P = Polar (from high latitudes). So cP = continental Polar.')
+      .build()
   );
 
   // --- NEW CONTENT QUESTIONS ---
@@ -838,7 +1135,7 @@ function createG7C5W1ExitTicket_() {
       .setText('Correct! Low pressure systems draw in air from surrounding areas. Where different air masses converge, fronts form.')
       .build()
   );
-  q1.setFeedbackForIncorrect(
+  q2.setFeedbackForIncorrect(
     FormApp.createFeedback()
       .setText('Low pressure draws air inward (converges). When different air masses are pulled toward the same low, fronts form at their boundaries.')
       .build()
@@ -902,10 +1199,30 @@ function createG7C5W1ExitTicket_() {
     .setTitle('Part 3: Integration')
     .setHelpText('Connecting multiple concepts together.');
 
+  // --- SECTION HEADER WITH RUBRIC for open-response ---
+  form.addSectionHeaderItem()
+    .setTitle('Question 5 (4 points)')
+    .setHelpText(
+      'RUBRIC:\n' +
+      '4 pts: Clear cause-effect chain connecting all 3 concepts with 2+ specific examples\n' +
+      '3 pts: Connects all 3 concepts with 1 specific example\n' +
+      '2 pts: Connects 2 of 3 concepts with some reasoning\n' +
+      '1 pt:  Mentions concepts without clear connections\n' +
+      '0 pts: No response or unrelated answer'
+    );
+
   // Q5: Integration (4 pts, open response)
   const q5 = form.addParagraphTextItem()
     .setTitle('INTEGRATE: Explain how the following connect: (1) Sun heats Earth unevenly, (2) Air masses form with different properties, (3) Fronts create weather. Use at least TWO specific examples.')
-    .setHelpText('Show how these concepts are linked in a cause-and-effect chain. (4 points)')
+    .setHelpText(
+      'Show how these concepts are linked in a cause-and-effect chain.\n\n' +
+      'SENTENCE STARTERS:\n' +
+      '• First, the Sun heats Earth unevenly, which causes...\n' +
+      '• This leads to air masses forming with different properties. For example...\n' +
+      '• When these air masses meet, fronts create weather such as...\n' +
+      '• A specific example is when... meets..., creating...\n\n' +
+      'WORD BANK: uneven heating, tropical, polar, maritime, continental, mT, cP, cold front, warm front, storms, precipitation'
+    )
     .setRequired(true);
 
   q5.setValidation(
@@ -919,10 +1236,31 @@ function createG7C5W1ExitTicket_() {
     .setTitle('Part 4: Science Practice')
     .setHelpText('Applying science and engineering practices.');
 
+  // --- SECTION HEADER WITH RUBRIC for SEP open-response ---
+  form.addSectionHeaderItem()
+    .setTitle('Question 6 (5 points)')
+    .setHelpText(
+      'RUBRIC:\n' +
+      '5 pts: Correct claim (cold front passed) with 3+ pieces of evidence from data AND reasoning\n' +
+      '4 pts: Correct claim with 3 pieces of evidence, limited reasoning\n' +
+      '3 pts: Correct claim with 2 pieces of evidence\n' +
+      '2 pts: Correct claim with 1 piece of evidence\n' +
+      '1 pt:  Reasonable claim without data evidence\n' +
+      '0 pts: No response or incorrect claim'
+    );
+
   // Q6: SEP - Analyzing data (5 pts, open response)
   const q6 = form.addParagraphTextItem()
     .setTitle('SEP - ANALYZING DATA: A meteorologist shows you two days of weather data:\n\nDay 1: Temperature 55°F, Pressure 30.2 in, Wind SW 10 mph\nDay 2: Temperature 32°F, Pressure 30.5 in, Wind NW 25 mph\n\nWhat weather event likely occurred between Day 1 and Day 2? Cite at least THREE pieces of evidence from the data to support your claim.')
-    .setHelpText('Make a claim and support it with evidence from the data. (5 points)')
+    .setHelpText(
+      'Make a claim and support it with evidence from the data.\n\n' +
+      'SENTENCE STARTERS:\n' +
+      '• Based on the data, I claim that a ___ occurred because...\n' +
+      '• Evidence 1: The temperature changed from ___ to ___, which indicates...\n' +
+      '• Evidence 2: The pressure changed from ___ to ___, suggesting...\n' +
+      '• Evidence 3: The wind direction shifted from ___ to ___, which shows...\n\n' +
+      'WORD BANK: cold front, temperature drop, pressure rise, wind shift, northwest, cP air mass, advancing cold air'
+    )
     .setRequired(true);
 
   q6.setValidation(
@@ -931,7 +1269,54 @@ function createG7C5W1ExitTicket_() {
       .build()
   );
 
-  Logger.log('Exit Ticket form created: ' + form.getEditUrl());
-  Logger.log('  Shareable URL: ' + form.shortenFormUrl(form.getPublishedUrl()));
+  // --- SELF-ASSESSMENT (0 points) ---
+  form.addPageBreakItem()
+    .setTitle('Self-Assessment')
+    .setHelpText('Rate your understanding. This does NOT affect your grade.');
+
+  const selfAssess = form.addScaleItem()
+    .setTitle('Overall, how confident do you feel about Week 1 content (air masses, fronts, and pressure systems)?')
+    .setHelpText('Be honest! This helps your teacher plan Week 2.')
+    .setBounds(1, 5)
+    .setLabels('Not confident yet', 'Very confident')
+    .setRequired(true);
+  selfAssess.setPoints(0);  // Diagnostic only
+
+  logFormInfo_(form, 'G7.C5.W1 Exit Ticket', 23);
+  return form;
+}
+
+// ============================================================================
+// INDIVIDUAL TEST FUNCTIONS
+// Use these to create forms one at a time for testing
+// ============================================================================
+
+function testCreateHook() {
+  const form = createG7C5W1Hook_();
+  Logger.log('Hook test complete. Check logs for URLs.');
+  return form;
+}
+
+function testCreateStation1() {
+  const form = createG7C5W1Station1_();
+  Logger.log('Station 1 test complete. Check logs for URLs.');
+  return form;
+}
+
+function testCreateStation2() {
+  const form = createG7C5W1Station2_();
+  Logger.log('Station 2 test complete. Check logs for URLs.');
+  return form;
+}
+
+function testCreateStation3() {
+  const form = createG7C5W1Station3_();
+  Logger.log('Station 3 test complete. Check logs for URLs.');
+  return form;
+}
+
+function testCreateExitTicket() {
+  const form = createG7C5W1ExitTicket_();
+  Logger.log('Exit Ticket test complete. Check logs for URLs.');
   return form;
 }
