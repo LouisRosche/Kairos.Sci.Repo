@@ -1,5 +1,5 @@
 # KAMS Science Standards Alignment
-## NGSS Mapping Across Cycles 3-10
+## NGSS Mapping Across Cycles 3-8 (SY25-26)
 
 ---
 
@@ -7,22 +7,24 @@
 
 This document maps all Next Generation Science Standards (NGSS) coverage across the KAMS Science curriculum for Grades 7 and 8. Each cycle targets specific Performance Expectations while spiraling previously taught standards.
 
+> **Calendar Alignment Note (Dec 2025):** SY25-26 supports Cycles 3-8 only. MS-ESS1-2 (G7) and MS-ETS1-2 (G8) from deferred C9 are integrated as secondary standards in Cycle 8. Year-End Integration (C10) is merged into Cycle 8 Week 3.
+
 ---
 
 ## Grade 7: Life & Earth Science
 
 ### Standards Coverage Matrix
 
-| Cycle | Primary Standard | Description | Spiral Standards |
-|-------|------------------|-------------|------------------|
-| **C3** | MS-ESS3-5 | Climate change factors and evidence | MS-PS1-5, MS-PS1-6 (from C2) |
-| **C4** | MS-ESS3-3 | Human impact monitoring and mitigation | MS-ESS3-5 (from C3), MS-PS1-5 (from C2) |
-| **C5** | MS-ESS2-5 | Air mass interactions and weather | MS-ESS3-3 (from C4) |
-| **C6** | MS-ESS2-2 | Geoscience processes and Earth's surface | MS-ESS2-5 (from C5) |
-| **C7** | MS-ESS1-4 | Rock strata and geologic time scale | MS-ESS2-2 (from C6) |
-| **C8** | MS-LS2-4 | Ecosystem changes and population effects | MS-ESS1-4 (from C7) |
-| **C9** | MS-ESS1-2 | Gravity in solar system motions | MS-LS2-4 (from C8) |
-| **C10** | INTEGRATION | Year-end synthesis of all standards | All G7 standards |
+| Cycle | Primary Standard | Secondary | Description | Spiral Standards |
+|-------|------------------|-----------|-------------|------------------|
+| **C3** | MS-ESS3-5 | — | Climate change factors and evidence | MS-PS1-5, MS-PS1-6 (from C2) |
+| **C4** | MS-ESS3-3 | — | Human impact monitoring and mitigation | MS-ESS3-5 (from C3), MS-PS1-5 (from C2) |
+| **C5** | MS-ESS2-5 | — | Air mass interactions and weather | MS-ESS3-3 (from C4) |
+| **C6** | MS-ESS2-2 | — | Geoscience processes and Earth's surface | MS-ESS2-5 (from C5) |
+| **C7** | MS-ESS1-4 | — | Rock strata and geologic time scale | MS-ESS2-2 (from C6) |
+| **C8** | MS-LS2-4 | **MS-ESS1-2** | Ecosystems + **Solar system/gravity** | MS-ESS1-4, MS-ESS3-5, MS-ESS3-3 |
+
+> **Note:** MS-ESS1-2 (Space Systems) integrated into C8 as secondary standard. Year-End Integration included in C8 Week 3.
 
 ### Detailed Standard Breakdown
 
@@ -85,21 +87,21 @@ This document maps all Next Generation Science Standards (NGSS) coverage across 
 
 ---
 
-#### Cycle 8: MS-LS2-4
-**Performance Expectation:** Construct an argument supported by empirical evidence that changes to physical or biological components of an ecosystem affect populations.
+#### Cycle 8: MS-LS2-4 + MS-ESS1-2 (Secondary) + Year-End Integration
+**Primary Performance Expectation:** Construct an argument supported by empirical evidence that changes to physical or biological components of an ecosystem affect populations.
+
+**Secondary Performance Expectation (Integrated from C9):** Develop and use a model to describe the role of gravity in the motions within galaxies and the solar system.
 
 **Disciplinary Core Ideas:**
 - LS2.A: Interdependent Relationships in Ecosystems
 - LS2.C: Ecosystem Dynamics, Functioning, and Resilience
+- ESS1.A: The Universe and Its Stars (secondary)
+- ESS1.B: Earth and the Solar System (secondary)
 
----
-
-#### Cycle 9: MS-ESS1-2
-**Performance Expectation:** Develop and use a model to describe the role of gravity in the motions within galaxies and the solar system.
-
-**Disciplinary Core Ideas:**
-- ESS1.A: The Universe and Its Stars
-- ESS1.B: Earth and the Solar System
+**Year-End Integration (Week 3):**
+- Student-selected investigation presentations
+- CCC synthesis across all 7 crosscutting concepts
+- Cumulative reflection and celebration
 
 ---
 
@@ -107,16 +109,16 @@ This document maps all Next Generation Science Standards (NGSS) coverage across 
 
 ### Standards Coverage Matrix
 
-| Cycle | Primary Standard | Description | Spiral Standards |
-|-------|------------------|-------------|------------------|
-| **C3** | MS-LS4-4 | Natural selection and survival probability | MS-PS2-1, MS-PS2-2 (from C2) |
-| **C4** | MS-LS2-3 | Matter cycling and energy flow in ecosystems | MS-LS4-4 (from C3), MS-PS2-2 (from C2) |
-| **C5** | MS-PS4-2 | Wave reflection, absorption, and transmission | MS-LS2-3 (from C4) |
-| **C6** | MS-PS2-3 | Electric and magnetic force factors | MS-PS4-2 (from C5) |
-| **C7** | MS-PS1-2 | Chemical reaction evidence and analysis | MS-PS2-3 (from C6) |
-| **C8** | MS-PS3-4 | Energy transfer relationships | MS-PS1-2 (from C7) |
-| **C9** | MS-ETS1-2 | Design solution evaluation | MS-PS3-4 (from C8) |
-| **C10** | INTEGRATION | Year-end synthesis of all standards | All G8 standards |
+| Cycle | Primary Standard | Secondary | Description | Spiral Standards |
+|-------|------------------|-----------|-------------|------------------|
+| **C3** | MS-LS4-4 | — | Natural selection and survival probability | MS-PS2-1, MS-PS2-2 (from C2) |
+| **C4** | MS-LS2-3 | — | Matter cycling and energy flow in ecosystems | MS-LS4-4 (from C3), MS-PS2-2 (from C2) |
+| **C5** | MS-PS4-2 | — | Wave reflection, absorption, and transmission | MS-LS2-3 (from C4) |
+| **C6** | MS-PS2-3 | — | Electric and magnetic force factors | MS-PS4-2 (from C5) |
+| **C7** | MS-PS1-2 | — | Chemical reaction evidence and analysis | MS-PS2-3 (from C6) |
+| **C8** | MS-PS3-4 | **MS-ETS1-2** | Energy transfer + **Engineering design** | MS-PS1-2, MS-LS4-4, MS-LS2-3 |
+
+> **Note:** MS-ETS1-2 (Engineering Design) integrated into C8 as secondary standard via Engineering Design Showcase. Year-End Integration included in C8 Week 3.
 
 ### Detailed Standard Breakdown
 
@@ -179,21 +181,21 @@ This document maps all Next Generation Science Standards (NGSS) coverage across 
 
 ---
 
-#### Cycle 8: MS-PS3-4
-**Performance Expectation:** Plan an investigation to determine the relationships among the energy transferred, the type of matter, the mass, and the change in average kinetic energy.
+#### Cycle 8: MS-PS3-4 + MS-ETS1-2 (Secondary) + Year-End Integration
+**Primary Performance Expectation:** Plan an investigation to determine the relationships among the energy transferred, the type of matter, the mass, and the change in average kinetic energy.
+
+**Secondary Performance Expectation (Integrated from C9):** Evaluate competing design solutions using a systematic process to determine how well they meet the criteria and constraints of the problem.
 
 **Disciplinary Core Ideas:**
 - PS3.A: Definitions of Energy
 - PS3.B: Conservation of Energy and Energy Transfer
+- ETS1.A: Defining and Delimiting Engineering Problems (secondary)
+- ETS1.B: Developing Possible Solutions (secondary)
 
----
-
-#### Cycle 9: MS-ETS1-2
-**Performance Expectation:** Evaluate competing design solutions using a systematic process to determine how well they meet the criteria and constraints of the problem.
-
-**Disciplinary Core Ideas:**
-- ETS1.A: Defining and Delimiting Engineering Problems
-- ETS1.B: Developing Possible Solutions
+**Year-End Integration (Week 3):**
+- Engineering Design Showcase (cumulative Station 3 projects)
+- CCC synthesis across all 7 crosscutting concepts
+- Cumulative reflection and celebration
 
 ---
 

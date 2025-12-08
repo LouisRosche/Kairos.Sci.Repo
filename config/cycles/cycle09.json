@@ -1,9 +1,14 @@
 {
   "$schema": "../schema/cycle-schema.json",
   "cycle": 9,
-  "name": "Cycle 9: UNSCHEDULED",
+  "name": "Cycle 9: Space/Engineering (STANDARDS INTEGRATED, TOPICS DEFERRED)",
   "status": "deferred",
-  "_calendarWarning": "NO CALENDAR SLOT - This cycle does not fit in SY25-26. Calendar only has cycles 1-8. Options: (1) integrate topics into cycles 3-8, (2) defer to SY26-27, (3) create intensive summer session.",
+  "_resolution": {
+    "decision": "Standards integrated into C8; topic depth deferred to SY26-27",
+    "decisionDate": "2025-12-08",
+    "details": "MS-ESS1-2 (G7) and MS-ETS1-2 (G8) integrated as secondary standards in Cycle 8. Full topic coverage deferred to SY26-27."
+  },
+  "_calendarWarning": "PARTIALLY RESOLVED - Standards integrated into C8. Full topic depth deferred to SY26-27.",
   "dates": {
     "start": null,
     "end": null,

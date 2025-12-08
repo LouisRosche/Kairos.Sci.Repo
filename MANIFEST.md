@@ -103,9 +103,9 @@ C3.Repo/
 | **C5** | 0% 📋 | 0% 📋 | Placeholder |
 | **C6** | 0% 📋 | 0% 📋 | Placeholder |
 | **C7** | 0% 📋 | 0% 📋 | Placeholder (4/27-5/22) |
-| **C8** | 0% 📋 | 0% 📋 | Placeholder (6/1-6/26, last cycle SY25-26) |
-| **C9** | ⚠️ | ⚠️ | **DEFERRED** - No calendar slot in SY25-26 |
-| **C10** | ⚠️ | ⚠️ | **DEFERRED** - No calendar slot in SY25-26 |
+| **C8** | 0% 📋 | 0% 📋 | Placeholder (6/1-6/26, **includes Year-End Integration**) |
+| **C9** | — | — | Standards → C8; Topics deferred to SY26-27 |
+| **C10** | — | — | **MERGED** → C8 Week 3 |
 
 **Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | 📦 Legacy | ❌ Not Started | ⛔ Read-Only (Production)
 
@@ -189,16 +189,16 @@ Cycles 5-8 have standardized placeholder structure created and align with the SY
 | C5 | 2/23-3/12/2026 | Weather & Climate Systems | Waves & Information Transfer | 📋 |
 | C6 | 3/24-4/24/2026 | Plate Tectonics & Earth's Interior | Electricity & Magnetism | 📋 |
 | C7 | 4/27-5/22/2026 | Rock Cycle & Earth's History | Chemical Reactions & Conservation | 📋 |
-| C8 | 6/1-6/26/2026 | Ecosystems & Biodiversity | Thermal Energy & Heat Transfer | 📋 |
+| C8 | 6/1-6/26/2026 | Ecosystems + **Year-End Integration** | Thermal Energy + **Engineering Showcase** | 📋 |
 
-## Cycles 9-10 (DEFERRED - No SY25-26 Calendar Slot)
+## Cycles 9-10 (RESOLVED - Dec 2025)
 
-> ⚠️ **Calendar Alignment Issue:** The school calendar only has 8 cycles (Cycles 1-8). Cycles 9-10 exist in the config system but cannot be delivered in SY25-26. A decision is needed on whether to consolidate these topics into cycles 3-8 or defer to SY26-27.
+> ✅ **Resolution:** Cycle 9 standards (MS-ESS1-2, MS-ETS1-2) integrated as secondary standards in Cycle 8. Cycle 10 Year-End Integration merged into Cycle 8 Week 3.
 
-| Cycle | G7 Topic | G8 Topic | Status |
-|-------|----------|----------|--------|
-| C9 | Space Systems & Earth's Place | Engineering Design & Systems | ⚠️ DEFERRED |
-| C10 | Year-End Integration & Review | Year-End Integration & Review | ⚠️ DEFERRED |
+| Cycle | G7 Topic | G8 Topic | Resolution |
+|-------|----------|----------|------------|
+| C9 | Space Systems & Earth's Place | Engineering Design & Systems | **Standards integrated → C8 secondary**; Topics deferred to SY26-27 |
+| C10 | Year-End Integration & Review | Year-End Integration & Review | **MERGED → Cycle 8 Week 3** |
 
 Each placeholder cycle includes:
 - `curriculum-design.md` with TODO checklist
@@ -221,8 +221,8 @@ Each placeholder cycle includes:
 | `cycles/cycle06.json` | C6 specs placeholder | 📋 Placeholder |
 | `cycles/cycle07.json` | C7 specs (4/27-5/22) | 📋 Placeholder |
 | `cycles/cycle08.json` | C8 specs (6/1-6/26, last cycle) | 📋 Placeholder |
-| `cycles/cycle09.json` | C9 specs | ⚠️ DEFERRED (no SY25-26 slot) |
-| `cycles/cycle10.json` | C10 Year-End Integration | ⚠️ DEFERRED (no SY25-26 slot) |
+| `cycles/cycle09.json` | C9 specs (standards → C8) | ✅ Resolved (deferred topics) |
+| `cycles/cycle10.json` | C10 Year-End (merged → C8) | ✅ Resolved (merged) |
 | `schema/cycle-schema.json` | Cycle config validation | ✅ Complete |
 | `schema/form-schema.json` | Form validation | ✅ Complete |
 | `schema/mtss-schema.json` | MTSS validation | ✅ Complete |
@@ -339,7 +339,7 @@ Each placeholder cycle includes:
 | Complete cycles | 3 (C2, C3, C4) |
 | In-progress cycles | 0 |
 | Placeholder cycles | 4 (C5-C8, within SY25-26 calendar) |
-| Deferred cycles | 2 (C9-C10, no SY25-26 calendar slot) |
+| Resolved cycles | 2 (C9 standards → C8, C10 merged → C8 W3) |
 
 ---
 
