@@ -102,19 +102,23 @@ This connects to Cycles 3-4: The same atmospheric processes that drive climate p
 
 ## Materials List
 
+> **100% Material-Free Digital Instruction:** All lessons are designed for digital delivery via Chromebooks. The only physical material is one notecard per student per lesson for exit ticket notes.
+
 ### Week 1: Weather Fronts
 - Chromebooks (class set)
-- Weather map transparency overlays
-- Air mass characteristic cards (mT, cT, mP, cP)
-- Synoptic chart examples (NOAA archives)
-- Front cross-section diagrams
+- Weather map overlays (embedded in student page as interactive layers)
+- Air mass characteristics (embedded in Google Form with visuals)
+- Synoptic chart examples (NOAA archives, linked in student page)
+- Front cross-section diagrams (embedded in student page)
+- Notecard (1 per student)
 
 ### Week 2: Severe Weather Prediction
 - Chromebooks (class set)
-- NOAA Weather Data access
-- Weather Underground historical data
-- Barometer/thermometer (optional demo)
-- Forecast evaluation rubric
+- NOAA Weather Data access (live links in student page)
+- Weather Underground historical data (embedded links)
+- Virtual weather station simulation (for data collection)
+- Forecast evaluation rubric (embedded in Google Form)
+- Notecard (1 per student)
 
 ---
 

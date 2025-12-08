@@ -5,10 +5,11 @@
   "status": "planned",
   "dates": {
     "start": "2026-01-06",
-    "end": "2026-01-24",
+    "end": "2026-02-12",
     "week1": { "start": "2026-01-06", "end": "2026-01-10" },
     "week2": { "start": "2026-01-13", "end": "2026-01-17" },
-    "week3": { "start": "2026-01-21", "end": "2026-01-24" }
+    "week3": { "start": "2026-01-26", "end": "2026-01-30" },
+    "_notes": "MLK Day 1/19; buffer 2/2-2/12 before Presidents Day PD week"
   },
 
   "grades": {

@@ -1,14 +1,20 @@
 {
   "$schema": "../schema/cycle-schema.json",
   "cycle": 9,
-  "name": "Cycle 9: May 2026",
-  "status": "planned",
+  "name": "Cycle 9: UNSCHEDULED",
+  "status": "deferred",
+  "_calendarWarning": "NO CALENDAR SLOT - This cycle does not fit in SY25-26. Calendar only has cycles 1-8. Options: (1) integrate topics into cycles 3-8, (2) defer to SY26-27, (3) create intensive summer session.",
   "dates": {
-    "start": "2026-04-27",
-    "end": "2026-05-15",
-    "week1": { "start": "2026-04-27", "end": "2026-05-01" },
-    "week2": { "start": "2026-05-04", "end": "2026-05-08" },
-    "week3": { "start": "2026-05-11", "end": "2026-05-15" }
+    "start": null,
+    "end": null,
+    "week1": null,
+    "week2": null,
+    "week3": null,
+    "_originalDates": {
+      "start": "2026-04-27",
+      "end": "2026-05-15",
+      "note": "These dates conflict with Calendar Cycle 7 (4/27-5/22)"
+    }
   },
 
   "grades": {

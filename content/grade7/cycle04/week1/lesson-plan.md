@@ -52,8 +52,7 @@ By the end of this week, students will be able to:
 
 **Materials:**
 - Chromebooks (class set)
-- pH test strips (optional demo)
-- Data tables (in HTML page)
+- Data tables (embedded in student page)
 
 **Common Misconceptions to Address:**
 | Misconception | Correct Understanding | How to Address |
@@ -151,20 +150,19 @@ By the end of this week, students will be able to:
 
 ## Materials List
 
-### Per Station
+### Digital Resources (100% Material-Free)
 - [ ] Chromebooks (class set)
-- [ ] pH test strips (optional demo, 1 pack)
-- [ ] Calculators (student-provided or class set)
+- [ ] Shell dissolution video/images (embedded in student page)
+- [ ] Carbon budget data (embedded in student page)
+- [ ] pH scale visual (embedded in student page)
+- [ ] Organism threshold chart (embedded in student page)
+- [ ] Design constraint options (embedded in Google Form)
+- [ ] Calculator app (on Chromebooks)
 
-### Teacher Resources
-- [ ] Shell dissolution video/images
-- [ ] Carbon budget poster or slide
-- [ ] pH scale visual
-- [ ] Organism threshold chart
+### Physical Materials
+- [ ] Notecards (1 per student for exit ticket notes)
 
-### Printed Materials (Optional)
-- [ ] Data tables for students without device access
-- [ ] Design constraint cards for Station 3
+> **Note:** This lesson is designed for 100% material-free digital instruction. All data tables, design constraints, and visuals are embedded in the student page and Google Forms. Students without device access should use async packets delivered digitally.
 
 ---
 

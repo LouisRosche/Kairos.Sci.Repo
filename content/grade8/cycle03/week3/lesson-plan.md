@@ -28,6 +28,17 @@
 - [x] Require login for verified email
 - [x] Progress bar enabled
 
+### Materials (100% Digital Instruction)
+
+| Item | Purpose | Access |
+|------|---------|--------|
+| Chromebooks | All activities and assessments | 1 per student |
+| Google Forms | All 3 assessment parts | Embedded in student page |
+| Week 1-2 Simulations | Review stations | Student page links |
+| **Notecard (1 per student)** | Key term capture for review | Physical - write 3 key terms |
+
+**NOTE:** This assessment week uses 100% digital instruction via Google Forms. The only physical material is ONE notecard per student for capturing key review terms on Monday.
+
 ### Room Setup
 - Chromebooks charged and ready
 - Seating chart for testing (separate high-support students)
@@ -43,16 +54,16 @@
 | Time | Activity | Notes |
 |------|----------|-------|
 | 0:00-0:05 | Warm-up | "What's the difference between Week 1 and Week 2?" |
-| 0:05-0:25 | Gallery Walk Review | Projected slide stations for each learning target |
-| 0:25-0:45 | Practice Problems | Similar to assessment questions |
+| 0:05-0:25 | Digital Station Review | Students rotate through 4 review slides/simulations on Chromebooks |
+| 0:25-0:45 | Practice Problems | Similar to assessment questions (Google Form practice quiz) |
 | 0:45-0:60 | Q&A | Students ask clarifying questions |
-| 0:60-0:65 | Preview | "Tomorrow: Assessment Parts 1 & 2" |
+| 0:60-0:65 | Preview + Notecard | "Tomorrow: Assessment" + **NOTECARD:** Write 3 key terms to remember |
 
-**Gallery Walk Stations:**
-1. Natural Selection Mechanism - Variation → Selection → Reproduction
-2. Evidence Types - Homologous vs Analogous vs Transitional
-3. Whale Evolution Timeline - Pakicetus to Modern Whales
-4. Forces + Evolution - How physics determines survival
+**Digital Review Stations (on Chromebooks):**
+1. Natural Selection Mechanism - Revisit Week 1 simulation/slides
+2. Evidence Types - Use Bone Homology Explorer to review homologous vs analogous
+3. Whale Evolution Timeline - Interactive timeline in Week 2 student page
+4. Forces + Evolution - Review F=ma and N3L connections via embedded content
 
 ---
 
@@ -212,19 +223,19 @@
 ## Emergency Procedures
 
 ### If Chromebooks fail:
-- Paper backup assessments in emergency folder
-- Same questions, paper format
-- Grade manually, enter into gradebook
+- Students complete Google Forms on phones (mobile-responsive)
+- Use classroom projector to display questions as class review
+- Paper backup assessments in emergency folder as last resort only
 
 ### If student is absent:
 - Make-up window: Dec 19-20
-- Same assessment, separate login
+- Same assessment, separate login (works from any device)
 - Must complete before winter break
 
 ### If student finishes early:
-- Silent reading only
+- Review Week 1-2 simulations on student page
+- Silent digital reading only
 - May NOT help others
-- May NOT use devices for non-academic purposes
 
 ---
 
