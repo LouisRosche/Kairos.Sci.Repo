@@ -3,6 +3,43 @@
 Create G7_C3_W2 Feedback Loops & Tipping Points presentation
 Following exemplar patterns from G7_C3_W1 and G8_C3_W1
 Colors matched to student-page.html
+
+=============================================================================
+PPTX DESIGN BEST PRACTICES - SINGLE SOURCE OF TRUTH
+=============================================================================
+
+1. TEXT BOX POSITIONING:
+   - Text boxes do NOT visually show actual text boundaries
+   - Always add PADDING between text box edges and shape edges
+   - Use vertical anchor (MSO_ANCHOR.MIDDLE) for centering in constrained heights
+   - Horizontal centering via PP_ALIGN.CENTER affects text within box, not box position
+
+2. TITLE + METADATA PATTERN:
+   - Title text should NEVER share horizontal space with points/time indicators
+   - Pattern: Title on one line, metadata (points, mins) on SEPARATE line below
+   - OR: Place metadata as small text at far right of header bar, vertically centered
+
+3. TEXT WRAPPING PREVENTION:
+   - Calculate approximate text width: chars * font_size * 0.6 (rough estimate)
+   - For long titles, either reduce font size OR split into multiple lines manually
+   - Never let critical numbered items (1), 2), etc.) wrap to hidden positions
+
+4. VERTICAL CENTERING IN SHAPES:
+   - Set text_frame.paragraphs[0].alignment for horizontal
+   - Set text_frame.anchor = MSO_ANCHOR.MIDDLE for vertical centering
+   - Critical for small height boxes where text must appear centered
+
+5. COLOR CONTRAST:
+   - Dark text on light backgrounds, white text on dark backgrounds
+   - Always test: purple/blue text on purple/blue backgrounds = BAD
+
+6. STANDARD LAYOUT MEASUREMENTS:
+   - Slide: 10" x 5.625" (16:9)
+   - Header bar height: 0.6" - 0.75"
+   - Standard margin: 0.15" - 0.3"
+   - Standard padding inside shapes: 0.1" - 0.2"
+   - Footer/notecard bar height: 0.55" - 0.7"
+=============================================================================
 """
 
 from pptx import Presentation
@@ -85,11 +122,24 @@ def add_colored_shape(slide, left, top, width, height, color, shape_type=MSO_SHA
 
 
 def add_text_box(slide, left, top, width, height, text, font_size=18, bold=False,
-                 color=None, align=PP_ALIGN.LEFT, font_name="Arial"):
-    """Add a text box with specified formatting"""
+                 color=None, align=PP_ALIGN.LEFT, font_name="Arial",
+                 anchor=None):
+    """
+    Add a text box with specified formatting.
+
+    IMPORTANT: Text boxes don't visually show text boundaries.
+    Always add padding when positioning text inside shapes.
+
+    Args:
+        anchor: MSO_ANCHOR.MIDDLE for vertical centering, MSO_ANCHOR.TOP (default),
+                MSO_ANCHOR.BOTTOM
+    """
     txBox = slide.shapes.add_textbox(left, top, width, height)
     tf = txBox.text_frame
     tf.word_wrap = True
+    # Set vertical anchor if specified (critical for centering in small boxes)
+    if anchor:
+        tf.anchor = anchor
     p = tf.paragraphs[0]
     p.text = text
     p.font.size = Pt(font_size)
@@ -244,13 +294,14 @@ def add_prior_knowledge_slide(prs):
     slide_layout = prs.slide_layouts[6]
     slide = prs.slides.add_slide(slide_layout)
 
-    # Title
+    # Title - FIXED: Reduced font size to prevent wrapping
+    # Original was 28pt which caused text to wrap, hiding the "1)" below boxes
     add_text_box(slide, Inches(0.3), Inches(0.1), Inches(9.4), Inches(0.5),
                 "🔗 What You Already Know (Cycle 2 + Week 1)",
-                font_size=28, bold=True, color=COLORS['blue_accent'],
+                font_size=24, bold=True, color=COLORS['blue_accent'],
                 align=PP_ALIGN.CENTER, font_name="Georgia")
 
-    # Top left box - Blue (Breaking bonds)
+    # Top left box - Blue (Breaking bonds) - moved down slightly to ensure clearance
     add_colored_shape(slide, Inches(0.3), Inches(0.7), Inches(4.6), Inches(1.4), COLORS['light_blue_bg'])
     add_colored_shape(slide, Inches(0.3), Inches(0.7), Inches(0.08), Inches(1.4), COLORS['blue_accent'])
     add_text_box(slide, Inches(0.5), Inches(0.8), Inches(4.3), Inches(0.3),
@@ -420,13 +471,13 @@ def add_hook_intro_slide(prs):
     slide_layout = prs.slide_layouts[6]
     slide = prs.slides.add_slide(slide_layout)
 
-    # Header gradient (purple)
-    add_colored_shape(slide, Inches(0.15), Inches(0.15), Inches(9.7), Inches(0.75), COLORS['purple_start'])
-    add_text_box(slide, Inches(0.35), Inches(0.25), Inches(9.3), Inches(0.55),
+    # Header gradient (purple) - FIXED: Two-line header to prevent overlap
+    add_colored_shape(slide, Inches(0.15), Inches(0.15), Inches(9.7), Inches(0.85), COLORS['purple_start'])
+    add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🎯 Hook – The Melting Ice Mystery",
-                font_size=28, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(7.5), Inches(0.55), Inches(2.0), Inches(0.3),
-                "12 Points | ~10 min", font_size=11, color=COLORS['white'])
+                font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
+    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
+                "12 Points | ~10 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
     # Left side - What You'll Do
     add_text_box(slide, Inches(0.3), Inches(1.1), Inches(4.5), Inches(0.3),
@@ -524,13 +575,13 @@ def add_station1_intro_slide(prs):
     slide_layout = prs.slide_layouts[6]
     slide = prs.slides.add_slide(slide_layout)
 
-    # Header (Orange)
-    add_colored_shape(slide, Inches(0.15), Inches(0.15), Inches(9.7), Inches(0.75), COLORS['orange_start'])
-    add_text_box(slide, Inches(0.35), Inches(0.25), Inches(9.3), Inches(0.55),
+    # Header (Orange) - FIXED: Two-line header to prevent overlap
+    add_colored_shape(slide, Inches(0.15), Inches(0.15), Inches(9.7), Inches(0.85), COLORS['orange_start'])
+    add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "☀️ Station 1 – Albedo Effect Investigation",
-                font_size=28, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(7.5), Inches(0.55), Inches(2.0), Inches(0.3),
-                "20 Points | ~18 min", font_size=11, color=COLORS['white'])
+                font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
+    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
+                "20 Points | ~18 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
     # Left side - Investigation steps
     add_text_box(slide, Inches(0.3), Inches(1.1), Inches(4.5), Inches(0.3),
@@ -648,13 +699,13 @@ def add_station2_intro_slide(prs):
     slide_layout = prs.slide_layouts[6]
     slide = prs.slides.add_slide(slide_layout)
 
-    # Header (Blue)
-    add_colored_shape(slide, Inches(0.15), Inches(0.15), Inches(9.7), Inches(0.75), COLORS['header_blue_end'])
-    add_text_box(slide, Inches(0.35), Inches(0.25), Inches(9.3), Inches(0.55),
+    # Header (Blue) - FIXED: Two-line header to prevent overlap
+    add_colored_shape(slide, Inches(0.15), Inches(0.15), Inches(9.7), Inches(0.85), COLORS['header_blue_end'])
+    add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🌊 Station 2 – Carbon Sink Analysis",
-                font_size=28, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(7.5), Inches(0.55), Inches(2.0), Inches(0.3),
-                "20 Points | ~15 min", font_size=11, color=COLORS['white'])
+                font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
+    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
+                "20 Points | ~15 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
     # Left side - Analysis steps
     add_text_box(slide, Inches(0.3), Inches(1.1), Inches(4.5), Inches(0.3),
@@ -769,13 +820,13 @@ def add_station3_intro_slide(prs):
     slide_layout = prs.slide_layouts[6]
     slide = prs.slides.add_slide(slide_layout)
 
-    # Header (Green)
-    add_colored_shape(slide, Inches(0.15), Inches(0.15), Inches(9.7), Inches(0.75), COLORS['green_end'])
-    add_text_box(slide, Inches(0.35), Inches(0.25), Inches(9.3), Inches(0.55),
+    # Header (Green) - FIXED: Two-line header to prevent overlap
+    add_colored_shape(slide, Inches(0.15), Inches(0.15), Inches(9.7), Inches(0.85), COLORS['green_end'])
+    add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🔧 Station 3 – Engineering Carbon Capture",
-                font_size=28, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(7.2), Inches(0.55), Inches(2.3), Inches(0.3),
-                "25 Points | ~20 min", font_size=11, color=COLORS['white'])
+                font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
+    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
+                "25 Points | ~20 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
     # Left side - Design challenge
     add_text_box(slide, Inches(0.3), Inches(1.1), Inches(4.5), Inches(0.3),
@@ -886,55 +937,58 @@ def add_exit_ticket_slide(prs):
     slide_layout = prs.slide_layouts[6]
     slide = prs.slides.add_slide(slide_layout)
 
-    # Header (Purple)
-    add_colored_shape(slide, Inches(0.15), Inches(0.15), Inches(9.7), Inches(0.75), COLORS['exit_purple_start'])
-    add_text_box(slide, Inches(0.35), Inches(0.25), Inches(9.3), Inches(0.55),
+    # Header (Purple) - FIXED: Title and metadata on separate lines to prevent overlap
+    # Using taller header bar (0.9") to accommodate two lines
+    add_colored_shape(slide, Inches(0.15), Inches(0.15), Inches(9.7), Inches(0.9), COLORS['exit_purple_start'])
+    # Title centered on first line
+    add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.5),
                 "🎓 Exit Ticket – Feedback Loop Integration",
-                font_size=28, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(7.5), Inches(0.55), Inches(2.0), Inches(0.3),
-                "23 Points | ~15 min", font_size=11, color=COLORS['white'])
+                font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
+    # Points/time on separate line below title
+    add_text_box(slide, Inches(0.35), Inches(0.7), Inches(9.3), Inches(0.3),
+                "23 Points | ~15 min", font_size=12, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
-    # Question types
-    add_colored_shape(slide, Inches(0.3), Inches(1.1), Inches(9.4), Inches(1.8), COLORS['light_purple_bg'])
-    add_colored_shape(slide, Inches(0.3), Inches(1.1), Inches(0.08), Inches(1.8), COLORS['exit_purple_start'])
+    # Question types - adjusted positions to account for taller header
+    add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(1.6), COLORS['light_purple_bg'])
+    add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(0.08), Inches(1.6), COLORS['exit_purple_start'])
 
-    add_text_box(slide, Inches(0.5), Inches(1.2), Inches(9.0), Inches(0.3),
+    add_text_box(slide, Inches(0.5), Inches(1.3), Inches(9.0), Inches(0.3),
                 "QUESTION TYPES:", font_size=14, bold=True, color=COLORS['exit_purple_start'])
 
     q_types = """• 2 NEW – Week 2 feedback loop content
 • 2 SPIRAL – Week 1 + Cycle 2 review
 • 1 INTEGRATION – Connect Week 1 & Week 2 concepts
 • 1 SEP-2 – Create a feedback loop MODEL (diagram with labels)"""
-    add_text_box(slide, Inches(0.5), Inches(1.55), Inches(9.0), Inches(1.2),
-                q_types, font_size=14, color=COLORS['dark_text'])
+    add_text_box(slide, Inches(0.5), Inches(1.6), Inches(9.0), Inches(1.1),
+                q_types, font_size=13, color=COLORS['dark_text'])
 
-    # Tips box
-    add_colored_shape(slide, Inches(0.3), Inches(3.05), Inches(4.6), Inches(1.2), COLORS['light_green_bg'])
-    add_text_box(slide, Inches(0.5), Inches(3.15), Inches(4.3), Inches(0.25),
+    # Tips box - adjusted positions
+    add_colored_shape(slide, Inches(0.3), Inches(2.95), Inches(4.6), Inches(1.1), COLORS['light_green_bg'])
+    add_text_box(slide, Inches(0.5), Inches(3.05), Inches(4.3), Inches(0.25),
                 "✅ SUCCESS TIPS:", font_size=12, bold=True, color=COLORS['green_accent'])
     tips = """• Use vocabulary from today
 • Reference your notecard notes
 • Draw arrows in your feedback loop model
 • Explain WHY each step leads to the next"""
-    add_text_box(slide, Inches(0.5), Inches(3.45), Inches(4.3), Inches(0.75),
-                tips, font_size=11, color=COLORS['dark_text'])
+    add_text_box(slide, Inches(0.5), Inches(3.3), Inches(4.3), Inches(0.7),
+                tips, font_size=10, color=COLORS['dark_text'])
 
-    # Model reminder
-    add_colored_shape(slide, Inches(5.1), Inches(3.05), Inches(4.6), Inches(1.2), COLORS['light_blue_bg'])
-    add_text_box(slide, Inches(5.3), Inches(3.15), Inches(4.2), Inches(0.25),
+    # Model reminder - adjusted positions
+    add_colored_shape(slide, Inches(5.1), Inches(2.95), Inches(4.6), Inches(1.1), COLORS['light_blue_bg'])
+    add_text_box(slide, Inches(5.3), Inches(3.05), Inches(4.2), Inches(0.25),
                 "📊 SEP-2 MODEL MUST INCLUDE:", font_size=12, bold=True, color=COLORS['blue_accent'])
     model_req = """• Clear boxes or circles with labels
 • Arrows showing cause → effect
 • At least 4 steps in the loop
 • \"Positive feedback\" or \"Negative feedback\" label"""
-    add_text_box(slide, Inches(5.3), Inches(3.45), Inches(4.2), Inches(0.75),
-                model_req, font_size=11, color=COLORS['dark_text'])
+    add_text_box(slide, Inches(5.3), Inches(3.3), Inches(4.2), Inches(0.7),
+                model_req, font_size=10, color=COLORS['dark_text'])
 
-    # Final notecard
-    add_colored_shape(slide, Inches(0.15), Inches(4.4), Inches(9.7), Inches(0.7), COLORS['exit_purple_end'])
-    add_text_box(slide, Inches(0.35), Inches(4.5), Inches(9.3), Inches(0.5),
+    # Final notecard - adjusted position
+    add_colored_shape(slide, Inches(0.15), Inches(4.2), Inches(9.7), Inches(0.65), COLORS['exit_purple_end'])
+    add_text_box(slide, Inches(0.35), Inches(4.3), Inches(9.3), Inches(0.45),
                 "📝 FINAL Notecard: Draw the ice-albedo positive feedback loop with 4+ labeled steps",
-                font_size=14, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
 
 def add_summary_slide(prs):
