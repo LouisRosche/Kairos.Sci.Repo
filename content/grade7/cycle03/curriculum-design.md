@@ -196,7 +196,7 @@ By the end of Week 1, students will be able to:
 - [ ] Chromebooks (1 per student)
 - [ ] Ice-Albedo Feedback Simulator (embedded)
 - [ ] Carbon Sink Simulator (embedded)
-- [ ] Calculators (digital or physical)
+- [ ] Calculator app (on Chromebooks)
 - [ ] Google Forms for all stations
 
 ### Week 3: Synthesis
