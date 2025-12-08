@@ -16,8 +16,8 @@
     "7": {
       "topic": "Plate Tectonics & Earth's Interior",
       "phenomenon": {
-        "week1": "TODO: Define driving phenomenon",
-        "week2": "TODO: Define driving phenomenon",
+        "week1": "Why do earthquakes happen in the same places over and over?",
+        "week2": "How can mountains exist on the ocean floor?",
         "week3": "Synthesis & Assessment"
       },
       "ngss": {
@@ -25,27 +25,191 @@
           "code": "MS-ESS2-2",
           "description": "Construct an explanation based on evidence for how geoscience processes have changed Earth's surface at varying time and spatial scales."
         },
-        "spiral": []
+        "spiral": [
+          { "code": "MS-ESS2-5", "description": "Air mass interactions and weather", "fromCycle": 5 },
+          { "code": "MS-ESS3-3", "description": "Human impact on environment", "fromCycle": 4 }
+        ]
       },
       "threeDimensional": {
-        "sep": [],
-        "dci": ["ESS2.A: Earth's Materials and Systems", "ESS2.B: Plate Tectonics"],
-        "ccc": []
+        "sep": ["SEP-6: Constructing Explanations", "SEP-4: Analyzing and Interpreting Data", "SEP-2: Developing and Using Models"],
+        "dci": ["ESS2.A: Earth's Materials and Systems", "ESS2.B: Plate Tectonics and Large-Scale System Interactions"],
+        "ccc": ["CCC-1: Patterns", "CCC-3: Scale, Proportion, and Quantity", "CCC-7: Stability and Change"]
       },
-      "misconceptions": [],
+      "misconceptions": [
+        {
+          "id": "plates-float-magma",
+          "description": "Plates float on liquid magma like boats on water",
+          "correctUnderstanding": "Plates rest on the asthenosphere (plastic solid, not liquid); convection drives movement",
+          "frequency": 60,
+          "targetedIn": ["w1_s1_q3", "w1_s2_q2", "w1_exit_q3"]
+        },
+        {
+          "id": "continents-move-fast",
+          "description": "Continents move fast enough to notice",
+          "correctUnderstanding": "Plates move 1-10 cm/year (fingernail growth rate); changes visible over millions of years",
+          "frequency": 50,
+          "targetedIn": ["w1_hook_q3", "w2_s1_q4", "w2_exit_q2"]
+        },
+        {
+          "id": "earthquakes-random",
+          "description": "Earthquakes happen randomly across Earth",
+          "correctUnderstanding": "Earthquakes cluster at plate boundaries where stress accumulates",
+          "frequency": 45,
+          "targetedIn": ["w1_s2_q5", "w1_exit_q5", "w2_s2_q3"]
+        }
+      ],
       "weeks": {
-        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
-        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
-        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+        "1": {
+          "title": "Plate Boundaries & Seismic Patterns",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle06/week1/forms.gs",
+            "studentPage": "content/grade7/cycle06/week1/student-page.html",
+            "lessonPlan": "content/grade7/cycle06/week1/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Earthquake Pattern Mystery",
+              "points": 12,
+              "resource": "Global earthquake map (last 30 days) + ring of fire visual",
+              "questions": 5,
+              "focus": "Observe clustering patterns, generate hypotheses"
+            },
+            "station1": {
+              "title": "Convection & Plate Movement",
+              "points": 20,
+              "resource": "Convection demo (heated water tank) + plate models",
+              "questions": 6,
+              "focus": "Connect heat transfer to plate motion mechanism",
+              "spiralTarget": "Air mass movement from Cycle 5"
+            },
+            "station2": {
+              "title": "Plate Boundary Analysis",
+              "points": 20,
+              "resource": "Boundary type cards + world map + data tables",
+              "questions": 5,
+              "focus": "Classify boundaries, predict geological features"
+            },
+            "station3": {
+              "title": "Design an Earthquake-Resistant Structure",
+              "points": 25,
+              "resource": "Building materials + shake table + constraints",
+              "questions": 5,
+              "focus": "Apply boundary knowledge to engineering challenge"
+            },
+            "exitTicket": {
+              "title": "Plate Dynamics Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": {
+                "new": 2,
+                "spiral": 2,
+                "integration": 1,
+                "sep1": 1
+              }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "2": {
+          "title": "Seafloor Spreading & Continental Drift",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle06/week2/forms.gs",
+            "studentPage": "content/grade7/cycle06/week2/student-page.html",
+            "lessonPlan": "content/grade7/cycle06/week2/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Underwater Mountain Mystery",
+              "points": 12,
+              "resource": "Mid-Atlantic Ridge bathymetry + volcanic footage",
+              "questions": 5,
+              "focus": "How do mountains form underwater?"
+            },
+            "station1": {
+              "title": "Seafloor Spreading Evidence",
+              "points": 20,
+              "resource": "Magnetic stripe data + age maps + spreading model",
+              "questions": 6,
+              "focus": "Interpret magnetic evidence for spreading",
+              "spiralTarget": "Human impact on ocean systems from Cycle 4"
+            },
+            "station2": {
+              "title": "Pangaea Puzzle Investigation",
+              "points": 20,
+              "resource": "Continental cutouts + fossil distribution maps",
+              "questions": 5,
+              "focus": "Multiple lines of evidence for continental drift"
+            },
+            "station3": {
+              "title": "Design a Plate Movement Detector",
+              "points": 25,
+              "resource": "GPS data + sensor constraints + location maps",
+              "questions": 5,
+              "focus": "Apply understanding to measurement challenge"
+            },
+            "exitTicket": {
+              "title": "Earth's Dynamic Surface Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": {
+                "new": 2,
+                "spiral": 2,
+                "integration": 1,
+                "sep1": 1
+              }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "3": {
+          "title": "Synthesis & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "files": {
+            "forms": "content/grade7/cycle06/week3/forms.gs",
+            "studentPage": "content/grade7/cycle06/week3/student-page.html",
+            "lessonPlan": "content/grade7/cycle06/week3/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect W1 plate boundaries + W2 evidence for movement"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Plate Boundaries", "B: Seafloor Evidence", "C: Continental Drift", "D: System Explanations"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["plates-float-magma", "continents-move-fast", "earthquakes-random"]
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        }
       },
-      "materials": {}
+      "materials": {
+        "station1": ["Convection tank", "Hot plate", "Food coloring", "Thermometers", "Plate model pieces"],
+        "station2": ["World maps (blank)", "Boundary type reference cards", "Colored pencils", "Data tables"],
+        "station3": ["Building materials (straws, clay, tape)", "Shake table or vibration source", "Measurement tools"]
+      }
     },
 
     "8": {
       "topic": "Electricity & Magnetism",
       "phenomenon": {
-        "week1": "TODO: Define driving phenomenon",
-        "week2": "TODO: Define driving phenomenon",
+        "week1": "Why do some magnets attract through tables while others don't?",
+        "week2": "How can spinning a magnet create electricity?",
         "week3": "Synthesis & Assessment"
       },
       "ngss": {
@@ -53,20 +217,184 @@
           "code": "MS-PS2-3",
           "description": "Ask questions about data to determine the factors that affect the strength of electric and magnetic forces."
         },
-        "spiral": []
+        "spiral": [
+          { "code": "MS-PS4-2", "description": "Wave behavior through materials", "fromCycle": 5 },
+          { "code": "MS-LS2-3", "description": "Energy flow in ecosystems", "fromCycle": 4 }
+        ]
       },
       "threeDimensional": {
-        "sep": [],
+        "sep": ["SEP-1: Asking Questions", "SEP-3: Planning and Carrying Out Investigations", "SEP-4: Analyzing and Interpreting Data"],
         "dci": ["PS2.B: Types of Interactions", "PS3.A: Definitions of Energy"],
-        "ccc": []
+        "ccc": ["CCC-2: Cause and Effect", "CCC-3: Scale, Proportion, and Quantity", "CCC-5: Energy and Matter"]
       },
-      "misconceptions": [],
+      "misconceptions": [
+        {
+          "id": "magnets-unlimited",
+          "description": "Magnets have unlimited strength/never wear out",
+          "correctUnderstanding": "Magnetic strength decreases with distance (inverse relationship); magnets can demagnetize",
+          "frequency": 55,
+          "targetedIn": ["w1_s1_q2", "w1_s1_q5", "w1_exit_q3"]
+        },
+        {
+          "id": "electricity-consumed",
+          "description": "Electricity is 'used up' in devices",
+          "correctUnderstanding": "Energy is transformed, not consumed; charge flows in complete circuits",
+          "frequency": 50,
+          "targetedIn": ["w2_s1_q3", "w2_s2_q4", "w2_exit_q2"]
+        },
+        {
+          "id": "em-unrelated",
+          "description": "Electricity and magnetism are completely separate phenomena",
+          "correctUnderstanding": "Electricity and magnetism are unified (electromagnetism); moving charges create magnetic fields",
+          "frequency": 45,
+          "targetedIn": ["w2_hook_q2", "w2_s1_q5", "w2_exit_q5"]
+        }
+      ],
       "weeks": {
-        "1": { "title": "TODO: Week 1 Title", "status": "not_started" },
-        "2": { "title": "TODO: Week 2 Title", "status": "not_started" },
-        "3": { "title": "Synthesis & Assessment", "status": "not_started", "isAssessmentWeek": true }
+        "1": {
+          "title": "Magnetic Forces & Fields",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle06/week1/forms.gs",
+            "studentPage": "content/grade8/cycle06/week1/student-page.html",
+            "lessonPlan": "content/grade8/cycle06/week1/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Invisible Force Mystery",
+              "points": 12,
+              "resource": "Magnets through various materials demo",
+              "questions": 5,
+              "focus": "Observe field effects, question force factors"
+            },
+            "station1": {
+              "title": "Magnetic Field Mapping",
+              "points": 20,
+              "resource": "Bar magnets + iron filings + compass arrays",
+              "questions": 6,
+              "focus": "Visualize fields, identify patterns",
+              "spiralTarget": "Wave field patterns from Cycle 5"
+            },
+            "station2": {
+              "title": "Force-Distance Investigation",
+              "points": 20,
+              "resource": "Spring scales + magnets + data tables",
+              "questions": 5,
+              "focus": "Quantify inverse relationship, graph data"
+            },
+            "station3": {
+              "title": "Design a Magnetic Levitation Device",
+              "points": 25,
+              "resource": "Various magnets + supports + weight constraints",
+              "questions": 5,
+              "focus": "Apply force understanding to engineering challenge"
+            },
+            "exitTicket": {
+              "title": "Magnetic Force Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": {
+                "new": 2,
+                "spiral": 2,
+                "integration": 1,
+                "sep1": 1
+              }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "2": {
+          "title": "Electromagnetism & Energy Transfer",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle06/week2/forms.gs",
+            "studentPage": "content/grade8/cycle06/week2/student-page.html",
+            "lessonPlan": "content/grade8/cycle06/week2/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Generator Mystery",
+              "points": 12,
+              "resource": "Hand-crank generator + LED demo",
+              "questions": 5,
+              "focus": "How does motion create electricity?"
+            },
+            "station1": {
+              "title": "Electromagnet Construction",
+              "points": 20,
+              "resource": "Wire, iron cores, batteries + measurement tools",
+              "questions": 6,
+              "focus": "Build and test electromagnets, identify variables",
+              "spiralTarget": "Energy flow concepts from Cycle 4"
+            },
+            "station2": {
+              "title": "Electromagnetic Induction Lab",
+              "points": 20,
+              "resource": "Coils, magnets, galvanometers + data tables",
+              "questions": 5,
+              "focus": "Investigate factors affecting induced current"
+            },
+            "station3": {
+              "title": "Design an Electric Motor",
+              "points": 25,
+              "resource": "Motor components + efficiency constraints",
+              "questions": 5,
+              "focus": "Apply electromagnetism to device design"
+            },
+            "exitTicket": {
+              "title": "Electromagnetism Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": {
+                "new": 2,
+                "spiral": 2,
+                "integration": 1,
+                "sep1": 1
+              }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "3": {
+          "title": "Synthesis & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "files": {
+            "forms": "content/grade8/cycle06/week3/forms.gs",
+            "studentPage": "content/grade8/cycle06/week3/student-page.html",
+            "lessonPlan": "content/grade8/cycle06/week3/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect W1 magnetic forces + W2 electromagnetism"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Magnetic Fields", "B: Force Relationships", "C: Electromagnetism", "D: Energy Transfer"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["magnets-unlimited", "electricity-consumed", "em-unrelated"]
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        }
       },
-      "materials": {}
+      "materials": {
+        "station1": ["Bar magnets (various)", "Iron filings", "Compasses", "Plastic trays", "Paper"],
+        "station2": ["Insulated wire", "Iron nails/cores", "Batteries", "Ammeters", "Paper clips"],
+        "station3": ["Coils (various turns)", "Strong magnets", "Galvanometers", "Motor kits"]
+      }
     }
   },
 
