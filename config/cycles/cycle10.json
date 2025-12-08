@@ -1,9 +1,14 @@
 {
   "$schema": "../schema/cycle-schema.json",
   "cycle": 10,
-  "name": "Cycle 10: Year-End Integration (UNSCHEDULED)",
-  "status": "deferred",
-  "_calendarWarning": "NO CALENDAR SLOT - This cycle does not fit in SY25-26. Calendar ends with Cycle 8 (6/1-6/26). Options: (1) merge Year-End Integration into Cycle 8 Week 3, (2) defer to SY26-27, (3) extend Cycle 8.",
+  "name": "Cycle 10: Year-End Integration (MERGED INTO C8)",
+  "status": "merged",
+  "_resolution": {
+    "decision": "MERGED into Cycle 8 Week 3",
+    "decisionDate": "2025-12-08",
+    "details": "Year-End Integration activities merged into Cycle 8 Week 3. See cycle08.json for integrated structure."
+  },
+  "_calendarWarning": "RESOLVED - Year-End Integration merged into Cycle 8 Week 3 per decision on 2025-12-08.",
   "dates": {
     "start": null,
     "end": null,
