@@ -185,6 +185,34 @@ Reference: Sources = 41 Gt/year, Sinks = 22 Gt/year
 
 ---
 
+### Station 3 Q1: Design Description (5 pts)
+**Question:** Describe your carbon capture system: What approach(es)? Where located? What materials needed?
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **5** | Specific design with clear components and location | "Tree planting + school composting. Trees along front entrance (20 trees). Compost bins behind cafeteria. Materials: 20 saplings (~$300), 3 compost bins ($150), mulch ($50). Total: $500." |
+| **4** | Clear design with minor gaps | Design and location clear but materials vague |
+| **3** | General design concept | "Plant trees around the school in grassy areas." |
+| **2** | Vague description | "Use trees." |
+| **1** | Minimal attempt | Incomplete thought |
+| **0** | No response | Blank |
+
+---
+
+### Station 3 Q2: Carbon Calculation (5 pts)
+**Question:** Estimate CO₂ captured per year. Reference: 1 tree ≈ 48 lbs CO₂/year. SHOW YOUR WORK!
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **5** | Correct calculation with clear work and units | "20 trees × 48 lbs = 960 lbs CO₂/year. Context: 1 person = ~36,000 lbs/year, so this offsets ~2.7% of one person." |
+| **4** | Correct answer with partial work shown | "20 × 48 = 960 lbs of CO₂ per year." |
+| **3** | Setup correct but calculation error | "20 × 48 = 860 lbs" |
+| **2** | Attempted calculation | Numbers present but setup wrong |
+| **1** | No calculation attempted | "Lots of CO₂." |
+| **0** | No response | Blank |
+
+---
+
 ### Station 3 Q3: Scientific Justification (8 pts)
 **Question:** Explain HOW your system captures CO₂, WHERE the carbon goes, and HOW LONG it stays stored.
 
@@ -194,6 +222,33 @@ Reference: Sources = 41 Gt/year, Sinks = 22 Gt/year
 | **6** | 2 of 3 elements well | Missing one element or depth |
 | **4** | 1 element well | Only explains HOW or only WHERE |
 | **2** | General explanation | "Trees absorb carbon and store it." |
+| **0** | No response | Blank |
+
+**RED FLAG:** "Trees are good for the environment" = too vague. Push for HOW/WHERE/HOW LONG.
+
+---
+
+### Station 3 Q4: Acknowledge Limitations (4 pts)
+**Question:** What are the LIMITATIONS of your design? Consider space, maintenance, saturation, risks.
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **4** | Identifies 2+ real limitations with thoughtful analysis | "Space: Only ~20 trees fit. Time: Saplings absorb less than mature trees. Permanence: If trees burn, carbon returns to atmosphere. Maintenance: Who waters during summer?" |
+| **3** | Identifies 2+ limitations | "Limited space, trees could die or burn." |
+| **2** | Identifies 1 limitation | "We don't have much space." |
+| **1** | Vague limitation | "There are some problems." |
+| **0** | No response | Blank |
+
+---
+
+### Station 3 Q5: Feedback Connection (3 pts)
+**Question:** How does your carbon capture relate to feedback loops? Could it break a positive feedback or create a negative feedback?
+
+| Score | Criteria | Example Response |
+|-------|----------|------------------|
+| **3** | Correctly identifies how design relates to feedback loops | "Creates NEGATIVE feedback: More CO₂ → trees absorb more → less CO₂ → less warming. Change triggers response that REDUCES original change. Only slows positive feedbacks, doesn't stop them." |
+| **2** | Partial connection | "Trees absorb CO₂ which would reduce warming—opposite of positive feedback." |
+| **1** | No feedback concept | "It helps with climate change." |
 | **0** | No response | Blank |
 
 ---
