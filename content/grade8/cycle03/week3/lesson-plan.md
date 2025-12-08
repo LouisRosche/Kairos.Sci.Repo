@@ -43,7 +43,7 @@
 | Time | Activity | Notes |
 |------|----------|-------|
 | 0:00-0:05 | Warm-up | "What's the difference between Week 1 and Week 2?" |
-| 0:05-0:25 | Gallery Walk Review | Poster stations for each learning target |
+| 0:05-0:25 | Gallery Walk Review | Projected slide stations for each learning target |
 | 0:25-0:45 | Practice Problems | Similar to assessment questions |
 | 0:45-0:60 | Q&A | Students ask clarifying questions |
 | 0:60-0:65 | Preview | "Tomorrow: Assessment Parts 1 & 2" |
