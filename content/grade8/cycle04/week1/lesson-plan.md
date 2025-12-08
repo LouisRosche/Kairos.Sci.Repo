@@ -228,23 +228,26 @@ When a zebra eats 1000 kcal of grass:
 
 ## Materials Checklist
 
-### Digital
+### Digital Resources (100% Material-Free)
 - [ ] Chromebook cart (class set)
 - [ ] G8.C4.W1 Google Forms (5 forms deployed)
 - [ ] Student page embedded in LMS
 - [ ] Timer/stopwatch for stations
+- [ ] Serengeti ecosystem image (projected or embedded in student page)
+- [ ] Energy pyramid diagram (embedded in student page)
+- [ ] Farm design constraints (embedded in Google Form)
+- [ ] Calculator app (on Chromebooks)
 
-### Physical
-- [ ] Serengeti ecosystem poster or projected image
-- [ ] Calculators (class set)
-- [ ] Energy pyramid diagram reference
-- [ ] Farm design constraints handout (backup)
+### Physical Materials
+- [ ] Notecards (1 per student for exit ticket notes)
 
 ### Teacher Prep
 - [ ] Review all 5 forms before class
-- [ ] Prepare example calculations on board
-- [ ] Print async packets for absent students
+- [ ] Prepare example calculations on board/slides
+- [ ] Share async packets digitally for absent students
 - [ ] Set up station rotation if needed
+
+> **Note:** This lesson is designed for 100% material-free digital instruction. All diagrams, constraints, and data are embedded in the student page and Google Forms.
 
 ---
 

@@ -1,3 +1,10 @@
+<!--
+Grade 8 Cycle 3 Week 2 - Evidence of Evolution
+100% DIGITAL/SIMULATION-BASED INSTRUCTION
+No physical materials required except one notecard per class.
+Updated: December 2025 | Material-Free Audit Complete
+-->
+
 # Grade 8 Cycle 3 Week 2: Implementation Guide
 ## December 8-12, 2025 | Evidence of Evolution
 
@@ -15,17 +22,20 @@
 | G8.C3.W2: Station 3 - Design a Transitional Form | 5 | 25 |
 | G8.C3.W2: Exit Ticket - Evidence Integration | 6 | 23 |
 
-### Materials (100% Digital Instruction)
+### Digital Resources (100% Material-Free)
 
-| Item | Purpose | Access |
-|------|---------|--------|
-| Chromebooks | All activities | 1 per student |
-| Bone Homology Explorer | Station 1 - Interactive bone comparison | Student page simulation |
-| Transitional Form Designer | Station 3 - Design activity | Student page simulation |
-| Google Forms | All assessments (Hook, S1-S3, Exit) | Embedded in student page |
-| **Notecard (1 per student)** | Key concept capture | Physical - write "Homologous vs Analogous" definitions |
+| Station | Digital Resource | Access |
+|---------|------------------|--------|
+| 1 | Bone Homology Explorer simulation | Embedded in student-page.html |
+| 1 | Homologous vs Analogous video | Google Slides embed |
+| 2 | Whale Evolution Timeline table | Embedded in student-page.html |
+| 2 | Evidence for Evolution video | Google Slides embed |
+| 3 | Transitional Form Designer simulation | Embedded in student-page.html |
+| 3 | Worked example (Tiktaalik) | Embedded in student-page.html |
+| All | Chromebooks | 1 per student |
+| All | Notecards (exit reflections only) | 1 per student |
 
-**NOTE:** This lesson uses 100% digital instruction via simulations and Google Forms. The only physical material is ONE notecard per student for capturing the key vocabulary distinction (homologous vs analogous structures).
+**Note:** All bone diagrams, fossil sequences, and design activities are now digital simulations. Students interact with the Bone Homology Explorer and Transitional Form Designer directly on their Chromebooks.
 
 ### Resource Links
 
@@ -136,7 +146,7 @@ This is THE most common and persistent misconception. Students often say:
 - Use Bone Homology Explorer simulation with guided walkthrough (highlight one bone at a time)
 - Sentence frames: "The ___ is homologous to ___ because they have the same ___"
 - Transitional Form Designer "guided mode" with checkboxes (built into simulation)
-- Allow verbal explanations recorded on phone/Chromebook
+- Allow verbal explanations recorded on Chromebook
 
 ### More Challenge
 - "Research: What is molecular evidence for whale evolution?"
@@ -263,4 +273,4 @@ Pakicetus (50 mya) → Ambulocetus (49 mya) → Rodhocetus (47 mya) → Basilosa
 
 ---
 
-*Implementation Guide v1.0 | Grade 8 Week 2 | December 2025*
+*Implementation Guide v2.0 | Grade 8 Week 2 | December 2025 | 100% Digital/Simulation-Based*
