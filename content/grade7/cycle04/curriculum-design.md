@@ -99,19 +99,22 @@ Pteropod shells (sea butterflies) collected today are thinner and more fragile t
 
 ## Materials List
 
+> **100% Material-Free Digital Instruction:** All lessons are designed for digital delivery via Chromebooks. The only physical material is one notecard per student per lesson for exit ticket notes.
+
 ### Week 1: Ocean Acidification
 - Chromebooks (class set)
-- pH test strips (optional demo)
-- Shell dissolution time-lapse video
-- Carbon budget data tables
-- Sensor spec sheets for design challenge
+- Shell dissolution time-lapse video (embedded in student page)
+- Carbon budget data tables (embedded in student page)
+- Sensor spec sheets for design challenge (embedded in Google Form)
+- Notecard (1 per student)
 
 ### Week 2: Eutrophication
 - Chromebooks (class set)
 - Nutrient flow simulation (PhET or equivalent)
-- Gulf of Mexico dead zone data sets
-- Land use maps for design challenge
-- Intervention option cards
+- Gulf of Mexico dead zone data sets (embedded in student page)
+- Land use maps for design challenge (embedded in student page)
+- Intervention options (embedded in Google Form)
+- Notecard (1 per student)
 
 ---
 

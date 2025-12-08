@@ -86,17 +86,21 @@ Students investigate how excess nutrients from agricultural runoff cause eutroph
 
 ## Materials Checklist
 
-### Digital Resources
+### Digital Resources (100% Material-Free)
+- [ ] Chromebooks (class set)
 - [ ] Nutrient flow simulation (PhET or equivalent)
-- [ ] Gulf of Mexico dead zone data (1985-2024 graph)
-- [ ] Mississippi River nutrient levels graph
+- [ ] Gulf of Mexico dead zone data (1985-2024 graph, embedded in student page)
+- [ ] Mississippi River nutrient levels graph (embedded in student page)
 - [ ] Student page with form links
+- [ ] Data analysis questions (embedded in Google Form)
+- [ ] Intervention cost/effectiveness options (embedded in Google Form)
+- [ ] Design template (embedded in Google Form)
+- [ ] Calculator app (on Chromebooks)
 
 ### Physical Materials
-- [ ] Data analysis worksheets
-- [ ] Intervention cost/effectiveness cards
-- [ ] Design template for Station 3
-- [ ] Calculators
+- [ ] Notecards (1 per student for exit ticket notes)
+
+> **Note:** This lesson is designed for 100% material-free digital instruction. All data, worksheets, and design templates are embedded in the student page and Google Forms.
 
 ---
 
