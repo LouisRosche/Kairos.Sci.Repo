@@ -166,6 +166,51 @@
     "reportFormats": ["json", "csv", "xlsx"]
   },
 
+  "seating": {
+    "enabled": true,
+    "classroom": {
+      "layout": "perimeter",
+      "totalSeats": 24,
+      "walls": {
+        "north": { "seats": [1, 2, 3, 4, 5, 6], "label": "Front (Whiteboard)" },
+        "east": { "seats": [7, 8, 9, 10, 11, 12], "label": "Windows" },
+        "south": { "seats": [13, 14, 15, 16, 17, 18], "label": "Back" },
+        "west": { "seats": [19, 20, 21, 22, 23, 24], "label": "Hallway" }
+      }
+    },
+    "analysis": {
+      "minWeeksForCorrelation": 3,
+      "adjacencyDistance": 2,
+      "correlationThresholds": {
+        "catalystPair": 0.5,
+        "distractionVector": -0.4
+      },
+      "confidenceLevels": {
+        "high": { "minDataPoints": 20, "minBalance": 0.5 },
+        "medium": { "minDataPoints": 10, "minBalance": 0.3 }
+      }
+    },
+    "optimization": {
+      "weights": {
+        "peerTutoring": 1.5,
+        "tierClusteringPenalty": 2.0,
+        "catalystBonus": 2.0,
+        "distractionPenalty": 3.0
+      },
+      "tierPlacement": {
+        "tier3": "front",
+        "tier2": "sides",
+        "tier1": "flexible"
+      }
+    },
+    "printables": {
+      "signInCard": "templates/printables/seat-signin-card.html",
+      "seatingMap": "templates/printables/classroom-seating-map.html",
+      "insightsReport": "templates/printables/seating-insights-report.html",
+      "dataEntry": "templates/printables/signin-data-entry.html"
+    }
+  },
+
   "platforms": {
     "lms": {
       "name": "Canvas",

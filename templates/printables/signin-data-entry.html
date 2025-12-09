@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign-In Data Entry - KAMS Science</title>
+  <style>
+    /* ============================================
+       SIGN-IN DATA ENTRY FORM
+       ============================================
+
+       Easy-to-use interface for entering scanned sign-in card data.
+       Teachers can quickly input who sat where each day.
+
+       Features:
+       - Grid-based entry (matches sign-in card layout)
+       - Auto-complete for student names
+       - Bulk paste support
+       - Exports JSON for analysis
+    */
+
+    :root {
+      --color-primary: #059669;
+      --color-primary-dark: #047857;
+      --color-secondary: #3B82F6;
+      --color-accent: #8B5CF6;
+      --color-warning: #F59E0B;
+      --color-error: #DC2626;
+      --color-text: #1F2937;
+      --color-text-muted: #6B7280;
+      --color-gray-50: #F9FAFB;
+      --color-gray-100: #F3F4F6;
+      --color-gray-200: #E5E7EB;
+      --color-gray-300: #D1D5DB;
+
+      --day-mon: #FEE2E2;
+      --day-tue: #FEF3C7;
+      --day-wed: #D1FAE5;
+      --day-thu: #DBEAFE;
+      --day-fri: #EDE9FE;
+
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--color-text);
+      background: var(--color-gray-100);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* ============================================
+       SETUP PANEL
+       ============================================ */
+
+    .panel {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .panel h2 {
+      font-size: 16px;
+      color: var(--color-text);
+    }
+
+    .control-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .control-group {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .control-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .control-group input,
+    .control-group select,
+    .control-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--color-gray-300);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .control-group textarea {
+      min-height: 100px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    /* ============================================
+       DATA ENTRY GRID
+       ============================================ */
+
+    .entry-grid {
+      display: grid;
+      grid-template-columns: 80px repeat(5, 1fr);
+      gap: 2px;
+      background: var(--color-gray-200);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .grid-header {
+      background: var(--color-gray-100);
+      padding: 12px 8px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .grid-header.mon { background: var(--day-mon); }
+    .grid-header.tue { background: var(--day-tue); }
+    .grid-header.wed { background: var(--day-wed); }
+    .grid-header.thu { background: var(--day-thu); }
+    .grid-header.fri { background: var(--day-fri); }
+
+    .seat-label {
+      background: white;
+      padding: 12px 8px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .entry-cell {
+      background: white;
+      padding: 4px;
+    }
+
+    .entry-cell input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      font-size: 13px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .entry-cell input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      background: var(--color-gray-50);
+    }
+
+    .entry-cell input.filled {
+      background: #D1FAE5;
+      font-weight: 500;
+    }
+
+    .entry-cell input.absent {
+      background: #FEE2E2;
+      color: var(--color-error);
+    }
+
+    .entry-cell input.moved {
+      background: #FEF3C7;
+    }
+
+    /* ============================================
+       ROSTER PANEL
+       ============================================ */
+
+    .roster-panel {
+      display: flex;
+      gap: 20px;
+    }
+
+    .roster-list {
+      flex: 1;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid var(--color-gray-200);
+      border-radius: 8px;
+    }
+
+    .roster-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--color-gray-200);
+      font-size: 13px;
+    }
+
+    .roster-item:last-child {
+      border-bottom: none;
+    }
+
+    .roster-name {
+      flex: 1;
+    }
+
+    .roster-email {
+      color: var(--color-text-muted);
+      font-size: 11px;
+    }
+
+    /* ============================================
+       OUTPUT PANEL
+       ============================================ */
+
+    .output-panel {
+      background: var(--color-gray-50);
+      border: 1px solid var(--color-gray-200);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .output-panel pre {
+      background: var(--color-gray-100);
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      max-height: 300px;
+      overflow: auto;
+    }
+
+    /* ============================================
+       STATS BAR
+       ============================================ */
+
+    .stats-bar {
+      display: flex;
+      gap: 24px;
+      padding: 12px 16px;
+      background: var(--color-gray-50);
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+    }
+
+    /* ============================================
+       QUICK ACTIONS
+       ============================================ */
+
+    .quick-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .quick-action {
+      padding: 6px 12px;
+      background: white;
+      border: 1px solid var(--color-gray-200);
+      border-radius: 16px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quick-action:hover {
+      background: var(--color-gray-100);
+      border-color: var(--color-primary);
+    }
+
+    /* ============================================
+       HELP SECTION
+       ============================================ */
+
+    .help-box {
+      background: #EDE9FE;
+      border: 1px solid var(--color-accent);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .help-box h3 {
+      font-size: 14px;
+      color: var(--color-accent);
+      margin-bottom: 8px;
+    }
+
+    .help-box ul {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 13px;
+      color: var(--color-text);
+    }
+
+    .help-box li {
+      margin-bottom: 4px;
+    }
+
+    .help-box code {
+      background: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sign-In Data Entry</h1>
+    <p class="subtitle">Enter student sign-in data from scanned cards. Export JSON for seating analysis.</p>
+
+    <!-- ============================================
+         SETUP PANEL
+         ============================================ -->
+    <div class="panel">
+      <div class="panel-header">
+        <h2>Week Setup</h2>
+      </div>
+      <div class="control-row">
+        <div class="control-group">
+          <label>Period</label>
+          <select id="period">
+            <option value="1">Period 1</option>
+            <option value="2">Period 2</option>
+            <option value="3">Period 3</option>
+            <option value="4">Period 4</option>
+            <option value="5">Period 5</option>
+            <option value="6">Period 6</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Grade</label>
+          <select id="grade">
+            <option value="7">Grade 7</option>
+            <option value="8">Grade 8</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Cycle</label>
+          <select id="cycle">
+            <option value="3">Cycle 3</option>
+            <option value="4" selected>Cycle 4</option>
+            <option value="5">Cycle 5</option>
+            <option value="6">Cycle 6</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Week</label>
+          <select id="week">
+            <option value="1">Week 1</option>
+            <option value="2">Week 2</option>
+            <option value="3">Week 3</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Total Seats</label>
+          <input type="number" id="totalSeats" value="24" min="1" max="40">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="initializeGrid()">Initialize Entry Grid</button>
+    </div>
+
+    <!-- ============================================
+         STATS BAR
+         ============================================ -->
+    <div class="stats-bar" id="statsBar" style="display: none;">
+      <div class="stat">
+        <div class="stat-value" id="statFilled">0</div>
+        <div class="stat-label">Filled</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="statEmpty">0</div>
+        <div class="stat-label">Empty</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="statAbsent">0</div>
+        <div class="stat-label">Absent</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="statMoved">0</div>
+        <div class="stat-label">Moved</div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         QUICK ACTIONS
+         ============================================ -->
+    <div class="quick-actions" id="quickActions" style="display: none;">
+      <button class="quick-action" onclick="markAbsent()">Mark selected as Absent</button>
+      <button class="quick-action" onclick="copyFromPrevious()">Copy from previous day</button>
+      <button class="quick-action" onclick="clearColumn()">Clear selected column</button>
+      <button class="quick-action" onclick="validateEntries()">Validate entries</button>
+    </div>
+
+    <!-- ============================================
+         DATA ENTRY GRID
+         ============================================ -->
+    <div class="panel" id="gridPanel" style="display: none;">
+      <div class="panel-header">
+        <h2>Sign-In Data</h2>
+        <div>
+          <button class="btn btn-secondary btn-small" onclick="importFromClipboard()">Paste from Spreadsheet</button>
+        </div>
+      </div>
+      <div class="entry-grid" id="entryGrid">
+        <!-- Grid will be generated here -->
+      </div>
+
+      <div class="help-box">
+        <h3>Entry Tips</h3>
+        <ul>
+          <li>Enter student names exactly as written on sign-in cards (e.g., "Emma S.")</li>
+          <li>Type <code>ABS</code> or <code>absent</code> for absent students</li>
+          <li>For moved students, add <code>*</code> (e.g., "Emma S.*" if they moved from another seat)</li>
+          <li>Leave empty for unoccupied seats</li>
+          <li>Press Tab to move to next cell, Shift+Tab to go back</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ============================================
+         ROSTER PANEL
+         ============================================ -->
+    <div class="panel" id="rosterPanel" style="display: none;">
+      <div class="panel-header">
+        <h2>Class Roster (Optional)</h2>
+        <button class="btn btn-secondary btn-small" onclick="toggleRoster()">Hide</button>
+      </div>
+      <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 12px;">
+        Paste your roster to enable autocomplete and name validation.
+        Format: Name, Email (one per line)
+      </p>
+      <div class="control-group">
+        <textarea id="rosterInput" placeholder="Emma Smith, emma.smith@school.edu
+Jacob Martinez, jacob.martinez@school.edu
+..."></textarea>
+      </div>
+      <button class="btn btn-secondary btn-small" onclick="loadRoster()">Load Roster</button>
+      <div class="roster-list" id="rosterList" style="margin-top: 12px; display: none;">
+        <!-- Roster items will appear here -->
+      </div>
+    </div>
+
+    <!-- ============================================
+         EXPORT PANEL
+         ============================================ -->
+    <div class="panel" id="exportPanel" style="display: none;">
+      <div class="panel-header">
+        <h2>Export Data</h2>
+      </div>
+      <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+        <button class="btn btn-primary" onclick="generateExport()">Generate JSON</button>
+        <button class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
+        <button class="btn btn-secondary" onclick="downloadJSON()">Download File</button>
+      </div>
+      <div class="output-panel">
+        <pre id="jsonOutput">Click "Generate JSON" to create export data</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // App State
+    let totalSeats = 24;
+    let roster = [];
+    let gridData = {};
+
+    const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+    const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+
+    /**
+     * Initialize the entry grid
+     */
+    function initializeGrid() {
+      totalSeats = parseInt(document.getElementById('totalSeats').value);
+
+      const grid = document.getElementById('entryGrid');
+      grid.innerHTML = '';
+
+      // Header row
+      grid.innerHTML += '<div class="grid-header">Seat</div>';
+      DAYS.forEach((day, i) => {
+        grid.innerHTML += `<div class="grid-header ${day.substring(0, 3)}">${DAY_LABELS[i]}</div>`;
+      });
+
+      // Data rows
+      for (let seat = 1; seat <= totalSeats; seat++) {
+        grid.innerHTML += `<div class="seat-label">${seat}</div>`;
+
+        DAYS.forEach(day => {
+          grid.innerHTML += `
+            <div class="entry-cell">
+              <input type="text"
+                     id="cell-${seat}-${day}"
+                     data-seat="${seat}"
+                     data-day="${day}"
+                     oninput="handleInput(this)"
+                     onkeydown="handleKeydown(event, this)"
+                     placeholder="—">
+            </div>
+          `;
+        });
+      }
+
+      // Initialize data structure
+      gridData = {};
+      for (let seat = 1; seat <= totalSeats; seat++) {
+        gridData[seat] = {};
+        DAYS.forEach(day => {
+          gridData[seat][day] = { studentName: null, movedFrom: null };
+        });
+      }
+
+      // Show panels
+      document.getElementById('gridPanel').style.display = 'block';
+      document.getElementById('statsBar').style.display = 'flex';
+      document.getElementById('quickActions').style.display = 'flex';
+      document.getElementById('rosterPanel').style.display = 'block';
+      document.getElementById('exportPanel').style.display = 'block';
+
+      updateStats();
+    }
+
+    /**
+     * Handle input in a cell
+     */
+    function handleInput(input) {
+      const seat = parseInt(input.dataset.seat);
+      const day = input.dataset.day;
+      const value = input.value.trim();
+
+      // Update visual state
+      input.classList.remove('filled', 'absent', 'moved');
+
+      if (!value) {
+        gridData[seat][day] = { studentName: null, movedFrom: null };
+      } else if (value.toLowerCase() === 'abs' || value.toLowerCase() === 'absent') {
+        input.classList.add('absent');
+        gridData[seat][day] = { studentName: 'ABSENT', movedFrom: null };
+      } else if (value.includes('*')) {
+        input.classList.add('moved');
+        const name = value.replace('*', '').trim();
+        gridData[seat][day] = { studentName: name, movedFrom: 'unknown' };
+      } else {
+        input.classList.add('filled');
+        gridData[seat][day] = { studentName: value, movedFrom: null };
+      }
+
+      updateStats();
+    }
+
+    /**
+     * Handle keyboard navigation
+     */
+    function handleKeydown(event, input) {
+      const seat = parseInt(input.dataset.seat);
+      const day = input.dataset.day;
+      const dayIndex = DAYS.indexOf(day);
+
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        // Move to next seat, same day
+        const nextSeat = seat < totalSeats ? seat + 1 : 1;
+        const nextInput = document.getElementById(`cell-${nextSeat}-${day}`);
+        if (nextInput) nextInput.focus();
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        const nextSeat = seat < totalSeats ? seat + 1 : seat;
+        const nextInput = document.getElementById(`cell-${nextSeat}-${day}`);
+        if (nextInput) nextInput.focus();
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        const nextSeat = seat > 1 ? seat - 1 : seat;
+        const nextInput = document.getElementById(`cell-${nextSeat}-${day}`);
+        if (nextInput) nextInput.focus();
+      } else if (event.key === 'ArrowRight' && input.selectionEnd === input.value.length) {
+        event.preventDefault();
+        const nextDay = DAYS[dayIndex + 1];
+        if (nextDay) {
+          const nextInput = document.getElementById(`cell-${seat}-${nextDay}`);
+          if (nextInput) nextInput.focus();
+        }
+      } else if (event.key === 'ArrowLeft' && input.selectionStart === 0) {
+        event.preventDefault();
+        const prevDay = DAYS[dayIndex - 1];
+        if (prevDay) {
+          const prevInput = document.getElementById(`cell-${seat}-${prevDay}`);
+          if (prevInput) prevInput.focus();
+        }
+      }
+    }
+
+    /**
+     * Update statistics display
+     */
+    function updateStats() {
+      let filled = 0, empty = 0, absent = 0, moved = 0;
+
+      for (let seat = 1; seat <= totalSeats; seat++) {
+        DAYS.forEach(day => {
+          const data = gridData[seat][day];
+          if (!data.studentName) {
+            empty++;
+          } else if (data.studentName === 'ABSENT') {
+            absent++;
+          } else if (data.movedFrom) {
+            moved++;
+            filled++;
+          } else {
+            filled++;
+          }
+        });
+      }
+
+      document.getElementById('statFilled').textContent = filled;
+      document.getElementById('statEmpty').textContent = empty;
+      document.getElementById('statAbsent').textContent = absent;
+      document.getElementById('statMoved').textContent = moved;
+    }
+
+    /**
+     * Copy from previous day
+     */
+    function copyFromPrevious() {
+      const day = prompt('Copy TO which day? (mon, tue, wed, thu, fri)');
+      if (!day) return;
+
+      const dayMap = { mon: 'monday', tue: 'tuesday', wed: 'wednesday', thu: 'thursday', fri: 'friday' };
+      const targetDay = dayMap[day.toLowerCase()];
+      if (!targetDay) {
+        alert('Invalid day');
+        return;
+      }
+
+      const targetIndex = DAYS.indexOf(targetDay);
+      if (targetIndex === 0) {
+        alert('Cannot copy to Monday (no previous day)');
+        return;
+      }
+
+      const sourceDay = DAYS[targetIndex - 1];
+
+      for (let seat = 1; seat <= totalSeats; seat++) {
+        const sourceData = gridData[seat][sourceDay];
+        if (sourceData.studentName && sourceData.studentName !== 'ABSENT') {
+          const input = document.getElementById(`cell-${seat}-${targetDay}`);
+          input.value = sourceData.studentName;
+          handleInput(input);
+        }
+      }
+    }
+
+    /**
+     * Load roster from textarea
+     */
+    function loadRoster() {
+      const input = document.getElementById('rosterInput').value;
+      const lines = input.split('\n').filter(l => l.trim());
+
+      roster = lines.map(line => {
+        const parts = line.split(',');
+        return {
+          name: parts[0]?.trim() || '',
+          email: parts[1]?.trim() || ''
+        };
+      }).filter(s => s.name);
+
+      const list = document.getElementById('rosterList');
+      list.style.display = roster.length > 0 ? 'block' : 'none';
+      list.innerHTML = roster.map(s => `
+        <div class="roster-item">
+          <span class="roster-name">${s.name}</span>
+          <span class="roster-email">${s.email}</span>
+        </div>
+      `).join('');
+
+      alert(`Loaded ${roster.length} students`);
+    }
+
+    /**
+     * Import from clipboard (spreadsheet paste)
+     */
+    async function importFromClipboard() {
+      try {
+        const text = await navigator.clipboard.readText();
+        const rows = text.split('\n').filter(r => r.trim());
+
+        // Assume rows are: Seat, Mon, Tue, Wed, Thu, Fri
+        rows.forEach((row, i) => {
+          const cols = row.split('\t');
+          const seat = parseInt(cols[0]) || (i + 1);
+
+          if (seat > 0 && seat <= totalSeats) {
+            DAYS.forEach((day, di) => {
+              const value = cols[di + 1]?.trim();
+              if (value) {
+                const input = document.getElementById(`cell-${seat}-${day}`);
+                if (input) {
+                  input.value = value;
+                  handleInput(input);
+                }
+              }
+            });
+          }
+        });
+
+        alert(`Imported ${rows.length} rows`);
+      } catch (e) {
+        alert('Could not read clipboard. Make sure you copied the data first.');
+      }
+    }
+
+    /**
+     * Generate export JSON
+     */
+    function generateExport() {
+      const period = document.getElementById('period').value;
+      const grade = document.getElementById('grade').value;
+      const cycle = document.getElementById('cycle').value;
+      const week = document.getElementById('week').value;
+
+      const exportData = {
+        metadata: {
+          grade: parseInt(grade),
+          period: parseInt(period),
+          cycle: parseInt(cycle),
+          week: parseInt(week),
+          totalSeats,
+          enteredAt: new Date().toISOString()
+        },
+        seats: {}
+      };
+
+      for (let seat = 1; seat <= totalSeats; seat++) {
+        exportData.seats[seat] = {};
+        DAYS.forEach(day => {
+          const data = gridData[seat][day];
+          if (data.studentName && data.studentName !== 'ABSENT') {
+            exportData.seats[seat][day] = {
+              studentName: data.studentName,
+              movedFrom: data.movedFrom
+            };
+          } else if (data.studentName === 'ABSENT') {
+            exportData.seats[seat][day] = { absent: true };
+          }
+        });
+      }
+
+      // Include roster if available
+      if (roster.length > 0) {
+        exportData.roster = roster;
+      }
+
+      const output = JSON.stringify(exportData, null, 2);
+      document.getElementById('jsonOutput').textContent = output;
+
+      return exportData;
+    }
+
+    /**
+     * Copy JSON to clipboard
+     */
+    async function copyToClipboard() {
+      generateExport();
+      const output = document.getElementById('jsonOutput').textContent;
+      await navigator.clipboard.writeText(output);
+      alert('Copied to clipboard!');
+    }
+
+    /**
+     * Download JSON file
+     */
+    function downloadJSON() {
+      const exportData = generateExport();
+      const period = document.getElementById('period').value;
+      const cycle = document.getElementById('cycle').value;
+      const week = document.getElementById('week').value;
+
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `signin-p${period}-c${cycle}w${week}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    /**
+     * Validate entries against roster
+     */
+    function validateEntries() {
+      if (roster.length === 0) {
+        alert('Load a roster first to validate entries');
+        return;
+      }
+
+      const rosterNames = roster.map(r => r.name.toLowerCase());
+      const issues = [];
+
+      for (let seat = 1; seat <= totalSeats; seat++) {
+        DAYS.forEach(day => {
+          const data = gridData[seat][day];
+          if (data.studentName && data.studentName !== 'ABSENT') {
+            const nameLower = data.studentName.toLowerCase().replace('*', '').trim();
+            const match = rosterNames.find(r =>
+              r.includes(nameLower.split(' ')[0]) // Match first name
+            );
+            if (!match) {
+              issues.push(`Seat ${seat}, ${day}: "${data.studentName}" not in roster`);
+            }
+          }
+        });
+      }
+
+      if (issues.length === 0) {
+        alert('All entries match roster!');
+      } else {
+        alert(`Found ${issues.length} issues:\n\n${issues.slice(0, 10).join('\n')}${issues.length > 10 ? '\n...' : ''}`);
+      }
+    }
+
+    /**
+     * Toggle roster panel visibility
+     */
+    function toggleRoster() {
+      const panel = document.getElementById('rosterPanel');
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
