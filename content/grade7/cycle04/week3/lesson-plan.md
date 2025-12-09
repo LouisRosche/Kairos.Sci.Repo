@@ -200,6 +200,86 @@ Assessment week synthesizing Weeks 1-2 content on ocean acidification and eutrop
 
 ---
 
+## Exemplar Responses
+
+### Part 1 Q2 (Cascade similarity) - 4 points
+
+**Exemplar (4/4):**
+> Both ocean acidification and eutrophication follow a cascade pattern where one change triggers a chain of other changes:
+>
+> **Ocean Acidification:** CO2 → dissolves in water → forms carbonic acid → releases H+ → pH drops → shells dissolve → organisms die → food web disrupted
+>
+> **Eutrophication:** Excess nutrients → algae bloom → blocks sunlight → underwater plants die → bacteria decompose → oxygen depleted → fish die → dead zone
+>
+> Both cascades show how ONE human input (CO2 or nutrients) can trigger a chain reaction through the whole system.
+
+### Part 1 Q5 (Double threat) - 4 points
+
+**Exemplar (4/4):**
+> Coastal ecosystems face a "double threat" because they experience BOTH ocean acidification AND eutrophication at the same time. For example, the Gulf of Mexico has:
+> 1. Nutrient runoff from Mississippi River → eutrophication → dead zones
+> 2. CO2 absorption from atmosphere → acidification → weakened shells
+>
+> These aren't separate problems - they INTERACT. Stressed organisms from one threat are more vulnerable to the other. A shrimp weakened by low oxygen is also trying to build shells in acidic water. This combined stress is worse than either problem alone.
+
+### Part 2 A2 (Shell impact) - 5 points
+
+**Exemplar (5/5):**
+> Ocean acidification damages shell-building organisms through a chemical cascade:
+> 1. CO2 dissolves in seawater → forms carbonic acid (H2CO3)
+> 2. Acid releases hydrogen ions (H+) → pH drops
+> 3. H+ ions react with carbonate ions (CO3²⁻) that organisms need
+> 4. Less carbonate available → harder to build calcium carbonate shells
+> 5. In severe cases, existing shells DISSOLVE as water becomes corrosive
+>
+> This affects pteropods (sea butterflies), oysters, corals, and plankton - all are foundation species that other organisms depend on for food.
+
+### Part 2 B4 (Long-term solution) - 4 points
+
+**Exemplar (4/4):**
+> The most effective long-term solution for eutrophication in the Gulf of Mexico is reducing fertilizer runoff at the SOURCE - in the Mississippi watershed:
+>
+> 1. **Precision agriculture:** Only apply fertilizer where and when crops need it, not excess
+> 2. **Buffer zones:** Plant strips of native vegetation between farms and waterways to absorb nutrients before they reach rivers
+> 3. **Cover crops:** Keep plants growing year-round to hold nutrients in soil
+>
+> These work better than treating symptoms (like aerating dead zones) because they stop nutrients from entering the system in the first place. Prevention > treatment.
+
+### Part 2 C1 (Percent increase) - 5 points
+
+**Exemplar (5/5):**
+> Calculating percent increase in dead zone size:
+> 1990 size: 8,000 km²
+> 2020 size: 17,000 km²
+>
+> Percent increase = (New - Old) / Old × 100
+> = (17,000 - 8,000) / 8,000 × 100
+> = 9,000 / 8,000 × 100
+> = 1.125 × 100
+> = **112.5% increase**
+>
+> This means the dead zone MORE THAN DOUBLED in 30 years, showing that current efforts to reduce nutrient runoff have not been sufficient.
+
+### Part 3: Misconception Explanations
+
+**"More nutrients = healthier ecosystem" (4 pts):**
+> This is FALSE. More nutrients cause ALGAE BLOOMS, not overall health. The cascade:
+> - Algae grow rapidly → block sunlight
+> - Underwater plants die → bacteria decompose them
+> - Bacteria use up oxygen → fish suffocate
+> - Dead zone forms with little to no life
+>
+> Ecosystems need BALANCED nutrients, not maximum nutrients. The Goldilocks principle applies.
+
+**"Small pH change = unimportant" (4 pts):**
+> This is FALSE because pH is a LOGARITHMIC scale. Each 1-unit pH drop means 10× more acidic:
+> - pH 8.2 → 8.1 = 1.26× more acidic (25% more H+)
+> - pH 8.2 → 7.2 = 10× more acidic!
+>
+> Since pre-industrial times, ocean pH dropped from 8.2 to 8.1. That "small" 0.1 change represents a 26% increase in acidity - significant for organisms that evolved in stable conditions.
+
+---
+
 ## Data Collection Points
 
 ### MTSS Triggers

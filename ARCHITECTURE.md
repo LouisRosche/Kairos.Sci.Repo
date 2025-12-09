@@ -1,7 +1,7 @@
 # KAMS Science Curriculum System Architecture
-## Scalable Design for 8 Cycles × 2 Grades × 3 Weeks
+## Scalable Design for 6 Cycles × 2 Grades × 3 Weeks (SY25-26)
 
-**Version 3.0.0** | December 2025
+**Version 3.1.0** | December 2025
 
 ---
 
@@ -29,7 +29,7 @@ This document defines the organizational architecture for a complete middle scho
 ## Directory Structure
 
 ```
-C3.Repo/
+Kairos.Sci.Repo/
 ├── README.md                          # Quick navigation & teacher workflow
 ├── ARCHITECTURE.md                    # This document
 ├── LESSONS-LEARNED.md                 # ⭐ Institutional knowledge - read first!
@@ -73,22 +73,25 @@ C3.Repo/
 │   ├── pedagogical-approach.md        # Teaching philosophy
 │   ├── technical-reference.md         # Forms API constraints
 │   ├── mtss-framework.md              # Intervention tiers & triggers
-│   └── standards-alignment.md         # NGSS mapping across cycles
+│   ├── standards-alignment.md         # NGSS mapping across cycles
+│   └── phet-simulations-catalog.md    # Digital resources & custom simulations
 │
 ├── content/                           # All cycle/grade/week content
 │   ├── grade7/
-│   │   ├── cycle03/                   # ✅ Complete
+│   │   ├── cycle03/                   # ✅ Complete (Deployed)
 │   │   │   ├── cycle-status.json      # Tracking file
 │   │   │   ├── curriculum-design.md
 │   │   │   ├── rubrics.md
 │   │   │   ├── week1/
 │   │   │   │   ├── forms.gs
 │   │   │   │   ├── lesson-plan.md
-│   │   │   │   └── student-page.html
+│   │   │   │   ├── student-page.html
+│   │   │   │   └── simulations/       # Custom HTML5 simulations
 │   │   │   ├── week2/
 │   │   │   └── week3/
-│   │   ├── cycle04/                   # 🟡 In Progress
-│   │   ├── cycle05-10/                # 🟡 Content development in progress
+│   │   ├── cycle04/                   # ✅ Complete (100%)
+│   │   ├── cycle05/                   # 🟡 In Progress (G7: 85%)
+│   │   ├── cycle06-10/                # 📋 Placeholder
 │   │   └── ...
 │   ├── grade8/
 │   │   └── ... (same structure)
@@ -647,22 +650,23 @@ Each cycle now includes a `cycle-status.json` file for tracking development prog
 {
   "cycle": 4,
   "grade": 7,
-  "status": "in_progress",
-  "lastUpdated": "2025-12-07",
+  "status": "complete",
+  "lastUpdated": "2025-12-08",
   "topic": "Biogeochemical Cycles & Human Impact",
   "completion": {
-    "overall": 75,
+    "overall": 100,
     "curriculumDesign": 100,
     "rubrics": 100,
-    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
-    "week2": { "forms": 100, "lessonPlan": 50, "studentPage": 50, "slides": 0 },
-    "week3": { "forms": 100, "lessonPlan": 50, "studentPage": 50, "slides": 0 }
+    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 100 },
+    "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 100 },
+    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 100 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
     "week3": false
-  }
+  },
+  "readyForDeployment": true
 }
 ```
 
@@ -674,4 +678,4 @@ Status values:
 
 ---
 
-*Architecture Version 3.0.0 | December 2025 | Centralized Configuration Refactor Complete*
+*Architecture Version 3.1.0 | December 2025 | Centralized Configuration Refactor Complete*

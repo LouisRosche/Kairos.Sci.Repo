@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Molecule Structure Explorer | G7 C2 W1</title>
+  <style>
+    :root {
+      --primary: #8B5CF6;
+      --primary-light: #EDE9FE;
+      --primary-dark: #7C3AED;
+      --secondary: #EC4899;
+      --oxygen: #EF4444;
+      --hydrogen: #60A5FA;
+      --carbon: #374151;
+      --nitrogen: #3B82F6;
+      --bg: #FAF5FF;
+      --text: #1E293B;
+      --text-muted: #64748B;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --surface: #FFFFFF;
+      --border: #CBD5E1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    }
+
+    header h1 {
+      font-size: 1.8em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    header .icon { font-size: 1.2em; }
+
+    header .subtitle {
+      opacity: 0.95;
+      font-size: 1.05em;
+    }
+
+    header .meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    header .meta span {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85em;
+    }
+
+    /* Instructions */
+    details.instructions {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    details.instructions summary {
+      font-weight: 600;
+      font-size: 1.1em;
+      cursor: pointer;
+      color: var(--primary);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    details.instructions summary::-webkit-details-marker { display: none; }
+
+    details.instructions summary::before {
+      content: '▶';
+      font-size: 0.7em;
+      transition: transform 0.2s;
+    }
+
+    details.instructions[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    details.instructions .content {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    details.instructions ol { margin-left: 20px; }
+    details.instructions li { margin-bottom: 8px; }
+
+    /* Molecule Selection */
+    .molecule-selector {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .molecule-selector h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .molecule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .molecule-card {
+      padding: 20px;
+      border: 3px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--surface);
+      text-align: center;
+    }
+
+    .molecule-card:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .molecule-card:focus {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .molecule-card.selected {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+    }
+
+    .molecule-card .formula {
+      font-size: 1.8em;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .molecule-card .formula sub {
+      font-size: 0.7em;
+    }
+
+    .molecule-card .name {
+      font-size: 0.95em;
+      opacity: 0.9;
+    }
+
+    /* Main Visualization Area */
+    .visualization-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .model-viewer {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .viewer-header {
+      background: var(--primary-light);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .viewer-header h2 {
+      font-size: 1em;
+      color: var(--primary-dark);
+    }
+
+    .geometry-badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+      background: var(--surface);
+      border: 2px solid var(--primary);
+      color: var(--primary-dark);
+    }
+
+    .canvas-container {
+      height: 400px;
+      background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
+      position: relative;
+    }
+
+    #moleculeCanvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .rotation-controls {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 8px 16px;
+      border-radius: 24px;
+    }
+
+    .rotate-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .rotate-btn:hover { background: var(--primary-dark); }
+
+    .rotate-btn:focus {
+      outline: 3px solid var(--primary-dark);
+      outline-offset: 2px;
+    }
+
+    /* Info Panel */
+    .info-panel {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .info-header {
+      background: var(--primary-light);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-header h2 {
+      font-size: 1em;
+      color: var(--primary-dark);
+    }
+
+    .info-content {
+      padding: 20px;
+    }
+
+    .info-section {
+      margin-bottom: 20px;
+    }
+
+    .info-section:last-child { margin-bottom: 0; }
+
+    .info-section h3 {
+      font-size: 0.9em;
+      color: var(--primary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .atom-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .atom-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+
+    .atom-tag .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .atom-tag.oxygen { background: #FEE2E2; color: #991B1B; }
+    .atom-tag.oxygen .dot { background: var(--oxygen); }
+
+    .atom-tag.hydrogen { background: #DBEAFE; color: #1E40AF; }
+    .atom-tag.hydrogen .dot { background: var(--hydrogen); }
+
+    .atom-tag.carbon { background: #F3F4F6; color: #1F2937; }
+    .atom-tag.carbon .dot { background: var(--carbon); }
+
+    .property-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .property-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--bg);
+      border-radius: 8px;
+      font-size: 0.9em;
+    }
+
+    .property-item .label { color: var(--text-muted); }
+    .property-item .value { font-weight: 600; }
+
+    .structure-explanation {
+      background: var(--primary-light);
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 0.9em;
+      line-height: 1.7;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* Geometry Reference */
+    .geometry-section {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .geometry-section h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .geometry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .geometry-card {
+      background: var(--bg);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .geometry-card .shape-icon {
+      font-size: 3em;
+      margin-bottom: 12px;
+    }
+
+    .geometry-card h3 {
+      font-size: 1.1em;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .geometry-card p {
+      font-size: 0.9em;
+      color: var(--text-muted);
+    }
+
+    .geometry-card .example {
+      margin-top: 8px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Key Concepts */
+    .concepts-section {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .concepts-section h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .concept-highlight {
+      background: linear-gradient(135deg, var(--primary-light) 0%, #F3E8FF 100%);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .concept-highlight h3 {
+      font-size: 1.1em;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .concept-highlight p {
+      font-size: 0.95em;
+      line-height: 1.7;
+    }
+
+    /* Quiz Section */
+    .quiz-section {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .quiz-section h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .quiz-question {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quiz-question:last-of-type {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .quiz-question p {
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .quiz-option:focus-within {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .quiz-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .quiz-option.correct {
+      border-color: var(--success);
+      background: #D1FAE5;
+    }
+
+    .quiz-option.incorrect {
+      border-color: #EF4444;
+      background: #FEE2E2;
+    }
+
+    .quiz-feedback {
+      margin-top: 12px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.95em;
+      display: none;
+    }
+
+    .quiz-feedback.show { display: block; }
+
+    .quiz-feedback.correct {
+      background: #D1FAE5;
+      color: #065F46;
+      border-left: 4px solid var(--success);
+    }
+
+    .quiz-feedback.incorrect {
+      background: #FEE2E2;
+      color: #991B1B;
+      border-left: 4px solid #EF4444;
+    }
+
+    .quiz-submit {
+      margin-top: 20px;
+      padding: 14px 28px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .quiz-submit:hover { background: var(--primary-dark); }
+
+    .quiz-submit:focus {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .quiz-score {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary-dark);
+      display: none;
+    }
+
+    .quiz-score.show { display: block; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-muted);
+      font-size: 0.85em;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .visualization-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .container { padding: 12px; }
+      header { padding: 16px; }
+      header h1 { font-size: 1.4em; }
+
+      .canvas-container { height: 300px; }
+
+      .molecule-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .geometry-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 500px) {
+      header .meta {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .molecule-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .molecule-card {
+        padding: 12px;
+      }
+
+      .molecule-card .formula {
+        font-size: 1.4em;
+      }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><span class="icon" aria-hidden="true">🔬</span> Molecule Structure Explorer</h1>
+      <div class="subtitle">Discover how atomic arrangement determines properties</div>
+      <div class="meta">
+        <span>Grade 7 Cycle 2 Week 1</span>
+        <span>MS-PS1-1</span>
+        <span>Station 1: Molecule Builder</span>
+      </div>
+    </header>
+
+    <details class="instructions" open>
+      <summary>How to Use This Simulator</summary>
+      <div class="content">
+        <ol>
+          <li><strong>Select a molecule:</strong> Click on one of the molecule cards below to explore it.</li>
+          <li><strong>View the 3D model:</strong> The molecule will appear in the viewer. Use rotation buttons to see it from different angles.</li>
+          <li><strong>Study the structure:</strong> Notice the atom colors, how they're connected, and the overall shape.</li>
+          <li><strong>Connect to properties:</strong> Read how the structure explains the molecule's real-world properties.</li>
+          <li><strong>Test understanding:</strong> Complete the quiz to check what you've learned!</li>
+        </ol>
+      </div>
+    </details>
+
+    <section class="molecule-selector">
+      <h2>Select a Molecule to Explore</h2>
+      <div class="molecule-grid" role="radiogroup" aria-label="Molecule selection">
+        <div class="molecule-card selected" tabindex="0" role="radio" aria-checked="true" data-molecule="h2o">
+          <div class="formula">H<sub>2</sub>O</div>
+          <div class="name">Water</div>
+        </div>
+        <div class="molecule-card" tabindex="0" role="radio" aria-checked="false" data-molecule="co2">
+          <div class="formula">CO<sub>2</sub></div>
+          <div class="name">Carbon Dioxide</div>
+        </div>
+        <div class="molecule-card" tabindex="0" role="radio" aria-checked="false" data-molecule="ch4">
+          <div class="formula">CH<sub>4</sub></div>
+          <div class="name">Methane</div>
+        </div>
+        <div class="molecule-card" tabindex="0" role="radio" aria-checked="false" data-molecule="nh3">
+          <div class="formula">NH<sub>3</sub></div>
+          <div class="name">Ammonia</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="visualization-grid">
+      <div class="model-viewer">
+        <div class="viewer-header">
+          <h2>3D Molecular Model</h2>
+          <span class="geometry-badge" id="geometryBadge">Bent</span>
+        </div>
+        <div class="canvas-container">
+          <canvas id="moleculeCanvas" aria-label="3D visualization of the selected molecule"></canvas>
+          <div class="rotation-controls">
+            <button class="rotate-btn" id="rotateLeft" aria-label="Rotate left">←</button>
+            <button class="rotate-btn" id="rotateUp" aria-label="Rotate up">↑</button>
+            <button class="rotate-btn" id="rotateDown" aria-label="Rotate down">↓</button>
+            <button class="rotate-btn" id="rotateRight" aria-label="Rotate right">→</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="info-panel">
+        <div class="info-header">
+          <h2>Molecule Information</h2>
+        </div>
+        <div class="info-content">
+          <div class="info-section">
+            <h3>Atoms Present</h3>
+            <div class="atom-list" id="atomList">
+              <span class="atom-tag oxygen"><span class="dot"></span>1 Oxygen</span>
+              <span class="atom-tag hydrogen"><span class="dot"></span>2 Hydrogen</span>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3>Properties</h3>
+            <div class="property-list" id="propertyList">
+              <div class="property-item">
+                <span class="label">State at Room Temp</span>
+                <span class="value">Liquid</span>
+              </div>
+              <div class="property-item">
+                <span class="label">Polarity</span>
+                <span class="value">Polar</span>
+              </div>
+              <div class="property-item">
+                <span class="label">Bond Angle</span>
+                <span class="value">104.5°</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3>Why This Shape?</h3>
+            <div class="structure-explanation" id="structureExplanation">
+              Water has a <strong>bent shape</strong> because the oxygen atom has two pairs of electrons that aren't bonded to anything. These electron pairs push the hydrogen atoms closer together, creating the V-shape. This bent structure makes water polar, which is why it's such a good solvent!
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="geometry-section">
+      <h2>Molecular Geometry Reference</h2>
+      <div class="geometry-grid">
+        <div class="geometry-card">
+          <div class="shape-icon">━━━</div>
+          <h3>Linear</h3>
+          <p>Atoms arranged in a straight line (180° angle)</p>
+          <div class="example">Example: CO<sub>2</sub></div>
+        </div>
+        <div class="geometry-card">
+          <div class="shape-icon">╱╲</div>
+          <h3>Bent</h3>
+          <p>Atoms form a V-shape or angle (less than 180°)</p>
+          <div class="example">Example: H<sub>2</sub>O</div>
+        </div>
+        <div class="geometry-card">
+          <div class="shape-icon">△</div>
+          <h3>Tetrahedral</h3>
+          <p>4 atoms around center in 3D pyramid (109.5°)</p>
+          <div class="example">Example: CH<sub>4</sub></div>
+        </div>
+        <div class="geometry-card">
+          <div class="shape-icon">⌂</div>
+          <h3>Trigonal Pyramidal</h3>
+          <p>3 atoms + lone pair form pyramid shape</p>
+          <div class="example">Example: NH<sub>3</sub></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="concepts-section">
+      <h2>Key Concept: Structure Determines Properties</h2>
+      <div class="concept-highlight">
+        <h3>The Big Idea</h3>
+        <p>The way atoms are <strong>arranged in 3D space</strong> determines how a molecule behaves. Two molecules with the same atoms can have completely different properties if those atoms are arranged differently. This is why understanding molecular structure is so important in chemistry!</p>
+      </div>
+      <div class="concept-highlight">
+        <h3>Why Shape Matters</h3>
+        <p><strong>Water (bent)</strong> is a liquid that dissolves many things because its bent shape makes it polar.<br>
+        <strong>CO₂ (linear)</strong> is a gas that doesn't dissolve well because its linear shape makes it nonpolar.<br>
+        Same elements (C, H, O), but DIFFERENT arrangements = DIFFERENT behaviors!</p>
+      </div>
+    </section>
+
+    <section class="quiz-section" aria-labelledby="quiz-heading">
+      <h2 id="quiz-heading">Check Your Understanding</h2>
+
+      <div class="quiz-question" data-question="1">
+        <p>1. What is the molecular geometry of water (H₂O)?</p>
+        <div class="quiz-options">
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="a">
+            <span>Linear</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="b">
+            <span>Bent</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="c">
+            <span>Tetrahedral</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="d">
+            <span>Trigonal Pyramidal</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback1"></div>
+      </div>
+
+      <div class="quiz-question" data-question="2">
+        <p>2. CO₂ and H₂O both contain oxygen atoms. Why do they have different properties?</p>
+        <div class="quiz-options">
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="a">
+            <span>They have different numbers of atoms</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="b">
+            <span>Their atoms are arranged in different shapes (linear vs. bent)</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="c">
+            <span>CO₂ is heavier than H₂O</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="d">
+            <span>Water has more electrons</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback2"></div>
+      </div>
+
+      <div class="quiz-question" data-question="3">
+        <p>3. A molecule has 4 hydrogen atoms bonded to a central carbon atom. What shape would you predict?</p>
+        <div class="quiz-options">
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="a">
+            <span>Linear (straight line)</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="b">
+            <span>Bent (V-shape)</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="c">
+            <span>Tetrahedral (3D pyramid)</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="d">
+            <span>Flat square</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback3"></div>
+      </div>
+
+      <button class="quiz-submit" id="submitQuiz">Check Answers</button>
+      <div class="quiz-score" id="quizScore"></div>
+    </section>
+
+    <footer>
+      <p>Grade 7 Cycle 2 Week 1 | Molecule Structure Explorer | MS-PS1-1</p>
+      <p>KAMS Science Department</p>
+    </footer>
+  </div>
+
+  <script>
+    // Molecule data
+    const molecules = {
+      h2o: {
+        name: 'Water',
+        formula: 'H₂O',
+        geometry: 'Bent',
+        atoms: [
+          { element: 'O', x: 0, y: 0, z: 0, color: '#EF4444', radius: 30 },
+          { element: 'H', x: -50, y: 40, z: 0, color: '#60A5FA', radius: 20 },
+          { element: 'H', x: 50, y: 40, z: 0, color: '#60A5FA', radius: 20 }
+        ],
+        bonds: [[0, 1], [0, 2]],
+        atomList: '<span class="atom-tag oxygen"><span class="dot"></span>1 Oxygen</span><span class="atom-tag hydrogen"><span class="dot"></span>2 Hydrogen</span>',
+        properties: [
+          { label: 'State at Room Temp', value: 'Liquid' },
+          { label: 'Polarity', value: 'Polar' },
+          { label: 'Bond Angle', value: '104.5°' }
+        ],
+        explanation: 'Water has a <strong>bent shape</strong> because the oxygen atom has two pairs of electrons that aren\'t bonded to anything. These electron pairs push the hydrogen atoms closer together, creating the V-shape. This bent structure makes water polar, which is why it\'s such a good solvent!'
+      },
+      co2: {
+        name: 'Carbon Dioxide',
+        formula: 'CO₂',
+        geometry: 'Linear',
+        atoms: [
+          { element: 'C', x: 0, y: 0, z: 0, color: '#374151', radius: 28 },
+          { element: 'O', x: -60, y: 0, z: 0, color: '#EF4444', radius: 30 },
+          { element: 'O', x: 60, y: 0, z: 0, color: '#EF4444', radius: 30 }
+        ],
+        bonds: [[0, 1], [0, 2]],
+        atomList: '<span class="atom-tag carbon"><span class="dot"></span>1 Carbon</span><span class="atom-tag oxygen"><span class="dot"></span>2 Oxygen</span>',
+        properties: [
+          { label: 'State at Room Temp', value: 'Gas' },
+          { label: 'Polarity', value: 'Nonpolar' },
+          { label: 'Bond Angle', value: '180°' }
+        ],
+        explanation: 'CO₂ is <strong>linear</strong> because the carbon atom forms double bonds with both oxygen atoms, and there are no lone pairs on carbon to push them apart. The two oxygens pull equally in opposite directions, making the molecule nonpolar overall—that\'s why CO₂ is a gas at room temperature!'
+      },
+      ch4: {
+        name: 'Methane',
+        formula: 'CH₄',
+        geometry: 'Tetrahedral',
+        atoms: [
+          { element: 'C', x: 0, y: 0, z: 0, color: '#374151', radius: 28 },
+          { element: 'H', x: 0, y: -55, z: 35, color: '#60A5FA', radius: 20 },
+          { element: 'H', x: -50, y: 25, z: 25, color: '#60A5FA', radius: 20 },
+          { element: 'H', x: 50, y: 25, z: 25, color: '#60A5FA', radius: 20 },
+          { element: 'H', x: 0, y: 25, z: -50, color: '#60A5FA', radius: 20 }
+        ],
+        bonds: [[0, 1], [0, 2], [0, 3], [0, 4]],
+        atomList: '<span class="atom-tag carbon"><span class="dot"></span>1 Carbon</span><span class="atom-tag hydrogen"><span class="dot"></span>4 Hydrogen</span>',
+        properties: [
+          { label: 'State at Room Temp', value: 'Gas' },
+          { label: 'Polarity', value: 'Nonpolar' },
+          { label: 'Bond Angle', value: '109.5°' }
+        ],
+        explanation: 'Methane has a <strong>tetrahedral shape</strong>—imagine a 3D pyramid with carbon in the center and hydrogen at each corner. With 4 equal bonds and no lone pairs, the hydrogens spread out as far as possible (109.5° apart). This symmetry makes methane nonpolar, which is why natural gas floats up and disperses easily!'
+      },
+      nh3: {
+        name: 'Ammonia',
+        formula: 'NH₃',
+        geometry: 'Trigonal Pyramidal',
+        atoms: [
+          { element: 'N', x: 0, y: -10, z: 0, color: '#3B82F6', radius: 28 },
+          { element: 'H', x: 0, y: 45, z: 45, color: '#60A5FA', radius: 20 },
+          { element: 'H', x: -45, y: 45, z: -20, color: '#60A5FA', radius: 20 },
+          { element: 'H', x: 45, y: 45, z: -20, color: '#60A5FA', radius: 20 }
+        ],
+        bonds: [[0, 1], [0, 2], [0, 3]],
+        atomList: '<span class="atom-tag" style="background:#DBEAFE;color:#1E40AF"><span class="dot" style="background:#3B82F6"></span>1 Nitrogen</span><span class="atom-tag hydrogen"><span class="dot"></span>3 Hydrogen</span>',
+        properties: [
+          { label: 'State at Room Temp', value: 'Gas' },
+          { label: 'Polarity', value: 'Polar' },
+          { label: 'Bond Angle', value: '107°' }
+        ],
+        explanation: 'Ammonia is <strong>trigonal pyramidal</strong>—like a tripod or umbrella shape. The nitrogen has one lone pair of electrons that pushes down on the three hydrogens, creating a pyramid. This asymmetry makes ammonia polar, which is why it dissolves easily in water and has such a strong smell!'
+      }
+    };
+
+    // State
+    let currentMolecule = 'h2o';
+    let rotationX = 0;
+    let rotationY = 0;
+    let canvas, ctx;
+
+    // DOM Elements
+    const moleculeCards = document.querySelectorAll('.molecule-card');
+    const geometryBadge = document.getElementById('geometryBadge');
+    const atomList = document.getElementById('atomList');
+    const propertyList = document.getElementById('propertyList');
+    const structureExplanation = document.getElementById('structureExplanation');
+
+    // Initialize canvas
+    function initCanvas() {
+      canvas = document.getElementById('moleculeCanvas');
+      ctx = canvas.getContext('2d');
+
+      const container = canvas.parentElement;
+      canvas.width = container.clientWidth * window.devicePixelRatio;
+      canvas.height = container.clientHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+      drawMolecule();
+    }
+
+    // 3D rotation math
+    function rotatePoint(x, y, z, angleX, angleY) {
+      // Rotate around Y axis
+      const cosY = Math.cos(angleY);
+      const sinY = Math.sin(angleY);
+      const x1 = x * cosY - z * sinY;
+      const z1 = x * sinY + z * cosY;
+
+      // Rotate around X axis
+      const cosX = Math.cos(angleX);
+      const sinX = Math.sin(angleX);
+      const y1 = y * cosX - z1 * sinX;
+      const z2 = y * sinX + z1 * cosX;
+
+      return { x: x1, y: y1, z: z2 };
+    }
+
+    // Draw molecule
+    function drawMolecule() {
+      const width = canvas.width / window.devicePixelRatio;
+      const height = canvas.height / window.devicePixelRatio;
+      const centerX = width / 2;
+      const centerY = height / 2;
+
+      ctx.clearRect(0, 0, width, height);
+
+      const mol = molecules[currentMolecule];
+
+      // Transform atoms
+      const transformedAtoms = mol.atoms.map(atom => {
+        const rotated = rotatePoint(atom.x, atom.y, atom.z, rotationX, rotationY);
+        return {
+          ...atom,
+          screenX: centerX + rotated.x * 1.5,
+          screenY: centerY + rotated.y * 1.5,
+          depth: rotated.z
+        };
+      });
+
+      // Sort by depth (back to front)
+      const sortedAtoms = [...transformedAtoms].sort((a, b) => a.depth - b.depth);
+
+      // Draw bonds
+      ctx.strokeStyle = '#9CA3AF';
+      ctx.lineWidth = 8;
+      ctx.lineCap = 'round';
+
+      mol.bonds.forEach(([a, b]) => {
+        const atom1 = transformedAtoms[a];
+        const atom2 = transformedAtoms[b];
+
+        ctx.beginPath();
+        ctx.moveTo(atom1.screenX, atom1.screenY);
+        ctx.lineTo(atom2.screenX, atom2.screenY);
+        ctx.stroke();
+      });
+
+      // Draw atoms
+      sortedAtoms.forEach(atom => {
+        // Scale based on depth
+        const scale = 1 + atom.depth / 200;
+        const radius = atom.radius * scale;
+
+        // Shadow
+        ctx.beginPath();
+        ctx.arc(atom.screenX + 3, atom.screenY + 3, radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.fill();
+
+        // Gradient for 3D effect
+        const gradient = ctx.createRadialGradient(
+          atom.screenX - radius * 0.3,
+          atom.screenY - radius * 0.3,
+          0,
+          atom.screenX,
+          atom.screenY,
+          radius
+        );
+        gradient.addColorStop(0, lightenColor(atom.color, 40));
+        gradient.addColorStop(0.7, atom.color);
+        gradient.addColorStop(1, darkenColor(atom.color, 20));
+
+        ctx.beginPath();
+        ctx.arc(atom.screenX, atom.screenY, radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        // Element label
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = `bold ${radius * 0.8}px -apple-system, BlinkMacSystemFont, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(atom.element, atom.screenX, atom.screenY);
+      });
+    }
+
+    // Color helpers
+    function lightenColor(color, percent) {
+      const num = parseInt(color.slice(1), 16);
+      const r = Math.min(255, (num >> 16) + percent);
+      const g = Math.min(255, ((num >> 8) & 0x00FF) + percent);
+      const b = Math.min(255, (num & 0x0000FF) + percent);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function darkenColor(color, percent) {
+      const num = parseInt(color.slice(1), 16);
+      const r = Math.max(0, (num >> 16) - percent);
+      const g = Math.max(0, ((num >> 8) & 0x00FF) - percent);
+      const b = Math.max(0, (num & 0x0000FF) - percent);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    // Update info panel
+    function updateInfoPanel() {
+      const mol = molecules[currentMolecule];
+
+      geometryBadge.textContent = mol.geometry;
+      atomList.innerHTML = mol.atomList;
+
+      propertyList.innerHTML = mol.properties.map(p => `
+        <div class="property-item">
+          <span class="label">${p.label}</span>
+          <span class="value">${p.value}</span>
+        </div>
+      `).join('');
+
+      structureExplanation.innerHTML = mol.explanation;
+    }
+
+    // Select molecule
+    function selectMolecule(moleculeKey) {
+      currentMolecule = moleculeKey;
+      rotationX = 0;
+      rotationY = 0;
+
+      moleculeCards.forEach(card => {
+        card.classList.remove('selected');
+        card.setAttribute('aria-checked', 'false');
+      });
+
+      const selectedCard = document.querySelector(`[data-molecule="${moleculeKey}"]`);
+      selectedCard.classList.add('selected');
+      selectedCard.setAttribute('aria-checked', 'true');
+
+      updateInfoPanel();
+      drawMolecule();
+    }
+
+    // Event listeners
+    moleculeCards.forEach(card => {
+      card.addEventListener('click', () => selectMolecule(card.dataset.molecule));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectMolecule(card.dataset.molecule);
+        }
+      });
+    });
+
+    // Rotation controls
+    const rotateAmount = 0.3;
+
+    document.getElementById('rotateLeft').addEventListener('click', () => {
+      rotationY -= rotateAmount;
+      drawMolecule();
+    });
+
+    document.getElementById('rotateRight').addEventListener('click', () => {
+      rotationY += rotateAmount;
+      drawMolecule();
+    });
+
+    document.getElementById('rotateUp').addEventListener('click', () => {
+      rotationX -= rotateAmount;
+      drawMolecule();
+    });
+
+    document.getElementById('rotateDown').addEventListener('click', () => {
+      rotationX += rotateAmount;
+      drawMolecule();
+    });
+
+    // Auto-rotation animation
+    let autoRotate = true;
+    let animationId;
+
+    function animate() {
+      if (autoRotate) {
+        rotationY += 0.01;
+        drawMolecule();
+      }
+      animationId = requestAnimationFrame(animate);
+    }
+
+    // Stop auto-rotation on user interaction
+    document.querySelectorAll('.rotate-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        autoRotate = false;
+      });
+    });
+
+    // Quiz functionality
+    const quizAnswers = {
+      q1: { correct: 'b', feedback: {
+        correct: 'Correct! Water has a bent (V-shaped) geometry because the oxygen has two lone pairs of electrons that push the hydrogen atoms together, creating a bond angle of about 104.5°.',
+        incorrect: 'Not quite. Water has a BENT shape. The oxygen atom has two lone pairs of electrons that push the hydrogen atoms closer together, creating a V-shape with a 104.5° angle.'
+      }},
+      q2: { correct: 'b', feedback: {
+        correct: 'Correct! Even though both molecules contain oxygen, their different SHAPES (linear vs. bent) give them different properties. CO₂ is linear and nonpolar (a gas), while H₂O is bent and polar (a liquid). Structure determines properties!',
+        incorrect: 'Not quite. The key is SHAPE—how the atoms are arranged in 3D space. CO₂ is linear (straight line) and nonpolar, while H₂O is bent (V-shape) and polar. This shape difference explains why CO₂ is a gas and H₂O is a liquid!'
+      }},
+      q3: { correct: 'c', feedback: {
+        correct: 'Correct! CH₄ (methane) has a tetrahedral shape—like a 3D pyramid with carbon in the center and hydrogen at each corner. With 4 equal bonds and no lone pairs, the atoms spread out as far as possible (109.5° apart).',
+        incorrect: 'Not quite. With 4 atoms bonded to a central atom and no lone pairs, the shape is TETRAHEDRAL—a 3D pyramid with the carbon in the center. This gives the maximum distance between hydrogens (109.5° apart).'
+      }}
+    };
+
+    document.getElementById('submitQuiz').addEventListener('click', function() {
+      let score = 0;
+      const totalQuestions = Object.keys(quizAnswers).length;
+
+      Object.keys(quizAnswers).forEach((qNum, index) => {
+        const selected = document.querySelector(`input[name="${qNum}"]:checked`);
+        const feedback = document.getElementById(`feedback${index + 1}`);
+        const options = document.querySelectorAll(`input[name="${qNum}"]`);
+
+        options.forEach(opt => {
+          opt.closest('.quiz-option').classList.remove('correct', 'incorrect');
+        });
+
+        if (selected) {
+          const isCorrect = selected.value === quizAnswers[qNum].correct;
+
+          if (isCorrect) {
+            score++;
+            selected.closest('.quiz-option').classList.add('correct');
+            feedback.textContent = quizAnswers[qNum].feedback.correct;
+            feedback.className = 'quiz-feedback show correct';
+          } else {
+            selected.closest('.quiz-option').classList.add('incorrect');
+            options.forEach(opt => {
+              if (opt.value === quizAnswers[qNum].correct) {
+                opt.closest('.quiz-option').classList.add('correct');
+              }
+            });
+            feedback.textContent = quizAnswers[qNum].feedback.incorrect;
+            feedback.className = 'quiz-feedback show incorrect';
+          }
+        } else {
+          feedback.textContent = 'Please select an answer.';
+          feedback.className = 'quiz-feedback show incorrect';
+        }
+      });
+
+      const scoreDisplay = document.getElementById('quizScore');
+      scoreDisplay.textContent = `You got ${score} out of ${totalQuestions} correct!`;
+      scoreDisplay.classList.add('show');
+      scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // Initialize
+    window.addEventListener('load', () => {
+      initCanvas();
+      updateInfoPanel();
+      animate();
+    });
+
+    window.addEventListener('resize', () => {
+      initCanvas();
+    });
+  </script>
+</body>
+</html>

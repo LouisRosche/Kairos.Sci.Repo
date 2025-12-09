@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collision Force Simulator | G8 C2 W1</title>
+  <style>
+    :root {
+      --primary: #DC2626;
+      --primary-light: #FEE2E2;
+      --primary-dark: #B91C1C;
+      --secondary: #2563EB;
+      --object-a: #3B82F6;
+      --object-b: #F97316;
+      --bg: #FEF2F2;
+      --text: #1E293B;
+      --text-muted: #64748B;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --surface: #FFFFFF;
+      --border: #CBD5E1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    header h1 {
+      font-size: 1.8em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    header .icon { font-size: 1.2em; }
+
+    header .subtitle {
+      opacity: 0.95;
+      font-size: 1.05em;
+    }
+
+    header .meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    header .meta span {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85em;
+    }
+
+    /* Instructions */
+    details.instructions {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    details.instructions summary {
+      font-weight: 600;
+      font-size: 1.1em;
+      cursor: pointer;
+      color: var(--primary);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    details.instructions summary::-webkit-details-marker { display: none; }
+
+    details.instructions summary::before {
+      content: '▶';
+      font-size: 0.7em;
+      transition: transform 0.2s;
+    }
+
+    details.instructions[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    details.instructions .content {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    details.instructions ol { margin-left: 20px; }
+    details.instructions li { margin-bottom: 8px; }
+
+    /* Simulator Layout */
+    .simulator-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    /* Visualization Area */
+    .visualization {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .viz-header {
+      background: var(--primary-light);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .viz-header h2 {
+      font-size: 1em;
+      color: var(--primary-dark);
+    }
+
+    .collision-status {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+      background: var(--surface);
+      border: 2px solid var(--border);
+    }
+
+    .collision-status.colliding {
+      background: #FEF3C7;
+      border-color: var(--warning);
+      color: #92400E;
+    }
+
+    .canvas-container {
+      height: 350px;
+      background: linear-gradient(180deg, #F8FAFC 0%, #E2E8F0 100%);
+      position: relative;
+    }
+
+    #collisionCanvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Force Display */
+    .force-display {
+      padding: 20px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .force-comparison {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 16px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .force-box {
+      padding: 16px;
+      border-radius: 12px;
+    }
+
+    .force-box.object-a {
+      background: #DBEAFE;
+      border: 2px solid var(--object-a);
+    }
+
+    .force-box.object-b {
+      background: #FFEDD5;
+      border: 2px solid var(--object-b);
+    }
+
+    .force-box .label {
+      font-size: 0.85em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .force-box .value {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    .force-box.object-a .value { color: var(--object-a); }
+    .force-box.object-b .value { color: var(--object-b); }
+
+    .force-box .direction {
+      font-size: 0.9em;
+      margin-top: 4px;
+    }
+
+    .equals-sign {
+      font-size: 2.5em;
+      font-weight: 700;
+      color: var(--success);
+    }
+
+    /* Control Panel */
+    .control-panel {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .panel-header {
+      background: var(--primary-light);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-header h2 {
+      font-size: 1em;
+      color: var(--primary-dark);
+    }
+
+    .panel-content {
+      padding: 20px;
+    }
+
+    .control-group {
+      margin-bottom: 20px;
+    }
+
+    .control-group:last-child { margin-bottom: 0; }
+
+    .control-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.9em;
+    }
+
+    .mass-slider-group {
+      margin-bottom: 16px;
+    }
+
+    .mass-slider-group .slider-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .mass-slider-group .slider-label .name {
+      font-weight: 600;
+      font-size: 0.9em;
+    }
+
+    .mass-slider-group .slider-label .value {
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.85em;
+    }
+
+    .mass-slider-group.object-a .slider-label .value {
+      background: #DBEAFE;
+      color: var(--object-a);
+    }
+
+    .mass-slider-group.object-b .slider-label .value {
+      background: #FFEDD5;
+      color: var(--object-b);
+    }
+
+    .mass-slider-group input[type="range"] {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      -webkit-appearance: none;
+      background: var(--border);
+    }
+
+    .mass-slider-group.object-a input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--object-a);
+      cursor: pointer;
+    }
+
+    .mass-slider-group.object-b input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--object-b);
+      cursor: pointer;
+    }
+
+    .velocity-control {
+      margin-bottom: 16px;
+    }
+
+    .velocity-control .slider-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .velocity-control input[type="range"] {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      -webkit-appearance: none;
+      background: var(--border);
+    }
+
+    .velocity-control input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Action Buttons */
+    .action-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 8px;
+    }
+
+    .action-btn:last-child { margin-bottom: 0; }
+
+    .action-btn:focus {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .action-btn.primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .action-btn.primary:hover { background: var(--primary-dark); }
+
+    .action-btn.secondary {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .action-btn.secondary:hover { background: #FECACA; }
+
+    /* Newton's 3rd Law Highlight */
+    .newton-highlight {
+      background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+      border: 2px solid var(--warning);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .newton-highlight h2 {
+      color: #92400E;
+      font-size: 1.2em;
+      margin-bottom: 8px;
+    }
+
+    .newton-highlight .law {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #78350F;
+      margin-bottom: 12px;
+    }
+
+    .newton-highlight p {
+      font-size: 0.95em;
+      color: #92400E;
+    }
+
+    /* Results Panel */
+    .results-section {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .results-section h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .result-card {
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .result-card.object-a {
+      background: #DBEAFE;
+      border: 2px solid var(--object-a);
+    }
+
+    .result-card.object-b {
+      background: #FFEDD5;
+      border: 2px solid var(--object-b);
+    }
+
+    .result-card h3 {
+      font-size: 0.9em;
+      margin-bottom: 12px;
+    }
+
+    .result-card.object-a h3 { color: var(--object-a); }
+    .result-card.object-b h3 { color: var(--object-b); }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 0.9em;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .result-item:last-child { border-bottom: none; }
+
+    .result-item .label { color: var(--text-muted); }
+    .result-item .value { font-weight: 600; }
+
+    /* Key Concepts */
+    .concepts-section {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .concepts-section h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .concepts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .concept-card {
+      background: var(--primary-light);
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .concept-card h3 {
+      font-size: 1em;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .concept-card p {
+      font-size: 0.9em;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .concept-card.equation {
+      background: #DBEAFE;
+      border-left-color: var(--secondary);
+    }
+
+    .concept-card.equation h3 { color: #1E40AF; }
+
+    /* Quiz Section */
+    .quiz-section {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .quiz-section h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .quiz-question {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quiz-question:last-of-type {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .quiz-question p {
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .quiz-option:focus-within {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .quiz-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .quiz-option.correct {
+      border-color: var(--success);
+      background: #D1FAE5;
+    }
+
+    .quiz-option.incorrect {
+      border-color: #EF4444;
+      background: #FEE2E2;
+    }
+
+    .quiz-feedback {
+      margin-top: 12px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.95em;
+      display: none;
+    }
+
+    .quiz-feedback.show { display: block; }
+
+    .quiz-feedback.correct {
+      background: #D1FAE5;
+      color: #065F46;
+      border-left: 4px solid var(--success);
+    }
+
+    .quiz-feedback.incorrect {
+      background: #FEE2E2;
+      color: #991B1B;
+      border-left: 4px solid #EF4444;
+    }
+
+    .quiz-submit {
+      margin-top: 20px;
+      padding: 14px 28px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .quiz-submit:hover { background: var(--primary-dark); }
+
+    .quiz-submit:focus {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .quiz-score {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary-dark);
+      display: none;
+    }
+
+    .quiz-score.show { display: block; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-muted);
+      font-size: 0.85em;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .simulator-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .container { padding: 12px; }
+      header { padding: 16px; }
+      header h1 { font-size: 1.4em; }
+
+      .canvas-container { height: 280px; }
+
+      .force-comparison {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .equals-sign {
+        font-size: 1.8em;
+      }
+    }
+
+    @media (max-width: 500px) {
+      header .meta {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .concepts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><span class="icon" aria-hidden="true">💥</span> Collision Force Simulator</h1>
+      <div class="subtitle">Discover Newton's Third Law: Action and Reaction Forces</div>
+      <div class="meta">
+        <span>Grade 8 Cycle 2 Week 1</span>
+        <span>MS-PS2-1</span>
+        <span>Station 1: Observe Collision Forces</span>
+      </div>
+    </header>
+
+    <details class="instructions" open>
+      <summary>How to Use This Simulator</summary>
+      <div class="content">
+        <ol>
+          <li><strong>Set the masses:</strong> Use the sliders to adjust the mass of each object (blue and orange).</li>
+          <li><strong>Set the velocity:</strong> Adjust how fast the objects approach each other.</li>
+          <li><strong>Run the collision:</strong> Click "Start Collision" to watch the objects collide.</li>
+          <li><strong>Observe the forces:</strong> Watch the force arrows during collision—they're always equal!</li>
+          <li><strong>Compare the results:</strong> Notice how different masses move differently, even with equal forces.</li>
+        </ol>
+      </div>
+    </details>
+
+    <div class="newton-highlight">
+      <h2>Newton's Third Law</h2>
+      <div class="law">"For every action, there is an equal and opposite reaction."</div>
+      <p>When two objects collide, they push on each other with <strong>equal force</strong> in <strong>opposite directions</strong> at the <strong>exact same time</strong>.</p>
+    </div>
+
+    <div class="simulator-grid">
+      <div class="visualization">
+        <div class="viz-header">
+          <h2>Collision Simulation</h2>
+          <span class="collision-status" id="collisionStatus">Ready</span>
+        </div>
+        <div class="canvas-container">
+          <canvas id="collisionCanvas" aria-label="Collision simulation showing two objects and their forces"></canvas>
+        </div>
+        <div class="force-display">
+          <div class="force-comparison">
+            <div class="force-box object-a">
+              <div class="label">Force on Object A</div>
+              <div class="value" id="forceA">0 N</div>
+              <div class="direction">← (to the left)</div>
+            </div>
+            <div class="equals-sign">=</div>
+            <div class="force-box object-b">
+              <div class="label">Force on Object B</div>
+              <div class="value" id="forceB">0 N</div>
+              <div class="direction">→ (to the right)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="control-panel">
+        <div class="panel-header">
+          <h2>Control Panel</h2>
+        </div>
+        <div class="panel-content">
+          <div class="control-group">
+            <label>Object Masses</label>
+            <div class="mass-slider-group object-a">
+              <div class="slider-label">
+                <span class="name">Object A (Blue)</span>
+                <span class="value" id="massAValue">1.0 kg</span>
+              </div>
+              <input type="range" id="massA" min="0.5" max="3" step="0.1" value="1">
+            </div>
+            <div class="mass-slider-group object-b">
+              <div class="slider-label">
+                <span class="name">Object B (Orange)</span>
+                <span class="value" id="massBValue">1.0 kg</span>
+              </div>
+              <input type="range" id="massB" min="0.5" max="3" step="0.1" value="1">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label>Collision Speed</label>
+            <div class="velocity-control">
+              <div class="slider-label">
+                <span>Slow</span>
+                <span>Fast</span>
+              </div>
+              <input type="range" id="velocity" min="1" max="5" step="0.5" value="3">
+            </div>
+          </div>
+
+          <button class="action-btn primary" id="startBtn">Start Collision</button>
+          <button class="action-btn secondary" id="resetBtn">Reset</button>
+        </div>
+      </aside>
+    </div>
+
+    <section class="results-section" id="resultsSection" style="display: none;">
+      <h2>Collision Results: Same Force, Different Motion!</h2>
+      <div class="results-grid">
+        <div class="result-card object-a">
+          <h3>Object A (Blue)</h3>
+          <div class="result-item">
+            <span class="label">Mass</span>
+            <span class="value" id="resultMassA">1.0 kg</span>
+          </div>
+          <div class="result-item">
+            <span class="label">Force Applied</span>
+            <span class="value" id="resultForceA">100 N</span>
+          </div>
+          <div class="result-item">
+            <span class="label">Acceleration</span>
+            <span class="value" id="resultAccelA">100 m/s²</span>
+          </div>
+        </div>
+        <div class="result-card object-b">
+          <h3>Object B (Orange)</h3>
+          <div class="result-item">
+            <span class="label">Mass</span>
+            <span class="value" id="resultMassB">1.0 kg</span>
+          </div>
+          <div class="result-item">
+            <span class="label">Force Applied</span>
+            <span class="value" id="resultForceB">100 N</span>
+          </div>
+          <div class="result-item">
+            <span class="label">Acceleration</span>
+            <span class="value" id="resultAccelB">100 m/s²</span>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top: 16px; text-align: center; color: var(--text-muted); font-size: 0.95em;">
+        <strong>Key Insight:</strong> Forces are EQUAL, but acceleration depends on mass (a = F/m). Less mass = more acceleration!
+      </p>
+    </section>
+
+    <section class="concepts-section">
+      <h2>Key Concepts</h2>
+      <div class="concepts-grid">
+        <div class="concept-card">
+          <h3>Forces Come in Pairs</h3>
+          <p>When Object A pushes on Object B, Object B simultaneously pushes back on Object A with an <strong>equal force in the opposite direction</strong>. You can't have one force without the other!</p>
+        </div>
+        <div class="concept-card">
+          <h3>Same Force, Different Motion</h3>
+          <p>Even though forces are equal, objects move differently because of <strong>different masses</strong>. A small mass accelerates more than a large mass when the same force is applied.</p>
+        </div>
+        <div class="concept-card equation">
+          <h3>The Math: F = ma</h3>
+          <p>Force equals mass times acceleration. Rearranging: <strong>a = F/m</strong>. If force is the same but mass is smaller, acceleration is LARGER. That's why the smaller object bounces back more!</p>
+        </div>
+        <div class="concept-card">
+          <h3>Real-World Examples</h3>
+          <p><strong>Rocket:</strong> Exhaust pushes down, rocket pushes up.<br>
+          <strong>Walking:</strong> You push the ground backward, ground pushes you forward.<br>
+          <strong>Car crash:</strong> Both cars feel equal force, but the smaller car accelerates more.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="quiz-section" aria-labelledby="quiz-heading">
+      <h2 id="quiz-heading">Check Your Understanding</h2>
+
+      <div class="quiz-question" data-question="1">
+        <p>1. When a truck (5000 kg) collides with a car (1000 kg), how do the forces compare?</p>
+        <div class="quiz-options">
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="a">
+            <span>The truck pushes with more force because it's bigger</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="b">
+            <span>The car pushes with more force because it's smaller</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="c">
+            <span>The forces are equal—they push on each other with the same force</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q1" value="d">
+            <span>It depends on which vehicle is moving faster</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback1"></div>
+      </div>
+
+      <div class="quiz-question" data-question="2">
+        <p>2. If both vehicles experience the same force, why does the car get damaged more than the truck?</p>
+        <div class="quiz-options">
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="a">
+            <span>The car actually experiences more force</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="b">
+            <span>Same force on smaller mass = greater acceleration (a = F/m)</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="c">
+            <span>The truck's force cancels out</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q2" value="d">
+            <span>Newton's Third Law doesn't apply to cars</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback2"></div>
+      </div>
+
+      <div class="quiz-question" data-question="3">
+        <p>3. How does a rocket move in space if there's nothing to push against?</p>
+        <div class="quiz-options">
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="a">
+            <span>It can't—rockets need air to push against</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="b">
+            <span>The rocket pushes exhaust gases backward; the gases push the rocket forward (action-reaction)</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="c">
+            <span>Rockets use magnets to move in space</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="q3" value="d">
+            <span>The force of the explosion only pushes outward</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback3"></div>
+      </div>
+
+      <button class="quiz-submit" id="submitQuiz">Check Answers</button>
+      <div class="quiz-score" id="quizScore"></div>
+    </section>
+
+    <footer>
+      <p>Grade 8 Cycle 2 Week 1 | Collision Force Simulator | MS-PS2-1</p>
+      <p>KAMS Science Department</p>
+    </footer>
+  </div>
+
+  <script>
+    // State
+    let massA = 1.0;
+    let massB = 1.0;
+    let velocity = 3;
+    let isAnimating = false;
+    let animationId = null;
+    let phase = 'ready'; // ready, approaching, colliding, separating, done
+    let objectAX, objectBX;
+    let objectAVel, objectBVel;
+    let collisionForce = 0;
+    let collisionFrame = 0;
+
+    // Canvas setup
+    let canvas, ctx;
+
+    function initCanvas() {
+      canvas = document.getElementById('collisionCanvas');
+      ctx = canvas.getContext('2d');
+
+      const container = canvas.parentElement;
+      canvas.width = container.clientWidth * window.devicePixelRatio;
+      canvas.height = container.clientHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+      resetPositions();
+      draw();
+    }
+
+    function resetPositions() {
+      const width = canvas.width / window.devicePixelRatio;
+      objectAX = 80;
+      objectBX = width - 80;
+      objectAVel = 0;
+      objectBVel = 0;
+      collisionForce = 0;
+      collisionFrame = 0;
+      phase = 'ready';
+    }
+
+    // Draw function
+    function draw() {
+      const width = canvas.width / window.devicePixelRatio;
+      const height = canvas.height / window.devicePixelRatio;
+      const centerY = height / 2;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw track
+      ctx.strokeStyle = '#94A3B8';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([10, 5]);
+      ctx.beginPath();
+      ctx.moveTo(40, centerY);
+      ctx.lineTo(width - 40, centerY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Calculate object sizes based on mass
+      const radiusA = 25 + massA * 15;
+      const radiusB = 25 + massB * 15;
+
+      // Draw Object A (Blue)
+      drawObject(objectAX, centerY, radiusA, '#3B82F6', 'A', massA);
+
+      // Draw Object B (Orange)
+      drawObject(objectBX, centerY, radiusB, '#F97316', 'B', massB);
+
+      // Draw force arrows during collision
+      if (phase === 'colliding' && collisionForce > 0) {
+        const arrowLength = Math.min(collisionForce / 2, 100);
+
+        // Force on A (pointing left)
+        drawForceArrow(objectAX - radiusA - 10, centerY, -arrowLength, '#3B82F6');
+
+        // Force on B (pointing right)
+        drawForceArrow(objectBX + radiusB + 10, centerY, arrowLength, '#F97316');
+
+        // Equal sign between
+        ctx.fillStyle = '#10B981';
+        ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('=', (objectAX + objectBX) / 2, centerY - 50);
+      }
+
+      // Draw velocity arrows when approaching
+      if (phase === 'approaching') {
+        // Object A moving right
+        drawVelocityArrow(objectAX + radiusA + 10, centerY - 40, 30, '#3B82F6');
+
+        // Object B moving left
+        drawVelocityArrow(objectBX - radiusB - 10, centerY - 40, -30, '#F97316');
+      }
+    }
+
+    function drawObject(x, y, radius, color, label, mass) {
+      // Shadow
+      ctx.beginPath();
+      ctx.arc(x + 3, y + 3, radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+      ctx.fill();
+
+      // Main circle with gradient
+      const gradient = ctx.createRadialGradient(x - radius * 0.3, y - radius * 0.3, 0, x, y, radius);
+      gradient.addColorStop(0, lightenColor(color, 60));
+      gradient.addColorStop(0.7, color);
+      gradient.addColorStop(1, darkenColor(color, 30));
+
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // Label
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = `bold ${radius * 0.6}px -apple-system, BlinkMacSystemFont, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, x, y);
+
+      // Mass label below
+      ctx.fillStyle = '#64748B';
+      ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillText(`${mass.toFixed(1)} kg`, x, y + radius + 20);
+    }
+
+    function drawForceArrow(x, y, length, color) {
+      const arrowHeadSize = 12;
+
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.lineWidth = 4;
+
+      // Line
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + length, y);
+      ctx.stroke();
+
+      // Arrow head
+      ctx.beginPath();
+      if (length > 0) {
+        ctx.moveTo(x + length, y);
+        ctx.lineTo(x + length - arrowHeadSize, y - arrowHeadSize / 2);
+        ctx.lineTo(x + length - arrowHeadSize, y + arrowHeadSize / 2);
+      } else {
+        ctx.moveTo(x + length, y);
+        ctx.lineTo(x + length + arrowHeadSize, y - arrowHeadSize / 2);
+        ctx.lineTo(x + length + arrowHeadSize, y + arrowHeadSize / 2);
+      }
+      ctx.closePath();
+      ctx.fill();
+
+      // Force label
+      ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${Math.abs(collisionForce).toFixed(0)} N`, x + length / 2, y - 15);
+    }
+
+    function drawVelocityArrow(x, y, length, color) {
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 4]);
+
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + length, y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Arrow head
+      ctx.beginPath();
+      if (length > 0) {
+        ctx.moveTo(x + length, y);
+        ctx.lineTo(x + length - 8, y - 4);
+        ctx.lineTo(x + length - 8, y + 4);
+      } else {
+        ctx.moveTo(x + length, y);
+        ctx.lineTo(x + length + 8, y - 4);
+        ctx.lineTo(x + length + 8, y + 4);
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function lightenColor(color, amount) {
+      const hex = color.replace('#', '');
+      const r = Math.min(255, parseInt(hex.substr(0, 2), 16) + amount);
+      const g = Math.min(255, parseInt(hex.substr(2, 2), 16) + amount);
+      const b = Math.min(255, parseInt(hex.substr(4, 2), 16) + amount);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function darkenColor(color, amount) {
+      const hex = color.replace('#', '');
+      const r = Math.max(0, parseInt(hex.substr(0, 2), 16) - amount);
+      const g = Math.max(0, parseInt(hex.substr(2, 2), 16) - amount);
+      const b = Math.max(0, parseInt(hex.substr(4, 2), 16) - amount);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    // Animation
+    function animate() {
+      const width = canvas.width / window.devicePixelRatio;
+      const radiusA = 25 + massA * 15;
+      const radiusB = 25 + massB * 15;
+      const centerX = width / 2;
+
+      if (phase === 'approaching') {
+        // Move objects toward each other
+        objectAX += velocity * 1.5;
+        objectBX -= velocity * 1.5;
+
+        // Check for collision
+        if (objectAX + radiusA >= objectBX - radiusB) {
+          phase = 'colliding';
+          collisionFrame = 0;
+
+          // Calculate collision force (simplified)
+          const relativeVelocity = velocity * 3;
+          const reducedMass = (massA * massB) / (massA + massB);
+          collisionForce = reducedMass * relativeVelocity * 20;
+
+          updateForceDisplay();
+          updateStatus('Collision!');
+        }
+      } else if (phase === 'colliding') {
+        collisionFrame++;
+
+        // Collision duration
+        if (collisionFrame > 30) {
+          phase = 'separating';
+
+          // Calculate post-collision velocities (elastic collision)
+          const totalMass = massA + massB;
+          objectAVel = -velocity * ((massA - massB) / totalMass + (2 * massB) / totalMass);
+          objectBVel = velocity * ((massB - massA) / totalMass + (2 * massA) / totalMass);
+
+          showResults();
+        }
+      } else if (phase === 'separating') {
+        objectAX += objectAVel;
+        objectBX += objectBVel;
+
+        // Decay force display
+        collisionForce *= 0.9;
+        if (collisionForce < 1) collisionForce = 0;
+        updateForceDisplay();
+
+        // Check if done
+        if (objectAX < -50 || objectBX > width + 50 || (Math.abs(objectAVel) < 0.1 && Math.abs(objectBVel) < 0.1)) {
+          phase = 'done';
+          isAnimating = false;
+          updateStatus('Complete');
+          document.getElementById('startBtn').textContent = 'Start Collision';
+          return;
+        }
+      }
+
+      draw();
+
+      if (isAnimating) {
+        animationId = requestAnimationFrame(animate);
+      }
+    }
+
+    function updateForceDisplay() {
+      document.getElementById('forceA').textContent = `${collisionForce.toFixed(0)} N`;
+      document.getElementById('forceB').textContent = `${collisionForce.toFixed(0)} N`;
+    }
+
+    function updateStatus(status) {
+      const statusEl = document.getElementById('collisionStatus');
+      statusEl.textContent = status;
+      statusEl.classList.toggle('colliding', status === 'Collision!');
+    }
+
+    function showResults() {
+      const resultsSection = document.getElementById('resultsSection');
+      resultsSection.style.display = 'block';
+
+      const accelA = collisionForce / massA;
+      const accelB = collisionForce / massB;
+
+      document.getElementById('resultMassA').textContent = `${massA.toFixed(1)} kg`;
+      document.getElementById('resultMassB').textContent = `${massB.toFixed(1)} kg`;
+      document.getElementById('resultForceA').textContent = `${collisionForce.toFixed(0)} N`;
+      document.getElementById('resultForceB').textContent = `${collisionForce.toFixed(0)} N`;
+      document.getElementById('resultAccelA').textContent = `${accelA.toFixed(1)} m/s²`;
+      document.getElementById('resultAccelB').textContent = `${accelB.toFixed(1)} m/s²`;
+    }
+
+    // Event listeners
+    document.getElementById('massA').addEventListener('input', function() {
+      massA = parseFloat(this.value);
+      document.getElementById('massAValue').textContent = `${massA.toFixed(1)} kg`;
+      if (!isAnimating) draw();
+    });
+
+    document.getElementById('massB').addEventListener('input', function() {
+      massB = parseFloat(this.value);
+      document.getElementById('massBValue').textContent = `${massB.toFixed(1)} kg`;
+      if (!isAnimating) draw();
+    });
+
+    document.getElementById('velocity').addEventListener('input', function() {
+      velocity = parseFloat(this.value);
+    });
+
+    document.getElementById('startBtn').addEventListener('click', function() {
+      if (isAnimating) return;
+
+      resetPositions();
+      phase = 'approaching';
+      isAnimating = true;
+      this.textContent = 'Running...';
+      updateStatus('Approaching');
+      document.getElementById('resultsSection').style.display = 'none';
+      animate();
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', function() {
+      if (animationId) cancelAnimationFrame(animationId);
+      isAnimating = false;
+      resetPositions();
+      updateForceDisplay();
+      updateStatus('Ready');
+      document.getElementById('startBtn').textContent = 'Start Collision';
+      document.getElementById('resultsSection').style.display = 'none';
+      draw();
+    });
+
+    // Quiz functionality
+    const quizAnswers = {
+      q1: { correct: 'c', feedback: {
+        correct: 'Correct! Newton\'s Third Law states that forces always come in equal pairs. The truck pushes the car with EXACTLY the same force that the car pushes the truck. Size doesn\'t matter—forces are always equal!',
+        incorrect: 'Not quite. According to Newton\'s Third Law, forces are ALWAYS equal and opposite, regardless of the size of the objects. The truck pushes the car with the same force that the car pushes the truck.'
+      }},
+      q2: { correct: 'b', feedback: {
+        correct: 'Correct! Using F = ma (rearranged: a = F/m), the same force on a smaller mass produces a LARGER acceleration. The car has less mass, so it accelerates more—which means more damage. The truck barely moves because same force ÷ larger mass = smaller acceleration.',
+        incorrect: 'Not quite. The key is the equation a = F/m. Same force applied to smaller mass = larger acceleration. The car accelerates more (and takes more damage) because it has less mass, not because it experiences more force.'
+      }},
+      q3: { correct: 'b', feedback: {
+        correct: 'Correct! Rockets work by pushing exhaust gases out the back. By Newton\'s Third Law, when the rocket pushes the exhaust backward, the exhaust pushes the rocket forward with an equal force. The rocket doesn\'t need anything external to push against!',
+        incorrect: 'Not quite. Rockets work through action-reaction pairs. The rocket pushes exhaust gases backward; by Newton\'s Third Law, the gases push the rocket forward. The rocket and exhaust push on EACH OTHER—no external surface needed!'
+      }}
+    };
+
+    document.getElementById('submitQuiz').addEventListener('click', function() {
+      let score = 0;
+      const totalQuestions = Object.keys(quizAnswers).length;
+
+      Object.keys(quizAnswers).forEach((qNum, index) => {
+        const selected = document.querySelector(`input[name="${qNum}"]:checked`);
+        const feedback = document.getElementById(`feedback${index + 1}`);
+        const options = document.querySelectorAll(`input[name="${qNum}"]`);
+
+        options.forEach(opt => {
+          opt.closest('.quiz-option').classList.remove('correct', 'incorrect');
+        });
+
+        if (selected) {
+          const isCorrect = selected.value === quizAnswers[qNum].correct;
+
+          if (isCorrect) {
+            score++;
+            selected.closest('.quiz-option').classList.add('correct');
+            feedback.textContent = quizAnswers[qNum].feedback.correct;
+            feedback.className = 'quiz-feedback show correct';
+          } else {
+            selected.closest('.quiz-option').classList.add('incorrect');
+            options.forEach(opt => {
+              if (opt.value === quizAnswers[qNum].correct) {
+                opt.closest('.quiz-option').classList.add('correct');
+              }
+            });
+            feedback.textContent = quizAnswers[qNum].feedback.incorrect;
+            feedback.className = 'quiz-feedback show incorrect';
+          }
+        } else {
+          feedback.textContent = 'Please select an answer.';
+          feedback.className = 'quiz-feedback show incorrect';
+        }
+      });
+
+      const scoreDisplay = document.getElementById('quizScore');
+      scoreDisplay.textContent = `You got ${score} out of ${totalQuestions} correct!`;
+      scoreDisplay.classList.add('show');
+      scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // Initialize
+    window.addEventListener('load', initCanvas);
+    window.addEventListener('resize', initCanvas);
+  </script>
+</body>
+</html>

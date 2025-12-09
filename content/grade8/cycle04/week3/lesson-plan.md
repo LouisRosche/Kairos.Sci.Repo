@@ -200,6 +200,104 @@ Assessment week synthesizing Weeks 1-2 content on energy pyramids and ecosystem 
 
 ---
 
+## Exemplar Responses
+
+### Part 1 Q2 (Why cascades are severe) - 4 points
+
+**Exemplar (4/4):**
+> Trophic cascades are severe because energy loss at EACH level magnifies the impact:
+>
+> By the 10% rule: Producers (10,000 kcal) → Primary consumers (1,000 kcal) → Secondary (100 kcal) → Tertiary (10 kcal)
+>
+> If a top predator is removed, the next level EXPLODES in population (no predators eating them). They overconsume the level below them, causing a population crash. This ripples down the entire food web.
+>
+> The 10% rule means each level has FAR fewer calories to work with, so small changes at the top cause HUGE impacts at the bottom. A keystone predator removal can collapse an entire ecosystem.
+
+### Part 1 Q4 (Design synthesis) - 4 points
+
+**Exemplar (4/4):**
+> A sustainable fish farm design must account for BOTH energy flow (10% rule) and ecosystem disruption:
+>
+> 1. **Energy efficiency:** Farm herbivorous fish (tilapia, carp) not carnivorous (salmon). Carnivores are 2-3 trophic levels up, meaning 100-1000× less efficient.
+>
+> 2. **Prevent cascade disruption:** Use closed containment systems to prevent escape. Escaped farm fish become invasive, outcompeting natives and disrupting food webs.
+>
+> 3. **Waste management:** Farm waste = nutrients = potential eutrophication. Use integrated multi-trophic aquaculture (IMTA) where shellfish filter waste.
+>
+> This design minimizes both energy waste AND ecosystem disruption potential.
+
+### Part 2 A2 (Energy loss explanation) - 5 points
+
+**Exemplar (5/5):**
+> Only ~10% of energy transfers between trophic levels because most energy is LOST at each step:
+>
+> 1. **Metabolism (60-70%):** Organisms use most of their food energy for cellular respiration - staying alive, moving, maintaining body temperature
+> 2. **Waste (10-20%):** Not all food is digested; some is excreted as waste
+> 3. **Not eaten (10-20%):** Bones, shells, roots, etc. aren't consumed by the next level
+>
+> Example: If a plant stores 1000 kcal, a deer eating it only gets ~100 kcal of usable energy. A wolf eating the deer only gets ~10 kcal. This is why food chains rarely exceed 4-5 levels - there's not enough energy left!
+
+### Part 2 B4 (Keystone explanation) - 4 points
+
+**Exemplar (4/4):**
+> A keystone species has a disproportionately large impact on its ecosystem relative to its biomass. Classic example: sea otters in kelp forests.
+>
+> **With otters:** Otters eat sea urchins → urchin populations controlled → kelp forests thrive → hundreds of species live in kelp
+>
+> **Without otters:** Urchins explode in population → overgraze kelp → kelp forest becomes "urchin barren" → ecosystem collapses
+>
+> The otters make up a tiny fraction of biomass but CONTROL the entire ecosystem structure. Removing the keystone causes cascade failure.
+
+### Part 2 C1 (Zebra mussel interpretation) - 5 points
+
+**Exemplar (5/5):**
+> The graph shows zebra mussel invasion causing a trophic cascade in the Great Lakes:
+>
+> **Pattern observed:**
+> - 1988: Zebra mussels introduced
+> - 1988-1995: Phytoplankton crashed 80%
+> - 1995-2000: Native mussels declined 90%
+> - Small fish populations dropped 40%
+>
+> **Mechanism:** Zebra mussels filter-feed on phytoplankton far more efficiently than native species. They outcompete native filter-feeders AND reduce food for zooplankton. The cascade ripples up: less phytoplankton → less zooplankton → fewer small fish → impacts on larger fish.
+>
+> **Why severe:** Zebra mussels have no natural predators in North America, so their population is unchecked.
+
+### Part 2 C3 (Prediction with reasoning) - 5 points
+
+**Exemplar (5/5):**
+> **Prediction:** If Asian carp establish in the Great Lakes, I predict walleye populations will decline by 30-50% within 10 years.
+>
+> **Reasoning:**
+> 1. Asian carp eat plankton - competing directly with juvenile walleye and the small fish walleye eat
+> 2. Asian carp grow larger and reproduce faster than native species
+> 3. No natural predators = exponential growth
+> 4. Based on zebra mussel pattern, invasive filter-feeders cause severe cascades
+>
+> **Confidence:** Medium-high. The mechanism is clear, but exact % depends on Asian carp density and how quickly they spread.
+
+### Part 3: Misconception Explanations
+
+**"Energy is recycled like matter" (4 pts):**
+> This is FALSE. Energy and matter behave DIFFERENTLY in ecosystems:
+>
+> **Matter CYCLES:** Atoms (C, N, O) move through food webs and return via decomposition. The same carbon atom can be in a plant, then a deer, then soil, then a plant again.
+>
+> **Energy FLOWS (one way):** Energy enters as sunlight → converted to chemical energy → lost as heat at each transfer → eventually all becomes heat. Energy CANNOT be recycled. New energy must constantly enter the system from the sun.
+>
+> That's why ecosystems need constant sunlight but don't need new atoms delivered.
+
+**"Removal only affects direct connections" (4 pts):**
+> This is FALSE. Removal of one species affects the ENTIRE food web through cascades:
+>
+> Direct thinking: "Remove wolves → deer affected"
+>
+> Reality: Remove wolves → deer population explodes → overgraze vegetation → stream banks erode → rivers change course → fish habitat destroyed → birds lose nesting sites → entire ecosystem restructured
+>
+> The Yellowstone wolf reintroduction proved this - wolves literally changed how rivers flow through cascade effects. No species exists in isolation.
+
+---
+
 ## Data Collection Points
 
 ### MTSS Triggers

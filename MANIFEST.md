@@ -2,7 +2,7 @@
 ## Complete Content Inventory
 
 **Last Updated:** 2025-12-08
-**Repository:** C3.Repo
+**Repository:** Kairos.Sci.Repo
 **Maintainer:** Louis Rosche
 
 ---
@@ -10,22 +10,23 @@
 ## Repository Structure Overview
 
 ```
-C3.Repo/
-├── README.md                    # Quick start guide
+Kairos.Sci.Repo/
+├── README.md                    # Quick start guide & navigation
 ├── ARCHITECTURE.md              # System design documentation
+├── LESSONS-LEARNED.md           # Institutional knowledge
 ├── MANIFEST.md                  # This file - content inventory
 │
 ├── config/                      # Configuration system
 │   ├── master-config.json       # Global settings
 │   ├── cycles/                  # Per-cycle configuration
-│   │   ├── cycle03.json         # ✅ Active
-│   │   ├── cycle04.json         # ✅ Complete
-│   │   ├── cycle05.json         # 📋 Planned
-│   │   ├── cycle06.json         # 📋 Planned
-│   │   ├── cycle07.json         # 📋 Planned (4/27-5/22)
-│   │   ├── cycle08.json         # 📋 Planned (6/1-6/26, last in SY25-26)
-│   │   ├── cycle09.json         # ⚠️ DEFERRED - No SY25-26 slot
-│   │   └── cycle10.json         # ⚠️ DEFERRED - No SY25-26 slot
+│   │   ├── cycle03.json         # ✅ Active (Production)
+│   │   ├── cycle04.json         # ✅ Complete (Ready for Deployment)
+│   │   ├── cycle05.json         # 🟡 G7 In Progress (85%)
+│   │   ├── cycle06.json         # 📋 Placeholder
+│   │   ├── cycle07.json         # 📋 Placeholder (4/27-5/22)
+│   │   ├── cycle08.json         # 📋 Placeholder (6/1-6/26, last in SY25-26)
+│   │   ├── cycle09.json         # ⚠️ DEFERRED - Standards → C8
+│   │   └── cycle10.json         # ⚠️ MERGED - → C8 Week 3
 │   └── schema/                  # Validation schemas
 │       ├── cycle-schema.json    # ✅ Cycle config validation
 │       ├── form-schema.json     # Form validation
@@ -36,7 +37,7 @@ C3.Repo/
 │   │   ├── cycle02/             # 📦 Legacy (4 weeks, pre-architecture)
 │   │   ├── cycle03/             # ✅ Complete (W2 READ-ONLY)
 │   │   ├── cycle04/             # ✅ Complete (100%)
-│   │   ├── cycle05/             # 📋 Placeholder
+│   │   ├── cycle05/             # 🟡 In Progress (85%)
 │   │   ├── cycle06-10/          # 📋 Placeholder (individual directories)
 │   ├── grade8/                  # Grade 8: Physical Science
 │   │   ├── cycle02/             # 📦 Legacy (4 weeks, pre-architecture)
@@ -74,17 +75,27 @@ C3.Repo/
 │           └── tier3-students.json
 │
 ├── framework/                   # Pedagogical documentation
+│   ├── CONTENT-DESIGN-GUIDE.md  # ⭐ SST for content creation
 │   ├── mtss-framework.md
 │   ├── pedagogical-approach.md
+│   ├── phet-simulations-catalog.md  # Digital resources catalog
 │   ├── standards-alignment.md   # ✅ NGSS mapping
 │   └── technical-reference.md
+│
 ├── scripts/                     # Automation scripts
+│   ├── TriggerManager.gs        # ⭐ Centralized trigger coordination
 │   ├── generate-cycle.js        # Config generation
 │   └── validate-config.js       # Cycle validation
+│
 ├── shared/                      # Cross-grade utilities
+│   ├── Config.gs                # ⭐ Centralized configuration
+│   ├── Constants.gs             # Immutable system constants
 │   ├── FormUtils.gs             # Form creation helpers
 │   ├── DataUtils.gs             # Data retrieval utilities
-│   └── ValidationUtils.gs       # Config validation
+│   ├── ValidationUtils.gs       # Config validation
+│   └── styles/
+│       └── design-system.css    # ⭐ CSS design tokens
+│
 ├── templates/                   # Content generation templates
 └── archive/                     # Legacy/backup files
 ```
@@ -117,21 +128,21 @@ C3.Repo/
 
 ### Grade 7: Molecular Structure, Bonding & Reactions (4 weeks)
 
-| Week | forms.gs | student-page.html | lesson-plan.md | curriculum-design.md | Status |
-|------|----------|-------------------|----------------|----------------------|--------|
-| W1 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
-| W2 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
-| W3 | ✅ | ✅ | ❌ | ✅ (shared) | **CONTENT READY** |
-| W4 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
+| Week | forms.gs | student-page.html | lesson-plan.md | curriculum-design.md | simulations | Status |
+|------|----------|-------------------|----------------|----------------------|-------------|--------|
+| W1 | ❌ | ✅ | ❌ | ✅ (shared) | ✅ molecule-structure-explorer.html | **HTML READY** |
+| W2 | ❌ | ✅ | ❌ | ✅ (shared) | — | **HTML READY** |
+| W3 | ✅ | ✅ | ❌ | ✅ (shared) | — | **CONTENT READY** |
+| W4 | ❌ | ✅ | ❌ | ✅ (shared) | — | **HTML READY** |
 
 ### Grade 8: Forces, Energy & Collisions (4 weeks)
 
-| Week | forms.gs | student-page.html | lesson-plan.md | curriculum-design.md | Status |
-|------|----------|-------------------|----------------|----------------------|--------|
-| W1 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
-| W2 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
-| W3 | ✅ | ✅ | ❌ | ✅ (shared) | **CONTENT READY** |
-| W4 | ❌ | ✅ | ❌ | ✅ (shared) | **HTML READY** |
+| Week | forms.gs | student-page.html | lesson-plan.md | curriculum-design.md | simulations | Status |
+|------|----------|-------------------|----------------|----------------------|-------------|--------|
+| W1 | ❌ | ✅ | ❌ | ✅ (shared) | ✅ collision-force-simulator.html | **HTML READY** |
+| W2 | ❌ | ✅ | ❌ | ✅ (shared) | — | **HTML READY** |
+| W3 | ✅ | ✅ | ❌ | ✅ (shared) | — | **CONTENT READY** |
+| W4 | ❌ | ✅ | ❌ | ✅ (shared) | — | **HTML READY** |
 
 ---
 
@@ -142,19 +153,19 @@ C3.Repo/
 
 ### Grade 7: Climate Change & Energy Flow
 
-| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | Status |
-|------|----------|-------------------|----------------|-------------|--------|
-| W1 | ✅ 1,021 lines | ✅ | ✅ | ✅ | **COMPLETE** |
-| W2 | ✅ 960 lines | ✅ | ✅ | ✅ | **⛔ READONLY** |
-| W3 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
+| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | simulations | Status |
+|------|----------|-------------------|----------------|-------------|-------------|--------|
+| W1 | ✅ 1,021 lines | ✅ | ✅ | ✅ | ✅ carbon-cycle-tracer, thermal-trap-designer | **COMPLETE** |
+| W2 | ✅ 960 lines | ✅ | ✅ | ✅ | ✅ ice-albedo-feedback, carbon-sink-simulator, ice-melt-mystery | **⛔ READONLY** |
+| W3 | ✅ | ✅ | ✅ | ✅ | — | **COMPLETE** |
 
 ### Grade 8: Natural Selection & Forces
 
-| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | Status |
-|------|----------|-------------------|----------------|-------------|--------|
-| W1 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
-| W2 | ✅ | ✅ | ✅ | ✅ | **⛔ READONLY** |
-| W3 | ✅ | ✅ | ✅ | ✅ | **COMPLETE** |
+| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | simulations | Status |
+|------|----------|-------------------|----------------|-------------|-------------|--------|
+| W1 | ✅ | ✅ | ✅ | ✅ | ✅ population-genetics, predator-prey-physics | **COMPLETE** |
+| W2 | ✅ | ✅ | ✅ | ✅ | ✅ bone-homology-explorer, transitional-form-designer | **⛔ READONLY** |
+| W3 | ✅ | ✅ | ✅ | ✅ | — | **COMPLETE** |
 
 ---
 
@@ -162,34 +173,55 @@ C3.Repo/
 
 ### Grade 7: Biogeochemical Cycles & Human Impact (100%)
 
-| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | Status |
-|------|----------|-------------------|----------------|-------------|--------|
-| W1 | ✅ 979 lines | ✅ 524 lines | ✅ 246 lines | ✅ | **COMPLETE** |
-| W2 | ✅ 662 lines | ✅ 292 lines | ✅ 182 lines | ✅ | **COMPLETE** |
-| W3 | ✅ 463 lines | ✅ 497 lines | ✅ 239 lines | ✅ | **COMPLETE** |
+| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | simulations | Status |
+|------|----------|-------------------|----------------|-------------|-------------|--------|
+| W1 | ✅ 979 lines | ✅ 524 lines | ✅ 246 lines | ✅ | ✅ ocean-acidification-simulator | **COMPLETE** |
+| W2 | ✅ 662 lines | ✅ 292 lines | ✅ 182 lines | ✅ | ✅ eutrophication-cascade-simulator | **COMPLETE** |
+| W3 | ✅ 463 lines | ✅ 497 lines | ✅ 239 lines | ✅ | — | **COMPLETE** |
 
 ### Grade 8: Ecosystems & Energy Transfer (100%)
 
-| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | Status |
-|------|----------|-------------------|----------------|-------------|--------|
-| W1 | ✅ 991 lines | ✅ 501 lines | ✅ 357 lines | ✅ | **COMPLETE** |
-| W2 | ✅ 982 lines | ✅ 502 lines | ✅ 203 lines | ✅ | **COMPLETE** |
-| W3 | ✅ 482 lines | ✅ 490 lines | ✅ 240 lines | ✅ | **COMPLETE** |
+| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | simulations | Status |
+|------|----------|-------------------|----------------|-------------|-------------|--------|
+| W1 | ✅ 991 lines | ✅ 501 lines | ✅ 357 lines | ✅ | ✅ energy-pyramid-calculator | **COMPLETE** |
+| W2 | ✅ 982 lines | ✅ 502 lines | ✅ 203 lines | ✅ | ✅ trophic-cascade-simulator | **COMPLETE** |
+| W3 | ✅ 482 lines | ✅ 490 lines | ✅ 240 lines | ✅ | — | **COMPLETE** |
 
 > **Note:** All C4 content complete. Forms have placeholder URLs pending deployment.
 
 ---
 
-## Cycles 5-8 (CONFIG COMPLETE - SY25-26)
+## Cycle 5 (IN PROGRESS) - G7 85% 🟡 / G8 0% 📋
 
-Cycles 5-8 have complete JSON configs with full curriculum specifications. Content files in development:
+### Grade 7: Weather & Climate Systems (85%)
+
+| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | simulations | Status |
+|------|----------|-------------------|----------------|-------------|-------------|--------|
+| W1 | ✅ | ✅ | ✅ | ❌ | ✅ air-mass-collision-simulator | **CONTENT READY** |
+| W2 | ✅ | ✅ | ✅ | ❌ | ✅ weather-prediction-simulator | **CONTENT READY** |
+| W3 | ✅ | ✅ | ✅ | ❌ | — | **CONTENT READY** |
+
+> **Note:** G7 C5 missing slides and rubrics. All forms, lesson plans, and student pages complete.
+
+### Grade 8: Waves & Information Transfer (0%)
+
+| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | simulations | Status |
+|------|----------|-------------------|----------------|-------------|-------------|--------|
+| W1 | ❌ | ❌ | ❌ | ❌ | — | **PLACEHOLDER** |
+| W2 | ❌ | ❌ | ❌ | ❌ | — | **PLACEHOLDER** |
+| W3 | ❌ | ❌ | ❌ | ❌ | — | **PLACEHOLDER** |
+
+---
+
+## Cycles 6-8 (PLACEHOLDER STRUCTURE READY - SY25-26)
+
+Cycles 6-8 have standardized placeholder structure created and align with the SY25-26 calendar:
 
 | Cycle | Calendar Dates | G7 Topic | G8 Topic | Status |
 |-------|----------------|----------|----------|--------|
-| C5 | 2/23-3/12/2026 | Weather & Climate Systems | Waves & Information Transfer | ✅ Config |
-| C6 | 3/24-4/24/2026 | Plate Tectonics & Earth's Interior | Electricity & Magnetism | ✅ Config |
-| C7 | 4/27-5/22/2026 | Rock Cycle & Earth's History | Chemical Reactions & Conservation | ✅ Config |
-| C8 | 6/1-6/26/2026 | Ecosystems + **Year-End Integration** | Thermal Energy + **Engineering Showcase** | ✅ Config |
+| C6 | 3/24-4/24/2026 | Plate Tectonics & Earth's Interior | Electricity & Magnetism | 📋 |
+| C7 | 4/27-5/22/2026 | Rock Cycle & Earth's History | Chemical Reactions & Conservation | 📋 |
+| C8 | 6/1-6/26/2026 | Ecosystems + **Year-End Integration** | Thermal Energy + **Engineering Showcase** | 📋 |
 
 ## Cycles 9-10 (RESOLVED - Dec 2025)
 
@@ -210,6 +242,34 @@ Each cycle config (JSON) includes:
 Content files still in development:
 - `curriculum-design.md`, `rubrics.md`, `lesson-plan.md`
 - `week{1,2,3}/` with forms.gs, student-page.html
+
+---
+
+## Custom Simulations Inventory
+
+### By Grade and Cycle
+
+| Grade | Cycle | Week | Simulation | Purpose |
+|-------|-------|------|------------|---------|
+| G7 | C2 | W1 | molecule-structure-explorer.html | Molecular bonding visualization |
+| G7 | C3 | W1 | carbon-cycle-tracer.html | Carbon atom tracking through systems |
+| G7 | C3 | W1 | thermal-trap-designer.html | Greenhouse effect engineering |
+| G7 | C3 | W2 | ice-albedo-feedback.html | Feedback loop visualization |
+| G7 | C3 | W2 | carbon-sink-simulator.html | Carbon sink dynamics |
+| G7 | C3 | W2 | ice-melt-mystery.html | Ice melt investigation |
+| G7 | C4 | W1 | ocean-acidification-simulator.html | pH and carbonate chemistry |
+| G7 | C4 | W2 | eutrophication-cascade-simulator.html | Nutrient cascade effects |
+| G7 | C5 | W1 | air-mass-collision-simulator.html | Weather front formation |
+| G7 | C5 | W2 | weather-prediction-simulator.html | Forecasting challenges |
+| G8 | C2 | W1 | collision-force-simulator.html | Newton's laws in collisions |
+| G8 | C3 | W1 | population-genetics.html | Allele frequency changes |
+| G8 | C3 | W1 | predator-prey-physics.html | Force analysis in predation |
+| G8 | C3 | W2 | bone-homology-explorer.html | Comparative anatomy |
+| G8 | C3 | W2 | transitional-form-designer.html | Evolutionary predictions |
+| G8 | C4 | W1 | energy-pyramid-calculator.html | Trophic level energy transfer |
+| G8 | C4 | W2 | trophic-cascade-simulator.html | Ecosystem disruption modeling |
+
+**Total Custom Simulations:** 17
 
 ---
 
@@ -245,6 +305,7 @@ Content files still in development:
 |------|---------|--------|
 | `FormRegistry.gs` | Form ID management | ✅ Complete |
 | `hub/KAMS-Science-Hub.xlsx` | Central data hub | ✅ Complete |
+| `hub/HubOrchestrator.gs` | Pipeline orchestration | ✅ Complete |
 | `hub/hub-setup-guide.md` | Hub configuration guide | ✅ Complete |
 | `aggregation/ResponseCollector.gs` | Response collection | ✅ Complete |
 | `aggregation/DataAggregator.gs` | Data aggregation | ✅ Complete |
@@ -256,6 +317,7 @@ Content files still in development:
 | `analysis/SpiralEffectiveness.gs` | Spiral question tracking | ✅ Complete |
 | `analysis/templates/analysis-dashboard.json` | Dashboard template | ✅ Complete |
 | `mtss/InterventionGenerator.gs` | Intervention list generation | ✅ Complete |
+| `mtss/InterventionGrouping.gs` | Student grouping engine | ✅ Complete |
 | `mtss/tier-definitions.json` | MTSS tier thresholds | ✅ Complete |
 | `mtss/output/tier2-students.json` | Tier 2 student list | ✅ Ready |
 | `mtss/output/tier3-students.json` | Tier 3 student list | ✅ Ready |
@@ -264,8 +326,10 @@ Content files still in development:
 
 | File | Purpose | Status |
 |------|---------|--------|
+| `CONTENT-DESIGN-GUIDE.md` | **SST for content creation** | ✅ Complete |
 | `mtss-framework.md` | MTSS intervention system | ✅ Complete |
 | `pedagogical-approach.md` | Teaching philosophy | ✅ Complete |
+| `phet-simulations-catalog.md` | Digital resources & custom builds | ✅ Complete |
 | `standards-alignment.md` | NGSS mapping across cycles | ✅ Complete |
 | `technical-reference.md` | Technical specifications | ✅ Complete |
 
@@ -273,14 +337,22 @@ Content files still in development:
 
 | File | Purpose | Status |
 |------|---------|--------|
+| `TriggerManager.gs` | **Centralized trigger coordination** | ✅ Complete |
 | `generate-cycle.js` | Cycle config generation | ✅ Complete |
 | `validate-config.js` | Config validation | ✅ Complete |
+| `deploy-forms.gs` | Form deployment | ✅ Complete |
+| `nightly-aggregation.gs` | Scheduled data collection | ✅ Complete |
 
 ### `/shared/` - Utilities
 
 | File | Purpose | Status |
 |------|---------|--------|
+| `Config.gs` | **Centralized configuration accessor** | ✅ Complete |
+| `Constants.gs` | Immutable system constants | ✅ Complete |
 | `FormUtils.gs` | Form helper functions | ✅ Complete |
+| `DataUtils.gs` | Data retrieval utilities | ✅ Complete |
+| `ValidationUtils.gs` | Config validation | ✅ Complete |
+| `styles/design-system.css` | **CSS design tokens** | ✅ Complete |
 
 ### `/templates/` - Content Generation
 
@@ -318,6 +390,7 @@ Content files still in development:
 | Scripts | `PascalCase.gs` | `FormRegistry.gs` |
 | Content docs | `lowercase-hyphenated.md` | `curriculum-design.md` |
 | HTML pages | `lowercase-hyphenated.html` | `student-page.html` |
+| Simulations | `lowercase-hyphenated.html` | `air-mass-collision-simulator.html` |
 | Presentations | `G{grade}_C{cycle}_W{week}_{Topic}_Slides.pptx` | `G7_C3_W2_Feedback_Loops_Slides.pptx` |
 | Status tracking | `cycle-status.json` | Per-cycle tracking file |
 
@@ -335,15 +408,16 @@ Content files still in development:
 
 | Metric | Count |
 |--------|-------|
-| Total files | 150+ |
-| Complete content files | 50+ |
-| Placeholder files | 90+ |
+| Total files | 180+ |
+| Complete content files | 70+ |
+| Placeholder files | 80+ |
+| Custom simulations | 17 |
 | Template files | 9 |
 | Configuration files | 10 |
-| Infrastructure files | 12 |
+| Infrastructure files | 15 |
 | Complete cycles | 3 (C2, C3, C4) |
-| In-progress cycles | 0 |
-| Placeholder cycles | 4 (C5-C8, within SY25-26 calendar) |
+| In-progress cycles | 1 (G7 C5 @ 85%) |
+| Placeholder cycles | 4 (C5 G8, C6-C8 within SY25-26 calendar) |
 | Resolved cycles | 2 (C9 standards → C8, C10 merged → C8 W3) |
 
 ---
@@ -372,6 +446,7 @@ cat content/grade{7,8}/cycle{03-10}/cycle-status.json
 - [ ] `student-page.html` (Canvas page)
 - [ ] `lesson-plan.md` (Teacher guide)
 - [ ] `slides.pptx` (Presentation)
+- [ ] `simulations/` (if applicable)
 - [ ] Update `cycle-status.json`
 
 ---
