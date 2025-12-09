@@ -1,35 +1,550 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G8 C5 W1: [Title TBD] - PLACEHOLDER</title>
-</head>
-<body>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 8 CYCLE 5 WEEK 1: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+<!--
+================================================================================
+GRADE 8 CYCLE 5 WEEK 1: WAVE PROPERTIES & BEHAVIOR
+================================================================================
+Target Date: February 23-27, 2026
+Topic: Wave Properties & the Electromagnetic Spectrum
+Primary Standard: MS-PS4-2
+Status: COMPLETE | Created: December 2025
 
-  Target Date: January 27-30, 2026
-  Topic: Waves & Information Transfer
-  Primary Standard: MS-ESS2-5
+NGSS 3D Learning:
+- SEP-2: Developing and Using Models
+- SEP-3: Planning and Carrying Out Investigations
+- DCI PS4.A/B: Wave Properties & Electromagnetic Radiation
+- CCC-1: Patterns | CCC-2: Cause and Effect | CCC-6: Structure and Function
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+Scholarly Foundations Compliance:
+- Refutational text (g=0.41) for wave misconceptions
+- High-information feedback (d=0.99) integrated
+- Digital-first with PhET simulation integration
+- Notecard-only physical materials policy
+================================================================================
+-->
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #2d3748; max-width: 100%; margin: 0 auto; padding: 0;"><a style="position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;" href="#main-content">Skip to main content</a>
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+<!-- Accessibility & Async Support Banner -->
+<div style="background:#E6FFFA;border-left:4px solid #319795;padding:15px;margin:0 0 15px 0;border-radius:0 8px 8px 0;">
+<p style="margin:0 0 8px 0;font-weight:bold;color:#234E52;">🔊 Accessibility & Learning Support</p>
+<ul style="margin:0;padding-left:20px;font-size:0.9em;color:#285E61;">
+<li><strong>Need text read aloud?</strong> Chrome: Right-click → "Read aloud" | Edge: Click speaker icon in address bar</li>
+<li><strong>Working from home?</strong> Look for the 🏠 HOME ALTERNATIVE boxes at each station</li>
+<li><strong>Need extra support?</strong> Click the green "📗 Need help?" buttons for hints and sentence starters</li>
+<li><strong>Stuck?</strong> Look for the red "🆘 Stuck?" boxes with step-by-step help</li>
+</ul>
+</div>
 
-  <main id="main-content">
-    <h1>Grade 8 Cycle 5 Week 1</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
-  </main>
-</body>
-</html>
+<div id="main-content" style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); color: white; padding: 50px 40px; text-align: center; border-radius: 12px; margin: 0 0 20px 0;" role="banner" aria-labelledby="lesson-title">
+<div id="lesson-title" style="font-size: clamp(1.8em, 5vw, 3em); margin-bottom: 15px;" role="img" aria-label="Wave and WiFi emoji">📡 <strong>Week 1: Wave Properties & Behavior</strong> 🌊</div>
+<p style="margin: 0; font-size: clamp(1em, 2.5vw, 1.2em);">Grade 8 Science | Rosche | Kairos Academies</p>
+<p style="margin: 10px 0 0 0; font-size: clamp(0.9em, 2vw, 1em);">MS-PS4-2 Wave Interactions with Materials | 100 Points Total | ~75 Minutes</p>
+</div>
+
+<div id="quick-nav" style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+<h2 style="margin: 0 0 15px 0; text-align: center; color: white; font-size: clamp(1.1em, 3vw, 1.3em);">🧭 <strong>Quick Navigation</strong></h2>
+<div style="text-align: center;"><a style="background: rgba(255, 255, 255, 0.95); color: #1D4ED8; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#hook-heading">📡 Hook (12 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #1D4ED8; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station1-heading">🌊 Station 1 (20 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #1D4ED8; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station2-heading">🌈 Station 2 (20 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #1D4ED8; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station3-heading">🏥 Station 3 (25 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #1D4ED8; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#exit-heading">🎓 Exit Ticket (23 pts)</a></div>
+</div>
+
+<div style="background: #FFF3CD; border-left: 5px solid #856404; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #856404;"><strong>Working on Your Chromebook - Important Tips</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #856404;">
+<li><strong>Your work saves automatically</strong> in Google Forms every time you click outside a text box.</li>
+<li><strong>Complete sections in order</strong> (Hook → Station 1 → Station 2 → Station 3 → Exit)</li>
+<li><strong>This week builds on Cycle 4!</strong> You'll use what you learned about energy transfer.</li>
+<li><strong>KEY CONCEPT:</strong> Waves transfer ENERGY, not matter. Wavelength determines how waves interact with materials!</li>
+</ul>
+</div>
+
+<!-- MISCONCEPTION ALERT -->
+<div style="background: #FED7D7; border-left: 5px solid #C53030; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+<p style="margin: 0 0 8px 0; font-size: 1em; color: #742a2a;"><strong>⚠️ COMMON MISTAKE ALERT: "Waves Carry Matter"</strong></p>
+<p style="margin: 0; font-size: 0.95em; color: #9b2c2c; line-height: 1.7;"><strong>WRONG:</strong> "When a wave passes through water, the water moves with the wave."<br /><strong>RIGHT:</strong> "Waves transfer <em>energy</em> through the water. The water molecules oscillate (move up and down) but stay in roughly the same place. Only the energy travels forward."<br /><strong>PROOF:</strong> A cork floating in water bobs up and down when a wave passes—it doesn't travel across the pond with the wave!</p>
+</div>
+
+<details style="background: linear-gradient(135deg, #EDF2F7 0%, #E2E8F0 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid #A0AEC0;">
+<summary style="cursor: pointer; font-size: 1.15em; color: #2D3748; font-weight: bold; padding: 8px 0;">📽️ Class Slides Reference (Click to expand)</summary>
+<div style="margin-top: 15px; background: white; padding: 15px; border-radius: 8px;">
+<p style="margin: 0 0 12px 0; font-size: 0.95em; color: #4a5568;">Use these slides to review class content asynchronously. Navigate using the arrows or click to advance.</p>
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[Slides will be embedded here after creation]</p>
+</div>
+</div>
+</details>
+
+<div style="background: white; border-left: 5px solid #3B82F6; padding: 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="standards-heading">
+<h2 id="standards-heading" style="margin: 0 0 15px 0; color: #1D4ED8; font-size: clamp(1.2em, 3vw, 1.4em);">📚 <strong>NGSS Standards Covered This Week</strong></h2>
+<div style="background: #EFF6FF; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>MS-PS4-2</strong> (NEW this cycle)</p>
+<p style="margin: 0 0 8px 0; font-size: 0.95em; color: #4a5568;"><strong>What it means:</strong> Develop and use a model to describe that waves are reflected, absorbed, or transmitted through various materials depending on the wave type and material.</p>
+<p style="margin: 0; font-size: 0.9em; color: #718096;"><strong>In student language:</strong> I can explain why WiFi passes through walls but visible light doesn't, using wavelength and material properties.</p>
+</div>
+<div style="background: #EBF8FF; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>Spiral Standards from Cycles 3 & 4</strong></p>
+<ul style="margin: 8px 0 0 0; padding-left: 20px; line-height: 1.7; color: #4a5568; font-size: 0.95em;">
+<li><strong>MS-LS2-3:</strong> Energy flow in ecosystems (Cycle 4)</li>
+<li><strong>MS-LS4-4:</strong> Natural selection and adaptation (Cycle 3)</li>
+</ul>
+</div>
+<div style="background: #F3E5F5; padding: 15px; border-radius: 6px;">
+<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>How These Connect (3-Dimensional Learning)</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 10px;">
+<thead>
+<tr style="background: #3B82F6; color: white;">
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Dimension</th>
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">What You'll Practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>SEP-2</strong> Developing Models</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Model wave behaviors (reflection, refraction, diffraction, transmission)</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>SEP-3</strong> Planning Investigations</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Design experiments to test wave-material interactions</td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>DCI</strong> PS4.A/B Wave Properties</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Understand how wavelength affects material interactions</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>CCC-1/2/6</strong> Patterns, Cause & Effect, Structure & Function</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Connect wavelength to predictable interaction patterns</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px 20px; margin-bottom: 25px; border-radius: 8px; text-align: center;" role="region" aria-labelledby="targets-heading">
+<h2 id="targets-heading" style="margin: 0 0 10px 0; color: #2d3748; font-size: clamp(1.4em, 4vw, 1.8em);">🎯 <strong>Learning Targets</strong></h2>
+<p style="margin: 0; color: #4a5568; font-size: clamp(0.95em, 2.5vw, 1.05em);">By the end of this week, you will be able to:</p>
+</div>
+
+<div style="background: #EFF6FF; border: 2px solid #3B82F6; padding: 20px; margin-bottom: 25px; border-radius: 8px;" role="region" aria-labelledby="success-heading">
+<h3 id="success-heading" style="margin: 0 0 15px 0; color: #2d3748; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>Success Criteria – How You'll Know You've Got It</strong></h3>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #3B82F6;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 1:</strong> Explain that waves transfer energy without transferring matter</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I explain why a cork bobs but doesn't travel when a wave passes?</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #3B82F6;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 2:</strong> Describe how wavelength affects wave-material interactions</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I explain why WiFi passes through walls but light doesn't?</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #60A5FA;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 3:</strong> Model reflection, refraction, absorption, and transmission</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I identify which wave behavior is happening in different scenarios?</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px; border-left: 4px solid #60A5FA;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 4:</strong> Design investigations to test wave behavior with different materials</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I design a barrier that blocks some waves while allowing others?</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border-radius: 12px; padding: 30px 24px; margin: 35px 0;" role="region" aria-labelledby="phenomenon-heading">
+<h2 id="phenomenon-heading" style="margin: 0 0 15px 0; font-size: clamp(1.4em, 4vw, 1.8em); color: #1D4ED8;">📡 <strong>The Phenomenon: The WiFi vs Flashlight Mystery</strong></h2>
+<div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+<p style="font-size: clamp(0.95em, 2.5vw, 1.1em); margin: 0 0 15px 0; color: #4a5568; line-height: 1.7;">Your home WiFi signal passes through walls, floors, and furniture to reach your devices in any room. But if you try to shine a flashlight through those same walls, no light gets through.</p>
+<p style="font-size: clamp(0.95em, 2.5vw, 1.1em); margin: 0 0 15px 0; color: #4a5568; line-height: 1.7;">Here's the weird part: <strong>BOTH WiFi and visible light are electromagnetic waves!</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li><strong>WiFi wavelength:</strong> ~12 cm (about the width of your hand)</li>
+<li><strong>Visible light wavelength:</strong> ~500 nm (0.0000005 meters—microscopic!)</li>
+<li>WiFi waves are <strong>240,000× LONGER</strong> than visible light waves!</li>
+</ul>
+</div>
+<div style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 20px 0;">
+<p style="margin: 0; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🤔 Driving Question: How can we "see through walls" with WiFi but not with flashlights?</strong></p>
+</div>
+</div>
+
+<div style="background: #EBF8FF; border-left: 4px solid #3B82F6; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 12px 0; font-size: 1.1em; color: #1D4ED8;"><strong>Key Vocabulary This Week</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
+<thead>
+<tr style="background: #3B82F6; color: white;">
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Term</th>
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #1D4ED8; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Wavelength" target="_blank" rel="noopener">Wavelength</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Distance from one wave peak to the next; determines wave behavior</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #1D4ED8; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Reflection_(physics)" target="_blank" rel="noopener">Reflection</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Wave bounces off a surface (angle in = angle out)</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #1D4ED8; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Refraction" target="_blank" rel="noopener">Refraction</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Wave bends when changing speed between materials</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #1D4ED8; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Diffraction" target="_blank" rel="noopener">Diffraction</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Wave spreads around obstacles or through gaps</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #1D4ED8; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Absorption_(electromagnetic_radiation)" target="_blank" rel="noopener">Absorption</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Wave energy is converted to heat in a material</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #1D4ED8; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Electromagnetic_spectrum" target="_blank" rel="noopener">EM Spectrum</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">All types of electromagnetic waves, from radio to gamma rays</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div style="background: white; border: 2px solid #3B82F6; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #1D4ED8; font-size: clamp(1.2em, 3vw, 1.4em);"><strong>📊 Points Breakdown (100 Total)</strong></h3>
+<table style="width: 100%; border-collapse: collapse; margin-top: 15px;"><caption style="padding: 10px; text-align: left; color: #2d3748;">How you'll earn your points this week</caption>
+<thead>
+<tr style="background: #3B82F6; color: white;">
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Component</th>
+<th style="padding: 12px; text-align: center; border: 1px solid #dee2e6;" scope="col">Points</th>
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">What It Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #1D4ED8; text-decoration: none;" href="#hook-heading">📡 Hook</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>12</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">WiFi vs flashlight phenomenon, prior knowledge</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #1D4ED8; text-decoration: none;" href="#station1-heading">🌊 Station 1</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>20</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Wave behaviors: reflection, refraction, diffraction</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #1D4ED8; text-decoration: none;" href="#station2-heading">🌈 Station 2</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>20</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">EM spectrum: wavelength, frequency, energy</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #1D4ED8; text-decoration: none;" href="#station3-heading">🏥 Station 3</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>25</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Engineering design: hospital wave barrier</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #1D4ED8; text-decoration: none;" href="#exit-heading">🎓 Exit Ticket</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>23</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Integration of Cycles 3, 4 & 5 + SEP-2</td>
+</tr>
+<tr style="background: #3B82F6; color: white;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>TOTAL</strong></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>100</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Wave Properties + EM Spectrum + Engineering Design</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- HOOK SECTION -->
+<div id="hook-heading" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="hook-title">
+<h2 id="hook-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">📡 <strong>Hook – The WiFi vs Flashlight Mystery</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">12 Points | ~10 Minutes</p>
+</div>
+
+<div style="background: white; border: 2px solid #F59E0B; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #D97706; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>📡 The Challenge</strong></h3>
+<div style="background: #FFFBEB; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #F59E0B;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>What You'll Do (~10 minutes)</strong></p>
+<ol style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li>Observe the phenomenon: WiFi signal strength vs flashlight (2 min)</li>
+<li>Make predictions about why they behave differently (3 min)</li>
+<li>Connect to Cycle 4: energy transfer concepts (3 min)</li>
+<li>Answer diagnostic questions (2 min)</li>
+</ol>
+</div>
+<div style="background: #FFFAF0; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #2d3748;"><strong>Think About This:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li>Both WiFi and light are electromagnetic waves—why are they so different?</li>
+<li>What do waves transfer? (Hint: NOT matter!)</li>
+<li>When a wave hits a wall, where does its energy go?</li>
+</ul>
+</div>
+</div>
+
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE HOOK FORM BELOW</strong></p>
+<p style="margin: 0 0 15px 0; color: #4a5568;">Submit your predictions before moving to Station 1.</p>
+<!-- EMBED HOOK FORM HERE -->
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G8.C5.W1 Hook Form Here]</p>
+<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- STATION 1 -->
+<div id="station1-heading" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station1-title">
+<h2 id="station1-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🌊 <strong>Station 1 – Wave Tank Investigation</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">20 Points | ~18 Minutes</p>
+</div>
+
+<div style="background: white; border: 2px solid #10B981; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #059669; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🌊 Your Mission: Discover Wave Behaviors</strong></h3>
+<div style="background: #ECFDF5; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #10B981;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>The Four Wave Behaviors</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em; background: white;">
+<tr style="background:#10B981;color:white;"><th style="padding:8px;border:1px solid #ccc;">Behavior</th><th style="padding:8px;border:1px solid #ccc;">What Happens</th><th style="padding:8px;border:1px solid #ccc;">Example</th></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;"><strong>REFLECTION</strong></td><td style="padding:8px;border:1px solid #ccc;">Wave bounces off barrier</td><td style="padding:8px;border:1px solid #ccc;">Echo, mirror</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;"><strong>REFRACTION</strong></td><td style="padding:8px;border:1px solid #ccc;">Wave bends when changing medium</td><td style="padding:8px;border:1px solid #ccc;">Straw looks bent in water</td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;"><strong>DIFFRACTION</strong></td><td style="padding:8px;border:1px solid #ccc;">Wave spreads around obstacles</td><td style="padding:8px;border:1px solid #ccc;">Hearing around corners</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;"><strong>TRANSMISSION</strong></td><td style="padding:8px;border:1px solid #ccc;">Wave passes through material</td><td style="padding:8px;border:1px solid #ccc;">Light through glass</td></tr>
+</table>
+</div>
+
+<!-- ASYNC ALTERNATIVE FOR STATION 1 -->
+<div style="background: #FEF3C7; border: 2px dashed #D97706; padding: 18px; border-radius: 8px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #92400E;"><strong>🏠 COMPLETING THIS AT HOME? Use the PhET Simulation:</strong></p>
+<p style="margin: 0 0 8px 0; color: #78350F;"><a href="https://phet.colorado.edu/en/simulations/wave-interference" target="_blank" rel="noopener" style="color: #1D4ED8;">PhET Wave Interference Simulation</a></p>
+<ol style="margin: 0; padding-left: 25px; color: #78350F; line-height: 1.8;">
+<li>Select "Water" tab to see wave behaviors</li>
+<li>Add barriers and observe reflection</li>
+<li>Create gaps and observe diffraction</li>
+<li>Record observations in the form</li>
+</ol>
+</div>
+
+<!-- INTERACTIVE SIMULATION -->
+<details style="background: #ECFDF5; padding: 15px; margin-bottom: 15px; border-radius: 8px; border: 2px solid #10B981;">
+<summary style="cursor: pointer; color: #047857; font-size: 1em; padding: 4px 0; list-style: none;">🌊 Interactive: PhET Wave Interference Simulation (Click to expand)</summary>
+<div style="margin-top: 12px; background: #fafbfc; padding: 10px; border-radius: 6px;">
+<p style="margin: 0 0 10px 0; font-size: 0.9em; color: #047857;"><strong>How to use:</strong> Create waves, add barriers, and observe how waves reflect, refract, and diffract!</p>
+<iframe src="https://phet.colorado.edu/sims/html/wave-interference/latest/wave-interference_all.html" width="100%" height="600" style="border: 1px solid #E2E8F0; border-radius: 4px;" title="PhET Wave Interference Simulation" loading="lazy" allowfullscreen></iframe>
+</div>
+</details>
+
+<!-- TIERED SUPPORT -->
+<details style="background:#F0FFF4;padding:15px;margin-top:15px;border-radius:8px;border:1px solid #9AE6B4;">
+<summary style="cursor:pointer;font-weight:bold;color:#276749;font-size:1.05em;">📗 Need extra support? Click here for hints and sentence starters</summary>
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #9AE6B4;">
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Key Concept Reminder:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;">
+<li>Waves transfer ENERGY, not matter</li>
+<li>Angle in = angle out for reflection</li>
+<li>Longer wavelengths diffract more around obstacles</li>
+</ul>
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Sentence Starters:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;font-style:italic;">
+<li>"Sound waves can bend around corners because..."</li>
+<li>"The straw looks bent because light waves..."</li>
+<li>"Energy is conserved when a wave is absorbed because..."</li>
+</ul>
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Word Bank:</strong></p>
+<p style="margin:0;padding:10px;background:#C6F6D5;border-radius:4px;color:#22543D;">wavelength • frequency • reflection • refraction • diffraction • transmission • absorption • amplitude • medium • oscillate</p>
+</div>
+</details>
+
+<!-- STUCK PATHWAY -->
+<details style="background:#FED7D7;padding:15px;margin-top:10px;border-radius:8px;border:1px solid #FC8181;">
+<summary style="cursor:pointer;font-weight:bold;color:#C53030;font-size:1.05em;">🆘 Stuck? Click here for step-by-step help</summary>
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #FC8181;">
+<p style="margin:0 0 10px 0;color:#742A2A;"><strong>Try these steps in order:</strong></p>
+<ol style="margin:0;padding-left:20px;color:#9B2C2C;line-height:2;">
+<li>Review the 4 wave behaviors table above</li>
+<li>For each scenario, ask: "Does the wave bounce, bend, spread, or pass through?"</li>
+<li>Watch: <a href="https://www.youtube.com/results?search_query=wave+behaviors+reflection+refraction+diffraction" style="color:#C53030;">Search "Wave Behaviors Explained"</a></li>
+<li>Still stuck? Email Mr. Rosche with your specific question</li>
+</ol>
+</div>
+</details>
+</div>
+
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE STATION 1 FORM BELOW</strong></p>
+<p style="margin: 0 0 15px 0; color: #4a5568;">Identify wave behaviors and explain the energy transfer.</p>
+<!-- EMBED STATION 1 FORM HERE -->
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G8.C5.W1 Station 1 Form Here]</p>
+<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- STATION 2 -->
+<div id="station2-heading" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station2-title">
+<h2 id="station2-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🌈 <strong>Station 2 – Electromagnetic Spectrum Exploration</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">20 Points | ~15 Minutes</p>
+</div>
+
+<div style="background: white; border: 2px solid #8B5CF6; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #7C3AED; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🌈 Your Mission: Explore the EM Spectrum</strong></h3>
+<div style="background: #F5F3FF; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #8B5CF6;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>The Electromagnetic Spectrum</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.85em; background: white;">
+<tr style="background:#8B5CF6;color:white;"><th style="padding:8px;border:1px solid #ccc;">Wave Type</th><th style="padding:8px;border:1px solid #ccc;">Wavelength</th><th style="padding:8px;border:1px solid #ccc;">Energy</th><th style="padding:8px;border:1px solid #ccc;">Common Use</th></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Radio</td><td style="padding:8px;border:1px solid #ccc;">1 km - 1 m</td><td style="padding:8px;border:1px solid #ccc;">LOW</td><td style="padding:8px;border:1px solid #ccc;">AM/FM, WiFi</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">Microwave</td><td style="padding:8px;border:1px solid #ccc;">1 m - 1 mm</td><td style="padding:8px;border:1px solid #ccc;">↓</td><td style="padding:8px;border:1px solid #ccc;">Cell phones, cooking</td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Infrared</td><td style="padding:8px;border:1px solid #ccc;">1 mm - 700 nm</td><td style="padding:8px;border:1px solid #ccc;">↓</td><td style="padding:8px;border:1px solid #ccc;">Remote controls, heat</td></tr>
+<tr style="background:#FEFCE8;"><td style="padding:8px;border:1px solid #ccc;"><strong>VISIBLE</strong></td><td style="padding:8px;border:1px solid #ccc;"><strong>700 - 400 nm</strong></td><td style="padding:8px;border:1px solid #ccc;">↓</td><td style="padding:8px;border:1px solid #ccc;"><strong>Human eyes can see!</strong></td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Ultraviolet</td><td style="padding:8px;border:1px solid #ccc;">400 - 10 nm</td><td style="padding:8px;border:1px solid #ccc;">↓</td><td style="padding:8px;border:1px solid #ccc;">Sunburn, sterilization</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">X-ray</td><td style="padding:8px;border:1px solid #ccc;">10 - 0.01 nm</td><td style="padding:8px;border:1px solid #ccc;">↓</td><td style="padding:8px;border:1px solid #ccc;">Medical imaging</td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Gamma</td><td style="padding:8px;border:1px solid #ccc;">< 0.01 nm</td><td style="padding:8px;border:1px solid #ccc;">HIGH</td><td style="padding:8px;border:1px solid #ccc;">Cancer treatment</td></tr>
+</table>
+<p style="margin: 12px 0 0 0; color: #4a5568;"><strong>KEY:</strong> Longer wavelength = Lower energy = More likely to pass through materials</p>
+</div>
+
+<div style="background: #EDE9FE; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #7C3AED;"><strong>Why WiFi Goes Through Walls But Light Doesn't:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li><strong>WiFi wavelength:</strong> ~12 cm (120,000,000 nm)</li>
+<li><strong>Light wavelength:</strong> ~500 nm</li>
+<li>WiFi is <strong>240,000× LONGER</strong></li>
+<li>Longer waves diffract through gaps in wall materials that block shorter waves!</li>
+</ul>
+</div>
+
+<!-- TIERED SUPPORT -->
+<details style="background:#F0FFF4;padding:15px;margin-top:15px;border-radius:8px;border:1px solid #9AE6B4;">
+<summary style="cursor:pointer;font-weight:bold;color:#276749;font-size:1.05em;">📗 Need extra support? Click here for spectrum hints</summary>
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #9AE6B4;">
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Memory Trick:</strong></p>
+<p style="margin:0 0 15px 0;padding:10px;background:#C6F6D5;border-radius:4px;color:#22543D;">"<strong>R</strong>andy <strong>M</strong>oves <strong>I</strong>nto <strong>V</strong>ery <strong>U</strong>nusual <strong>X</strong>-treme <strong>G</strong>ames" = Radio, Microwave, Infrared, Visible, UV, X-ray, Gamma (longest to shortest wavelength)</p>
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Sentence Starters:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;font-style:italic;">
+<li>"X-rays pass through skin but not bone because..."</li>
+<li>"Radio waves have lower energy than gamma rays because..."</li>
+<li>"WiFi passes through walls because its wavelength is..."</li>
+</ul>
+</div>
+</details>
+</div>
+
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE STATION 2 FORM BELOW</strong></p>
+<p style="margin: 0 0 15px 0; color: #4a5568;">Explore the EM spectrum and explain wavelength-material interactions.</p>
+<!-- EMBED STATION 2 FORM HERE -->
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G8.C5.W1 Station 2 Form Here]</p>
+<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- STATION 3 -->
+<div id="station3-heading" style="background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station3-title">
+<h2 id="station3-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🏥 <strong>Station 3 – Design a Wave Barrier</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">25 Points | ~20 Minutes (Highest Value!)</p>
+</div>
+
+<div style="background: white; border: 2px solid #EF4444; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #DC2626; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🏥 Engineering Challenge: Design a Hospital Wave Barrier</strong></h3>
+<div style="background: #FEF2F2; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #EF4444;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>Your Challenge:</strong></p>
+<p style="margin: 0 0 8px 0; color: #4a5568;">Design a barrier system for a hospital that:</p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li><strong>BLOCKS</strong> cell phone signals (microwaves) to prevent equipment interference</li>
+<li><strong>ALLOWS</strong> emergency radio communication</li>
+<li><strong>ALLOWS</strong> patient monitoring infrared sensors</li>
+</ul>
+</div>
+<div style="background: #FEF9C3; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #854D0E;"><strong>Material Reference Guide:</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.85em; background: white;">
+<tr style="background:#DC2626;color:white;"><th style="padding:8px;border:1px solid #ccc;">Material</th><th style="padding:8px;border:1px solid #ccc;">Radio (λ~m)</th><th style="padding:8px;border:1px solid #ccc;">Microwave (λ~cm)</th><th style="padding:8px;border:1px solid #ccc;">IR (λ~μm)</th></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Metal (solid)</td><td style="padding:8px;border:1px solid #ccc;">REFLECTS</td><td style="padding:8px;border:1px solid #ccc;">REFLECTS</td><td style="padding:8px;border:1px solid #ccc;">REFLECTS</td></tr>
+<tr style="background:#ECFDF5;"><td style="padding:8px;border:1px solid #ccc;"><strong>Metal mesh*</strong></td><td style="padding:8px;border:1px solid #ccc;"><strong>TRANSMITS</strong></td><td style="padding:8px;border:1px solid #ccc;"><strong>REFLECTS</strong></td><td style="padding:8px;border:1px solid #ccc;"><strong>TRANSMITS</strong></td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Glass</td><td style="padding:8px;border:1px solid #ccc;">TRANSMITS</td><td style="padding:8px;border:1px solid #ccc;">TRANSMITS</td><td style="padding:8px;border:1px solid #ccc;">ABSORBS some</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">Concrete</td><td style="padding:8px;border:1px solid #ccc;">ABSORBS</td><td style="padding:8px;border:1px solid #ccc;">ABSORBS</td><td style="padding:8px;border:1px solid #ccc;">ABSORBS</td></tr>
+</table>
+<p style="margin: 8px 0 0 0; font-size: 0.85em; color: #854D0E;">* If mesh holes are larger than wavelength, wave transmits; if smaller, wave reflects</p>
+</div>
+
+<!-- TIERED SUPPORT -->
+<details style="background:#F0FFF4;padding:15px;margin-top:15px;border-radius:8px;border:1px solid #9AE6B4;">
+<summary style="cursor:pointer;font-weight:bold;color:#276749;font-size:1.05em;">📗 Need extra support? Click here for design hints</summary>
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #9AE6B4;">
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Design Strategy:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;">
+<li>Microwaves: λ ~ 10-30 cm (need holes SMALLER than this to block)</li>
+<li>Radio: λ ~ 1-10 m (need holes LARGER than this to allow)</li>
+<li>Infrared: λ ~ 1-100 μm (will pass through any reasonable mesh)</li>
+<li><strong>Solution:</strong> A metal mesh with ~50 cm holes blocks microwaves but allows radio and IR!</li>
+</ul>
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Sentence Starters:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;font-style:italic;">
+<li>"My barrier uses ___ material because..."</li>
+<li>"The mesh holes are ___ cm because microwave wavelength..."</li>
+<li>"Radio waves pass through because their wavelength is..."</li>
+</ul>
+</div>
+</details>
+</div>
+
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE STATION 3 FORM BELOW</strong></p>
+<p style="margin: 0 0 15px 0; color: #4a5568;">Design your barrier and justify your choices using wavelength!</p>
+<!-- EMBED STATION 3 FORM HERE -->
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G8.C5.W1 Station 3 Form Here]</p>
+<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- EXIT TICKET -->
+<div id="exit-heading" style="background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="exit-title">
+<h2 id="exit-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🎓 <strong>Exit Ticket – Wave Behavior Integration</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">23 Points | ~15 Minutes</p>
+</div>
+
+<div style="background: white; border: 2px solid #EC4899; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #DB2777; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🎓 Show What You Learned</strong></h3>
+<div style="background: #FDF2F8; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #EC4899;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>Question Types:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li><strong>2 NEW</strong> - Wave behaviors and wavelength effects (this week)</li>
+<li><strong>2 SPIRAL</strong> - Cycle 3 natural selection + Cycle 4 energy transfer review</li>
+<li><strong>1 INTEGRATION</strong> - Connect wave energy to ecosystem energy</li>
+<li><strong>1 SEP-2</strong> - Develop a model for wave-material interactions</li>
+</ul>
+</div>
+</div>
+
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE EXIT TICKET BELOW</strong></p>
+<p style="margin: 0 0 15px 0; color: #4a5568;">This is your final assessment for Week 1. Take your time!</p>
+<!-- EMBED EXIT TICKET FORM HERE -->
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G8.C5.W1 Exit Ticket Form Here]</p>
+<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- WEEK SUMMARY -->
+<div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+<h2 style="margin: 0 0 15px 0; color: #1D4ED8; font-size: clamp(1.3em, 3.5vw, 1.6em); text-align: center;"><strong>Week 1 Summary: What You Learned</strong></h2>
+<div style="display: grid; gap: 15px;">
+<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #3B82F6;">
+<p style="margin: 0; font-size: 1em;"><strong>Energy Transfer:</strong> Waves transfer ENERGY, not matter—a cork bobs but doesn't travel</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #10B981;">
+<p style="margin: 0; font-size: 1em;"><strong>Wave Behaviors:</strong> Reflection, refraction, diffraction, and transmission</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #8B5CF6;">
+<p style="margin: 0; font-size: 1em;"><strong>EM Spectrum:</strong> Longer wavelength = lower energy = more likely to pass through materials</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #F59E0B;">
+<p style="margin: 0; font-size: 1em;"><strong>WiFi vs Light:</strong> WiFi has 240,000× longer wavelength, so it diffracts through wall gaps</p>
+</div>
+</div>
+</div>
+
+<div style="background: #F7FAFC; padding: 20px; border-radius: 8px; text-align: center;">
+<p style="margin: 0; font-size: 1.1em; color: #4a5568;"><strong>🎉 Week 1 Complete!</strong></p>
+<p style="margin: 10px 0 0 0; color: #718096;">Next Week: How do waves carry and transmit information?</p>
+</div>
+</div>

@@ -1,21 +1,21 @@
 {
   "cycle": 5,
   "grade": 8,
-  "status": "not_started",
-  "lastUpdated": "2025-12-05",
+  "status": "in_progress",
+  "lastUpdated": "2025-12-09",
   "topic": "Waves & Information Transfer",
   "completion": {
-    "overall": 0,
-    "curriculumDesign": 0,
+    "overall": 35,
+    "curriculumDesign": 100,
     "rubrics": 0,
-    "week1": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
-    "week2": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
-    "week3": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 }
+    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
+    "week2": { "forms": 0, "lessonPlan": 100, "studentPage": 0, "slides": 0 },
+    "week3": { "forms": 0, "lessonPlan": 100, "studentPage": 0, "slides": 0 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
     "week3": false
   },
-  "notes": "Placeholder structure created. Development pending."
+  "notes": "Week 1 content complete (forms.gs, student-page.html). Weeks 2-3 forms and student pages pending. Rubrics pending."
 }
