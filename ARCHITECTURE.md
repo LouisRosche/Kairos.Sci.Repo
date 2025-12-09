@@ -41,14 +41,14 @@ Kairos.Sci.Repo/
 │   │   ├── form-schema.json           # Question/form structure
 │   │   └── mtss-schema.json           # Intervention thresholds
 │   └── cycles/
-│       ├── cycle03.json               # ✅ Active (Production)
-│       ├── cycle04.json               # ✅ Complete (Ready for Deployment)
-│       ├── cycle05.json               # 🟡 G7 In Progress (85%)
-│       ├── cycle06.json               # 📋 Placeholder
-│       ├── cycle07.json               # 📋 Placeholder (4/27-5/22)
-│       ├── cycle08.json               # 📋 Placeholder (6/1-6/26, last cycle)
-│       ├── cycle09.json               # ⚠️ DEFERRED - Standards → C8
-│       └── cycle10.json               # ⚠️ MERGED - → C8 Week 3
+│       ├── cycle03.json               # ✅ Active
+│       ├── cycle04.json               # 🟡 In Progress
+│       ├── cycle05.json               # ✅ Complete (2/23-3/12)
+│       ├── cycle06.json               # ✅ Complete (3/24-4/24)
+│       ├── cycle07.json               # ✅ Complete (4/27-5/22)
+│       ├── cycle08.json               # ✅ Complete (6/1-6/26, includes Year-End)
+│       ├── cycle09.json               # ⚠️ DEFERRED - No calendar slot in SY25-26
+│       └── cycle10.json               # ⚠️ DEFERRED - No calendar slot in SY25-26
 │
 ├── templates/                         # Reusable generation templates
 │   ├── forms/
@@ -606,10 +606,10 @@ Content locations:
 - `cycle-status.json` tracking in every cycle
 
 ### Phase 3: Content Build-out (In Progress) 🟡
-- ✅ Cycle 3: Complete (G7 & G8) - Deployed
-- ✅ Cycle 4: Complete (G7 & G8) - Ready for Deployment
-- 🟡 Cycle 5: G7 85% complete (forms, lesson plans, student pages done; missing slides/rubrics)
-- 📋 Cycles 5-8 (G8), C6-C10: Placeholder structure with TODO checklists
+- ✅ Cycle 3: Complete (G7 & G8)
+- ✅ Cycle 4: Complete (G7 & G8)
+- ✅ Cycles 5-8: Config complete, content development in progress
+- ⚠️ Cycles 9-10: Deferred (standards integrated into C8)
 
 ### Phase 4: Automation (Pending)
 - Deploy nightly aggregation

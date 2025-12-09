@@ -1,7 +1,7 @@
 # Grade 7 Cycle 5 Week 1 Lesson Plan
-## Weather Fronts & Air Mass Collisions
+## Air Masses & Storm Formation
 
-**NGSS Standards:** MS-ESS2-5 (Primary), MS-ESS3-5, MS-ESS3-3, MS-ESS2-6 (Spiral)
+**NGSS Standards:** MS-ESS2-5 (Primary), MS-ESS3-3 & MS-ESS3-5 (Spiral)
 **Duration:** 2 days (~75 min each)
 **Total Points:** 100
 
@@ -9,10 +9,10 @@
 
 ## Phenomenon
 
-**The Sudden Storm Mystery**
-On February 1, 2011, Chicago was experiencing a normal winter day—cold but calm. Within 6 hours, a massive blizzard struck, dumping 21.2 inches of snow and stranding thousands of cars on Lake Shore Drive. Yet cities just 50 miles away received far less snow. What caused such dramatic weather to appear so suddenly?
+**The Spinning Storm Mystery**
+Hurricane Katrina spun counterclockwise for days over the Gulf of Mexico, while tornadoes in Kansas spin much faster but only for minutes. Meanwhile, the weather front that brought rain yesterday just moved straight across—no spinning at all.
 
-**Driving Question:** What happens when air masses collide, and how can we predict the weather changes they bring?
+**Driving Question:** Why do some storms spin while others don't?
 
 ---
 
@@ -30,120 +30,121 @@ By the end of this week, students will be able to:
 ### Opening Routine (5 min)
 - Attendance & materials check (Chromebooks)
 - Display driving question on board
-- Quick review: "What did we learn about CO₂ and ocean chemistry in Cycle 4?"
+- Quick review: "What did we learn about human impact on atmosphere in Cycle 4?"
 
 ### Hook (10 min | 12 pts)
-- **Phenomenon:** 2011 Groundhog Day Blizzard time-lapse or satellite imagery
-- **Driving Question:** Why did the storm hit Chicago so hard but miss nearby cities?
-- **Cycle 4 Connection:** Weather involves water cycle + atmosphere interactions
-- **Materials:** Satellite imagery of storm development (embedded in student page)
-- **MTSS Check:** Quick diagnostic on water cycle basics (0 pts)
+- **Phenomenon:** Satellite hurricane footage + tornado video comparison
+- **Driving Question:** Why do some storms spin while others don't?
+- **Cycle 4 Connection:** How does human activity affect the atmosphere that creates these storms?
+- **Materials:** Video comparison embedded in student page
+- **MTSS Check:** Quick diagnostic on air density (0 pts)
 
 **Teacher Notes:**
 - Ask students to predict BEFORE showing explanation
-- Connect explicitly to water cycle and energy transfer from Cycle 4
-- "We learned how the ocean absorbs CO₂. Now let's see how air and water interact to create weather."
+- Connect explicitly to atmospheric changes from Cycle 4
+- "We learned humans are changing atmospheric CO₂. How does the atmosphere create weather?"
 
-### Station 1: Air Mass Properties (18 min | 20 pts)
-- **Focus:** Identifying and classifying air mass types
-- **Activity:** Analyze air mass classification system + match properties to source regions
-- **Key Vocabulary:** Air mass, maritime (m), continental (c), polar (P), tropical (T), mT, cT, mP, cP
-- **Spiral Connection:** Evaporation/condensation from water cycle (Cycle 4)
+### Station 1: Air Mass Collision Lab (18 min | 20 pts)
+- **Focus:** Density-driven air movement, front formation
+- **Activity:** Analyze convection tank demonstration data + temperature readings
+- **Key Vocabulary:** Air mass, continental, maritime, polar, tropical, front, density
+- **Spiral Connection:** Human impact on atmosphere from Cycle 4
 
 **Materials:**
 - Chromebooks (class set)
-- Air mass classification table (embedded in student page)
-- Source region map (embedded in student page)
+- Convection demonstration video (embedded in student page)
+- Temperature data tables (embedded)
 
 **Common Misconceptions to Address:**
 | Misconception | Correct Understanding | How to Address |
 |---------------|----------------------|----------------|
-| "Cold fronts only happen in winter" | Fronts occur in all seasons | Show summer cold front examples |
-| "Air masses don't move" | Air masses travel across continents | Animate jet stream movement |
-| "All air is the same" | Air masses retain source properties | Compare humidity/temp data |
+| "Cold air rises" | Cold air sinks (denser); warm air rises (less dense) | Density demonstration |
+| "Weather and climate are the same" | Weather is short-term conditions; climate is long-term patterns | Clear definitions |
+| "Fronts only happen in winter" | Fronts can occur in any season | Show summer cold front examples |
 
 **Tiered Support:**
-- **Tier 1:** Classification chart with visual icons, sentence starters
-- **Tier 2:** Pre-labeled source region map, worked examples
-- **Tier 3:** One-on-one air mass concept review, simplified classification
+- **Tier 1:** Sentence starters in form, word bank in HTML
+- **Tier 2:** Pre-labeled diagrams, worked example
+- **Tier 3:** One-on-one density concept review, reduced question load
 
 ### Direct Instruction (15 min)
-- **Topic:** Air mass formation and movement
-- **Model:** How geographic features create distinct air masses
-- **Think-Aloud:** Walk through mP (cold, dry) vs mT (warm, humid) formation
-- **Visual:** Draw North American air mass source regions
+- **Topic:** Air mass types and classification
+- **Model:** Draw mT, cT, mP, cP on US map with source regions
+- **Think-Aloud:** Walk through how air masses get their properties
+- **Visual:** Cold front vs warm front cross-section diagram
 
 **Key Points to Model:**
-1. Air masses form over large uniform surfaces (oceans, continents)
-2. They acquire temperature and humidity of source region
-3. Maritime (m) = humid (over water), Continental (c) = dry (over land)
-4. Polar (P) = cold (high latitudes), Tropical (T) = warm (low latitudes)
+1. Air masses form over source regions (land vs water, polar vs tropical)
+2. Properties depend on source: temperature + humidity
+3. When different air masses meet, fronts form
+4. Density differences drive the interaction (warm rises, cold sinks)
 
 ### Wednesday Flex Options
 - **Catch-up:** Complete unfinished stations
-- **Extension:** Research specific historic storms caused by air mass collisions
-- **Rotation:** G7/G8 grade swap activity comparing weather vs. climate
+- **Extension:** Research specific storm types (hurricanes vs tornadoes)
+- **Rotation:** G7/G8 grade swap activity on atmospheric processes
 
 ---
 
 ## Day 2 Structure
 
 ### Quick Review (5 min)
-- "What are the four main air mass types over North America?"
+- "What are the four main air mass types?"
 - Review key vocabulary from Day 1
-- Preview Day 2 objectives: fronts and pressure systems
+- Preview Day 2 objectives
 
-### Station 2: Frontal Boundary Modeling (15 min | 20 pts)
-- **Focus:** Understanding what happens when air masses meet
-- **Activity:** Analyze cross-section diagrams of cold, warm, stationary, and occluded fronts
-- **Spiral Connection:** Energy transfer concepts from Cycle 3
+### Station 2: Pressure Systems Mapping (15 min | 20 pts)
+- **Focus:** High/low pressure systems, wind direction patterns
+- **Activity:** Analyze weather maps, draw isobars, identify pressure centers
+- **Spiral Connection:** Climate factors from Cycle 3
 
-**Front Types:**
-| Front Type | Diagram | Weather | Duration |
-|------------|---------|---------|----------|
-| Cold Front | ▲▲▲ (blue) | Heavy rain, storms, then clearing | Hours |
-| Warm Front | ●●● (red) | Gradual clouds, light rain | Days |
-| Stationary | ▲●▲● | Prolonged clouds and rain | Days |
-| Occluded | ▲● merged | Complex, lifting | Variable |
+**Data Reference:**
+- High pressure: clockwise rotation (N. Hemisphere), fair weather
+- Low pressure: counterclockwise rotation (N. Hemisphere), stormy weather
+- Winds flow from high to low pressure
+
+**Key Calculation:** Pressure gradient = pressure change / distance
 
 **Discussion Questions:**
-1. Why does cold air "wedge" under warm air? (Density difference)
-2. Why are cold fronts often more violent? (Steeper slope, faster movement)
-3. What happens to the moisture in warm air when it's forced up? (Condensation → clouds → precipitation)
+1. Why does low pressure bring clouds and storms? (Rising air cools, condenses)
+2. How do meteorologists use pressure readings? (Predict weather changes)
+3. What happens when a high and low pressure system meet?
 
-### Station 3: Pressure System Analysis (20 min | 25 pts)
-- **Focus:** Interpreting weather maps and predicting changes
-- **Activity:** Analyze real NOAA weather maps, identify fronts and pressure systems
-- **SEP Alignment:** SEP-4 (Analyzing and Interpreting Data)
+### Station 3: Design a Storm Warning System (20 min | 25 pts)
+- **Focus:** Engineering design for MS-ESS2-5
+- **Activity:** Design early warning network within constraints
+- **SEP Alignment:** SEP-3 (Planning and Carrying Out Investigations) + Engineering Design
 
-**Key Concepts:**
-- Low pressure (L): Rising air → clouds, storms, counterclockwise winds
-- High pressure (H): Sinking air → clear skies, clockwise winds
-- Isobars: Lines connecting equal pressure points
-- Closer isobars = stronger winds
+**Design Constraints:**
+- Budget: $300,000 annual operating cost
+- Coverage: At least 4 weather monitoring stations
+- Data: Pressure, temperature, humidity, wind speed
+- Frequency: Hourly minimum
 
-**Weather Map Reading Steps:**
-1. Find H and L pressure centers
-2. Identify front positions (cold ▲, warm ●)
-3. Note isobar spacing (wind strength)
-4. Predict: What weather comes next for a given city?
+**Available Technologies:**
+| Option | Cost/year | Measures | Trade-offs |
+|--------|-----------|----------|------------|
+| Weather Station | $25k each | Temp, pressure, humidity, wind | Reliable but fixed location |
+| Doppler Radar | $150k | Precipitation, wind patterns | Excellent storm detection |
+| Weather Balloons | $15k/year | Upper atmosphere data | Daily only, covers wide area |
+| Satellite Feed | $50k | Cloud patterns, regional view | Not ground-level data |
 
 **Facilitation Notes:**
-- Circulate to check map interpretations
-- Prompt students to justify predictions with evidence
-- Ask: "If you were a TV meteorologist, how would you explain this?"
+- Circulate to check budget calculations
+- Prompt students to justify trade-offs
+- Ask: "How would emergency managers USE this data to save lives?"
 
 ### Exit Ticket (15 min | 23 pts)
 - **Structure:**
-  - 2 NEW questions (air mass classification, front identification)
-  - 2 SPIRAL questions (Cycle 3-4: water cycle, human impacts)
-  - 1 INTEGRATION question (connect air mass properties to weather prediction)
-  - 1 SEP-4 question (Analyze weather map data)
+  - 2 NEW questions (air masses and fronts)
+  - 2 SPIRAL questions (Cycle 3-4: climate change, human impact)
+  - 1 INTEGRATION question (atmospheric + weather patterns)
+  - 1 SEP-3 question (Data collection planning)
 
 **Assessment Focus:**
-- Can students classify air masses by source region?
-- Can they predict weather changes from approaching fronts?
-- Can they interpret symbols on a weather map?
+- Can students identify air mass types from source regions?
+- Can they predict weather from approaching fronts?
+- Can they explain the connection between density and air movement?
 
 ---
 
@@ -151,17 +152,16 @@ By the end of this week, students will be able to:
 
 ### Digital Resources (100% Material-Free)
 - [ ] Chromebooks (class set)
-- [ ] 2011 Blizzard satellite imagery (embedded in student page)
-- [ ] Air mass classification chart (embedded in student page)
-- [ ] Source region map (embedded in student page)
-- [ ] Front cross-section diagrams (embedded in student page)
-- [ ] NOAA weather map examples (linked in student page)
-- [ ] Interactive front animation (embedded or linked)
+- [ ] Hurricane/tornado comparison video (embedded in student page)
+- [ ] Convection demonstration video (embedded in student page)
+- [ ] Weather map archives from NOAA (embedded links)
+- [ ] Air mass source region map (embedded in student page)
+- [ ] Design constraint options (embedded in Google Form)
 
 ### Physical Materials
 - [ ] Notecards (1 per student for exit ticket notes)
 
-> **Note:** This lesson is designed for 100% material-free digital instruction. All maps, diagrams, and data are embedded in the student page and Google Forms. Students without device access should use async packets delivered digitally.
+> **Note:** This lesson is designed for 100% material-free digital instruction. All data tables, design constraints, and visuals are embedded in the student page and Google Forms.
 
 ---
 
@@ -169,77 +169,72 @@ By the end of this week, students will be able to:
 
 ### Tier 1 (Universal)
 - Sentence starters in all open-response questions
-- Word banks provided in HTML page
-- Step-by-step weather map reading guide
-- Vocabulary table with visual icons at start of lesson
+- Weather vocabulary word bank with visual icons
+- Async alternatives with weather data tables
 
 ### Tier 2 (Targeted)
 - "📗 Need help?" collapsible sections with hints
-- Pre-labeled weather maps with fewer symbols
-- Video tutorials for front identification
-- Simplified classification mnemonics
+- Pre-labeled weather map templates
+- Video alternatives for front formation
 
 ### Tier 3 (Intensive)
 - "🆘 Stuck?" pathways with escalating support
-- One-on-one air mass concept review
-- Modified assessment with visual matching
-- Graphic organizers for front comparisons
+- One-on-one density/convection concept review
+- Modified assessment with reduced question load
 
 ### Diagnostic Questions
 | Misconception | Form Location | Intervention |
 |---------------|---------------|--------------|
-| Cold fronts = winter only | Hook MTSS Check | Year-round front examples |
-| Air masses are stationary | Station 1 Q3 | Jet stream animation |
-| Low pressure = cold | Station 3 Q2 | Pressure-weather relationship review |
+| Cold air rises | Hook MTSS Check | Density demonstration review |
+| Weather = Climate | Station 1 Q4 | Definitions remediation |
 
 ---
 
 ## Assessment Notes
 
 ### Formative (During Class)
-- Hook responses (predictions about blizzard)
+- Hook responses (predictions)
 - Station completion progress
-- Circulating observations during map analysis
+- Circulating observations during Station 3
 
 ### Summative (Exit Ticket)
 - 23 points total
 - 3D assessment alignment:
-  - SEP-4: Analyzing and Interpreting Data (Q1, Q5, Q6)
-  - DCI ESS2.D: Weather and Climate (Q1-Q4)
-  - CCC-1: Patterns (Q3, Q5)
+  - SEP-3: Planning and Carrying Out Investigations (Q1, Q6)
+  - DCI ESS2.D: Weather and Climate (Q3, Q4)
+  - CCC-2: Cause and Effect (Q5)
 
 ### Grading Priorities
-1. Air mass classification accuracy (correct type for source region)
-2. Front identification (recognize symbols and predict weather)
-3. Evidence-based predictions (cite map features)
+1. Air mass identification from source regions
+2. Front type prediction from characteristics
+3. Data collection justification (design challenge)
 
 ---
 
-## Cycle 4 → Cycle 5 Connections
+## Cycle 3-4 → Cycle 5 Connections
 
-| Cycle 4 Concept | Cycle 5 Application |
-|-----------------|---------------------|
-| Water cycle (evaporation/condensation) | Maritime air masses gain moisture |
-| Ocean-atmosphere interaction | Ocean temperature affects coastal air masses |
-| Human impacts on systems | Climate change affecting storm patterns |
-| Conservation of mass | Water vapor → precipitation (mass conserved) |
+| Previous Cycle Concept | Cycle 5 Application |
+|------------------------|---------------------|
+| CO₂ greenhouse effect (C3) | Atmospheric heating drives air mass formation |
+| Feedback loops (C3) | Weather systems as feedback processes |
+| Ocean chemistry (C4) | Ocean temperature affects coastal weather |
+| Human impact (C4) | Climate change affecting storm intensity |
 
 **Explicit Connection Script:**
-"In Cycle 4, we learned how CO₂ cycles between the ocean and atmosphere. Water also cycles between these systems—and that water vapor is the key ingredient for weather. Today we'll discover how large bodies of air carry this moisture across continents and what happens when they collide."
+"In Cycles 3 and 4, we learned how CO₂ affects the atmosphere and oceans. Now we'll explore how the atmosphere creates weather—the short-term patterns we experience every day. Remember, weather is what's happening NOW; climate is the long-term average."
 
 ---
 
 ## Extension Activities
 
 ### Early Finishers
-- Explore NOAA Storm Prediction Center real-time data
-- Research historic blizzards or hurricanes in our region
-- Create a 5-day weather forecast using online tools
+- Research specific famous storms (Hurricane Katrina, 2011 Joplin Tornado)
+- Explore NOAA Storm Prediction Center data
+- Calculate local weather station needs for their community
 
 ### Homework (Optional)
-- Family discussion: "What weather app does our family use? How accurate are its predictions?"
-- Track local weather for 3 days and compare to forecasts
+- Family discussion: "What local weather patterns does our family notice? How do they affect our daily activities?"
 
 ---
 
-*Lesson Plan v1.0 | Grade 7 Cycle 5 Week 1 | January 2026*
+*Lesson Plan v1.0 | Grade 7 Cycle 5 Week 1 | February 2026*

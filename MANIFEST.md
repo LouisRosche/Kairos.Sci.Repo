@@ -111,10 +111,10 @@ Kairos.Sci.Repo/
 | **C2** | 75% 📦 | 75% 📦 | **LEGACY** (pre-architecture) |
 | **C3** | 100% ✅ | 100% ✅ | **DEPLOYED** |
 | **C4** | 100% ✅ | 100% ✅ | **READY FOR DEPLOYMENT** |
-| **C5** | 85% 🟡 | 0% 📋 | **G7 IN PROGRESS** |
-| **C6** | 0% 📋 | 0% 📋 | Placeholder |
-| **C7** | 0% 📋 | 0% 📋 | Placeholder (4/27-5/22) |
-| **C8** | 0% 📋 | 0% 📋 | Placeholder (6/1-6/26, **includes Year-End Integration**) |
+| **C5** | 🟡 Config ✅ | 🟡 Config ✅ | Config complete, content in progress |
+| **C6** | 🟡 Config ✅ | 🟡 Config ✅ | Config complete, content in progress |
+| **C7** | 🟡 Config ✅ | 🟡 Config ✅ | Config complete, content in progress (4/27-5/22) |
+| **C8** | 🟡 Config ✅ | 🟡 Config ✅ | Config complete, content in progress (6/1-6/26, **Year-End**) |
 | **C9** | — | — | Standards → C8; Topics deferred to SY26-27 |
 | **C10** | — | — | **MERGED** → C8 Week 3 |
 
@@ -232,11 +232,16 @@ Cycles 6-8 have standardized placeholder structure created and align with the SY
 | C9 | Space Systems & Earth's Place | Engineering Design & Systems | **Standards integrated → C8 secondary**; Topics deferred to SY26-27 |
 | C10 | Year-End Integration & Review | Year-End Integration & Review | **MERGED → Cycle 8 Week 3** |
 
-Each placeholder cycle includes:
-- `curriculum-design.md` with TODO checklist
-- `rubrics.md` with template structure
-- `week{1,2,3}/` directories with placeholder files
-- `cycle-status.json` for tracking progress
+Each cycle config (JSON) includes:
+- Complete driving phenomena for all weeks
+- Detailed misconceptions with targeting
+- Full station structures (Hook, S1, S2, S3, Exit Ticket)
+- Spiral standards and 3D learning components
+- Materials lists and assessment structure
+
+Content files still in development:
+- `curriculum-design.md`, `rubrics.md`, `lesson-plan.md`
+- `week{1,2,3}/` with forms.gs, student-page.html
 
 ---
 
@@ -277,10 +282,10 @@ Each placeholder cycle includes:
 | `master-config.json` | Global settings, naming conventions | ✅ Complete |
 | `cycles/cycle03.json` | C3 specs (active, 408 lines) | ✅ Complete |
 | `cycles/cycle04.json` | C4 specs (337 lines) | ✅ Complete |
-| `cycles/cycle05.json` | C5 specs | 🟡 G7 In Progress |
-| `cycles/cycle06.json` | C6 specs placeholder | 📋 Placeholder |
-| `cycles/cycle07.json` | C7 specs (4/27-5/22) | 📋 Placeholder |
-| `cycles/cycle08.json` | C8 specs (6/1-6/26, last cycle) | 📋 Placeholder |
+| `cycles/cycle05.json` | C5 specs (Weather/Waves) | ✅ Complete |
+| `cycles/cycle06.json` | C6 specs (Tectonics/E&M) | ✅ Complete |
+| `cycles/cycle07.json` | C7 specs (Rock Cycle/Reactions) | ✅ Complete |
+| `cycles/cycle08.json` | C8 specs (Ecosystems/Thermal + YE) | ✅ Complete |
 | `cycles/cycle09.json` | C9 specs (standards → C8) | ✅ Resolved (deferred topics) |
 | `cycles/cycle10.json` | C10 Year-End (merged → C8) | ✅ Resolved (merged) |
 | `schema/cycle-schema.json` | Cycle config validation | ✅ Complete |
