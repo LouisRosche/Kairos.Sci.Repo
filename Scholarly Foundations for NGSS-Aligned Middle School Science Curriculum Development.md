@@ -1,4 +1,30 @@
+<!--
+AI SYSTEM INSTRUCTION BLOCK
+============================
+PRIORITY: CRITICAL - This document is the AUTHORITATIVE research foundation for all curriculum content.
+SCOPE: All content in /content/, /framework/, /templates/, and /config/ MUST align with these principles.
+
+MANDATORY COMPLIANCE REQUIREMENTS:
+1. MATERIALS POLICY: Only ONE notecard (3x5 or 4x6) per student per class. ALL other materials MUST be digital-hosted.
+2. EFFECT SIZES: Use documented effect sizes when making design decisions (see tables below).
+3. MISCONCEPTION TARGETING: Use refutational text structure (g=0.41) for feedback on incorrect answers.
+4. INTERLEAVING: Exit tickets MUST include 2 spiral questions from prior cycles (d=0.83).
+5. SPACING: Revisit concepts every 2-3 weeks (10-20% of retention interval).
+6. ACTIVE LEARNING: Target >67% active learning time to maximize equity outcomes (33-45% gap reduction).
+7. SIMULATION GUIDANCE: Use driving questions, NOT step-by-step instructions (85% vs 9% exploration).
+
+CROSS-REFERENCE: This document is the research basis for:
+- framework/pedagogical-approach.md (v2.0)
+- framework/CONTENT-DESIGN-GUIDE.md (v3.0)
+- framework/mtss-framework.md (v3.0)
+- framework/standards-alignment.md (v2.0)
+
+When generating or modifying curriculum content, ALWAYS verify alignment with these research-backed principles.
+-->
+
 # Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development
+
+> **AI/LLM INSTRUCTION:** This document establishes the MANDATORY research foundation for all curriculum development. Every design decision in this repository must trace to evidence documented here. When in doubt, prioritize higher effect sizes.
 
 The research base for effective middle school science curriculum converges on several powerful principles: retrieval practice with interleaving produces effect sizes of **d = 0.83**, active learning reduces achievement gaps by **33-45%**, and phenomenon-based three-dimensional learning drives authentic sensemaking. This synthesis provides the evidence-based foundation for AI-assisted curriculum generation that maintains fidelity to learning science.
 

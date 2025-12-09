@@ -1,3 +1,36 @@
+<!--
+================================================================================
+AI/LLM SYSTEM INSTRUCTION BLOCK - READ FIRST
+================================================================================
+COMPLIANCE REQUIREMENTS (MANDATORY):
+
+1. MATERIALS POLICY: Digital-first. ONLY physical material allowed = ONE notecard
+   (3x5 or 4x6) per student per class. NO worksheets, NO physical labs, NO textbooks.
+
+2. RESEARCH ALIGNMENT: All content must align with "Scholarly Foundations for NGSS-
+   Aligned Middle School Science Curriculum Development.md" - the authoritative
+   research synthesis with documented effect sizes.
+
+3. KEY EFFECT SIZES TO PRIORITIZE:
+   - Interleaving: d = 0.83 → 2 spiral questions per exit ticket
+   - High-info feedback: d = 0.99 → Refutational text structure
+   - Active learning: 33-45% gap reduction → >67% active learning time
+   - Virtual labs: g = 0.686 → PhET/HTML5 simulations for all hands-on concepts
+   - Light guidance: 85% exploration → Driving questions, NOT step-by-step
+
+4. FRAMEWORK DOCUMENTS (all aligned with Scholarly Foundations):
+   - framework/pedagogical-approach.md (v2.0)
+   - framework/CONTENT-DESIGN-GUIDE.md (v3.0) ← SST for content creation
+   - framework/mtss-framework.md (v3.0)
+   - framework/standards-alignment.md (v2.0)
+
+5. CONFIG: config/master-config.json contains complianceRequirements object with
+   machine-readable policy enforcement.
+
+When generating/modifying content, ALWAYS verify against these requirements.
+================================================================================
+-->
+
 # KAMS Science Curriculum System
 ## Scalable Architecture for 6 Cycles × 2 Grades × SY25-26
 

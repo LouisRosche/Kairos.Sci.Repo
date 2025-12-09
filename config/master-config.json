@@ -1,8 +1,42 @@
 {
   "$schema": "./schema/cycle-schema.json",
   "$comment": "Master configuration - validated against cycle schema structure",
-  "version": "3.0.0",
-  "lastUpdated": "2025-12-07",
+  "version": "3.1.0",
+  "lastUpdated": "2025-12-09",
+
+  "_AI_INSTRUCTION": {
+    "priority": "CRITICAL",
+    "message": "All content generation MUST comply with complianceRequirements below and align with Scholarly Foundations document",
+    "scholarlyFoundationsPath": "Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development.md"
+  },
+
+  "complianceRequirements": {
+    "materialsPolicy": {
+      "rule": "DIGITAL_FIRST_NOTECARD_ONLY",
+      "description": "All instructional materials must be digital-hosted in this repository",
+      "physicalMaterialsAllowed": "ONE notecard (3x5 or 4x6) per student per class period",
+      "rationale": {
+        "digitalNotebooks": "γ = 0.34 learning improvement (Rappolt-Schlichtmann et al., 2013)",
+        "virtualLabs": "g = 0.686 positive outcomes (2024 PLOS ONE)",
+        "accessibility": "100% async access, UDL supports, MTSS monitoring"
+      },
+      "prohibited": ["physical lab materials", "printed worksheets", "textbooks", "manipulatives"]
+    },
+    "researchAlignment": {
+      "interleaving": { "effectSize": "d = 0.83", "requirement": "2 spiral questions per exit ticket" },
+      "retrievalPractice": { "effectSize": "g = 0.50-0.61", "requirement": "Weekly retrieval in all assessments" },
+      "refutationalText": { "effectSize": "g = 0.41", "requirement": "Use for all misconception feedback" },
+      "activeLearning": { "effectSize": "33-45% gap reduction", "requirement": ">67% active learning time" },
+      "lightGuidance": { "effectSize": "85% vs 9% exploration", "requirement": "Driving questions, not step-by-step" },
+      "spacing": { "rule": "10-20% of retention interval", "requirement": "Revisit concepts every 2-3 weeks" }
+    },
+    "ngssAlignment": {
+      "threeDimensional": true,
+      "phenomenonDriven": true,
+      "cccsAsEquityEntryPoints": true,
+      "fiveInstructionalRoutines": ["elicitQuestions", "navigateInvestigations", "problematize", "synthesize", "revisitPhenomenon"]
+    }
+  },
 
   "school": {
     "name": "KAMS",
