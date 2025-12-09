@@ -1,18 +1,37 @@
 # KAMS Science Content Design Guide
 ## Single Source of Truth for Curriculum Development
-## Version 2.0 | December 2025
+## Version 3.0 | December 2025
 
 ---
 
 ## Purpose
 
-This document aggregates ALL learnings from curriculum development across G7 and G8, Cycles 2-10. It defines what works, what doesn't, and provides actionable templates for creating high-quality science content.
+This document aggregates ALL learnings from curriculum development across G7 and G8, Cycles 2-10, grounded in the *Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development* research synthesis. Every design principle is backed by empirical evidence with documented effect sizes.
 
 **Use this guide when:**
 - Creating new cycle/week content
 - Auditing existing content
 - Training new curriculum developers
 - Troubleshooting assessment issues
+
+---
+
+## Materials Policy: Digital-First Requirement
+
+> **CRITICAL:** All instructional materials must be digital-hosted in this repository. The ONLY permitted physical material is **one 3×5 or 4×6 notecard per student per class period**.
+
+**Rationale (Research-Backed):**
+- Digital science notebooks produce **γ = 0.34** learning improvement regardless of reading/writing proficiency (Rappolt-Schlichtmann et al., 2013)
+- Virtual labs produce **g = 0.686** for positive learning outcomes (2024 PLOS ONE meta-analysis)
+- Ensures 100% asynchronous accessibility for absent/remote learners
+- Enables UDL supports: text-to-speech, adjustable fonts, embedded scaffolding
+- Enables data-driven MTSS monitoring through digital assessment
+
+**What This Means for Content Development:**
+- NO lab activities requiring physical materials beyond a notecard
+- All simulations, visuals, and resources embedded in student pages
+- Async alternatives REQUIRED for any referenced physical demonstrations
+- PhET simulations or custom HTML5 simulations for all hands-on concepts
 
 ---
 
@@ -31,69 +50,114 @@ This document aggregates ALL learnings from curriculum development across G7 and
 
 ---
 
-## 1. Proven Patterns (What Works)
+## 1. Proven Patterns (What Works) — Evidence-Based
 
 ### 1.1 Phenomenon-Driven Instruction
 
 **Pattern:** Start every week with an engaging, real-world phenomenon that creates cognitive dissonance.
 
+**Research Foundation:** Reiser et al. (2021) established that anchoring phenomena must drive authentic student questioning—not serve as mere "hooks." Lowell, Cherbow, & McNeill (2021) found many curricula "relabel" rather than "redesign"—phenomena must require all three NGSS dimensions to explain.
+
 ```
-EFFECTIVE PHENOMENA:
+EFFECTIVE PHENOMENA (meet all criteria):
 - G8.C3.W1: "If cheetahs are the fastest land animal, why haven't gazelles gone extinct?"
 - G8.C3.W2: "Why do whale flippers have finger bones?"
 - G7.C3.W1: "Why does a car get hot inside but not outside?"
 - G7.C3.W2: "Why might melting ice cause MORE melting?"
+
+PHENOMENON CRITERIA:
+✓ Requires all three dimensions (SEP-DCI-CCC) to explain
+✓ Observable and puzzling to students
+✓ Connects to students' lived experiences
+✓ Sustains investigation across a full week/unit
 
 WHY IT WORKS:
 - Creates genuine curiosity (SEP-1)
 - Provides anchor for all subsequent learning
 - Makes abstract concepts concrete
 - Students remember the phenomenon long after facts fade
+- CCCs serve as entry points for historically marginalized students (Lee et al., 2014)
 ```
 
 ### 1.2 Strategic Interleaving (Spiral Curriculum)
 
 **Pattern:** Every Exit Ticket includes 2 spiral questions from previous cycles + 1 integration question connecting old and new.
 
+**Research Foundation (Effect Sizes):**
+- **Interleaved vs. blocked practice: d = 0.83** (Rohrer et al., 2020 RCT with 787 7th graders)
+- **Retrieval practice vs. restudy: g = 0.50-0.61** (Rowland, 2014; Adesope, 2017)
+- **Optimal spacing: 10-20% of desired retention interval** (Cepeda et al., 2008)
+- For semester-long retention (4-5 months), revisit concepts every 2-3 weeks
+
 ```
 EXIT TICKET STRUCTURE:
 Q1-Q2: NEW content (current week)
-Q3-Q4: SPIRAL content (previous cycle)
-Q5: INTEGRATION (requires both)
+Q3-Q4: SPIRAL content (previous cycle, 2-3 weeks prior)
+Q5: INTEGRATION (requires both — builds discrimination)
 Q6: SEP-1 Question Generator (student-generated HOW/WHY)
 
+TARGET SUCCESS RATE: 50-80% (Yang et al., 2021)
+- If above 80%, increase difficulty
+- If below 50%, add scaffolding
+
 WHY IT WORKS:
-- Retrieval practice > re-study (Roediger & Karpicke, 2006)
-- Interleaving forces discrimination (Rohrer, 2012)
+- Retrieval practice > re-study: d = 0.50-0.61
+- Interleaving forces discrimination: d = 0.83
 - Integration reveals transfer capabilities
-- SEP-1 develops scientific habits of mind
+- Mixed test formats produce strongest effects (Adesope et al., 2017)
+- Overt retrieval (writing) > covert (mental) for adolescents (2025 study)
 ```
 
 ### 1.3 Misconception Targeting
 
-**Pattern:** Explicitly identify common misconceptions, create "trap" distractors, and provide corrective feedback.
+**Pattern:** Explicitly identify common misconceptions, create "trap" distractors, and provide corrective feedback using refutational text structure.
+
+**Research Foundation:**
+- **Refutational text: g = 0.41** (Schroeder & Kucera, 2022; Danielson et al., 2025)
+- Three frameworks explain persistent misconceptions:
+  - **Chi's Ontological Categories:** Students miscategorize processes as matter (heat as substance)
+  - **diSessa's P-prims:** Intuitions like "closer is stronger" misapplied
+  - **Vosniadou's Framework Theory:** "Synthetic models" form through incompatible assimilation
+- **Two-tier diagnostic tests** (Treagust, 1986) combine content + reasoning tiers
 
 ```
 EFFECTIVE MISCONCEPTION DESIGN:
 
 1. IDENTIFY: Research or pre-test to find common errors
    - G8: "Individuals evolve" (Lamarckian) - 45% frequency
-   - G7: "Breaking bonds releases energy" - 60% frequency
+   - G7: "Breaking bonds releases energy" - 60% frequency (ontological error)
+   - G7: "Summer = Earth closer to Sun" - 40% frequency (p-prim misapplication)
 
-2. TRAP: Create MCQ distractors that embody the misconception
+2. TRAP: Create MCQ distractors that embody the misconception (Gierl et al., 2017)
    .createChoice('The whale evolved its flippers by swimming more', false)
    // This IS what students believe; catching it triggers remediation
 
-3. FEEDBACK: Corrective feedback that addresses WHY it's wrong
-   "Remember: Individual organisms don't change. POPULATIONS change over
-   generations because individuals with certain traits survive and reproduce more."
+3. FEEDBACK: Use REFUTATIONAL TEXT structure (g = 0.41):
+   a) State the misconception explicitly
+   b) Directly refute it
+   c) Provide the correct scientific explanation
+   d) Connect to evidence
 
-4. REPEAT: Spiral the same misconception in later weeks/cycles
+   Example: "Many people think individual organisms evolve—this is incorrect.
+   Individual organisms do NOT change during their lifetime. POPULATIONS change
+   over generations because individuals with certain traits survive and reproduce
+   more. The whale's ancestor with slightly better swimming limbs had more offspring."
+
+4. BRIDGING ANALOGIES (Clement, 1993): For difficult conceptual shifts, build
+   from anchoring intuitions through intermediate cases to target concept
+   - Example: Tables exert force → springs → flexible boards → rigid surfaces
+
+5. REPEAT: Spiral the same misconception in later weeks/cycles
 ```
 
 ### 1.4 Tiered Support (Progressive Disclosure)
 
 **Pattern:** Use collapsible `<details>` elements to provide support without overwhelming advanced learners.
+
+**Research Foundation:**
+- **Sustained scaffolding (g = 0.46):** Contrary to assumptions, students need scaffolding longer than anticipated (Belland et al., 2017)
+- **Backward fading:** Remove support from END of procedures first, not beginning (Renkl & Atkinson, 2003)
+- **Working memory limit:** 4-7 elements max (Sweller, 1988)
 
 ```html
 <!-- EFFECTIVE TIERED SUPPORT -->
@@ -807,4 +871,5 @@ TIER 3 (Intensive - <50%):
 
 ---
 
-*CONTENT-DESIGN-GUIDE.md | Version 2.0 | December 2025 | KAMS Science*
+*CONTENT-DESIGN-GUIDE.md | Version 3.0 | December 2025 | KAMS Science*
+*Aligned with Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development*
