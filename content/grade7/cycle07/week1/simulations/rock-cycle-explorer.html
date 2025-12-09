@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive rock cycle simulation showing how rocks transform between igneous, sedimentary, and metamorphic types">
+    <title>Rock Cycle Explorer | G7 C7 W1</title>
+    <!--
+    ================================================================================
+    Grade 7 Cycle 7 Week 1 - Rock Cycle Explorer
+    ================================================================================
+    100% DIGITAL/SIMULATION-BASED INSTRUCTION
+    Interactive simulation demonstrating:
+    - Three rock types: igneous, sedimentary, metamorphic
+    - Transformation processes between types
+    - Connection to plate tectonics
+    - Time scales of geologic processes
+
+    Standards: MS-ESS1-4 (Rock Cycle)
+    Updated: December 2025 | Material-Free Audit Complete
+    ================================================================================
+    -->
+    <style>
+        :root {
+            --igneous: #EF4444;
+            --igneous-light: #FEE2E2;
+            --sedimentary: #F59E0B;
+            --sedimentary-light: #FEF3C7;
+            --metamorphic: #8B5CF6;
+            --metamorphic-light: #EDE9FE;
+            --magma: #DC2626;
+            --primary: #0891B2;
+            --primary-light: #ECFEFF;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --text: #1E293B;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #78716C 0%, #57534E 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text);
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: clamp(1.4em, 4vw, 2em);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            font-size: clamp(0.9em, 2.5vw, 1.1em);
+            margin-bottom: 20px;
+        }
+
+        .sim-container {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .instructions {
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+        }
+
+        .instructions summary {
+            padding: 14px 18px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #0E7490;
+            list-style: none;
+        }
+
+        .instructions summary::-webkit-details-marker { display: none; }
+
+        .instructions-content {
+            padding: 14px 18px;
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        .instructions-content ol { margin-left: 20px; }
+        .instructions-content li { margin-bottom: 8px; }
+
+        /* Cycle Diagram */
+        .cycle-area {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 30%, #8B4513 30%, #8B4513 70%, #DC2626 70%);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .layer-label {
+            position: absolute;
+            right: 10px;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .surface-label { top: 10%; }
+        .crust-label { top: 50%; }
+        .mantle-label { top: 80%; }
+
+        /* Rock Nodes */
+        .rock-node {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 4px solid white;
+        }
+
+        .rock-node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+        }
+
+        .rock-node.selected {
+            transform: scale(1.15);
+            box-shadow: 0 0 30px 10px gold;
+        }
+
+        .rock-node .icon { font-size: 2em; }
+        .rock-node .label {
+            font-size: 0.75em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            margin-top: 4px;
+        }
+
+        .igneous-node { background: linear-gradient(135deg, #EF4444, #DC2626); }
+        .sedimentary-node { background: linear-gradient(135deg, #F59E0B, #D97706); }
+        .metamorphic-node { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
+        .magma-node { background: linear-gradient(135deg, #DC2626, #991B1B); }
+
+        /* Process Arrows */
+        .process-arrow {
+            position: absolute;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+
+        .process-arrow:hover {
+            background: gold;
+            transform: scale(1.1);
+        }
+
+        .process-arrow.active {
+            background: gold;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Animated Rock */
+        .animated-rock {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 100;
+        }
+
+        /* Info Panel */
+        .info-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .rock-info {
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid;
+        }
+
+        .rock-info.igneous { background: var(--igneous-light); border-color: var(--igneous); }
+        .rock-info.sedimentary { background: var(--sedimentary-light); border-color: var(--sedimentary); }
+        .rock-info.metamorphic { background: var(--metamorphic-light); border-color: var(--metamorphic); }
+
+        .rock-info h4 {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .process-info {
+            grid-column: 1 / -1;
+            background: var(--gray-900);
+            color: white;
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            min-height: 100px;
+        }
+
+        .process-info h4 {
+            color: gold;
+            margin-bottom: 8px;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 48px;
+        }
+
+        button:hover { transform: translateY(-2px); }
+
+        .btn-primary { background: linear-gradient(135deg, #3B82F6, #2563EB); color: white; }
+        .btn-secondary { background: linear-gradient(135deg, #10B981, #059669); color: white; }
+        .btn-igneous { background: linear-gradient(135deg, var(--igneous), #DC2626); color: white; }
+        .btn-sedimentary { background: linear-gradient(135deg, var(--sedimentary), #D97706); color: white; }
+        .btn-metamorphic { background: linear-gradient(135deg, var(--metamorphic), #7C3AED); color: white; }
+
+        /* Key Concepts */
+        .key-concepts {
+            background: #F0FDF4;
+            border-left: 4px solid #10B981;
+            padding: 20px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-bottom: 20px;
+        }
+
+        .key-concepts h3 { color: #047857; margin-bottom: 12px; }
+        .key-concepts ul { margin-left: 20px; color: var(--gray-700); }
+        .key-concepts li { margin-bottom: 8px; }
+
+        /* POE Section */
+        .poe-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .poe-card {
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid;
+        }
+
+        .poe-card.predict { background: #F5F3FF; border-color: #8B5CF6; }
+        .poe-card.observe { background: #ECFEFF; border-color: #06B6D4; }
+        .poe-card.explain { background: #FFFBEB; border-color: #F59E0B; }
+
+        .poe-card h4 { margin-bottom: 8px; }
+        .poe-card.predict h4 { color: #6D28D9; }
+        .poe-card.observe h4 { color: #0891B2; }
+        .poe-card.explain h4 { color: #D97706; }
+
+        /* Time Counter */
+        .time-counter {
+            text-align: center;
+            padding: 10px;
+            background: var(--gray-100);
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+        }
+
+        .time-counter .years {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .sim-container { padding: 15px; }
+            .cycle-area { height: 400px; }
+            .rock-node { width: 80px; height: 80px; }
+            .rock-node .icon { font-size: 1.5em; }
+            .info-panel { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 500px) {
+            .cycle-area { height: 350px; }
+            .rock-node { width: 65px; height: 65px; }
+            .rock-node .label { font-size: 0.65em; }
+            .process-arrow { font-size: 0.65em; padding: 5px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🪨 Rock Cycle Explorer</h1>
+        <p class="subtitle">Discover how rocks transform over millions of years</p>
+
+        <div class="sim-container">
+            <details class="instructions" open>
+                <summary>📋 How to Use This Simulation</summary>
+                <div class="instructions-content">
+                    <ol>
+                        <li><strong>Click a rock type</strong> to learn about its characteristics</li>
+                        <li><strong>Click a process arrow</strong> to see how rocks transform</li>
+                        <li>Watch the <strong>animation</strong> showing the transformation</li>
+                        <li>Use the <strong>scenario buttons</strong> to trace complete journeys</li>
+                        <li>Notice how <strong>time passes</strong> during each transformation</li>
+                    </ol>
+                </div>
+            </details>
+
+            <div class="time-counter">
+                <span>Simulated Time: </span>
+                <span class="years" id="timeCounter">0</span>
+                <span> million years</span>
+            </div>
+
+            <div class="cycle-area" id="cycleArea">
+                <span class="layer-label surface-label">☁️ Surface</span>
+                <span class="layer-label crust-label">🏔️ Crust</span>
+                <span class="layer-label mantle-label">🔥 Mantle</span>
+
+                <!-- Rock Nodes -->
+                <div class="rock-node igneous-node" id="igneous" style="left: 20%; top: 25%;" onclick="selectRock('igneous')">
+                    <span class="icon">🌋</span>
+                    <span class="label">IGNEOUS</span>
+                </div>
+
+                <div class="rock-node sedimentary-node" id="sedimentary" style="left: 70%; top: 15%;" onclick="selectRock('sedimentary')">
+                    <span class="icon">📚</span>
+                    <span class="label">SEDIMENTARY</span>
+                </div>
+
+                <div class="rock-node metamorphic-node" id="metamorphic" style="left: 50%; top: 50%;" onclick="selectRock('metamorphic')">
+                    <span class="icon">💎</span>
+                    <span class="label">METAMORPHIC</span>
+                </div>
+
+                <div class="rock-node magma-node" id="magma" style="left: 35%; top: 75%;" onclick="selectRock('magma')">
+                    <span class="icon">🔥</span>
+                    <span class="label">MAGMA</span>
+                </div>
+
+                <!-- Process Arrows -->
+                <div class="process-arrow" id="weathering" style="left: 45%; top: 10%;" onclick="showProcess('weathering')">
+                    ⬅️ Weathering & Erosion
+                </div>
+
+                <div class="process-arrow" id="compaction" style="left: 75%; top: 35%;" onclick="showProcess('compaction')">
+                    ⬇️ Compaction
+                </div>
+
+                <div class="process-arrow" id="heatpressure1" style="left: 62%; top: 45%;" onclick="showProcess('heatpressure1')">
+                    ⬇️ Heat & Pressure
+                </div>
+
+                <div class="process-arrow" id="heatpressure2" style="left: 25%; top: 45%;" onclick="showProcess('heatpressure2')">
+                    ⬇️ Heat & Pressure
+                </div>
+
+                <div class="process-arrow" id="melting" style="left: 40%; top: 65%;" onclick="showProcess('melting')">
+                    ⬇️ Melting
+                </div>
+
+                <div class="process-arrow" id="cooling" style="left: 15%; top: 55%;" onclick="showProcess('cooling')">
+                    ⬆️ Cooling
+                </div>
+
+                <div class="process-arrow" id="uplift" style="left: 55%; top: 70%;" onclick="showProcess('uplift')">
+                    ⬆️ Uplift
+                </div>
+
+                <!-- Animated rock element -->
+                <div class="animated-rock" id="animatedRock"></div>
+            </div>
+
+            <div class="info-panel">
+                <div class="rock-info igneous" id="igneousInfo">
+                    <h4>🌋 Igneous Rock</h4>
+                    <p><strong>Formation:</strong> Cooled magma or lava</p>
+                    <p><strong>Examples:</strong> Granite, Basalt, Obsidian</p>
+                    <p><strong>Features:</strong> Crystalline, no layers</p>
+                </div>
+
+                <div class="rock-info sedimentary" id="sedimentaryInfo">
+                    <h4>📚 Sedimentary Rock</h4>
+                    <p><strong>Formation:</strong> Compressed sediments</p>
+                    <p><strong>Examples:</strong> Sandstone, Limestone, Shale</p>
+                    <p><strong>Features:</strong> Layers, may contain fossils</p>
+                </div>
+
+                <div class="process-info" id="processInfo">
+                    <h4>🔄 Select a Process</h4>
+                    <p>Click on any process arrow to learn how rocks transform from one type to another. Each transformation takes millions of years!</p>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-primary" onclick="resetCycle()">🔄 Reset</button>
+                <button class="btn-igneous" onclick="runScenario('volcano')">🌋 Volcano Scenario</button>
+                <button class="btn-sedimentary" onclick="runScenario('beach')">🏖️ Beach Scenario</button>
+                <button class="btn-metamorphic" onclick="runScenario('mountain')">🏔️ Mountain Scenario</button>
+            </div>
+
+            <div class="key-concepts">
+                <h3>💡 Key Concepts</h3>
+                <ul>
+                    <li><strong>Igneous rocks</strong> form when magma cools (slow cooling = large crystals; fast cooling = small crystals)</li>
+                    <li><strong>Sedimentary rocks</strong> form when sediments are compacted and cemented together over time</li>
+                    <li><strong>Metamorphic rocks</strong> form when existing rocks are changed by heat and pressure</li>
+                    <li><strong>The rock cycle never stops</strong> - rocks continuously transform over millions of years</li>
+                    <li><strong>Plate tectonics drives the cycle</strong> - subduction, uplift, and volcanism move rocks through the system</li>
+                </ul>
+            </div>
+
+            <div class="poe-section">
+                <div class="poe-card predict">
+                    <h4>🤔 PREDICT</h4>
+                    <p>If a granite rock is buried deep underground near a subduction zone, what type of rock might it become? Why?</p>
+                </div>
+                <div class="poe-card observe">
+                    <h4>👀 OBSERVE</h4>
+                    <p>Run each scenario. Which transformations take the longest? Which rock type can become any other type directly?</p>
+                </div>
+                <div class="poe-card explain">
+                    <h4>💬 EXPLAIN</h4>
+                    <p>How does the rock cycle connect to plate tectonics? Where do the heat and pressure come from?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const rockData = {
+            igneous: {
+                name: 'Igneous Rock',
+                icon: '🌋',
+                description: 'Forms when magma or lava cools and solidifies. The word "igneous" comes from Latin for "fire."',
+                examples: 'Granite (slow cooling, large crystals), Basalt (fast cooling, small crystals), Obsidian (very fast, glass-like)',
+                location: 'Volcanoes, mid-ocean ridges, deep in the crust'
+            },
+            sedimentary: {
+                name: 'Sedimentary Rock',
+                icon: '📚',
+                description: 'Forms when sediments (small particles) are deposited, compacted, and cemented together over millions of years.',
+                examples: 'Sandstone (sand), Limestone (shells/coral), Shale (mud), Conglomerate (pebbles)',
+                location: 'Ocean floors, river deltas, lake beds, deserts'
+            },
+            metamorphic: {
+                name: 'Metamorphic Rock',
+                icon: '💎',
+                description: 'Forms when existing rocks are changed by intense heat and/or pressure without melting.',
+                examples: 'Marble (from limestone), Slate (from shale), Quartzite (from sandstone), Gneiss (from granite)',
+                location: 'Deep in the crust, near magma chambers, at convergent boundaries'
+            },
+            magma: {
+                name: 'Magma',
+                icon: '🔥',
+                description: 'Molten rock beneath Earth\'s surface. When it reaches the surface, it\'s called lava.',
+                examples: 'Found in magma chambers, at mid-ocean ridges, above subducting plates',
+                location: 'Upper mantle, beneath volcanoes, at plate boundaries'
+            }
+        };
+
+        const processData = {
+            weathering: {
+                name: 'Weathering & Erosion',
+                from: 'igneous',
+                to: 'sedimentary',
+                time: 50,
+                description: 'Wind, water, ice, and living things break down rocks into smaller pieces. These sediments are transported by rivers and wind, eventually settling in layers.',
+                equation: 'Rock → Sediments → Transported → Deposited'
+            },
+            compaction: {
+                name: 'Compaction & Cementation',
+                from: 'sediments',
+                to: 'sedimentary',
+                time: 100,
+                description: 'Layers of sediment pile up. The weight of upper layers compacts lower layers. Minerals cement particles together.',
+                equation: 'Sediments + Pressure + Minerals → Sedimentary Rock'
+            },
+            heatpressure1: {
+                name: 'Heat & Pressure',
+                from: 'sedimentary',
+                to: 'metamorphic',
+                time: 200,
+                description: 'Sedimentary rocks buried deep underground are subjected to intense heat and pressure, causing minerals to recrystallize without melting.',
+                equation: 'Sedimentary + Heat + Pressure → Metamorphic'
+            },
+            heatpressure2: {
+                name: 'Heat & Pressure',
+                from: 'igneous',
+                to: 'metamorphic',
+                time: 200,
+                description: 'Igneous rocks can also be transformed by heat and pressure. Granite becomes gneiss through this process.',
+                equation: 'Igneous + Heat + Pressure → Metamorphic'
+            },
+            melting: {
+                name: 'Melting',
+                from: 'metamorphic',
+                to: 'magma',
+                time: 50,
+                description: 'Rocks subducted deep into the mantle melt due to extreme temperatures (over 1000°C).',
+                equation: 'Any Rock + Extreme Heat → Magma'
+            },
+            cooling: {
+                name: 'Cooling & Crystallization',
+                from: 'magma',
+                to: 'igneous',
+                time: 10,
+                description: 'Magma cools either underground (intrusive, slow = large crystals) or on the surface (extrusive, fast = small crystals).',
+                equation: 'Magma - Heat → Igneous Rock'
+            },
+            uplift: {
+                name: 'Uplift & Exposure',
+                from: 'metamorphic',
+                to: 'surface',
+                time: 150,
+                description: 'Tectonic forces push buried rocks back to the surface where they can be weathered and eroded.',
+                equation: 'Deep Rock + Tectonic Forces → Surface Exposure'
+            }
+        };
+
+        let totalTime = 0;
+        let selectedRock = null;
+
+        function selectRock(rockType) {
+            // Clear previous selection
+            document.querySelectorAll('.rock-node').forEach(n => n.classList.remove('selected'));
+
+            // Select new rock
+            selectedRock = rockType;
+            document.getElementById(rockType).classList.add('selected');
+
+            // Update info panel
+            const rock = rockData[rockType];
+            document.getElementById('processInfo').innerHTML = `
+                <h4>${rock.icon} ${rock.name}</h4>
+                <p><strong>Formation:</strong> ${rock.description}</p>
+                <p><strong>Examples:</strong> ${rock.examples}</p>
+                <p><strong>Where found:</strong> ${rock.location}</p>
+            `;
+        }
+
+        function showProcess(processId) {
+            const process = processData[processId];
+
+            // Highlight the arrow
+            document.querySelectorAll('.process-arrow').forEach(a => a.classList.remove('active'));
+            document.getElementById(processId).classList.add('active');
+
+            // Update info
+            document.getElementById('processInfo').innerHTML = `
+                <h4>🔄 ${process.name}</h4>
+                <p>${process.description}</p>
+                <p><strong>Time required:</strong> ~${process.time} million years</p>
+                <p><strong>Process:</strong> ${process.equation}</p>
+            `;
+
+            // Animate the transformation
+            animateTransformation(processId, process);
+        }
+
+        function animateTransformation(processId, process) {
+            const rock = document.getElementById('animatedRock');
+            const fromNode = document.getElementById(process.from);
+            const toNode = processId === 'uplift' ? null : document.getElementById(process.to);
+
+            if (!fromNode) return;
+
+            // Get positions
+            const fromRect = fromNode.getBoundingClientRect();
+            const areaRect = document.getElementById('cycleArea').getBoundingClientRect();
+
+            // Set starting position and color
+            rock.style.left = (fromRect.left - areaRect.left + fromRect.width/2 - 15) + 'px';
+            rock.style.top = (fromRect.top - areaRect.top + fromRect.height/2 - 15) + 'px';
+            rock.style.background = getComputedStyle(fromNode).background;
+            rock.style.opacity = '1';
+
+            // Animate to target
+            setTimeout(() => {
+                if (toNode) {
+                    const toRect = toNode.getBoundingClientRect();
+                    rock.style.transition = 'all 1.5s ease-in-out';
+                    rock.style.left = (toRect.left - areaRect.left + toRect.width/2 - 15) + 'px';
+                    rock.style.top = (toRect.top - areaRect.top + toRect.height/2 - 15) + 'px';
+                    rock.style.background = getComputedStyle(toNode).background;
+                }
+
+                // Add time
+                totalTime += process.time;
+                animateTimeCounter(totalTime);
+            }, 100);
+
+            // Hide after animation
+            setTimeout(() => {
+                rock.style.opacity = '0';
+                rock.style.transition = 'opacity 0.3s';
+            }, 2000);
+        }
+
+        function animateTimeCounter(targetTime) {
+            const counter = document.getElementById('timeCounter');
+            const start = parseInt(counter.textContent);
+            const duration = 1500;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                counter.textContent = Math.round(start + (targetTime - start) * progress);
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        function resetCycle() {
+            totalTime = 0;
+            document.getElementById('timeCounter').textContent = '0';
+            document.querySelectorAll('.rock-node').forEach(n => n.classList.remove('selected'));
+            document.querySelectorAll('.process-arrow').forEach(a => a.classList.remove('active'));
+            document.getElementById('animatedRock').style.opacity = '0';
+            document.getElementById('processInfo').innerHTML = `
+                <h4>🔄 Select a Process</h4>
+                <p>Click on any process arrow to learn how rocks transform from one type to another. Each transformation takes millions of years!</p>
+            `;
+            selectedRock = null;
+        }
+
+        function runScenario(scenario) {
+            resetCycle();
+
+            const scenarios = {
+                volcano: {
+                    name: 'Volcano Scenario',
+                    steps: ['cooling', 'weathering', 'compaction'],
+                    description: 'Follow a rock from magma to sedimentary rock'
+                },
+                beach: {
+                    name: 'Beach Scenario',
+                    steps: ['compaction', 'heatpressure1', 'melting'],
+                    description: 'Watch sediments become metamorphic rock then melt'
+                },
+                mountain: {
+                    name: 'Mountain Building',
+                    steps: ['heatpressure2', 'uplift', 'weathering'],
+                    description: 'See how mountains expose metamorphic rocks'
+                }
+            };
+
+            const s = scenarios[scenario];
+            let delay = 0;
+
+            document.getElementById('processInfo').innerHTML = `
+                <h4>🎬 Running: ${s.name}</h4>
+                <p>${s.description}</p>
+                <p>Watch the complete transformation sequence...</p>
+            `;
+
+            s.steps.forEach((step, i) => {
+                setTimeout(() => {
+                    showProcess(step);
+                }, delay);
+                delay += 2500;
+            });
+
+            setTimeout(() => {
+                document.getElementById('processInfo').innerHTML += `
+                    <p><strong>✅ Complete!</strong> Total time: ${totalTime} million years</p>
+                `;
+            }, delay);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'r' || e.key === 'R') resetCycle();
+            if (e.key === '1') runScenario('volcano');
+            if (e.key === '2') runScenario('beach');
+            if (e.key === '3') runScenario('mountain');
+        });
+    </script>
+</body>
+</html>
