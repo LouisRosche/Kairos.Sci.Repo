@@ -132,11 +132,9 @@ def add_title_slide(prs):
                 "MS-LS4-2 & MS-LS4-4 Evidence of Evolution | 100 Points Total | ~75 Minutes",
                 font_size=16, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
-    # Driving question teaser box
+    # Driving question teaser box (simplified - no border)
     teaser_bg = add_colored_shape(slide, Inches(2), Inches(4.2), Inches(6), Inches(0.8),
                                   COLORS['white'])
-    teaser_bg.line.color.rgb = COLORS['teal']
-    teaser_bg.line.width = Pt(2)
 
     add_text_box(slide, Inches(2.1), Inches(4.35), Inches(5.8), Inches(0.5),
                 "Why do whale flippers have finger bones?",
@@ -225,18 +223,14 @@ def add_driving_question_slide(prs):
                 font_size=32, bold=True, color=COLORS['white'],
                 align=PP_ALIGN.CENTER, font_name="Georgia")
 
-    # Decorative divider
-    add_colored_shape(slide, Inches(4), Inches(3.2), Inches(2), Inches(0.08), COLORS['white'])
 
     # Sub-question
     add_text_box(slide, Inches(1), Inches(3.5), Inches(8), Inches(0.6),
                 "And how does this connect to natural selection from Week 1?",
                 font_size=20, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
 
-    # Mission box
+    # Mission box (simplified - no border)
     mission_bg = add_colored_shape(slide, Inches(2), Inches(4.3), Inches(6), Inches(0.8), COLORS['teal_dark'])
-    mission_bg.line.color.rgb = COLORS['white']
-    mission_bg.line.width = Pt(2)
 
     add_text_box(slide, Inches(2.2), Inches(4.4), Inches(5.6), Inches(0.6),
                 "🎯 Your Mission: Use anatomical & fossil evidence to explain evolution",

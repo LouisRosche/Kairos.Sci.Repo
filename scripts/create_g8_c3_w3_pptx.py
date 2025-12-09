@@ -101,9 +101,8 @@ def add_title_slide(prs):
                 "Cycle 3 Cumulative Assessment | 100 Points Total | ~75 Minutes",
                 font_size=16, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
+    # Teaser box (simplified - no border)
     teaser_bg = add_colored_shape(slide, Inches(2), Inches(4.2), Inches(6), Inches(0.8), COLORS['white'])
-    teaser_bg.line.color.rgb = COLORS['purple_dark']
-    teaser_bg.line.width = Pt(2)
     add_text_box(slide, Inches(2.1), Inches(4.35), Inches(5.8), Inches(0.5),
                 "⚠️ Assessment Week - Show What You Know!",
                 font_size=16, color=COLORS['purple_dark'], align=PP_ALIGN.CENTER)
