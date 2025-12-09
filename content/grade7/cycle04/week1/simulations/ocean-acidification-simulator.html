@@ -1009,12 +1009,15 @@
         // Initial render
         updateSimulation(2024);
 
-        // Continuous bubble animation
-        setInterval(() => {
-            const year = parseInt(slider.value);
-            const data = getDataForYear(year);
-            createBubbles(data.co2);
-        }, 3000);
+        // Continuous bubble animation (respects reduced motion preference)
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!prefersReducedMotion) {
+            setInterval(() => {
+                const year = parseInt(slider.value);
+                const data = getDataForYear(year);
+                createBubbles(data.co2);
+            }, 3000);
+        }
     </script>
 </body>
 </html>
