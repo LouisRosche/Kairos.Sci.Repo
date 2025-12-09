@@ -45,6 +45,11 @@
 // MAIN FUNCTION
 // ============================================================================
 
+/**
+ * Create all forms for G7 C4 W2
+ * After running, copy the JSON output to use with:
+ *   node scripts/embed-forms-in-student-page.js 7 4 2 --from-json output.json
+ */
 function createAllG7C4W2Forms() {
   Logger.log('================================================');
   Logger.log('G7 CYCLE 4 WEEK 2: EUTROPHICATION & DEAD ZONES');
@@ -58,9 +63,59 @@ function createAllG7C4W2Forms() {
     exitTicket: createG7C4W2ExitTicket_()
   };
 
+  // Apply complete settings to all forms and log URLs
+  Logger.log('\n--- APPLYING SETTINGS & GENERATING URLS ---\n');
+
+  const output = {
+    grade: 7,
+    cycle: 4,
+    week: 2,
+    created: new Date().toISOString(),
+    forms: {}
+  };
+
+  Object.keys(forms).forEach(formType => {
+    const form = forms[formType];
+
+    // Apply all standard settings (uses shared/FormSettings.gs if available)
+    if (typeof applyStandardSettings === 'function') {
+      applyStandardSettings(form);
+    }
+
+    // Collect URLs for output
+    output.forms[formType] = {
+      id: form.getId(),
+      editUrl: form.getEditUrl(),
+      publishedUrl: form.getPublishedUrl(),
+      embedUrl: form.getPublishedUrl().replace('/viewform', '/viewform?embedded=true')
+    };
+
+    Logger.log(`${formType}:`);
+    Logger.log(`  Edit: ${form.getEditUrl()}`);
+    Logger.log(`  Embed: ${output.forms[formType].embedUrl}`);
+  });
+
+  // Output JSON for automation script
+  Logger.log('\n================================================');
+  Logger.log('JSON OUTPUT (copy for automation):');
+  Logger.log('================================================');
+  Logger.log(JSON.stringify(output, null, 2));
+
   Logger.log('\n================================================');
   Logger.log('ALL 5 FORMS CREATED - 100 POINTS TOTAL');
   Logger.log('================================================');
+
+  // Print manual checklist reminder
+  if (typeof printManualChecklist === 'function') {
+    printManualChecklist();
+  } else {
+    Logger.log('\n⚠️  MANUAL CONFIG REQUIRED:');
+    Logger.log('Open each form > Settings > Quizzes:');
+    Logger.log('  ✓ Release grade: "Immediately after each submission"');
+    Logger.log('  ✓ Respondent can see: Missed questions, Correct answers, Point values');
+    Logger.log('Open each form > Settings > Responses:');
+    Logger.log('  ✓ Send respondents a copy: "Always"');
+  }
 
   return forms;
 }
