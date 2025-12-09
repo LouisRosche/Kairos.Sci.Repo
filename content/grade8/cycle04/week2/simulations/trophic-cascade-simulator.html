@@ -50,6 +50,34 @@ Standards: MS-LS2-3 & MS-LS2-4 Ecosystem Disruption
             }
         }
 
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            text-decoration: none;
+            border-radius: 0 0 8px 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Accessibility: Focus visible */
+        :focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: white; padding: 0; }
+            .controls, button { display: none; }
+            .sim-container { box-shadow: none; border: 1px solid #ccc; }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #991B1B 0%, #7F1D1D 100%);
@@ -488,11 +516,12 @@ Standards: MS-LS2-3 & MS-LS2-4 Ecosystem Disruption
     </style>
 </head>
 <body>
+    <a href="#simulation" class="skip-link">Skip to simulation</a>
     <div class="container">
         <h1>Trophic Cascade Simulator</h1>
         <p class="subtitle">See how changes to one species affect the ENTIRE ecosystem</p>
 
-        <div class="sim-container">
+        <div class="sim-container" id="simulation" role="main" aria-label="Trophic Cascade Simulator">
             <details class="instructions">
                 <summary>How to Use This Simulation</summary>
                 <div class="instructions-content">
@@ -970,6 +999,17 @@ Standards: MS-LS2-3 & MS-LS2-4 Ecosystem Disruption
 
         // Initialize
         resetEcosystem();
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'r' || e.key === 'R') {
+                resetEcosystem();
+            }
+            if (e.key === 'Escape') {
+                resetQuiz();
+            }
+        });
     </script>
 </body>
 </html>

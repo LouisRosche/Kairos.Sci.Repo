@@ -14,6 +14,34 @@
             }
         }
 
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #3B82F6;
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            text-decoration: none;
+            border-radius: 0 0 8px 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Accessibility: Focus visible */
+        :focus-visible {
+            outline: 3px solid #3B82F6;
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: white; padding: 0; }
+            .controls, button { display: none; }
+            .sim-container { box-shadow: none; border: 1px solid #ccc; }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
@@ -334,11 +362,12 @@
     </style>
 </head>
 <body>
+    <a href="#simulation" class="skip-link">Skip to simulation</a>
     <div class="container">
         <h1>🌍 Carbon Cycle Tracer</h1>
         <p class="subtitle">Follow a carbon atom as it moves through Earth's systems - atoms are NEVER created or destroyed!</p>
 
-        <div class="sim-container">
+        <div class="sim-container" id="simulation" role="main" aria-label="Carbon Cycle Tracer simulation">
             <div class="instructions">
                 <h4>How to Use This Simulation</h4>
                 <p><strong>Click on any location</strong> where your carbon atom can travel next. Watch the carbon atom move and see the chemical process that carries it there. Track your journey and prove that carbon is always conserved!</p>
@@ -640,6 +669,22 @@
         carbon.style.left = '50%';
         carbon.style.top = '30px';
         carbon.style.transform = 'translateX(-50%)';
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'r' || e.key === 'R') {
+                resetSimulation();
+            }
+            if (e.key === ' ' || e.key === 'Enter') {
+                if (e.target.tagName === 'BUTTON') return;
+                e.preventDefault();
+                autoJourney();
+            }
+            if (e.key === 'Escape') {
+                stopAutoJourney();
+            }
+        });
     </script>
 </body>
 </html>

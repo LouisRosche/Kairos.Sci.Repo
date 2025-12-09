@@ -519,17 +519,46 @@
             }
         }
 
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            text-decoration: none;
+            border-radius: 0 0 8px 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Accessibility: Focus visible */
+        :focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: white; padding: 0; }
+            .controls, button, input[type="range"] { display: none; }
+            .sim-container { box-shadow: none; border: 1px solid #ccc; }
+        }
+
         button:focus, input:focus { outline: 3px solid var(--primary); outline-offset: 2px; }
     </style>
 </head>
 <body>
+    <a href="#simulation" class="skip-link">Skip to simulation</a>
     <div class="container">
         <h1>🌿 Eutrophication Cascade Simulator</h1>
         <p class="subtitle">See how nutrient runoff creates dead zones</p>
 
-        <div class="sim-container">
+        <div class="sim-container" id="simulation" role="main" aria-label="Eutrophication Cascade Simulator">
             <!-- Instructions -->
-            <details class="instructions" open>
+            <details class="instructions">
                 <summary role="button" aria-expanded="true">📋 How to Use This Simulation</summary>
                 <div class="instructions-content">
                     <ol>
@@ -936,6 +965,15 @@
                 updateNutrientStream(level);
             }, 2000);
         }
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'r' || e.key === 'R') {
+                slider.value = 50;
+                updateSimulation(50);
+            }
+        });
     </script>
 </body>
 </html>
