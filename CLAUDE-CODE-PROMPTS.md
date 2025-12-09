@@ -44,6 +44,7 @@ INPUTS:
 
 HARD RULES (from technical-reference.md):
 - Points: Hook=12, S1=20, S2=20, S3=25, Exit=23 (MUST=100)
+  NOTE: Minor rebalancing allowed (e.g., S2=21, Exit=22) to fit content, but TOTAL MUST=100
 - NEVER setPoints(0)—omit setPoints() for ungraded
 - NEVER setShuffleOrder/setRandomize—don't exist
 - Exit structure: 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1
@@ -51,7 +52,7 @@ HARD RULES (from technical-reference.md):
 QUALITY RULES:
 - Every MCQ: misconception-trap distractor with corrective feedback
 - Every open response: sentence starters in helpText
-- Question IDs: g{{GRADE}}_c{{CYCLE}}_w{{WEEK}}_{station}_q{n}
+- Question IDs: g{{GRADE}}_c{{CYCLE}}_w{{WEEK}}_{{STATION}}_q{{N}}
 
 Read templates/forms/*.gs first. Output to content/grade{{GRADE}}/cycle{{CYCLE}}/week{{WEEK}}/forms.gs.
 
@@ -142,6 +143,8 @@ STRUCTURE:
 - Key concepts section
 - Reflection questions (Predict→Observe→Explain)
 
+Read framework/phet-simulations-catalog.md for design patterns and existing simulations.
+Use shared/styles/design-system.css variables for consistent styling.
 Output to content/grade{{GRADE}}/cycle{{CYCLE}}/week{{WEEK}}/simulations/{{SIM_NAME}}.html.
 ```
 
@@ -248,6 +251,40 @@ OUTPUT TABLE:
 
 ---
 
+## V6: Validate Simulation
+
+```
+Audit simulation in G{{GRADE}}.C{{CYCLE}}.W{{WEEK}}/simulations/{{SIM_NAME}}.html.
+
+FUNCTIONALITY CHECKS:
+□ Reset button works and restores initial state
+□ All interactive elements respond to input
+□ Variables update correctly based on user interaction
+□ No JavaScript console errors
+□ Mobile-responsive (test at 375px, 768px, 1024px widths)
+
+ACCESSIBILITY CHECKS:
+□ Keyboard navigable (Tab, Enter, Arrow keys)
+□ ARIA labels on interactive elements
+□ Color contrast ≥4.5:1
+□ Touch targets ≥48px
+□ Instructions visible or toggleable
+
+PEDAGOGICAL CHECKS:
+□ Supports unguided exploration (5-10 min)
+□ Predict→Observe→Explain structure present
+□ Connects to forms.gs learning targets
+□ Key concepts section accurate
+
+PERFORMANCE:
+□ No external dependencies (CSS/JS inline)
+□ Loads in <3 seconds on slow connection
+
+Report failures with specific fixes needed.
+```
+
+---
+
 # PART 3: REFINE (Targeted Fixes)
 
 ## R1: Fix Point Allocation
@@ -343,7 +380,12 @@ For EVERY physical/hands-on activity, add:
   [data table]
 </div>
 
-Check framework/phet-simulations-catalog.md for relevant sims.
+RESOURCE GUIDANCE:
+- PhET simulations: Check framework/phet-simulations-catalog.md
+- Videos: Prefer Khan Academy, Crash Course, or NGSS-aligned sources
+- Pre-recorded data: Ensure data is accurate and age-appropriate
+- All external links must be HTTPS
+
 Report all activities modified.
 ```
 
@@ -463,6 +505,11 @@ ADD throughout:
 3. COGNATES callout where applicable:
 <p class="cognate-note">💡 <em>Fotosíntesis</em> = photosynthesis</p>
 
+TRANSLATION NOTES:
+- Prioritize Tier 3 (scientific) vocabulary for translation
+- Use cognates when available (energy/energía, molecule/molécula)
+- Verify translations align with NGSS Spanish resources
+
 Research: Pre-teach vocabulary + sentence stems + visual supports (Lee & Buxton).
 ```
 
@@ -503,12 +550,13 @@ Extensions should:
 ```
 Execute in order, pausing after each for my review:
 
-1. G2 (forms.gs) → pause
-2. V1 (validate points) → fix if needed
-3. G3 (student-page.html) → pause  
-4. V3 (validate accessibility) → fix if needed
-5. G4 (lesson-plan.md) → pause
-6. V2 (cross-file alignment) → fix if needed
+1. G1 (initialize scaffold) → pause for inputs
+2. G2 (forms.gs) → pause
+3. V1 (validate points) → fix if needed
+4. G3 (student-page.html) → pause
+5. V3 (validate accessibility) → fix if needed
+6. G4 (lesson-plan.md) → pause
+7. V2 (cross-file alignment) → fix if needed
 
 Report status after each step.
 ```
@@ -605,6 +653,7 @@ MISCONCEPTIONS=intentional-adaptation (65%), inheritance-of-acquired (45%), surv
 | Audit accessibility | V3 |
 | Check misconception traps | V4 |
 | Analyze spiral spacing | V5 |
+| Validate simulation | V6 |
 | Fix point totals | R1 |
 | Add scaffolding | R2 |
 | Improve misconception traps | R3 |
@@ -620,4 +669,11 @@ MISCONCEPTIONS=intentional-adaptation (65%), inheritance-of-acquired (45%), surv
 
 ---
 
-*CLAUDE-CODE-PROMPTS.md | v2.0 | December 2025*
+## Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| v2.1 | 2025-12-09 | Fixed variable placeholder format in G2; Added point flexibility note; Created V6 (Validate Simulation); Updated Chain A with G1 step; Added template/resource references to G5, E3, R4 |
+| v2.0 | 2025-12-01 | Initial comprehensive prompt library |
+
+*CLAUDE-CODE-PROMPTS.md | v2.1 | December 2025*
