@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seat Sign-In Cards - KAMS Science</title>
+  <style>
+    /* ============================================
+       SEAT SIGN-IN CARD - PRINT-OPTIMIZED TEMPLATE
+       ============================================
+
+       Usage:
+       1. Edit SEAT_CONFIG below to set your classroom
+       2. Print on cardstock (landscape orientation)
+       3. Cut along dotted lines
+       4. Post at each seat location on wall
+       5. Collect & scan at end of week
+
+       Each card = 5.5" x 4.25" (fits 4 per letter sheet)
+    */
+
+    :root {
+      /* Design system tokens */
+      --color-primary: #059669;
+      --color-primary-dark: #047857;
+      --color-secondary: #3B82F6;
+      --color-accent: #8B5CF6;
+      --color-warning: #F59E0B;
+      --color-text: #1F2937;
+      --color-text-muted: #6B7280;
+      --color-gray-100: #F3F4F6;
+      --color-gray-200: #E5E7EB;
+      --color-gray-300: #D1D5DB;
+      --color-success-light: #D1FAE5;
+      --color-info-light: #DBEAFE;
+
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--color-text);
+      background: white;
+    }
+
+    /* ============================================
+       PRINT LAYOUT - 4 cards per page (2x2)
+       ============================================ */
+
+    .page {
+      width: 11in;
+      height: 8.5in;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 0;
+      page-break-after: always;
+      padding: 0;
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    /* ============================================
+       INDIVIDUAL CARD STYLES
+       ============================================ */
+
+    .seat-card {
+      width: 5.5in;
+      height: 4.25in;
+      border: 1px dashed var(--color-gray-300);
+      padding: 0.25in;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: white;
+    }
+
+    /* Card Header with Seat Number */
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.15in;
+      padding-bottom: 0.1in;
+      border-bottom: 2px solid var(--color-primary);
+    }
+
+    .seat-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1;
+    }
+
+    .seat-location {
+      text-align: right;
+      font-size: 10px;
+      color: var(--color-text-muted);
+    }
+
+    .seat-location .wall {
+      font-weight: 600;
+      color: var(--color-text);
+      font-size: 12px;
+    }
+
+    .week-badge {
+      background: var(--color-primary);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Instructions */
+    .instructions {
+      background: var(--color-info-light);
+      padding: 0.08in 0.12in;
+      border-radius: 4px;
+      font-size: 10px;
+      margin-bottom: 0.12in;
+      text-align: center;
+    }
+
+    .instructions strong {
+      color: var(--color-secondary);
+    }
+
+    /* Sign-In Grid */
+    .signin-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.08in;
+    }
+
+    .day-column {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--color-gray-200);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .day-header {
+      background: var(--color-gray-100);
+      padding: 4px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 11px;
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .day-header.mon { background: #FEE2E2; color: #991B1B; }
+    .day-header.tue { background: #FEF3C7; color: #92400E; }
+    .day-header.wed { background: #D1FAE5; color: #065F46; }
+    .day-header.thu { background: #DBEAFE; color: #1E40AF; }
+    .day-header.fri { background: #EDE9FE; color: #5B21B6; }
+
+    .signin-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 0.06in;
+      min-height: 1.2in;
+    }
+
+    .date-line {
+      font-size: 8px;
+      color: var(--color-text-muted);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .signature-line {
+      flex: 1;
+      border-bottom: 1px solid var(--color-gray-300);
+      margin: 4px 2px;
+      min-height: 24px;
+    }
+
+    .time-line {
+      font-size: 7px;
+      color: var(--color-text-muted);
+      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2px;
+    }
+
+    /* Movement Tracking */
+    .movement-section {
+      margin-top: 0.1in;
+      padding-top: 0.08in;
+      border-top: 1px dashed var(--color-gray-300);
+      font-size: 9px;
+    }
+
+    .movement-row {
+      display: flex;
+      align-items: center;
+      gap: 0.1in;
+      margin-bottom: 0.04in;
+    }
+
+    .movement-row label {
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+
+    .movement-row .fill-line {
+      flex: 1;
+      border-bottom: 1px solid var(--color-gray-300);
+      min-width: 0.8in;
+    }
+
+    /* Corner Code for Scanning */
+    .scan-code {
+      position: absolute;
+      bottom: 0.15in;
+      right: 0.15in;
+      font-family: monospace;
+      font-size: 8px;
+      color: var(--color-text-muted);
+      background: var(--color-gray-100);
+      padding: 2px 4px;
+      border-radius: 2px;
+    }
+
+    /* Period Indicator */
+    .period-badge {
+      position: absolute;
+      top: 0.15in;
+      right: 0.15in;
+      background: var(--color-accent);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* ============================================
+       PRINT STYLES
+       ============================================ */
+
+    @media print {
+      @page {
+        size: landscape;
+        margin: 0;
+      }
+
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .page {
+        margin: 0;
+        border: none;
+      }
+
+      .seat-card {
+        border: 1px dashed #ccc;
+      }
+    }
+
+    /* ============================================
+       SCREEN PREVIEW STYLES
+       ============================================ */
+
+    @media screen {
+      body {
+        background: #f0f0f0;
+        padding: 20px;
+      }
+
+      .page {
+        background: white;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        margin: 0 auto 20px;
+      }
+
+      .controls {
+        max-width: 11in;
+        margin: 0 auto 20px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+
+      .controls h1 {
+        margin-bottom: 16px;
+        color: var(--color-primary);
+      }
+
+      .control-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .control-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 4px;
+        font-size: 14px;
+      }
+
+      .control-group input,
+      .control-group select {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid var(--color-gray-300);
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .btn {
+        background: var(--color-primary);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .btn:hover {
+        background: var(--color-primary-dark);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: var(--color-primary);
+        border: 2px solid var(--color-primary);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ============================================
+       CONFIGURATION CONTROLS (Screen Only)
+       ============================================ -->
+  <div class="controls no-print">
+    <h1>Seat Sign-In Card Generator</h1>
+    <div class="control-grid">
+      <div class="control-group">
+        <label for="period">Period</label>
+        <select id="period">
+          <option value="1">Period 1</option>
+          <option value="2">Period 2</option>
+          <option value="3">Period 3</option>
+          <option value="4">Period 4</option>
+          <option value="5">Period 5</option>
+          <option value="6">Period 6</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="weekOf">Week Of</label>
+        <input type="date" id="weekOf" value="">
+      </div>
+      <div class="control-group">
+        <label for="cycle">Cycle</label>
+        <select id="cycle">
+          <option value="3">Cycle 3</option>
+          <option value="4" selected>Cycle 4</option>
+          <option value="5">Cycle 5</option>
+          <option value="6">Cycle 6</option>
+          <option value="7">Cycle 7</option>
+          <option value="8">Cycle 8</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="weekNum">Week Number</label>
+        <select id="weekNum">
+          <option value="1">Week 1</option>
+          <option value="2">Week 2</option>
+          <option value="3">Week 3</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="totalSeats">Total Seats</label>
+        <input type="number" id="totalSeats" value="24" min="1" max="40">
+      </div>
+      <div class="control-group">
+        <label for="startSeat">Starting Seat #</label>
+        <input type="number" id="startSeat" value="1" min="1">
+      </div>
+    </div>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <button class="btn" onclick="generateCards()">Generate Cards</button>
+      <button class="btn btn-secondary" onclick="window.print()">Print Cards</button>
+    </div>
+    <p style="margin-top: 12px; font-size: 12px; color: var(--color-text-muted);">
+      Prints 4 cards per page in landscape. Use cardstock for durability. Post at eye level at each perimeter seat.
+    </p>
+  </div>
+
+  <!-- ============================================
+       CARD CONTAINER (Generated via JS)
+       ============================================ -->
+  <div id="cardContainer"></div>
+
+  <script>
+    /**
+     * SEAT CONFIGURATION
+     * Modify this to match your classroom layout
+     */
+    const CLASSROOM_CONFIG = {
+      // Wall assignments for seats (customize based on your room)
+      // Keys are seat numbers, values are wall positions
+      walls: {
+        // North wall (front of room): seats 1-8
+        1: 'North Wall - Near Door',
+        2: 'North Wall',
+        3: 'North Wall',
+        4: 'North Wall - Center',
+        5: 'North Wall',
+        6: 'North Wall',
+        7: 'North Wall',
+        8: 'North Wall - Near Window',
+
+        // East wall: seats 9-14
+        9: 'East Wall - Front',
+        10: 'East Wall',
+        11: 'East Wall - Center',
+        12: 'East Wall',
+        13: 'East Wall',
+        14: 'East Wall - Back',
+
+        // South wall (back of room): seats 15-20
+        15: 'South Wall - Near Window',
+        16: 'South Wall',
+        17: 'South Wall - Center',
+        18: 'South Wall',
+        19: 'South Wall',
+        20: 'South Wall - Near Door',
+
+        // West wall: seats 21-24
+        21: 'West Wall - Back',
+        22: 'West Wall - Center',
+        23: 'West Wall',
+        24: 'West Wall - Front'
+      }
+    };
+
+    /**
+     * Get Monday of the current week
+     */
+    function getMonday(d) {
+      d = new Date(d);
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      return new Date(d.setDate(diff));
+    }
+
+    /**
+     * Format date as M/D
+     */
+    function formatShortDate(date) {
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    }
+
+    /**
+     * Generate a single seat card HTML
+     */
+    function createSeatCard(seatNum, config) {
+      const { period, weekOf, cycle, weekNum } = config;
+
+      // Calculate dates for the week
+      const monday = new Date(weekOf);
+      const dates = [];
+      for (let i = 0; i < 5; i++) {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        dates.push(formatShortDate(d));
+      }
+
+      const wallLocation = CLASSROOM_CONFIG.walls[seatNum] || `Seat ${seatNum}`;
+      const scanCode = `P${period}-C${cycle}W${weekNum}-S${String(seatNum).padStart(2, '0')}`;
+
+      return `
+        <div class="seat-card">
+          <div class="period-badge">${period}</div>
+
+          <div class="card-header">
+            <div class="seat-number">${seatNum}</div>
+            <div class="seat-location">
+              <div class="wall">${wallLocation}</div>
+              <div class="week-badge">C${cycle} W${weekNum}</div>
+            </div>
+          </div>
+
+          <div class="instructions">
+            <strong>Sign your name</strong> when you arrive. Write <strong>FULL first name</strong>, last initial.
+          </div>
+
+          <div class="signin-grid">
+            <div class="day-column">
+              <div class="day-header mon">MON</div>
+              <div class="signin-area">
+                <div class="date-line">${dates[0]}</div>
+                <div class="signature-line"></div>
+                <div class="signature-line"></div>
+                <div class="time-line">
+                  <span>In:</span>
+                  <span>Out:</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-column">
+              <div class="day-header tue">TUE</div>
+              <div class="signin-area">
+                <div class="date-line">${dates[1]}</div>
+                <div class="signature-line"></div>
+                <div class="signature-line"></div>
+                <div class="time-line">
+                  <span>In:</span>
+                  <span>Out:</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-column">
+              <div class="day-header wed">WED</div>
+              <div class="signin-area">
+                <div class="date-line">${dates[2]}</div>
+                <div class="signature-line"></div>
+                <div class="signature-line"></div>
+                <div class="time-line">
+                  <span>In:</span>
+                  <span>Out:</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-column">
+              <div class="day-header thu">THU</div>
+              <div class="signin-area">
+                <div class="date-line">${dates[3]}</div>
+                <div class="signature-line"></div>
+                <div class="signature-line"></div>
+                <div class="time-line">
+                  <span>In:</span>
+                  <span>Out:</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-column">
+              <div class="day-header fri">FRI</div>
+              <div class="signin-area">
+                <div class="date-line">${dates[4]}</div>
+                <div class="signature-line"></div>
+                <div class="signature-line"></div>
+                <div class="time-line">
+                  <span>In:</span>
+                  <span>Out:</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="movement-section">
+            <div class="movement-row">
+              <label>Moved from seat:</label>
+              <span class="fill-line"></span>
+              <label>Day:</label>
+              <span class="fill-line" style="min-width: 0.5in;"></span>
+            </div>
+          </div>
+
+          <div class="scan-code">${scanCode}</div>
+        </div>
+      `;
+    }
+
+    /**
+     * Generate all cards based on configuration
+     */
+    function generateCards() {
+      const period = document.getElementById('period').value;
+      const weekOf = document.getElementById('weekOf').value;
+      const cycle = document.getElementById('cycle').value;
+      const weekNum = document.getElementById('weekNum').value;
+      const totalSeats = parseInt(document.getElementById('totalSeats').value);
+      const startSeat = parseInt(document.getElementById('startSeat').value);
+
+      if (!weekOf) {
+        alert('Please select a week start date');
+        return;
+      }
+
+      const config = { period, weekOf, cycle, weekNum };
+      const container = document.getElementById('cardContainer');
+      container.innerHTML = '';
+
+      let currentPage = null;
+      let cardCount = 0;
+
+      for (let i = 0; i < totalSeats; i++) {
+        const seatNum = startSeat + i;
+
+        // Create new page every 4 cards
+        if (cardCount % 4 === 0) {
+          currentPage = document.createElement('div');
+          currentPage.className = 'page';
+          container.appendChild(currentPage);
+        }
+
+        currentPage.innerHTML += createSeatCard(seatNum, config);
+        cardCount++;
+      }
+    }
+
+    // Initialize with current week's Monday
+    document.addEventListener('DOMContentLoaded', function() {
+      const monday = getMonday(new Date());
+      const dateStr = monday.toISOString().split('T')[0];
+      document.getElementById('weekOf').value = dateStr;
+
+      // Generate initial set
+      generateCards();
+    });
+  </script>
+</body>
+</html>
