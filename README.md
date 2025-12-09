@@ -1,5 +1,5 @@
 # KAMS Science Curriculum System
-## Scalable Architecture for 6 Cycles × Grades 7 & 8 (SY25-26)
+## Scalable Architecture for 6 Cycles × 2 Grades × SY25-26
 
 ---
 
@@ -22,33 +22,25 @@
 | **Student Pages** | [W1](content/grade7/cycle04/week1/student-page.html) · [W2](content/grade7/cycle04/week2/student-page.html) · [W3](content/grade7/cycle04/week3/student-page.html) | [W1](content/grade8/cycle04/week1/student-page.html) · [W2](content/grade8/cycle04/week2/student-page.html) · [W3](content/grade8/cycle04/week3/student-page.html) |
 | **Curriculum Design** | [G7 C4](content/grade7/cycle04/curriculum-design.md) | [G8 C4](content/grade8/cycle04/curriculum-design.md) |
 
-### In Development: Cycle 5 (G7 @ 85%)
-
-| Resource | Grade 7 | Grade 8 |
-|----------|---------|---------|
-| **Lesson Plans** | [W1](content/grade7/cycle05/week1/lesson-plan.md) · [W2](content/grade7/cycle05/week2/lesson-plan.md) · [W3](content/grade7/cycle05/week3/lesson-plan.md) | Placeholder |
-| **Student Pages** | [W1](content/grade7/cycle05/week1/student-page.html) · [W2](content/grade7/cycle05/week2/student-page.html) · [W3](content/grade7/cycle05/week3/student-page.html) | Placeholder |
-| **Curriculum Design** | [G7 C5](content/grade7/cycle05/curriculum-design.md) | [G8 C5](content/grade8/cycle05/curriculum-design.md) |
-
 ---
 
 ## Content Status Dashboard
 
-| Cycle | G7 Topic | G8 Topic | G7 Status | G8 Status |
-|-------|----------|----------|-----------|-----------|
-| **C2** | Molecular Structure & Bonding | Forces, Energy & Collisions | 75% 📦 | 75% 📦 |
-| **C3** | Climate Change & Energy Flow | Natural Selection & Forces | **100% ✅ DEPLOYED** | **100% ✅ DEPLOYED** |
-| **C4** | Biogeochemical Cycles & Human Impact | Ecosystems & Energy Transfer | **100% ✅ READY** | **100% ✅ READY** |
-| **C5** | Weather & Climate Systems | Waves & Information Transfer | **85% 🟡** | 0% 📋 |
-| **C6** | Plate Tectonics & Earth's Interior | Electricity & Magnetism | 0% 📋 | 0% 📋 |
-| **C7** | Rock Cycle & Earth's History | Chemical Reactions & Conservation | 0% 📋 | 0% 📋 |
-| **C8** | Ecosystems + Year-End Integration | Thermal Energy + Engineering Showcase | 0% 📋 | 0% 📋 |
-| **C9** | ~~Space Systems~~ | ~~Engineering Design~~ | **DEFERRED** → SY26-27 | **DEFERRED** → SY26-27 |
-| **C10** | ~~Year-End Integration~~ | ~~Year-End Integration~~ | **MERGED** → C8 W3 | **MERGED** → C8 W3 |
+| Cycle | G7 Topic | G8 Topic | Weeks | Status |
+|-------|----------|----------|-------|--------|
+| **C2** | Molecular Structure & Bonding | Forces, Energy & Collisions | 4 | 75% Legacy |
+| **C3** | Climate Change & Energy Flow | Natural Selection & Forces | 3 | ✅ DEPLOYED |
+| **C4** | Biogeochemical Cycles & Human Impact | Ecosystems & Energy Transfer | 3 | ✅ READY |
+| **C5** | Weather & Climate Systems | Waves & Information Transfer | 3 (Feb 23-Mar 12) | ✅ Complete |
+| **C6** | Plate Tectonics | Electricity & Magnetism | 5 (Mar 24-Apr 24) | ✅ Complete |
+| **C7** | Rock Cycle & Earth's History | Chemical Reactions | 4 (Apr 27-May 22) | ✅ Complete |
+| **C8** | Ecosystems + Year-End | Thermal Energy + Engineering | 4 (Jun 1-26) | ✅ Complete |
+| **C9** | *(Standards → C8)* | *(Standards → C8)* | — | ⚠️ Deferred to SY26-27 |
+| **C10** | *(Merged → C8 W3)* | *(Merged → C8 W3)* | — | ✅ Resolved |
 
 **Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | 📦 Legacy (pre-architecture)
 
-> **Calendar Note:** SY25-26 accommodates Cycles 3-8 only. Cycle 9 standards (MS-ESS1-2, MS-ETS1-2) integrated into C8; C10 Year-End activities merged into C8 Week 3.
+> **Calendar Note:** SY25-26 accommodates Cycles 3-8 only. Cycle 9 standards (MS-ESS1-2, MS-ETS1-2) integrated into C8; C10 Year-End activities merged into C8 Week 3. Cycle durations vary (3-5 weeks) per official school calendar.
 
 ---
 
@@ -91,8 +83,10 @@ Kairos.Sci.Repo/
 │   ├── cycles/                            # Per-cycle configuration
 │   │   ├── cycle03.json                   # ✅ Active (Production)
 │   │   ├── cycle04.json                   # ✅ Complete (Ready)
-│   │   ├── cycle05.json                   # 🟡 In Progress
-│   │   ├── cycle06-08.json                # 📋 Placeholder
+│   │   ├── cycle05.json                   # ✅ Complete (3 wks)
+│   │   ├── cycle06.json                   # ✅ Complete (5 wks)
+│   │   ├── cycle07.json                   # ✅ Complete (4 wks)
+│   │   ├── cycle08.json                   # ✅ Complete (4 wks + Year-End)
 │   │   ├── cycle09.json                   # ⚠️ Deferred (standards → C8)
 │   │   └── cycle10.json                   # ⚠️ Merged (→ C8 W3)
 │   └── schema/                            # Validation schemas
@@ -110,8 +104,10 @@ Kairos.Sci.Repo/
 │   │   │       ├── student-page.html
 │   │   │       └── simulations/           # Custom HTML5 simulations
 │   │   ├── cycle04/                       # ✅ Complete (100%)
-│   │   ├── cycle05/                       # 🟡 In Progress (85%)
-│   │   └── cycle06-10/                    # 📋 Placeholder
+│   │   ├── cycle05/                       # ✅ Complete (3 weeks)
+│   │   ├── cycle06/                       # ✅ Complete (5 weeks)
+│   │   ├── cycle07/                       # ✅ Complete (4 weeks)
+│   │   └── cycle08/                       # ✅ Complete (4 weeks + Year-End)
 │   ├── grade8/
 │   │   └── ... (same structure)
 │   └── resources/                         # Cross-grade materials
@@ -176,7 +172,7 @@ Kairos.Sci.Repo/
 ### Scale (SY25-26)
 - **6 Active Cycles** (Cycles 3-8)
 - **2 Grades** (7 & 8)
-- **3 Weeks per Cycle** (18 instructional weeks)
+- **Variable Weeks per Cycle** (3-5 weeks per school calendar; 19 total instructional weeks)
 - **5 Forms per Week** (up to 360 Google Forms)
 - **100 Points per Week** (consistent structure)
 
@@ -228,7 +224,7 @@ Kairos.Sci.Repo/
 - ✅ Data aggregation pipeline
 - ✅ 3D learning analyzer
 - ✅ MTSS intervention framework
-- ✅ Complete cycle configs (C5-C8)
+- ✅ Complete cycle content (C3-C8 lesson plans, rubrics, curriculum design)
 - ✅ Status tracking (cycle-status.json)
 - ✅ Trigger management (centralized, staggered)
 - ✅ CSS design system
@@ -264,14 +260,14 @@ See [PhET Simulations Catalog](framework/phet-simulations-catalog.md) for third-
 
 ## Calendar Alignment (SY25-26)
 
-| Cycle | Calendar Dates | G7 Topic | G8 Topic |
-|-------|----------------|----------|----------|
-| **C3** | Dec 1-19, 2025 | Climate Change & Energy Flow | Natural Selection & Forces |
-| **C4** | Jan 6-24, 2026 | Biogeochemical Cycles | Ecosystems & Energy Transfer |
-| **C5** | Feb 23 - Mar 12, 2026 | Weather & Climate Systems | Waves & Information Transfer |
-| **C6** | Mar 24 - Apr 24, 2026 | Plate Tectonics | Electricity & Magnetism |
-| **C7** | Apr 27 - May 22, 2026 | Rock Cycle & Earth's History | Chemical Reactions |
-| **C8** | Jun 1-26, 2026 | Ecosystems + Year-End | Thermal Energy + Showcase |
+| Cycle | Calendar Dates | Weeks | G7 Topic | G8 Topic |
+|-------|----------------|-------|----------|----------|
+| **C3** | Dec 1-19, 2025 | 3 | Climate Change & Energy Flow | Natural Selection & Forces |
+| **C4** | Jan 6-24, 2026 | 3 | Biogeochemical Cycles | Ecosystems & Energy Transfer |
+| **C5** | Feb 23 - Mar 12, 2026 | 3 | Weather & Climate Systems | Waves & Information Transfer |
+| **C6** | Mar 24 - Apr 24, 2026 | 5 | Plate Tectonics | Electricity & Magnetism |
+| **C7** | Apr 27 - May 22, 2026 | 4 | Rock Cycle & Earth's History | Chemical Reactions |
+| **C8** | Jun 1-26, 2026 | 4 | Ecosystems + Year-End | Thermal Energy + Showcase |
 
 ---
 
