@@ -43,13 +43,13 @@
 | Cycle | G7 Topic | G8 Topic | Status |
 |-------|----------|----------|--------|
 | **C3** | Climate Change & Energy Flow | Natural Selection & Forces | ✅ Complete |
-| **C4** | Biogeochemical Cycles & Human Impact | Ecosystems & Energy Transfer | 🟡 In Progress |
-| **C5** | Weather & Climate Systems | Waves & Information Transfer | 📋 Placeholder |
-| **C6** | Plate Tectonics & Earth's Interior | Electricity & Magnetism | 📋 Placeholder |
-| **C7** | Rock Cycle & Earth's History | Chemical Reactions & Conservation | 📋 Placeholder |
-| **C8** | Ecosystems & Biodiversity | Thermal Energy & Heat Transfer | 📋 Placeholder |
-| **C9** | Space Systems & Earth's Place | Engineering Design & Systems | 📋 Placeholder |
-| **C10** | Year-End Integration | Year-End Integration | 📋 Placeholder |
+| **C4** | Biogeochemical Cycles & Human Impact | Ecosystems & Energy Transfer | ✅ Complete |
+| **C5** | Weather & Climate Systems | Waves & Information Transfer | ✅ Config Complete |
+| **C6** | Plate Tectonics & Earth's Interior | Electricity & Magnetism | ✅ Config Complete |
+| **C7** | Rock Cycle & Earth's History | Chemical Reactions & Conservation | ✅ Config Complete |
+| **C8** | Ecosystems & Biodiversity + Year-End | Thermal Energy + Engineering | ✅ Config Complete |
+| **C9** | *(Standards → C8)* | *(Standards → C8)* | ⚠️ Deferred to SY26-27 |
+| **C10** | *(Merged → C8 W3)* | *(Merged → C8 W3)* | ✅ Resolved |
 
 ---
 
@@ -65,8 +65,9 @@ C3.Repo/
 │   ├── master-config.json                 # Global settings
 │   ├── cycles/                            # Per-cycle configuration
 │   │   ├── cycle03.json                   # ✅ Complete (Production)
-│   │   ├── cycle04.json                   # 🟡 Active (In Progress)
-│   │   └── cycle05-10.json                # 📋 Placeholder
+│   │   ├── cycle04.json                   # ✅ Complete
+│   │   ├── cycle05-08.json                # ✅ Config Complete
+│   │   └── cycle09-10.json                # ⚠️ Deferred/Merged
 │   └── schema/                            # Validation schemas
 │
 ├── content/                               # All instructional content
@@ -76,8 +77,8 @@ C3.Repo/
 │   │   │   ├── curriculum-design.md
 │   │   │   ├── rubrics.md
 │   │   │   └── week{1,2,3}/
-│   │   ├── cycle04/                       # 🟡 In Progress (75%)
-│   │   └── cycle05-10/                    # 📋 Placeholder
+│   │   ├── cycle04/                       # ✅ Complete
+│   │   └── cycle05-08/                    # 🟡 Content In Progress
 │   ├── grade8/
 │   │   └── ... (same structure)
 │   └── resources/                         # Cross-grade materials
@@ -180,7 +181,7 @@ C3.Repo/
 - ✅ Data aggregation scripts
 - ✅ 3D learning analyzer
 - ✅ MTSS intervention framework
-- ✅ Placeholder structure (C5-C10)
+- ✅ Complete cycle configs (C5-C8)
 - ✅ Status tracking (cycle-status.json)
 - ⬜ Automated form deployment
 - ⬜ Canvas gradebook sync

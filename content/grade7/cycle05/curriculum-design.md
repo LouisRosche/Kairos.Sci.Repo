@@ -1,5 +1,5 @@
 # Grade 7 Cycle 5: Weather & Climate Systems
-## January 27 - February 13, 2026
+## February 23 - March 12, 2026
 
 ---
 
