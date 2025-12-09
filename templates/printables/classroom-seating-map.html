@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classroom Seating Map - KAMS Science</title>
+  <style>
+    /* ============================================
+       CLASSROOM SEATING MAP - TEACHER REFERENCE
+       ============================================
+
+       Bird's eye view of classroom with perimeter seating.
+       Customizable for different room configurations.
+
+       Usage:
+       1. Configure room dimensions and seat positions
+       2. Add student assignments via the interface
+       3. Print for teacher reference or wall posting
+       4. Update weekly with new assignments
+    */
+
+    :root {
+      --color-primary: #059669;
+      --color-primary-dark: #047857;
+      --color-secondary: #3B82F6;
+      --color-accent: #8B5CF6;
+      --color-warning: #F59E0B;
+      --color-error: #DC2626;
+      --color-text: #1F2937;
+      --color-text-muted: #6B7280;
+      --color-gray-100: #F3F4F6;
+      --color-gray-200: #E5E7EB;
+      --color-gray-300: #D1D5DB;
+
+      /* MTSS Tier Colors */
+      --tier1-bg: #D1FAE5;
+      --tier1-border: #059669;
+      --tier2-bg: #FEF3C7;
+      --tier2-border: #D97706;
+      --tier3-bg: #FEE2E2;
+      --tier3-border: #DC2626;
+
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--color-text);
+      background: #f0f0f0;
+      min-height: 100vh;
+    }
+
+    /* ============================================
+       SCREEN LAYOUT
+       ============================================ */
+
+    .app-container {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .sidebar {
+      width: 320px;
+      flex-shrink: 0;
+    }
+
+    .main-content {
+      flex: 1;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .panel h2 {
+      font-size: 16px;
+      color: var(--color-primary);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--color-gray-200);
+    }
+
+    .panel h3 {
+      font-size: 14px;
+      color: var(--color-text);
+      margin: 16px 0 8px;
+    }
+
+    /* ============================================
+       FORM CONTROLS
+       ============================================ */
+
+    .control-group {
+      margin-bottom: 12px;
+    }
+
+    .control-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .control-group input,
+    .control-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--color-gray-300);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .control-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .control-row .control-group {
+      flex: 1;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    /* ============================================
+       CLASSROOM MAP
+       ============================================ */
+
+    .map-container {
+      aspect-ratio: 4/3;
+      position: relative;
+      background: white;
+      border: 3px solid var(--color-text);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* Room Labels */
+    .room-label {
+      position: absolute;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .room-label.north { top: 8px; left: 50%; transform: translateX(-50%); }
+    .room-label.south { bottom: 8px; left: 50%; transform: translateX(-50%); }
+    .room-label.east { right: 8px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+    .room-label.west { left: 8px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+
+    /* Door */
+    .door {
+      position: absolute;
+      background: var(--color-gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--color-text-muted);
+      border: 2px solid var(--color-gray-300);
+    }
+
+    .door.north { top: 0; left: 10%; width: 60px; height: 20px; border-top: none; border-radius: 0 0 4px 4px; }
+    .door.south { bottom: 0; right: 10%; width: 60px; height: 20px; border-bottom: none; border-radius: 4px 4px 0 0; }
+
+    /* Window */
+    .window {
+      position: absolute;
+      background: linear-gradient(135deg, #DBEAFE, #93C5FD);
+      border: 2px solid #3B82F6;
+    }
+
+    .window.east { right: 0; top: 30%; width: 10px; height: 40%; border-right: none; }
+
+    /* Teacher Area */
+    .teacher-area {
+      position: absolute;
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      color: white;
+      padding: 8px 24px;
+      border-radius: 0 0 8px 8px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Center Area */
+    .center-area {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 55%;
+      height: 50%;
+      background: var(--color-gray-100);
+      border: 2px dashed var(--color-gray-300);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      text-align: center;
+    }
+
+    /* ============================================
+       SEAT NODES
+       ============================================ */
+
+    .seat {
+      position: absolute;
+      width: 70px;
+      height: 55px;
+      background: white;
+      border: 2px solid var(--color-gray-300);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .seat:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 10;
+    }
+
+    .seat.selected {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.3);
+    }
+
+    /* Tier-based colors */
+    .seat.tier-1 { border-color: var(--tier1-border); background: var(--tier1-bg); }
+    .seat.tier-2 { border-color: var(--tier2-border); background: var(--tier2-bg); }
+    .seat.tier-3 { border-color: var(--tier3-border); background: var(--tier3-bg); }
+
+    .seat-header {
+      background: var(--color-gray-100);
+      padding: 2px 4px;
+      font-size: 10px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .seat.tier-1 .seat-header { background: var(--tier1-border); color: white; }
+    .seat.tier-2 .seat-header { background: var(--tier2-border); color: white; }
+    .seat.tier-3 .seat-header { background: var(--tier3-border); color: white; }
+
+    .seat-content {
+      flex: 1;
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .student-name {
+      font-size: 10px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .student-score {
+      font-size: 9px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    .empty-indicator {
+      color: var(--color-text-muted);
+      font-size: 9px;
+      font-style: italic;
+    }
+
+    /* ============================================
+       STUDENT LIST
+       ============================================ */
+
+    .student-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid var(--color-gray-200);
+      border-radius: 6px;
+    }
+
+    .student-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--color-gray-200);
+      cursor: grab;
+      transition: background 0.2s;
+    }
+
+    .student-item:last-child {
+      border-bottom: none;
+    }
+
+    .student-item:hover {
+      background: var(--color-gray-100);
+    }
+
+    .student-item.dragging {
+      opacity: 0.5;
+    }
+
+    .student-item .tier-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .tier-dot.tier-1 { background: var(--tier1-border); }
+    .tier-dot.tier-2 { background: var(--tier2-border); }
+    .tier-dot.tier-3 { background: var(--tier3-border); }
+
+    .student-item .name {
+      flex: 1;
+      font-size: 13px;
+    }
+
+    .student-item .assigned-seat {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      background: var(--color-gray-100);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* ============================================
+       LEGEND
+       ============================================ */
+
+    .legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 2px solid;
+    }
+
+    .legend-color.tier-1 { background: var(--tier1-bg); border-color: var(--tier1-border); }
+    .legend-color.tier-2 { background: var(--tier2-bg); border-color: var(--tier2-border); }
+    .legend-color.tier-3 { background: var(--tier3-bg); border-color: var(--tier3-border); }
+
+    /* ============================================
+       PRINT STYLES
+       ============================================ */
+
+    @media print {
+      @page {
+        size: landscape;
+        margin: 0.5in;
+      }
+
+      body {
+        background: white;
+      }
+
+      .sidebar,
+      .no-print {
+        display: none !important;
+      }
+
+      .app-container {
+        padding: 0;
+      }
+
+      .map-container {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4/3;
+      }
+
+      .panel {
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+
+      .seat {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- ============================================
+         SIDEBAR CONTROLS
+         ============================================ -->
+    <aside class="sidebar no-print">
+      <div class="panel">
+        <h2>Room Setup</h2>
+        <div class="control-row">
+          <div class="control-group">
+            <label>Period</label>
+            <select id="period">
+              <option value="1">Period 1</option>
+              <option value="2">Period 2</option>
+              <option value="3">Period 3</option>
+              <option value="4">Period 4</option>
+              <option value="5">Period 5</option>
+              <option value="6">Period 6</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label>Week</label>
+            <input type="date" id="weekOf">
+          </div>
+        </div>
+        <div class="control-row">
+          <div class="control-group">
+            <label>Cycle</label>
+            <select id="cycle">
+              <option value="3">C3</option>
+              <option value="4" selected>C4</option>
+              <option value="5">C5</option>
+              <option value="6">C6</option>
+              <option value="7">C7</option>
+              <option value="8">C8</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label>Week #</label>
+            <select id="weekNum">
+              <option value="1">W1</option>
+              <option value="2">W2</option>
+              <option value="3">W3</option>
+            </select>
+          </div>
+        </div>
+
+        <h3>Add Student</h3>
+        <div class="control-group">
+          <label>Name</label>
+          <input type="text" id="newStudentName" placeholder="First Last">
+        </div>
+        <div class="control-row">
+          <div class="control-group">
+            <label>Tier</label>
+            <select id="newStudentTier">
+              <option value="1">Tier 1</option>
+              <option value="2">Tier 2</option>
+              <option value="3">Tier 3</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label>Score</label>
+            <input type="number" id="newStudentScore" placeholder="0-100" min="0" max="100">
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="addStudent()">Add Student</button>
+      </div>
+
+      <div class="panel">
+        <h2>Students (<span id="studentCount">0</span>)</h2>
+        <div class="student-list" id="studentList">
+          <div style="padding: 20px; text-align: center; color: var(--color-text-muted);">
+            No students added yet.<br>Add students above or paste from roster.
+          </div>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 8px;">
+          <button class="btn btn-secondary btn-small" onclick="pasteRoster()">Paste Roster</button>
+          <button class="btn btn-secondary btn-small" onclick="autoAssign()">Auto-Assign</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Legend</h2>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-color tier-1"></div>
+            <span>Tier 1 (70-100%)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color tier-2"></div>
+            <span>Tier 2 (50-69%)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color tier-3"></div>
+            <span>Tier 3 (0-49%)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <button class="btn btn-primary btn-block" onclick="window.print()">Print Map</button>
+        <button class="btn btn-secondary btn-block" style="margin-top: 8px;" onclick="exportAssignments()">Export JSON</button>
+      </div>
+    </aside>
+
+    <!-- ============================================
+         MAIN MAP AREA
+         ============================================ -->
+    <main class="main-content">
+      <div class="panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h2 style="margin: 0; border: none; padding: 0;">Seating Chart</h2>
+          <div id="mapTitle" style="font-size: 14px; color: var(--color-text-muted);">
+            Period 1 | Cycle 4 Week 1
+          </div>
+        </div>
+
+        <div class="map-container" id="classroomMap">
+          <!-- Room Labels -->
+          <div class="room-label north">FRONT (Whiteboard)</div>
+          <div class="room-label south">BACK</div>
+          <div class="room-label east">WINDOWS</div>
+          <div class="room-label west">HALLWAY</div>
+
+          <!-- Features -->
+          <div class="door north">DOOR</div>
+          <div class="window east"></div>
+          <div class="teacher-area">Teacher Desk</div>
+          <div class="center-area">
+            Station Work Area<br>
+            <small>(Tables/Lab Benches)</small>
+          </div>
+
+          <!-- Seats will be generated here -->
+        </div>
+      </div>
+
+      <div class="panel no-print">
+        <h2>Instructions</h2>
+        <ol style="margin: 0; padding-left: 20px; font-size: 13px; color: var(--color-text-muted); line-height: 1.6;">
+          <li>Add students using the form or paste a roster (Name, Tier, Score per line)</li>
+          <li>Click a seat, then click a student to assign them</li>
+          <li>Or use "Auto-Assign" for tier-balanced placement</li>
+          <li>Print the map for teacher reference</li>
+          <li>Export JSON to save assignments for correlation analysis</li>
+        </ol>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    /**
+     * CLASSROOM CONFIGURATION
+     * Seats positioned around perimeter, clockwise from door
+     */
+    const SEAT_POSITIONS = [
+      // North wall (front, near whiteboard) - seats 1-6
+      { id: 1, x: 15, y: 8, wall: 'north' },
+      { id: 2, x: 25, y: 8, wall: 'north' },
+      { id: 3, x: 35, y: 8, wall: 'north' },
+      { id: 4, x: 55, y: 8, wall: 'north' },
+      { id: 5, x: 65, y: 8, wall: 'north' },
+      { id: 6, x: 75, y: 8, wall: 'north' },
+
+      // East wall (windows) - seats 7-12
+      { id: 7, x: 88, y: 15, wall: 'east' },
+      { id: 8, x: 88, y: 28, wall: 'east' },
+      { id: 9, x: 88, y: 41, wall: 'east' },
+      { id: 10, x: 88, y: 54, wall: 'east' },
+      { id: 11, x: 88, y: 67, wall: 'east' },
+      { id: 12, x: 88, y: 80, wall: 'east' },
+
+      // South wall (back) - seats 13-18
+      { id: 13, x: 75, y: 88, wall: 'south' },
+      { id: 14, x: 65, y: 88, wall: 'south' },
+      { id: 15, x: 55, y: 88, wall: 'south' },
+      { id: 16, x: 35, y: 88, wall: 'south' },
+      { id: 17, x: 25, y: 88, wall: 'south' },
+      { id: 18, x: 15, y: 88, wall: 'south' },
+
+      // West wall (hallway) - seats 19-24
+      { id: 19, x: 3, y: 80, wall: 'west' },
+      { id: 20, x: 3, y: 67, wall: 'west' },
+      { id: 21, x: 3, y: 54, wall: 'west' },
+      { id: 22, x: 3, y: 41, wall: 'west' },
+      { id: 23, x: 3, y: 28, wall: 'west' },
+      { id: 24, x: 3, y: 15, wall: 'west' }
+    ];
+
+    // App State
+    let students = [];
+    let assignments = {}; // seatId -> studentId
+    let selectedSeat = null;
+
+    /**
+     * Render all seats on the map
+     */
+    function renderSeats() {
+      const map = document.getElementById('classroomMap');
+
+      // Remove existing seats
+      map.querySelectorAll('.seat').forEach(el => el.remove());
+
+      SEAT_POSITIONS.forEach(pos => {
+        const seat = document.createElement('div');
+        seat.className = 'seat';
+        seat.style.left = `${pos.x}%`;
+        seat.style.top = `${pos.y}%`;
+        seat.dataset.seatId = pos.id;
+
+        const assignedStudent = getStudentInSeat(pos.id);
+
+        if (assignedStudent) {
+          seat.classList.add(`tier-${assignedStudent.tier}`);
+          seat.innerHTML = `
+            <div class="seat-header">Seat ${pos.id}</div>
+            <div class="seat-content">
+              <div class="student-name">${formatName(assignedStudent.name)}</div>
+              <div class="student-score">${assignedStudent.score}%</div>
+            </div>
+          `;
+        } else {
+          seat.innerHTML = `
+            <div class="seat-header">Seat ${pos.id}</div>
+            <div class="seat-content">
+              <div class="empty-indicator">Empty</div>
+            </div>
+          `;
+        }
+
+        if (selectedSeat === pos.id) {
+          seat.classList.add('selected');
+        }
+
+        seat.addEventListener('click', () => selectSeat(pos.id));
+        map.appendChild(seat);
+      });
+    }
+
+    /**
+     * Format name for display (first name + last initial)
+     */
+    function formatName(fullName) {
+      const parts = fullName.trim().split(' ');
+      if (parts.length === 1) return parts[0];
+      return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+    }
+
+    /**
+     * Get student assigned to a seat
+     */
+    function getStudentInSeat(seatId) {
+      const studentId = assignments[seatId];
+      if (!studentId) return null;
+      return students.find(s => s.id === studentId);
+    }
+
+    /**
+     * Select a seat for assignment
+     */
+    function selectSeat(seatId) {
+      if (selectedSeat === seatId) {
+        // Deselect and clear assignment
+        const currentStudent = getStudentInSeat(seatId);
+        if (currentStudent) {
+          delete assignments[seatId];
+        }
+        selectedSeat = null;
+      } else {
+        selectedSeat = seatId;
+      }
+      renderSeats();
+      renderStudentList();
+    }
+
+    /**
+     * Render student list
+     */
+    function renderStudentList() {
+      const list = document.getElementById('studentList');
+      document.getElementById('studentCount').textContent = students.length;
+
+      if (students.length === 0) {
+        list.innerHTML = `
+          <div style="padding: 20px; text-align: center; color: var(--color-text-muted);">
+            No students added yet.<br>Add students above or paste from roster.
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = students.map(student => {
+        const assignedSeat = Object.entries(assignments).find(([_, sid]) => sid === student.id)?.[0];
+        return `
+          <div class="student-item" onclick="assignStudent('${student.id}')" data-student-id="${student.id}">
+            <div class="tier-dot tier-${student.tier}"></div>
+            <div class="name">${student.name}</div>
+            ${assignedSeat ? `<div class="assigned-seat">Seat ${assignedSeat}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    /**
+     * Add a new student
+     */
+    function addStudent() {
+      const name = document.getElementById('newStudentName').value.trim();
+      const tier = parseInt(document.getElementById('newStudentTier').value);
+      const score = parseInt(document.getElementById('newStudentScore').value) || 0;
+
+      if (!name) {
+        alert('Please enter a student name');
+        return;
+      }
+
+      const student = {
+        id: `student-${Date.now()}`,
+        name,
+        tier,
+        score
+      };
+
+      students.push(student);
+
+      // Clear form
+      document.getElementById('newStudentName').value = '';
+      document.getElementById('newStudentScore').value = '';
+
+      renderStudentList();
+    }
+
+    /**
+     * Assign student to selected seat
+     */
+    function assignStudent(studentId) {
+      if (!selectedSeat) {
+        alert('Please click a seat first to select it');
+        return;
+      }
+
+      // Remove student from any previous seat
+      Object.keys(assignments).forEach(seatId => {
+        if (assignments[seatId] === studentId) {
+          delete assignments[seatId];
+        }
+      });
+
+      // Assign to new seat
+      assignments[selectedSeat] = studentId;
+      selectedSeat = null;
+
+      renderSeats();
+      renderStudentList();
+    }
+
+    /**
+     * Paste roster from clipboard
+     */
+    async function pasteRoster() {
+      const text = prompt('Paste roster (one student per line):\nFormat: Name, Tier (1-3), Score\nExample: John Smith, 2, 65');
+
+      if (!text) return;
+
+      const lines = text.split('\n').filter(l => l.trim());
+
+      lines.forEach(line => {
+        const parts = line.split(',').map(p => p.trim());
+        if (parts.length >= 1) {
+          const name = parts[0];
+          const tier = parseInt(parts[1]) || 1;
+          const score = parseInt(parts[2]) || 70;
+
+          students.push({
+            id: `student-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            name,
+            tier: Math.min(3, Math.max(1, tier)),
+            score: Math.min(100, Math.max(0, score))
+          });
+        }
+      });
+
+      renderStudentList();
+    }
+
+    /**
+     * Auto-assign students with tier balancing
+     * Strategy: Distribute tiers around the room, avoid clustering Tier 3
+     */
+    function autoAssign() {
+      if (students.length === 0) {
+        alert('Add students first');
+        return;
+      }
+
+      // Clear existing assignments
+      assignments = {};
+
+      // Sort students by tier (Tier 1 first for anchor positions)
+      const tier1 = students.filter(s => s.tier === 1);
+      const tier2 = students.filter(s => s.tier === 2);
+      const tier3 = students.filter(s => s.tier === 3);
+
+      // Strategic seat zones
+      const frontSeats = [1, 2, 3, 4, 5, 6]; // Near teacher
+      const middleSeats = [7, 8, 11, 12, 22, 23, 24, 19]; // Side walls
+      const backSeats = [9, 10, 13, 14, 15, 16, 17, 18, 20, 21]; // Back area
+
+      // Assign Tier 3 to front (near teacher)
+      let availableFront = [...frontSeats];
+      tier3.forEach(student => {
+        if (availableFront.length > 0) {
+          const seatId = availableFront.shift();
+          assignments[seatId] = student.id;
+        }
+      });
+
+      // Assign Tier 2 to middle positions (peer tutor proximity)
+      let availableMiddle = middleSeats.filter(s => !assignments[s]);
+      tier2.forEach(student => {
+        if (availableMiddle.length > 0) {
+          const seatId = availableMiddle.shift();
+          assignments[seatId] = student.id;
+        } else {
+          // Overflow to front/back
+          const remaining = SEAT_POSITIONS.map(p => p.id).filter(s => !assignments[s]);
+          if (remaining.length > 0) {
+            assignments[remaining[0]] = student.id;
+          }
+        }
+      });
+
+      // Assign Tier 1 to remaining seats (can sit anywhere)
+      const remaining = SEAT_POSITIONS.map(p => p.id).filter(s => !assignments[s]);
+      tier1.forEach((student, idx) => {
+        if (remaining[idx]) {
+          assignments[remaining[idx]] = student.id;
+        }
+      });
+
+      renderSeats();
+      renderStudentList();
+    }
+
+    /**
+     * Export assignments as JSON
+     */
+    function exportAssignments() {
+      const period = document.getElementById('period').value;
+      const cycle = document.getElementById('cycle').value;
+      const weekNum = document.getElementById('weekNum').value;
+      const weekOf = document.getElementById('weekOf').value;
+
+      const exportData = {
+        metadata: {
+          period: parseInt(period),
+          cycle: parseInt(cycle),
+          week: parseInt(weekNum),
+          weekOf,
+          generated: new Date().toISOString(),
+          totalSeats: SEAT_POSITIONS.length,
+          assignedSeats: Object.keys(assignments).length
+        },
+        students: students.map(s => ({
+          id: s.id,
+          name: s.name,
+          tier: s.tier,
+          score: s.score
+        })),
+        assignments: Object.entries(assignments).map(([seatId, studentId]) => {
+          const student = students.find(s => s.id === studentId);
+          const seatPos = SEAT_POSITIONS.find(p => p.id === parseInt(seatId));
+          return {
+            seatId: parseInt(seatId),
+            wall: seatPos?.wall,
+            studentId,
+            studentName: student?.name,
+            tier: student?.tier
+          };
+        }),
+        adjacencyMap: buildAdjacencyMap()
+      };
+
+      // Create download
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `seating-p${period}-c${cycle}w${weekNum}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    /**
+     * Build adjacency map showing who sits near whom
+     */
+    function buildAdjacencyMap() {
+      const adjacency = {};
+
+      // Define adjacent seats (within 2 positions on same wall)
+      SEAT_POSITIONS.forEach(pos => {
+        const studentInSeat = getStudentInSeat(pos.id);
+        if (!studentInSeat) return;
+
+        adjacency[studentInSeat.name] = {
+          seat: pos.id,
+          wall: pos.wall,
+          neighbors: []
+        };
+
+        // Find neighbors (same wall, within 2 seats)
+        SEAT_POSITIONS.forEach(otherPos => {
+          if (otherPos.id === pos.id) return;
+
+          const otherStudent = getStudentInSeat(otherPos.id);
+          if (!otherStudent) return;
+
+          // Same wall and close
+          const sameWall = pos.wall === otherPos.wall;
+          const distance = Math.abs(pos.id - otherPos.id);
+
+          // Adjacent if same wall and within 2 seats, or if corner-adjacent
+          if ((sameWall && distance <= 2) || isCornerAdjacent(pos, otherPos)) {
+            adjacency[studentInSeat.name].neighbors.push({
+              name: otherStudent.name,
+              seat: otherPos.id,
+              tier: otherStudent.tier
+            });
+          }
+        });
+      });
+
+      return adjacency;
+    }
+
+    /**
+     * Check if two seats are corner-adjacent
+     */
+    function isCornerAdjacent(pos1, pos2) {
+      const corners = {
+        'north-east': [6, 7],
+        'east-south': [12, 13],
+        'south-west': [18, 19],
+        'west-north': [24, 1]
+      };
+
+      return Object.values(corners).some(pair =>
+        (pair[0] === pos1.id && pair[1] === pos2.id) ||
+        (pair[1] === pos1.id && pair[0] === pos2.id)
+      );
+    }
+
+    /**
+     * Update title display
+     */
+    function updateTitle() {
+      const period = document.getElementById('period').value;
+      const cycle = document.getElementById('cycle').value;
+      const weekNum = document.getElementById('weekNum').value;
+      document.getElementById('mapTitle').textContent =
+        `Period ${period} | Cycle ${cycle} Week ${weekNum}`;
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set current week
+      const monday = new Date();
+      monday.setDate(monday.getDate() - monday.getDay() + 1);
+      document.getElementById('weekOf').value = monday.toISOString().split('T')[0];
+
+      // Listen for config changes
+      ['period', 'cycle', 'weekNum'].forEach(id => {
+        document.getElementById(id).addEventListener('change', updateTitle);
+      });
+
+      renderSeats();
+      renderStudentList();
+      updateTitle();
+    });
+  </script>
+</body>
+</html>
