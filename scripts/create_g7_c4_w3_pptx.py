@@ -223,8 +223,8 @@ def add_part1_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🔗 Part 1: Synthesis Review",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "20 Points | ~15 min | Start Here!", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "20 Points | ~15 min | Start Here!", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(2.0), COLORS['light_teal_bg'])
     add_text_box(slide, Inches(0.5), Inches(1.3), Inches(9.0), Inches(0.4),
@@ -273,8 +273,8 @@ def add_part2_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "📝 Part 2: Cumulative Assessment",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "60 Points | ~40 min | Main Assessment", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "60 Points | ~40 min | Main Assessment", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(3.0), COLORS['light_green_bg'])
     add_text_box(slide, Inches(0.5), Inches(1.3), Inches(9.0), Inches(0.4),
@@ -290,9 +290,9 @@ def add_part2_intro_slide(prs):
                 font_size=11, color=COLORS['gray_text'])
 
     add_colored_shape(slide, Inches(0.3), Inches(4.35), Inches(9.4), Inches(1.0), COLORS['light_bg'])
-    add_text_box(slide, Inches(0.5), Inches(4.4), Inches(9.0), Inches(0.85),
+    add_text_box(slide, Inches(0.5), Inches(4.38), Inches(9.0), Inches(0.95),
                 "⏰ Budget your time: About 3 minutes per question. Skip and return if stuck.",
-                font_size=13, bold=True, color=COLORS['red_alert'], align=PP_ALIGN.CENTER)
+                font_size=13, bold=True, color=COLORS['red_alert'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
 def add_part2_support_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
@@ -322,9 +322,9 @@ def add_part2_support_slide(prs):
                 font_size=11, color=COLORS['gray_text'])
 
     add_colored_shape(slide, Inches(0.3), Inches(3.35), Inches(9.4), Inches(2.0), COLORS['light_bg'])
-    add_text_box(slide, Inches(0.5), Inches(3.45), Inches(9.0), Inches(0.4),
+    add_text_box(slide, Inches(0.5), Inches(3.43), Inches(9.0), Inches(0.5),
                 "📝 Complete Part 2 on the student page",
-                font_size=14, bold=True, color=COLORS['red_alert'])
+                font_size=14, bold=True, color=COLORS['red_alert'], anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(0.5), Inches(3.9), Inches(9.0), Inches(1.3),
                 "This is your main assessment - 60 of your 100 points!\n" +
                 "Use evidence from both Week 1 and Week 2 activities.",
@@ -336,8 +336,8 @@ def add_part3_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🔍 Part 3: Misconception Check",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "20 Points | ~20 min | Final Section", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "20 Points | ~20 min | Final Section", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(4.1), COLORS['light_pink_bg'])
     add_text_box(slide, Inches(0.5), Inches(1.3), Inches(9.0), Inches(0.4),
