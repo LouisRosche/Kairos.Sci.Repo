@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+================================================================================
+Grade {{GRADE}} Cycle {{CYCLE}} Week {{WEEK}} - {{SIM_NAME}}
+================================================================================
+100% DIGITAL/SIMULATION-BASED INSTRUCTION
+{{SIM_DESCRIPTION}}
+Updated: {{MONTH}} 2025 | Material-Free Audit Complete
+================================================================================
+
+TEMPLATE USAGE:
+1. Copy this file to content/grade{{GRADE}}/cycle{{CYCLE}}/week{{WEEK}}/simulations/
+2. Rename to simulation-name.html (lowercase, hyphenated)
+3. Replace all {{VARIABLE}} placeholders
+4. Customize simulation logic in the <script> section
+5. Test on mobile (375px), tablet (768px), and desktop (1024px)
+6. Validate with V6 prompt before deployment
+
+REQUIRED FEATURES:
+- Reset button that restores initial state
+- Mobile-responsive design (Chromebook 1366x768 minimum)
+- Keyboard accessible (Tab, Enter, Arrow keys)
+- ARIA labels on interactive elements
+- No external dependencies (all CSS/JS inline)
+- Predict > Observe > Explain structure
+================================================================================
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{SIM_NAME}} - {{TOPIC}}</title>
+    <style>
+        /* ============================================
+           DESIGN TOKENS (from design-system.css)
+           ============================================ */
+        :root {
+            /* Colors */
+            --color-primary: #1a73e8;
+            --color-primary-dark: #1557b0;
+            --color-success: #34a853;
+            --color-warning: #fbbc04;
+            --color-error: #ea4335;
+            --color-text: #2d3748;
+            --color-text-muted: #64748b;
+            --color-bg: #f8fafc;
+            --color-bg-dark: #1e293b;
+
+            /* Spacing (8px baseline) */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+
+            /* Border radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.2);
+
+            /* Touch target minimum */
+            --touch-target: 48px;
+        }
+
+        /* ============================================
+           BASE STYLES
+           ============================================ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            min-height: 100vh;
+            padding: var(--space-lg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           HEADER SECTION
+           ============================================ */
+        .sim-header {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        h1 {
+            color: #fff;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: var(--space-sm);
+        }
+
+        .subtitle {
+            color: #a0aec0;
+            font-size: 0.95rem;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        /* ============================================
+           MAIN SIMULATION CONTAINER
+           ============================================ */
+        .sim-container {
+            background: #fff;
+            border-radius: var(--radius-xl);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ============================================
+           INSTRUCTIONS TOGGLE
+           ============================================ */
+        .instructions {
+            background: #ecfdf5;
+            border: 2px solid var(--color-success);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .instructions summary {
+            padding: var(--space-md);
+            cursor: pointer;
+            font-weight: 600;
+            color: #047857;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            min-height: var(--touch-target);
+        }
+
+        .instructions summary:hover {
+            background: #d1fae5;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .instructions-content {
+            padding: 0 var(--space-md) var(--space-md);
+            color: #065f46;
+            font-size: 0.95rem;
+        }
+
+        .instructions-content ol {
+            margin-left: var(--space-lg);
+        }
+
+        .instructions-content li {
+            margin-bottom: var(--space-sm);
+        }
+
+        /* ============================================
+           SIMULATION AREA
+           ============================================ */
+        .sim-area {
+            background: var(--color-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            min-height: 400px;
+            position: relative;
+        }
+
+        /* Placeholder for simulation content */
+        .sim-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            min-height: 350px;
+            border: 2px dashed #cbd5e1;
+            border-radius: var(--radius-md);
+            color: var(--color-text-muted);
+            text-align: center;
+            padding: var(--space-lg);
+        }
+
+        .sim-placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+        }
+
+        /* ============================================
+           CONTROLS
+           ============================================ */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            justify-content: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        button {
+            padding: var(--space-md) var(--space-lg);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: var(--touch-target);
+            min-width: var(--touch-target);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:focus {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        /* ============================================
+           VARIABLE CONTROLS (sliders, inputs)
+           ============================================ */
+        .variable-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .variable-group {
+            background: var(--color-bg);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+        }
+
+        .variable-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--color-text);
+        }
+
+        .variable-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: var(--radius-sm);
+            background: #e2e8f0;
+            -webkit-appearance: none;
+        }
+
+        .variable-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .variable-value {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-top: var(--space-sm);
+        }
+
+        /* ============================================
+           KEY CONCEPTS SECTION
+           ============================================ */
+        .key-concepts {
+            background: #eff6ff;
+            border-left: 4px solid var(--color-primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .key-concepts h3 {
+            color: #1e40af;
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .key-concepts ul {
+            margin-left: var(--space-lg);
+            color: #3b82f6;
+        }
+
+        .key-concepts li {
+            margin-bottom: var(--space-xs);
+        }
+
+        /* ============================================
+           PREDICT-OBSERVE-EXPLAIN SECTION
+           ============================================ */
+        .poe-section {
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .poe-card {
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            border-left: 4px solid;
+        }
+
+        .poe-card.predict {
+            border-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+
+        .poe-card.observe {
+            border-color: #06b6d4;
+            background: #ecfeff;
+        }
+
+        .poe-card.explain {
+            border-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .poe-card h4 {
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .poe-card.predict h4 { color: #6d28d9; }
+        .poe-card.observe h4 { color: #0891b2; }
+        .poe-card.explain h4 { color: #d97706; }
+
+        .poe-card p {
+            color: var(--color-text);
+            font-size: 0.95rem;
+        }
+
+        /* ============================================
+           OUTPUT/RESULTS DISPLAY
+           ============================================ */
+        .results-panel {
+            background: var(--color-bg-dark);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            color: #e2e8f0;
+        }
+
+        .results-panel h3 {
+            color: #94a3b8;
+            margin-bottom: var(--space-md);
+            font-size: 0.95rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-sm) var(--space-md);
+            background: #334155;
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-sm);
+        }
+
+        .result-label {
+            color: #94a3b8;
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: #22d3ee;
+            font-size: 1.1rem;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-md);
+            }
+
+            .sim-container {
+                padding: var(--space-md);
+            }
+
+            .sim-area {
+                min-height: 300px;
+                padding: var(--space-md);
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .variable-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: var(--space-sm);
+            }
+
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            .sim-area {
+                min-height: 250px;
+            }
+        }
+
+        /* ============================================
+           ACCESSIBILITY: FOCUS VISIBLE
+           ============================================ */
+        :focus-visible {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        /* Skip link for screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--color-primary);
+            color: white;
+            padding: var(--space-sm) var(--space-md);
+            z-index: 100;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* ============================================
+           PRINT STYLES
+           ============================================ */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .controls, button {
+                display: none;
+            }
+
+            .sim-container {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip link for accessibility -->
+    <a href="#simulation" class="skip-link">Skip to simulation</a>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="sim-header">
+            <span class="grade-badge">Grade {{GRADE}} | Cycle {{CYCLE}} | Week {{WEEK}}</span>
+            <h1>{{SIM_NAME}}</h1>
+            <p class="subtitle">{{SIM_SUBTITLE}}</p>
+        </header>
+
+        <main class="sim-container" id="simulation" role="main" aria-label="Interactive simulation">
+            <!-- Collapsible Instructions -->
+            <details class="instructions" open>
+                <summary aria-expanded="true">
+                    <span aria-hidden="true">📋</span> How to Use This Simulation
+                </summary>
+                <div class="instructions-content">
+                    <ol>
+                        <li>{{INSTRUCTION_1}}</li>
+                        <li>{{INSTRUCTION_2}}</li>
+                        <li>{{INSTRUCTION_3}}</li>
+                        <li>Use the <strong>Reset</strong> button to start over at any time.</li>
+                    </ol>
+                </div>
+            </details>
+
+            <!-- Variable Controls (customize as needed) -->
+            <div class="variable-controls" role="group" aria-label="Simulation controls">
+                <div class="variable-group">
+                    <label for="variable1">{{VARIABLE_1_NAME}}</label>
+                    <input type="range"
+                           id="variable1"
+                           min="{{VAR1_MIN}}"
+                           max="{{VAR1_MAX}}"
+                           value="{{VAR1_DEFAULT}}"
+                           aria-valuemin="{{VAR1_MIN}}"
+                           aria-valuemax="{{VAR1_MAX}}"
+                           aria-valuenow="{{VAR1_DEFAULT}}">
+                    <div class="variable-value" id="variable1-value">{{VAR1_DEFAULT}} {{VAR1_UNIT}}</div>
+                </div>
+                <div class="variable-group">
+                    <label for="variable2">{{VARIABLE_2_NAME}}</label>
+                    <input type="range"
+                           id="variable2"
+                           min="{{VAR2_MIN}}"
+                           max="{{VAR2_MAX}}"
+                           value="{{VAR2_DEFAULT}}"
+                           aria-valuemin="{{VAR2_MIN}}"
+                           aria-valuemax="{{VAR2_MAX}}"
+                           aria-valuenow="{{VAR2_DEFAULT}}">
+                    <div class="variable-value" id="variable2-value">{{VAR2_DEFAULT}} {{VAR2_UNIT}}</div>
+                </div>
+            </div>
+
+            <!-- Main Simulation Area -->
+            <div class="sim-area" role="application" aria-label="Simulation visualization">
+                <!-- Replace this placeholder with actual simulation content -->
+                <div class="sim-placeholder">
+                    <div class="sim-placeholder-icon" aria-hidden="true">🔬</div>
+                    <p><strong>Simulation Content Goes Here</strong></p>
+                    <p>Replace this div with your interactive visualization.</p>
+                    <p>Use canvas, SVG, or DOM elements as appropriate.</p>
+                </div>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="controls" role="toolbar" aria-label="Simulation controls">
+                <button class="btn-primary" onclick="resetSimulation()" aria-label="Reset simulation">
+                    <span aria-hidden="true">🔄</span> Reset
+                </button>
+                <button class="btn-secondary" onclick="runSimulation()" aria-label="Run simulation">
+                    <span aria-hidden="true">▶️</span> Run
+                </button>
+                <button class="btn-warning" onclick="pauseSimulation()" aria-label="Pause simulation">
+                    <span aria-hidden="true">⏸️</span> Pause
+                </button>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="results-panel" role="region" aria-label="Simulation results" aria-live="polite">
+                <h3>Results</h3>
+                <div class="result-item">
+                    <span class="result-label">{{RESULT_1_LABEL}}</span>
+                    <span class="result-value" id="result1">--</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">{{RESULT_2_LABEL}}</span>
+                    <span class="result-value" id="result2">--</span>
+                </div>
+            </div>
+
+            <!-- Key Concepts -->
+            <section class="key-concepts" role="region" aria-label="Key concepts">
+                <h3><span aria-hidden="true">💡</span> Key Concepts</h3>
+                <ul>
+                    <li>{{KEY_CONCEPT_1}}</li>
+                    <li>{{KEY_CONCEPT_2}}</li>
+                    <li>{{KEY_CONCEPT_3}}</li>
+                </ul>
+            </section>
+
+            <!-- Predict-Observe-Explain -->
+            <section class="poe-section" role="region" aria-label="Reflection questions">
+                <div class="poe-card predict">
+                    <h4><span aria-hidden="true">🤔</span> PREDICT</h4>
+                    <p>{{PREDICT_QUESTION}}</p>
+                </div>
+                <div class="poe-card observe">
+                    <h4><span aria-hidden="true">👀</span> OBSERVE</h4>
+                    <p>{{OBSERVE_PROMPT}}</p>
+                </div>
+                <div class="poe-card explain">
+                    <h4><span aria-hidden="true">💬</span> EXPLAIN</h4>
+                    <p>{{EXPLAIN_QUESTION}}</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // ============================================
+        // SIMULATION STATE
+        // ============================================
+        let simulationState = {
+            isRunning: false,
+            isPaused: false,
+            variable1: {{VAR1_DEFAULT}},
+            variable2: {{VAR2_DEFAULT}},
+            results: {
+                result1: null,
+                result2: null
+            }
+        };
+
+        let animationId = null;
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up variable control listeners
+            const var1Slider = document.getElementById('variable1');
+            const var2Slider = document.getElementById('variable2');
+
+            var1Slider.addEventListener('input', function() {
+                simulationState.variable1 = parseFloat(this.value);
+                document.getElementById('variable1-value').textContent =
+                    this.value + ' {{VAR1_UNIT}}';
+                this.setAttribute('aria-valuenow', this.value);
+                updateSimulation();
+            });
+
+            var2Slider.addEventListener('input', function() {
+                simulationState.variable2 = parseFloat(this.value);
+                document.getElementById('variable2-value').textContent =
+                    this.value + ' {{VAR2_UNIT}}';
+                this.setAttribute('aria-valuenow', this.value);
+                updateSimulation();
+            });
+
+            // Initialize simulation
+            resetSimulation();
+        });
+
+        // ============================================
+        // CORE SIMULATION FUNCTIONS
+        // ============================================
+
+        /**
+         * Reset simulation to initial state
+         */
+        function resetSimulation() {
+            // Stop any running animation
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+
+            // Reset state
+            simulationState.isRunning = false;
+            simulationState.isPaused = false;
+
+            // Reset sliders to default
+            document.getElementById('variable1').value = {{VAR1_DEFAULT}};
+            document.getElementById('variable2').value = {{VAR2_DEFAULT}};
+            document.getElementById('variable1-value').textContent = '{{VAR1_DEFAULT}} {{VAR1_UNIT}}';
+            document.getElementById('variable2-value').textContent = '{{VAR2_DEFAULT}} {{VAR2_UNIT}}';
+
+            simulationState.variable1 = {{VAR1_DEFAULT}};
+            simulationState.variable2 = {{VAR2_DEFAULT}};
+
+            // Clear results
+            document.getElementById('result1').textContent = '--';
+            document.getElementById('result2').textContent = '--';
+
+            // TODO: Reset visualization elements
+            console.log('Simulation reset');
+        }
+
+        /**
+         * Start/resume simulation
+         */
+        function runSimulation() {
+            if (simulationState.isRunning && !simulationState.isPaused) {
+                return; // Already running
+            }
+
+            simulationState.isRunning = true;
+            simulationState.isPaused = false;
+
+            // Start animation loop
+            animate();
+
+            console.log('Simulation running');
+        }
+
+        /**
+         * Pause simulation
+         */
+        function pauseSimulation() {
+            if (!simulationState.isRunning) return;
+
+            simulationState.isPaused = true;
+
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+
+            console.log('Simulation paused');
+        }
+
+        /**
+         * Update simulation based on current variable values
+         * Called when sliders change
+         */
+        function updateSimulation() {
+            // TODO: Implement real-time updates based on variable changes
+            // This is called whenever a slider moves
+
+            // Example calculation (replace with actual simulation logic):
+            const result1 = simulationState.variable1 * simulationState.variable2;
+            const result2 = simulationState.variable1 / simulationState.variable2;
+
+            document.getElementById('result1').textContent = result1.toFixed(2);
+            document.getElementById('result2').textContent = result2.toFixed(2);
+        }
+
+        /**
+         * Animation loop
+         */
+        function animate() {
+            if (!simulationState.isRunning || simulationState.isPaused) {
+                return;
+            }
+
+            // TODO: Implement animation frame logic
+            // Update visualization, positions, calculations, etc.
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // ============================================
+        // KEYBOARD ACCESSIBILITY
+        // ============================================
+        document.addEventListener('keydown', function(e) {
+            // Space or Enter to run/pause
+            if (e.key === ' ' || e.key === 'Enter') {
+                if (e.target.tagName === 'BUTTON') return; // Let button handle it
+
+                if (simulationState.isRunning && !simulationState.isPaused) {
+                    pauseSimulation();
+                } else {
+                    runSimulation();
+                }
+            }
+
+            // R to reset
+            if (e.key === 'r' || e.key === 'R') {
+                if (e.target.tagName === 'INPUT') return; // Don't interfere with inputs
+                resetSimulation();
+            }
+
+            // Escape to stop
+            if (e.key === 'Escape') {
+                pauseSimulation();
+            }
+        });
+    </script>
+</body>
+</html>
