@@ -703,6 +703,34 @@
       }
     }
 
+    /* Accessibility: Skip link */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--primary);
+      color: white;
+      padding: 8px 16px;
+      z-index: 100;
+      transition: top 0.3s;
+      text-decoration: none;
+      border-radius: 0 0 8px 0;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* Accessibility: Focus visible */
+    :focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; padding: 0; }
+      .controls, button { display: none; }
+      .sim-container { box-shadow: none; border: 1px solid #ccc; }
+    }
+
     .sr-only {
       position: absolute;
       width: 1px;
@@ -717,8 +745,9 @@
   </style>
 </head>
 <body>
+  <a href="#simulation" class="skip-link">Skip to simulation</a>
   <div class="container">
-    <header>
+    <header id="simulation" role="main" aria-label="Collision Force Simulator">
       <h1><span class="icon" aria-hidden="true">💥</span> Collision Force Simulator</h1>
       <div class="subtitle">Discover Newton's Third Law: Action and Reaction Forces</div>
       <div class="meta">
@@ -1353,6 +1382,26 @@
     // Initialize
     window.addEventListener('load', initCanvas);
     window.addEventListener('resize', initCanvas);
+
+    // Keyboard accessibility
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'r' || e.key === 'R') {
+        document.getElementById('resetBtn').click();
+      }
+      if (e.key === ' ' || e.key === 'Enter') {
+        if (e.target.tagName === 'BUTTON') return;
+        e.preventDefault();
+        if (!isAnimating) {
+          document.getElementById('startBtn').click();
+        }
+      }
+      if (e.key === 'Escape') {
+        if (isAnimating) {
+          document.getElementById('resetBtn').click();
+        }
+      }
+    });
   </script>
 </body>
 </html>

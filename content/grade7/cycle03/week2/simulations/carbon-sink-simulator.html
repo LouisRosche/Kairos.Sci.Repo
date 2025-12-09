@@ -22,6 +22,34 @@ Part of Grade 7 Cycle 3 Week 2: Feedback Loops & Tipping Points
             }
         }
 
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #10B981;
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            text-decoration: none;
+            border-radius: 0 0 8px 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Accessibility: Focus visible */
+        :focus-visible {
+            outline: 3px solid #10B981;
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: white; padding: 0; }
+            .controls, button, .buttons { display: none; }
+            .sim-container { box-shadow: none; border: 1px solid #ccc; }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #065F46 0%, #064E3B 100%);
@@ -396,11 +424,12 @@ Part of Grade 7 Cycle 3 Week 2: Feedback Loops & Tipping Points
     </style>
 </head>
 <body>
+    <a href="#simulation" class="skip-link">Skip to simulation</a>
     <div class="container">
         <h1>🌍 Carbon Sink Simulator</h1>
         <p class="subtitle">Where does all the CO₂ we emit actually go? Explore carbon sinks and what happens when they fill up!</p>
 
-        <div class="sim-container">
+        <div class="sim-container" id="simulation" role="main" aria-label="Carbon Sink Simulator">
             <details style="margin-bottom: 20px; background: #ECFDF5; padding: 15px; border-radius: 10px; border: 2px solid #10B981;">
                 <summary style="cursor: pointer; font-weight: bold; color: #047857; font-size: 1em;">📖 How to Use This Simulation</summary>
                 <div style="margin-top: 12px; color: #065F46; font-size: 0.9em; line-height: 1.6;">
@@ -784,6 +813,22 @@ Part of Grade 7 Cycle 3 Week 2: Feedback Loops & Tipping Points
 
         // Initialize
         updateDisplay();
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'r' || e.key === 'R') {
+                resetSim();
+            }
+            if (e.key === ' ' || e.key === 'Enter') {
+                if (e.target.tagName === 'BUTTON') return;
+                e.preventDefault();
+                runDecade();
+            }
+            if (e.key === 'Escape') {
+                stopSimulation();
+            }
+        });
     </script>
 </body>
 </html>

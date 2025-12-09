@@ -638,6 +638,34 @@
       }
     }
 
+    /* Accessibility: Skip link */
+    .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--primary);
+        color: white;
+        padding: 8px 16px;
+        z-index: 100;
+        transition: top 0.3s;
+        text-decoration: none;
+        border-radius: 0 0 8px 0;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* Accessibility: Focus visible */
+    :focus-visible {
+        outline: 3px solid var(--primary);
+        outline-offset: 2px;
+    }
+
+    /* Print styles */
+    @media print {
+        body { background: white; padding: 0; }
+        .controls, button, .rotation-controls { display: none; }
+        header, .info-panel, .model-viewer { box-shadow: none; border: 1px solid #ccc; }
+    }
+
     .sr-only {
       position: absolute;
       width: 1px;
@@ -652,6 +680,7 @@
   </style>
 </head>
 <body>
+  <a href="#simulation" class="skip-link">Skip to simulation</a>
   <div class="container">
     <header>
       <h1><span class="icon" aria-hidden="true">🔬</span> Molecule Structure Explorer</h1>
@@ -676,7 +705,7 @@
       </div>
     </details>
 
-    <section class="molecule-selector">
+    <section class="molecule-selector" id="simulation" role="main" aria-label="Molecule Structure Explorer simulation">
       <h2>Select a Molecule to Explore</h2>
       <div class="molecule-grid" role="radiogroup" aria-label="Molecule selection">
         <div class="molecule-card selected" tabindex="0" role="radio" aria-checked="true" data-molecule="h2o">
@@ -1258,6 +1287,25 @@
 
     window.addEventListener('resize', () => {
       initCanvas();
+    });
+
+    // Keyboard accessibility
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'r' || e.key === 'R') {
+        selectMolecule('h2o');
+        rotationX = 0;
+        rotationY = 0;
+        drawMolecule();
+      }
+      if (e.key === ' ') {
+        if (e.target.tagName === 'BUTTON') return;
+        e.preventDefault();
+        autoRotate = !autoRotate;
+      }
+      if (e.key === 'Escape') {
+        autoRotate = false;
+      }
     });
   </script>
 </body>

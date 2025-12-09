@@ -23,6 +23,34 @@ Shows the PHENOMENON of accelerating ice melt to set up the driving question
             }
         }
 
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #0EA5E9;
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            text-decoration: none;
+            border-radius: 0 0 8px 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Accessibility: Focus visible */
+        :focus-visible {
+            outline: 3px solid #0EA5E9;
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: white; padding: 0; }
+            .controls, button { display: none; }
+            .sim-container { box-shadow: none; border: 1px solid #ccc; }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1E3A5F 0%, #0F172A 100%);
@@ -385,11 +413,12 @@ Shows the PHENOMENON of accelerating ice melt to set up the driving question
     </style>
 </head>
 <body>
+    <a href="#simulation" class="skip-link">Skip to simulation</a>
     <div class="container">
         <h1>The Melting Ice Mystery</h1>
         <p class="subtitle">Watch what happens to Arctic ice over 50 years...</p>
 
-        <div class="sim-container">
+        <div class="sim-container" id="simulation" role="main" aria-label="Ice Melt Mystery simulation">
             <div class="instructions">
                 <h3>Your Task:</h3>
                 <p>Click "Start Observation" and watch the ice carefully. Pay attention to the <strong>melt rate</strong> — is it constant, or does it change? Write down what you notice!</p>
@@ -602,6 +631,22 @@ Shows the PHENOMENON of accelerating ice melt to set up the driving question
 
         // Initialize
         updateDisplay();
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'r' || e.key === 'R') {
+                resetObservation();
+            }
+            if (e.key === ' ' || e.key === 'Enter') {
+                if (e.target.tagName === 'BUTTON') return;
+                e.preventDefault();
+                startObservation();
+            }
+            if (e.key === 'Escape') {
+                stopObservation();
+            }
+        });
     </script>
 </body>
 </html>
