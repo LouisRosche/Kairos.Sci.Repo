@@ -5,9 +5,9 @@
   "lastUpdated": "2025-12-09",
   "topic": "Waves & Information Transfer",
   "completion": {
-    "overall": 65,
+    "overall": 75,
     "curriculumDesign": 100,
-    "rubrics": 0,
+    "rubrics": 100,
     "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
     "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 },
     "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 }
@@ -17,5 +17,5 @@
     "week2": false,
     "week3": false
   },
-  "notes": "All 3 weeks forms.gs complete. W1 student-page complete. W2-W3 student-pages and rubrics pending."
+  "notes": "All 3 weeks forms.gs and rubrics complete. W1 student-page complete. W2-W3 student-pages pending."
 }
