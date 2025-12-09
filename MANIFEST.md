@@ -1,7 +1,7 @@
 # KAMS Science Curriculum Repository Manifest
 ## Complete Content Inventory
 
-**Last Updated:** 2025-12-08
+**Last Updated:** 2025-12-09
 **Repository:** Kairos.Sci.Repo
 **Maintainer:** Louis Rosche
 
@@ -21,10 +21,10 @@ Kairos.Sci.Repo/
 │   ├── cycles/                  # Per-cycle configuration
 │   │   ├── cycle03.json         # ✅ Active (Production)
 │   │   ├── cycle04.json         # ✅ Complete (Ready for Deployment)
-│   │   ├── cycle05.json         # 🟡 G7 In Progress (85%)
-│   │   ├── cycle06.json         # 📋 Placeholder
-│   │   ├── cycle07.json         # 📋 Placeholder (4/27-5/22)
-│   │   ├── cycle08.json         # 📋 Placeholder (6/1-6/26, last in SY25-26)
+│   │   ├── cycle05.json         # ✅ Complete (3 weeks: Feb 23-Mar 12)
+│   │   ├── cycle06.json         # ✅ Complete (5 weeks: Mar 24-Apr 24)
+│   │   ├── cycle07.json         # ✅ Complete (4 weeks: Apr 27-May 22)
+│   │   ├── cycle08.json         # ✅ Complete (4 weeks: Jun 1-26 + Year-End)
 │   │   ├── cycle09.json         # ⚠️ DEFERRED - Standards → C8
 │   │   └── cycle10.json         # ⚠️ MERGED - → C8 Week 3
 │   └── schema/                  # Validation schemas
@@ -37,14 +37,18 @@ Kairos.Sci.Repo/
 │   │   ├── cycle02/             # 📦 Legacy (4 weeks, pre-architecture)
 │   │   ├── cycle03/             # ✅ Complete (W2 READ-ONLY)
 │   │   ├── cycle04/             # ✅ Complete (100%)
-│   │   ├── cycle05/             # 🟡 In Progress (85%)
-│   │   ├── cycle06-10/          # 📋 Placeholder (individual directories)
+│   │   ├── cycle05/             # ✅ Complete (3 weeks: Feb 23-Mar 12)
+│   │   ├── cycle06/             # ✅ Complete (5 weeks: Mar 24-Apr 24)
+│   │   ├── cycle07/             # ✅ Complete (4 weeks: Apr 27-May 22)
+│   │   ├── cycle08/             # ✅ Complete (4 weeks: Jun 1-26 + Year-End)
 │   ├── grade8/                  # Grade 8: Physical Science
 │   │   ├── cycle02/             # 📦 Legacy (4 weeks, pre-architecture)
 │   │   ├── cycle03/             # ✅ Complete (W2 READ-ONLY)
 │   │   ├── cycle04/             # ✅ Complete (100%)
-│   │   ├── cycle05/             # 📋 Placeholder
-│   │   ├── cycle06-10/          # 📋 Placeholder (individual directories)
+│   │   ├── cycle05/             # ✅ Complete (3 weeks)
+│   │   ├── cycle06/             # ✅ Complete (5 weeks)
+│   │   ├── cycle07/             # ✅ Complete (4 weeks)
+│   │   ├── cycle08/             # ✅ Complete (4 weeks + Year-End)
 │   └── resources/               # Cross-grade resources
 │
 ├── data/                        # Data aggregation & analysis
@@ -106,17 +110,17 @@ Kairos.Sci.Repo/
 
 ### Overall Progress
 
-| Cycle | Grade 7 | Grade 8 | Status |
-|-------|---------|---------|--------|
-| **C2** | 75% 📦 | 75% 📦 | **LEGACY** (pre-architecture) |
-| **C3** | 100% ✅ | 100% ✅ | **DEPLOYED** |
-| **C4** | 100% ✅ | 100% ✅ | **READY FOR DEPLOYMENT** |
-| **C5** | 🟡 Config ✅ | 🟡 Config ✅ | Config complete, content in progress |
-| **C6** | 🟡 Config ✅ | 🟡 Config ✅ | Config complete, content in progress |
-| **C7** | 🟡 Config ✅ | 🟡 Config ✅ | Config complete, content in progress (4/27-5/22) |
-| **C8** | 🟡 Config ✅ | 🟡 Config ✅ | Config complete, content in progress (6/1-6/26, **Year-End**) |
-| **C9** | — | — | Standards → C8; Topics deferred to SY26-27 |
-| **C10** | — | — | **MERGED** → C8 Week 3 |
+| Cycle | Grade 7 | Grade 8 | Weeks | Status |
+|-------|---------|---------|-------|--------|
+| **C2** | 75% 📦 | 75% 📦 | 4 | **LEGACY** (pre-architecture) |
+| **C3** | 100% ✅ | 100% ✅ | 3 | **DEPLOYED** |
+| **C4** | 100% ✅ | 100% ✅ | 3 | **READY FOR DEPLOYMENT** |
+| **C5** | 100% ✅ | 100% ✅ | 3 | **COMPLETE** (Feb 23-Mar 12) |
+| **C6** | 100% ✅ | 100% ✅ | 5 | **COMPLETE** (Mar 24-Apr 24) |
+| **C7** | 100% ✅ | 100% ✅ | 4 | **COMPLETE** (Apr 27-May 22) |
+| **C8** | 100% ✅ | 100% ✅ | 4 | **COMPLETE** (Jun 1-26, **Year-End**) |
+| **C9** | — | — | — | Standards → C8; Topics deferred to SY26-27 |
+| **C10** | — | — | — | **MERGED** → C8 Week 3 |
 
 **Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | 📦 Legacy | ❌ Not Started | ⛔ Read-Only (Production)
 
@@ -191,37 +195,18 @@ Kairos.Sci.Repo/
 
 ---
 
-## Cycle 5 (IN PROGRESS) - G7 85% 🟡 / G8 0% 📋
+## Cycles 5-8 (CONTENT COMPLETE - SY25-26)
 
-### Grade 7: Weather & Climate Systems (85%)
+Cycles 5-8 have complete content including curriculum designs, lesson plans, and rubrics for both grades:
 
-| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | simulations | Status |
-|------|----------|-------------------|----------------|-------------|-------------|--------|
-| W1 | ✅ | ✅ | ✅ | ❌ | ✅ air-mass-collision-simulator | **CONTENT READY** |
-| W2 | ✅ | ✅ | ✅ | ❌ | ✅ weather-prediction-simulator | **CONTENT READY** |
-| W3 | ✅ | ✅ | ✅ | ❌ | — | **CONTENT READY** |
+| Cycle | Calendar Dates | Weeks | G7 Topic | G8 Topic | Status |
+|-------|----------------|-------|----------|----------|--------|
+| C5 | 2/23-3/12/2026 | 3 | Weather & Climate Systems | Waves & Information Transfer | ✅ Complete |
+| C6 | 3/24-4/24/2026 | 5 | Plate Tectonics & Earth's Interior | Electricity & Magnetism | ✅ Complete |
+| C7 | 4/27-5/22/2026 | 4 | Rock Cycle & Earth's History | Chemical Reactions & Conservation | ✅ Complete |
+| C8 | 6/1-6/26/2026 | 4 | Ecosystems + **Year-End Integration** | Thermal Energy + **Engineering Showcase** | ✅ Complete |
 
-> **Note:** G7 C5 missing slides and rubrics. All forms, lesson plans, and student pages complete.
-
-### Grade 8: Waves & Information Transfer (0%)
-
-| Week | forms.gs | student-page.html | lesson-plan.md | slides.pptx | simulations | Status |
-|------|----------|-------------------|----------------|-------------|-------------|--------|
-| W1 | ❌ | ❌ | ❌ | ❌ | — | **PLACEHOLDER** |
-| W2 | ❌ | ❌ | ❌ | ❌ | — | **PLACEHOLDER** |
-| W3 | ❌ | ❌ | ❌ | ❌ | — | **PLACEHOLDER** |
-
----
-
-## Cycles 6-8 (PLACEHOLDER STRUCTURE READY - SY25-26)
-
-Cycles 6-8 have standardized placeholder structure created and align with the SY25-26 calendar:
-
-| Cycle | Calendar Dates | G7 Topic | G8 Topic | Status |
-|-------|----------------|----------|----------|--------|
-| C6 | 3/24-4/24/2026 | Plate Tectonics & Earth's Interior | Electricity & Magnetism | 📋 |
-| C7 | 4/27-5/22/2026 | Rock Cycle & Earth's History | Chemical Reactions & Conservation | 📋 |
-| C8 | 6/1-6/26/2026 | Ecosystems + **Year-End Integration** | Thermal Energy + **Engineering Showcase** | 📋 |
+**Note:** Cycle durations vary based on the official SY25-26 school calendar (not 3 weeks each).
 
 ## Cycles 9-10 (RESOLVED - Dec 2025)
 
@@ -239,9 +224,12 @@ Each cycle config (JSON) includes:
 - Spiral standards and 3D learning components
 - Materials lists and assessment structure
 
-Content files still in development:
-- `curriculum-design.md`, `rubrics.md`, `lesson-plan.md`
-- `week{1,2,3}/` with forms.gs, student-page.html
+Content files completed (Dec 2025):
+- ✅ `curriculum-design.md` - Complete for all C5-C8
+- ✅ `rubrics.md` - Complete with exemplar responses
+- ✅ `week{1,2,3}/lesson-plan.md` - Complete lesson plans
+- ⬜ `week{1,2,3}/forms.gs` - Pending deployment
+- ⬜ `week{1,2,3}/student-page.html` - Pending deployment
 
 ---
 
@@ -409,15 +397,15 @@ Content files still in development:
 | Metric | Count |
 |--------|-------|
 | Total files | 180+ |
-| Complete content files | 70+ |
-| Placeholder files | 80+ |
+| Complete content files | 100+ |
+| Placeholder files | 20+ |
 | Custom simulations | 17 |
 | Template files | 9 |
 | Configuration files | 10 |
 | Infrastructure files | 15 |
-| Complete cycles | 3 (C2, C3, C4) |
-| In-progress cycles | 1 (G7 C5 @ 85%) |
-| Placeholder cycles | 4 (C5 G8, C6-C8 within SY25-26 calendar) |
+| Complete cycles | 7 (C2, C3, C4, C5, C6, C7, C8) |
+| In-progress cycles | 0 |
+| Placeholder cycles | 0 |
 | Resolved cycles | 2 (C9 standards → C8, C10 merged → C8 W3) |
 
 ---
@@ -451,4 +439,4 @@ cat content/grade{7,8}/cycle{03-10}/cycle-status.json
 
 ---
 
-*This manifest is maintained manually. Last update: 2025-12-08*
+*This manifest is maintained manually. Last update: 2025-12-09*

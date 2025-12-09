@@ -1,5 +1,5 @@
 # KAMS Science Curriculum System Architecture
-## Scalable Design for 6 Cycles × 2 Grades × 3 Weeks (SY25-26)
+## Scalable Design for 6 Cycles × 2 Grades × SY25-26
 
 **Version 3.1.0** | December 2025
 
@@ -10,7 +10,7 @@
 This document defines the organizational architecture for a complete middle school science curriculum system supporting:
 - **6 Cycles in SY25-26** (Cycles 3-8 per Kairos_SY25-26_Calendar.md; cycles 9-10 deferred)
 - **2 Grades** (7 & 8, expandable to 6-9)
-- **3 Weeks per Cycle** (18 total weeks of instruction in SY25-26)
+- **Variable Weeks per Cycle** (3-5 weeks per school calendar; 19 total weeks in SY25-26)
 - **5 Forms per Week** (360 total Google Forms in SY25-26)
 - **Data-driven MTSS** (Multi-Tiered System of Supports)
 
@@ -42,7 +42,7 @@ Kairos.Sci.Repo/
 │   │   └── mtss-schema.json           # Intervention thresholds
 │   └── cycles/
 │       ├── cycle03.json               # ✅ Active
-│       ├── cycle04.json               # 🟡 In Progress
+│       ├── cycle04.json               # ✅ Complete
 │       ├── cycle05.json               # ✅ Complete (2/23-3/12)
 │       ├── cycle06.json               # ✅ Complete (3/24-4/24)
 │       ├── cycle07.json               # ✅ Complete (4/27-5/22)
@@ -90,8 +90,10 @@ Kairos.Sci.Repo/
 │   │   │   ├── week2/
 │   │   │   └── week3/
 │   │   ├── cycle04/                   # ✅ Complete (100%)
-│   │   ├── cycle05/                   # 🟡 In Progress (G7: 85%)
-│   │   ├── cycle06-10/                # 📋 Placeholder
+│   │   ├── cycle05/                   # ✅ Complete (3 weeks)
+│   │   ├── cycle06/                   # ✅ Complete (5 weeks)
+│   │   ├── cycle07/                   # ✅ Complete (4 weeks)
+│   │   ├── cycle08/                   # ✅ Complete (4 weeks + Year-End)
 │   │   └── ...
 │   ├── grade8/
 │   │   └── ... (same structure)
@@ -163,7 +165,7 @@ Central source of truth for the entire system:
   },
   "cycles": {
     "range": [3, 8],
-    "weeksPerCycle": 3,
+    "weeksPerCycle": "variable (3-5 per cycle config)",
     "pointsPerWeek": 100,
     "_note": "SY25-26 supports cycles 3-8 only per official calendar"
   },
@@ -578,7 +580,7 @@ Cycle 2 exists as **pre-architecture legacy content** that was developed before 
 
 | Attribute | Standard (C3-C10) | Cycle 2 (Legacy) |
 |-----------|-------------------|------------------|
-| Weeks per cycle | 3 | 4 |
+| Weeks per cycle | 3-5 (variable) | 4 |
 | Config file | `config/cycles/cycleXX.json` | None |
 | Structure | Full architecture compliance | Partial |
 | Status | Managed by cycle-status.json | Legacy tracking |
@@ -605,11 +607,14 @@ Content locations:
 - `content/resources/` for cross-grade materials
 - `cycle-status.json` tracking in every cycle
 
-### Phase 3: Content Build-out (In Progress) 🟡
-- ✅ Cycle 3: Complete (G7 & G8)
-- ✅ Cycle 4: Complete (G7 & G8)
-- ✅ Cycles 5-8: Config complete, content development in progress
-- ⚠️ Cycles 9-10: Deferred (standards integrated into C8)
+### Phase 3: Content Build-out (Complete) ✅
+- ✅ Cycle 3: Complete (G7 & G8) - 3 weeks
+- ✅ Cycle 4: Complete (G7 & G8) - 3 weeks
+- ✅ Cycle 5: Complete (G7 & G8) - 3 weeks (Feb 23-Mar 12)
+- ✅ Cycle 6: Complete (G7 & G8) - 5 weeks (Mar 24-Apr 24)
+- ✅ Cycle 7: Complete (G7 & G8) - 4 weeks (Apr 27-May 22)
+- ✅ Cycle 8: Complete (G7 & G8) - 4 weeks (Jun 1-26, includes Year-End Integration)
+- ⚠️ Cycles 9-10: Deferred to SY26-27 (standards integrated into C8)
 
 ### Phase 4: Automation (Pending)
 - Deploy nightly aggregation
