@@ -297,8 +297,8 @@ def add_hook_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🦁 Hook – The Missing Energy Mystery",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "12 Points | ~10 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "12 Points | ~10 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     # What you'll do
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(2.2), COLORS['light_orange_bg'])
@@ -357,9 +357,9 @@ def add_hook_support_slide(prs):
 
     # Notecard
     add_colored_shape(slide, Inches(0.3), Inches(3.7), Inches(9.4), Inches(1.65), COLORS['light_bg'])
-    add_text_box(slide, Inches(0.5), Inches(3.8), Inches(9.0), Inches(0.4),
+    add_text_box(slide, Inches(0.5), Inches(3.78), Inches(9.0), Inches(0.5),
                 "📝 Complete the Hook form on the student page",
-                font_size=14, bold=True, color=COLORS['red_alert'])
+                font_size=14, bold=True, color=COLORS['red_alert'], anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(0.5), Inches(4.2), Inches(9.0), Inches(1.0),
                 "Record your predictions about:\n" +
                 "• Why there are more plants than herbivores\n" +
@@ -376,8 +376,8 @@ def add_station1_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "📊 Station 1 – 10% Rule Investigation",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "20 Points | ~18 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "20 Points | ~18 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     # Mission
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(1.3), COLORS['light_blue_bg'])
@@ -440,10 +440,10 @@ def add_station1_support_slide(prs):
                 "Level 3: 1,000 × 0.10 = 100\n" +
                 "Level 4: 100 × 0.10 = 10",
                 font_size=11, color=COLORS['gray_text'])
-    add_text_box(slide, Inches(5.0), Inches(4.15), Inches(4.5), Inches(1.1),
+    add_text_box(slide, Inches(5.0), Inches(4.13), Inches(4.5), Inches(1.2),
                 "📝 Complete Station 1 form\n" +
                 "Apply the 10% rule and explain\nwhy energy decreases at each level.",
-                font_size=11, bold=True, color=COLORS['red_alert'])
+                font_size=11, bold=True, color=COLORS['red_alert'], anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_station2_intro_slide(prs):
@@ -455,8 +455,8 @@ def add_station2_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "⚖️ Station 2 – Biomass Calculations",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "20 Points | ~15 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "20 Points | ~15 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     # Mission
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(1.2), COLORS['light_purple_bg'])
@@ -526,9 +526,9 @@ def add_station2_support_slide(prs):
 
     # Instructions
     add_colored_shape(slide, Inches(0.3), Inches(4.9), Inches(9.4), Inches(0.5), COLORS['light_bg'])
-    add_text_box(slide, Inches(0.5), Inches(4.95), Inches(9.0), Inches(0.4),
+    add_text_box(slide, Inches(0.5), Inches(4.88), Inches(9.0), Inches(0.5),
                 "📝 Complete Station 2 form - Calculate biomass ratios and make predictions!",
-                font_size=13, bold=True, color=COLORS['red_alert'])
+                font_size=13, bold=True, color=COLORS['red_alert'], anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_station3_intro_slide(prs):
@@ -540,8 +540,8 @@ def add_station3_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🌾 Station 3 – Design a Sustainable Farm",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "25 Points | ~20 min (Highest Value!)", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "25 Points | ~20 min (Highest Value!)", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     # Mission
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(1.2), COLORS['light_green_bg'])
@@ -600,10 +600,10 @@ def add_station3_support_slide(prs):
 
     # Strategy hint
     add_colored_shape(slide, Inches(0.3), Inches(4.65), Inches(9.4), Inches(0.75), COLORS['light_orange_bg'])
-    add_text_box(slide, Inches(0.5), Inches(4.7), Inches(9.0), Inches(0.6),
+    add_text_box(slide, Inches(0.5), Inches(4.68), Inches(9.0), Inches(0.7),
                 "💡 Strategy: 40 ha vegetables × 50,000 = 2,000,000 kcal ✓ | Cost: 40 × $2,000 = $80,000 (under budget!)\n" +
                 "📝 Complete Station 3 - Design your farm and explain your choices using the 10% rule!",
-                font_size=11, color=COLORS['gray_text'])
+                font_size=11, color=COLORS['gray_text'], anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_exit_ticket_slide(prs):
@@ -615,8 +615,8 @@ def add_exit_ticket_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🎓 Exit Ticket – Energy Flow Integration",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "23 Points | ~15 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "23 Points | ~15 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     # Question types
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(2.5), COLORS['light_pink_bg'])
@@ -632,9 +632,9 @@ def add_exit_ticket_slide(prs):
 
     # Reminder
     add_colored_shape(slide, Inches(0.3), Inches(3.85), Inches(9.4), Inches(1.5), COLORS['light_bg'])
-    add_text_box(slide, Inches(0.5), Inches(3.95), Inches(9.0), Inches(0.4),
+    add_text_box(slide, Inches(0.5), Inches(3.93), Inches(9.0), Inches(0.5),
                 "📝 Complete the Exit Ticket on the student page",
-                font_size=14, bold=True, color=COLORS['red_alert'])
+                font_size=14, bold=True, color=COLORS['red_alert'], anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(0.5), Inches(4.35), Inches(9.0), Inches(0.9),
                 "This is your final assessment for Week 1. Take your time!\n" +
                 "Use evidence from today's activities to support your answers.",
