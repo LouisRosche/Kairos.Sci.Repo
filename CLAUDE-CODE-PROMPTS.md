@@ -143,6 +143,7 @@ STRUCTURE:
 - Key concepts section
 - Reflection questions (Predict→Observe→Explain)
 
+Copy templates/html/simulation-template.html as starting point.
 Read framework/phet-simulations-catalog.md for design patterns and existing simulations.
 Use shared/styles/design-system.css variables for consistent styling.
 Output to content/grade{{GRADE}}/cycle{{CYCLE}}/week{{WEEK}}/simulations/{{SIM_NAME}}.html.
@@ -281,6 +282,36 @@ PERFORMANCE:
 □ Loads in <3 seconds on slow connection
 
 Report failures with specific fixes needed.
+```
+
+---
+
+## V7: Validate Forms API Compliance
+
+```
+Audit G{{GRADE}}.C{{CYCLE}}.W{{WEEK}}/forms.gs against technical-reference.md rules.
+
+API COMPLIANCE CHECKS:
+□ No setPoints(0) calls - must omit setPoints() for ungraded
+□ No setPoints() on paragraph/text items
+□ No setFeedback() on paragraph/text items
+□ No setShuffleOrder() or setRandomize() - these don't exist
+□ No requireTextLengthGreaterThan() - use requireTextLengthGreaterThanOrEqualTo()
+□ All setPoints() values are positive integers (≥1)
+□ form.setIsQuiz(true) present if using feedback
+□ form.setRequireLogin(true) for verified email
+
+STRUCTURE CHECKS:
+□ Question IDs follow format: g{{GRADE}}_c{{CYCLE}}_w{{WEEK}}_{{STATION}}_q{{N}}
+□ All MCQs have misconception-trap distractors
+□ All open responses have sentence starters in helpText
+□ Exit ticket has: 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1
+
+OUTPUT:
+✅ [Check]: Compliant
+❌ [Check]: Violation at line [N] → [fix needed]
+
+Reference: framework/technical-reference.md
 ```
 
 ---
@@ -468,7 +499,8 @@ FOR MCQ, include:
 
 FOR OPEN RESPONSE, include:
 - Sentence starters in helpText
-- Add rubric to rubrics.md
+- Add rubric to cycle's rubrics.md (content/grade{{GRADE}}/cycle{{CYCLE}}/rubrics.md)
+  Use templates/docs/rubrics-template.md for format
 
 AFTER ADDING:
 1. Rebalance points to maintain station total
@@ -611,6 +643,25 @@ Output spiral-audit-g{{GRADE}}.md with findings.
 
 ---
 
+## Chain E: Simulation Build
+
+```
+Build and validate custom simulation for G{{GRADE}}.C{{CYCLE}}.W{{WEEK}}:
+
+1. G5 (generate simulation) → pause for review
+2. V6 (validate simulation) → fix failures
+3. Test on mobile (375px), tablet (768px), desktop (1024px)
+4. Add to student-page.html with iframe embed
+5. V3 (accessibility re-check) → fix if needed
+
+Use templates/html/simulation-template.html as starting point.
+Reference framework/phet-simulations-catalog.md for design patterns.
+
+Report simulation URL and validation status.
+```
+
+---
+
 # Quick Variable Templates
 
 ## Grade 7 Example
@@ -654,6 +705,7 @@ MISCONCEPTIONS=intentional-adaptation (65%), inheritance-of-acquired (45%), surv
 | Check misconception traps | V4 |
 | Analyze spiral spacing | V5 |
 | Validate simulation | V6 |
+| Validate Forms API compliance | V7 |
 | Fix point totals | R1 |
 | Add scaffolding | R2 |
 | Improve misconception traps | R3 |
@@ -666,6 +718,7 @@ MISCONCEPTIONS=intentional-adaptation (65%), inheritance-of-acquired (45%), surv
 | Full quality audit | Chain B |
 | Full accessibility fix | Chain C |
 | Review spiral curriculum | Chain D |
+| Build custom simulation | Chain E |
 
 ---
 
@@ -673,7 +726,8 @@ MISCONCEPTIONS=intentional-adaptation (65%), inheritance-of-acquired (45%), surv
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v2.2 | 2025-12-09 | Added simulation-template.html and video-resources-catalog.md; Created V7 (Validate Forms API Compliance) and Chain E (Simulation Build); Clarified rubrics.md scope in E2; Updated G5 template reference |
 | v2.1 | 2025-12-09 | Fixed variable placeholder format in G2; Added point flexibility note; Created V6 (Validate Simulation); Updated Chain A with G1 step; Added template/resource references to G5, E3, R4 |
 | v2.0 | 2025-12-01 | Initial comprehensive prompt library |
 
-*CLAUDE-CODE-PROMPTS.md | v2.1 | December 2025*
+*CLAUDE-CODE-PROMPTS.md | v2.2 | December 2025*
