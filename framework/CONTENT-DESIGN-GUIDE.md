@@ -670,6 +670,16 @@ a, button, summary {
 
 ## 7. Interactive Simulations
 
+### Research Foundation
+
+Virtual labs produce **g = 0.686** for positive learning outcomes (2024 PLOS ONE meta-analysis), with particularly strong effects for motivation (**g = 3.571**) and engagement (**g = 2.888**). Finkelstein et al. (2005) found PhET simulations **outperform** real equipment on conceptual understanding.
+
+**Critical finding on guidance:** Chamberlain et al. (2014) showed:
+- **Light guidance:** 85% feature exploration, better retention at 1 week
+- **Heavy guidance:** Only 9% feature exploration
+
+**Implication:** Use driving questions, NOT step-by-step instructions.
+
 ### 7.1 When to Create Simulations
 
 ```
@@ -678,12 +688,15 @@ CREATE A SIMULATION WHEN:
 ✓ Students need to manipulate/explore (not just observe)
 ✓ Multiple "what if" scenarios enhance understanding
 ✓ Existing PhET/external sims don't fit your phenomenon
+✓ Physical lab is impossible in digital-first environment
 
 DON'T CREATE A SIMULATION WHEN:
 ✗ A video demonstration suffices
 ✗ A static diagram is clear enough
 ✗ An existing simulation covers the content
 ✗ Development time exceeds learning benefit
+
+REMEMBER: All materials must be digital-hosted (notecard-only physical materials policy)
 ```
 
 ### 7.2 Required Simulation Features
@@ -850,6 +863,7 @@ TIER 3 (Intensive - <50%):
 | 1.2 | 2025-12-03 | Added cross-pollination best practices from G7/G8 audit |
 | 1.3 | 2025-12-05 | Added UDL and async-readiness requirements |
 | 2.0 | 2025-12-07 | Comprehensive consolidation of all learnings; designated single source of truth |
+| **3.0** | **2025-12-09** | **Scholarly Foundations integration:** Added evidence-based effect sizes to all patterns; Materials Policy (digital-first, notecard-only physical materials); Research-backed misconception remediation (refutational text g=0.41, bridging analogies); Interleaving research (d=0.83); Cognitive load theory (4-7 element limit, backward fading); Spacing optimization (10-20% of retention interval) |
 
 ---
 
