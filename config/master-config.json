@@ -159,8 +159,23 @@
     },
     "alerts": {
       "misconceptionThreshold": 30,
+      "criticalMisconceptionThreshold": 50,
       "wholeClassReteachThreshold": 40,
       "spiralEffectivenessMin": 60
+    },
+    "misconceptionTracking": {
+      "trackingWindowWeeks": 3
+    },
+    "spiral": {
+      "improvementTarget": 10,
+      "questionsPerExit": 2
+    },
+    "grouping": {
+      "maxTier2GroupSize": 5,
+      "maxTier3GroupSize": 3,
+      "minGroupSize": 2,
+      "similarityThreshold": 0.6,
+      "priorityStandards": ["SEP-2", "SEP-4", "DCI-LS2.B", "DCI-ESS3.C"]
     },
     "dataRefreshInterval": "daily",
     "reportFormats": ["json", "csv", "xlsx"]
