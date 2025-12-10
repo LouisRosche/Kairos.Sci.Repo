@@ -54,8 +54,87 @@ var TriggerManager = {
         dayOfWeek: ScriptApp.WeekDay.FRIDAY,
         hour: 16     // 4:00 PM Friday
       },
-      priority: 2,
-      includes: ['Seating Analysis', 'Weekly Summary', 'Aggregated Notifications']
+      priority: 3
+    },
+
+    seatingAnalysis: {
+      handler: 'runWeeklySeatingAnalysis',
+      description: 'Analyze seating correlations and generate recommendations',
+      schedule: {
+        type: 'weekly',
+        dayOfWeek: ScriptApp.WeekDay.FRIDAY,
+        hour: 15     // 3:00 PM Friday (before weekly summary)
+      },
+      priority: 4
+    },
+
+    healthCheck: {
+      handler: 'runSystemHealthCheck',
+      description: 'Verify data pipeline is functioning correctly',
+      schedule: {
+        type: 'daily',
+        hour: 7,     // 7:00 AM (before school day)
+        minute: 0
+      },
+      priority: 5
+    },
+
+    // === INTEGRATION TRIGGERS ===
+
+    enhancedOrchestration: {
+      handler: 'runEnhancedOrchestration',
+      description: 'Full 15-step integration pipeline',
+      schedule: {
+        type: 'daily',
+        hour: 17,    // 5:00 PM
+        minute: 0
+      },
+      priority: 6
+    },
+
+    weeklyFullOrchestration: {
+      handler: 'runWeeklyFullOrchestration',
+      description: 'Enhanced orchestration + seating + weekly summary',
+      schedule: {
+        type: 'weekly',
+        dayOfWeek: ScriptApp.WeekDay.FRIDAY,
+        hour: 15     // 3:00 PM Friday
+      },
+      priority: 7
+    },
+
+    integratedHealthCheck: {
+      handler: 'checkIntegratedSystemHealth',
+      description: 'Verify all integration components are functioning',
+      schedule: {
+        type: 'daily',
+        hour: 8,     // 8:00 AM
+        minute: 0
+      },
+      priority: 8
+    },
+
+    alertDigest: {
+      handler: 'sendDailyAlertDigest',
+      description: 'Send batched warning alerts as daily digest',
+      schedule: {
+        type: 'daily',
+        hour: 16,    // 4:00 PM
+        minute: 0
+      },
+      priority: 9
+    },
+
+    canvasRosterSync: {
+      handler: 'runCanvasRosterSync',
+      description: 'Sync student rosters from Canvas LMS',
+      schedule: {
+        type: 'weekly',
+        dayOfWeek: ScriptApp.WeekDay.MONDAY,
+        hour: 6      // 6:00 AM Monday
+      },
+      priority: 10,
+      requiresConfig: 'canvasSync'
     }
   },
 
@@ -836,4 +915,311 @@ function runSystemHealthCheck() {
   }
 
   return health;
+}
+
+// ==========================================================================
+// INTEGRATION TRIGGER HANDLERS
+// ==========================================================================
+
+/**
+ * Daily alert digest - triggered at 4 PM
+ * Sends batched warning alerts as a single email
+ */
+function sendDailyAlertDigest() {
+  Logger.log('=== Daily Alert Digest Started ===');
+  recordTriggerExecution_('sendDailyAlertDigest');
+
+  try {
+    var properties = PropertiesService.getScriptProperties();
+    var pendingAlertsJson = properties.getProperty('pending_alert_digest');
+
+    if (!pendingAlertsJson) {
+      Logger.log('No pending alerts for digest');
+      return { status: 'no_alerts', count: 0 };
+    }
+
+    var pendingAlerts = JSON.parse(pendingAlertsJson);
+    if (pendingAlerts.length === 0) {
+      Logger.log('Pending alerts array is empty');
+      return { status: 'no_alerts', count: 0 };
+    }
+
+    // Group alerts by type
+    var alertsByType = {};
+    pendingAlerts.forEach(function(alert) {
+      var type = alert.type || 'general';
+      if (!alertsByType[type]) {
+        alertsByType[type] = [];
+      }
+      alertsByType[type].push(alert);
+    });
+
+    // Build email body
+    var body = [];
+    body.push('KAMS Science Daily Alert Digest');
+    body.push('Generated: ' + new Date().toLocaleString());
+    body.push('');
+    body.push('═══════════════════════════════════════════════════════');
+
+    Object.keys(alertsByType).forEach(function(type) {
+      body.push('');
+      body.push('▸ ' + type.toUpperCase() + ' ALERTS (' + alertsByType[type].length + ')');
+      body.push('─────────────────────────────────────────────────────');
+
+      alertsByType[type].forEach(function(alert) {
+        body.push('  • ' + (alert.message || alert.title || 'Alert'));
+        if (alert.details) {
+          body.push('    ' + alert.details);
+        }
+      });
+    });
+
+    body.push('');
+    body.push('═══════════════════════════════════════════════════════');
+    body.push('Total Alerts: ' + pendingAlerts.length);
+
+    // Send email
+    var recipient = Session.getActiveUser().getEmail();
+    if (recipient) {
+      MailApp.sendEmail({
+        to: recipient,
+        subject: '[KAMS Science] Daily Alert Digest - ' + pendingAlerts.length + ' alerts',
+        body: body.join('\n')
+      });
+      Logger.log('Digest sent to ' + recipient + ' with ' + pendingAlerts.length + ' alerts');
+    }
+
+    // Clear pending alerts
+    properties.deleteProperty('pending_alert_digest');
+
+    return {
+      status: 'sent',
+      count: pendingAlerts.length,
+      recipient: recipient
+    };
+  } catch (e) {
+    Logger.log('Error sending alert digest: ' + e.toString());
+    return { status: 'error', error: e.toString() };
+  }
+}
+
+/**
+ * Canvas roster sync - triggered Monday 6 AM
+ * Pulls roster updates from Canvas LMS
+ */
+function runCanvasRosterSync() {
+  Logger.log('=== Canvas Roster Sync Started ===');
+  recordTriggerExecution_('runCanvasRosterSync');
+
+  try {
+    // Check if Canvas sync is enabled
+    var config = null;
+    if (typeof Config !== 'undefined' && typeof Config.getMasterConfig === 'function') {
+      config = Config.getMasterConfig();
+    }
+
+    var canvasConfig = config && config.integrations && config.integrations.canvasSync;
+    if (!canvasConfig || !canvasConfig.enabled) {
+      Logger.log('Canvas sync is not enabled in configuration');
+      return { status: 'skipped', reason: 'Canvas sync not enabled' };
+    }
+
+    var results = {
+      timestamp: new Date().toISOString(),
+      grades: {}
+    };
+
+    // Pull rosters for each grade
+    [7, 8].forEach(function(grade) {
+      try {
+        if (typeof pullCanvasRoster === 'function') {
+          results.grades['grade' + grade] = pullCanvasRoster(grade);
+          Logger.log('Grade ' + grade + ' roster synced');
+        } else {
+          results.grades['grade' + grade] = { status: 'skipped', reason: 'pullCanvasRoster not available' };
+        }
+      } catch (e) {
+        results.grades['grade' + grade] = { status: 'error', error: e.toString() };
+        Logger.log('Error syncing grade ' + grade + ': ' + e.toString());
+      }
+    });
+
+    Logger.log('=== Canvas Roster Sync Complete ===');
+    return results;
+  } catch (e) {
+    Logger.log('Error in Canvas roster sync: ' + e.toString());
+    return { status: 'error', error: e.toString() };
+  }
+}
+
+/**
+ * Record trigger execution time for monitoring
+ * @private
+ */
+function recordTriggerExecution_(functionName) {
+  try {
+    var properties = PropertiesService.getScriptProperties();
+    properties.setProperty('trigger_lastRun_' + functionName, new Date().toISOString());
+  } catch (e) {
+    Logger.log('Could not record trigger execution: ' + e.toString());
+  }
+}
+
+/**
+ * Get last execution times for all triggers
+ */
+function getTriggerExecutionHistory() {
+  var properties = PropertiesService.getScriptProperties();
+  var allProps = properties.getProperties();
+  var history = {};
+
+  Object.keys(allProps).forEach(function(key) {
+    if (key.indexOf('trigger_lastRun_') === 0) {
+      var fnName = key.replace('trigger_lastRun_', '');
+      history[fnName] = allProps[key];
+    }
+  });
+
+  Logger.log('Trigger Execution History:');
+  Logger.log(JSON.stringify(history, null, 2));
+
+  return history;
+}
+
+// ==========================================================================
+// INTEGRATION-SPECIFIC SETUP METHODS
+// ==========================================================================
+
+/**
+ * Setup integration triggers only (leaves existing triggers intact)
+ */
+function setupIntegrationTriggers() {
+  Logger.log('TriggerManager: Setting up integration triggers...');
+
+  var integrationTriggers = [
+    'enhancedOrchestration',
+    'weeklyFullOrchestration',
+    'integratedHealthCheck',
+    'alertDigest',
+    'canvasRosterSync'
+  ];
+
+  var results = {
+    success: [],
+    failed: [],
+    skipped: []
+  };
+
+  // Remove existing integration triggers
+  var handlers = integrationTriggers.map(function(name) {
+    return TriggerManager.TRIGGERS[name].handler;
+  });
+
+  ScriptApp.getProjectTriggers().forEach(function(trigger) {
+    if (handlers.indexOf(trigger.getHandlerFunction()) !== -1) {
+      ScriptApp.deleteTrigger(trigger);
+    }
+  });
+
+  // Check config for Canvas sync
+  var config = null;
+  try {
+    if (typeof Config !== 'undefined' && typeof Config.getMasterConfig === 'function') {
+      config = Config.getMasterConfig();
+    }
+  } catch (e) {
+    Logger.log('Warning: Could not load config: ' + e.toString());
+  }
+
+  var canvasSyncEnabled = config && config.integrations &&
+    config.integrations.canvasSync && config.integrations.canvasSync.enabled;
+
+  integrationTriggers.forEach(function(name) {
+    var triggerConfig = TriggerManager.TRIGGERS[name];
+
+    // Skip Canvas sync if not configured
+    if (name === 'canvasRosterSync' && !canvasSyncEnabled) {
+      results.skipped.push({ name: name, reason: 'Canvas sync not enabled in config' });
+      Logger.log('  Skipped: ' + name + ' (Canvas sync not enabled)');
+      return;
+    }
+
+    try {
+      TriggerManager._createTrigger(triggerConfig);
+      results.success.push(name);
+      Logger.log('  Created trigger: ' + name + ' (' + triggerConfig.handler + ')');
+    } catch (e) {
+      results.failed.push({ name: name, error: e.message });
+      Logger.log('  FAILED: ' + name + ' - ' + e.message);
+    }
+  });
+
+  Logger.log('Integration Trigger Setup Complete');
+  Logger.log('  Success: ' + results.success.length);
+  Logger.log('  Failed: ' + results.failed.length);
+  Logger.log('  Skipped: ' + results.skipped.length);
+
+  return results;
+}
+
+/**
+ * Setup all triggers including integrations
+ */
+function setupAllTriggersWithIntegrations() {
+  var coreResults = TriggerManager.setupAllTriggers();
+  var integrationResults = setupIntegrationTriggers();
+
+  return {
+    core: coreResults,
+    integrations: integrationResults,
+    totalCreated: coreResults.success.length + integrationResults.success.length,
+    totalFailed: coreResults.failed.length + integrationResults.failed.length
+  };
+}
+
+/**
+ * Get comprehensive trigger status including integration triggers
+ */
+function getComprehensiveTriggerStatus() {
+  var status = TriggerManager.getStatus();
+  var history = getTriggerExecutionHistory();
+
+  // Add execution history to status
+  status.executionHistory = history;
+
+  // Check for stale executions (triggers that haven't run recently)
+  var now = new Date();
+  var staleThresholds = {
+    daily: 26,  // hours
+    weekly: 170 // hours (just over 7 days)
+  };
+
+  status.staleWarnings = [];
+
+  Object.keys(TriggerManager.TRIGGERS).forEach(function(name) {
+    var triggerConfig = TriggerManager.TRIGGERS[name];
+    var lastRun = history[triggerConfig.handler];
+
+    if (lastRun) {
+      var lastRunDate = new Date(lastRun);
+      var hoursSince = (now - lastRunDate) / (1000 * 60 * 60);
+      var threshold = triggerConfig.schedule.type === 'weekly' ?
+        staleThresholds.weekly : staleThresholds.daily;
+
+      if (hoursSince > threshold) {
+        status.staleWarnings.push({
+          trigger: name,
+          handler: triggerConfig.handler,
+          lastRun: lastRun,
+          hoursSince: Math.round(hoursSince),
+          threshold: threshold
+        });
+      }
+    }
+  });
+
+  Logger.log('Comprehensive Trigger Status:');
+  Logger.log(JSON.stringify(status, null, 2));
+
+  return status;
 }
