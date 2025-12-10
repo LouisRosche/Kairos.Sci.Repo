@@ -122,7 +122,7 @@ function createG7W2Hook_() {
     mtss1.createChoice('Breaking bonds has no effect on energy', false),
     mtss1.createChoice('It depends on the type of bond', false)
   ]);
-  mtss1.setPoints(0);  // Diagnostic only - doesn't affect grade
+  // Diagnostic only - omit setPoints() for ungraded items
   mtss1.setFeedbackForCorrect(
     FormApp.createFeedback()
       .setText('✓ CORRECT! Breaking bonds REQUIRES energy. Forming bonds RELEASES energy. You remembered this from Cycle 2!')

@@ -154,7 +154,7 @@ function createG8C4W1Hook_() {
     mtss1.createChoice('Energy increases as you go up the food chain', false),
     mtss1.createChoice('Energy is created by plants during photosynthesis', false)
   ]);
-  mtss1.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
 
   // Q2: Prediction (3 pts manual)
   form.addSectionHeaderItem()

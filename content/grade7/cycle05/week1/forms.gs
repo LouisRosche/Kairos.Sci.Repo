@@ -186,7 +186,7 @@ function createG7C5W1Hook_() {
     mtss1.createChoice('It turns into salt', false),
     mtss1.createChoice('It sinks to the ocean floor', false)
   ]);
-  mtss1.setPoints(0);  // Diagnostic only - doesn't affect grade
+  // Diagnostic only - omit setPoints() for ungraded items
   mtss1.setFeedbackForCorrect(
     FormApp.createFeedback()
       .setText('✓ Great! You remember that evaporation adds water vapor to air. This is key for understanding humid air masses!')
@@ -321,7 +321,7 @@ function createG7C5W1Hook_() {
     .setBounds(1, 5)
     .setLabels('Not confident yet', 'Very confident')
     .setRequired(true);
-  selfAssess.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
 
   logFormInfo_(form, 'G7.C5.W1 Hook', 12);
   return form;
@@ -373,7 +373,7 @@ function createG7C5W1Station1_() {
     mtss1.createChoice('Both would have the same amount', false),
     mtss1.createChoice('Neither has water vapor', false)
   ]);
-  mtss1.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
   mtss1.setFeedbackForCorrect(
     FormApp.createFeedback()
       .setText('✓ Correct! Oceans add moisture to air through evaporation. This is why "maritime" air is humid.')
@@ -546,7 +546,7 @@ function createG7C5W1Station1_() {
     .setBounds(1, 5)
     .setLabels('Not confident yet', 'Very confident')
     .setRequired(true);
-  selfAssess.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
 
   logFormInfo_(form, 'G7.C5.W1 Station 1', 20);
   return form;
@@ -601,7 +601,7 @@ function createG7C5W1Station2_() {
     mtss1.createChoice('They have the same density', false),
     mtss1.createChoice('Air doesn\'t have density', false)
   ]);
-  mtss1.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
   mtss1.setFeedbackForCorrect(
     FormApp.createFeedback()
       .setText('✓ Correct! Cold air molecules are closer together, making cold air denser. This is why cold air sinks!')
@@ -774,7 +774,7 @@ function createG7C5W1Station2_() {
     .setBounds(1, 5)
     .setLabels('Not confident yet', 'Very confident')
     .setRequired(true);
-  selfAssess.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
 
   logFormInfo_(form, 'G7.C5.W1 Station 2', 20);
   return form;
@@ -829,7 +829,7 @@ function createG7C5W1Station3_() {
     mtss1.createChoice('It disappears completely', false),
     mtss1.createChoice('It gets warmer', false)
   ]);
-  mtss1.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
   mtss1.setFeedbackForCorrect(
     FormApp.createFeedback()
       .setText('✓ Correct! Cooling air can\'t hold as much water vapor, so it condenses into clouds. This is why low pressure = clouds!')
@@ -1026,7 +1026,7 @@ function createG7C5W1Station3_() {
     .setBounds(1, 5)
     .setLabels('Not confident yet', 'Very confident')
     .setRequired(true);
-  selfAssess.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
 
   logFormInfo_(form, 'G7.C5.W1 Station 3', 25);
   return form;
@@ -1076,7 +1076,7 @@ function createG7C5W1ExitTicket_() {
     mtss1.createChoice('Cloudy Pressure', false),
     mtss1.createChoice('Canadian Pacific', false)
   ]);
-  mtss1.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
   mtss1.setFeedbackForCorrect(
     FormApp.createFeedback()
       .setText('✓ Correct! cP = continental (dry, from land) + Polar (cold, from high latitudes).')
@@ -1280,7 +1280,7 @@ function createG7C5W1ExitTicket_() {
     .setBounds(1, 5)
     .setLabels('Not confident yet', 'Very confident')
     .setRequired(true);
-  selfAssess.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
 
   logFormInfo_(form, 'G7.C5.W1 Exit Ticket', 23);
   return form;
