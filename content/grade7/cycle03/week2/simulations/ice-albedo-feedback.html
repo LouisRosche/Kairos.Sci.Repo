@@ -249,14 +249,15 @@ Part of Grade 7 Cycle 3 Week 2: Feedback Loops & Tipping Points
             height: 150px;
             display: flex;
             align-items: flex-end;
-            gap: 4px;
+            gap: 2px;
             padding: 10px 0;
+            overflow: hidden;
         }
         .graph-bar {
-            flex: 1;
+            flex: 1 1 0;
             background: linear-gradient(180deg, #EF4444 0%, #F59E0B 100%);
-            border-radius: 4px 4px 0 0;
-            min-width: 15px;
+            border-radius: 2px 2px 0 0;
+            min-width: 0;
             transition: height 0.5s ease;
             position: relative;
         }
@@ -327,7 +328,7 @@ Part of Grade 7 Cycle 3 Week 2: Feedback Loops & Tipping Points
             .controls { gap: 10px; }
             .control-group { padding: 12px 15px; }
             .slider { width: 160px; }
-            .graph { height: 120px; }
+            .graph { height: 120px; gap: 1px; }
         }
         @media (max-width: 500px) {
             .arctic-view { height: 200px; }
@@ -344,7 +345,7 @@ Part of Grade 7 Cycle 3 Week 2: Feedback Loops & Tipping Points
             .control-group { width: 100%; }
             .slider { width: 100%; }
             button { padding: 10px 18px; font-size: 0.9em; }
-            .graph { height: 100px; }
+            .graph { height: 100px; gap: 1px; }
             .legend { flex-direction: column; align-items: center; }
         }
     </style>
