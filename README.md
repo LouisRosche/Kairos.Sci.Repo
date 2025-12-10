@@ -61,19 +61,22 @@ When generating/modifying content, ALWAYS verify against these requirements.
 
 | Cycle | G7 Topic | G8 Topic | Weeks | Status |
 |-------|----------|----------|-------|--------|
-| **C2** | Molecular Structure & Bonding | Forces, Energy & Collisions | 4 | 75% Legacy |
-| **C3** | Climate Change & Energy Flow | Natural Selection & Forces | 3 | ✅ DEPLOYED |
+| **C2** | Molecular Structure & Bonding | Forces, Energy & Collisions | 4 | 📦 Legacy - Reference Only |
+| **C3** | Climate Change & Energy Flow | Natural Selection & Forces | 3 | ✅ DEPLOYED (Read-Only) |
 | **C4** | Biogeochemical Cycles & Human Impact | Ecosystems & Energy Transfer | 3 | ✅ READY |
-| **C5** | Weather & Climate Systems | Waves & Information Transfer | 3 (Feb 23-Mar 12) | 🟡 85% (G7 lessons complete) |
-| **C6** | Plate Tectonics | Electricity & Magnetism | 5 (Mar 24-Apr 24) | 🟡 60% (G7 lessons+sim) |
-| **C7** | Rock Cycle & Earth's History | Chemical Reactions | 4 (Apr 27-May 22) | 🟡 65% (G7 lessons+sims) |
-| **C8** | Ecosystems + Year-End | Thermal Energy + Engineering | 4 (Jun 1-26) | 🟡 65% (G7 lessons+sims) |
-| **C9** | *(Standards → C8)* | *(Standards → C8)* | — | ⚠️ Deferred to SY26-27 |
+| **C5** | Weather & Climate Systems | Waves & Information Transfer | 3 (Feb 23-Mar 12) | ✅ Complete |
+| **C6** | Plate Tectonics | Electricity & Magnetism | 5 (Mar 24-Apr 24) | ✅ Complete |
+| **C7** | Rock Cycle & Earth's History | Chemical Reactions | 4 (Apr 27-May 22) | ✅ Complete |
+| **C8** | Ecosystems + Year-End | Thermal Energy + Engineering | 4 (Jun 1-26) | ✅ Complete |
+| **C9** | *(Standards → C8)* | *(Standards → C8)* | — | ⏸️ Deferred to SY26-27 |
 | **C10** | *(Merged → C8 W3)* | *(Merged → C8 W3)* | — | ✅ Resolved |
 
-**Legend:** ✅ Complete | 🟡 In Progress | 📋 Placeholder | 📦 Legacy (pre-architecture)
+**Legend:** ✅ Complete/Deployed | ⏸️ Deferred | 📦 Legacy (pre-architecture, reference only)
 
-> **Calendar Note:** SY25-26 accommodates Cycles 3-8 only. Cycle 9 standards (MS-ESS1-2, MS-ETS1-2) integrated into C8; C10 Year-End activities merged into C8 Week 3. Cycle durations vary (3-5 weeks) per official school calendar.
+> **Important Notes:**
+> - **Cycle 2 is LEGACY content** - Pre-dates v3.0 architecture, uses 4-week format. DO NOT deploy; reference only.
+> - **Cycle 3 is READ-ONLY** - All weeks are deployed to production and protected from edits.
+> - **Cycles 9-10 RESOLVED** - C9 standards integrated into C8; C10 merged into C8 W3. Config files exist for reference only.
 
 ---
 
@@ -266,8 +269,22 @@ Kairos.Sci.Repo/
 
 ### Pending
 - ⬜ Automated form deployment
-- ⬜ Canvas gradebook sync
+- ⬜ Canvas gradebook sync (currently manual - see DEPLOYMENT-CHECKLIST.md)
 - ⬜ Teacher dashboard
+
+---
+
+## Known Limitations
+
+| Limitation | Status | Workaround |
+|------------|--------|------------|
+| **Canvas Grade Sync** | Manual process | Export from Hub Gradebook, import CSV to Canvas |
+| **Cycle 2 Content** | Legacy, incomplete | Reference only - do not deploy |
+| **Cycles 9-10** | Deferred/merged | Standards integrated into C8; configs exist for reference |
+| **Apps Script Triggers** | ±30 min precision | Triggers run at hour start, not exact minute |
+| **No Automated Tests** | Planned | Manual testing via Google Apps Script editor |
+
+See [LESSONS-LEARNED.md](LESSONS-LEARNED.md) for detailed institutional knowledge.
 
 ---
 
@@ -322,8 +339,8 @@ See [PhET Simulations Catalog](framework/phet-simulations-catalog.md) for third-
 
 | Date | Change |
 |------|--------|
-| 2025-12-09 | Build 5 G7 C6-C8 custom simulations; fix README accuracy (status ≠ cycle-status.json); update phet-simulations-catalog |
-| **2025-12-09** | **Scholarly Foundations Integration:** All framework docs updated with research effect sizes; Materials Policy established (digital-first, notecard-only); CCC equity entry points; MTSS science-specific research |
+| **2025-12-10** | **Infrastructure Improvements:** Added comprehensive error handling to data pipeline; resolved C9-10 status; protected all deployed content as read-only; completed form templates with example implementations; clarified Canvas integration status; added Known Limitations section |
+| 2025-12-09 | **Scholarly Foundations Integration:** All framework docs updated with research effect sizes; Materials Policy established (digital-first, notecard-only); CCC equity entry points; MTSS science-specific research |
 | 2025-12-08 | Major update: C4 complete (100%), G7 C5 at 85%, C9-10 resolution documented, simulations catalog added |
 | 2025-12-07 | Complete codebase audit: fixed schemas, NGSS standards, stubs, status tracking, added C2 config |
 | 2025-12-05 | Organizational audit: standardized structure, added C5-C10 placeholders, cycle-status.json tracking |
@@ -334,5 +351,5 @@ See [PhET Simulations Catalog](framework/phet-simulations-catalog.md) for third-
 
 ---
 
-*KAMS Science Curriculum System | Version 3.2.0 | December 2025*
+*KAMS Science Curriculum System | Version 3.3.0 | December 2025*
 *Aligned with Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development*

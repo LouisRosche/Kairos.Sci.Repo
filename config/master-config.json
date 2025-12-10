@@ -270,8 +270,24 @@
 
   "activeCycles": ["cycle03", "cycle04"],
   "plannedCycles": ["cycle05", "cycle06", "cycle07", "cycle08"],
-  "futureCycles": {
-    "cycles": ["cycle09", "cycle10"],
-    "_note": "These cycles exist in config but do not fit in SY25-26 calendar. Decision needed: consolidate into cycles 3-8, defer to SY26-27, or reassign topics."
+
+  "_deferredCycles": {
+    "status": "RESOLVED",
+    "resolution": "2025-12-10",
+    "details": {
+      "cycle09": {
+        "status": "deferred",
+        "reason": "No SY25-26 calendar slot available",
+        "standardsResolution": "MS-ESS1-2 and MS-ETS1-2 integrated into Cycle 8",
+        "targetYear": "SY26-27 (if calendar permits)"
+      },
+      "cycle10": {
+        "status": "merged",
+        "reason": "Year-end activities consolidated",
+        "resolution": "Content merged into Cycle 8 Week 3",
+        "targetYear": "N/A - resolved"
+      }
+    },
+    "_warning": "Config files for C9-C10 exist in config/cycles/ for reference only. Do NOT deploy."
   }
 }
