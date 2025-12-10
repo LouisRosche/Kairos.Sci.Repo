@@ -54,8 +54,87 @@ var TriggerManager = {
         dayOfWeek: ScriptApp.WeekDay.FRIDAY,
         hour: 16     // 4:00 PM Friday
       },
-      priority: 2,
-      includes: ['Seating Analysis', 'Weekly Summary', 'Aggregated Notifications']
+      priority: 3
+    },
+
+    seatingAnalysis: {
+      handler: 'runWeeklySeatingAnalysis',
+      description: 'Analyze seating correlations and generate recommendations',
+      schedule: {
+        type: 'weekly',
+        dayOfWeek: ScriptApp.WeekDay.FRIDAY,
+        hour: 15     // 3:00 PM Friday (before weekly summary)
+      },
+      priority: 4
+    },
+
+    healthCheck: {
+      handler: 'runSystemHealthCheck',
+      description: 'Verify data pipeline is functioning correctly',
+      schedule: {
+        type: 'daily',
+        hour: 7,     // 7:00 AM (before school day)
+        minute: 0
+      },
+      priority: 5
+    },
+
+    // === INTEGRATION TRIGGERS ===
+
+    enhancedOrchestration: {
+      handler: 'runEnhancedOrchestration',
+      description: 'Full 15-step integration pipeline',
+      schedule: {
+        type: 'daily',
+        hour: 17,    // 5:00 PM
+        minute: 0
+      },
+      priority: 6
+    },
+
+    weeklyFullOrchestration: {
+      handler: 'runWeeklyFullOrchestration',
+      description: 'Enhanced orchestration + seating + weekly summary',
+      schedule: {
+        type: 'weekly',
+        dayOfWeek: ScriptApp.WeekDay.FRIDAY,
+        hour: 15     // 3:00 PM Friday
+      },
+      priority: 7
+    },
+
+    integratedHealthCheck: {
+      handler: 'checkIntegratedSystemHealth',
+      description: 'Verify all integration components are functioning',
+      schedule: {
+        type: 'daily',
+        hour: 8,     // 8:00 AM
+        minute: 0
+      },
+      priority: 8
+    },
+
+    alertDigest: {
+      handler: 'sendDailyAlertDigest',
+      description: 'Send batched warning alerts as daily digest',
+      schedule: {
+        type: 'daily',
+        hour: 16,    // 4:00 PM
+        minute: 0
+      },
+      priority: 9
+    },
+
+    canvasRosterSync: {
+      handler: 'runCanvasRosterSync',
+      description: 'Sync student rosters from Canvas LMS',
+      schedule: {
+        type: 'weekly',
+        dayOfWeek: ScriptApp.WeekDay.MONDAY,
+        hour: 6      // 6:00 AM Monday
+      },
+      priority: 10,
+      requiresConfig: 'canvasSync'
     }
   },
 
@@ -574,26 +653,106 @@ function runWeeklyDigest() {
 
     // Get current cycle/week for subject
     var cycleInfo = '';
+    var cycle = 0, week = 0;
     if (typeof Config !== 'undefined' && typeof Config.getCurrentCycle === 'function') {
-      cycleInfo = 'C' + Config.getCurrentCycle() + ' W' + Config.getCurrentWeek();
+      cycle = Config.getCurrentCycle();
+      week = Config.getCurrentWeek();
+      cycleInfo = 'C' + cycle + ' W' + week;
     }
 
     var subject = 'KAMS Science Weekly Digest' + (cycleInfo ? ' - ' + cycleInfo : '');
 
-    // Log the digest (email sending would go here if configured)
-    Logger.log('Digest generated:');
-    Logger.log(digest);
+    // Collect summary data for HTML email
+    var summaryData = collectWeeklySummaryData(results, cycle, week);
+
+    // Try to send HTML email using template
+    var emailSent = false;
+    try {
+      if (typeof HtmlService !== 'undefined') {
+        var template = HtmlService.createTemplateFromFile('templates/emails/weekly-summary');
+
+        // Populate template variables
+        template.cycle = cycle;
+        template.week = week;
+        template.weekDateRange = summaryData.weekDateRange || '';
+        template.healthStatus = summaryData.healthStatus || 'UNKNOWN';
+        template.healthMessage = summaryData.healthMessage || '';
+        template.completionRate = summaryData.completionRate || 0;
+        template.completionTrend = summaryData.completionTrend || 0;
+        template.averageScore = summaryData.averageScore || 0;
+        template.scoreTrend = summaryData.scoreTrend || 0;
+        template.tier1Count = summaryData.tier1Count || 0;
+        template.tier1Percent = summaryData.tier1Percent || 0;
+        template.tier2Count = summaryData.tier2Count || 0;
+        template.tier2Percent = summaryData.tier2Percent || 0;
+        template.tier3Count = summaryData.tier3Count || 0;
+        template.tier3Percent = summaryData.tier3Percent || 0;
+        template.spiralEffectiveness = summaryData.spiralEffectiveness || 0;
+        template.grade7Completion = summaryData.grade7Completion || 0;
+        template.grade7Score = summaryData.grade7Score || 0;
+        template.grade7Tier2 = summaryData.grade7Tier2 || 0;
+        template.grade7Tier3 = summaryData.grade7Tier3 || 0;
+        template.grade8Completion = summaryData.grade8Completion || 0;
+        template.grade8Score = summaryData.grade8Score || 0;
+        template.grade8Tier2 = summaryData.grade8Tier2 || 0;
+        template.grade8Tier3 = summaryData.grade8Tier3 || 0;
+        template.topMisconceptions = summaryData.topMisconceptions || [];
+        template.interventionUpdates = summaryData.interventionUpdates || [];
+        template.priorityActions = summaryData.priorityActions || [];
+        template.hubLink = summaryData.hubLink || '#';
+        template.mtssLink = summaryData.mtssLink || '#';
+        template.seatingLink = summaryData.seatingLink || '#';
+        template.timestamp = new Date().toISOString();
+
+        var htmlBody = template.evaluate().getContent();
+        var recipientEmail = Session.getEffectiveUser().getEmail();
+
+        if (recipientEmail) {
+          MailApp.sendEmail({
+            to: recipientEmail,
+            subject: subject,
+            htmlBody: htmlBody,
+            body: digest // Plain text fallback
+          });
+          emailSent = true;
+          Logger.log('  ✓ HTML digest emailed to: ' + recipientEmail);
+        }
+      }
+    } catch (templateError) {
+      Logger.log('  ⚠ Could not use HTML template: ' + templateError.message);
+    }
+
+    // Fallback to plain text if HTML failed
+    if (!emailSent) {
+      var recipientEmail = Session.getEffectiveUser().getEmail();
+      if (recipientEmail) {
+        MailApp.sendEmail(recipientEmail, subject, digest);
+        emailSent = true;
+        Logger.log('  ✓ Plain text digest emailed to: ' + recipientEmail);
+      }
+    }
+
+    // Save digest to persistence layer
+    if (typeof InsightsDataStore !== 'undefined' && cycle > 0) {
+      var digestData = {
+        type: 'weekly_digest',
+        cycle: cycle,
+        week: week,
+        timestamp: new Date().toISOString(),
+        notifications: NotificationAggregator.getAll(),
+        pipelineResults: results,
+        summaryData: summaryData
+      };
+      InsightsDataStore.saveInsights(cycle, week, digestData);
+      Logger.log('  ✓ Digest saved to data store');
+    }
 
     results.steps.notification = {
-      status: 'GENERATED',
+      status: emailSent ? 'SENT' : 'GENERATED',
       subject: subject,
-      notificationCount: NotificationAggregator.getAll().length
+      notificationCount: NotificationAggregator.getAll().length,
+      emailSent: emailSent
     };
-
-    // Uncomment to enable email sending:
-    // var recipientEmail = Session.getEffectiveUser().getEmail();
-    // MailApp.sendEmail(recipientEmail, subject, digest);
-    // Logger.log('  ✓ Digest emailed to: ' + recipientEmail);
 
     Logger.log('  ✓ Digest ready (' + NotificationAggregator.getAll().length + ' items)');
   } catch (e) {
@@ -612,6 +771,202 @@ function runWeeklyDigest() {
   Logger.log('═══════════════════════════════════════════════════════════');
 
   return results;
+}
+
+/**
+ * Collect data for weekly summary email template
+ * @param {Object} pipelineResults - Results from the weekly pipeline
+ * @param {number} cycle - Current cycle number
+ * @param {number} week - Current week number
+ * @returns {Object} Summary data for email template
+ */
+function collectWeeklySummaryData(pipelineResults, cycle, week) {
+  var data = {
+    cycle: cycle,
+    week: week,
+    weekDateRange: '',
+    healthStatus: 'UNKNOWN',
+    healthMessage: '',
+    completionRate: 0,
+    completionTrend: 0,
+    averageScore: 0,
+    scoreTrend: 0,
+    tier1Count: 0,
+    tier1Percent: 0,
+    tier2Count: 0,
+    tier2Percent: 0,
+    tier3Count: 0,
+    tier3Percent: 0,
+    spiralEffectiveness: 0,
+    grade7Completion: 0,
+    grade7Score: 0,
+    grade7Tier2: 0,
+    grade7Tier3: 0,
+    grade8Completion: 0,
+    grade8Score: 0,
+    grade8Tier2: 0,
+    grade8Tier3: 0,
+    topMisconceptions: [],
+    interventionUpdates: [],
+    priorityActions: [],
+    hubLink: '#',
+    mtssLink: '#',
+    seatingLink: '#'
+  };
+
+  // Try to get week date range from cycle config
+  try {
+    if (typeof Config !== 'undefined') {
+      var cycleConfig = Config.getCycleConfig ? Config.getCycleConfig(cycle) : null;
+      if (cycleConfig && cycleConfig.dates && cycleConfig.dates['week' + week]) {
+        var weekDates = cycleConfig.dates['week' + week];
+        data.weekDateRange = weekDates.start + ' to ' + weekDates.end;
+      }
+    }
+  } catch (e) {
+    Logger.log('Could not get week date range: ' + e.message);
+  }
+
+  // Get health status from pipeline results
+  if (pipelineResults.steps && pipelineResults.steps.healthCheck) {
+    data.healthStatus = pipelineResults.steps.healthCheck.status || 'UNKNOWN';
+    data.healthMessage = pipelineResults.errors.length > 0 ?
+      pipelineResults.errors.length + ' errors during pipeline' :
+      'All pipeline steps completed successfully';
+  }
+
+  // Try to get MTSS and performance data from insights
+  try {
+    if (typeof InsightsDataStore !== 'undefined') {
+      var insights = InsightsDataStore.getInsights(cycle, week);
+      if (insights) {
+        // Extract MTSS data
+        if (insights.mtss) {
+          data.tier1Count = insights.mtss.tier1Count || 0;
+          data.tier1Percent = insights.mtss.tier1Percent || 0;
+          data.tier2Count = insights.mtss.tier2Count || 0;
+          data.tier2Percent = insights.mtss.tier2Percent || 0;
+          data.tier3Count = insights.mtss.tier3Count || 0;
+          data.tier3Percent = insights.mtss.tier3Percent || 0;
+        }
+
+        // Extract performance data
+        if (insights.performance) {
+          data.completionRate = insights.performance.completionRate || 0;
+          data.averageScore = insights.performance.averageScore || 0;
+        }
+
+        // Extract spiral effectiveness
+        if (insights.spiral) {
+          data.spiralEffectiveness = insights.spiral.overall || 0;
+        }
+
+        // Extract misconceptions
+        if (insights.misconceptions && insights.misconceptions.length > 0) {
+          data.topMisconceptions = insights.misconceptions.slice(0, 5).map(function(m) {
+            return {
+              concept: m.concept || m.name || 'Unknown',
+              frequency: m.frequency || 0,
+              studentCount: m.studentCount || m.students || 0
+            };
+          });
+        }
+
+        // Extract priority actions
+        if (insights.prioritizedActions) {
+          data.priorityActions = insights.prioritizedActions.slice(0, 5).map(function(a) {
+            return {
+              priority: a.priority || 'MEDIUM',
+              action: a.action || a.description || ''
+            };
+          });
+        }
+      }
+
+      // Get previous week for trends
+      var prevInsights = InsightsDataStore.getPreviousInsights(cycle, week);
+      if (prevInsights) {
+        if (prevInsights.performance) {
+          data.completionTrend = data.completionRate - (prevInsights.performance.completionRate || 0);
+          data.scoreTrend = data.averageScore - (prevInsights.performance.averageScore || 0);
+        }
+      }
+    }
+  } catch (e) {
+    Logger.log('Could not get insights data: ' + e.message);
+  }
+
+  // Try to get grade-specific data
+  try {
+    if (typeof getMtssReport === 'function') {
+      var g7Report = getMtssReport(7);
+      if (g7Report && g7Report.summary) {
+        data.grade7Completion = g7Report.summary.completionRate || 0;
+        data.grade7Score = g7Report.summary.averageScore || 0;
+        data.grade7Tier2 = g7Report.summary.tier2Count || 0;
+        data.grade7Tier3 = g7Report.summary.tier3Count || 0;
+      }
+
+      var g8Report = getMtssReport(8);
+      if (g8Report && g8Report.summary) {
+        data.grade8Completion = g8Report.summary.completionRate || 0;
+        data.grade8Score = g8Report.summary.averageScore || 0;
+        data.grade8Tier2 = g8Report.summary.tier2Count || 0;
+        data.grade8Tier3 = g8Report.summary.tier3Count || 0;
+      }
+    }
+  } catch (e) {
+    Logger.log('Could not get grade-specific data: ' + e.message);
+  }
+
+  // Try to get intervention updates
+  try {
+    if (typeof InterventionDataStore !== 'undefined') {
+      [7, 8].forEach(function(grade) {
+        var report = InterventionDataStore.generateEffectivenessReport(grade);
+        if (report) {
+          if (report.graduatedCount > 0) {
+            data.interventionUpdates.push({
+              type: 'GRADUATED',
+              message: report.graduatedCount + ' Grade ' + grade + ' students graduated from interventions'
+            });
+          }
+          if (report.escalatedCount > 0) {
+            data.interventionUpdates.push({
+              type: 'ESCALATED',
+              message: report.escalatedCount + ' Grade ' + grade + ' students need escalation'
+            });
+          }
+        }
+      });
+    }
+  } catch (e) {
+    Logger.log('Could not get intervention updates: ' + e.message);
+  }
+
+  // Set default priority actions if none found
+  if (data.priorityActions.length === 0) {
+    if (data.tier3Count > 0) {
+      data.priorityActions.push({
+        priority: 'HIGH',
+        action: 'Review ' + data.tier3Count + ' Tier 3 students for intervention updates'
+      });
+    }
+    if (data.topMisconceptions.length > 0) {
+      data.priorityActions.push({
+        priority: 'MEDIUM',
+        action: 'Address top misconception: ' + data.topMisconceptions[0].concept
+      });
+    }
+    if (data.spiralEffectiveness < 60) {
+      data.priorityActions.push({
+        priority: 'MEDIUM',
+        action: 'Review spiral question effectiveness (currently ' + data.spiralEffectiveness + '%)'
+      });
+    }
+  }
+
+  return data;
 }
 
 // ==========================================================================
@@ -836,4 +1191,311 @@ function runSystemHealthCheck() {
   }
 
   return health;
+}
+
+// ==========================================================================
+// INTEGRATION TRIGGER HANDLERS
+// ==========================================================================
+
+/**
+ * Daily alert digest - triggered at 4 PM
+ * Sends batched warning alerts as a single email
+ */
+function sendDailyAlertDigest() {
+  Logger.log('=== Daily Alert Digest Started ===');
+  recordTriggerExecution_('sendDailyAlertDigest');
+
+  try {
+    var properties = PropertiesService.getScriptProperties();
+    var pendingAlertsJson = properties.getProperty('pending_alert_digest');
+
+    if (!pendingAlertsJson) {
+      Logger.log('No pending alerts for digest');
+      return { status: 'no_alerts', count: 0 };
+    }
+
+    var pendingAlerts = JSON.parse(pendingAlertsJson);
+    if (pendingAlerts.length === 0) {
+      Logger.log('Pending alerts array is empty');
+      return { status: 'no_alerts', count: 0 };
+    }
+
+    // Group alerts by type
+    var alertsByType = {};
+    pendingAlerts.forEach(function(alert) {
+      var type = alert.type || 'general';
+      if (!alertsByType[type]) {
+        alertsByType[type] = [];
+      }
+      alertsByType[type].push(alert);
+    });
+
+    // Build email body
+    var body = [];
+    body.push('KAMS Science Daily Alert Digest');
+    body.push('Generated: ' + new Date().toLocaleString());
+    body.push('');
+    body.push('═══════════════════════════════════════════════════════');
+
+    Object.keys(alertsByType).forEach(function(type) {
+      body.push('');
+      body.push('▸ ' + type.toUpperCase() + ' ALERTS (' + alertsByType[type].length + ')');
+      body.push('─────────────────────────────────────────────────────');
+
+      alertsByType[type].forEach(function(alert) {
+        body.push('  • ' + (alert.message || alert.title || 'Alert'));
+        if (alert.details) {
+          body.push('    ' + alert.details);
+        }
+      });
+    });
+
+    body.push('');
+    body.push('═══════════════════════════════════════════════════════');
+    body.push('Total Alerts: ' + pendingAlerts.length);
+
+    // Send email
+    var recipient = Session.getActiveUser().getEmail();
+    if (recipient) {
+      MailApp.sendEmail({
+        to: recipient,
+        subject: '[KAMS Science] Daily Alert Digest - ' + pendingAlerts.length + ' alerts',
+        body: body.join('\n')
+      });
+      Logger.log('Digest sent to ' + recipient + ' with ' + pendingAlerts.length + ' alerts');
+    }
+
+    // Clear pending alerts
+    properties.deleteProperty('pending_alert_digest');
+
+    return {
+      status: 'sent',
+      count: pendingAlerts.length,
+      recipient: recipient
+    };
+  } catch (e) {
+    Logger.log('Error sending alert digest: ' + e.toString());
+    return { status: 'error', error: e.toString() };
+  }
+}
+
+/**
+ * Canvas roster sync - triggered Monday 6 AM
+ * Pulls roster updates from Canvas LMS
+ */
+function runCanvasRosterSync() {
+  Logger.log('=== Canvas Roster Sync Started ===');
+  recordTriggerExecution_('runCanvasRosterSync');
+
+  try {
+    // Check if Canvas sync is enabled
+    var config = null;
+    if (typeof Config !== 'undefined' && typeof Config.getMasterConfig === 'function') {
+      config = Config.getMasterConfig();
+    }
+
+    var canvasConfig = config && config.integrations && config.integrations.canvasSync;
+    if (!canvasConfig || !canvasConfig.enabled) {
+      Logger.log('Canvas sync is not enabled in configuration');
+      return { status: 'skipped', reason: 'Canvas sync not enabled' };
+    }
+
+    var results = {
+      timestamp: new Date().toISOString(),
+      grades: {}
+    };
+
+    // Pull rosters for each grade
+    [7, 8].forEach(function(grade) {
+      try {
+        if (typeof pullCanvasRoster === 'function') {
+          results.grades['grade' + grade] = pullCanvasRoster(grade);
+          Logger.log('Grade ' + grade + ' roster synced');
+        } else {
+          results.grades['grade' + grade] = { status: 'skipped', reason: 'pullCanvasRoster not available' };
+        }
+      } catch (e) {
+        results.grades['grade' + grade] = { status: 'error', error: e.toString() };
+        Logger.log('Error syncing grade ' + grade + ': ' + e.toString());
+      }
+    });
+
+    Logger.log('=== Canvas Roster Sync Complete ===');
+    return results;
+  } catch (e) {
+    Logger.log('Error in Canvas roster sync: ' + e.toString());
+    return { status: 'error', error: e.toString() };
+  }
+}
+
+/**
+ * Record trigger execution time for monitoring
+ * @private
+ */
+function recordTriggerExecution_(functionName) {
+  try {
+    var properties = PropertiesService.getScriptProperties();
+    properties.setProperty('trigger_lastRun_' + functionName, new Date().toISOString());
+  } catch (e) {
+    Logger.log('Could not record trigger execution: ' + e.toString());
+  }
+}
+
+/**
+ * Get last execution times for all triggers
+ */
+function getTriggerExecutionHistory() {
+  var properties = PropertiesService.getScriptProperties();
+  var allProps = properties.getProperties();
+  var history = {};
+
+  Object.keys(allProps).forEach(function(key) {
+    if (key.indexOf('trigger_lastRun_') === 0) {
+      var fnName = key.replace('trigger_lastRun_', '');
+      history[fnName] = allProps[key];
+    }
+  });
+
+  Logger.log('Trigger Execution History:');
+  Logger.log(JSON.stringify(history, null, 2));
+
+  return history;
+}
+
+// ==========================================================================
+// INTEGRATION-SPECIFIC SETUP METHODS
+// ==========================================================================
+
+/**
+ * Setup integration triggers only (leaves existing triggers intact)
+ */
+function setupIntegrationTriggers() {
+  Logger.log('TriggerManager: Setting up integration triggers...');
+
+  var integrationTriggers = [
+    'enhancedOrchestration',
+    'weeklyFullOrchestration',
+    'integratedHealthCheck',
+    'alertDigest',
+    'canvasRosterSync'
+  ];
+
+  var results = {
+    success: [],
+    failed: [],
+    skipped: []
+  };
+
+  // Remove existing integration triggers
+  var handlers = integrationTriggers.map(function(name) {
+    return TriggerManager.TRIGGERS[name].handler;
+  });
+
+  ScriptApp.getProjectTriggers().forEach(function(trigger) {
+    if (handlers.indexOf(trigger.getHandlerFunction()) !== -1) {
+      ScriptApp.deleteTrigger(trigger);
+    }
+  });
+
+  // Check config for Canvas sync
+  var config = null;
+  try {
+    if (typeof Config !== 'undefined' && typeof Config.getMasterConfig === 'function') {
+      config = Config.getMasterConfig();
+    }
+  } catch (e) {
+    Logger.log('Warning: Could not load config: ' + e.toString());
+  }
+
+  var canvasSyncEnabled = config && config.integrations &&
+    config.integrations.canvasSync && config.integrations.canvasSync.enabled;
+
+  integrationTriggers.forEach(function(name) {
+    var triggerConfig = TriggerManager.TRIGGERS[name];
+
+    // Skip Canvas sync if not configured
+    if (name === 'canvasRosterSync' && !canvasSyncEnabled) {
+      results.skipped.push({ name: name, reason: 'Canvas sync not enabled in config' });
+      Logger.log('  Skipped: ' + name + ' (Canvas sync not enabled)');
+      return;
+    }
+
+    try {
+      TriggerManager._createTrigger(triggerConfig);
+      results.success.push(name);
+      Logger.log('  Created trigger: ' + name + ' (' + triggerConfig.handler + ')');
+    } catch (e) {
+      results.failed.push({ name: name, error: e.message });
+      Logger.log('  FAILED: ' + name + ' - ' + e.message);
+    }
+  });
+
+  Logger.log('Integration Trigger Setup Complete');
+  Logger.log('  Success: ' + results.success.length);
+  Logger.log('  Failed: ' + results.failed.length);
+  Logger.log('  Skipped: ' + results.skipped.length);
+
+  return results;
+}
+
+/**
+ * Setup all triggers including integrations
+ */
+function setupAllTriggersWithIntegrations() {
+  var coreResults = TriggerManager.setupAllTriggers();
+  var integrationResults = setupIntegrationTriggers();
+
+  return {
+    core: coreResults,
+    integrations: integrationResults,
+    totalCreated: coreResults.success.length + integrationResults.success.length,
+    totalFailed: coreResults.failed.length + integrationResults.failed.length
+  };
+}
+
+/**
+ * Get comprehensive trigger status including integration triggers
+ */
+function getComprehensiveTriggerStatus() {
+  var status = TriggerManager.getStatus();
+  var history = getTriggerExecutionHistory();
+
+  // Add execution history to status
+  status.executionHistory = history;
+
+  // Check for stale executions (triggers that haven't run recently)
+  var now = new Date();
+  var staleThresholds = {
+    daily: 26,  // hours
+    weekly: 170 // hours (just over 7 days)
+  };
+
+  status.staleWarnings = [];
+
+  Object.keys(TriggerManager.TRIGGERS).forEach(function(name) {
+    var triggerConfig = TriggerManager.TRIGGERS[name];
+    var lastRun = history[triggerConfig.handler];
+
+    if (lastRun) {
+      var lastRunDate = new Date(lastRun);
+      var hoursSince = (now - lastRunDate) / (1000 * 60 * 60);
+      var threshold = triggerConfig.schedule.type === 'weekly' ?
+        staleThresholds.weekly : staleThresholds.daily;
+
+      if (hoursSince > threshold) {
+        status.staleWarnings.push({
+          trigger: name,
+          handler: triggerConfig.handler,
+          lastRun: lastRun,
+          hoursSince: Math.round(hoursSince),
+          threshold: threshold
+        });
+      }
+    }
+  });
+
+  Logger.log('Comprehensive Trigger Status:');
+  Logger.log(JSON.stringify(status, null, 2));
+
+  return status;
 }

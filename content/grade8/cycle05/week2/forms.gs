@@ -138,7 +138,7 @@ function createG8C5W2Hook_() {
     mtss1.createChoice('The wave bends when entering the material', false),
     mtss1.createChoice('The wave spreads around the material', false)
   ]);
-  mtss1.setPoints(0);
+  // Diagnostic only - omit setPoints() for ungraded items
 
   // Q2: Prediction (3 pts manual)
   form.addSectionHeaderItem()

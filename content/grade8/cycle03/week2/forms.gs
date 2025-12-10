@@ -120,7 +120,7 @@ function createG8W2Hook_() {
     mtss1.createChoice('All organisms evolve at the same rate', false),
     mtss1.createChoice('Evolution only happens to small organisms', false)
   ]);
-  mtss1.setPoints(0);  // Diagnostic only - doesn't affect grade
+  // Diagnostic only - omit setPoints() for ungraded items
   mtss1.setFeedbackForCorrect(
     FormApp.createFeedback()
       .setText('Correct! Natural selection acts on EXISTING variation. Individuals don\'t change their genes - populations change over generations.')

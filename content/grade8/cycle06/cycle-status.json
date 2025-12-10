@@ -1,21 +1,21 @@
 {
   "cycle": 6,
   "grade": 8,
-  "status": "not_started",
-  "lastUpdated": "2025-12-05",
+  "status": "in_progress",
+  "lastUpdated": "2025-12-10",
   "topic": "Electricity & Magnetism",
   "completion": {
-    "overall": 0,
-    "curriculumDesign": 0,
+    "overall": 65,
+    "curriculumDesign": 100,
     "rubrics": 0,
-    "week1": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
-    "week2": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
-    "week3": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 }
+    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 },
+    "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 },
+    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
     "week3": false
   },
-  "notes": "Placeholder structure created. Development pending."
+  "notes": "All forms complete (W1-W3). Student pages and slides pending. Rubrics needed before deployment."
 }

@@ -283,6 +283,249 @@
     "example": "g7_c3_w1_hook_q1"
   },
 
+  "integrations": {
+    "alertSystem": {
+      "enabled": true,
+      "emailNotifications": {
+        "enabled": true,
+        "recipientEmail": null,
+        "_note": "Set to teacher's email address; null uses Session.getActiveUser()"
+      },
+      "alertThresholds": {
+        "mtss": {
+          "tier3CountWarning": 3,
+          "tier3CountCritical": 5,
+          "suddenDropPercent": 15
+        },
+        "misconception": {
+          "singleConceptWarning": 40,
+          "singleConceptCritical": 60,
+          "persistentWeeks": 2
+        },
+        "spiral": {
+          "effectivenessWarning": 50,
+          "effectivenessCritical": 40,
+          "retentionDropWarning": 20
+        }
+      },
+      "digestSchedule": {
+        "frequency": "daily",
+        "time": "16:00",
+        "timezone": "America/Chicago",
+        "batchWarnings": true,
+        "immediateCritical": true
+      },
+      "deduplicationHours": 24
+    },
+
+    "spiralContentAdvisor": {
+      "enabled": true,
+      "recommendationLimits": {
+        "maxUrgentConcepts": 3,
+        "maxWeakRetention": 5,
+        "maxSuggestedQuestions": 6
+      },
+      "priorityWeights": {
+        "persistentMisconception": 3,
+        "recentDrop": 2,
+        "lowRetention": 1.5,
+        "crossCyclePersistence": 2.5
+      },
+      "crossCycleAnalysis": {
+        "lookbackCycles": 2,
+        "minimumDataPoints": 3
+      }
+    },
+
+    "insightsDashboard": {
+      "enabled": true,
+      "sections": {
+        "systemHealth": true,
+        "mtssSummary": true,
+        "misconceptionPatterns": true,
+        "spiralHealth": true,
+        "interventionStatus": true,
+        "seatingInsights": true,
+        "crossGradePatterns": true,
+        "prioritizedActions": true
+      },
+      "actionPrioritization": {
+        "maxHighPriority": 5,
+        "maxMediumPriority": 10,
+        "autoGenerateRecommendations": true
+      },
+      "outputFormat": {
+        "includeTimestamp": true,
+        "formatForEmail": true,
+        "includeTrendIndicators": true
+      }
+    },
+
+    "interventionTracker": {
+      "enabled": true,
+      "evaluationCriteria": {
+        "graduateThreshold": 70,
+        "minimumWeeksBeforeGraduation": 2,
+        "consecutiveWeeksRequired": 2,
+        "escalationAfterWeeks": 3,
+        "minimumImprovementPercent": 10
+      },
+      "interventionTypes": {
+        "peerTutoring": {
+          "targetTiers": [2],
+          "minDurationWeeks": 2,
+          "maxGroupSize": 2
+        },
+        "smallGroupReteach": {
+          "targetTiers": [2, 3],
+          "minDurationWeeks": 1,
+          "maxGroupSize": 5
+        },
+        "oneOnOne": {
+          "targetTiers": [3],
+          "minDurationWeeks": 2,
+          "maxGroupSize": 1
+        },
+        "modifiedAssessment": {
+          "targetTiers": [2, 3],
+          "minDurationWeeks": 1
+        },
+        "extendedTime": {
+          "targetTiers": [2, 3],
+          "minDurationWeeks": 1
+        }
+      },
+      "reportGeneration": {
+        "frequency": "weekly",
+        "includeSuccessStories": true,
+        "includeConcerns": true,
+        "trackEffectivenessMetrics": true
+      }
+    },
+
+    "canvasSync": {
+      "enabled": false,
+      "_note": "Set enabled to true and configure API credentials to activate",
+      "apiConfig": {
+        "baseUrl": null,
+        "apiToken": null,
+        "_tokenNote": "Store token in Script Properties as 'CANVAS_API_TOKEN'",
+        "courseIds": {
+          "grade7": null,
+          "grade8": null
+        }
+      },
+      "syncOptions": {
+        "pullRoster": true,
+        "pullAssignments": true,
+        "pullSubmissions": true,
+        "crossReferenceWithForms": true
+      },
+      "rosterSync": {
+        "frequency": "weekly",
+        "detectNewStudents": true,
+        "detectDroppedStudents": true
+      },
+      "assignmentMapping": {
+        "matchByName": true,
+        "matchByDate": true,
+        "fuzzyMatchThreshold": 0.8
+      },
+      "missingWorkReport": {
+        "enabled": true,
+        "includePartialSubmissions": true,
+        "daysLookback": 14
+      }
+    },
+
+    "seatingDataBridge": {
+      "enabled": true,
+      "tierIntegration": {
+        "useMtssTiers": true,
+        "tier3Placement": "front",
+        "tier2Placement": "sides",
+        "tier1Placement": "flexible"
+      },
+      "peerTutoringConstraints": {
+        "applyToSeating": true,
+        "keepPairsTogether": true,
+        "maxDistance": 2
+      },
+      "optimizationWeights": {
+        "tierPlacement": 2.0,
+        "peerTutoringProximity": 1.5,
+        "catalystPairBonus": 2.0,
+        "distractionVectorPenalty": 3.0,
+        "interventionGroupProximity": 1.0
+      },
+      "constraints": {
+        "maxTier3Clustering": 2,
+        "minTier1Spread": 3
+      }
+    },
+
+    "autoCycleDetection": {
+      "enabled": true,
+      "source": "config/cycles/",
+      "fallbackToManual": true,
+      "transitionAlerts": {
+        "enabled": true,
+        "daysBeforeTransition": 3,
+        "alertOnWeekChange": true,
+        "alertOnCycleChange": true
+      }
+    }
+  },
+
+  "orchestration": {
+    "enhancedPipeline": {
+      "enabled": true,
+      "steps": [
+        { "name": "responseCollection", "critical": true, "order": 1 },
+        { "name": "dataAggregation", "critical": true, "order": 2 },
+        { "name": "mtssAnalysis", "critical": true, "order": 3 },
+        { "name": "misconceptionAnalysis", "critical": false, "order": 4 },
+        { "name": "spiralEffectiveness", "critical": false, "order": 5 },
+        { "name": "interventionGrouping", "critical": false, "order": 6 },
+        { "name": "spiralRecommendations", "critical": false, "order": 7 },
+        { "name": "recordInterventions", "critical": false, "order": 8 },
+        { "name": "evaluateInterventions", "critical": false, "order": 9 },
+        { "name": "seatingDataBridge", "critical": false, "order": 10 },
+        { "name": "seatingConstraints", "critical": false, "order": 11 },
+        { "name": "hubUpdate", "critical": false, "order": 12 },
+        { "name": "alertSystem", "critical": false, "order": 13 },
+        { "name": "insightsDashboard", "critical": false, "order": 14 },
+        { "name": "effectivenessReport", "critical": false, "order": 15 }
+      ]
+    },
+    "scheduling": {
+      "dailyOrchestration": {
+        "enabled": true,
+        "time": "17:00",
+        "timezone": "America/Chicago",
+        "function": "runEnhancedOrchestration"
+      },
+      "weeklyFullOrchestration": {
+        "enabled": true,
+        "dayOfWeek": "Friday",
+        "time": "15:00",
+        "timezone": "America/Chicago",
+        "function": "runWeeklyFullOrchestration"
+      },
+      "healthCheck": {
+        "enabled": true,
+        "frequency": "daily",
+        "time": "08:00",
+        "function": "checkIntegratedSystemHealth"
+      }
+    },
+    "errorHandling": {
+      "continueOnNonCritical": true,
+      "maxRetries": 2,
+      "alertOnFailure": true
+    }
+  },
+
   "activeCycles": ["cycle03", "cycle04"],
   "plannedCycles": ["cycle05", "cycle06", "cycle07", "cycle08"],
 

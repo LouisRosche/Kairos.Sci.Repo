@@ -119,12 +119,21 @@ function processWeeklySeating(signInData, grade, cycle, week, period) {
   return results;
 }
 
+// Note: normalizeStudentName() is now available from shared/DataUtils.gs
+// The function below delegates to the shared version when deployed together.
+
 /**
  * Normalize student name for matching
  * @param {string} name - Raw name from sign-in
  * @returns {string} Normalized name
+ * @deprecated Use DataUtils.normalizeStudentName() directly
  */
-function normalizeStudentName(name) {
+function normalizeStudentName_Seating(name) {
+  // Delegate to shared DataUtils if available
+  if (typeof normalizeStudentName === 'function' && normalizeStudentName !== normalizeStudentName_Seating) {
+    return normalizeStudentName(name);
+  }
+
   if (!name) return '';
 
   // Trim, lowercase, handle common variations
@@ -490,12 +499,20 @@ function getScoresForDays(studentPerf, days) {
   return scores;
 }
 
+// Note: average() is now available from shared/DataUtils.gs
+// The function below delegates to the shared version when deployed together.
+
 /**
  * Calculate average of array
  * @param {Array} arr - Numbers to average
  * @returns {number} Average
+ * @deprecated Use DataUtils.average() directly
  */
-function average(arr) {
+function average_Seating(arr) {
+  // Delegate to shared DataUtils if available
+  if (typeof average === 'function' && average !== average_Seating) {
+    return average(arr);
+  }
   if (!arr || arr.length === 0) return 0;
   return arr.reduce((a, b) => a + b, 0) / arr.length;
 }

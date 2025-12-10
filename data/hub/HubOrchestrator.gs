@@ -946,6 +946,136 @@ function runEnhancedOrchestration() {
     }, false);
     results.data.interventionEvaluations = interventionEvaluations;
 
+    // Step 9b: Act on intervention evaluations (graduations, escalations)
+    runStep('Process Evaluation Results', function() {
+      var evalAlerts = [];
+
+      Object.keys(interventionEvaluations || {}).forEach(function(grade) {
+        var evals = interventionEvaluations[grade];
+        if (!evals) return;
+
+        // Process graduations
+        if (evals.graduations && evals.graduations.length > 0) {
+          evals.graduations.forEach(function(graduation) {
+            // Update intervention status in data store
+            if (typeof InterventionDataStore !== 'undefined') {
+              InterventionDataStore.updateIntervention(
+                graduation.studentEmail,
+                parseInt(grade),
+                graduation.interventionId,
+                {
+                  status: 'GRADUATED',
+                  improvementPercent: graduation.improvement,
+                  graduatedAt: new Date().toISOString()
+                }
+              );
+            }
+
+            // Generate success alert
+            evalAlerts.push({
+              type: 'intervention',
+              level: 'INFO',
+              grade: parseInt(grade),
+              message: 'Student graduated from intervention',
+              details: graduation.studentName + ' improved by ' +
+                graduation.improvement + '% and can return to Tier 1',
+              action: 'Update MTSS documentation'
+            });
+          });
+
+          Logger.log('Grade ' + grade + ': ' + evals.graduations.length + ' students graduated');
+        }
+
+        // Process escalations
+        if (evals.escalations && evals.escalations.length > 0) {
+          evals.escalations.forEach(function(escalation) {
+            // Update intervention status
+            if (typeof InterventionDataStore !== 'undefined') {
+              InterventionDataStore.updateIntervention(
+                escalation.studentEmail,
+                parseInt(grade),
+                escalation.interventionId,
+                {
+                  status: 'ESCALATED',
+                  escalationReason: escalation.reason,
+                  escalatedAt: new Date().toISOString()
+                }
+              );
+            }
+
+            // Generate critical alert for escalation
+            evalAlerts.push({
+              type: 'intervention',
+              level: 'CRITICAL',
+              grade: parseInt(grade),
+              message: 'Student needs intervention escalation',
+              details: escalation.studentName + ': ' + escalation.reason,
+              action: 'Schedule SST meeting or parent conference'
+            });
+          });
+
+          Logger.log('Grade ' + grade + ': ' + evals.escalations.length + ' students need escalation');
+        }
+
+        // Process tier changes
+        if (evals.tierChanges && evals.tierChanges.length > 0) {
+          evals.tierChanges.forEach(function(change) {
+            var direction = change.newTier > change.oldTier ? 'escalated' : 'improved';
+            evalAlerts.push({
+              type: 'intervention',
+              level: change.newTier === 3 ? 'CRITICAL' : 'WARNING',
+              grade: parseInt(grade),
+              message: 'Student tier change: ' + direction,
+              details: change.studentName + ' moved from Tier ' +
+                change.oldTier + ' to Tier ' + change.newTier,
+              action: direction === 'escalated' ?
+                'Update intervention plan' : 'Consider reducing supports'
+            });
+          });
+        }
+      });
+
+      // Add evaluation alerts to main alerts
+      if (evalAlerts.length > 0) {
+        results.alerts = (results.alerts || []).concat(evalAlerts);
+      }
+
+      return {
+        processed: true,
+        alertsGenerated: evalAlerts.length
+      };
+    }, false);
+
+    // Step 9c: Persist intervention groups
+    runStep('Persist Intervention Groups', function() {
+      if (!interventionGroups) return { status: 'skipped', reason: 'No groups' };
+
+      Object.keys(interventionGroups).forEach(function(grade) {
+        var groups = interventionGroups[grade];
+        if (!groups) return;
+
+        var filename = 'intervention-groups-g' + grade + '-c' +
+          cycleWeek.cycle + 'w' + cycleWeek.week + '.json';
+
+        var data = {
+          grade: grade,
+          cycle: cycleWeek.cycle,
+          week: cycleWeek.week,
+          savedAt: new Date().toISOString(),
+          tier2Groups: groups.tier2Groups || [],
+          tier3Groups: groups.tier3Groups || [],
+          peerTutoringPairs: groups.peerTutoringPairs || [],
+          reteachGroups: groups.reteachGroups || []
+        };
+
+        if (typeof saveToJson === 'function') {
+          saveToJson(filename, data);
+        }
+      });
+
+      return { status: 'saved' };
+    }, false);
+
     // Step 10: Update seating performance data
     runStep('Seating Data Bridge', function() {
       return updateSeatingPerformanceData(aggregatedData, hubConfig);
@@ -994,18 +1124,81 @@ function runEnhancedOrchestration() {
     // Step 14: Generate weekly insights dashboard
     results.insights = runStep('Insights Dashboard', function() {
       if (typeof generateWeeklyInsights === 'function') {
-        return generateWeeklyInsights(
+        var insights = generateWeeklyInsights(
           {
             mtssReports: mtssReports,
             misconceptionReport: misconceptionReport,
             spiralReport: spiralReport,
-            interventionGroups: interventionGroups
+            interventionGroups: interventionGroups,
+            interventionEvaluations: interventionEvaluations
           },
           cycleWeek.cycle,
           cycleWeek.week
         );
+
+        // Persist insights to data store
+        if (insights && typeof InsightsDataStore !== 'undefined') {
+          InsightsDataStore.saveInsights(cycleWeek.cycle, cycleWeek.week, insights);
+          Logger.log('Insights saved to persistent storage');
+        }
+
+        return insights;
       }
       return null;
+    }, false);
+
+    // Step 14b: Deliver spiral recommendations
+    runStep('Deliver Spiral Recommendations', function() {
+      if (!spiralRecommendations || Object.keys(spiralRecommendations).length === 0) {
+        return { status: 'skipped', reason: 'No recommendations' };
+      }
+
+      // Include in insights if available
+      if (results.insights) {
+        results.insights.spiralRecommendations = spiralRecommendations;
+      }
+
+      // Generate alert for urgent spiral needs
+      var urgentConcepts = [];
+      Object.keys(spiralRecommendations).forEach(function(grade) {
+        var recs = spiralRecommendations[grade];
+        if (recs && recs.urgentConcepts) {
+          recs.urgentConcepts.forEach(function(concept) {
+            urgentConcepts.push({
+              grade: grade,
+              concept: concept.name || concept.concept,
+              frequency: concept.frequency,
+              weeksLow: concept.weeksLow || concept.persistentWeeks
+            });
+          });
+        }
+      });
+
+      if (urgentConcepts.length > 0) {
+        results.alerts = results.alerts || [];
+        results.alerts.push({
+          type: 'spiral',
+          level: 'WARNING',
+          message: urgentConcepts.length + ' concepts need spiral reinforcement',
+          details: urgentConcepts.map(function(c) {
+            return 'G' + c.grade + ': ' + c.concept + ' (' + c.frequency + '% miss rate)';
+          }).join('; '),
+          action: 'Include in next week\'s exit ticket spiral questions'
+        });
+      }
+
+      // Save recommendations to file
+      var filename = 'spiral-recommendations-c' + cycleWeek.cycle + 'w' + cycleWeek.week + '.json';
+      if (typeof saveToJson === 'function') {
+        saveToJson(filename, {
+          cycle: cycleWeek.cycle,
+          week: cycleWeek.week,
+          generatedAt: new Date().toISOString(),
+          recommendations: spiralRecommendations
+        });
+      }
+
+      return { status: 'delivered', urgentCount: urgentConcepts.length };
     }, false);
 
     // Step 15: Generate intervention effectiveness report

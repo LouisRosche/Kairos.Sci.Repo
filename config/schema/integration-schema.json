@@ -1,0 +1,367 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "integration-schema.json",
+  "title": "KAMS Science Integration Configuration Schema",
+  "description": "Schema for validating integration configuration in master-config.json",
+  "type": "object",
+
+  "definitions": {
+    "alertThresholds": {
+      "type": "object",
+      "properties": {
+        "mtss": {
+          "type": "object",
+          "properties": {
+            "tier3CountWarning": { "type": "integer", "minimum": 1 },
+            "tier3CountCritical": { "type": "integer", "minimum": 1 },
+            "suddenDropPercent": { "type": "integer", "minimum": 1, "maximum": 100 }
+          }
+        },
+        "misconception": {
+          "type": "object",
+          "properties": {
+            "singleConceptWarning": { "type": "integer", "minimum": 1, "maximum": 100 },
+            "singleConceptCritical": { "type": "integer", "minimum": 1, "maximum": 100 },
+            "persistentWeeks": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "spiral": {
+          "type": "object",
+          "properties": {
+            "effectivenessWarning": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "effectivenessCritical": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "retentionDropWarning": { "type": "integer", "minimum": 1, "maximum": 100 }
+          }
+        }
+      }
+    },
+
+    "digestSchedule": {
+      "type": "object",
+      "properties": {
+        "frequency": { "type": "string", "enum": ["daily", "weekly"] },
+        "time": { "type": "string", "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$" },
+        "timezone": { "type": "string" },
+        "batchWarnings": { "type": "boolean" },
+        "immediateCritical": { "type": "boolean" }
+      }
+    },
+
+    "interventionType": {
+      "type": "object",
+      "properties": {
+        "targetTiers": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 1, "maximum": 3 }
+        },
+        "minDurationWeeks": { "type": "integer", "minimum": 1 },
+        "maxGroupSize": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["targetTiers"]
+    },
+
+    "pipelineStep": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "critical": { "type": "boolean" },
+        "order": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["name", "order"]
+    },
+
+    "scheduledTask": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "time": { "type": "string", "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$" },
+        "timezone": { "type": "string" },
+        "function": { "type": "string" },
+        "dayOfWeek": { "type": "string", "enum": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] }
+      },
+      "required": ["enabled", "function"]
+    }
+  },
+
+  "properties": {
+    "integrations": {
+      "type": "object",
+      "properties": {
+        "alertSystem": {
+          "type": "object",
+          "description": "Alert system configuration for automated notifications",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "emailNotifications": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "recipientEmail": { "type": ["string", "null"], "format": "email" }
+              }
+            },
+            "alertThresholds": { "$ref": "#/definitions/alertThresholds" },
+            "digestSchedule": { "$ref": "#/definitions/digestSchedule" },
+            "deduplicationHours": { "type": "integer", "minimum": 1, "default": 24 }
+          },
+          "required": ["enabled"]
+        },
+
+        "spiralContentAdvisor": {
+          "type": "object",
+          "description": "Spiral content recommendation engine configuration",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "recommendationLimits": {
+              "type": "object",
+              "properties": {
+                "maxUrgentConcepts": { "type": "integer", "minimum": 1, "default": 3 },
+                "maxWeakRetention": { "type": "integer", "minimum": 1, "default": 5 },
+                "maxSuggestedQuestions": { "type": "integer", "minimum": 1, "default": 6 }
+              }
+            },
+            "priorityWeights": {
+              "type": "object",
+              "properties": {
+                "persistentMisconception": { "type": "number", "minimum": 0 },
+                "recentDrop": { "type": "number", "minimum": 0 },
+                "lowRetention": { "type": "number", "minimum": 0 },
+                "crossCyclePersistence": { "type": "number", "minimum": 0 }
+              }
+            },
+            "crossCycleAnalysis": {
+              "type": "object",
+              "properties": {
+                "lookbackCycles": { "type": "integer", "minimum": 1, "default": 2 },
+                "minimumDataPoints": { "type": "integer", "minimum": 1, "default": 3 }
+              }
+            }
+          },
+          "required": ["enabled"]
+        },
+
+        "insightsDashboard": {
+          "type": "object",
+          "description": "Cross-analysis insights dashboard configuration",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "sections": {
+              "type": "object",
+              "properties": {
+                "systemHealth": { "type": "boolean" },
+                "mtssSummary": { "type": "boolean" },
+                "misconceptionPatterns": { "type": "boolean" },
+                "spiralHealth": { "type": "boolean" },
+                "interventionStatus": { "type": "boolean" },
+                "seatingInsights": { "type": "boolean" },
+                "crossGradePatterns": { "type": "boolean" },
+                "prioritizedActions": { "type": "boolean" }
+              }
+            },
+            "actionPrioritization": {
+              "type": "object",
+              "properties": {
+                "maxHighPriority": { "type": "integer", "minimum": 1 },
+                "maxMediumPriority": { "type": "integer", "minimum": 1 },
+                "autoGenerateRecommendations": { "type": "boolean" }
+              }
+            },
+            "outputFormat": {
+              "type": "object",
+              "properties": {
+                "includeTimestamp": { "type": "boolean" },
+                "formatForEmail": { "type": "boolean" },
+                "includeTrendIndicators": { "type": "boolean" }
+              }
+            }
+          },
+          "required": ["enabled"]
+        },
+
+        "interventionTracker": {
+          "type": "object",
+          "description": "Intervention effectiveness tracking configuration",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "evaluationCriteria": {
+              "type": "object",
+              "properties": {
+                "graduateThreshold": { "type": "integer", "minimum": 0, "maximum": 100, "default": 70 },
+                "minimumWeeksBeforeGraduation": { "type": "integer", "minimum": 1, "default": 2 },
+                "consecutiveWeeksRequired": { "type": "integer", "minimum": 1, "default": 2 },
+                "escalationAfterWeeks": { "type": "integer", "minimum": 1, "default": 3 },
+                "minimumImprovementPercent": { "type": "integer", "minimum": 0, "maximum": 100, "default": 10 }
+              }
+            },
+            "interventionTypes": {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/definitions/interventionType" }
+            },
+            "reportGeneration": {
+              "type": "object",
+              "properties": {
+                "frequency": { "type": "string", "enum": ["daily", "weekly"] },
+                "includeSuccessStories": { "type": "boolean" },
+                "includeConcerns": { "type": "boolean" },
+                "trackEffectivenessMetrics": { "type": "boolean" }
+              }
+            }
+          },
+          "required": ["enabled"]
+        },
+
+        "canvasSync": {
+          "type": "object",
+          "description": "Canvas LMS bidirectional sync configuration",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "apiConfig": {
+              "type": "object",
+              "properties": {
+                "baseUrl": { "type": ["string", "null"], "format": "uri" },
+                "apiToken": { "type": ["string", "null"] },
+                "courseIds": {
+                  "type": "object",
+                  "properties": {
+                    "grade7": { "type": ["string", "integer", "null"] },
+                    "grade8": { "type": ["string", "integer", "null"] }
+                  }
+                }
+              }
+            },
+            "syncOptions": {
+              "type": "object",
+              "properties": {
+                "pullRoster": { "type": "boolean" },
+                "pullAssignments": { "type": "boolean" },
+                "pullSubmissions": { "type": "boolean" },
+                "crossReferenceWithForms": { "type": "boolean" }
+              }
+            },
+            "rosterSync": {
+              "type": "object",
+              "properties": {
+                "frequency": { "type": "string", "enum": ["daily", "weekly"] },
+                "detectNewStudents": { "type": "boolean" },
+                "detectDroppedStudents": { "type": "boolean" }
+              }
+            },
+            "assignmentMapping": {
+              "type": "object",
+              "properties": {
+                "matchByName": { "type": "boolean" },
+                "matchByDate": { "type": "boolean" },
+                "fuzzyMatchThreshold": { "type": "number", "minimum": 0, "maximum": 1 }
+              }
+            },
+            "missingWorkReport": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "includePartialSubmissions": { "type": "boolean" },
+                "daysLookback": { "type": "integer", "minimum": 1 }
+              }
+            }
+          },
+          "required": ["enabled"]
+        },
+
+        "seatingDataBridge": {
+          "type": "object",
+          "description": "Performance-to-seating data bridge configuration",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "tierIntegration": {
+              "type": "object",
+              "properties": {
+                "useMtssTiers": { "type": "boolean" },
+                "tier3Placement": { "type": "string", "enum": ["front", "sides", "back", "flexible"] },
+                "tier2Placement": { "type": "string", "enum": ["front", "sides", "back", "flexible"] },
+                "tier1Placement": { "type": "string", "enum": ["front", "sides", "back", "flexible"] }
+              }
+            },
+            "peerTutoringConstraints": {
+              "type": "object",
+              "properties": {
+                "applyToSeating": { "type": "boolean" },
+                "keepPairsTogether": { "type": "boolean" },
+                "maxDistance": { "type": "integer", "minimum": 1 }
+              }
+            },
+            "optimizationWeights": {
+              "type": "object",
+              "properties": {
+                "tierPlacement": { "type": "number", "minimum": 0 },
+                "peerTutoringProximity": { "type": "number", "minimum": 0 },
+                "catalystPairBonus": { "type": "number", "minimum": 0 },
+                "distractionVectorPenalty": { "type": "number", "minimum": 0 },
+                "interventionGroupProximity": { "type": "number", "minimum": 0 }
+              }
+            },
+            "constraints": {
+              "type": "object",
+              "properties": {
+                "maxTier3Clustering": { "type": "integer", "minimum": 1 },
+                "minTier1Spread": { "type": "integer", "minimum": 1 }
+              }
+            }
+          },
+          "required": ["enabled"]
+        },
+
+        "autoCycleDetection": {
+          "type": "object",
+          "description": "Automatic cycle/week detection from dates",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "source": { "type": "string" },
+            "fallbackToManual": { "type": "boolean", "default": true },
+            "transitionAlerts": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "daysBeforeTransition": { "type": "integer", "minimum": 1 },
+                "alertOnWeekChange": { "type": "boolean" },
+                "alertOnCycleChange": { "type": "boolean" }
+              }
+            }
+          },
+          "required": ["enabled"]
+        }
+      }
+    },
+
+    "orchestration": {
+      "type": "object",
+      "description": "Pipeline orchestration configuration",
+      "properties": {
+        "enhancedPipeline": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "steps": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/pipelineStep" }
+            }
+          },
+          "required": ["enabled"]
+        },
+        "scheduling": {
+          "type": "object",
+          "properties": {
+            "dailyOrchestration": { "$ref": "#/definitions/scheduledTask" },
+            "weeklyFullOrchestration": { "$ref": "#/definitions/scheduledTask" },
+            "healthCheck": { "$ref": "#/definitions/scheduledTask" }
+          }
+        },
+        "errorHandling": {
+          "type": "object",
+          "properties": {
+            "continueOnNonCritical": { "type": "boolean", "default": true },
+            "maxRetries": { "type": "integer", "minimum": 0, "default": 2 },
+            "alertOnFailure": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    }
+  }
+}

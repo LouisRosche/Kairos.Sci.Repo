@@ -10,6 +10,7 @@ COMPLIANCE REQUIREMENTS (MANDATORY):
 2. RESEARCH ALIGNMENT: All content must align with "Scholarly Foundations for NGSS-
    Aligned Middle School Science Curriculum Development.md" - the authoritative
    research synthesis with documented effect sizes.
+   See also: docs/research-evidence.md - consolidated effect sizes for quick reference.
 
 3. KEY EFFECT SIZES TO PRIORITIZE:
    - Interleaving: d = 0.83 → 2 spiral questions per exit ticket

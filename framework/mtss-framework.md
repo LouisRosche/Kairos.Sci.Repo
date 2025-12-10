@@ -2,6 +2,8 @@
 ## Data-Driven Intervention for KAMS Science
 ## Version 3.0 | December 2025
 
+> **Research Reference:** For consolidated effect sizes and citations, see [docs/research-evidence.md](../docs/research-evidence.md) - the single source of truth for all research evidence.
+
 ---
 
 ## Overview

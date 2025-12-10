@@ -2,6 +2,8 @@
 ## Evidence-Based Instruction Aligned with Scholarly Foundations
 ## Version 2.0 | December 2025
 
+> **Research Reference:** For consolidated effect sizes and citations, see [docs/research-evidence.md](../docs/research-evidence.md) - the single source of truth for all research evidence.
+
 ---
 
 ## Executive Summary

@@ -1372,7 +1372,7 @@ function createGrade8_ExitTicket_NGSS() {
       q1.createChoice('D) My own proposal')
     ]);
     q1.setRequired(true);
-    q1.setPoints(0);
+    // Diagnostic only - omit setPoints() for ungraded items
     // INVESTIGATION DESIGN
     const q3 = form.addParagraphTextItem()
       .setTitle('INVESTIGATION DESIGN: Write a detailed plan for your chosen scenario.\n\n' +
@@ -1437,7 +1437,7 @@ function createGrade8_ExitTicket_NGSS() {
       q5.createChoice('Not confident at all - I\'m still very confused')
     ]);
     q5.setRequired(true);
-    q5.setPoints(0); // Not graded - honest reflection
+    // Not graded - honest reflection - omit setPoints() for ungraded items
     const q6 = form.addParagraphTextItem()
       .setTitle('FINAL REFLECTION: What is ONE THING you\'re proud of learning this week, and ONE THING you want to improve or understand better?')
       .setHelpText('Example: "I\'m proud I can now identify IV/DV/controls clearly. I want to improve writing more detailed procedures."');
