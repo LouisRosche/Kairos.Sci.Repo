@@ -67,6 +67,28 @@ var TriggerManager = {
         hour: 16     // 4:00 PM Friday
       },
       priority: 3
+    },
+
+    seatingAnalysis: {
+      handler: 'runWeeklySeatingAnalysis',
+      description: 'Analyze seating correlations and generate recommendations',
+      schedule: {
+        type: 'weekly',
+        dayOfWeek: ScriptApp.WeekDay.FRIDAY,
+        hour: 15     // 3:00 PM Friday (before weekly summary)
+      },
+      priority: 4
+    },
+
+    healthCheck: {
+      handler: 'runSystemHealthCheck',
+      description: 'Verify data pipeline is functioning correctly',
+      schedule: {
+        type: 'daily',
+        hour: 7,     // 7:00 AM (before school day)
+        minute: 0
+      },
+      priority: 5
     }
   },
 
@@ -381,4 +403,226 @@ function showTriggerStatus() {
   var status = TriggerManager.getStatus();
   Logger.log(JSON.stringify(status, null, 2));
   return status;
+}
+
+// ==========================================================================
+// SEATING ANALYSIS HANDLER
+// ==========================================================================
+
+/**
+ * Weekly seating analysis - triggered Friday 3 PM
+ * Analyzes seating patterns and generates recommendations for all periods
+ */
+function runWeeklySeatingAnalysis() {
+  Logger.log('=== Weekly Seating Analysis Started ===');
+  const startTime = new Date();
+
+  const results = {
+    timestamp: startTime.toISOString(),
+    grades: [7, 8],
+    periods: [1, 2, 3, 4, 5, 6],
+    reports: [],
+    errors: []
+  };
+
+  // Check if seating analyzer is available
+  if (typeof generateSeatingReport !== 'function') {
+    Logger.log('SeatingAnalyzer not available - skipping');
+    results.skipped = true;
+    results.reason = 'SeatingAnalyzer module not loaded';
+    return results;
+  }
+
+  results.grades.forEach(function(grade) {
+    results.periods.forEach(function(period) {
+      try {
+        const report = generateSeatingReport(grade, period);
+        results.reports.push({
+          grade: grade,
+          period: period,
+          status: report.status,
+          summary: report.summary || null,
+          topRecommendations: (report.topRecommendations || []).slice(0, 3)
+        });
+
+        if (report.status === 'SUCCESS') {
+          Logger.log('G' + grade + ' P' + period + ': ' +
+            report.summary.catalystPairsFound + ' catalyst pairs, ' +
+            report.summary.distractionVectorsFound + ' distraction vectors');
+        }
+      } catch (e) {
+        Logger.log('Error analyzing G' + grade + ' P' + period + ': ' + e.message);
+        results.errors.push({
+          grade: grade,
+          period: period,
+          error: e.message
+        });
+      }
+    });
+  });
+
+  const duration = (new Date() - startTime) / 1000;
+  Logger.log('=== Seating Analysis Complete (' + duration.toFixed(2) + 's) ===');
+  Logger.log('Reports: ' + results.reports.length + ', Errors: ' + results.errors.length);
+
+  // Save results
+  try {
+    if (typeof saveToJson === 'function') {
+      saveToJson('seating-analysis-' + startTime.toISOString().split('T')[0] + '.json', results);
+    }
+  } catch (e) {
+    Logger.log('Warning: Could not save seating analysis: ' + e.message);
+  }
+
+  return results;
+}
+
+// ==========================================================================
+// HEALTH CHECK HANDLER
+// ==========================================================================
+
+/**
+ * System health check - triggered daily at 7 AM
+ * Verifies all components of the data pipeline are functioning
+ */
+function runSystemHealthCheck() {
+  Logger.log('=== System Health Check Started ===');
+  const startTime = new Date();
+
+  const health = {
+    timestamp: startTime.toISOString(),
+    overall: 'HEALTHY',
+    components: {},
+    warnings: [],
+    errors: []
+  };
+
+  // Check 1: Config module
+  try {
+    if (typeof Config !== 'undefined') {
+      const currentCycle = Config.getCurrentCycle();
+      const currentWeek = Config.getCurrentWeek();
+      health.components.config = {
+        status: 'OK',
+        currentCycle: currentCycle,
+        currentWeek: currentWeek
+      };
+      Logger.log('Config: OK (C' + currentCycle + ' W' + currentWeek + ')');
+    } else {
+      health.components.config = { status: 'MISSING' };
+      health.warnings.push('Config module not loaded');
+    }
+  } catch (e) {
+    health.components.config = { status: 'ERROR', error: e.message };
+    health.errors.push('Config check failed: ' + e.message);
+  }
+
+  // Check 2: Form Registry
+  try {
+    if (typeof getFormRegistry === 'function') {
+      const registry = getFormRegistry();
+      const formCount = Object.keys(registry || {}).length;
+      health.components.formRegistry = {
+        status: formCount > 0 ? 'OK' : 'EMPTY',
+        formCount: formCount
+      };
+      Logger.log('Form Registry: ' + (formCount > 0 ? 'OK (' + formCount + ' forms)' : 'EMPTY'));
+    } else {
+      health.components.formRegistry = { status: 'MISSING' };
+      health.warnings.push('Form Registry not available');
+    }
+  } catch (e) {
+    health.components.formRegistry = { status: 'ERROR', error: e.message };
+    health.errors.push('Form Registry check failed: ' + e.message);
+  }
+
+  // Check 3: Hub Spreadsheet Access
+  try {
+    if (typeof getHubConfig === 'function') {
+      const hubConfig = getHubConfig();
+      if (hubConfig.hubSheetId) {
+        // Try to open it
+        const ss = SpreadsheetApp.openById(hubConfig.hubSheetId);
+        health.components.hubSpreadsheet = {
+          status: 'OK',
+          name: ss.getName(),
+          sheetCount: ss.getSheets().length
+        };
+        Logger.log('Hub Spreadsheet: OK (' + ss.getName() + ')');
+      } else {
+        health.components.hubSpreadsheet = { status: 'NOT_CONFIGURED' };
+        health.warnings.push('Hub spreadsheet ID not configured');
+      }
+    } else {
+      health.components.hubSpreadsheet = { status: 'MISSING' };
+      health.warnings.push('Hub config not available');
+    }
+  } catch (e) {
+    health.components.hubSpreadsheet = { status: 'ERROR', error: e.message };
+    health.errors.push('Hub spreadsheet check failed: ' + e.message);
+  }
+
+  // Check 4: Trigger Status
+  try {
+    const triggers = ScriptApp.getProjectTriggers();
+    const managedCount = triggers.filter(function(t) {
+      return ['collectAllResponses', 'runDailyOrchestration', 'generateWeeklySummary',
+              'runWeeklySeatingAnalysis', 'runSystemHealthCheck'].includes(t.getHandlerFunction());
+    }).length;
+
+    health.components.triggers = {
+      status: managedCount >= 3 ? 'OK' : 'INCOMPLETE',
+      totalTriggers: triggers.length,
+      managedTriggers: managedCount
+    };
+    Logger.log('Triggers: ' + (managedCount >= 3 ? 'OK' : 'INCOMPLETE') +
+      ' (' + managedCount + ' managed, ' + triggers.length + ' total)');
+  } catch (e) {
+    health.components.triggers = { status: 'ERROR', error: e.message };
+    health.errors.push('Trigger check failed: ' + e.message);
+  }
+
+  // Check 5: Recent Data (check if yesterday's orchestration ran)
+  try {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const expectedFile = 'orchestration-' + yesterday.toISOString().split('T')[0] + '.json';
+
+    // This is a basic check - in production you'd check if the file exists
+    health.components.recentData = {
+      status: 'CHECK_MANUALLY',
+      note: 'Verify ' + expectedFile + ' exists in output folder'
+    };
+    Logger.log('Recent Data: Check ' + expectedFile + ' manually');
+  } catch (e) {
+    health.components.recentData = { status: 'ERROR', error: e.message };
+  }
+
+  // Determine overall health
+  const errorCount = health.errors.length;
+  const warningCount = health.warnings.length;
+
+  if (errorCount > 0) {
+    health.overall = 'UNHEALTHY';
+  } else if (warningCount > 2) {
+    health.overall = 'DEGRADED';
+  } else if (warningCount > 0) {
+    health.overall = 'HEALTHY_WITH_WARNINGS';
+  }
+
+  const duration = (new Date() - startTime) / 1000;
+  Logger.log('=== Health Check Complete (' + duration.toFixed(2) + 's) ===');
+  Logger.log('Overall: ' + health.overall + ' (' + errorCount + ' errors, ' + warningCount + ' warnings)');
+
+  // Send alert if unhealthy
+  if (health.overall === 'UNHEALTHY') {
+    try {
+      // Could send email alert here
+      Logger.log('ALERT: System health check failed!');
+    } catch (e) {
+      Logger.log('Could not send health alert: ' + e.message);
+    }
+  }
+
+  return health;
 }
