@@ -6,11 +6,49 @@
     <title>Carbon Cycle Tracer - Follow the Carbon Atom</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #3B82F6;
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            text-decoration: none;
+            border-radius: 0 0 8px 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Accessibility: Focus visible */
+        :focus-visible {
+            outline: 3px solid #3B82F6;
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: white; padding: 0; }
+            .controls, button { display: none; }
+            .sim-container { box-shadow: none; border: 1px solid #ccc; }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.5;
             color: #2d3748;
         }
         .container {
@@ -20,25 +58,25 @@
         h1 {
             text-align: center;
             color: #fff;
-            margin-bottom: 10px;
-            font-size: clamp(1.5em, 4vw, 2em);
+            margin-bottom: 6px;
+            font-size: clamp(1.3em, 3.5vw, 1.7em);
         }
         .subtitle {
             text-align: center;
             color: #a0aec0;
-            margin-bottom: 20px;
-            font-size: 0.95em;
+            margin-bottom: 12px;
+            font-size: 0.85em;
         }
         .sim-container {
             background: #fff;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
         }
         .cycle-diagram {
             position: relative;
             width: 100%;
-            height: 400px;
+            height: 320px;
             background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 60%, #8B4513 60%, #8B4513 100%);
             border-radius: 12px;
             overflow: hidden;
@@ -288,7 +326,7 @@
         @media (max-width: 768px) {
             body { padding: 10px; }
             .sim-container { padding: 15px; }
-            .cycle-diagram { height: 350px; }
+            .cycle-diagram { height: 280px; }
             .reservoir {
                 padding: 8px;
                 font-size: 0.75em;
@@ -305,7 +343,7 @@
             .journey-log { max-height: 150px; }
         }
         @media (max-width: 500px) {
-            .cycle-diagram { height: 300px; }
+            .cycle-diagram { height: 260px; }
             .reservoir {
                 padding: 6px;
                 font-size: 0.7em;
@@ -324,11 +362,12 @@
     </style>
 </head>
 <body>
+    <a href="#simulation" class="skip-link">Skip to simulation</a>
     <div class="container">
         <h1>🌍 Carbon Cycle Tracer</h1>
         <p class="subtitle">Follow a carbon atom as it moves through Earth's systems - atoms are NEVER created or destroyed!</p>
 
-        <div class="sim-container">
+        <div class="sim-container" id="simulation" role="main" aria-label="Carbon Cycle Tracer simulation">
             <div class="instructions">
                 <h4>How to Use This Simulation</h4>
                 <p><strong>Click on any location</strong> where your carbon atom can travel next. Watch the carbon atom move and see the chemical process that carries it there. Track your journey and prove that carbon is always conserved!</p>
@@ -630,6 +669,22 @@
         carbon.style.left = '50%';
         carbon.style.top = '30px';
         carbon.style.transform = 'translateX(-50%)';
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'r' || e.key === 'R') {
+                resetSimulation();
+            }
+            if (e.key === ' ' || e.key === 'Enter') {
+                if (e.target.tagName === 'BUTTON') return;
+                e.preventDefault();
+                autoJourney();
+            }
+            if (e.key === 'Escape') {
+                stopAutoJourney();
+            }
+        });
     </script>
 </body>
 </html>

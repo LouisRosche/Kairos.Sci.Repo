@@ -33,30 +33,30 @@
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 12px;
     }
 
     header {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: white;
-      padding: 24px;
-      border-radius: 16px;
-      margin-bottom: 24px;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 14px;
       box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
     }
 
     header h1 {
-      font-size: 1.8em;
-      margin-bottom: 8px;
+      font-size: clamp(1.3em, 3.5vw, 1.7em);
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    header .icon { font-size: 1.2em; }
+    header .icon { font-size: 1.1em; }
 
     header .subtitle {
       opacity: 0.95;
@@ -756,6 +756,34 @@
       }
     }
 
+    /* Accessibility: Skip link */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--primary);
+      color: white;
+      padding: 8px 16px;
+      z-index: 100;
+      transition: top 0.3s;
+      text-decoration: none;
+      border-radius: 0 0 8px 0;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* Accessibility: Focus visible */
+    :focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; padding: 0; }
+      .controls, button { display: none; }
+      .sim-container { box-shadow: none; border: 1px solid #ccc; }
+    }
+
     /* Screen Reader Only */
     .sr-only {
       position: absolute;
@@ -771,8 +799,9 @@
   </style>
 </head>
 <body>
+  <a href="#simulation" class="skip-link">Skip to simulation</a>
   <div class="container">
-    <header>
+    <header id="simulation" role="main" aria-label="Weather Prediction Simulator">
       <h1><span class="icon" aria-hidden="true">⛈️</span> Weather Prediction Simulator</h1>
       <div class="subtitle">Analyze weather data and make forecasts like a meteorologist</div>
       <div class="meta">
@@ -782,7 +811,7 @@
       </div>
     </header>
 
-    <details class="instructions" open>
+    <details class="instructions">
       <summary>How to Use This Simulator</summary>
       <div class="content">
         <ol>
@@ -1621,6 +1650,21 @@
       initCanvas();
       if (selectedScenario) {
         drawChart(scenarios[selectedScenario].data);
+      }
+    });
+
+    // Keyboard accessibility
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'r' || e.key === 'R') {
+        document.getElementById('tryAgainBtn').click();
+      }
+      if (e.key === ' ' || e.key === 'Enter') {
+        if (e.target.tagName === 'BUTTON') return;
+        e.preventDefault();
+        if (selectedScenario && submitPrediction.disabled === false) {
+          submitPrediction.click();
+        }
       }
     });
   </script>

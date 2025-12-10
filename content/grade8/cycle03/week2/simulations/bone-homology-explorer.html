@@ -48,6 +48,27 @@ Updated: December 2025 | Material-Free Audit Complete
             }
         }
 
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            text-decoration: none;
+            border-radius: 0 0 8px 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Accessibility: Focus visible */
+        :focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #581C87 0%, #3B0764 100%);
@@ -436,11 +457,12 @@ Updated: December 2025 | Material-Free Audit Complete
     </style>
 </head>
 <body>
+    <a href="#simulation" class="skip-link">Skip to simulation</a>
     <div class="container">
         <h1>Bone Homology Explorer</h1>
         <p class="subtitle">Compare skeletal structures across species - what does the same pattern tell us?</p>
 
-        <div class="sim-container">
+        <div class="sim-container" id="simulation" role="main" aria-label="Bone Homology Explorer">
             <details class="instructions">
                 <summary role="button" aria-expanded="false">How to Use This Simulation</summary>
                 <div class="instructions-content">
@@ -829,6 +851,20 @@ Updated: December 2025 | Material-Free Audit Complete
                     card.click();
                 }
             });
+        });
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'r' || e.key === 'R') {
+                resetQuiz();
+            }
+            if (e.key === 'Escape') {
+                // Clear highlights
+                document.querySelectorAll('.bone').forEach(b => b.classList.remove('highlighted'));
+                document.querySelectorAll('.legend-item').forEach(l => l.classList.remove('active'));
+                activeLegend = null;
+            }
         });
     </script>
 </body>

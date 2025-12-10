@@ -1,17 +1,30 @@
 # MTSS Framework: Multi-Tiered System of Supports
 ## Data-Driven Intervention for KAMS Science
+## Version 3.0 | December 2025
 
 ---
 
 ## Overview
 
-This framework defines how the KAMS science curriculum system uses assessment data to identify students needing additional support and generate actionable intervention plans.
+This framework defines how the KAMS science curriculum system uses assessment data to identify students needing additional support and generate actionable intervention plans, grounded in the *Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development*.
 
 **Key Principles:**
 - Data-driven decision making (not gut feelings)
 - Proactive intervention (before students fall behind)
 - Tiered approach (universal → targeted → intensive)
 - Progress monitoring (weekly data cycles)
+
+---
+
+## Research Foundation: Critical Gap in Science MTSS
+
+> **Important:** A critical research gap exists—**no validated science-specific progress monitoring tools** exist with documented technical adequacy. The Learning Disabilities Association notes "much less research-based information" is available for science compared to reading and mathematics.
+
+**However, evidence supports tiered intervention in science:**
+- Richards & Omdal (2007) found tiered instruction produced **d = 1.06** (large effect) for low-background learners in secondary science, effectively closing achievement gaps
+- Vocabulary-matching CBMs show the most promise (Conoyer et al., 2022), though reliability varies (.21-.89) compared to reading (.78-.99)
+
+**Our Approach:** Adapts best practices from reading/math MTSS while acknowledging the need for science-specific validation. Weekly assessment data serves as our primary progress monitoring tool.
 
 ---
 
@@ -43,6 +56,12 @@ This framework defines how the KAMS science curriculum system uses assessment da
 
 **Population:** ~15% of students (target)
 
+**Research-Based Parameters (National Center on Intensive Intervention):**
+- **Duration:** 20-30 minutes per session
+- **Frequency:** 3-4 times weekly
+- **Group Size:** 3-5 students
+- **Progress Monitoring:** 2x per month minimum
+
 **Characteristics:**
 - Below grade-level expectations
 - Specific skill gaps identified
@@ -54,14 +73,16 @@ This framework defines how the KAMS science curriculum system uses assessment da
 - Modified assignments (reduced load, scaffolded)
 - Extended time on forms (async completion)
 - Additional practice problems
-- Vocabulary support for ELL students
+- Vocabulary support for ELL students (pre-teach 5-7 key terms with visuals)
+- Sentence stems for scientific argumentation
 
 **Teacher Actions:**
-- Pull small groups during Station 3 or catch-up time
+- Pull small groups during Station 3 or catch-up time (20-30 min, 3-4x weekly)
 - Assign peer tutors from Tier 1
 - Provide sentence frames and calculation scaffolds
 - Contact family with specific feedback
 - Monitor weekly for tier movement
+- Use vocabulary-matching probes for progress monitoring
 
 **Trigger:** Student scores 50-69% on weekly total
 
@@ -70,6 +91,13 @@ This framework defines how the KAMS science curriculum system uses assessment da
 ### Tier 3: Intensive Intervention (0-49%)
 
 **Population:** ~5% of students (target)
+
+**Research-Based Parameters:**
+- **Duration:** Individualized based on need
+- **Frequency:** Weekly minimum
+- **Group Size:** 1-3 students (ideally 1:1)
+- **Progress Monitoring:** Weekly
+- **Framework:** Data-Based Individualization (DBI) — g = 0.57 for teacher outcomes
 
 **Characteristics:**
 - Significantly below grade-level
@@ -85,13 +113,16 @@ This framework defines how the KAMS science curriculum system uses assessment da
 - Assistive technology
 - Coordination with SpEd/intervention specialists
 - Family partnership plan
+- Bridging analogies for persistent misconceptions (Clement, 1993)
+- Explicit vocabulary instruction with multiple representations
 
 **Teacher Actions:**
 - Schedule 1:1 time (before/after school or during prep)
 - Review IEP/504 for additional accommodations
 - Contact intervention specialist
-- Document interventions and response
+- Document interventions and response using DBI framework
 - Consider referral if not progressing
+- Use vocabulary-matching probes 2x weekly for progress monitoring
 
 **Trigger:** Student scores <50% OR 2+ consecutive weeks at Tier 2 without improvement
 
@@ -282,4 +313,17 @@ When ≥40% of students miss any single question:
 
 ---
 
-*MTSS Framework Version 2.0 | December 2025*
+---
+
+## References
+
+- Richards, S. B., & Omdal, S. N. (2007). Effects of tiered instruction on science achievement. *Remedial and Special Education, 28*, 227-241.
+- Conoyer, S. J., et al. (2022). Science curriculum-based measures meta-analysis. *Journal of School Psychology, 93*, 1-22.
+- Espin, C. A., Shin, J., & Busch, T. W. (2005). Vocabulary-matching CBMs for secondary science. *Journal of Special Education, 38*, 220-231.
+- National Center on Intensive Intervention. (2023). *Data-Based Individualization framework.*
+- Clement, J. (1993). Using bridging analogies and anchoring intuitions. *Journal of Research in Science Teaching, 30*, 1241-1257.
+
+---
+
+*MTSS Framework Version 3.0 | December 2025 | KAMS Science*
+*Aligned with Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development*

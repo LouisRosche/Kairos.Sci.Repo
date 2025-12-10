@@ -50,6 +50,34 @@ Standards: MS-LS2-3 Energy Flow in Ecosystems
             }
         }
 
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            text-decoration: none;
+            border-radius: 0 0 8px 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Accessibility: Focus visible */
+        :focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: white; padding: 0; }
+            .controls, button { display: none; }
+            .sim-container { box-shadow: none; border: 1px solid #ccc; }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #065F46 0%, #064E3B 100%);
@@ -470,12 +498,13 @@ Standards: MS-LS2-3 Energy Flow in Ecosystems
     </style>
 </head>
 <body>
+    <a href="#simulation" class="skip-link">Skip to simulation</a>
     <div class="container">
         <h1>Energy Pyramid Calculator</h1>
         <p class="subtitle">Explore the 10% Rule - Where does energy go in ecosystems?</p>
 
-        <div class="sim-container">
-            <details class="instructions" open>
+        <div class="sim-container" id="simulation" role="main" aria-label="Energy Pyramid Calculator">
+            <details class="instructions">
                 <summary>How to Use This Simulation</summary>
                 <div class="instructions-content">
                     <p><strong>Step 1:</strong> Use the slider to set the starting energy from producers (plants).</p>
@@ -722,6 +751,14 @@ Standards: MS-LS2-3 Energy Flow in Ecosystems
 
         // Initialize
         updatePyramid();
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'r' || e.key === 'R') {
+                resetQuiz();
+            }
+        });
     </script>
 </body>
 </html>

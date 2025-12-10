@@ -132,11 +132,9 @@ def add_title_slide(prs):
                 "MS-LS4-2 & MS-LS4-4 Evidence of Evolution | 100 Points Total | ~75 Minutes",
                 font_size=16, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
-    # Driving question teaser box
+    # Driving question teaser box (simplified - no border)
     teaser_bg = add_colored_shape(slide, Inches(2), Inches(4.2), Inches(6), Inches(0.8),
                                   COLORS['white'])
-    teaser_bg.line.color.rgb = COLORS['teal']
-    teaser_bg.line.width = Pt(2)
 
     add_text_box(slide, Inches(2.1), Inches(4.35), Inches(5.8), Inches(0.5),
                 "Why do whale flippers have finger bones?",
@@ -225,18 +223,14 @@ def add_driving_question_slide(prs):
                 font_size=32, bold=True, color=COLORS['white'],
                 align=PP_ALIGN.CENTER, font_name="Georgia")
 
-    # Decorative divider
-    add_colored_shape(slide, Inches(4), Inches(3.2), Inches(2), Inches(0.08), COLORS['white'])
 
     # Sub-question
     add_text_box(slide, Inches(1), Inches(3.5), Inches(8), Inches(0.6),
                 "And how does this connect to natural selection from Week 1?",
                 font_size=20, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
 
-    # Mission box
+    # Mission box (simplified - no border)
     mission_bg = add_colored_shape(slide, Inches(2), Inches(4.3), Inches(6), Inches(0.8), COLORS['teal_dark'])
-    mission_bg.line.color.rgb = COLORS['white']
-    mission_bg.line.width = Pt(2)
 
     add_text_box(slide, Inches(2.2), Inches(4.4), Inches(5.6), Inches(0.6),
                 "🎯 Your Mission: Use anatomical & fossil evidence to explain evolution",
@@ -351,28 +345,35 @@ def add_learning_targets_slide(prs):
                 "Predict features of transitional organisms based on evidence",
                 font_size=14, bold=True, color=COLORS['dark_text'])
 
-    # Summary bar
+    # Summary bar - FIXED: Added vertical centering for proper alignment
     add_colored_shape(slide, Inches(0.3), Inches(3.6), Inches(9.4), Inches(0.7), COLORS['teal_dark'])
-    add_text_box(slide, Inches(1.5), Inches(3.7), Inches(1.5), Inches(0.5),
-                "100", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(1.5), Inches(3.65), Inches(1.5), Inches(0.35),
+                "100", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(1.5), Inches(4.0), Inches(1.5), Inches(0.25),
-                "Total Points", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                "Total Points", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
-    add_text_box(slide, Inches(4.25), Inches(3.7), Inches(1.5), Inches(0.5),
-                "~75", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(4.25), Inches(3.65), Inches(1.5), Inches(0.35),
+                "~75", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(4.25), Inches(4.0), Inches(1.5), Inches(0.25),
-                "Minutes", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                "Minutes", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
-    add_text_box(slide, Inches(7.0), Inches(3.7), Inches(1.5), Inches(0.5),
-                "5", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(7.0), Inches(3.65), Inches(1.5), Inches(0.35),
+                "5", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(7.0), Inches(4.0), Inches(1.5), Inches(0.25),
-                "Sections", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                "Sections", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
-    # Points breakdown
+    # Points breakdown - FIXED: Added vertical centering
     add_colored_shape(slide, Inches(0.3), Inches(4.5), Inches(9.4), Inches(0.9), COLORS['white'])
-    add_text_box(slide, Inches(0.5), Inches(4.6), Inches(9.0), Inches(0.7),
+    add_text_box(slide, Inches(0.5), Inches(4.55), Inches(9.0), Inches(0.8),
                 "🎯 Hook (12 pts)  →  🦴 Station 1 (20 pts)  →  🦕 Station 2 (20 pts)  →  🔧 Station 3 (25 pts)  →  🎓 Exit (23 pts)",
-                font_size=13, color=COLORS['dark_text'], align=PP_ALIGN.CENTER)
+                font_size=13, color=COLORS['dark_text'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_vocabulary_slide(prs):
@@ -395,14 +396,17 @@ def add_vocabulary_slide(prs):
         ("Common Ancestor", "An ancestral species from which multiple species evolved"),
     ]
 
+    # FIXED: Added vertical centering for proper text alignment in rows
     y_pos = 0.8
     for i, (term, definition) in enumerate(vocab):
         bg_color = COLORS['light_blue_bg'] if i % 2 == 0 else COLORS['white']
         add_colored_shape(slide, Inches(0.2), Inches(y_pos), Inches(9.6), Inches(0.65), bg_color)
-        add_text_box(slide, Inches(0.4), Inches(y_pos + 0.1), Inches(2.4), Inches(0.45),
-                    term, font_size=13, bold=True, color=COLORS['dark_text'])
-        add_text_box(slide, Inches(2.9), Inches(y_pos + 0.1), Inches(6.7), Inches(0.45),
-                    definition, font_size=11, color=COLORS['gray_text'])
+        add_text_box(slide, Inches(0.4), Inches(y_pos + 0.08), Inches(2.4), Inches(0.5),
+                    term, font_size=13, bold=True, color=COLORS['dark_text'],
+                    anchor=MSO_ANCHOR.MIDDLE)
+        add_text_box(slide, Inches(2.9), Inches(y_pos + 0.08), Inches(6.7), Inches(0.5),
+                    definition, font_size=11, color=COLORS['gray_text'],
+                    anchor=MSO_ANCHOR.MIDDLE)
         y_pos += 0.65
 
     # Notecard prompt
@@ -589,38 +593,50 @@ def add_station1_support_slide(prs):
                 "🦴 Station 1 – Homologous vs Analogous Reference",
                 font_size=22, bold=True, color=COLORS['white'], font_name="Georgia")
 
-    # Comparison table header
+    # Comparison table header - FIXED: Added vertical centering
     add_colored_shape(slide, Inches(0.2), Inches(0.85), Inches(9.6), Inches(0.5), COLORS['orange_end'])
-    add_text_box(slide, Inches(0.4), Inches(0.95), Inches(2.2), Inches(0.3),
-                "Type", font_size=13, bold=True, color=COLORS['white'])
-    add_text_box(slide, Inches(2.7), Inches(0.95), Inches(2.0), Inches(0.3),
-                "Structure", font_size=13, bold=True, color=COLORS['white'])
-    add_text_box(slide, Inches(4.8), Inches(0.95), Inches(2.0), Inches(0.3),
-                "Function", font_size=13, bold=True, color=COLORS['white'])
-    add_text_box(slide, Inches(6.9), Inches(0.95), Inches(2.7), Inches(0.3),
-                "Indicates", font_size=13, bold=True, color=COLORS['white'])
+    add_text_box(slide, Inches(0.4), Inches(0.88), Inches(2.2), Inches(0.45),
+                "Type", font_size=13, bold=True, color=COLORS['white'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(2.7), Inches(0.88), Inches(2.0), Inches(0.45),
+                "Structure", font_size=13, bold=True, color=COLORS['white'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(4.8), Inches(0.88), Inches(2.0), Inches(0.45),
+                "Function", font_size=13, bold=True, color=COLORS['white'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(6.9), Inches(0.88), Inches(2.7), Inches(0.45),
+                "Indicates", font_size=13, bold=True, color=COLORS['white'],
+                anchor=MSO_ANCHOR.MIDDLE)
 
-    # Row 1 - Homologous
+    # Row 1 - Homologous - FIXED: Added vertical centering
     add_colored_shape(slide, Inches(0.2), Inches(1.4), Inches(9.6), Inches(0.55), COLORS['light_green_bg'])
-    add_text_box(slide, Inches(0.4), Inches(1.5), Inches(2.2), Inches(0.35),
-                "Homologous", font_size=13, bold=True, color=COLORS['dark_text'])
-    add_text_box(slide, Inches(2.7), Inches(1.5), Inches(2.0), Inches(0.35),
-                "SAME bones", font_size=12, color=COLORS['dark_text'])
-    add_text_box(slide, Inches(4.8), Inches(1.5), Inches(2.0), Inches(0.35),
-                "Different", font_size=12, color=COLORS['dark_text'])
-    add_text_box(slide, Inches(6.9), Inches(1.5), Inches(2.7), Inches(0.35),
-                "Common ancestor ✓", font_size=12, bold=True, color=COLORS['green_accent'])
+    add_text_box(slide, Inches(0.4), Inches(1.43), Inches(2.2), Inches(0.48),
+                "Homologous", font_size=13, bold=True, color=COLORS['dark_text'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(2.7), Inches(1.43), Inches(2.0), Inches(0.48),
+                "SAME bones", font_size=12, color=COLORS['dark_text'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(4.8), Inches(1.43), Inches(2.0), Inches(0.48),
+                "Different", font_size=12, color=COLORS['dark_text'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(6.9), Inches(1.43), Inches(2.7), Inches(0.48),
+                "Common ancestor ✓", font_size=12, bold=True, color=COLORS['green_accent'],
+                anchor=MSO_ANCHOR.MIDDLE)
 
-    # Row 2 - Analogous
+    # Row 2 - Analogous - FIXED: Added vertical centering
     add_colored_shape(slide, Inches(0.2), Inches(2.0), Inches(9.6), Inches(0.55), COLORS['light_pink_bg'])
-    add_text_box(slide, Inches(0.4), Inches(2.1), Inches(2.2), Inches(0.35),
-                "Analogous", font_size=13, bold=True, color=COLORS['dark_text'])
-    add_text_box(slide, Inches(2.7), Inches(2.1), Inches(2.0), Inches(0.35),
-                "Different", font_size=12, color=COLORS['dark_text'])
-    add_text_box(slide, Inches(4.8), Inches(2.1), Inches(2.0), Inches(0.35),
-                "SAME", font_size=12, color=COLORS['dark_text'])
-    add_text_box(slide, Inches(6.9), Inches(2.1), Inches(2.7), Inches(0.35),
-                "Independent evolution ✗", font_size=12, bold=True, color=COLORS['red_accent'])
+    add_text_box(slide, Inches(0.4), Inches(2.03), Inches(2.2), Inches(0.48),
+                "Analogous", font_size=13, bold=True, color=COLORS['dark_text'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(2.7), Inches(2.03), Inches(2.0), Inches(0.48),
+                "Different", font_size=12, color=COLORS['dark_text'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(4.8), Inches(2.03), Inches(2.0), Inches(0.48),
+                "SAME", font_size=12, color=COLORS['dark_text'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(6.9), Inches(2.03), Inches(2.7), Inches(0.48),
+                "Independent evolution ✗", font_size=12, bold=True, color=COLORS['red_accent'],
+                anchor=MSO_ANCHOR.MIDDLE)
 
     # Examples
     add_colored_shape(slide, Inches(0.2), Inches(2.7), Inches(4.7), Inches(1.0), COLORS['light_green_bg'])
@@ -718,14 +734,17 @@ def add_station2_support_slide(prs):
                 "🦕 Station 2 – Whale Evolution Timeline",
                 font_size=22, bold=True, color=COLORS['white'], font_name="Georgia")
 
-    # Timeline table header
+    # Timeline table header - FIXED: Added vertical centering
     add_colored_shape(slide, Inches(0.2), Inches(0.85), Inches(9.6), Inches(0.45), COLORS['blue_end'])
-    add_text_box(slide, Inches(0.4), Inches(0.93), Inches(2.2), Inches(0.3),
-                "Fossil", font_size=12, bold=True, color=COLORS['white'])
-    add_text_box(slide, Inches(2.7), Inches(0.93), Inches(1.2), Inches(0.3),
-                "Age", font_size=12, bold=True, color=COLORS['white'])
-    add_text_box(slide, Inches(4.0), Inches(0.93), Inches(5.6), Inches(0.3),
-                "Key Features (What Changed)", font_size=12, bold=True, color=COLORS['white'])
+    add_text_box(slide, Inches(0.4), Inches(0.88), Inches(2.2), Inches(0.4),
+                "Fossil", font_size=12, bold=True, color=COLORS['white'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(2.7), Inches(0.88), Inches(1.2), Inches(0.4),
+                "Age", font_size=12, bold=True, color=COLORS['white'],
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(4.0), Inches(0.88), Inches(5.6), Inches(0.4),
+                "Key Features (What Changed)", font_size=12, bold=True, color=COLORS['white'],
+                anchor=MSO_ANCHOR.MIDDLE)
 
     # Timeline rows
     fossils = [
@@ -736,16 +755,20 @@ def add_station2_support_slide(prs):
         ("Modern whales", "Today", "Flippers, NO visible legs, vestigial hip bones inside"),
     ]
 
+    # FIXED: Added vertical centering for proper text alignment in rows
     y_pos = 1.35
     for i, (name, age, features) in enumerate(fossils):
         bg_color = COLORS['light_blue_bg'] if i % 2 == 0 else COLORS['white']
         add_colored_shape(slide, Inches(0.2), Inches(y_pos), Inches(9.6), Inches(0.55), bg_color)
-        add_text_box(slide, Inches(0.4), Inches(y_pos + 0.1), Inches(2.2), Inches(0.35),
-                    name, font_size=11, bold=True, color=COLORS['dark_text'])
-        add_text_box(slide, Inches(2.7), Inches(y_pos + 0.1), Inches(1.2), Inches(0.35),
-                    age, font_size=11, color=COLORS['gray_text'])
-        add_text_box(slide, Inches(4.0), Inches(y_pos + 0.1), Inches(5.6), Inches(0.35),
-                    features, font_size=10, color=COLORS['dark_text'])
+        add_text_box(slide, Inches(0.4), Inches(y_pos + 0.05), Inches(2.2), Inches(0.45),
+                    name, font_size=11, bold=True, color=COLORS['dark_text'],
+                    anchor=MSO_ANCHOR.MIDDLE)
+        add_text_box(slide, Inches(2.7), Inches(y_pos + 0.05), Inches(1.2), Inches(0.45),
+                    age, font_size=11, color=COLORS['gray_text'],
+                    anchor=MSO_ANCHOR.MIDDLE)
+        add_text_box(slide, Inches(4.0), Inches(y_pos + 0.05), Inches(5.6), Inches(0.45),
+                    features, font_size=10, color=COLORS['dark_text'],
+                    anchor=MSO_ANCHOR.MIDDLE)
         y_pos += 0.55
 
     # Key insight
@@ -913,31 +936,34 @@ def add_exit_ticket_slide(prs):
     add_text_box(slide, Inches(0.5), Inches(1.6), Inches(9.0), Inches(1.1),
                 q_types, font_size=13, color=COLORS['dark_text'])
 
-    # Tips box
-    add_colored_shape(slide, Inches(0.3), Inches(2.95), Inches(4.6), Inches(1.1), COLORS['light_green_bg'])
-    add_text_box(slide, Inches(0.5), Inches(3.05), Inches(4.3), Inches(0.25),
-                "✅ SUCCESS TIPS:", font_size=12, bold=True, color=COLORS['green_accent'])
+    # Tips box - FIXED: Increased heights and added vertical centering
+    add_colored_shape(slide, Inches(0.3), Inches(2.95), Inches(4.6), Inches(1.2), COLORS['light_green_bg'])
+    add_text_box(slide, Inches(0.5), Inches(3.0), Inches(4.3), Inches(0.3),
+                "✅ SUCCESS TIPS:", font_size=12, bold=True, color=COLORS['green_accent'],
+                anchor=MSO_ANCHOR.MIDDLE)
     tips = """• Use vocabulary: homologous, analogous, transitional
 • Reference specific evidence from today
 • Connect structure → ancestry → natural selection"""
-    add_text_box(slide, Inches(0.5), Inches(3.3), Inches(4.3), Inches(0.7),
+    add_text_box(slide, Inches(0.5), Inches(3.3), Inches(4.3), Inches(0.8),
                 tips, font_size=10, color=COLORS['dark_text'])
 
-    # SEP reminder
-    add_colored_shape(slide, Inches(5.1), Inches(2.95), Inches(4.6), Inches(1.1), COLORS['light_blue_bg'])
-    add_text_box(slide, Inches(5.3), Inches(3.05), Inches(4.2), Inches(0.25),
-                "📊 SEP-6 EXPLANATION FORMAT:", font_size=12, bold=True, color=COLORS['blue_accent'])
+    # SEP reminder - FIXED: Increased heights and added vertical centering
+    add_colored_shape(slide, Inches(5.1), Inches(2.95), Inches(4.6), Inches(1.2), COLORS['light_blue_bg'])
+    add_text_box(slide, Inches(5.3), Inches(3.0), Inches(4.2), Inches(0.3),
+                "📊 SEP-6 EXPLANATION FORMAT:", font_size=12, bold=True, color=COLORS['blue_accent'],
+                anchor=MSO_ANCHOR.MIDDLE)
     model_req = """• Claim: State your answer clearly
 • Evidence: Cite specific observations
 • Reasoning: Explain WHY evidence supports claim"""
-    add_text_box(slide, Inches(5.3), Inches(3.3), Inches(4.2), Inches(0.7),
+    add_text_box(slide, Inches(5.3), Inches(3.3), Inches(4.2), Inches(0.8),
                 model_req, font_size=10, color=COLORS['dark_text'])
 
-    # Final notecard
+    # Final notecard - FIXED: Added vertical centering
     add_colored_shape(slide, Inches(0.15), Inches(4.2), Inches(9.7), Inches(0.65), COLORS['header_purple_end'])
-    add_text_box(slide, Inches(0.35), Inches(4.3), Inches(9.3), Inches(0.45),
+    add_text_box(slide, Inches(0.35), Inches(4.25), Inches(9.3), Inches(0.55),
                 "📝 FINAL Notecard: How does the whale finger mystery connect to natural selection?",
-                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_summary_slide(prs):

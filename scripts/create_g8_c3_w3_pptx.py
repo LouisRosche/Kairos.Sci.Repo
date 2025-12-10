@@ -101,9 +101,8 @@ def add_title_slide(prs):
                 "Cycle 3 Cumulative Assessment | 100 Points Total | ~75 Minutes",
                 font_size=16, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
+    # Teaser box (simplified - no border)
     teaser_bg = add_colored_shape(slide, Inches(2), Inches(4.2), Inches(6), Inches(0.8), COLORS['white'])
-    teaser_bg.line.color.rgb = COLORS['purple_dark']
-    teaser_bg.line.width = Pt(2)
     add_text_box(slide, Inches(2.1), Inches(4.35), Inches(5.8), Inches(0.5),
                 "⚠️ Assessment Week - Show What You Know!",
                 font_size=16, color=COLORS['purple_dark'], align=PP_ALIGN.CENTER)
@@ -128,29 +127,36 @@ def add_assessment_overview_slide(prs):
     add_text_box(slide, Inches(0.5), Inches(1.15), Inches(9.0), Inches(2.0),
                 info, font_size=15, color=COLORS['purple_dark'])
 
-    # Three parts
+    # Three parts - FIXED: Added vertical centering
     add_colored_shape(slide, Inches(0.2), Inches(3.4), Inches(3.0), Inches(1.0), COLORS['hook_purple_start'])
-    add_text_box(slide, Inches(0.4), Inches(3.5), Inches(2.6), Inches(0.3),
-                "🔗 Part 1: Synthesis", font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
-    add_text_box(slide, Inches(0.4), Inches(3.85), Inches(2.6), Inches(0.45),
-                "20 pts | ~15 min", font_size=12, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.4), Inches(3.45), Inches(2.6), Inches(0.4),
+                "🔗 Part 1: Synthesis", font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(0.4), Inches(3.85), Inches(2.6), Inches(0.5),
+                "20 pts | ~15 min", font_size=12, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(3.5), Inches(3.4), Inches(3.0), Inches(1.0), COLORS['purple_end'])
-    add_text_box(slide, Inches(3.7), Inches(3.5), Inches(2.6), Inches(0.3),
-                "📝 Part 2: Assessment", font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
-    add_text_box(slide, Inches(3.7), Inches(3.85), Inches(2.6), Inches(0.45),
-                "60 pts | ~40 min", font_size=12, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(3.7), Inches(3.45), Inches(2.6), Inches(0.4),
+                "📝 Part 2: Assessment", font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(3.7), Inches(3.85), Inches(2.6), Inches(0.5),
+                "60 pts | ~40 min", font_size=12, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(6.8), Inches(3.4), Inches(3.0), Inches(1.0), COLORS['green_end'])
-    add_text_box(slide, Inches(7.0), Inches(3.5), Inches(2.6), Inches(0.3),
-                "🎯 Part 3: Misconceptions", font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
-    add_text_box(slide, Inches(7.0), Inches(3.85), Inches(2.6), Inches(0.45),
-                "20 pts | ~20 min", font_size=12, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(7.0), Inches(3.45), Inches(2.6), Inches(0.4),
+                "🎯 Part 3: Misconceptions", font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
+    add_text_box(slide, Inches(7.0), Inches(3.85), Inches(2.6), Inches(0.5),
+                "20 pts | ~20 min", font_size=12, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(0.2), Inches(4.6), Inches(9.6), Inches(0.6), COLORS['teal'])
-    add_text_box(slide, Inches(0.4), Inches(4.68), Inches(9.2), Inches(0.4),
+    add_text_box(slide, Inches(0.4), Inches(4.63), Inches(9.2), Inches(0.55),
                 "💡 Take 5-minute breaks between parts for best performance!",
-                font_size=14, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                font_size=14, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_review_guide_slide(prs):
@@ -203,9 +209,10 @@ def add_review_guide_slide(prs):
                 font_size=12, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
     add_colored_shape(slide, Inches(0.2), Inches(4.85), Inches(9.6), Inches(0.55), COLORS['purple_end'])
-    add_text_box(slide, Inches(0.4), Inches(4.9), Inches(9.2), Inches(0.4),
+    add_text_box(slide, Inches(0.4), Inches(4.88), Inches(9.2), Inches(0.5),
                 "📝 Use your notecard from W1 & W2 during the assessment!",
-                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_common_mistakes_slide(prs):
@@ -330,9 +337,10 @@ def add_part1_intro_slide(prs):
                 font_size=13, color=COLORS['teal_dark'], align=PP_ALIGN.CENTER)
 
     add_colored_shape(slide, Inches(0.15), Inches(4.35), Inches(9.7), Inches(0.55), COLORS['hook_purple_start'])
-    add_text_box(slide, Inches(0.35), Inches(4.4), Inches(9.3), Inches(0.4),
+    add_text_box(slide, Inches(0.35), Inches(4.38), Inches(9.3), Inches(0.5),
                 "📝 Complete Part 1 Form, then take a 5-minute break",
-                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_part1_support_slide(prs):
@@ -367,9 +375,10 @@ def add_part1_support_slide(prs):
                 font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
     add_colored_shape(slide, Inches(0.15), Inches(4.0), Inches(9.7), Inches(0.55), COLORS['teal'])
-    add_text_box(slide, Inches(0.35), Inches(4.05), Inches(9.3), Inches(0.4),
+    add_text_box(slide, Inches(0.35), Inches(4.03), Inches(9.3), Inches(0.5),
                 "⏸️ After Part 1: Take a 5-minute break before Part 2!",
-                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_part2_intro_slide(prs):
@@ -408,9 +417,10 @@ def add_part2_intro_slide(prs):
                 font_size=12, color=COLORS['red_accent'], align=PP_ALIGN.CENTER)
 
     add_colored_shape(slide, Inches(0.15), Inches(3.75), Inches(9.7), Inches(0.55), COLORS['purple_end'])
-    add_text_box(slide, Inches(0.35), Inches(3.8), Inches(9.3), Inches(0.4),
+    add_text_box(slide, Inches(0.35), Inches(3.78), Inches(9.3), Inches(0.5),
                 "📝 Complete Part 2 Form - Take your time!",
-                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_part2_support_slide(prs):
@@ -460,9 +470,10 @@ indicates shared ancestry, not independent evolution" """
                 font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
     add_colored_shape(slide, Inches(0.15), Inches(3.75), Inches(9.7), Inches(0.55), COLORS['teal'])
-    add_text_box(slide, Inches(0.35), Inches(3.8), Inches(9.3), Inches(0.4),
+    add_text_box(slide, Inches(0.35), Inches(3.78), Inches(9.3), Inches(0.5),
                 "⏸️ After Part 2: Take a 5-minute break before Part 3!",
-                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_part3_intro_slide(prs):
@@ -501,9 +512,10 @@ def add_part3_intro_slide(prs):
                 font_size=12, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
     add_colored_shape(slide, Inches(0.15), Inches(3.5), Inches(9.7), Inches(0.55), COLORS['green_end'])
-    add_text_box(slide, Inches(0.35), Inches(3.55), Inches(9.3), Inches(0.4),
+    add_text_box(slide, Inches(0.35), Inches(3.53), Inches(9.3), Inches(0.5),
                 "📝 Complete Part 3 Form - Last section! You've got this!",
-                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_part3_support_slide(prs):

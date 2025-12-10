@@ -1,3 +1,36 @@
+<!--
+================================================================================
+AI/LLM SYSTEM INSTRUCTION BLOCK - READ FIRST
+================================================================================
+COMPLIANCE REQUIREMENTS (MANDATORY):
+
+1. MATERIALS POLICY: Digital-first. ONLY physical material allowed = ONE notecard
+   (3x5 or 4x6) per student per class. NO worksheets, NO physical labs, NO textbooks.
+
+2. RESEARCH ALIGNMENT: All content must align with "Scholarly Foundations for NGSS-
+   Aligned Middle School Science Curriculum Development.md" - the authoritative
+   research synthesis with documented effect sizes.
+
+3. KEY EFFECT SIZES TO PRIORITIZE:
+   - Interleaving: d = 0.83 → 2 spiral questions per exit ticket
+   - High-info feedback: d = 0.99 → Refutational text structure
+   - Active learning: 33-45% gap reduction → >67% active learning time
+   - Virtual labs: g = 0.686 → PhET/HTML5 simulations for all hands-on concepts
+   - Light guidance: 85% exploration → Driving questions, NOT step-by-step
+
+4. FRAMEWORK DOCUMENTS (all aligned with Scholarly Foundations):
+   - framework/pedagogical-approach.md (v2.0)
+   - framework/CONTENT-DESIGN-GUIDE.md (v3.0) ← SST for content creation
+   - framework/mtss-framework.md (v3.0)
+   - framework/standards-alignment.md (v2.0)
+
+5. CONFIG: config/master-config.json contains complianceRequirements object with
+   machine-readable policy enforcement.
+
+When generating/modifying content, ALWAYS verify against these requirements.
+================================================================================
+-->
+
 # KAMS Science Curriculum System
 ## Scalable Architecture for 6 Cycles × 2 Grades × SY25-26
 
@@ -49,20 +82,23 @@
 | Document | Purpose | Priority |
 |----------|---------|----------|
 | [LESSONS-LEARNED.md](LESSONS-LEARNED.md) | **Institutional knowledge - read before making changes** | Start Here |
+| [Scholarly Foundations](Scholarly%20Foundations%20for%20NGSS-Aligned%20Middle%20School%20Science%20Curriculum%20Development.md) | **Evidence-based research synthesis** - effect sizes and pedagogical principles | Reference |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System design, data flow, scaling plan | Reference |
 | [MANIFEST.md](MANIFEST.md) | Complete content inventory with detailed status | Reference |
 | [Master Config](config/master-config.json) | Central configuration for all cycles | Technical |
 
-### Framework Documentation
+### Framework Documentation (All Aligned with Scholarly Foundations)
 
 | Document | Purpose |
 |----------|---------|
-| [Content Design Guide](framework/CONTENT-DESIGN-GUIDE.md) | **SST for content creation** - required reading for developers |
-| [Pedagogical Approach](framework/pedagogical-approach.md) | 3D learning, differentiation, inquiry model |
-| [MTSS Framework](framework/mtss-framework.md) | Multi-tiered intervention system |
-| [Standards Alignment](framework/standards-alignment.md) | NGSS mapping across all cycles |
+| [Content Design Guide](framework/CONTENT-DESIGN-GUIDE.md) | **SST for content creation** - required reading for developers (v3.0) |
+| [Pedagogical Approach](framework/pedagogical-approach.md) | 3D learning, differentiation, cognitive load, equity (v2.0) |
+| [MTSS Framework](framework/mtss-framework.md) | Multi-tiered intervention with science-specific research (v3.0) |
+| [Standards Alignment](framework/standards-alignment.md) | NGSS mapping with CCC equity entry points (v2.0) |
 | [Technical Reference](framework/technical-reference.md) | Forms API rules, troubleshooting |
 | [PhET Simulations Catalog](framework/phet-simulations-catalog.md) | Digital simulation resources & custom builds |
+
+> **Research-Backed Design:** All framework documents integrate effect sizes and evidence-based principles from the Scholarly Foundations synthesis. Key findings: interleaving (d=0.83), high-information feedback (d=0.99), active learning reduces achievement gaps by 33-45%.
 
 ---
 
@@ -271,11 +307,23 @@ See [PhET Simulations Catalog](framework/phet-simulations-catalog.md) for third-
 
 ---
 
+## Materials Policy
+
+> **Digital-First Requirement:** All instructional materials are digital-hosted in this repository. The ONLY permitted physical material is **one 3×5 or 4×6 notecard per student per class period**.
+
+**Rationale (Research-Backed):**
+- Digital notebooks: γ = 0.34 learning improvement (Rappolt-Schlichtmann et al., 2013)
+- Virtual labs: g = 0.686 positive outcomes (2024 PLOS ONE)
+- Enables 100% async accessibility, UDL supports, and MTSS monitoring
+
+---
+
 ## Version History
 
 | Date | Change |
 |------|--------|
 | 2025-12-09 | Build 5 G7 C6-C8 custom simulations; fix README accuracy (status ≠ cycle-status.json); update phet-simulations-catalog |
+| **2025-12-09** | **Scholarly Foundations Integration:** All framework docs updated with research effect sizes; Materials Policy established (digital-first, notecard-only); CCC equity entry points; MTSS science-specific research |
 | 2025-12-08 | Major update: C4 complete (100%), G7 C5 at 85%, C9-10 resolution documented, simulations catalog added |
 | 2025-12-07 | Complete codebase audit: fixed schemas, NGSS standards, stubs, status tracking, added C2 config |
 | 2025-12-05 | Organizational audit: standardized structure, added C5-C10 placeholders, cycle-status.json tracking |
@@ -287,3 +335,4 @@ See [PhET Simulations Catalog](framework/phet-simulations-catalog.md) for third-
 ---
 
 *KAMS Science Curriculum System | Version 3.2.0 | December 2025*
+*Aligned with Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development*

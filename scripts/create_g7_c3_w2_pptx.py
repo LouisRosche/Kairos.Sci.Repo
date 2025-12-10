@@ -82,6 +82,18 @@ W3 Assessment (11-12 slides):
    - Standard margin: 0.15" - 0.3"
    - Standard padding inside shapes: 0.1" - 0.2"
    - Footer/notecard bar height: 0.55" - 0.7"
+
+7. TABLE ROW TEXT ALIGNMENT (CRITICAL):
+   - ALWAYS use anchor=MSO_ANCHOR.MIDDLE for text in table rows
+   - Text box height should be ~0.45-0.5" for 0.55-0.65" row heights
+   - Position text box with small top offset (0.05-0.08") from row top
+   - This ensures text is vertically centered in each row cell
+   - Without vertical anchoring, text sits at TOP of box causing misalignment
+
+8. STAT/NUMBER DISPLAY BOXES:
+   - Large numbers (24pt+) need anchor=MSO_ANCHOR.MIDDLE
+   - Labels below numbers also need vertical centering
+   - This prevents numbers appearing offset within their containers
 =============================================================================
 """
 
@@ -219,13 +231,9 @@ def add_title_slide(prs):
                        "MS-ESS3-5 Climate Change Investigation | 100 Points Total | ~75 Minutes",
                        font_size=16, color=COLORS['white'], align=PP_ALIGN.CENTER)
 
-    # Driving question teaser box
+    # Driving question teaser box (simplified - no border)
     teaser_bg = add_colored_shape(slide, Inches(2), Inches(4.2), Inches(6), Inches(0.8),
                                   COLORS['white'])
-    teaser_bg.fill.fore_color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-    # Make semi-transparent effect with border
-    teaser_bg.line.color.rgb = COLORS['teal']
-    teaser_bg.line.width = Pt(2)
 
     teaser = add_text_box(slide, Inches(2.1), Inches(4.35), Inches(5.8), Inches(0.5),
                          "Why does less ice = faster melting?",
@@ -314,18 +322,14 @@ def add_driving_question_slide(prs):
                 font_size=32, bold=True, color=COLORS['white'],
                 align=PP_ALIGN.CENTER, font_name="Georgia")
 
-    # Decorative divider
-    add_colored_shape(slide, Inches(4), Inches(3.2), Inches(2), Inches(0.08), COLORS['white'])
 
     # Sub-question
     add_text_box(slide, Inches(1), Inches(3.5), Inches(8), Inches(0.6),
                 "And how does this connect to what you learned about CO₂ in Week 1?",
                 font_size=20, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
 
-    # Mission box
+    # Mission box (simplified - no border)
     mission_bg = add_colored_shape(slide, Inches(2), Inches(4.3), Inches(6), Inches(0.8), COLORS['teal_dark'])
-    mission_bg.line.color.rgb = COLORS['white']
-    mission_bg.line.width = Pt(2)
 
     add_text_box(slide, Inches(2.2), Inches(4.4), Inches(5.6), Inches(0.6),
                 "🎯 Your Mission: Connect ice → albedo → feedback loops → climate",
@@ -443,27 +447,34 @@ def add_learning_targets_slide(prs):
     # Summary bar at bottom
     add_colored_shape(slide, Inches(0.3), Inches(3.6), Inches(9.4), Inches(0.7), COLORS['teal_dark'])
 
-    # Stats in summary bar
-    add_text_box(slide, Inches(1.5), Inches(3.7), Inches(1.5), Inches(0.5),
-                "100", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    # Stats in summary bar - FIXED: Added vertical centering for proper alignment
+    add_text_box(slide, Inches(1.5), Inches(3.65), Inches(1.5), Inches(0.35),
+                "100", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(1.5), Inches(4.0), Inches(1.5), Inches(0.25),
-                "Total Points", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                "Total Points", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
-    add_text_box(slide, Inches(4.25), Inches(3.7), Inches(1.5), Inches(0.5),
-                "~75", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(4.25), Inches(3.65), Inches(1.5), Inches(0.35),
+                "~75", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(4.25), Inches(4.0), Inches(1.5), Inches(0.25),
-                "Minutes", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                "Minutes", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
-    add_text_box(slide, Inches(7.0), Inches(3.7), Inches(1.5), Inches(0.5),
-                "5", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(7.0), Inches(3.65), Inches(1.5), Inches(0.35),
+                "5", font_size=24, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(7.0), Inches(4.0), Inches(1.5), Inches(0.25),
-                "Sections", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                "Sections", font_size=9, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
-    # Points breakdown
+    # Points breakdown - FIXED: Added vertical centering
     add_colored_shape(slide, Inches(0.3), Inches(4.5), Inches(9.4), Inches(0.9), COLORS['white'])
-    add_text_box(slide, Inches(0.5), Inches(4.6), Inches(9.0), Inches(0.7),
+    add_text_box(slide, Inches(0.5), Inches(4.55), Inches(9.0), Inches(0.8),
                 "🎯 Hook (12 pts)  →  ☀️ Station 1 (20 pts)  →  🌊 Station 2 (20 pts)  →  🔧 Station 3 (25 pts)  →  🎓 Exit (23 pts)",
-                font_size=13, color=COLORS['dark_text'], align=PP_ALIGN.CENTER)
+                font_size=13, color=COLORS['dark_text'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_vocabulary_slide(prs):
@@ -486,14 +497,17 @@ def add_vocabulary_slide(prs):
         ("Tipping Point", "The threshold where a system shifts to a new, hard-to-reverse state"),
     ]
 
+    # FIXED: Added vertical centering for proper text alignment in rows
     y_pos = 0.8
     for i, (term, definition) in enumerate(vocab):
         bg_color = COLORS['light_blue_bg'] if i % 2 == 0 else COLORS['white']
         add_colored_shape(slide, Inches(0.2), Inches(y_pos), Inches(9.6), Inches(0.65), bg_color)
-        add_text_box(slide, Inches(0.4), Inches(y_pos + 0.1), Inches(2.2), Inches(0.4),
-                    term, font_size=14, bold=True, color=COLORS['dark_text'])
-        add_text_box(slide, Inches(2.7), Inches(y_pos + 0.1), Inches(6.9), Inches(0.45),
-                    definition, font_size=12, color=COLORS['gray_text'])
+        add_text_box(slide, Inches(0.4), Inches(y_pos + 0.08), Inches(2.2), Inches(0.5),
+                    term, font_size=14, bold=True, color=COLORS['dark_text'],
+                    anchor=MSO_ANCHOR.MIDDLE)
+        add_text_box(slide, Inches(2.7), Inches(y_pos + 0.08), Inches(6.9), Inches(0.5),
+                    definition, font_size=12, color=COLORS['gray_text'],
+                    anchor=MSO_ANCHOR.MIDDLE)
         y_pos += 0.65
 
     # Notecard prompt
@@ -935,16 +949,20 @@ def add_station3_support_slide(prs):
         ("☀️ Solar panels", "Prevents NEW emissions", "$$$"),
     ]
 
+    # FIXED: Added vertical centering for proper text alignment in rows
     y_pos = 0.85
     for i, (approach, method, cost) in enumerate(options):
         bg_color = COLORS['light_green_bg'] if i % 2 == 0 else COLORS['white']
         add_colored_shape(slide, Inches(0.2), Inches(y_pos), Inches(9.6), Inches(0.55), bg_color)
-        add_text_box(slide, Inches(0.4), Inches(y_pos + 0.1), Inches(2.5), Inches(0.35),
-                    approach, font_size=13, bold=True, color=COLORS['dark_text'])
-        add_text_box(slide, Inches(3.0), Inches(y_pos + 0.1), Inches(3.5), Inches(0.35),
-                    method, font_size=12, color=COLORS['gray_text'])
-        add_text_box(slide, Inches(7.0), Inches(y_pos + 0.1), Inches(2.5), Inches(0.35),
-                    cost, font_size=12, color=COLORS['green_accent'])
+        add_text_box(slide, Inches(0.4), Inches(y_pos + 0.05), Inches(2.5), Inches(0.45),
+                    approach, font_size=13, bold=True, color=COLORS['dark_text'],
+                    anchor=MSO_ANCHOR.MIDDLE)
+        add_text_box(slide, Inches(3.0), Inches(y_pos + 0.05), Inches(3.5), Inches(0.45),
+                    method, font_size=12, color=COLORS['gray_text'],
+                    anchor=MSO_ANCHOR.MIDDLE)
+        add_text_box(slide, Inches(7.0), Inches(y_pos + 0.05), Inches(2.5), Inches(0.45),
+                    cost, font_size=12, color=COLORS['green_accent'],
+                    anchor=MSO_ANCHOR.MIDDLE)
         y_pos += 0.55
 
     # Calculation help
@@ -1005,33 +1023,36 @@ def add_exit_ticket_slide(prs):
     add_text_box(slide, Inches(0.5), Inches(1.6), Inches(9.0), Inches(1.1),
                 q_types, font_size=13, color=COLORS['dark_text'])
 
-    # Tips box - adjusted positions
-    add_colored_shape(slide, Inches(0.3), Inches(2.95), Inches(4.6), Inches(1.1), COLORS['light_green_bg'])
-    add_text_box(slide, Inches(0.5), Inches(3.05), Inches(4.3), Inches(0.25),
-                "✅ SUCCESS TIPS:", font_size=12, bold=True, color=COLORS['green_accent'])
+    # Tips box - FIXED: Increased heights and added vertical centering
+    add_colored_shape(slide, Inches(0.3), Inches(2.95), Inches(4.6), Inches(1.2), COLORS['light_green_bg'])
+    add_text_box(slide, Inches(0.5), Inches(3.0), Inches(4.3), Inches(0.3),
+                "✅ SUCCESS TIPS:", font_size=12, bold=True, color=COLORS['green_accent'],
+                anchor=MSO_ANCHOR.MIDDLE)
     tips = """• Use vocabulary from today
 • Reference your notecard notes
 • Draw arrows in your feedback loop model
 • Explain WHY each step leads to the next"""
-    add_text_box(slide, Inches(0.5), Inches(3.3), Inches(4.3), Inches(0.7),
+    add_text_box(slide, Inches(0.5), Inches(3.3), Inches(4.3), Inches(0.8),
                 tips, font_size=10, color=COLORS['dark_text'])
 
-    # Model reminder - adjusted positions
-    add_colored_shape(slide, Inches(5.1), Inches(2.95), Inches(4.6), Inches(1.1), COLORS['light_blue_bg'])
-    add_text_box(slide, Inches(5.3), Inches(3.05), Inches(4.2), Inches(0.25),
-                "📊 SEP-2 MODEL MUST INCLUDE:", font_size=12, bold=True, color=COLORS['blue_accent'])
+    # Model reminder - FIXED: Increased heights and added vertical centering
+    add_colored_shape(slide, Inches(5.1), Inches(2.95), Inches(4.6), Inches(1.2), COLORS['light_blue_bg'])
+    add_text_box(slide, Inches(5.3), Inches(3.0), Inches(4.2), Inches(0.3),
+                "📊 SEP-2 MODEL MUST INCLUDE:", font_size=12, bold=True, color=COLORS['blue_accent'],
+                anchor=MSO_ANCHOR.MIDDLE)
     model_req = """• Clear boxes or circles with labels
 • Arrows showing cause → effect
 • At least 4 steps in the loop
 • \"Positive feedback\" or \"Negative feedback\" label"""
-    add_text_box(slide, Inches(5.3), Inches(3.3), Inches(4.2), Inches(0.7),
+    add_text_box(slide, Inches(5.3), Inches(3.3), Inches(4.2), Inches(0.8),
                 model_req, font_size=10, color=COLORS['dark_text'])
 
-    # Final notecard - adjusted position
+    # Final notecard - FIXED: Added vertical centering
     add_colored_shape(slide, Inches(0.15), Inches(4.2), Inches(9.7), Inches(0.65), COLORS['exit_purple_end'])
-    add_text_box(slide, Inches(0.35), Inches(4.3), Inches(9.3), Inches(0.45),
+    add_text_box(slide, Inches(0.35), Inches(4.25), Inches(9.3), Inches(0.55),
                 "📝 FINAL Notecard: Draw the ice-albedo positive feedback loop with 4+ labeled steps",
-                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER)
+                font_size=13, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER,
+                anchor=MSO_ANCHOR.MIDDLE)
 
 
 def add_summary_slide(prs):

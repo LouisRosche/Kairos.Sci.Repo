@@ -227,8 +227,8 @@ def add_hook_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🌊 Hook – The Green Lake Mystery",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "12 Points | ~10 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "12 Points | ~10 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(2.2), COLORS['light_purple_bg'])
     add_text_box(slide, Inches(0.5), Inches(1.3), Inches(9.0), Inches(0.4),
@@ -271,9 +271,9 @@ def add_hook_support_slide(prs):
                 font_size=12, color=COLORS['gray_text'])
 
     add_colored_shape(slide, Inches(0.3), Inches(3.7), Inches(9.4), Inches(1.65), COLORS['light_bg'])
-    add_text_box(slide, Inches(0.5), Inches(3.8), Inches(9.0), Inches(0.4),
+    add_text_box(slide, Inches(0.5), Inches(3.78), Inches(9.0), Inches(0.5),
                 "📝 Complete the Hook form on the student page",
-                font_size=14, bold=True, color=COLORS['red_alert'])
+                font_size=14, bold=True, color=COLORS['red_alert'], anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(0.5), Inches(4.2), Inches(9.0), Inches(1.0),
                 "Predict what happens at each stage of the cascade.\n" +
                 "How is this similar to the positive feedback loops from Cycle 3?",
@@ -285,8 +285,8 @@ def add_station1_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🔄 Station 1 – Nutrient Cycle Modeling",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "20 Points | ~18 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "20 Points | ~18 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(1.3), COLORS['light_blue_bg'])
     add_text_box(slide, Inches(0.5), Inches(1.3), Inches(9.0), Inches(0.4),
@@ -336,10 +336,10 @@ def add_station1_support_slide(prs):
                 font_size=12, color=COLORS['gray_text'])
 
     add_colored_shape(slide, Inches(0.3), Inches(4.35), Inches(9.4), Inches(1.0), COLORS['light_bg'])
-    add_text_box(slide, Inches(0.5), Inches(4.4), Inches(9.0), Inches(0.85),
+    add_text_box(slide, Inches(0.5), Inches(4.38), Inches(9.0), Inches(0.95),
                 "📝 Complete Station 1 form - Model the nutrient cycle and identify intervention points\n" +
                 "Where could we STOP nutrients from reaching waterways?",
-                font_size=12, bold=True, color=COLORS['red_alert'])
+                font_size=12, bold=True, color=COLORS['red_alert'], anchor=MSO_ANCHOR.MIDDLE)
 
 def add_station2_intro_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
@@ -347,8 +347,8 @@ def add_station2_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "📊 Station 2 – Dead Zone Data Analysis",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "20 Points | ~15 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "20 Points | ~15 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(1.2), COLORS['light_purple_bg'])
     add_text_box(slide, Inches(0.5), Inches(1.3), Inches(9.0), Inches(0.4),
@@ -399,9 +399,9 @@ def add_station2_support_slide(prs):
                 font_size=11, color=COLORS['gray_text'])
 
     add_colored_shape(slide, Inches(0.3), Inches(3.5), Inches(9.4), Inches(1.85), COLORS['light_bg'])
-    add_text_box(slide, Inches(0.5), Inches(3.6), Inches(9.0), Inches(0.4),
+    add_text_box(slide, Inches(0.5), Inches(3.58), Inches(9.0), Inches(0.5),
                 "📝 Complete Station 2 form - Analyze the data correlation",
-                font_size=14, bold=True, color=COLORS['red_alert'])
+                font_size=14, bold=True, color=COLORS['red_alert'], anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(0.5), Inches(4.0), Inches(9.0), Inches(1.2),
                 "• Calculate the rate of dead zone growth\n" +
                 "• Predict dead zone size in 2030 if trends continue\n" +
@@ -414,8 +414,8 @@ def add_station3_intro_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🔧 Station 3 – Design a Remediation Plan",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "25 Points | ~20 min (Highest Value!)", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "25 Points | ~20 min (Highest Value!)", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(1.2), COLORS['light_pink_bg'])
     add_text_box(slide, Inches(0.5), Inches(1.3), Inches(9.0), Inches(0.4),
@@ -470,10 +470,10 @@ def add_station3_support_slide(prs):
         y_pos += 0.9
 
     add_colored_shape(slide, Inches(0.3), Inches(4.65), Inches(9.4), Inches(0.75), COLORS['light_bg'])
-    add_text_box(slide, Inches(0.5), Inches(4.7), Inches(9.0), Inches(0.6),
+    add_text_box(slide, Inches(0.5), Inches(4.68), Inches(9.0), Inches(0.7),
                 "📝 Complete Station 3 - Design a multi-intervention plan within budget!\n" +
                 "Consider: What combination gives the best reduction for the lowest cost?",
-                font_size=11, bold=True, color=COLORS['red_alert'])
+                font_size=11, bold=True, color=COLORS['red_alert'], anchor=MSO_ANCHOR.MIDDLE)
 
 def add_exit_ticket_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
@@ -481,8 +481,8 @@ def add_exit_ticket_slide(prs):
     add_text_box(slide, Inches(0.35), Inches(0.2), Inches(9.3), Inches(0.45),
                 "🎓 Exit Ticket – Biogeochemical Systems",
                 font_size=26, bold=True, color=COLORS['white'], align=PP_ALIGN.CENTER, font_name="Georgia")
-    add_text_box(slide, Inches(0.35), Inches(0.65), Inches(9.3), Inches(0.3),
-                "23 Points | ~15 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER)
+    add_text_box(slide, Inches(0.35), Inches(0.63), Inches(9.3), Inches(0.4),
+                "23 Points | ~15 min", font_size=11, color=COLORS['white'], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     add_colored_shape(slide, Inches(0.3), Inches(1.2), Inches(9.4), Inches(2.5), COLORS['light_orange_bg'])
     add_text_box(slide, Inches(0.5), Inches(1.3), Inches(9.0), Inches(0.4),
@@ -496,9 +496,9 @@ def add_exit_ticket_slide(prs):
                 font_size=14, color=COLORS['gray_text'])
 
     add_colored_shape(slide, Inches(0.3), Inches(3.85), Inches(9.4), Inches(1.5), COLORS['light_bg'])
-    add_text_box(slide, Inches(0.5), Inches(3.95), Inches(9.0), Inches(0.4),
+    add_text_box(slide, Inches(0.5), Inches(3.93), Inches(9.0), Inches(0.5),
                 "📝 Complete the Exit Ticket on the student page",
-                font_size=14, bold=True, color=COLORS['red_alert'])
+                font_size=14, bold=True, color=COLORS['red_alert'], anchor=MSO_ANCHOR.MIDDLE)
     add_text_box(slide, Inches(0.5), Inches(4.35), Inches(9.0), Inches(0.9),
                 "This is your final assessment for Week 2. Take your time!\n" +
                 "Use evidence from both Week 1 and Week 2 activities.",

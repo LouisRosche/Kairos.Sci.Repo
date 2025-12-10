@@ -34,63 +34,63 @@
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 12px;
     }
 
     header {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: white;
-      padding: 24px;
-      border-radius: 16px;
-      margin-bottom: 24px;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 14px;
       box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
     }
 
     header h1 {
-      font-size: 1.8em;
-      margin-bottom: 8px;
+      font-size: clamp(1.3em, 3.5vw, 1.7em);
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    header .icon { font-size: 1.2em; }
+    header .icon { font-size: 1.1em; }
 
     header .subtitle {
       opacity: 0.95;
-      font-size: 1.05em;
+      font-size: 0.9em;
     }
 
     header .meta {
       display: flex;
-      gap: 16px;
-      margin-top: 12px;
+      gap: 10px;
+      margin-top: 8px;
       flex-wrap: wrap;
     }
 
     header .meta span {
       background: rgba(255, 255, 255, 0.2);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85em;
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 0.75em;
     }
 
     /* Instructions */
     details.instructions {
       background: var(--surface);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 24px;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 14px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
       border: 1px solid var(--border);
     }
 
     details.instructions summary {
       font-weight: 600;
-      font-size: 1.1em;
+      font-size: 0.9em;
       cursor: pointer;
       color: var(--primary);
       list-style: none;
@@ -225,7 +225,7 @@
     }
 
     .canvas-container {
-      height: 400px;
+      height: 320px;
       background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
       position: relative;
     }
@@ -638,6 +638,34 @@
       }
     }
 
+    /* Accessibility: Skip link */
+    .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--primary);
+        color: white;
+        padding: 8px 16px;
+        z-index: 100;
+        transition: top 0.3s;
+        text-decoration: none;
+        border-radius: 0 0 8px 0;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* Accessibility: Focus visible */
+    :focus-visible {
+        outline: 3px solid var(--primary);
+        outline-offset: 2px;
+    }
+
+    /* Print styles */
+    @media print {
+        body { background: white; padding: 0; }
+        .controls, button, .rotation-controls { display: none; }
+        header, .info-panel, .model-viewer { box-shadow: none; border: 1px solid #ccc; }
+    }
+
     .sr-only {
       position: absolute;
       width: 1px;
@@ -652,6 +680,7 @@
   </style>
 </head>
 <body>
+  <a href="#simulation" class="skip-link">Skip to simulation</a>
   <div class="container">
     <header>
       <h1><span class="icon" aria-hidden="true">🔬</span> Molecule Structure Explorer</h1>
@@ -663,7 +692,7 @@
       </div>
     </header>
 
-    <details class="instructions" open>
+    <details class="instructions">
       <summary>How to Use This Simulator</summary>
       <div class="content">
         <ol>
@@ -676,7 +705,7 @@
       </div>
     </details>
 
-    <section class="molecule-selector">
+    <section class="molecule-selector" id="simulation" role="main" aria-label="Molecule Structure Explorer simulation">
       <h2>Select a Molecule to Explore</h2>
       <div class="molecule-grid" role="radiogroup" aria-label="Molecule selection">
         <div class="molecule-card selected" tabindex="0" role="radio" aria-checked="true" data-molecule="h2o">
@@ -1258,6 +1287,25 @@
 
     window.addEventListener('resize', () => {
       initCanvas();
+    });
+
+    // Keyboard accessibility
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'r' || e.key === 'R') {
+        selectMolecule('h2o');
+        rotationX = 0;
+        rotationY = 0;
+        drawMolecule();
+      }
+      if (e.key === ' ') {
+        if (e.target.tagName === 'BUTTON') return;
+        e.preventDefault();
+        autoRotate = !autoRotate;
+      }
+      if (e.key === 'Escape') {
+        autoRotate = false;
+      }
     });
   </script>
 </body>
