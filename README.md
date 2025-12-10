@@ -257,15 +257,18 @@ Kairos.Sci.Repo/
 ### Complete
 - ✅ Configuration system (JSON-based, centralized via `Config.gs`)
 - ✅ Cycle configs (C3-C10 with status tracking)
-- ✅ Data aggregation pipeline
+- ✅ Data aggregation pipeline (with comprehensive error handling)
 - ✅ 3D learning analyzer
 - ✅ MTSS intervention framework
 - ✅ Complete cycle content (C3-C4 fully complete; C5-C8 lesson plans complete)
 - ✅ Status tracking (cycle-status.json)
-- ✅ Trigger management (centralized, staggered)
+- ✅ Trigger management (centralized, staggered) - includes seating analysis & health check
 - ✅ CSS design system
 - ✅ Custom simulations (22 HTML5 sims across C2-C8)
 - ✅ PhET integration catalog
+- ✅ Seating correlation analyzer (integrated with weekly triggers)
+- ✅ System health check (daily 7 AM diagnostic)
+- ✅ Test utilities (`scripts/TestUtils.gs`)
 
 ### Pending
 - ⬜ Automated form deployment
@@ -282,7 +285,7 @@ Kairos.Sci.Repo/
 | **Cycle 2 Content** | Legacy, incomplete | Reference only - do not deploy |
 | **Cycles 9-10** | Deferred/merged | Standards integrated into C8; configs exist for reference |
 | **Apps Script Triggers** | ±30 min precision | Triggers run at hour start, not exact minute |
-| **No Automated Tests** | Planned | Manual testing via Google Apps Script editor |
+| **Automated Tests** | Basic validation available | Run `runAllTests()` from `scripts/TestUtils.gs` |
 
 See [LESSONS-LEARNED.md](LESSONS-LEARNED.md) for detailed institutional knowledge.
 
