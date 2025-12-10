@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAMS Science - Daily Alert Digest</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+    <!-- Header -->
+    <tr>
+      <td style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); padding: 20px; text-align: center;">
+        <h1 style="color: #ffffff; margin: 0; font-size: 24px;">
+          📋 Daily Alert Digest
+        </h1>
+        <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 14px; opacity: 0.9;">
+          KAMS Science Curriculum System • <?= dateFormatted ?>
+        </p>
+      </td>
+    </tr>
+
+    <!-- Summary Banner -->
+    <tr>
+      <td style="padding: 20px;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+          <tr>
+            <!-- Critical Count -->
+            <td width="33%" align="center" style="padding: 10px;">
+              <div style="background-color: <?= criticalCount > 0 ? '#dc3545' : '#28a745' ?>; border-radius: 8px; padding: 15px;">
+                <p style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;"><?= criticalCount ?></p>
+                <p style="margin: 5px 0 0 0; color: #ffffff; font-size: 12px;">Critical</p>
+              </div>
+            </td>
+            <!-- Warning Count -->
+            <td width="33%" align="center" style="padding: 10px;">
+              <div style="background-color: <?= warningCount > 0 ? '#ffc107' : '#28a745' ?>; border-radius: 8px; padding: 15px;">
+                <p style="margin: 0; color: <?= warningCount > 0 ? '#212529' : '#ffffff' ?>; font-size: 28px; font-weight: bold;"><?= warningCount ?></p>
+                <p style="margin: 5px 0 0 0; color: <?= warningCount > 0 ? '#212529' : '#ffffff' ?>; font-size: 12px;">Warnings</p>
+              </div>
+            </td>
+            <!-- Info Count -->
+            <td width="33%" align="center" style="padding: 10px;">
+              <div style="background-color: #6c757d; border-radius: 8px; padding: 15px;">
+                <p style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;"><?= infoCount ?></p>
+                <p style="margin: 5px 0 0 0; color: #ffffff; font-size: 12px;">Info</p>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Critical Alerts Section -->
+    <? if (criticalAlerts.length > 0) { ?>
+    <tr>
+      <td style="padding: 0 20px 20px 20px;">
+        <h2 style="margin: 0 0 15px 0; color: #dc3545; font-size: 18px; border-bottom: 2px solid #dc3545; padding-bottom: 8px;">
+          🔴 Critical Alerts
+        </h2>
+        <? for (var i = 0; i < criticalAlerts.length; i++) { ?>
+        <div style="background-color: #f8d7da; border-left: 4px solid #dc3545; border-radius: 4px; padding: 12px; margin-bottom: 10px;">
+          <p style="margin: 0; font-weight: bold; color: #721c24;"><?= criticalAlerts[i].title || criticalAlerts[i].message ?></p>
+          <? if (criticalAlerts[i].details) { ?>
+          <p style="margin: 8px 0 0 0; color: #721c24; font-size: 14px;"><?= criticalAlerts[i].details ?></p>
+          <? } ?>
+          <p style="margin: 8px 0 0 0; color: #856404; font-size: 12px;">
+            Grade <?= criticalAlerts[i].grade || 'N/A' ?> • <?= criticalAlerts[i].type || 'General' ?>
+          </p>
+        </div>
+        <? } ?>
+      </td>
+    </tr>
+    <? } ?>
+
+    <!-- Warning Alerts Section -->
+    <? if (warningAlerts.length > 0) { ?>
+    <tr>
+      <td style="padding: 0 20px 20px 20px;">
+        <h2 style="margin: 0 0 15px 0; color: #856404; font-size: 18px; border-bottom: 2px solid #ffc107; padding-bottom: 8px;">
+          🟡 Warnings
+        </h2>
+        <? for (var i = 0; i < warningAlerts.length; i++) { ?>
+        <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px; padding: 12px; margin-bottom: 10px;">
+          <p style="margin: 0; font-weight: bold; color: #856404;"><?= warningAlerts[i].title || warningAlerts[i].message ?></p>
+          <? if (warningAlerts[i].details) { ?>
+          <p style="margin: 8px 0 0 0; color: #856404; font-size: 14px;"><?= warningAlerts[i].details ?></p>
+          <? } ?>
+          <p style="margin: 8px 0 0 0; color: #6c757d; font-size: 12px;">
+            Grade <?= warningAlerts[i].grade || 'N/A' ?> • <?= warningAlerts[i].type || 'General' ?>
+          </p>
+        </div>
+        <? } ?>
+      </td>
+    </tr>
+    <? } ?>
+
+    <!-- Info Alerts Section -->
+    <? if (infoAlerts.length > 0) { ?>
+    <tr>
+      <td style="padding: 0 20px 20px 20px;">
+        <h2 style="margin: 0 0 15px 0; color: #0c5460; font-size: 18px; border-bottom: 2px solid #17a2b8; padding-bottom: 8px;">
+          🔵 Information
+        </h2>
+        <? for (var i = 0; i < infoAlerts.length; i++) { ?>
+        <div style="background-color: #d1ecf1; border-left: 4px solid #17a2b8; border-radius: 4px; padding: 12px; margin-bottom: 10px;">
+          <p style="margin: 0; color: #0c5460;"><?= infoAlerts[i].title || infoAlerts[i].message ?></p>
+          <? if (infoAlerts[i].details) { ?>
+          <p style="margin: 8px 0 0 0; color: #0c5460; font-size: 14px;"><?= infoAlerts[i].details ?></p>
+          <? } ?>
+        </div>
+        <? } ?>
+      </td>
+    </tr>
+    <? } ?>
+
+    <!-- Quick Actions -->
+    <tr>
+      <td style="padding: 0 20px 20px 20px;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center">
+              <a href="<?= hubLink ?>" style="display: inline-block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 5px; font-weight: bold; margin: 5px;">
+                📊 View Dashboard
+              </a>
+              <a href="<?= mtssLink ?>" style="display: inline-block; background-color: #6c757d; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 5px; font-weight: bold; margin: 5px;">
+                📋 MTSS Report
+              </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+      <td style="background-color: #f8f9fa; padding: 15px 20px; border-top: 1px solid #dee2e6;">
+        <p style="margin: 0; color: #6c757d; font-size: 12px; text-align: center;">
+          This digest summarizes all alerts generated today.<br>
+          Critical alerts were also sent immediately when generated.<br>
+          Generated: <?= timestamp ?>
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
