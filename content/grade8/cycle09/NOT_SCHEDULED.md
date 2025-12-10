@@ -18,12 +18,12 @@ This cycle is **not scheduled** for School Year 2025-26. The content in this dir
 1. **DO NOT deploy** any content from this directory
 2. **DO NOT develop** additional content for SY25-26
 3. Content files exist as placeholders for future development
-4. See `config/cycles/cycle09.json` for full resolution details
+4. See `archive/config/cycles/cycle09.json` for full resolution details
 
 ## For SY26-27 Planning
 
 When this cycle is scheduled:
-- Review and update `cycle09.json` with actual dates
+- Copy `archive/config/cycles/cycle09.json` back to `config/cycles/` and update with actual dates
 - Complete lesson plans, forms, and student pages
 - Update this file to reflect active status
 - Remove this NOT_SCHEDULED.md file

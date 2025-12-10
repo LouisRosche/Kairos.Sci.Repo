@@ -110,32 +110,30 @@ This checklist guides you through deploying the KAMS Science Curriculum system t
 
 ## Phase 3: Canvas LMS Integration
 
-> **STATUS: MANUAL INTEGRATION**
-> Canvas grade sync is currently handled manually. The automated sync script (`sync-to-canvas.gs`)
-> is planned but not yet implemented. The steps below document the manual process and future
-> automation requirements.
+> **STATUS: AUTOMATED**
+> Canvas grade sync is handled by `scripts/canvas-grade-sync.gs`. See `scripts/CANVAS-SYNC-SETUP.md`
+> for complete deployment instructions.
 
-### 3.1 Manual Grade Entry (Current Process)
+### 3.1 Canvas Grade Sync Setup
+
+- [ ] Deploy `scripts/canvas-grade-sync.gs` to Google Apps Script
+- [ ] Configure Script Properties (see CANVAS-SYNC-SETUP.md):
+  - `CANVAS_DOMAIN` - Your Canvas instance domain
+  - `CANVAS_API_KEY` - Canvas API token
+  - `GRADE_7_COURSE_ID` - Canvas course ID for Grade 7
+  - `GRADE_8_COURSE_ID` - Canvas course ID for Grade 8
+- [ ] Run initial setup: Grade 7 Sync → Setup Mapping
+- [ ] Test with dry run mode before enabling live sync
+- [ ] Enable auto-sync for automated grade updates
+
+### 3.2 Manual Fallback (If Needed)
+
+If automated sync is unavailable:
 
 - [ ] Export student scores from Hub Gradebook (Google Sheets)
 - [ ] Format for Canvas import (CSV with Student ID, Assignment, Grade)
 - [ ] Import grades via Canvas → Gradebook → Import
 - [ ] Verify import success, check for missing students
-
-### 3.2 Future Automation (Not Yet Implemented)
-
-When automated sync is implemented, the following will be needed:
-
-- [ ] Generate Canvas API token:
-  - Canvas → Account → Settings → New Access Token
-  - Set expiration (recommend: end of school year)
-  - **IMPORTANT:** Store token securely using Properties Service, never commit to repo
-
-- [ ] Create `scripts/sync-to-canvas.gs` with:
-  - Canvas API client with rate limiting
-  - Student ID mapping (email → Canvas ID)
-  - Grade push functionality
-  - Error handling and retry logic
 
 ### 3.3 Student Mapping (For Future Automation)
 

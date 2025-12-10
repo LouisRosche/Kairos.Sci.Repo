@@ -18,7 +18,7 @@ This cycle has been **merged into Cycle 8 Week 3**. The content in this director
 1. **DO NOT deploy** any content from this directory
 2. **DO NOT develop** additional content - use Cycle 8 Week 3 instead
 3. Content files exist as historical placeholders only
-4. See `config/cycles/cycle10.json` for full resolution details
+4. See `archive/config/cycles/cycle10.json` for full resolution details
 
 ## For Year-End Content
 
