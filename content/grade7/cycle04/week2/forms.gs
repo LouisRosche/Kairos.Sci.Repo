@@ -168,7 +168,7 @@ function createG7C4W2Hook_() {
     mtss1.createChoice('The pH stays exactly the same', false),
     mtss1.createChoice('CO2 does not affect the water', false)
   ]);
-  mtss1.setPoints(0);
+  // Diagnostic only - omit setPoints() for ungraded items
   mtss1.setFeedbackForCorrect(
     FormApp.createFeedback()
       .setText('Correct! CO2 + H2O forms carbonic acid, which lowers pH.')

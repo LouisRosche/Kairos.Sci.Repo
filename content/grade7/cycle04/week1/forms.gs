@@ -154,7 +154,7 @@ function createG7C4W1Hook_() {
     mtss1.createChoice('It turns into oxygen that fish can breathe', false),
     mtss1.createChoice('Nothing happens - gases cannot dissolve in water', false)
   ]);
-  mtss1.setPoints(0);  // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
 
   // --- PART 2: PHENOMENON ---
   form.addPageBreakItem()

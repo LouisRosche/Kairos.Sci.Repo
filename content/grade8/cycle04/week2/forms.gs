@@ -142,7 +142,7 @@ function createG8C4W2Hook_() {
     mtss1.createChoice('Impossible to change by human actions', false),
     mtss1.createChoice('Random with no predictable patterns', false)
   ]);
-  mtss1.setPoints(0); // Diagnostic only
+  // Diagnostic only - omit setPoints() for ungraded items
 
   // Q2: Prediction (3 pts manual)
   form.addSectionHeaderItem()
