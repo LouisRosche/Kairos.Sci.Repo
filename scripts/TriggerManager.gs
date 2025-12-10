@@ -3,24 +3,23 @@
  * TRIGGER MANAGER
  * ============================================================================
  *
- * CENTRALIZED TRIGGER COORDINATION
+ * CENTRALIZED TRIGGER COORDINATION (CONSOLIDATED)
  *
- * This module manages all time-based triggers to prevent:
- * - Race conditions (multiple triggers at same time)
- * - Lock contention on shared resources
- * - Duplicate trigger registration
+ * This module manages all time-based triggers with MINIMIZED RUNS:
+ * - Only 2 triggers instead of 5
+ * - Aggregated notifications in single daily/weekly digest
+ * - All related tasks run sequentially in one execution
  *
- * TRIGGER SCHEDULE (staggered to prevent conflicts):
- *   5:30 PM - Response Collection
- *   6:00 PM - Daily Orchestration (after collection completes)
- *   Friday 4:00 PM - Weekly Summary
+ * CONSOLIDATED TRIGGER SCHEDULE:
+ *   6:00 PM Daily   - runDailyPipeline (collection + orchestration + health check)
+ *   Friday 4:00 PM  - runWeeklyDigest (seating analysis + weekly summary)
  *
  * USAGE:
  *   TriggerManager.setupAllTriggers();      // Set up all triggers
  *   TriggerManager.clearAllTriggers();      // Remove all triggers
  *   TriggerManager.listTriggers();          // View current triggers
  *
- * Version: 3.0.0
+ * Version: 4.0.0 (Consolidated)
  * Last Updated: December 2025
  * ============================================================================
  */
@@ -28,67 +27,35 @@
 var TriggerManager = {
 
   // ==========================================================================
-  // TRIGGER DEFINITIONS
+  // TRIGGER DEFINITIONS (CONSOLIDATED - Only 2 triggers!)
   // ==========================================================================
 
   /**
-   * All managed triggers with their schedules
-   * Staggered to prevent conflicts
+   * Consolidated triggers for minimal runs
    */
   TRIGGERS: {
-    responseCollection: {
-      handler: 'collectAllResponses',
-      description: 'Fetch all form responses',
+    dailyPipeline: {
+      handler: 'runDailyPipeline',
+      description: 'Daily pipeline: collection + orchestration + health check',
       schedule: {
         type: 'daily',
-        hour: 17,    // 5:00 PM
-        minute: 30   // :30
-      },
-      priority: 1    // Runs first
-    },
-
-    dailyOrchestration: {
-      handler: 'runDailyOrchestration',
-      description: 'Run complete data pipeline',
-      schedule: {
-        type: 'daily',
-        hour: 18,    // 6:00 PM (30 min after collection)
+        hour: 18,    // 6:00 PM
         minute: 0
       },
-      priority: 2    // Runs after collection
+      priority: 1,
+      includes: ['Response Collection', 'Data Orchestration', 'Health Check']
     },
 
-    weeklySummary: {
-      handler: 'generateWeeklySummary',
-      description: 'Generate weekly analysis report',
+    weeklyDigest: {
+      handler: 'runWeeklyDigest',
+      description: 'Weekly digest: seating analysis + summary + notifications',
       schedule: {
         type: 'weekly',
         dayOfWeek: ScriptApp.WeekDay.FRIDAY,
         hour: 16     // 4:00 PM Friday
       },
-      priority: 3
-    },
-
-    seatingAnalysis: {
-      handler: 'runWeeklySeatingAnalysis',
-      description: 'Analyze seating correlations and generate recommendations',
-      schedule: {
-        type: 'weekly',
-        dayOfWeek: ScriptApp.WeekDay.FRIDAY,
-        hour: 15     // 3:00 PM Friday (before weekly summary)
-      },
-      priority: 4
-    },
-
-    healthCheck: {
-      handler: 'runSystemHealthCheck',
-      description: 'Verify data pipeline is functioning correctly',
-      schedule: {
-        type: 'daily',
-        hour: 7,     // 7:00 AM (before school day)
-        minute: 0
-      },
-      priority: 5
+      priority: 2,
+      includes: ['Seating Analysis', 'Weekly Summary', 'Aggregated Notifications']
     }
   },
 
@@ -230,35 +197,8 @@ var TriggerManager = {
   },
 
   // ==========================================================================
-  // INDIVIDUAL TRIGGER METHODS
+  // HELPER METHODS
   // ==========================================================================
-
-  /**
-   * Setup only the response collection trigger
-   */
-  setupResponseCollectionTrigger: function() {
-    this._removeTriggerByHandler('collectAllResponses');
-    this._createTrigger(this.TRIGGERS.responseCollection);
-    Logger.log('Response collection trigger set for 5:30 PM daily');
-  },
-
-  /**
-   * Setup only the daily orchestration trigger
-   */
-  setupOrchestrationTrigger: function() {
-    this._removeTriggerByHandler('runDailyOrchestration');
-    this._createTrigger(this.TRIGGERS.dailyOrchestration);
-    Logger.log('Daily orchestration trigger set for 6:00 PM daily');
-  },
-
-  /**
-   * Setup only the weekly summary trigger
-   */
-  setupWeeklySummaryTrigger: function() {
-    this._removeTriggerByHandler('generateWeeklySummary');
-    this._createTrigger(this.TRIGGERS.weeklySummary);
-    Logger.log('Weekly summary trigger set for Friday 4:00 PM');
-  },
 
   /**
    * Remove trigger by handler name
@@ -283,12 +223,12 @@ var TriggerManager = {
   validateSchedule: function() {
     var issues = [];
 
-    // Check for time conflicts
-    var schedules = [];
+    // Check for time conflicts within daily triggers
+    var dailySchedules = [];
     Object.keys(this.TRIGGERS).forEach(function(name) {
       var config = TriggerManager.TRIGGERS[name];
       if (config.schedule.type === 'daily') {
-        schedules.push({
+        dailySchedules.push({
           name: name,
           hour: config.schedule.hour,
           minute: config.schedule.minute || 0
@@ -296,29 +236,20 @@ var TriggerManager = {
       }
     });
 
-    // Check for same-hour conflicts
-    var hourCounts = {};
-    schedules.forEach(function(s) {
-      hourCounts[s.hour] = (hourCounts[s.hour] || 0) + 1;
-    });
-
-    Object.keys(hourCounts).forEach(function(hour) {
-      if (hourCounts[hour] > 1) {
-        issues.push('Multiple triggers scheduled for hour ' + hour + ':00');
+    // With consolidated triggers, we should have minimal conflicts
+    // Just verify the configuration is valid
+    Object.keys(this.TRIGGERS).forEach(function(name) {
+      var config = TriggerManager.TRIGGERS[name];
+      if (!config.handler || !config.schedule) {
+        issues.push('Invalid trigger configuration: ' + name);
       }
     });
 
-    // Check for dependency ordering
-    var orchestrationConfig = this.TRIGGERS.dailyOrchestration;
-    var collectionConfig = this.TRIGGERS.responseCollection;
-
-    if (orchestrationConfig.schedule.hour <= collectionConfig.schedule.hour) {
-      issues.push('Orchestration should run AFTER response collection');
-    }
-
     return {
       valid: issues.length === 0,
-      issues: issues
+      issues: issues,
+      triggerCount: Object.keys(this.TRIGGERS).length,
+      note: 'Consolidated to ' + Object.keys(this.TRIGGERS).length + ' triggers for minimal runs'
     };
   },
 
@@ -403,6 +334,284 @@ function showTriggerStatus() {
   var status = TriggerManager.getStatus();
   Logger.log(JSON.stringify(status, null, 2));
   return status;
+}
+
+// ==========================================================================
+// CONSOLIDATED PIPELINE HANDLERS
+// ==========================================================================
+
+/**
+ * Notification aggregator - collects all notifications to send in one batch
+ */
+var NotificationAggregator = {
+  _notifications: [],
+
+  add: function(category, message, severity) {
+    this._notifications.push({
+      category: category,
+      message: message,
+      severity: severity || 'info',
+      timestamp: new Date().toISOString()
+    });
+  },
+
+  clear: function() {
+    this._notifications = [];
+  },
+
+  getAll: function() {
+    return this._notifications.slice();
+  },
+
+  formatDigest: function() {
+    if (this._notifications.length === 0) {
+      return 'No notifications to report.';
+    }
+
+    var grouped = {};
+    this._notifications.forEach(function(n) {
+      if (!grouped[n.category]) grouped[n.category] = [];
+      grouped[n.category].push(n);
+    });
+
+    var lines = ['=== KAMS Science Notification Digest ===', ''];
+    Object.keys(grouped).forEach(function(category) {
+      lines.push('📌 ' + category.toUpperCase());
+      grouped[category].forEach(function(n) {
+        var prefix = n.severity === 'error' ? '❌' :
+                     n.severity === 'warning' ? '⚠️' : '✓';
+        lines.push('  ' + prefix + ' ' + n.message);
+      });
+      lines.push('');
+    });
+
+    return lines.join('\n');
+  }
+};
+
+/**
+ * DAILY PIPELINE (6:00 PM)
+ * Consolidates: Response Collection + Data Orchestration + Health Check
+ * Single run instead of 3 separate triggers
+ */
+function runDailyPipeline() {
+  Logger.log('═══════════════════════════════════════════════════════════');
+  Logger.log('  DAILY PIPELINE STARTED - ' + new Date().toISOString());
+  Logger.log('═══════════════════════════════════════════════════════════');
+
+  var startTime = new Date();
+  NotificationAggregator.clear();
+
+  var results = {
+    timestamp: startTime.toISOString(),
+    steps: {},
+    errors: [],
+    duration: null
+  };
+
+  // Step 1: Response Collection
+  Logger.log('\n[1/3] RESPONSE COLLECTION');
+  Logger.log('─────────────────────────');
+  try {
+    if (typeof collectAllResponses === 'function') {
+      var collectionResult = collectAllResponses();
+      results.steps.collection = {
+        status: 'SUCCESS',
+        formsProcessed: collectionResult.formsProcessed || 0,
+        responsesCollected: collectionResult.responsesCollected || 0
+      };
+      NotificationAggregator.add('Collection',
+        'Collected ' + (collectionResult.responsesCollected || 0) + ' responses from ' +
+        (collectionResult.formsProcessed || 0) + ' forms');
+      Logger.log('  ✓ Collected responses from ' + (collectionResult.formsProcessed || 0) + ' forms');
+    } else {
+      results.steps.collection = { status: 'SKIPPED', reason: 'collectAllResponses not available' };
+      Logger.log('  ⊘ Skipped: collectAllResponses not available');
+    }
+  } catch (e) {
+    results.steps.collection = { status: 'ERROR', error: e.message };
+    results.errors.push('Collection: ' + e.message);
+    NotificationAggregator.add('Collection', 'Failed: ' + e.message, 'error');
+    Logger.log('  ✗ Error: ' + e.message);
+  }
+
+  // Step 2: Data Orchestration
+  Logger.log('\n[2/3] DATA ORCHESTRATION');
+  Logger.log('─────────────────────────');
+  try {
+    if (typeof runDailyOrchestration === 'function') {
+      var orchResult = runDailyOrchestration();
+      results.steps.orchestration = {
+        status: orchResult.status || 'SUCCESS',
+        stepsCompleted: orchResult.completedSteps || []
+      };
+      NotificationAggregator.add('Orchestration',
+        'Completed ' + (orchResult.completedSteps || []).length + ' processing steps');
+      Logger.log('  ✓ Orchestration completed');
+    } else {
+      results.steps.orchestration = { status: 'SKIPPED', reason: 'runDailyOrchestration not available' };
+      Logger.log('  ⊘ Skipped: runDailyOrchestration not available');
+    }
+  } catch (e) {
+    results.steps.orchestration = { status: 'ERROR', error: e.message };
+    results.errors.push('Orchestration: ' + e.message);
+    NotificationAggregator.add('Orchestration', 'Failed: ' + e.message, 'error');
+    Logger.log('  ✗ Error: ' + e.message);
+  }
+
+  // Step 3: Health Check
+  Logger.log('\n[3/3] HEALTH CHECK');
+  Logger.log('─────────────────────────');
+  try {
+    var healthResult = runSystemHealthCheck();
+    results.steps.healthCheck = {
+      status: healthResult.overall,
+      warnings: healthResult.warnings.length,
+      errors: healthResult.errors.length
+    };
+
+    if (healthResult.overall !== 'HEALTHY') {
+      NotificationAggregator.add('Health',
+        'System status: ' + healthResult.overall + ' (' + healthResult.warnings.length + ' warnings)',
+        healthResult.overall === 'UNHEALTHY' ? 'error' : 'warning');
+    }
+    Logger.log('  ✓ Health: ' + healthResult.overall);
+  } catch (e) {
+    results.steps.healthCheck = { status: 'ERROR', error: e.message };
+    results.errors.push('Health check: ' + e.message);
+    Logger.log('  ✗ Error: ' + e.message);
+  }
+
+  // Complete
+  var duration = (new Date() - startTime) / 1000;
+  results.duration = duration.toFixed(2) + 's';
+
+  Logger.log('\n═══════════════════════════════════════════════════════════');
+  Logger.log('  DAILY PIPELINE COMPLETE - ' + results.duration);
+  Logger.log('  Errors: ' + results.errors.length);
+  Logger.log('═══════════════════════════════════════════════════════════');
+
+  // Log aggregated notifications
+  if (NotificationAggregator.getAll().length > 0) {
+    Logger.log('\n' + NotificationAggregator.formatDigest());
+  }
+
+  return results;
+}
+
+/**
+ * WEEKLY DIGEST (Friday 4:00 PM)
+ * Consolidates: Seating Analysis + Weekly Summary + Email Notification
+ * Single run instead of 2 separate triggers
+ */
+function runWeeklyDigest() {
+  Logger.log('═══════════════════════════════════════════════════════════');
+  Logger.log('  WEEKLY DIGEST STARTED - ' + new Date().toISOString());
+  Logger.log('═══════════════════════════════════════════════════════════');
+
+  var startTime = new Date();
+  NotificationAggregator.clear();
+
+  var results = {
+    timestamp: startTime.toISOString(),
+    steps: {},
+    errors: [],
+    duration: null
+  };
+
+  // Step 1: Seating Analysis
+  Logger.log('\n[1/3] SEATING ANALYSIS');
+  Logger.log('─────────────────────────');
+  try {
+    var seatingResult = runWeeklySeatingAnalysis();
+    results.steps.seating = {
+      status: seatingResult.skipped ? 'SKIPPED' : 'SUCCESS',
+      reportsGenerated: (seatingResult.reports || []).length,
+      errors: (seatingResult.errors || []).length
+    };
+
+    if (!seatingResult.skipped) {
+      NotificationAggregator.add('Seating',
+        'Generated ' + (seatingResult.reports || []).length + ' seating reports');
+    }
+    Logger.log('  ✓ Seating analysis: ' + (seatingResult.reports || []).length + ' reports');
+  } catch (e) {
+    results.steps.seating = { status: 'ERROR', error: e.message };
+    results.errors.push('Seating: ' + e.message);
+    NotificationAggregator.add('Seating', 'Failed: ' + e.message, 'error');
+    Logger.log('  ✗ Error: ' + e.message);
+  }
+
+  // Step 2: Weekly Summary
+  Logger.log('\n[2/3] WEEKLY SUMMARY');
+  Logger.log('─────────────────────────');
+  try {
+    if (typeof generateWeeklySummary === 'function') {
+      var summaryResult = generateWeeklySummary();
+      results.steps.summary = {
+        status: 'SUCCESS',
+        details: summaryResult
+      };
+      NotificationAggregator.add('Summary',
+        'Weekly summary generated for current cycle');
+      Logger.log('  ✓ Weekly summary generated');
+    } else {
+      results.steps.summary = { status: 'SKIPPED', reason: 'generateWeeklySummary not available' };
+      Logger.log('  ⊘ Skipped: generateWeeklySummary not available');
+    }
+  } catch (e) {
+    results.steps.summary = { status: 'ERROR', error: e.message };
+    results.errors.push('Summary: ' + e.message);
+    NotificationAggregator.add('Summary', 'Failed: ' + e.message, 'error');
+    Logger.log('  ✗ Error: ' + e.message);
+  }
+
+  // Step 3: Send Aggregated Digest Email
+  Logger.log('\n[3/3] NOTIFICATION DIGEST');
+  Logger.log('─────────────────────────');
+  try {
+    var digest = NotificationAggregator.formatDigest();
+
+    // Get current cycle/week for subject
+    var cycleInfo = '';
+    if (typeof Config !== 'undefined' && typeof Config.getCurrentCycle === 'function') {
+      cycleInfo = 'C' + Config.getCurrentCycle() + ' W' + Config.getCurrentWeek();
+    }
+
+    var subject = 'KAMS Science Weekly Digest' + (cycleInfo ? ' - ' + cycleInfo : '');
+
+    // Log the digest (email sending would go here if configured)
+    Logger.log('Digest generated:');
+    Logger.log(digest);
+
+    results.steps.notification = {
+      status: 'GENERATED',
+      subject: subject,
+      notificationCount: NotificationAggregator.getAll().length
+    };
+
+    // Uncomment to enable email sending:
+    // var recipientEmail = Session.getEffectiveUser().getEmail();
+    // MailApp.sendEmail(recipientEmail, subject, digest);
+    // Logger.log('  ✓ Digest emailed to: ' + recipientEmail);
+
+    Logger.log('  ✓ Digest ready (' + NotificationAggregator.getAll().length + ' items)');
+  } catch (e) {
+    results.steps.notification = { status: 'ERROR', error: e.message };
+    results.errors.push('Notification: ' + e.message);
+    Logger.log('  ✗ Error: ' + e.message);
+  }
+
+  // Complete
+  var duration = (new Date() - startTime) / 1000;
+  results.duration = duration.toFixed(2) + 's';
+
+  Logger.log('\n═══════════════════════════════════════════════════════════');
+  Logger.log('  WEEKLY DIGEST COMPLETE - ' + results.duration);
+  Logger.log('  Errors: ' + results.errors.length);
+  Logger.log('═══════════════════════════════════════════════════════════');
+
+  return results;
 }
 
 // ==========================================================================
@@ -562,21 +771,23 @@ function runSystemHealthCheck() {
     health.errors.push('Hub spreadsheet check failed: ' + e.message);
   }
 
-  // Check 4: Trigger Status
+  // Check 4: Trigger Status (consolidated triggers)
   try {
     const triggers = ScriptApp.getProjectTriggers();
+    // Only 2 consolidated triggers needed: runDailyPipeline and runWeeklyDigest
     const managedCount = triggers.filter(function(t) {
-      return ['collectAllResponses', 'runDailyOrchestration', 'generateWeeklySummary',
-              'runWeeklySeatingAnalysis', 'runSystemHealthCheck'].includes(t.getHandlerFunction());
+      return ['runDailyPipeline', 'runWeeklyDigest'].includes(t.getHandlerFunction());
     }).length;
 
     health.components.triggers = {
-      status: managedCount >= 3 ? 'OK' : 'INCOMPLETE',
+      status: managedCount >= 2 ? 'OK' : 'INCOMPLETE',
       totalTriggers: triggers.length,
-      managedTriggers: managedCount
+      managedTriggers: managedCount,
+      expected: 2,
+      note: 'Consolidated: runDailyPipeline (6PM) + runWeeklyDigest (Fri 4PM)'
     };
-    Logger.log('Triggers: ' + (managedCount >= 3 ? 'OK' : 'INCOMPLETE') +
-      ' (' + managedCount + ' managed, ' + triggers.length + ' total)');
+    Logger.log('Triggers: ' + (managedCount >= 2 ? 'OK' : 'INCOMPLETE') +
+      ' (' + managedCount + '/2 managed, ' + triggers.length + ' total)');
   } catch (e) {
     health.components.triggers = { status: 'ERROR', error: e.message };
     health.errors.push('Trigger check failed: ' + e.message);
