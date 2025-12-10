@@ -388,6 +388,37 @@ var Config = {
   },
 
   // ==========================================================================
+  // SEATING CONFIGURATION
+  // ==========================================================================
+
+  /**
+   * Get seating system configuration
+   * @returns {Object|null} Seating configuration or null if not defined
+   */
+  getSeatingConfig: function() {
+    const config = this.load();
+    return config.seating || null;
+  },
+
+  /**
+   * Check if seating system is enabled
+   * @returns {boolean} True if enabled
+   */
+  isSeatingEnabled: function() {
+    const seating = this.getSeatingConfig();
+    return seating && seating.enabled === true;
+  },
+
+  /**
+   * Get grade configuration (periods, student count, etc.)
+   * @returns {Object} Grade configuration keyed by grade number
+   */
+  getGradeConfig: function() {
+    const config = this.load();
+    return config.grades || {};
+  },
+
+  // ==========================================================================
   // NAMING CONVENTIONS
   // ==========================================================================
 

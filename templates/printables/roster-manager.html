@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Roster Manager - KAMS Science</title>
+  <style>
+    :root {
+      --color-primary: #059669;
+      --color-primary-dark: #047857;
+      --color-secondary: #3B82F6;
+      --color-text: #1F2937;
+      --color-text-muted: #6B7280;
+      --color-gray-100: #F3F4F6;
+      --color-gray-200: #E5E7EB;
+      --color-gray-300: #D1D5DB;
+
+      --tier1-bg: #D1FAE5;
+      --tier1-border: #059669;
+      --tier2-bg: #FEF3C7;
+      --tier2-border: #D97706;
+      --tier3-bg: #FEE2E2;
+      --tier3-border: #DC2626;
+
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-family);
+      background: var(--color-gray-100);
+      color: var(--color-text);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+
+    .panel h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--color-gray-200);
+    }
+
+    .control-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .control-group {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .control-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .control-group input,
+    .control-group select,
+    .control-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--color-gray-300);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .control-group textarea {
+      min-height: 120px;
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    /* Stats Row */
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      flex: 1;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-card.total { background: var(--color-gray-100); }
+    .stat-card.tier1 { background: var(--tier1-bg); }
+    .stat-card.tier2 { background: var(--tier2-bg); }
+    .stat-card.tier3 { background: var(--tier3-bg); }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .stat-card.tier1 .stat-value { color: var(--tier1-border); }
+    .stat-card.tier2 .stat-value { color: var(--tier2-border); }
+    .stat-card.tier3 .stat-value { color: var(--tier3-border); }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Roster Table */
+    .roster-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .roster-table th,
+    .roster-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .roster-table th {
+      background: var(--color-gray-100);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .roster-table tr:hover {
+      background: var(--color-gray-100);
+    }
+
+    .tier-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .tier-badge.t1 { background: var(--tier1-bg); color: var(--tier1-border); }
+    .tier-badge.t2 { background: var(--tier2-bg); color: var(--tier2-border); }
+    .tier-badge.t3 { background: var(--tier3-bg); color: var(--tier3-border); }
+
+    .edit-input {
+      padding: 6px 10px;
+      border: 1px solid var(--color-gray-300);
+      border-radius: 4px;
+      font-size: 13px;
+      width: 100%;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      background: var(--color-gray-200);
+      color: var(--color-text);
+    }
+
+    .action-btn:hover {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .action-btn.delete:hover {
+      background: #DC2626;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 48px;
+      color: var(--color-text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    /* Export Panel */
+    .export-panel {
+      background: var(--color-gray-100);
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+
+    .export-panel pre {
+      background: white;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      max-height: 200px;
+      overflow: auto;
+      margin-top: 12px;
+    }
+
+    /* Help Box */
+    .help-box {
+      background: #EDE9FE;
+      border: 1px solid #8B5CF6;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .help-box h3 {
+      font-size: 14px;
+      color: #8B5CF6;
+      margin-bottom: 8px;
+    }
+
+    .help-box ul {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 13px;
+    }
+
+    .help-box li { margin-bottom: 4px; }
+    .help-box code {
+      background: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Class Roster Manager</h1>
+    <p class="subtitle">
+      Manage student rosters for seating optimization. Links names to emails and tracks MTSS tiers.
+    </p>
+
+    <!-- Class Selection -->
+    <div class="panel">
+      <h2>Select Class</h2>
+      <div class="control-row">
+        <div class="control-group">
+          <label>Grade</label>
+          <select id="grade" onchange="loadRoster()">
+            <option value="7">Grade 7</option>
+            <option value="8">Grade 8</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Period</label>
+          <select id="period" onchange="loadRoster()">
+            <option value="1">Period 1</option>
+            <option value="2">Period 2</option>
+            <option value="3">Period 3</option>
+            <option value="4">Period 4</option>
+            <option value="5">Period 5</option>
+            <option value="6">Period 6</option>
+            <option value="7">Period 7</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card total">
+        <div class="stat-value" id="totalCount">0</div>
+        <div class="stat-label">Total Students</div>
+      </div>
+      <div class="stat-card tier1">
+        <div class="stat-value" id="tier1Count">0</div>
+        <div class="stat-label">Tier 1</div>
+      </div>
+      <div class="stat-card tier2">
+        <div class="stat-value" id="tier2Count">0</div>
+        <div class="stat-label">Tier 2</div>
+      </div>
+      <div class="stat-card tier3">
+        <div class="stat-value" id="tier3Count">0</div>
+        <div class="stat-label">Tier 3</div>
+      </div>
+    </div>
+
+    <!-- Import Panel -->
+    <div class="panel">
+      <h2>Import Students</h2>
+      <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 12px;">
+        Paste student data (one per line). Accepts multiple formats:
+      </p>
+      <div class="control-group">
+        <textarea id="importData" placeholder="Name, Email, Tier, Score
+Emma Smith, emma.smith@school.edu, 1, 85
+Jacob Martinez, jacob.martinez@school.edu, 2, 62
+...
+
+Or just names:
+Emma Smith
+Jacob Martinez"></textarea>
+      </div>
+      <div style="display: flex; gap: 8px; margin-top: 12px;">
+        <button class="btn btn-primary" onclick="importStudents()">Import Students</button>
+        <button class="btn btn-secondary" onclick="clearImport()">Clear</button>
+      </div>
+
+      <div class="help-box">
+        <h3>Import Formats Supported</h3>
+        <ul>
+          <li><strong>Full data:</strong> <code>Name, Email, Tier, Score</code></li>
+          <li><strong>Name + Email:</strong> <code>Name, Email</code></li>
+          <li><strong>Just names:</strong> <code>Name</code> (email will be generated)</li>
+          <li>Tier: 1, 2, or 3 (defaults to 1 if not specified)</li>
+          <li>Score: 0-100 (defaults to 70 if not specified)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Roster Table -->
+    <div class="panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2 style="margin: 0; border: none; padding: 0;">Student Roster</h2>
+        <div>
+          <button class="btn btn-secondary btn-small" onclick="addStudent()">+ Add Student</button>
+        </div>
+      </div>
+
+      <div id="rosterContainer">
+        <div class="empty-state">
+          <div class="empty-state-icon">📋</div>
+          <h3>No students yet</h3>
+          <p>Import students above or add them individually</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export Panel -->
+    <div class="panel">
+      <h2>Export & Save</h2>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn btn-primary" onclick="exportJSON()">Generate JSON</button>
+        <button class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
+        <button class="btn btn-secondary" onclick="downloadJSON()">Download File</button>
+        <button class="btn btn-secondary" onclick="saveToStorage()">Save to Browser</button>
+      </div>
+      <div class="export-panel" id="exportPanel" style="display: none;">
+        <pre id="jsonOutput"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // App State
+    let roster = [];
+    let nextId = 1;
+
+    /**
+     * Load roster from localStorage
+     */
+    function loadRoster() {
+      const grade = document.getElementById('grade').value;
+      const period = document.getElementById('period').value;
+      const key = `roster-g${grade}-p${period}`;
+
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        try {
+          const data = JSON.parse(stored);
+          roster = Object.values(data).map(s => ({
+            id: nextId++,
+            displayName: s.displayName || s.name,
+            email: s.email,
+            tier: s.tier || 1,
+            score: s.score || 70
+          }));
+        } catch (e) {
+          roster = [];
+        }
+      } else {
+        roster = [];
+      }
+
+      renderRoster();
+      updateStats();
+    }
+
+    /**
+     * Import students from textarea
+     */
+    function importStudents() {
+      const input = document.getElementById('importData').value;
+      const lines = input.split('\n').filter(l => l.trim());
+
+      lines.forEach(line => {
+        const parts = line.split(',').map(p => p.trim());
+
+        if (parts.length === 0 || !parts[0]) return;
+
+        const name = parts[0];
+        let email = parts[1] || generateEmail(name);
+        let tier = parseInt(parts[2]) || 1;
+        let score = parseInt(parts[3]) || 70;
+
+        // Validate tier
+        tier = Math.min(3, Math.max(1, tier));
+
+        // Check for duplicate
+        if (roster.some(s => s.email.toLowerCase() === email.toLowerCase())) {
+          return;
+        }
+
+        roster.push({
+          id: nextId++,
+          displayName: name,
+          email: email.toLowerCase(),
+          tier,
+          score
+        });
+      });
+
+      document.getElementById('importData').value = '';
+      renderRoster();
+      updateStats();
+    }
+
+    /**
+     * Generate email from name
+     */
+    function generateEmail(name) {
+      const parts = name.toLowerCase().split(' ').filter(p => p);
+      if (parts.length >= 2) {
+        return `${parts[0]}.${parts[parts.length - 1]}@school.edu`;
+      }
+      return `${parts[0] || 'student'}@school.edu`;
+    }
+
+    /**
+     * Add a single student
+     */
+    function addStudent() {
+      const name = prompt('Student name:');
+      if (!name) return;
+
+      const email = prompt('Email (or leave blank to generate):') || generateEmail(name);
+      const tierStr = prompt('Tier (1, 2, or 3):') || '1';
+      const tier = Math.min(3, Math.max(1, parseInt(tierStr) || 1));
+
+      roster.push({
+        id: nextId++,
+        displayName: name,
+        email: email.toLowerCase(),
+        tier,
+        score: tier === 1 ? 80 : tier === 2 ? 60 : 40
+      });
+
+      renderRoster();
+      updateStats();
+    }
+
+    /**
+     * Delete a student
+     */
+    function deleteStudent(id) {
+      if (!confirm('Remove this student?')) return;
+      roster = roster.filter(s => s.id !== id);
+      renderRoster();
+      updateStats();
+    }
+
+    /**
+     * Update student tier
+     */
+    function updateTier(id, newTier) {
+      const student = roster.find(s => s.id === id);
+      if (student) {
+        student.tier = parseInt(newTier);
+        renderRoster();
+        updateStats();
+      }
+    }
+
+    /**
+     * Render the roster table
+     */
+    function renderRoster() {
+      const container = document.getElementById('rosterContainer');
+
+      if (roster.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📋</div>
+            <h3>No students yet</h3>
+            <p>Import students above or add them individually</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Sort by name
+      const sorted = [...roster].sort((a, b) => a.displayName.localeCompare(b.displayName));
+
+      container.innerHTML = `
+        <table class="roster-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Tier</th>
+              <th>Score</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sorted.map(student => `
+              <tr>
+                <td>${student.displayName}</td>
+                <td style="font-size: 13px; color: var(--color-text-muted);">${student.email}</td>
+                <td>
+                  <select class="edit-input" style="width: 80px;" onchange="updateTier(${student.id}, this.value)">
+                    <option value="1" ${student.tier === 1 ? 'selected' : ''}>Tier 1</option>
+                    <option value="2" ${student.tier === 2 ? 'selected' : ''}>Tier 2</option>
+                    <option value="3" ${student.tier === 3 ? 'selected' : ''}>Tier 3</option>
+                  </select>
+                </td>
+                <td>${student.score}%</td>
+                <td>
+                  <div class="actions">
+                    <button class="action-btn delete" onclick="deleteStudent(${student.id})">Remove</button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    /**
+     * Update statistics
+     */
+    function updateStats() {
+      document.getElementById('totalCount').textContent = roster.length;
+      document.getElementById('tier1Count').textContent = roster.filter(s => s.tier === 1).length;
+      document.getElementById('tier2Count').textContent = roster.filter(s => s.tier === 2).length;
+      document.getElementById('tier3Count').textContent = roster.filter(s => s.tier === 3).length;
+    }
+
+    /**
+     * Clear import textarea
+     */
+    function clearImport() {
+      document.getElementById('importData').value = '';
+    }
+
+    /**
+     * Generate export JSON
+     */
+    function exportJSON() {
+      const grade = document.getElementById('grade').value;
+      const period = document.getElementById('period').value;
+
+      // Convert to the format expected by SeatingDataBridge
+      const exportData = {};
+      roster.forEach(student => {
+        const key = normalizeKey(student.displayName);
+        exportData[key] = {
+          displayName: student.displayName,
+          email: student.email,
+          tier: student.tier,
+          score: student.score
+        };
+      });
+
+      const output = JSON.stringify(exportData, null, 2);
+      document.getElementById('jsonOutput').textContent = output;
+      document.getElementById('exportPanel').style.display = 'block';
+
+      return exportData;
+    }
+
+    function normalizeKey(name) {
+      return name.trim().split(' ')
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+        .join(' ');
+    }
+
+    /**
+     * Copy to clipboard
+     */
+    async function copyToClipboard() {
+      exportJSON();
+      const output = document.getElementById('jsonOutput').textContent;
+      await navigator.clipboard.writeText(output);
+      alert('Copied to clipboard!');
+    }
+
+    /**
+     * Download JSON file
+     */
+    function downloadJSON() {
+      const grade = document.getElementById('grade').value;
+      const period = document.getElementById('period').value;
+      const data = exportJSON();
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `roster-g${grade}-p${period}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    /**
+     * Save to browser storage
+     */
+    function saveToStorage() {
+      const grade = document.getElementById('grade').value;
+      const period = document.getElementById('period').value;
+      const key = `roster-g${grade}-p${period}`;
+
+      const data = exportJSON();
+      localStorage.setItem(key, JSON.stringify(data));
+      alert(`Saved roster for Grade ${grade} Period ${period} to browser storage!`);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', loadRoster);
+  </script>
+</body>
+</html>

@@ -666,3 +666,112 @@ function testOrchestration() {
   Logger.log('Test complete. Check logs for details.');
   return results;
 }
+
+/**
+ * ============================================================================
+ * SEATING SYSTEM INTEGRATION
+ * ============================================================================
+ */
+
+/**
+ * Update performance data for seating analysis
+ * Stores data in format needed by SeatingAnalyzer
+ *
+ * @param {Object} aggregatedData - Aggregated student data by grade
+ * @param {Object} hubConfig - Hub configuration
+ * @returns {Object} Results summary
+ */
+function updateSeatingPerformanceData(aggregatedData, hubConfig) {
+  const results = {
+    periodsUpdated: 0,
+    errors: []
+  };
+
+  // Check if seating system is enabled
+  try {
+    const seatingConfig = Config.getSeatingConfig ? Config.getSeatingConfig() : null;
+    if (!seatingConfig || !seatingConfig.enabled) {
+      Logger.log('Seating system not enabled - skipping performance data bridge');
+      return results;
+    }
+  } catch (e) {
+    Logger.log('Could not check seating config: ' + e.message);
+  }
+
+  // Get grade-to-period mapping from config
+  const gradeConfig = Config.getGradeConfig ? Config.getGradeConfig() : null;
+
+  hubConfig.grades.forEach(grade => {
+    const gradeData = aggregatedData[grade];
+    if (!gradeData || !gradeData.mtss) return;
+
+    // Get periods for this grade
+    const periods = gradeConfig?.[grade]?.periods || [];
+
+    periods.forEach(periodStr => {
+      // Extract period number from string like "Period 2"
+      const periodMatch = periodStr.match(/\d+/);
+      if (!periodMatch) return;
+
+      const period = parseInt(periodMatch[0]);
+
+      try {
+        // Call SeatingDataBridge to store performance data
+        if (typeof storePerformanceForSeating === 'function') {
+          storePerformanceForSeating(gradeData, grade, period);
+          results.periodsUpdated++;
+          Logger.log(`Updated seating performance data: G${grade} P${period}`);
+        }
+      } catch (e) {
+        results.errors.push({
+          grade,
+          period,
+          error: e.message
+        });
+        Logger.log(`Error updating seating data for G${grade} P${period}: ${e.message}`);
+      }
+    });
+  });
+
+  return results;
+}
+
+/**
+ * Run seating analysis for all classes
+ * Call this weekly after sign-in data is entered
+ *
+ * @returns {Object} Analysis results by grade/period
+ */
+function runAllSeatingAnalysis() {
+  const hubConfig = getHubConfig();
+  const gradeConfig = Config.getGradeConfig ? Config.getGradeConfig() : null;
+  const results = {};
+
+  hubConfig.grades.forEach(grade => {
+    const periods = gradeConfig?.[grade]?.periods || [];
+
+    periods.forEach(periodStr => {
+      const periodMatch = periodStr.match(/\d+/);
+      if (!periodMatch) return;
+
+      const period = parseInt(periodMatch[0]);
+      const key = `g${grade}p${period}`;
+
+      try {
+        if (typeof runWeeklySeatingAnalysis === 'function') {
+          results[key] = runWeeklySeatingAnalysis(
+            grade,
+            period,
+            hubConfig.currentCycle,
+            hubConfig.currentWeek
+          );
+        }
+      } catch (e) {
+        results[key] = { error: e.message };
+      }
+    });
+  });
+
+  Logger.log('Seating analysis complete for all classes');
+  return results;
+}
