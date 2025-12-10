@@ -101,10 +101,12 @@ function toEmbedUrl(publishedUrl) {
 
 /**
  * Generate iframe HTML for a form
+ * Note: Dimensions are controlled by CSS (.form-embed iframe in design-system.css)
+ * to enable responsive sizing. Only set inline dimensions if CSS is unavailable.
  */
-function generateIframe(url, title, height = 900) {
+function generateIframe(url, title) {
   const embedUrl = toEmbedUrl(url);
-  return `<iframe title="${title}" src="${embedUrl}" width="640" height="${height}" loading="lazy"></iframe>`;
+  return `<iframe title="${title}" src="${embedUrl}" loading="lazy"></iframe>`;
 }
 
 /**
