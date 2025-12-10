@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peer Tutor Pairing Cards - KAMS Science</title>
+  <style>
+    /* ============================================
+       PEER TUTOR PAIRING CARDS
+       ============================================
+
+       Printable cards that show peer tutoring pairs.
+       Based on MTSS tiers and seating correlation data.
+
+       Features:
+       - Tier 1 "Tutor" paired with Tier 2 "Partner"
+       - Focus areas from intervention grouping
+       - Suggested activities
+       - Can be given to students or posted
+
+       Prints 4 cards per page (landscape)
+    */
+
+    :root {
+      --color-primary: #059669;
+      --color-primary-dark: #047857;
+      --color-secondary: #3B82F6;
+      --color-accent: #8B5CF6;
+      --color-warning: #F59E0B;
+      --color-text: #1F2937;
+      --color-text-muted: #6B7280;
+      --color-gray-100: #F3F4F6;
+      --color-gray-200: #E5E7EB;
+      --color-gray-300: #D1D5DB;
+
+      /* Role colors */
+      --tutor-bg: #DBEAFE;
+      --tutor-border: #3B82F6;
+      --partner-bg: #D1FAE5;
+      --partner-border: #059669;
+
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--color-text);
+      background: #f5f5f5;
+    }
+
+    /* ============================================
+       SCREEN CONTROLS
+       ============================================ */
+
+    .controls {
+      max-width: 900px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .controls h1 {
+      font-size: 24px;
+      color: var(--color-primary);
+      margin-bottom: 16px;
+    }
+
+    .pair-input {
+      display: grid;
+      grid-template-columns: 1fr 1fr 2fr;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 16px;
+      background: var(--color-gray-100);
+      border-radius: 8px;
+    }
+
+    .pair-input:nth-child(even) {
+      background: white;
+      border: 1px solid var(--color-gray-200);
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--color-gray-300);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    /* ============================================
+       PRINT LAYOUT - 4 cards per page
+       ============================================ */
+
+    .page {
+      width: 11in;
+      height: 8.5in;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 0;
+      page-break-after: always;
+      padding: 0;
+      background: white;
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    /* ============================================
+       INDIVIDUAL CARD
+       ============================================ */
+
+    .pair-card {
+      width: 5.5in;
+      height: 4.25in;
+      border: 1px dashed var(--color-gray-300);
+      padding: 0.25in;
+      display: flex;
+      flex-direction: column;
+      background: white;
+    }
+
+    .card-header {
+      text-align: center;
+      padding: 0.15in;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+      color: white;
+      border-radius: 8px;
+      margin-bottom: 0.15in;
+    }
+
+    .card-header h2 {
+      font-size: 14px;
+      margin: 0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .card-header .week-info {
+      font-size: 11px;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    /* Partner Boxes */
+    .partners-row {
+      display: flex;
+      gap: 0.15in;
+      margin-bottom: 0.15in;
+    }
+
+    .partner-box {
+      flex: 1;
+      padding: 0.12in;
+      border-radius: 8px;
+      border: 2px solid;
+      text-align: center;
+    }
+
+    .partner-box.tutor {
+      background: var(--tutor-bg);
+      border-color: var(--tutor-border);
+    }
+
+    .partner-box.partner {
+      background: var(--partner-bg);
+      border-color: var(--partner-border);
+    }
+
+    .role-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .partner-box.tutor .role-label {
+      color: var(--tutor-border);
+    }
+
+    .partner-box.partner .role-label {
+      color: var(--partner-border);
+    }
+
+    .student-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .student-seat {
+      font-size: 10px;
+      color: var(--color-text-muted);
+    }
+
+    /* Connection Arrow */
+    .connection {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: var(--color-accent);
+    }
+
+    /* Focus Area */
+    .focus-section {
+      background: var(--color-gray-100);
+      padding: 0.12in;
+      border-radius: 6px;
+      margin-bottom: 0.12in;
+    }
+
+    .focus-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .focus-topic {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    /* Activities List */
+    .activities-section {
+      flex: 1;
+      padding: 0.1in;
+      border: 1px solid var(--color-gray-200);
+      border-radius: 6px;
+    }
+
+    .activities-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .activity-list {
+      list-style: none;
+      font-size: 11px;
+    }
+
+    .activity-list li {
+      padding: 4px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .activity-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--color-primary);
+      font-weight: bold;
+    }
+
+    /* Card Footer */
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.1in;
+      padding-top: 0.08in;
+      border-top: 1px dashed var(--color-gray-200);
+      font-size: 9px;
+      color: var(--color-text-muted);
+    }
+
+    /* ============================================
+       PRINT STYLES
+       ============================================ */
+
+    @media print {
+      @page {
+        size: landscape;
+        margin: 0;
+      }
+
+      body {
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .controls {
+        display: none !important;
+      }
+
+      .page {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+
+    @media screen {
+      .page {
+        margin: 20px auto;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ============================================
+       CONTROLS (Screen Only)
+       ============================================ -->
+  <div class="controls">
+    <h1>Peer Tutor Pairing Cards</h1>
+    <p style="color: var(--color-text-muted); margin-bottom: 16px;">
+      Create cards for peer tutoring pairs. Based on MTSS tiers and seating optimization.
+    </p>
+
+    <div style="margin-bottom: 16px;">
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px;">
+        <div class="input-group" style="width: 150px;">
+          <label>Week Of</label>
+          <input type="date" id="weekOf">
+        </div>
+        <div class="input-group" style="width: 100px;">
+          <label>Cycle</label>
+          <select id="cycle">
+            <option value="3">Cycle 3</option>
+            <option value="4" selected>Cycle 4</option>
+            <option value="5">Cycle 5</option>
+            <option value="6">Cycle 6</option>
+          </select>
+        </div>
+        <div class="input-group" style="width: 100px;">
+          <label>Week</label>
+          <select id="week">
+            <option value="1">Week 1</option>
+            <option value="2">Week 2</option>
+            <option value="3">Week 3</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom: 12px;">Pairs</h3>
+    <div id="pairsContainer">
+      <!-- Pair inputs will be added here -->
+    </div>
+
+    <div style="margin-top: 16px;">
+      <button class="btn btn-secondary btn-small" onclick="addPair()">+ Add Pair</button>
+      <button class="btn btn-secondary btn-small" onclick="loadSamplePairs()">Load Sample</button>
+      <button class="btn btn-secondary btn-small" onclick="importFromJSON()">Import JSON</button>
+    </div>
+
+    <div style="margin-top: 24px; border-top: 1px solid var(--color-gray-200); padding-top: 16px;">
+      <button class="btn btn-primary" onclick="generateCards()">Generate Cards</button>
+      <button class="btn btn-secondary" onclick="window.print()">Print Cards</button>
+    </div>
+  </div>
+
+  <!-- ============================================
+       CARDS OUTPUT
+       ============================================ -->
+  <div id="cardsOutput"></div>
+
+  <script>
+    let pairs = [];
+    let pairCount = 0;
+
+    const SUGGESTED_ACTIVITIES = [
+      "Explain concepts in your own words",
+      "Work through practice problems together",
+      "Quiz each other on vocabulary",
+      "Review mistakes from last week",
+      "Create a study guide together",
+      "Teach a diagram or model",
+      "Discuss real-world applications"
+    ];
+
+    const FOCUS_AREAS = [
+      "Vocabulary & Key Terms",
+      "Data Analysis & Graphing",
+      "Concept Application",
+      "Calculation Practice",
+      "Lab Procedures",
+      "Writing Explanations",
+      "Making Connections"
+    ];
+
+    /**
+     * Add a new pair input row
+     */
+    function addPair() {
+      pairCount++;
+      const container = document.getElementById('pairsContainer');
+
+      const pairHtml = `
+        <div class="pair-input" id="pair-${pairCount}">
+          <div class="input-group">
+            <label>Tutor (Tier 1)</label>
+            <input type="text" id="tutor-${pairCount}" placeholder="Name">
+            <input type="number" id="tutor-seat-${pairCount}" placeholder="Seat #" style="margin-top: 4px; width: 80px;">
+          </div>
+          <div class="input-group">
+            <label>Partner (Tier 2/3)</label>
+            <input type="text" id="partner-${pairCount}" placeholder="Name">
+            <input type="number" id="partner-seat-${pairCount}" placeholder="Seat #" style="margin-top: 4px; width: 80px;">
+          </div>
+          <div class="input-group">
+            <label>Focus Area</label>
+            <select id="focus-${pairCount}">
+              ${FOCUS_AREAS.map(f => `<option value="${f}">${f}</option>`).join('')}
+            </select>
+            <button class="btn btn-small btn-secondary" onclick="removePair(${pairCount})" style="margin-top: 4px;">Remove</button>
+          </div>
+        </div>
+      `;
+
+      container.insertAdjacentHTML('beforeend', pairHtml);
+    }
+
+    /**
+     * Remove a pair
+     */
+    function removePair(id) {
+      document.getElementById(`pair-${id}`)?.remove();
+    }
+
+    /**
+     * Load sample pairs for testing
+     */
+    function loadSamplePairs() {
+      const samples = [
+        { tutor: "Emma S.", tutorSeat: 8, partner: "Marcus T.", partnerSeat: 7, focus: "Data Analysis & Graphing" },
+        { tutor: "Sophia R.", tutorSeat: 15, partner: "Aiden B.", partnerSeat: 16, focus: "Vocabulary & Key Terms" },
+        { tutor: "Liam K.", tutorSeat: 3, partner: "Isabella M.", partnerSeat: 2, focus: "Concept Application" },
+        { tutor: "Olivia W.", tutorSeat: 22, partner: "Noah C.", partnerSeat: 21, focus: "Writing Explanations" }
+      ];
+
+      // Clear existing
+      document.getElementById('pairsContainer').innerHTML = '';
+      pairCount = 0;
+
+      samples.forEach(sample => {
+        addPair();
+        document.getElementById(`tutor-${pairCount}`).value = sample.tutor;
+        document.getElementById(`tutor-seat-${pairCount}`).value = sample.tutorSeat;
+        document.getElementById(`partner-${pairCount}`).value = sample.partner;
+        document.getElementById(`partner-seat-${pairCount}`).value = sample.partnerSeat;
+        document.getElementById(`focus-${pairCount}`).value = sample.focus;
+      });
+    }
+
+    /**
+     * Import pairs from JSON (from intervention grouping output)
+     */
+    function importFromJSON() {
+      const json = prompt('Paste peer tutoring JSON from InterventionGrouping output:');
+      if (!json) return;
+
+      try {
+        const data = JSON.parse(json);
+        const pairsData = data.peerTutoringPairs || data;
+
+        document.getElementById('pairsContainer').innerHTML = '';
+        pairCount = 0;
+
+        pairsData.forEach(pair => {
+          addPair();
+          document.getElementById(`tutor-${pairCount}`).value = pair.tutor?.name || pair.tutor || '';
+          document.getElementById(`partner-${pairCount}`).value = pair.tutee?.name || pair.partner || pair.tutee || '';
+          document.getElementById(`focus-${pairCount}`).value = pair.focusAreas?.[0] || FOCUS_AREAS[0];
+        });
+
+        alert(`Imported ${pairsData.length} pairs`);
+      } catch (e) {
+        alert('Invalid JSON format');
+      }
+    }
+
+    /**
+     * Collect pairs from form
+     */
+    function collectPairs() {
+      const collected = [];
+      const inputs = document.querySelectorAll('.pair-input');
+
+      inputs.forEach(input => {
+        const id = input.id.split('-')[1];
+        const tutor = document.getElementById(`tutor-${id}`)?.value;
+        const partner = document.getElementById(`partner-${id}`)?.value;
+
+        if (tutor && partner) {
+          collected.push({
+            tutor: tutor,
+            tutorSeat: document.getElementById(`tutor-seat-${id}`)?.value || '',
+            partner: partner,
+            partnerSeat: document.getElementById(`partner-seat-${id}`)?.value || '',
+            focus: document.getElementById(`focus-${id}`)?.value || FOCUS_AREAS[0]
+          });
+        }
+      });
+
+      return collected;
+    }
+
+    /**
+     * Generate card HTML
+     */
+    function generateCards() {
+      const pairs = collectPairs();
+      if (pairs.length === 0) {
+        alert('Add at least one pair first');
+        return;
+      }
+
+      const weekOf = document.getElementById('weekOf').value;
+      const cycle = document.getElementById('cycle').value;
+      const week = document.getElementById('week').value;
+
+      const weekLabel = weekOf ? new Date(weekOf).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+
+      const output = document.getElementById('cardsOutput');
+      output.innerHTML = '';
+
+      let currentPage = null;
+      let cardCount = 0;
+
+      pairs.forEach((pair, index) => {
+        if (cardCount % 4 === 0) {
+          currentPage = document.createElement('div');
+          currentPage.className = 'page';
+          output.appendChild(currentPage);
+        }
+
+        // Pick 3 random activities
+        const activities = [...SUGGESTED_ACTIVITIES]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 3);
+
+        const cardHtml = `
+          <div class="pair-card">
+            <div class="card-header">
+              <h2>Peer Learning Partners</h2>
+              <div class="week-info">Cycle ${cycle} Week ${week} ${weekLabel ? '| ' + weekLabel : ''}</div>
+            </div>
+
+            <div class="partners-row">
+              <div class="partner-box tutor">
+                <div class="role-label">Learning Coach</div>
+                <div class="student-name">${pair.tutor}</div>
+                ${pair.tutorSeat ? `<div class="student-seat">Seat ${pair.tutorSeat}</div>` : ''}
+              </div>
+
+              <div class="connection">⟷</div>
+
+              <div class="partner-box partner">
+                <div class="role-label">Learning Partner</div>
+                <div class="student-name">${pair.partner}</div>
+                ${pair.partnerSeat ? `<div class="student-seat">Seat ${pair.partnerSeat}</div>` : ''}
+              </div>
+            </div>
+
+            <div class="focus-section">
+              <div class="focus-label">This Week's Focus</div>
+              <div class="focus-topic">${pair.focus}</div>
+            </div>
+
+            <div class="activities-section">
+              <div class="activities-label">Suggested Activities</div>
+              <ul class="activity-list">
+                ${activities.map(a => `<li>${a}</li>`).join('')}
+              </ul>
+            </div>
+
+            <div class="card-footer">
+              <span>Pair #${index + 1}</span>
+              <span>KAMS Science</span>
+            </div>
+          </div>
+        `;
+
+        currentPage.insertAdjacentHTML('beforeend', cardHtml);
+        cardCount++;
+      });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      const monday = new Date();
+      monday.setDate(monday.getDate() - monday.getDay() + 1);
+      document.getElementById('weekOf').value = monday.toISOString().split('T')[0];
+
+      // Add initial pair
+      addPair();
+    });
+  </script>
+</body>
+</html>
