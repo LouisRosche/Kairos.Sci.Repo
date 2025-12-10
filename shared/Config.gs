@@ -529,6 +529,249 @@ var Config = {
       },
       activeCycles: ['cycle03', 'cycle04']
     };
+  },
+
+  // ==========================================================================
+  // AUTO CYCLE/WEEK DETECTION
+  // ==========================================================================
+
+  /**
+   * Automatically detect current cycle and week from dates
+   * Uses cycle configuration files to determine current period
+   * @returns {Object} {cycle, week, found, source}
+   */
+  getCurrentPeriodFromDates: function() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize to start of day
+
+    const result = {
+      cycle: null,
+      week: null,
+      found: false,
+      source: 'date_detection'
+    };
+
+    // Try to load cycle configurations
+    const activeCycles = this.getActiveCycles();
+
+    for (var i = 0; i < activeCycles.length; i++) {
+      var cycleNum = activeCycles[i];
+      var cycleConfig = this._loadCycleConfig(cycleNum);
+
+      if (!cycleConfig || !cycleConfig.dates) continue;
+
+      var startDate = this._parseDate(cycleConfig.dates.start);
+      var endDate = this._parseDate(cycleConfig.dates.end);
+
+      if (!startDate || !endDate) continue;
+
+      // Check if today is within this cycle
+      if (today >= startDate && today <= endDate) {
+        result.cycle = cycleNum;
+        result.found = true;
+
+        // Determine which week within the cycle
+        var daysSinceStart = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+        var weeksPerCycle = cycleConfig.weeksPerCycle || this.getCycles().weeksPerCycle || 3;
+        var daysPerWeek = 7;
+
+        // Calculate week number (1-indexed)
+        result.week = Math.min(
+          Math.floor(daysSinceStart / daysPerWeek) + 1,
+          weeksPerCycle
+        );
+
+        Logger.log('Config: Auto-detected C' + result.cycle + 'W' + result.week + ' from dates');
+        break;
+      }
+    }
+
+    // Fallback to manual config if not found
+    if (!result.found) {
+      result.cycle = this.getCurrentCycle();
+      result.week = this.getCurrentWeek();
+      result.source = 'manual_config';
+      Logger.log('Config: Using manual config C' + result.cycle + 'W' + result.week);
+    }
+
+    return result;
+  },
+
+  /**
+   * Get cycle and week, preferring auto-detection
+   * @returns {Object} {cycle, week}
+   */
+  getAutoCycleWeek: function() {
+    // Check if runtime override is set
+    if (_runtimeConfig.currentCycle !== null && _runtimeConfig.currentWeek !== null) {
+      return {
+        cycle: _runtimeConfig.currentCycle,
+        week: _runtimeConfig.currentWeek,
+        source: 'runtime_override'
+      };
+    }
+
+    // Try auto-detection
+    return this.getCurrentPeriodFromDates();
+  },
+
+  /**
+   * Load cycle configuration file
+   * @private
+   */
+  _loadCycleConfig: function(cycleNum) {
+    try {
+      // Try to load from Drive
+      var paddedNum = cycleNum.toString().padStart(2, '0');
+      var filename = 'cycle' + paddedNum + '.json';
+      var files = DriveApp.getFilesByName(filename);
+
+      if (files.hasNext()) {
+        var file = files.next();
+        return JSON.parse(file.getBlob().getDataAsString());
+      }
+
+      // Try loading from embedded config
+      var config = this.load();
+      if (config.cycleConfigs && config.cycleConfigs['cycle' + paddedNum]) {
+        return config.cycleConfigs['cycle' + paddedNum];
+      }
+
+    } catch (e) {
+      Logger.log('Config: Could not load cycle ' + cycleNum + ' config: ' + e.message);
+    }
+
+    return null;
+  },
+
+  /**
+   * Parse date string to Date object
+   * Handles formats: "YYYY-MM-DD", "Month DD, YYYY", etc.
+   * @private
+   */
+  _parseDate: function(dateStr) {
+    if (!dateStr) return null;
+
+    try {
+      // If it's already a Date object
+      if (dateStr instanceof Date) return dateStr;
+
+      // Try standard parsing
+      var parsed = new Date(dateStr);
+      if (!isNaN(parsed.getTime())) {
+        return parsed;
+      }
+
+      // Try ISO format explicitly
+      if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
+        var parts = dateStr.split('-');
+        return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      }
+
+    } catch (e) {
+      Logger.log('Config: Could not parse date "' + dateStr + '": ' + e.message);
+    }
+
+    return null;
+  },
+
+  /**
+   * Get upcoming cycle/week transitions
+   * @returns {Array} Array of upcoming transitions
+   */
+  getUpcomingTransitions: function() {
+    var transitions = [];
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    var lookAheadDays = 14; // Look 2 weeks ahead
+    var lookAhead = new Date(today.getTime() + lookAheadDays * 24 * 60 * 60 * 1000);
+
+    var activeCycles = this.getActiveCycles();
+
+    for (var i = 0; i < activeCycles.length; i++) {
+      var cycleNum = activeCycles[i];
+      var cycleConfig = this._loadCycleConfig(cycleNum);
+      if (!cycleConfig || !cycleConfig.dates) continue;
+
+      var startDate = this._parseDate(cycleConfig.dates.start);
+      var endDate = this._parseDate(cycleConfig.dates.end);
+
+      // Cycle start
+      if (startDate && startDate > today && startDate <= lookAhead) {
+        transitions.push({
+          type: 'CYCLE_START',
+          cycle: cycleNum,
+          date: startDate,
+          daysUntil: Math.ceil((startDate - today) / (1000 * 60 * 60 * 24))
+        });
+      }
+
+      // Cycle end
+      if (endDate && endDate > today && endDate <= lookAhead) {
+        transitions.push({
+          type: 'CYCLE_END',
+          cycle: cycleNum,
+          date: endDate,
+          daysUntil: Math.ceil((endDate - today) / (1000 * 60 * 60 * 24))
+        });
+      }
+
+      // Week transitions within current cycle
+      if (startDate && endDate && today >= startDate && today <= endDate) {
+        var weeksPerCycle = cycleConfig.weeksPerCycle || 3;
+        var totalCycleDays = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
+        var daysPerWeek = Math.floor(totalCycleDays / weeksPerCycle);
+
+        for (var w = 1; w < weeksPerCycle; w++) {
+          var weekTransition = new Date(startDate.getTime() + w * daysPerWeek * 24 * 60 * 60 * 1000);
+          if (weekTransition > today && weekTransition <= lookAhead) {
+            transitions.push({
+              type: 'WEEK_TRANSITION',
+              cycle: cycleNum,
+              fromWeek: w,
+              toWeek: w + 1,
+              date: weekTransition,
+              daysUntil: Math.ceil((weekTransition - today) / (1000 * 60 * 60 * 24))
+            });
+          }
+        }
+      }
+    }
+
+    // Sort by date
+    transitions.sort(function(a, b) { return a.date - b.date; });
+
+    return transitions;
+  },
+
+  /**
+   * Check if we're in a cycle/week transition period
+   * @returns {Object|null} Transition info if within 2 days of transition
+   */
+  checkTransitionPeriod: function() {
+    var transitions = this.getUpcomingTransitions();
+    var imminentTransition = null;
+
+    for (var i = 0; i < transitions.length; i++) {
+      if (transitions[i].daysUntil <= 2) {
+        imminentTransition = transitions[i];
+        break;
+      }
+    }
+
+    if (imminentTransition) {
+      return {
+        inTransition: true,
+        type: imminentTransition.type,
+        cycle: imminentTransition.cycle,
+        date: imminentTransition.date,
+        daysUntil: imminentTransition.daysUntil,
+        message: imminentTransition.type.replace(/_/g, ' ') + ' in ' + imminentTransition.daysUntil + ' day(s)'
+      };
+    }
+
+    return { inTransition: false };
   }
 };
 

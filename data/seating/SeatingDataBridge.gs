@@ -633,3 +633,421 @@ function getLatestAnalysis(grade, period) {
     return null;
   }
 }
+
+/**
+ * ============================================================================
+ * INTERVENTION INTEGRATION
+ * ============================================================================
+ * Bridges seating analysis with intervention grouping
+ */
+
+/**
+ * Get students with tiers for seating optimization
+ * This is used by SeatingAnalyzer.generateOptimizedSeating()
+ *
+ * @param {number} grade - Grade level
+ * @param {number} period - Class period
+ * @returns {Array} Array of student objects with tier info
+ */
+function getStudentsWithTiersForSeating(grade, period) {
+  const performanceData = loadPerformanceDataForSeating(grade, period);
+
+  return Object.entries(performanceData).map(([name, data]) => ({
+    name: name,
+    email: data.email,
+    tier: data.currentTier || 1,
+    averageScore: calculateStudentAverage(data.weeklyScores),
+    trend: calculateStudentTrend(data.weeklyScores)
+  }));
+}
+
+/**
+ * Calculate average score from weekly scores object
+ * @private
+ */
+function calculateStudentAverage(weeklyScores) {
+  if (!weeklyScores) return 0;
+  const scores = Object.values(weeklyScores).map(w => w.average).filter(s => s != null);
+  if (scores.length === 0) return 0;
+  return scores.reduce((a, b) => a + b, 0) / scores.length;
+}
+
+/**
+ * Calculate trend from weekly scores object
+ * @private
+ */
+function calculateStudentTrend(weeklyScores) {
+  if (!weeklyScores) return 'stable';
+  const scores = Object.values(weeklyScores).map(w => w.average).filter(s => s != null);
+  if (scores.length < 2) return 'stable';
+
+  const firstHalf = scores.slice(0, Math.floor(scores.length / 2));
+  const secondHalf = scores.slice(Math.floor(scores.length / 2));
+
+  const firstAvg = firstHalf.reduce((a, b) => a + b, 0) / firstHalf.length;
+  const secondAvg = secondHalf.reduce((a, b) => a + b, 0) / secondHalf.length;
+
+  const diff = secondAvg - firstAvg;
+  if (diff > 5) return 'improving';
+  if (diff < -5) return 'declining';
+  return 'stable';
+}
+
+/**
+ * Apply peer tutoring pairs as seating constraints
+ * Takes intervention grouping output and converts to seating keepTogether constraints
+ *
+ * @param {Array} peerTutoringPairs - From InterventionGrouping.createPeerPairs()
+ * @param {number} grade - Grade level
+ * @param {number} period - Class period
+ * @returns {Object} Seating constraints
+ */
+function applyPeerTutoringToSeating(peerTutoringPairs, grade, period) {
+  const constraints = {
+    keepTogether: [],
+    peerTutoringPairs: []
+  };
+
+  const roster = getStudentRoster(grade, period);
+  const emailToName = {};
+  Object.entries(roster).forEach(([name, data]) => {
+    emailToName[data.email] = name;
+  });
+
+  peerTutoringPairs.forEach(pair => {
+    const tutorName = emailToName[pair.tutor.email] || pair.tutor.email;
+    const tuteeName = emailToName[pair.tutee.email] || pair.tutee.email;
+
+    constraints.keepTogether.push({
+      students: [tutorName, tuteeName],
+      reason: 'peer_tutoring',
+      priority: 'HIGH',
+      focusAreas: pair.focusAreas
+    });
+
+    constraints.peerTutoringPairs.push({
+      tutor: tutorName,
+      tutee: tuteeName,
+      focusAreas: pair.focusAreas
+    });
+  });
+
+  // Store constraints for later retrieval
+  const key = `seating-constraints-g${grade}-p${period}`;
+  PropertiesService.getScriptProperties().setProperty(key, JSON.stringify(constraints));
+
+  Logger.log(`Applied ${constraints.keepTogether.length} peer tutoring pairs as seating constraints for G${grade} P${period}`);
+  return constraints;
+}
+
+/**
+ * Get seating constraints (peer tutoring pairs + catalyst pairs)
+ *
+ * @param {number} grade - Grade level
+ * @param {number} period - Class period
+ * @returns {Object} Combined constraints
+ */
+function getSeatingConstraints(grade, period) {
+  const key = `seating-constraints-g${grade}-p${period}`;
+  const stored = PropertiesService.getScriptProperties().getProperty(key);
+
+  let constraints = {
+    keepTogether: [],
+    keepApart: [],
+    peerTutoringPairs: []
+  };
+
+  if (stored) {
+    try {
+      constraints = JSON.parse(stored);
+    } catch (e) {
+      Logger.log(`Failed to parse constraints: ${e.message}`);
+    }
+  }
+
+  // Add catalyst pairs and distraction vectors from latest analysis
+  const analysis = getLatestAnalysis(grade, period);
+  if (analysis && analysis.analysis) {
+    // Add catalyst pairs as keepTogether
+    (analysis.analysis.catalystPairs || []).forEach(pair => {
+      if (pair.confidence !== 'LOW') {
+        constraints.keepTogether.push({
+          students: pair.students,
+          reason: 'catalyst_pair',
+          priority: pair.correlation >= 0.7 ? 'HIGH' : 'MEDIUM',
+          correlation: pair.correlation
+        });
+      }
+    });
+
+    // Add distraction vectors as keepApart
+    (analysis.analysis.distractionVectors || []).forEach(pair => {
+      if (pair.confidence !== 'LOW') {
+        constraints.keepApart.push({
+          students: pair.students,
+          reason: 'distraction_vector',
+          priority: pair.correlation <= -0.6 ? 'HIGH' : 'MEDIUM',
+          correlation: pair.correlation
+        });
+      }
+    });
+  }
+
+  return constraints;
+}
+
+/**
+ * Generate optimized seating with all constraints applied
+ *
+ * @param {number} grade - Grade level
+ * @param {number} period - Class period
+ * @returns {Object} Optimized seating assignment
+ */
+function generateOptimizedSeatingWithConstraints(grade, period) {
+  const students = getStudentsWithTiersForSeating(grade, period);
+  const constraints = getSeatingConstraints(grade, period);
+
+  const result = {
+    generated: new Date().toISOString(),
+    grade,
+    period,
+    studentCount: students.length,
+    constraintsApplied: {
+      keepTogether: constraints.keepTogether.length,
+      keepApart: constraints.keepApart.length,
+      peerTutoringPairs: constraints.peerTutoringPairs.length
+    },
+    assignments: {},
+    reasoning: [],
+    score: 0
+  };
+
+  // Build constraint maps
+  const keepTogetherMap = new Map();
+  const keepApartMap = new Map();
+
+  constraints.keepTogether.forEach(constraint => {
+    const key = constraint.students.sort().join('|');
+    keepTogetherMap.set(key, constraint.priority === 'HIGH' ? 2.0 : 1.5);
+  });
+
+  constraints.keepApart.forEach(constraint => {
+    const key = constraint.students.sort().join('|');
+    keepApartMap.set(key, constraint.priority === 'HIGH' ? 3.0 : 2.0);
+  });
+
+  // Define seat zones (same as in SeatingAnalyzer)
+  const seatZones = {
+    front: [1, 2, 3, 4, 5, 6],
+    sideLeft: [22, 23, 24],
+    sideRight: [7, 8, 9],
+    middleLeft: [20, 21],
+    middleRight: [10, 11],
+    backCorners: [12, 19],
+    back: [13, 14, 15, 16, 17, 18]
+  };
+
+  // Sort students by tier (Tier 3 first for priority placement)
+  const tier3 = students.filter(s => s.tier === 3);
+  const tier2 = students.filter(s => s.tier === 2);
+  const tier1 = students.filter(s => s.tier === 1);
+
+  const availableSeats = new Set([...Array(24).keys()].map(i => i + 1));
+
+  // Phase 1: Place Tier 3 students in front
+  result.reasoning.push('Phase 1: Placing Tier 3 students near teacher (front seats)');
+  tier3.forEach(student => {
+    const bestSeat = findBestSeatWithConstraints(
+      student, seatZones.front, availableSeats, result.assignments,
+      keepTogetherMap, keepApartMap, students
+    );
+    if (bestSeat) {
+      result.assignments[bestSeat] = student;
+      availableSeats.delete(bestSeat);
+      result.reasoning.push(`  ${student.name} -> Seat ${bestSeat} (front for teacher proximity)`);
+    }
+  });
+
+  // Phase 2: Place Tier 2 students near peer tutors
+  result.reasoning.push('Phase 2: Placing Tier 2 students near peer tutors');
+  tier2.forEach(student => {
+    // Check if this student has a peer tutor assigned
+    const peerTutorConstraint = constraints.peerTutoringPairs.find(
+      p => p.tutee === student.name
+    );
+
+    let preferredZone = [...seatZones.sideLeft, ...seatZones.sideRight,
+                         ...seatZones.middleLeft, ...seatZones.middleRight];
+
+    if (peerTutorConstraint) {
+      // Find tutor's seat and prefer adjacent seats
+      const tutorSeat = Object.entries(result.assignments).find(
+        ([seat, s]) => s.name === peerTutorConstraint.tutor
+      )?.[0];
+
+      if (tutorSeat) {
+        preferredZone = getAdjacentSeatsBridge(parseInt(tutorSeat));
+        result.reasoning.push(`  (Prioritizing seats near peer tutor ${peerTutorConstraint.tutor})`);
+      }
+    }
+
+    const bestSeat = findBestSeatWithConstraints(
+      student, preferredZone, availableSeats, result.assignments,
+      keepTogetherMap, keepApartMap, students
+    );
+    if (bestSeat) {
+      result.assignments[bestSeat] = student;
+      availableSeats.delete(bestSeat);
+      result.reasoning.push(`  ${student.name} -> Seat ${bestSeat}`);
+    }
+  });
+
+  // Phase 3: Place Tier 1 students
+  result.reasoning.push('Phase 3: Placing Tier 1 students');
+  tier1.forEach(student => {
+    if (Object.values(result.assignments).some(s => s.name === student.name)) {
+      return; // Already placed
+    }
+
+    const remainingSeats = Array.from(availableSeats);
+    const bestSeat = findBestSeatWithConstraints(
+      student, remainingSeats, availableSeats, result.assignments,
+      keepTogetherMap, keepApartMap, students
+    );
+    if (bestSeat) {
+      result.assignments[bestSeat] = student;
+      availableSeats.delete(bestSeat);
+      result.reasoning.push(`  ${student.name} -> Seat ${bestSeat}`);
+    }
+  });
+
+  // Calculate final score
+  result.score = calculateArrangementScoreBridge(
+    result.assignments, keepTogetherMap, keepApartMap
+  );
+  result.reasoning.push(`Final arrangement score: ${result.score.toFixed(2)}`);
+
+  // Save result
+  const outputKey = `seating-optimized-g${grade}-p${period}`;
+  PropertiesService.getScriptProperties().setProperty(outputKey, JSON.stringify(result));
+
+  return result;
+}
+
+/**
+ * Find best seat considering all constraints
+ * @private
+ */
+function findBestSeatWithConstraints(student, preferredSeats, availableSeats,
+                                     currentAssignments, keepTogetherMap, keepApartMap, allStudents) {
+  let bestSeat = null;
+  let bestScore = -Infinity;
+
+  const candidateSeats = preferredSeats.filter(s => availableSeats.has(s));
+
+  candidateSeats.forEach(seat => {
+    let score = 0;
+    const adjacent = getAdjacentSeatsBridge(seat);
+
+    adjacent.forEach(adjSeat => {
+      const neighbor = currentAssignments[adjSeat];
+      if (!neighbor) return;
+
+      const pairKey = [student.name, neighbor.name].sort().join('|');
+
+      // Bonus for keepTogether constraints
+      if (keepTogetherMap.has(pairKey)) {
+        score += keepTogetherMap.get(pairKey) * 2.0;
+      }
+
+      // Penalty for keepApart constraints
+      if (keepApartMap.has(pairKey)) {
+        score -= keepApartMap.get(pairKey) * 3.0;
+      }
+
+      // Peer tutoring bonus (Tier 1 near Tier 2/3)
+      if ((student.tier === 1 && neighbor.tier >= 2) ||
+          (student.tier >= 2 && neighbor.tier === 1)) {
+        score += 1.5;
+      }
+
+      // Tier 3 clustering penalty
+      if (student.tier === 3 && neighbor.tier === 3) {
+        score -= 2.0;
+      }
+    });
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestSeat = seat;
+    }
+  });
+
+  // If no scored seat found, take first available
+  if (!bestSeat && candidateSeats.length > 0) {
+    bestSeat = candidateSeats[0];
+  }
+
+  return bestSeat;
+}
+
+/**
+ * Get adjacent seats (same logic as SeatingAnalyzer)
+ * @private
+ */
+function getAdjacentSeatsBridge(seatNum) {
+  const adjacent = [];
+
+  // Same wall neighbors
+  if (seatNum > 1 && Math.ceil((seatNum - 1) / 6) === Math.ceil(seatNum / 6)) {
+    adjacent.push(seatNum - 1);
+  }
+  if (seatNum < 24 && Math.ceil((seatNum + 1) / 6) === Math.ceil(seatNum / 6)) {
+    adjacent.push(seatNum + 1);
+  }
+
+  // Corner connections
+  const corners = [
+    [6, 7],   // NE corner
+    [12, 13], // SE corner
+    [18, 19], // SW corner
+    [24, 1]   // NW corner
+  ];
+
+  corners.forEach(([a, b]) => {
+    if (seatNum === a) adjacent.push(b);
+    if (seatNum === b) adjacent.push(a);
+  });
+
+  return adjacent;
+}
+
+/**
+ * Calculate arrangement score
+ * @private
+ */
+function calculateArrangementScoreBridge(assignments, keepTogetherMap, keepApartMap) {
+  let score = 0;
+  const seats = Object.keys(assignments).map(Number);
+
+  seats.forEach(seat => {
+    const student = assignments[seat];
+    const adjacent = getAdjacentSeatsBridge(seat);
+
+    adjacent.forEach(adjSeat => {
+      if (!assignments[adjSeat]) return;
+
+      const neighbor = assignments[adjSeat];
+      const pairKey = [student.name, neighbor.name].sort().join('|');
+
+      if (keepTogetherMap.has(pairKey)) {
+        score += keepTogetherMap.get(pairKey);
+      }
+      if (keepApartMap.has(pairKey)) {
+        score -= keepApartMap.get(pairKey);
+      }
+    });
+  });
+
+  return score;
+}

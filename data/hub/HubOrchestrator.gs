@@ -775,3 +775,587 @@ function runAllSeatingAnalysis() {
   Logger.log('Seating analysis complete for all classes');
   return results;
 }
+
+/**
+ * ============================================================================
+ * ENHANCED ORCHESTRATION WITH ALL INTEGRATIONS
+ * ============================================================================
+ */
+
+/**
+ * Enhanced daily orchestration with all integrated systems
+ * Includes: MTSS, Misconceptions, Spiral, Interventions, Alerts, Insights
+ *
+ * This is the recommended daily orchestration function that wires all systems.
+ * Recommended trigger: Daily at 6 PM
+ */
+function runEnhancedOrchestration() {
+  const startTime = new Date();
+
+  // Use auto cycle/week detection
+  let cycleWeek;
+  try {
+    cycleWeek = Config.getAutoCycleWeek ? Config.getAutoCycleWeek() : {
+      cycle: Config.getCurrentCycle(),
+      week: Config.getCurrentWeek(),
+      source: 'fallback'
+    };
+  } catch (e) {
+    cycleWeek = { cycle: 4, week: 1, source: 'default' };
+  }
+
+  Logger.log('=== KAMS Science Enhanced Orchestration ===');
+  Logger.log('Date: ' + startTime.toISOString());
+  Logger.log('Auto-detected: C' + cycleWeek.cycle + 'W' + cycleWeek.week + ' (source: ' + cycleWeek.source + ')');
+
+  const results = {
+    started: startTime.toISOString(),
+    cycle: cycleWeek.cycle,
+    week: cycleWeek.week,
+    source: cycleWeek.source,
+    steps: [],
+    data: {},
+    alerts: [],
+    insights: null,
+    success: false
+  };
+
+  // Helper to run a step
+  function runStep(name, fn, critical) {
+    var stepResult = {
+      step: name,
+      status: 'running',
+      startedAt: new Date().toISOString()
+    };
+    results.steps.push(stepResult);
+
+    try {
+      var output = fn();
+      stepResult.status = 'complete';
+      stepResult.duration = ((new Date() - new Date(stepResult.startedAt)) / 1000).toFixed(2) + 's';
+      return output;
+    } catch (e) {
+      stepResult.status = 'failed';
+      stepResult.error = e.message;
+      Logger.log('ERROR in ' + name + ': ' + e.message);
+
+      if (critical) {
+        throw e;
+      }
+      return null;
+    }
+  }
+
+  try {
+    // Override runtime config with detected values
+    if (Config.setCurrentPeriod) {
+      Config.setCurrentPeriod(cycleWeek.cycle, cycleWeek.week);
+    }
+
+    var hubConfig = getHubConfig();
+
+    // ===== CORE DATA PIPELINE (CRITICAL) =====
+
+    // Step 1: Collect form responses
+    var responses = runStep('Response Collection', function() {
+      return collectAllResponses();
+    }, true);
+    results.data.responses = { collected: true };
+
+    // Step 2: Aggregate data
+    var aggregatedData = runStep('Data Aggregation', function() {
+      return aggregateAllGrades(responses);
+    }, true);
+    results.data.aggregated = { grades: Object.keys(aggregatedData) };
+
+    // Step 3: Generate MTSS reports
+    var mtssReports = runStep('MTSS Analysis', function() {
+      return generateAllMTSSReports(aggregatedData);
+    }, true);
+    results.data.mtssReports = mtssReports;
+
+    // ===== ANALYSIS PIPELINE (NON-CRITICAL) =====
+
+    // Step 4: Misconception analysis
+    var misconceptionReport = runStep('Misconception Analysis', function() {
+      if (typeof analyzeMisconceptions === 'function') {
+        return analyzeMisconceptions(cycleWeek.cycle, cycleWeek.week);
+      }
+      return {};
+    }, false);
+    results.data.misconceptionReport = misconceptionReport;
+
+    // Step 5: Spiral effectiveness
+    var spiralReport = runStep('Spiral Effectiveness', function() {
+      if (typeof analyzeSpiralEffectiveness === 'function') {
+        return analyzeSpiralEffectiveness(cycleWeek.cycle, cycleWeek.week);
+      }
+      return {};
+    }, false);
+    results.data.spiralReport = spiralReport;
+
+    // Step 6: Generate intervention groups
+    var interventionGroups = runStep('Intervention Grouping', function() {
+      return generateAllInterventionGroups(mtssReports);
+    }, false);
+    results.data.interventionGroups = interventionGroups;
+
+    // ===== INTEGRATION PIPELINE =====
+
+    // Step 7: Spiral Content Recommendations
+    var spiralRecommendations = runStep('Spiral Recommendations', function() {
+      if (typeof generateAllSpiralRecommendations === 'function') {
+        return generateAllSpiralRecommendations(
+          { misconceptionReport: misconceptionReport, spiralReport: spiralReport },
+          cycleWeek.cycle,
+          cycleWeek.week
+        );
+      }
+      return {};
+    }, false);
+    results.data.spiralRecommendations = spiralRecommendations;
+
+    // Step 8: Record interventions for tracking
+    runStep('Record Interventions', function() {
+      if (typeof recordInterventionsFromGroups === 'function') {
+        hubConfig.grades.forEach(function(grade) {
+          if (interventionGroups && interventionGroups[grade]) {
+            recordInterventionsFromGroups(
+              interventionGroups[grade],
+              grade,
+              cycleWeek.cycle,
+              cycleWeek.week
+            );
+          }
+        });
+      }
+    }, false);
+
+    // Step 9: Evaluate existing interventions
+    var interventionEvaluations = runStep('Intervention Evaluation', function() {
+      if (typeof evaluateAllInterventions === 'function') {
+        var evals = {};
+        hubConfig.grades.forEach(function(grade) {
+          if (mtssReports[grade]) {
+            evals[grade] = evaluateAllInterventions(grade, mtssReports[grade]);
+          }
+        });
+        return evals;
+      }
+      return {};
+    }, false);
+    results.data.interventionEvaluations = interventionEvaluations;
+
+    // Step 10: Update seating performance data
+    runStep('Seating Data Bridge', function() {
+      return updateSeatingPerformanceData(aggregatedData, hubConfig);
+    }, false);
+
+    // Step 11: Apply peer tutoring to seating constraints
+    runStep('Seating Constraints', function() {
+      if (typeof applyPeerTutoringToSeating === 'function') {
+        var gradeConfig = Config.getGradeConfig ? Config.getGradeConfig() : {};
+        hubConfig.grades.forEach(function(grade) {
+          var groups = interventionGroups ? interventionGroups[grade] : null;
+          if (groups && groups.peerTutoringPairs) {
+            var periods = gradeConfig[grade] && gradeConfig[grade].periods ? gradeConfig[grade].periods : [];
+            periods.forEach(function(periodStr) {
+              var match = periodStr.match(/\d+/);
+              if (match) {
+                var period = parseInt(match[0]);
+                applyPeerTutoringToSeating(groups.peerTutoringPairs, grade, period);
+              }
+            });
+          }
+        });
+      }
+    }, false);
+
+    // Step 12: Update hub spreadsheet
+    runStep('Hub Update', function() {
+      return updateHubSheet(aggregatedData, mtssReports, interventionGroups || {});
+    }, false);
+
+    // Step 13: Generate alerts
+    var alertResult = runStep('Alert System', function() {
+      if (typeof processAndSendAlerts === 'function') {
+        return processAndSendAlerts({
+          mtssReports: mtssReports,
+          misconceptionReport: misconceptionReport,
+          spiralReport: spiralReport
+        });
+      } else if (typeof sendAlerts === 'function') {
+        return { alerts: sendAlerts(misconceptionReport || {}, mtssReports) };
+      }
+      return { alerts: [] };
+    }, false);
+    results.alerts = alertResult ? alertResult.alerts || [] : [];
+
+    // Step 14: Generate weekly insights dashboard
+    results.insights = runStep('Insights Dashboard', function() {
+      if (typeof generateWeeklyInsights === 'function') {
+        return generateWeeklyInsights(
+          {
+            mtssReports: mtssReports,
+            misconceptionReport: misconceptionReport,
+            spiralReport: spiralReport,
+            interventionGroups: interventionGroups
+          },
+          cycleWeek.cycle,
+          cycleWeek.week
+        );
+      }
+      return null;
+    }, false);
+
+    // Step 15: Generate intervention effectiveness report
+    runStep('Effectiveness Report', function() {
+      if (typeof generateEffectivenessReport === 'function') {
+        hubConfig.grades.forEach(function(grade) {
+          generateEffectivenessReport(grade);
+        });
+      }
+    }, false);
+
+    results.success = true;
+    results.completed = new Date().toISOString();
+    results.duration = ((new Date() - startTime) / 1000).toFixed(2) + 's';
+
+  } catch (error) {
+    results.error = error.message;
+    results.errorStack = error.stack;
+    results.failedAt = results.steps.length > 0 ?
+      results.steps[results.steps.length - 1].step : 'Unknown';
+  }
+
+  // Log summary
+  logEnhancedOrchestrationSummary(results);
+
+  // Save orchestration log
+  try {
+    var logFilename = 'orchestration-enhanced-' + startTime.toISOString().split('T')[0] + '.json';
+    if (typeof saveToJson === 'function') {
+      saveToJson(logFilename, results);
+    }
+  } catch (e) {
+    Logger.log('Warning: Could not save orchestration log: ' + e.message);
+  }
+
+  return results;
+}
+
+/**
+ * Log enhanced orchestration summary
+ */
+function logEnhancedOrchestrationSummary(results) {
+  Logger.log('');
+  Logger.log('=== Enhanced Orchestration Summary ===');
+  Logger.log('Period: C' + results.cycle + 'W' + results.week + ' (source: ' + results.source + ')');
+  Logger.log('Started: ' + results.started);
+  Logger.log('Completed: ' + (results.completed || 'N/A'));
+  Logger.log('Success: ' + results.success);
+  Logger.log('Duration: ' + (results.duration || 'N/A'));
+
+  if (results.error) {
+    Logger.log('');
+    Logger.log('ERROR: ' + results.error);
+    Logger.log('Failed at: ' + results.failedAt);
+  }
+
+  Logger.log('');
+  Logger.log('Steps:');
+  results.steps.forEach(function(step) {
+    var status = step.status === 'complete' ? '[OK]' :
+                 step.status === 'failed' ? '[FAIL]' : '[???]';
+    Logger.log('  ' + status + ' ' + step.step + (step.duration ? ' (' + step.duration + ')' : ''));
+    if (step.error) {
+      Logger.log('      Error: ' + step.error);
+    }
+  });
+
+  if (results.alerts && results.alerts.length > 0) {
+    Logger.log('');
+    Logger.log('Alerts Generated: ' + results.alerts.length);
+  }
+
+  if (results.insights) {
+    Logger.log('');
+    Logger.log('Insights Dashboard: Generated');
+    if (results.insights.prioritizedActions) {
+      Logger.log('Top Actions: ' + results.insights.prioritizedActions.length);
+    }
+  }
+
+  Logger.log('');
+  Logger.log('=== End Summary ===');
+}
+
+/**
+ * ============================================================================
+ * WEEKLY SUMMARY GENERATION
+ * ============================================================================
+ */
+
+/**
+ * Generate and send weekly summary email
+ * Recommended trigger: Friday 4 PM
+ */
+function generateAndSendWeeklySummary() {
+  var cycleWeek = Config.getAutoCycleWeek ? Config.getAutoCycleWeek() : {
+    cycle: Config.getCurrentCycle(),
+    week: Config.getCurrentWeek()
+  };
+
+  Logger.log('Generating weekly summary for C' + cycleWeek.cycle + 'W' + cycleWeek.week);
+
+  var results = {
+    generated: new Date().toISOString(),
+    cycle: cycleWeek.cycle,
+    week: cycleWeek.week
+  };
+
+  try {
+    // Load insights
+    var insights = null;
+    if (typeof loadInsights === 'function') {
+      insights = loadInsights(cycleWeek.cycle, cycleWeek.week);
+    } else if (typeof loadLatestInsights === 'function') {
+      insights = loadLatestInsights();
+    }
+
+    if (!insights) {
+      Logger.log('No insights available - running orchestration first');
+      runEnhancedOrchestration();
+      if (typeof loadLatestInsights === 'function') {
+        insights = loadLatestInsights();
+      }
+    }
+
+    // Generate intervention effectiveness reports
+    var effectivenessReports = {};
+    if (typeof generateEffectivenessReport === 'function') {
+      var grades = Config.getActiveGrades ? Config.getActiveGrades() : [7, 8];
+      grades.forEach(function(grade) {
+        effectivenessReports[grade] = generateEffectivenessReport(grade);
+      });
+    }
+
+    // Format summary
+    var summaryContent = formatWeeklySummaryContent(
+      insights,
+      effectivenessReports,
+      cycleWeek
+    );
+
+    results.summary = summaryContent;
+
+    // Send email
+    if (typeof AlertConfig !== 'undefined' && AlertConfig.getRecipients) {
+      var recipients = AlertConfig.getRecipients();
+      if (recipients.length > 0) {
+        MailApp.sendEmail({
+          to: recipients.join(','),
+          subject: '[KAMS Science] Weekly Summary - Cycle ' + cycleWeek.cycle + ' Week ' + cycleWeek.week,
+          body: summaryContent
+        });
+        results.emailSent = true;
+        results.recipients = recipients.length;
+        Logger.log('Weekly summary emailed to ' + recipients.length + ' recipients');
+      }
+    }
+
+    results.success = true;
+
+  } catch (e) {
+    results.error = e.message;
+    results.success = false;
+    Logger.log('Weekly summary error: ' + e.message);
+  }
+
+  return results;
+}
+
+/**
+ * Format weekly summary content
+ */
+function formatWeeklySummaryContent(insights, effectivenessReports, cycleWeek) {
+  var output = '';
+
+  output += 'KAMS SCIENCE WEEKLY SUMMARY\n';
+  output += '========================================\n\n';
+  output += 'Cycle ' + cycleWeek.cycle + ', Week ' + cycleWeek.week + '\n';
+  output += 'Generated: ' + new Date().toLocaleString() + '\n\n';
+
+  // Insights section
+  if (insights) {
+    if (typeof formatInsightsForDisplay === 'function') {
+      output += formatInsightsForDisplay(insights);
+    } else {
+      output += 'INSIGHTS AVAILABLE\n';
+      output += 'See dashboard for details.\n\n';
+    }
+  }
+
+  // Intervention effectiveness section
+  output += '\n========================================\n';
+  output += 'INTERVENTION EFFECTIVENESS\n';
+  output += '========================================\n\n';
+
+  Object.keys(effectivenessReports).forEach(function(grade) {
+    var report = effectivenessReports[grade];
+    if (!report) return;
+
+    output += 'Grade ' + grade + ':\n';
+    output += '  Active interventions: ' + (report.summary ? report.summary.activeInterventions : 0) + '\n';
+    output += '  Graduations this period: ' + (report.summary ? report.summary.graduations : 0) + '\n';
+    output += '  Average improvement: ' + (report.summary ? report.summary.averageImprovement.toFixed(1) : 0) + '%\n';
+
+    if (report.successStories && report.successStories.length > 0) {
+      output += '  Success stories:\n';
+      report.successStories.slice(0, 3).forEach(function(story) {
+        output += '    - ' + (story.student || 'Student') + ': +' + story.improvement + '% improvement\n';
+      });
+    }
+
+    if (report.concerns && report.concerns.length > 0) {
+      output += '  Concerns (need escalation review):\n';
+      report.concerns.slice(0, 3).forEach(function(concern) {
+        output += '    - ' + (concern.student || 'Student') + ': ' + concern.weeksInIntervention + ' weeks, minimal progress\n';
+      });
+    }
+
+    output += '\n';
+  });
+
+  output += '========================================\n';
+  output += 'End of Weekly Summary\n';
+
+  return output;
+}
+
+/**
+ * ============================================================================
+ * CONVENIENCE FUNCTIONS
+ * ============================================================================
+ */
+
+/**
+ * Run complete enhanced orchestration with weekly summary
+ * Use this for end-of-week comprehensive processing
+ */
+function runWeeklyFullOrchestration() {
+  Logger.log('Running weekly full orchestration...');
+
+  // Run enhanced orchestration
+  var orchResults = runEnhancedOrchestration();
+
+  // Run all seating analysis
+  var seatingResults = runAllSeatingAnalysis();
+
+  // Generate weekly summary
+  var summaryResults = generateAndSendWeeklySummary();
+
+  return {
+    orchestration: orchResults,
+    seating: seatingResults,
+    summary: summaryResults
+  };
+}
+
+/**
+ * Check system health
+ * Returns status of all integrated components
+ */
+function checkIntegratedSystemHealth() {
+  var health = {
+    timestamp: new Date().toISOString(),
+    components: {},
+    overall: 'HEALTHY'
+  };
+
+  // Check Config
+  try {
+    var config = getHubConfig();
+    health.components.config = { status: 'OK', cycle: config.currentCycle, week: config.currentWeek };
+  } catch (e) {
+    health.components.config = { status: 'ERROR', error: e.message };
+    health.overall = 'DEGRADED';
+  }
+
+  // Check AlertSystem
+  try {
+    if (typeof getAlertSystemStatus === 'function') {
+      var alertStatus = getAlertSystemStatus();
+      health.components.alerts = {
+        status: alertStatus.enabled ? 'OK' : 'DISABLED',
+        recipients: alertStatus.recipientCount
+      };
+    } else {
+      health.components.alerts = { status: 'NOT_LOADED' };
+    }
+  } catch (e) {
+    health.components.alerts = { status: 'ERROR', error: e.message };
+  }
+
+  // Check InsightsDashboard
+  try {
+    if (typeof loadLatestInsights === 'function') {
+      var insights = loadLatestInsights();
+      health.components.insights = {
+        status: insights ? 'OK' : 'NO_DATA',
+        lastGenerated: insights ? insights.generated : null
+      };
+    } else {
+      health.components.insights = { status: 'NOT_LOADED' };
+    }
+  } catch (e) {
+    health.components.insights = { status: 'ERROR', error: e.message };
+  }
+
+  // Check InterventionTracker
+  try {
+    if (typeof loadAllInterventionsForGrade === 'function') {
+      var g7Interventions = loadAllInterventionsForGrade(7);
+      var g8Interventions = loadAllInterventionsForGrade(8);
+      health.components.interventionTracker = {
+        status: 'OK',
+        grade7Count: g7Interventions.length,
+        grade8Count: g8Interventions.length
+      };
+    } else {
+      health.components.interventionTracker = { status: 'NOT_LOADED' };
+    }
+  } catch (e) {
+    health.components.interventionTracker = { status: 'ERROR', error: e.message };
+  }
+
+  // Check Canvas sync
+  try {
+    if (typeof getCanvasSyncStatus === 'function') {
+      var canvasStatus = getCanvasSyncStatus();
+      health.components.canvas = {
+        status: canvasStatus.configured ? 'OK' : 'NOT_CONFIGURED',
+        lastSync: canvasStatus.lastSync
+      };
+    } else {
+      health.components.canvas = { status: 'NOT_LOADED' };
+    }
+  } catch (e) {
+    health.components.canvas = { status: 'ERROR', error: e.message };
+  }
+
+  // Determine overall health
+  var errorCount = Object.values(health.components).filter(function(c) {
+    return c.status === 'ERROR';
+  }).length;
+
+  if (errorCount > 2) {
+    health.overall = 'UNHEALTHY';
+  } else if (errorCount > 0) {
+    health.overall = 'DEGRADED';
+  }
+
+  Logger.log('System health check: ' + health.overall);
+
+  return health;
+}
