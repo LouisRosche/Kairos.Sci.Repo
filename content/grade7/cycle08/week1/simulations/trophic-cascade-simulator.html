@@ -1,0 +1,1505 @@
+<!--
+================================================================================
+Grade 7 Cycle 08 Week 1 - Trophic Cascade Food Web Simulator
+================================================================================
+100% DIGITAL/SIMULATION-BASED INSTRUCTION
+Interactive simulation exploring how changes to one trophic level cascade
+through an entire ecosystem. Based on Yellowstone wolf reintroduction phenomenon.
+Updated: December 2025 | Material-Free Audit Complete
+================================================================================
+NGSS Standards: MS-LS2-4 (Ecosystem Interactions)
+Phenomenon: "Why did removing wolves from Yellowstone change the rivers?"
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trophic Cascade Simulator - Yellowstone Ecosystem</title>
+    <style>
+        /* Design Tokens from design-system.css */
+        :root {
+            --color-primary: #1a73e8;
+            --color-primary-dark: #1557b0;
+            --color-success: #34a853;
+            --color-warning: #fbbc04;
+            --color-danger: #ea4335;
+            --color-info: #4285f4;
+            --color-text: #202124;
+            --color-text-light: #5f6368;
+            --color-background: #ffffff;
+            --color-surface: #f8f9fa;
+            --color-border: #dadce0;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --border-radius: 8px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+            /* Trophic Level Colors */
+            --apex-color: #c62828;
+            --secondary-color: #ef6c00;
+            --primary-color: #2e7d32;
+            --producer-color: #558b2f;
+            --decomposer-color: #5d4037;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            min-height: 100vh;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+
+        /* Header */
+        .sim-header {
+            background: linear-gradient(135deg, var(--apex-color) 0%, #d84315 100%);
+            color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .sim-header h1 {
+            font-size: 1.75rem;
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+        }
+
+        .sim-header p {
+            opacity: 0.95;
+            font-size: 1rem;
+        }
+
+        .phenomenon-box {
+            background: rgba(255,255,255,0.2);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            margin-top: var(--spacing-md);
+            font-style: italic;
+        }
+
+        /* Main Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: var(--spacing-lg);
+        }
+
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Food Web Canvas */
+        .food-web-panel {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-lg);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .year-display {
+            background: var(--color-surface);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        #foodWebCanvas {
+            width: 100%;
+            height: 450px;
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            background: linear-gradient(180deg, #87ceeb 0%, #98d8c8 30%, #90a955 60%, #4a7c59 100%);
+            cursor: pointer;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .scenario-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-lg);
+        }
+
+        .scenario-section h3 {
+            font-size: 1rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .scenario-btn {
+            width: 100%;
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .scenario-btn:hover {
+            border-color: var(--color-primary);
+            background: var(--color-surface);
+        }
+
+        .scenario-btn.active {
+            border-color: var(--color-primary);
+            background: #e3f2fd;
+        }
+
+        .scenario-btn .scenario-title {
+            font-weight: 600;
+            color: var(--color-text);
+            display: block;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .scenario-btn .scenario-desc {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+        }
+
+        .scenario-btn.scenario-wolves { border-left: 4px solid var(--apex-color); }
+        .scenario-btn.scenario-invasive { border-left: 4px solid var(--color-warning); }
+        .scenario-btn.scenario-disease { border-left: 4px solid var(--producer-color); }
+
+        /* Playback Controls */
+        .playback-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .control-btn {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn.play {
+            background: var(--color-success);
+            color: white;
+        }
+
+        .control-btn.play:hover {
+            background: #2e7d32;
+        }
+
+        .control-btn.pause {
+            background: var(--color-warning);
+            color: var(--color-text);
+        }
+
+        .control-btn.reset {
+            background: var(--color-border);
+            color: var(--color-text);
+        }
+
+        .control-btn.reset:hover {
+            background: #bdc1c6;
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Speed Control */
+        .speed-control {
+            margin-top: var(--spacing-md);
+        }
+
+        .speed-control label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .speed-slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: var(--color-border);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Population Graph */
+        .graph-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-lg);
+        }
+
+        #populationGraph {
+            width: 100%;
+            height: 200px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            background: white;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-size: 0.8rem;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background: var(--color-surface);
+            border-radius: var(--border-radius);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        /* Info Panel */
+        .info-panel {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .info-panel h3 {
+            font-size: 1rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text);
+        }
+
+        .trophic-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .trophic-card {
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .trophic-card.apex { background: rgba(198, 40, 40, 0.1); border: 2px solid var(--apex-color); }
+        .trophic-card.secondary { background: rgba(239, 108, 0, 0.1); border: 2px solid var(--secondary-color); }
+        .trophic-card.primary { background: rgba(46, 125, 50, 0.1); border: 2px solid var(--primary-color); }
+        .trophic-card.producer { background: rgba(85, 139, 47, 0.1); border: 2px solid var(--producer-color); }
+
+        .trophic-card h4 {
+            font-size: 0.85rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .trophic-card .organisms {
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+        }
+
+        .trophic-card .population {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: var(--spacing-sm);
+        }
+
+        .trophic-card .change {
+            font-size: 0.8rem;
+            margin-top: var(--spacing-xs);
+        }
+
+        .change.up { color: var(--color-success); }
+        .change.down { color: var(--color-danger); }
+        .change.stable { color: var(--color-text-light); }
+
+        /* POE Sections */
+        .poe-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .poe-tabs {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .poe-tab {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .poe-tab.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .poe-content {
+            display: none;
+        }
+
+        .poe-content.active {
+            display: block;
+        }
+
+        .poe-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: var(--spacing-md);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            margin-top: var(--spacing-sm);
+        }
+
+        .poe-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .poe-prompt {
+            background: var(--color-surface);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        /* Event Log */
+        .event-log {
+            background: var(--color-surface);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            margin-top: var(--spacing-md);
+        }
+
+        .event-item {
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-year {
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-size: 0.85rem;
+            pointer-events: none;
+            z-index: 100;
+            max-width: 200px;
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        /* Cascading Effect Indicator */
+        .cascade-indicator {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            text-align: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .cascade-indicator.show {
+            display: block;
+            animation: fadeInOut 3s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* 10% Rule Visualization */
+        .energy-flow {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background: var(--color-surface);
+            border-radius: var(--border-radius);
+        }
+
+        .energy-bar {
+            display: flex;
+            align-items: center;
+            margin: var(--spacing-sm) 0;
+        }
+
+        .energy-label {
+            width: 120px;
+            font-size: 0.85rem;
+        }
+
+        .energy-visual {
+            flex: 1;
+            height: 24px;
+            background: var(--color-border);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .energy-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .energy-percent {
+            width: 50px;
+            text-align: right;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Footer */
+        .sim-footer {
+            text-align: center;
+            padding: var(--spacing-lg);
+            color: var(--color-text-light);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="sim-header">
+            <h1>🐺 Trophic Cascade Simulator</h1>
+            <p>Explore how changes in one population ripple through an entire ecosystem</p>
+            <div class="phenomenon-box">
+                <strong>Driving Question:</strong> "Why did removing wolves from Yellowstone change the rivers?"
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-grid">
+            <!-- Food Web Visualization -->
+            <div class="food-web-panel">
+                <div class="panel-header">
+                    <span class="panel-title">Yellowstone Ecosystem Food Web</span>
+                    <span class="year-display" id="yearDisplay">Year: 1920</span>
+                </div>
+                <canvas id="foodWebCanvas" role="img" aria-label="Interactive food web diagram showing Yellowstone ecosystem organisms and their relationships"></canvas>
+
+                <!-- Event Log -->
+                <div class="event-log" id="eventLog" aria-live="polite">
+                    <div class="event-item">
+                        <span class="event-year">1920:</span> Simulation initialized - Yellowstone ecosystem in balance
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <!-- Scenario Selection -->
+                <div class="scenario-section">
+                    <h3>🎯 Choose a Scenario</h3>
+
+                    <button class="scenario-btn scenario-wolves" id="scenarioWolves" aria-pressed="false">
+                        <span class="scenario-title">🐺 Remove Apex Predator</span>
+                        <span class="scenario-desc">What happens when wolves are hunted to extinction? (1926)</span>
+                    </button>
+
+                    <button class="scenario-btn scenario-invasive" id="scenarioInvasive" aria-pressed="false">
+                        <span class="scenario-title">🦎 Add Invasive Species</span>
+                        <span class="scenario-desc">Lake trout introduced, competing with native cutthroat</span>
+                    </button>
+
+                    <button class="scenario-btn scenario-disease" id="scenarioDisease" aria-pressed="false">
+                        <span class="scenario-title">🌿 Disease in Producers</span>
+                        <span class="scenario-desc">Pine beetle outbreak kills whitebark pine forests</span>
+                    </button>
+
+                    <!-- Playback Controls -->
+                    <div class="playback-controls">
+                        <button class="control-btn play" id="playBtn" aria-label="Start simulation">
+                            ▶ Play
+                        </button>
+                        <button class="control-btn pause" id="pauseBtn" aria-label="Pause simulation" disabled>
+                            ⏸ Pause
+                        </button>
+                        <button class="control-btn reset" id="resetBtn" aria-label="Reset simulation">
+                            ↺ Reset
+                        </button>
+                    </div>
+
+                    <!-- Speed Control -->
+                    <div class="speed-control">
+                        <label for="speedSlider">Simulation Speed: <span id="speedValue">1x</span></label>
+                        <input type="range" id="speedSlider" class="speed-slider" min="1" max="5" value="1">
+                    </div>
+                </div>
+
+                <!-- Population Graph -->
+                <div class="graph-section">
+                    <h3 class="panel-title">📊 Population Trends</h3>
+                    <canvas id="populationGraph" aria-label="Line graph showing population changes over time"></canvas>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: var(--apex-color)"></div>
+                            <span>Wolves</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: var(--secondary-color)"></div>
+                            <span>Elk</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: var(--primary-color)"></div>
+                            <span>Willows</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #1565c0"></div>
+                            <span>Beavers</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trophic Level Info -->
+        <div class="info-panel">
+            <h3>🔺 Current Population Status</h3>
+            <div class="trophic-levels">
+                <div class="trophic-card apex">
+                    <h4>Apex Predators</h4>
+                    <div class="organisms">Wolves, Mountain Lions</div>
+                    <div class="population" id="apexPop">150</div>
+                    <div class="change stable" id="apexChange">Stable</div>
+                </div>
+                <div class="trophic-card secondary">
+                    <h4>Secondary Consumers</h4>
+                    <div class="organisms">Coyotes, Eagles, Bears</div>
+                    <div class="population" id="secondaryPop">800</div>
+                    <div class="change stable" id="secondaryChange">Stable</div>
+                </div>
+                <div class="trophic-card primary">
+                    <h4>Primary Consumers</h4>
+                    <div class="organisms">Elk, Deer, Beavers</div>
+                    <div class="population" id="primaryPop">15,000</div>
+                    <div class="change stable" id="primaryChange">Stable</div>
+                </div>
+                <div class="trophic-card producer">
+                    <h4>Producers</h4>
+                    <div class="organisms">Willows, Aspens, Grasses</div>
+                    <div class="population" id="producerPop">100%</div>
+                    <div class="change stable" id="producerChange">Healthy</div>
+                </div>
+            </div>
+
+            <!-- Energy Flow Visualization -->
+            <div class="energy-flow">
+                <h4>⚡ Energy Transfer (10% Rule)</h4>
+                <div class="energy-bar">
+                    <span class="energy-label">Producers</span>
+                    <div class="energy-visual">
+                        <div class="energy-fill" id="energyProducer" style="width: 100%; background: var(--producer-color);"></div>
+                    </div>
+                    <span class="energy-percent">100%</span>
+                </div>
+                <div class="energy-bar">
+                    <span class="energy-label">Primary</span>
+                    <div class="energy-visual">
+                        <div class="energy-fill" id="energyPrimary" style="width: 10%; background: var(--primary-color);"></div>
+                    </div>
+                    <span class="energy-percent">10%</span>
+                </div>
+                <div class="energy-bar">
+                    <span class="energy-label">Secondary</span>
+                    <div class="energy-visual">
+                        <div class="energy-fill" id="energySecondary" style="width: 1%; background: var(--secondary-color);"></div>
+                    </div>
+                    <span class="energy-percent">1%</span>
+                </div>
+                <div class="energy-bar">
+                    <span class="energy-label">Apex</span>
+                    <div class="energy-visual">
+                        <div class="energy-fill" id="energyApex" style="width: 0.1%; background: var(--apex-color);"></div>
+                    </div>
+                    <span class="energy-percent">0.1%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- POE Section -->
+        <div class="poe-section">
+            <h3>📝 Record Your Observations</h3>
+            <div class="poe-tabs" role="tablist">
+                <button class="poe-tab active" role="tab" aria-selected="true" data-tab="predict">Predict</button>
+                <button class="poe-tab" role="tab" aria-selected="false" data-tab="observe">Observe</button>
+                <button class="poe-tab" role="tab" aria-selected="false" data-tab="explain">Explain</button>
+            </div>
+
+            <div class="poe-content active" id="predict-content" role="tabpanel">
+                <div class="poe-prompt">
+                    <strong>Before running the simulation:</strong> What do you think will happen to elk, willow trees, and beavers if wolves are removed from Yellowstone?
+                </div>
+                <textarea class="poe-textarea" id="predictText" placeholder="I predict that when wolves are removed..."></textarea>
+            </div>
+
+            <div class="poe-content" id="observe-content" role="tabpanel">
+                <div class="poe-prompt">
+                    <strong>While running the simulation:</strong> Record what happens to each population over time. Note any surprising connections.
+                </div>
+                <textarea class="poe-textarea" id="observeText" placeholder="I observed that..."></textarea>
+            </div>
+
+            <div class="poe-content" id="explain-content" role="tabpanel">
+                <div class="poe-prompt">
+                    <strong>After the simulation:</strong> Explain HOW removing wolves could change rivers. Use evidence from your observations.
+                </div>
+                <textarea class="poe-textarea" id="explainText" placeholder="I can explain the cascade effect because..."></textarea>
+            </div>
+        </div>
+
+        <!-- Cascade Indicator -->
+        <div class="cascade-indicator" id="cascadeIndicator">
+            <div id="cascadeMessage">🌊 Cascade Effect Triggered!</div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="sim-footer">
+            <p>Grade 7 | Cycle 8 Week 1 | MS-LS2-4: Ecosystem Interactions</p>
+            <p>Based on real ecological data from Yellowstone National Park</p>
+        </footer>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip" style="display: none;"></div>
+
+    <script>
+        // ============================================================
+        // TROPHIC CASCADE SIMULATOR - Core Logic
+        // ============================================================
+
+        // Simulation State
+        const state = {
+            year: 1920,
+            isPlaying: false,
+            speed: 1,
+            scenario: null,
+            scenarioYear: null,
+            populations: {
+                wolves: 150,
+                mountainLions: 50,
+                coyotes: 300,
+                eagles: 200,
+                bears: 300,
+                elk: 12000,
+                deer: 3000,
+                beavers: 1500,
+                willows: 100,
+                aspens: 100,
+                grasses: 100
+            },
+            history: [],
+            events: []
+        };
+
+        // Initial populations (for reset)
+        const initialPops = { ...state.populations };
+
+        // Organism positions on canvas
+        const organisms = [
+            // Apex Predators
+            { id: 'wolves', name: 'Wolves', x: 0.5, y: 0.1, level: 'apex', emoji: '🐺', size: 40 },
+            { id: 'mountainLions', name: 'Mountain Lions', x: 0.75, y: 0.15, level: 'apex', emoji: '🦁', size: 35 },
+
+            // Secondary Consumers
+            { id: 'coyotes', name: 'Coyotes', x: 0.2, y: 0.3, level: 'secondary', emoji: '🦊', size: 30 },
+            { id: 'eagles', name: 'Eagles', x: 0.5, y: 0.28, level: 'secondary', emoji: '🦅', size: 30 },
+            { id: 'bears', name: 'Bears', x: 0.8, y: 0.32, level: 'secondary', emoji: '🐻', size: 35 },
+
+            // Primary Consumers
+            { id: 'elk', name: 'Elk', x: 0.35, y: 0.5, level: 'primary', emoji: '🦌', size: 35 },
+            { id: 'deer', name: 'Deer', x: 0.55, y: 0.52, level: 'primary', emoji: '🦌', size: 30 },
+            { id: 'beavers', name: 'Beavers', x: 0.75, y: 0.55, level: 'primary', emoji: '🦫', size: 28 },
+
+            // Producers
+            { id: 'willows', name: 'Willows', x: 0.3, y: 0.75, level: 'producer', emoji: '🌿', size: 35 },
+            { id: 'aspens', name: 'Aspens', x: 0.5, y: 0.78, level: 'producer', emoji: '🌲', size: 40 },
+            { id: 'grasses', name: 'Grasses', x: 0.7, y: 0.8, level: 'producer', emoji: '🌾', size: 30 }
+        ];
+
+        // Food web connections (predator -> prey)
+        const connections = [
+            { from: 'wolves', to: 'elk', strength: 0.8 },
+            { from: 'wolves', to: 'deer', strength: 0.6 },
+            { from: 'wolves', to: 'coyotes', strength: 0.3 },
+            { from: 'mountainLions', to: 'deer', strength: 0.7 },
+            { from: 'mountainLions', to: 'elk', strength: 0.4 },
+            { from: 'coyotes', to: 'deer', strength: 0.3 },
+            { from: 'eagles', to: 'deer', strength: 0.1 },
+            { from: 'bears', to: 'deer', strength: 0.2 },
+            { from: 'bears', to: 'grasses', strength: 0.4 },
+            { from: 'elk', to: 'willows', strength: 0.9 },
+            { from: 'elk', to: 'aspens', strength: 0.8 },
+            { from: 'elk', to: 'grasses', strength: 0.7 },
+            { from: 'deer', to: 'willows', strength: 0.5 },
+            { from: 'deer', to: 'aspens', strength: 0.4 },
+            { from: 'beavers', to: 'willows', strength: 0.6 },
+            { from: 'beavers', to: 'aspens', strength: 0.5 }
+        ];
+
+        // Canvas setup
+        const canvas = document.getElementById('foodWebCanvas');
+        const ctx = canvas.getContext('2d');
+        const graphCanvas = document.getElementById('populationGraph');
+        const graphCtx = graphCanvas.getContext('2d');
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const graphRect = graphCanvas.getBoundingClientRect();
+            graphCanvas.width = graphRect.width * window.devicePixelRatio;
+            graphCanvas.height = graphRect.height * window.devicePixelRatio;
+            graphCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            resizeCanvas();
+            recordHistory();
+            drawFoodWeb();
+            drawGraph();
+        });
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            drawFoodWeb();
+            drawGraph();
+        });
+
+        // ============================================================
+        // DRAWING FUNCTIONS
+        // ============================================================
+
+        function drawFoodWeb() {
+            const w = canvas.width / window.devicePixelRatio;
+            const h = canvas.height / window.devicePixelRatio;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, w, h);
+
+            // Draw connections first (behind organisms)
+            connections.forEach(conn => {
+                const from = organisms.find(o => o.id === conn.from);
+                const to = organisms.find(o => o.id === conn.to);
+                if (from && to) {
+                    drawConnection(from, to, conn.strength, w, h);
+                }
+            });
+
+            // Draw organisms
+            organisms.forEach(org => {
+                drawOrganism(org, w, h);
+            });
+
+            // Draw trophic level labels
+            drawTrophicLabels(w, h);
+        }
+
+        function drawConnection(from, to, strength, w, h) {
+            const fromX = from.x * w;
+            const fromY = from.y * h;
+            const toX = to.x * w;
+            const toY = to.y * h;
+
+            // Calculate population-based opacity
+            const fromPop = state.populations[from.id] || 0;
+            const toPop = state.populations[to.id] || 0;
+            const fromInitial = initialPops[from.id] || 1;
+            const toInitial = initialPops[to.id] || 1;
+
+            const fromRatio = Math.min(fromPop / fromInitial, 1.5);
+            const toRatio = Math.min(toPop / toInitial, 1.5);
+            const opacity = Math.max(0.1, Math.min(0.8, strength * fromRatio * toRatio));
+
+            // Draw arrow
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.strokeStyle = `rgba(100, 100, 100, ${opacity})`;
+            ctx.lineWidth = strength * 3 * fromRatio;
+            ctx.stroke();
+
+            // Arrowhead
+            const angle = Math.atan2(toY - fromY, toX - fromX);
+            const arrowSize = 8;
+            ctx.beginPath();
+            ctx.moveTo(toX - 20 * Math.cos(angle), toY - 20 * Math.sin(angle));
+            ctx.lineTo(
+                toX - 20 * Math.cos(angle) - arrowSize * Math.cos(angle - Math.PI / 6),
+                toY - 20 * Math.sin(angle) - arrowSize * Math.sin(angle - Math.PI / 6)
+            );
+            ctx.lineTo(
+                toX - 20 * Math.cos(angle) - arrowSize * Math.cos(angle + Math.PI / 6),
+                toY - 20 * Math.sin(angle) - arrowSize * Math.sin(angle + Math.PI / 6)
+            );
+            ctx.closePath();
+            ctx.fillStyle = `rgba(100, 100, 100, ${opacity})`;
+            ctx.fill();
+        }
+
+        function drawOrganism(org, w, h) {
+            const x = org.x * w;
+            const y = org.y * h;
+
+            // Calculate size based on population
+            const pop = state.populations[org.id];
+            const initial = initialPops[org.id];
+            let ratio = 1;
+
+            if (typeof pop === 'number' && typeof initial === 'number' && initial > 0) {
+                ratio = Math.max(0.3, Math.min(1.5, pop / initial));
+            }
+
+            const size = org.size * ratio;
+
+            // Draw glow based on level
+            const colors = {
+                apex: 'rgba(198, 40, 40, 0.3)',
+                secondary: 'rgba(239, 108, 0, 0.3)',
+                primary: 'rgba(46, 125, 50, 0.3)',
+                producer: 'rgba(85, 139, 47, 0.3)'
+            };
+
+            ctx.beginPath();
+            ctx.arc(x, y, size + 10, 0, Math.PI * 2);
+            ctx.fillStyle = colors[org.level];
+            ctx.fill();
+
+            // Draw emoji
+            ctx.font = `${size}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Fade out extinct species
+            if (pop === 0) {
+                ctx.globalAlpha = 0.2;
+            }
+
+            ctx.fillText(org.emoji, x, y);
+            ctx.globalAlpha = 1;
+
+            // Draw population count
+            if (typeof pop === 'number') {
+                ctx.font = '12px Arial';
+                ctx.fillStyle = '#333';
+                ctx.fillText(pop.toLocaleString(), x, y + size/2 + 15);
+            }
+        }
+
+        function drawTrophicLabels(w, h) {
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'left';
+
+            const labels = [
+                { text: 'APEX PREDATORS', y: 0.1, color: '#c62828' },
+                { text: 'SECONDARY CONSUMERS', y: 0.3, color: '#ef6c00' },
+                { text: 'PRIMARY CONSUMERS', y: 0.52, color: '#2e7d32' },
+                { text: 'PRODUCERS', y: 0.78, color: '#558b2f' }
+            ];
+
+            labels.forEach(label => {
+                ctx.fillStyle = label.color;
+                ctx.fillText(label.text, 10, label.y * h);
+            });
+        }
+
+        function drawGraph() {
+            const w = graphCanvas.width / window.devicePixelRatio;
+            const h = graphCanvas.height / window.devicePixelRatio;
+
+            graphCtx.clearRect(0, 0, w, h);
+
+            if (state.history.length < 2) return;
+
+            // Background
+            graphCtx.fillStyle = '#f8f9fa';
+            graphCtx.fillRect(0, 0, w, h);
+
+            // Draw grid
+            graphCtx.strokeStyle = '#e0e0e0';
+            graphCtx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = (h / 4) * i;
+                graphCtx.beginPath();
+                graphCtx.moveTo(0, y);
+                graphCtx.lineTo(w, y);
+                graphCtx.stroke();
+            }
+
+            // Get max values for scaling
+            const maxWolves = Math.max(...state.history.map(h => h.wolves), 1);
+            const maxElk = Math.max(...state.history.map(h => h.elk), 1);
+            const maxWillows = 100;
+            const maxBeavers = Math.max(...state.history.map(h => h.beavers), 1);
+
+            // Draw lines for each population
+            const drawLine = (key, maxVal, color) => {
+                graphCtx.beginPath();
+                graphCtx.strokeStyle = color;
+                graphCtx.lineWidth = 2;
+
+                state.history.forEach((point, i) => {
+                    const x = (i / (state.history.length - 1)) * w;
+                    const y = h - (point[key] / maxVal) * h * 0.9 - h * 0.05;
+
+                    if (i === 0) {
+                        graphCtx.moveTo(x, y);
+                    } else {
+                        graphCtx.lineTo(x, y);
+                    }
+                });
+
+                graphCtx.stroke();
+            };
+
+            drawLine('wolves', maxWolves, '#c62828');
+            drawLine('elk', maxElk, '#ef6c00');
+            drawLine('willows', maxWillows, '#2e7d32');
+            drawLine('beavers', maxBeavers, '#1565c0');
+
+            // Year labels
+            graphCtx.fillStyle = '#666';
+            graphCtx.font = '10px Arial';
+            graphCtx.textAlign = 'left';
+            graphCtx.fillText(state.history[0]?.year || '1920', 5, h - 5);
+            graphCtx.textAlign = 'right';
+            graphCtx.fillText(state.year, w - 5, h - 5);
+        }
+
+        // ============================================================
+        // SIMULATION LOGIC
+        // ============================================================
+
+        function recordHistory() {
+            state.history.push({
+                year: state.year,
+                wolves: state.populations.wolves,
+                elk: state.populations.elk,
+                willows: state.populations.willows,
+                beavers: state.populations.beavers
+            });
+        }
+
+        function simulateYear() {
+            state.year++;
+
+            // Apply scenario effects
+            if (state.scenario === 'wolves' && state.year >= state.scenarioYear) {
+                applyWolfRemovalEffects();
+            } else if (state.scenario === 'invasive' && state.year >= state.scenarioYear) {
+                applyInvasiveEffects();
+            } else if (state.scenario === 'disease' && state.year >= state.scenarioYear) {
+                applyDiseaseEffects();
+            } else {
+                // Natural equilibrium
+                applyNaturalBalance();
+            }
+
+            // Record and update displays
+            recordHistory();
+            updateDisplays();
+            drawFoodWeb();
+            drawGraph();
+
+            // Check for cascade events
+            checkCascadeEvents();
+        }
+
+        function applyWolfRemovalEffects() {
+            const yearsAfter = state.year - state.scenarioYear;
+
+            // Wolves decline rapidly then stay at 0
+            if (yearsAfter <= 5) {
+                state.populations.wolves = Math.max(0, 150 - yearsAfter * 30);
+            } else {
+                state.populations.wolves = 0;
+            }
+
+            // Elk population explosion (no predation)
+            if (yearsAfter > 2) {
+                const elkGrowth = Math.min(25000, 12000 * Math.pow(1.08, yearsAfter - 2));
+                state.populations.elk = Math.round(elkGrowth);
+            }
+
+            // Deer also increase
+            if (yearsAfter > 3) {
+                state.populations.deer = Math.min(8000, Math.round(3000 * Math.pow(1.05, yearsAfter - 3)));
+            }
+
+            // Coyotes initially increase (less wolf competition), then stabilize
+            if (yearsAfter > 2 && yearsAfter < 20) {
+                state.populations.coyotes = Math.min(600, 300 + yearsAfter * 15);
+            }
+
+            // Willows and aspens decline due to overgrazing
+            if (yearsAfter > 5) {
+                const browsing = Math.max(10, 100 - (yearsAfter - 5) * 4);
+                state.populations.willows = Math.round(browsing);
+                state.populations.aspens = Math.round(Math.max(15, 100 - (yearsAfter - 5) * 3.5));
+            }
+
+            // Beavers decline (no willows for food/dams)
+            if (yearsAfter > 8) {
+                state.populations.beavers = Math.max(50, Math.round(1500 - (yearsAfter - 8) * 100));
+            }
+        }
+
+        function applyInvasiveEffects() {
+            const yearsAfter = state.year - state.scenarioYear;
+
+            // Lake trout outcompete native fish, affecting eagles and bears
+            if (yearsAfter > 3) {
+                // Eagles decline (less native fish)
+                state.populations.eagles = Math.max(50, 200 - yearsAfter * 8);
+
+                // Bears shift diet, more pressure on other foods
+                state.populations.bears = Math.round(Math.max(150, 300 - yearsAfter * 5));
+            }
+
+            // Ripple effects
+            if (yearsAfter > 10) {
+                // More grazing pressure from bears shifting diet
+                state.populations.grasses = Math.max(60, 100 - (yearsAfter - 10) * 2);
+            }
+        }
+
+        function applyDiseaseEffects() {
+            const yearsAfter = state.year - state.scenarioYear;
+
+            // Pine beetle kills whitebark pine (affects bear food source)
+            if (yearsAfter > 0) {
+                state.populations.aspens = Math.max(20, 100 - yearsAfter * 5);
+            }
+
+            // Bears affected, seek other food
+            if (yearsAfter > 3) {
+                state.populations.bears = Math.max(100, 300 - (yearsAfter - 3) * 10);
+            }
+
+            // Grasses slightly affected
+            if (yearsAfter > 5) {
+                state.populations.grasses = Math.max(70, 100 - (yearsAfter - 5) * 2);
+            }
+
+            // Elk benefit from more available vegetation initially
+            if (yearsAfter > 2 && yearsAfter < 15) {
+                state.populations.elk = Math.min(15000, 12000 + (yearsAfter - 2) * 150);
+            }
+        }
+
+        function applyNaturalBalance() {
+            // Small random fluctuations around equilibrium
+            const fluctuate = (val, range) => {
+                return Math.round(val + (Math.random() - 0.5) * range);
+            };
+
+            // Keep populations near initial values with small variations
+            Object.keys(state.populations).forEach(key => {
+                const initial = initialPops[key];
+                if (typeof initial === 'number') {
+                    const current = state.populations[key];
+                    // Drift back toward equilibrium
+                    const drift = (initial - current) * 0.1;
+                    state.populations[key] = Math.max(0, fluctuate(current + drift, initial * 0.05));
+                }
+            });
+        }
+
+        function checkCascadeEvents() {
+            // Check for significant population changes to announce
+            if (state.scenario === 'wolves') {
+                if (state.year === state.scenarioYear + 5 && state.populations.wolves === 0) {
+                    showCascade('🐺 Wolves extinct from Yellowstone!');
+                    addEvent('Wolves declared extinct in Yellowstone');
+                }
+                if (state.year === state.scenarioYear + 10 && state.populations.elk > 18000) {
+                    showCascade('🦌 Elk population explosion! Overgrazing begins...');
+                    addEvent('Elk population exceeds 18,000 - severe overgrazing');
+                }
+                if (state.year === state.scenarioYear + 15 && state.populations.willows < 40) {
+                    showCascade('🌿 Willows critically depleted! Streambanks eroding...');
+                    addEvent('Willow coverage below 40% - riverbanks destabilizing');
+                }
+                if (state.year === state.scenarioYear + 20 && state.populations.beavers < 500) {
+                    showCascade('🦫 Beaver population crashed! Wetlands drying up...');
+                    addEvent('Beaver population below 500 - dam maintenance failing');
+                }
+            }
+        }
+
+        function showCascade(message) {
+            const indicator = document.getElementById('cascadeIndicator');
+            const msgEl = document.getElementById('cascadeMessage');
+            msgEl.textContent = message;
+            indicator.classList.remove('show');
+            void indicator.offsetWidth; // Trigger reflow
+            indicator.classList.add('show');
+
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 3000);
+        }
+
+        function addEvent(text) {
+            const log = document.getElementById('eventLog');
+            const item = document.createElement('div');
+            item.className = 'event-item';
+            item.innerHTML = `<span class="event-year">${state.year}:</span> ${text}`;
+            log.insertBefore(item, log.firstChild);
+            state.events.push({ year: state.year, text });
+        }
+
+        function updateDisplays() {
+            // Year display
+            document.getElementById('yearDisplay').textContent = `Year: ${state.year}`;
+
+            // Population cards
+            const apex = state.populations.wolves + state.populations.mountainLions;
+            const secondary = state.populations.coyotes + state.populations.eagles + state.populations.bears;
+            const primary = state.populations.elk + state.populations.deer + state.populations.beavers;
+            const producers = Math.round((state.populations.willows + state.populations.aspens + state.populations.grasses) / 3);
+
+            document.getElementById('apexPop').textContent = apex.toLocaleString();
+            document.getElementById('secondaryPop').textContent = secondary.toLocaleString();
+            document.getElementById('primaryPop').textContent = primary.toLocaleString();
+            document.getElementById('producerPop').textContent = producers + '%';
+
+            // Change indicators
+            updateChangeIndicator('apex', apex, initialPops.wolves + initialPops.mountainLions);
+            updateChangeIndicator('secondary', secondary, initialPops.coyotes + initialPops.eagles + initialPops.bears);
+            updateChangeIndicator('primary', primary, initialPops.elk + initialPops.deer + initialPops.beavers);
+            updateChangeIndicator('producer', producers, 100);
+        }
+
+        function updateChangeIndicator(prefix, current, initial) {
+            const el = document.getElementById(prefix + 'Change');
+            const diff = ((current - initial) / initial) * 100;
+
+            if (diff > 5) {
+                el.textContent = `↑ ${Math.round(diff)}%`;
+                el.className = 'change up';
+            } else if (diff < -5) {
+                el.textContent = `↓ ${Math.round(Math.abs(diff))}%`;
+                el.className = 'change down';
+            } else {
+                el.textContent = 'Stable';
+                el.className = 'change stable';
+            }
+        }
+
+        // ============================================================
+        // EVENT HANDLERS
+        // ============================================================
+
+        // Scenario buttons
+        document.getElementById('scenarioWolves').addEventListener('click', function() {
+            selectScenario('wolves', this, 1926);
+        });
+
+        document.getElementById('scenarioInvasive').addEventListener('click', function() {
+            selectScenario('invasive', this, 1995);
+        });
+
+        document.getElementById('scenarioDisease').addEventListener('click', function() {
+            selectScenario('disease', this, 2000);
+        });
+
+        function selectScenario(scenario, button, scenarioYear) {
+            // Clear other selections
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
+            });
+
+            // Set new scenario
+            button.classList.add('active');
+            button.setAttribute('aria-pressed', 'true');
+            state.scenario = scenario;
+            state.scenarioYear = scenarioYear;
+
+            // Add event
+            const scenarios = {
+                wolves: 'Scenario: Wolf removal program begins',
+                invasive: 'Scenario: Lake trout introduced',
+                disease: 'Scenario: Pine beetle outbreak begins'
+            };
+            addEvent(scenarios[scenario]);
+        }
+
+        // Playback controls
+        let simulationInterval = null;
+
+        document.getElementById('playBtn').addEventListener('click', function() {
+            if (!state.scenario) {
+                alert('Please select a scenario first!');
+                return;
+            }
+
+            state.isPlaying = true;
+            this.disabled = true;
+            document.getElementById('pauseBtn').disabled = false;
+
+            simulationInterval = setInterval(() => {
+                simulateYear();
+
+                // Stop at year 2020 or if all scenarios played out
+                if (state.year >= 2020) {
+                    pauseSimulation();
+                    addEvent('Simulation complete - observe the cascade effects');
+                }
+            }, 1000 / state.speed);
+        });
+
+        document.getElementById('pauseBtn').addEventListener('click', pauseSimulation);
+
+        function pauseSimulation() {
+            state.isPlaying = false;
+            clearInterval(simulationInterval);
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('pauseBtn').disabled = true;
+        }
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            pauseSimulation();
+
+            // Reset state
+            state.year = 1920;
+            state.scenario = null;
+            state.scenarioYear = null;
+            state.populations = { ...initialPops };
+            state.history = [];
+            state.events = [];
+
+            // Reset UI
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
+            });
+
+            document.getElementById('eventLog').innerHTML = '<div class="event-item"><span class="event-year">1920:</span> Simulation reset - Yellowstone ecosystem in balance</div>';
+
+            recordHistory();
+            updateDisplays();
+            drawFoodWeb();
+            drawGraph();
+        });
+
+        // Speed control
+        document.getElementById('speedSlider').addEventListener('input', function() {
+            state.speed = parseInt(this.value);
+            document.getElementById('speedValue').textContent = state.speed + 'x';
+
+            // Update interval if playing
+            if (state.isPlaying) {
+                clearInterval(simulationInterval);
+                simulationInterval = setInterval(() => {
+                    simulateYear();
+                    if (state.year >= 2020) {
+                        pauseSimulation();
+                    }
+                }, 1000 / state.speed);
+            }
+        });
+
+        // POE tabs
+        document.querySelectorAll('.poe-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Update tabs
+                document.querySelectorAll('.poe-tab').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+
+                // Update content
+                document.querySelectorAll('.poe-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(this.dataset.tab + '-content').classList.add('active');
+            });
+        });
+
+        // Canvas hover for tooltips
+        canvas.addEventListener('mousemove', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const w = rect.width;
+            const h = rect.height;
+
+            // Check if hovering over an organism
+            let hoveredOrg = null;
+            organisms.forEach(org => {
+                const orgX = org.x * w;
+                const orgY = org.y * h;
+                const dist = Math.sqrt(Math.pow(x - orgX, 2) + Math.pow(y - orgY, 2));
+                if (dist < org.size) {
+                    hoveredOrg = org;
+                }
+            });
+
+            const tooltip = document.getElementById('tooltip');
+            if (hoveredOrg) {
+                const pop = state.populations[hoveredOrg.id];
+                const initial = initialPops[hoveredOrg.id];
+                const change = ((pop - initial) / initial * 100).toFixed(0);
+
+                tooltip.innerHTML = `<strong>${hoveredOrg.name}</strong><br>Population: ${typeof pop === 'number' ? pop.toLocaleString() : pop}<br>Change: ${change > 0 ? '+' : ''}${change}%`;
+                tooltip.style.display = 'block';
+                tooltip.style.left = (e.clientX + 15) + 'px';
+                tooltip.style.top = (e.clientY + 15) + 'px';
+            } else {
+                tooltip.style.display = 'none';
+            }
+        });
+
+        canvas.addEventListener('mouseleave', function() {
+            document.getElementById('tooltip').style.display = 'none';
+        });
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === ' ' && document.activeElement.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                if (state.isPlaying) {
+                    pauseSimulation();
+                } else if (state.scenario) {
+                    document.getElementById('playBtn').click();
+                }
+            }
+            if (e.key === 'r' && document.activeElement.tagName !== 'TEXTAREA') {
+                document.getElementById('resetBtn').click();
+            }
+        });
+    </script>
+</body>
+</html>

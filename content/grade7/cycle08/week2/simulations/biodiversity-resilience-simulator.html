@@ -1,0 +1,1609 @@
+<!--
+================================================================================
+Grade 7 Cycle 08 Week 2 - Biodiversity & Resilience Simulator
+================================================================================
+100% DIGITAL/SIMULATION-BASED INSTRUCTION
+Interactive comparison of diverse ecosystems vs. monocultures demonstrating
+how biodiversity increases ecosystem resilience and provides ecosystem services.
+Updated: December 2025 | Material-Free Audit Complete
+================================================================================
+NGSS Standards: MS-LS2-4 (Ecosystem Interactions), MS-ESS3-3 & MS-ESS3-5
+Phenomenon: "The Pollinator Crisis" - How can one small change collapse an ecosystem?
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biodiversity & Resilience Simulator</title>
+    <style>
+        /* Design Tokens */
+        :root {
+            --color-primary: #1a73e8;
+            --color-primary-dark: #1557b0;
+            --color-success: #34a853;
+            --color-warning: #fbbc04;
+            --color-danger: #ea4335;
+            --color-info: #4285f4;
+            --color-text: #202124;
+            --color-text-light: #5f6368;
+            --color-background: #ffffff;
+            --color-surface: #f8f9fa;
+            --color-border: #dadce0;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --border-radius: 8px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+            /* Ecosystem Colors */
+            --diverse-color: #2e7d32;
+            --monoculture-color: #ef6c00;
+            --healthy-color: #4caf50;
+            --stressed-color: #ffc107;
+            --critical-color: #f44336;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, #e8f5e9 0%, #fff8e1 100%);
+            min-height: 100vh;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+
+        /* Header */
+        .sim-header {
+            background: linear-gradient(135deg, var(--diverse-color) 0%, #1b5e20 100%);
+            color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .sim-header h1 {
+            font-size: 1.75rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .sim-header p {
+            opacity: 0.95;
+            font-size: 1rem;
+        }
+
+        .phenomenon-box {
+            background: rgba(255,255,255,0.2);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            margin-top: var(--spacing-md);
+            font-style: italic;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            background: white;
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: var(--spacing-md);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--color-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Comparison Panel */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        @media (max-width: 900px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ecosystem-panel {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .ecosystem-header {
+            padding: var(--spacing-md);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .ecosystem-header.diverse {
+            background: var(--diverse-color);
+        }
+
+        .ecosystem-header.monoculture {
+            background: var(--monoculture-color);
+        }
+
+        .ecosystem-content {
+            padding: var(--spacing-md);
+        }
+
+        .ecosystem-canvas {
+            width: 100%;
+            height: 250px;
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* Species Grid */
+        .species-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .species-card {
+            text-align: center;
+            padding: var(--spacing-sm);
+            background: var(--color-surface);
+            border-radius: var(--border-radius);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .species-card.healthy {
+            border-color: var(--healthy-color);
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .species-card.stressed {
+            border-color: var(--stressed-color);
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .species-card.critical {
+            border-color: var(--critical-color);
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .species-card.extinct {
+            opacity: 0.3;
+            background: #eee;
+        }
+
+        .species-emoji {
+            font-size: 1.5rem;
+        }
+
+        .species-name {
+            font-size: 0.7rem;
+            color: var(--color-text-light);
+            margin-top: var(--spacing-xs);
+        }
+
+        .species-pop {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Stats Panel */
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-sm);
+            background: var(--color-surface);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+        }
+
+        .stat-value {
+            font-weight: 600;
+        }
+
+        .stat-value.good { color: var(--healthy-color); }
+        .stat-value.warning { color: var(--stressed-color); }
+        .stat-value.bad { color: var(--critical-color); }
+
+        /* Health Bar */
+        .health-bar-container {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .health-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .health-bar {
+            height: 24px;
+            background: var(--color-border);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .health-fill {
+            height: 100%;
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        /* Control Section */
+        .control-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .control-section h3 {
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .disturbance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .disturbance-btn {
+            padding: var(--spacing-md);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .disturbance-btn:hover {
+            border-color: var(--color-danger);
+            background: #fff5f5;
+        }
+
+        .disturbance-btn.active {
+            border-color: var(--color-danger);
+            background: #ffebee;
+        }
+
+        .disturbance-title {
+            font-weight: 600;
+            display: block;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .disturbance-desc {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+        }
+
+        /* Playback */
+        .playback-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .playback-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .playback-btn.play {
+            background: var(--color-success);
+            color: white;
+        }
+
+        .playback-btn.reset {
+            background: var(--color-border);
+            color: var(--color-text);
+        }
+
+        .playback-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .year-display {
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--color-surface);
+            border-radius: var(--border-radius);
+        }
+
+        /* Ecosystem Services Tab */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-lg);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .service-icon {
+            font-size: 2rem;
+        }
+
+        .service-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .service-type {
+            font-size: 0.8rem;
+            color: var(--color-text-light);
+        }
+
+        .service-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin: var(--spacing-md) 0;
+        }
+
+        .service-value small {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        .service-slider {
+            width: 100%;
+            margin: var(--spacing-sm) 0;
+        }
+
+        .service-examples {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            padding: var(--spacing-sm);
+            background: var(--color-surface);
+            border-radius: var(--border-radius);
+        }
+
+        /* Total Value Display */
+        .total-value-panel {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #1557b0 100%);
+            color: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .total-value-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .total-value-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: var(--spacing-sm) 0;
+        }
+
+        .total-value-note {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Results Comparison */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .results-table th {
+            background: var(--color-surface);
+            font-weight: 600;
+        }
+
+        .results-table tr:hover {
+            background: var(--color-surface);
+        }
+
+        .rating-high { color: var(--healthy-color); font-weight: 600; }
+        .rating-low { color: var(--critical-color); font-weight: 600; }
+
+        /* POE Section */
+        .poe-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .poe-tabs {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .poe-tab {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .poe-tab.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .poe-content {
+            display: none;
+        }
+
+        .poe-content.active {
+            display: block;
+        }
+
+        .poe-prompt {
+            background: var(--color-surface);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .poe-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: var(--spacing-md);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .poe-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        /* Event Log */
+        .event-log {
+            background: var(--color-surface);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            margin-top: var(--spacing-md);
+        }
+
+        .event-item {
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-year {
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        /* Footer */
+        .sim-footer {
+            text-align: center;
+            padding: var(--spacing-lg);
+            color: var(--color-text-light);
+            font-size: 0.85rem;
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        /* Info callout */
+        .info-callout {
+            background: #e3f2fd;
+            border-left: 4px solid var(--color-primary);
+            padding: var(--spacing-md);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .info-callout strong {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="sim-header">
+            <h1>🌿 Biodiversity & Resilience Simulator</h1>
+            <p>Compare how diverse ecosystems and monocultures respond to disturbances</p>
+            <div class="phenomenon-box">
+                <strong>Driving Question:</strong> "How can one small change collapse an entire ecosystem?"
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav" role="tablist">
+            <button class="tab-btn active" role="tab" aria-selected="true" data-tab="comparison">
+                🔬 Ecosystem Comparison
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="services">
+                💰 Ecosystem Services Calculator
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="results">
+                📊 Results & Analysis
+            </button>
+        </div>
+
+        <!-- Tab 1: Ecosystem Comparison -->
+        <div class="tab-content active" id="comparison-tab" role="tabpanel">
+            <div class="info-callout">
+                <strong>🎯 Your Task:</strong>
+                Run a disturbance scenario and compare how each ecosystem responds. Watch the health bars and species populations to see which ecosystem is more resilient.
+            </div>
+
+            <div class="comparison-grid">
+                <!-- Diverse Ecosystem -->
+                <div class="ecosystem-panel">
+                    <div class="ecosystem-header diverse">
+                        🌳 Diverse Ecosystem (15 Species)
+                    </div>
+                    <div class="ecosystem-content">
+                        <canvas id="diverseCanvas" class="ecosystem-canvas" aria-label="Diverse ecosystem visualization"></canvas>
+
+                        <div class="health-bar-container">
+                            <div class="health-label">
+                                <span>Ecosystem Health</span>
+                                <span id="diverseHealthPercent">100%</span>
+                            </div>
+                            <div class="health-bar">
+                                <div class="health-fill" id="diverseHealthBar" style="width: 100%; background: var(--healthy-color);">
+                                    Healthy
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="species-grid" id="diverseSpecies">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <div class="stats-row">
+                            <span class="stat-label">Species Richness:</span>
+                            <span class="stat-value good" id="diverseRichness">15</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stat-label">Recovery Rate:</span>
+                            <span class="stat-value good" id="diverseRecovery">Fast</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stat-label">Disease Resistance:</span>
+                            <span class="stat-value good" id="diverseDisease">High</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monoculture -->
+                <div class="ecosystem-panel">
+                    <div class="ecosystem-header monoculture">
+                        🌾 Monoculture (3 Species)
+                    </div>
+                    <div class="ecosystem-content">
+                        <canvas id="monoCanvas" class="ecosystem-canvas" aria-label="Monoculture ecosystem visualization"></canvas>
+
+                        <div class="health-bar-container">
+                            <div class="health-label">
+                                <span>Ecosystem Health</span>
+                                <span id="monoHealthPercent">100%</span>
+                            </div>
+                            <div class="health-bar">
+                                <div class="health-fill" id="monoHealthBar" style="width: 100%; background: var(--healthy-color);">
+                                    Healthy
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="species-grid" id="monoSpecies">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <div class="stats-row">
+                            <span class="stat-label">Species Richness:</span>
+                            <span class="stat-value warning" id="monoRichness">3</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stat-label">Recovery Rate:</span>
+                            <span class="stat-value bad" id="monoRecovery">Slow</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stat-label">Disease Resistance:</span>
+                            <span class="stat-value bad" id="monoDisease">Low</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="control-section">
+                <h3>⚡ Select a Disturbance</h3>
+                <div class="disturbance-grid">
+                    <button class="disturbance-btn" data-disturbance="disease">
+                        <span class="disturbance-title">🦠 Disease Outbreak</span>
+                        <span class="disturbance-desc">A pathogen targets the primary crop/producer species</span>
+                    </button>
+                    <button class="disturbance-btn" data-disturbance="drought">
+                        <span class="disturbance-title">☀️ Severe Drought</span>
+                        <span class="disturbance-desc">Extended dry period reduces water availability</span>
+                    </button>
+                    <button class="disturbance-btn" data-disturbance="pest">
+                        <span class="disturbance-title">🐛 Pest Invasion</span>
+                        <span class="disturbance-desc">Harmful insects attack plant species</span>
+                    </button>
+                    <button class="disturbance-btn" data-disturbance="pollinator">
+                        <span class="disturbance-title">🐝 Pollinator Decline</span>
+                        <span class="disturbance-desc">Bee populations drop by 40%</span>
+                    </button>
+                </div>
+
+                <div class="playback-row">
+                    <button class="playback-btn play" id="runBtn">▶ Run Simulation</button>
+                    <button class="playback-btn reset" id="resetBtn">↺ Reset</button>
+                    <span class="year-display">Year: <span id="yearDisplay">0</span></span>
+                </div>
+
+                <div class="event-log" id="eventLog" aria-live="polite">
+                    <div class="event-item">
+                        <span class="event-year">Start:</span> Both ecosystems healthy. Select a disturbance and run the simulation.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Ecosystem Services -->
+        <div class="tab-content" id="services-tab" role="tabpanel">
+            <div class="info-callout">
+                <strong>💡 Ecosystem Services:</strong>
+                Nature provides free services worth trillions of dollars. Use this calculator to estimate the value of ecosystem services in your area.
+            </div>
+
+            <div class="total-value-panel">
+                <div class="total-value-label">Total Annual Ecosystem Services Value</div>
+                <div class="total-value-amount" id="totalValue">$0</div>
+                <div class="total-value-note">Based on <span id="totalHectares">0</span> hectares of protected land</div>
+            </div>
+
+            <div class="services-grid">
+                <!-- Pollination -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <span class="service-icon">🐝</span>
+                        <div>
+                            <div class="service-title">Pollination</div>
+                            <div class="service-type">Regulating Service</div>
+                        </div>
+                    </div>
+                    <div class="service-value">$<span id="pollinationValue">0</span><small>/year</small></div>
+                    <label for="pollinationSlider">Hectares of pollinator habitat:</label>
+                    <input type="range" id="pollinationSlider" class="service-slider" min="0" max="1000" value="0">
+                    <div class="service-examples">
+                        <strong>Local examples:</strong> Apple orchards, berry farms, wildflower meadows<br>
+                        <strong>Value:</strong> $3,251/hectare/year
+                    </div>
+                </div>
+
+                <!-- Water Purification -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <span class="service-icon">💧</span>
+                        <div>
+                            <div class="service-title">Water Purification</div>
+                            <div class="service-type">Regulating Service</div>
+                        </div>
+                    </div>
+                    <div class="service-value">$<span id="waterValue">0</span><small>/year</small></div>
+                    <label for="waterSlider">Hectares of wetlands:</label>
+                    <input type="range" id="waterSlider" class="service-slider" min="0" max="1000" value="0">
+                    <div class="service-examples">
+                        <strong>Local examples:</strong> Wetlands, riparian buffers, marshes<br>
+                        <strong>Value:</strong> $2,455/hectare/year
+                    </div>
+                </div>
+
+                <!-- Carbon Storage -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <span class="service-icon">🌲</span>
+                        <div>
+                            <div class="service-title">Carbon Storage</div>
+                            <div class="service-type">Regulating Service</div>
+                        </div>
+                    </div>
+                    <div class="service-value">$<span id="carbonValue">0</span><small>/year</small></div>
+                    <label for="carbonSlider">Hectares of forest:</label>
+                    <input type="range" id="carbonSlider" class="service-slider" min="0" max="1000" value="0">
+                    <div class="service-examples">
+                        <strong>Local examples:</strong> Old-growth forests, urban trees, grasslands<br>
+                        <strong>Value:</strong> $1,987/hectare/year
+                    </div>
+                </div>
+
+                <!-- Flood Control -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <span class="service-icon">🌊</span>
+                        <div>
+                            <div class="service-title">Flood Control</div>
+                            <div class="service-type">Regulating Service</div>
+                        </div>
+                    </div>
+                    <div class="service-value">$<span id="floodValue">0</span><small>/year</small></div>
+                    <label for="floodSlider">Hectares of floodplain:</label>
+                    <input type="range" id="floodSlider" class="service-slider" min="0" max="1000" value="0">
+                    <div class="service-examples">
+                        <strong>Local examples:</strong> Riparian zones, floodplains, mangroves<br>
+                        <strong>Value:</strong> $4,539/hectare/year
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-card" style="max-width: 600px; margin: 0 auto;">
+                <h4>🤔 Discussion Questions</h4>
+                <ol style="margin: var(--spacing-md) 0; padding-left: var(--spacing-lg);">
+                    <li style="margin-bottom: var(--spacing-sm);">Should we put a dollar value on nature? Why or why not?</li>
+                    <li style="margin-bottom: var(--spacing-sm);">What happens when we lose these ecosystem services?</li>
+                    <li style="margin-bottom: var(--spacing-sm);">Who pays when ecosystems are destroyed?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Tab 3: Results -->
+        <div class="tab-content" id="results-tab" role="tabpanel">
+            <div class="info-callout">
+                <strong>📊 Compare Your Results:</strong>
+                This table summarizes how diverse ecosystems and monocultures differ in resilience and ecosystem services.
+            </div>
+
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Factor</th>
+                        <th>Diverse Ecosystem</th>
+                        <th>Monoculture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Species Richness</td>
+                        <td class="rating-high">15+ species</td>
+                        <td class="rating-low">1-3 species</td>
+                    </tr>
+                    <tr>
+                        <td>Disease Resistance</td>
+                        <td class="rating-high">High - multiple species remain</td>
+                        <td class="rating-low">Low - single point of failure</td>
+                    </tr>
+                    <tr>
+                        <td>Climate Adaptation</td>
+                        <td class="rating-high">High - varied tolerances</td>
+                        <td class="rating-low">Low - narrow tolerance</td>
+                    </tr>
+                    <tr>
+                        <td>Pest Vulnerability</td>
+                        <td class="rating-high">Low - natural predators present</td>
+                        <td class="rating-low">High - no natural control</td>
+                    </tr>
+                    <tr>
+                        <td>Recovery from Disturbance</td>
+                        <td class="rating-high">Fast - years</td>
+                        <td class="rating-low">Slow - decades</td>
+                    </tr>
+                    <tr>
+                        <td>Pollination Services</td>
+                        <td class="rating-high">Multiple pollinators</td>
+                        <td class="rating-low">Dependent on few species</td>
+                    </tr>
+                    <tr>
+                        <td>Carbon Storage</td>
+                        <td class="rating-high">High - varied vegetation</td>
+                        <td class="rating-low">Moderate - single crop</td>
+                    </tr>
+                    <tr>
+                        <td>Water Filtration</td>
+                        <td class="rating-high">Excellent - diverse root systems</td>
+                        <td class="rating-low">Poor - shallow roots</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="service-card">
+                <h4>🔑 Key Takeaways</h4>
+                <ul style="margin: var(--spacing-md) 0; padding-left: var(--spacing-lg);">
+                    <li style="margin-bottom: var(--spacing-sm);"><strong>Biodiversity = Insurance:</strong> More species means more ways to respond to change.</li>
+                    <li style="margin-bottom: var(--spacing-sm);"><strong>Redundancy matters:</strong> If one species fails, others can fill the role.</li>
+                    <li style="margin-bottom: var(--spacing-sm);"><strong>Connections protect:</strong> Food webs distribute risk across many interactions.</li>
+                    <li style="margin-bottom: var(--spacing-sm);"><strong>Ecosystem services have value:</strong> Nature provides trillions in free services.</li>
+                    <li style="margin-bottom: var(--spacing-sm);"><strong>Recovery takes time:</strong> Once damaged, ecosystems may take decades to recover.</li>
+                </ul>
+            </div>
+
+            <div class="service-card" style="background: #fff8e1; border: 2px solid var(--color-warning);">
+                <h4>🐝 The Pollinator Connection</h4>
+                <p style="margin-top: var(--spacing-sm);">
+                    Bee populations have declined by 40% in the last decade. Scientists estimate that 75% of crops depend on pollinators.
+                    In a diverse ecosystem, multiple pollinator species (bees, butterflies, moths, birds) can maintain pollination even if one species declines.
+                    In a monoculture dependent on a single pollinator, one disease could collapse the entire food production system.
+                </p>
+                <p style="margin-top: var(--spacing-md); font-weight: 600;">
+                    Economic value at risk: <span style="color: var(--color-danger);">$235 billion</span> in global crop production
+                </p>
+            </div>
+        </div>
+
+        <!-- POE Section -->
+        <div class="poe-section">
+            <h3>📝 Record Your Observations</h3>
+            <div class="poe-tabs" role="tablist">
+                <button class="poe-tab active" role="tab" aria-selected="true" data-poe="predict">Predict</button>
+                <button class="poe-tab" role="tab" aria-selected="false" data-poe="observe">Observe</button>
+                <button class="poe-tab" role="tab" aria-selected="false" data-poe="explain">Explain</button>
+            </div>
+
+            <div class="poe-content active" id="predict-poe" role="tabpanel">
+                <div class="poe-prompt">
+                    <strong>Before running the simulation:</strong> Which ecosystem do you think will be more resilient to a disturbance? Why?
+                </div>
+                <textarea class="poe-textarea" id="predictText" placeholder="I predict the diverse/monoculture ecosystem will be more resilient because..."></textarea>
+            </div>
+
+            <div class="poe-content" id="observe-poe" role="tabpanel">
+                <div class="poe-prompt">
+                    <strong>During the simulation:</strong> Record what happens to each ecosystem's health and species populations after the disturbance.
+                </div>
+                <textarea class="poe-textarea" id="observeText" placeholder="I observed that..."></textarea>
+            </div>
+
+            <div class="poe-content" id="explain-poe" role="tabpanel">
+                <div class="poe-prompt">
+                    <strong>After the simulation:</strong> Explain HOW biodiversity makes ecosystems more resilient. Connect this to ecosystem services and the pollinator crisis.
+                </div>
+                <textarea class="poe-textarea" id="explainText" placeholder="Biodiversity increases resilience because..."></textarea>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="sim-footer">
+            <p>Grade 7 | Cycle 8 Week 2 | MS-LS2-4: Ecosystem Interactions</p>
+            <p>Based on ecological research about biodiversity and ecosystem services</p>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================================
+        // BIODIVERSITY SIMULATOR - Core Logic
+        // ============================================================
+
+        // Diverse ecosystem species
+        const diverseSpeciesList = [
+            { id: 'oak', name: 'Oak Tree', emoji: '🌳', type: 'producer', health: 100 },
+            { id: 'pine', name: 'Pine', emoji: '🌲', type: 'producer', health: 100 },
+            { id: 'willow', name: 'Willow', emoji: '🌿', type: 'producer', health: 100 },
+            { id: 'grass', name: 'Grass', emoji: '🌾', type: 'producer', health: 100 },
+            { id: 'flower', name: 'Wildflowers', emoji: '🌸', type: 'producer', health: 100 },
+            { id: 'bee', name: 'Honeybees', emoji: '🐝', type: 'pollinator', health: 100 },
+            { id: 'butterfly', name: 'Butterflies', emoji: '🦋', type: 'pollinator', health: 100 },
+            { id: 'beetle', name: 'Beetles', emoji: '🪲', type: 'decomposer', health: 100 },
+            { id: 'worm', name: 'Earthworms', emoji: '🪱', type: 'decomposer', health: 100 },
+            { id: 'rabbit', name: 'Rabbits', emoji: '🐰', type: 'herbivore', health: 100 },
+            { id: 'deer', name: 'Deer', emoji: '🦌', type: 'herbivore', health: 100 },
+            { id: 'bird', name: 'Songbirds', emoji: '🐦', type: 'omnivore', health: 100 },
+            { id: 'hawk', name: 'Hawks', emoji: '🦅', type: 'predator', health: 100 },
+            { id: 'fox', name: 'Foxes', emoji: '🦊', type: 'predator', health: 100 },
+            { id: 'snake', name: 'Snakes', emoji: '🐍', type: 'predator', health: 100 }
+        ];
+
+        // Monoculture species (wheat farm)
+        const monoSpeciesList = [
+            { id: 'wheat', name: 'Wheat', emoji: '🌾', type: 'crop', health: 100 },
+            { id: 'bee2', name: 'Honeybees', emoji: '🐝', type: 'pollinator', health: 100 },
+            { id: 'mouse', name: 'Field Mice', emoji: '🐭', type: 'pest', health: 100 }
+        ];
+
+        // State
+        const state = {
+            year: 0,
+            isRunning: false,
+            disturbance: null,
+            diverseHealth: 100,
+            monoHealth: 100,
+            diverseSpecies: JSON.parse(JSON.stringify(diverseSpeciesList)),
+            monoSpecies: JSON.parse(JSON.stringify(monoSpeciesList)),
+            events: []
+        };
+
+        // DOM Elements
+        const diverseCanvas = document.getElementById('diverseCanvas');
+        const monoCanvas = document.getElementById('monoCanvas');
+        const diverseCtx = diverseCanvas.getContext('2d');
+        const monoCtx = monoCanvas.getContext('2d');
+
+        // Initialize
+        window.addEventListener('load', () => {
+            resizeCanvases();
+            renderSpeciesGrids();
+            drawEcosystems();
+            setupServiceCalculator();
+        });
+
+        window.addEventListener('resize', () => {
+            resizeCanvases();
+            drawEcosystems();
+        });
+
+        function resizeCanvases() {
+            [diverseCanvas, monoCanvas].forEach(canvas => {
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * window.devicePixelRatio;
+                canvas.height = rect.height * window.devicePixelRatio;
+                canvas.getContext('2d').scale(window.devicePixelRatio, window.devicePixelRatio);
+            });
+        }
+
+        // ============================================================
+        // RENDERING
+        // ============================================================
+
+        function renderSpeciesGrids() {
+            renderSpeciesGrid('diverseSpecies', state.diverseSpecies);
+            renderSpeciesGrid('monoSpecies', state.monoSpecies);
+        }
+
+        function renderSpeciesGrid(containerId, species) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            species.forEach(sp => {
+                const card = document.createElement('div');
+                card.className = 'species-card';
+
+                if (sp.health >= 70) card.classList.add('healthy');
+                else if (sp.health >= 30) card.classList.add('stressed');
+                else if (sp.health > 0) card.classList.add('critical');
+                else card.classList.add('extinct');
+
+                card.innerHTML = `
+                    <div class="species-emoji">${sp.emoji}</div>
+                    <div class="species-name">${sp.name}</div>
+                    <div class="species-pop">${sp.health}%</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function drawEcosystems() {
+            drawDiverseEcosystem();
+            drawMonoEcosystem();
+        }
+
+        function drawDiverseEcosystem() {
+            const w = diverseCanvas.width / window.devicePixelRatio;
+            const h = diverseCanvas.height / window.devicePixelRatio;
+
+            // Background gradient (forest)
+            const gradient = diverseCtx.createLinearGradient(0, 0, 0, h);
+            gradient.addColorStop(0, '#87ceeb');
+            gradient.addColorStop(0.3, '#98d8c8');
+            gradient.addColorStop(0.6, '#90a955');
+            gradient.addColorStop(1, '#4a7c59');
+            diverseCtx.fillStyle = gradient;
+            diverseCtx.fillRect(0, 0, w, h);
+
+            // Draw species scattered across ecosystem
+            const positions = [
+                { x: 0.15, y: 0.7 }, { x: 0.3, y: 0.65 }, { x: 0.5, y: 0.75 }, { x: 0.7, y: 0.68 }, { x: 0.85, y: 0.72 },
+                { x: 0.2, y: 0.5 }, { x: 0.4, y: 0.45 }, { x: 0.6, y: 0.52 }, { x: 0.8, y: 0.48 },
+                { x: 0.25, y: 0.35 }, { x: 0.5, y: 0.3 }, { x: 0.75, y: 0.38 },
+                { x: 0.35, y: 0.2 }, { x: 0.55, y: 0.22 }, { x: 0.72, y: 0.18 }
+            ];
+
+            state.diverseSpecies.forEach((sp, i) => {
+                if (sp.health > 0 && positions[i]) {
+                    const x = positions[i].x * w;
+                    const y = positions[i].y * h;
+                    const size = 20 + (sp.health / 100) * 15;
+
+                    diverseCtx.globalAlpha = sp.health / 100;
+                    diverseCtx.font = `${size}px Arial`;
+                    diverseCtx.textAlign = 'center';
+                    diverseCtx.fillText(sp.emoji, x, y);
+                }
+            });
+
+            diverseCtx.globalAlpha = 1;
+
+            // Health indicator
+            const healthColor = state.diverseHealth >= 70 ? '#4caf50' : state.diverseHealth >= 30 ? '#ffc107' : '#f44336';
+            diverseCtx.fillStyle = healthColor;
+            diverseCtx.fillRect(10, 10, (w - 20) * (state.diverseHealth / 100), 8);
+            diverseCtx.strokeStyle = '#333';
+            diverseCtx.lineWidth = 1;
+            diverseCtx.strokeRect(10, 10, w - 20, 8);
+        }
+
+        function drawMonoEcosystem() {
+            const w = monoCanvas.width / window.devicePixelRatio;
+            const h = monoCanvas.height / window.devicePixelRatio;
+
+            // Background (farmland)
+            monoCtx.fillStyle = '#c8b88a';
+            monoCtx.fillRect(0, 0, w, h);
+
+            // Sky
+            monoCtx.fillStyle = '#87ceeb';
+            monoCtx.fillRect(0, 0, w, h * 0.3);
+
+            // Draw rows of wheat
+            const wheat = state.monoSpecies.find(s => s.id === 'wheat');
+            if (wheat && wheat.health > 0) {
+                monoCtx.globalAlpha = wheat.health / 100;
+                const rows = 5;
+                const cols = 10;
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        const x = (w / cols) * c + (w / cols / 2);
+                        const y = h * 0.4 + (h * 0.5 / rows) * r;
+                        monoCtx.font = '24px Arial';
+                        monoCtx.textAlign = 'center';
+                        monoCtx.fillText('🌾', x, y);
+                    }
+                }
+            }
+
+            // Draw bees
+            const bees = state.monoSpecies.find(s => s.id === 'bee2');
+            if (bees && bees.health > 0) {
+                monoCtx.globalAlpha = bees.health / 100;
+                const beeCount = Math.floor(bees.health / 20);
+                for (let i = 0; i < beeCount; i++) {
+                    const x = w * 0.2 + Math.random() * w * 0.6;
+                    const y = h * 0.35 + Math.random() * h * 0.3;
+                    monoCtx.font = '16px Arial';
+                    monoCtx.fillText('🐝', x, y);
+                }
+            }
+
+            monoCtx.globalAlpha = 1;
+
+            // Health indicator
+            const healthColor = state.monoHealth >= 70 ? '#4caf50' : state.monoHealth >= 30 ? '#ffc107' : '#f44336';
+            monoCtx.fillStyle = healthColor;
+            monoCtx.fillRect(10, 10, (w - 20) * (state.monoHealth / 100), 8);
+            monoCtx.strokeStyle = '#333';
+            monoCtx.lineWidth = 1;
+            monoCtx.strokeRect(10, 10, w - 20, 8);
+        }
+
+        function updateHealthBars() {
+            // Diverse
+            const diverseBar = document.getElementById('diverseHealthBar');
+            const diversePercent = document.getElementById('diverseHealthPercent');
+            diverseBar.style.width = state.diverseHealth + '%';
+            diversePercent.textContent = Math.round(state.diverseHealth) + '%';
+
+            if (state.diverseHealth >= 70) {
+                diverseBar.style.background = 'var(--healthy-color)';
+                diverseBar.textContent = 'Healthy';
+            } else if (state.diverseHealth >= 30) {
+                diverseBar.style.background = 'var(--stressed-color)';
+                diverseBar.textContent = 'Stressed';
+            } else {
+                diverseBar.style.background = 'var(--critical-color)';
+                diverseBar.textContent = 'Critical';
+            }
+
+            // Mono
+            const monoBar = document.getElementById('monoHealthBar');
+            const monoPercent = document.getElementById('monoHealthPercent');
+            monoBar.style.width = state.monoHealth + '%';
+            monoPercent.textContent = Math.round(state.monoHealth) + '%';
+
+            if (state.monoHealth >= 70) {
+                monoBar.style.background = 'var(--healthy-color)';
+                monoBar.textContent = 'Healthy';
+            } else if (state.monoHealth >= 30) {
+                monoBar.style.background = 'var(--stressed-color)';
+                monoBar.textContent = 'Stressed';
+            } else {
+                monoBar.style.background = 'var(--critical-color)';
+                monoBar.textContent = 'Critical';
+            }
+
+            // Update stats
+            const diverseLiving = state.diverseSpecies.filter(s => s.health > 0).length;
+            document.getElementById('diverseRichness').textContent = diverseLiving;
+            document.getElementById('diverseRichness').className = 'stat-value ' + (diverseLiving >= 10 ? 'good' : diverseLiving >= 5 ? 'warning' : 'bad');
+
+            const monoLiving = state.monoSpecies.filter(s => s.health > 0).length;
+            document.getElementById('monoRichness').textContent = monoLiving;
+            document.getElementById('monoRichness').className = 'stat-value ' + (monoLiving >= 3 ? 'warning' : 'bad');
+        }
+
+        // ============================================================
+        // SIMULATION LOGIC
+        // ============================================================
+
+        function simulateYear() {
+            state.year++;
+            document.getElementById('yearDisplay').textContent = state.year;
+
+            // Apply disturbance effects
+            if (state.disturbance) {
+                applyDisturbance();
+            }
+
+            // Natural recovery (diverse recovers faster)
+            applyRecovery();
+
+            // Update displays
+            renderSpeciesGrids();
+            drawEcosystems();
+            updateHealthBars();
+        }
+
+        function applyDisturbance() {
+            const yearsSinceStart = state.year;
+
+            switch (state.disturbance) {
+                case 'disease':
+                    applyDisease(yearsSinceStart);
+                    break;
+                case 'drought':
+                    applyDrought(yearsSinceStart);
+                    break;
+                case 'pest':
+                    applyPest(yearsSinceStart);
+                    break;
+                case 'pollinator':
+                    applyPollinatorDecline(yearsSinceStart);
+                    break;
+            }
+        }
+
+        function applyDisease(year) {
+            // Disease affects primary producers
+            if (year === 1) {
+                addEvent('🦠 Disease outbreak begins!');
+            }
+
+            // Monoculture: devastating (single crop vulnerable)
+            const wheat = state.monoSpecies.find(s => s.id === 'wheat');
+            if (wheat && wheat.health > 0) {
+                wheat.health = Math.max(0, wheat.health - 25);
+                if (year === 2) addEvent('Monoculture: Wheat devastated by disease - no resistant varieties');
+            }
+
+            // Diverse: some species affected, others resistant
+            state.diverseSpecies.forEach(sp => {
+                if (sp.type === 'producer') {
+                    // Random resistance - diverse species have varying responses
+                    const resistance = Math.random();
+                    if (resistance < 0.3) {
+                        sp.health = Math.max(0, sp.health - 15);
+                    } else if (resistance < 0.5) {
+                        sp.health = Math.max(0, sp.health - 5);
+                    }
+                    // 50% chance of no effect (resistant species)
+                }
+            });
+
+            if (year === 2) addEvent('Diverse: Some species affected, resistant varieties survive');
+
+            updateOverallHealth();
+        }
+
+        function applyDrought(year) {
+            if (year === 1) {
+                addEvent('☀️ Severe drought begins!');
+            }
+
+            // All plants affected, but diverse ecosystem has drought-tolerant species
+            // Monoculture
+            state.monoSpecies.forEach(sp => {
+                if (sp.type === 'crop') {
+                    sp.health = Math.max(0, sp.health - 20);
+                }
+            });
+
+            // Diverse - varied tolerance
+            state.diverseSpecies.forEach(sp => {
+                if (sp.type === 'producer') {
+                    // Pine and grass more drought tolerant
+                    if (sp.id === 'pine' || sp.id === 'grass') {
+                        sp.health = Math.max(0, sp.health - 5);
+                    } else {
+                        sp.health = Math.max(0, sp.health - 12);
+                    }
+                }
+            });
+
+            if (year === 2) {
+                addEvent('Monoculture: All wheat equally vulnerable');
+                addEvent('Diverse: Drought-tolerant species maintain stability');
+            }
+
+            updateOverallHealth();
+        }
+
+        function applyPest(year) {
+            if (year === 1) {
+                addEvent('🐛 Pest invasion detected!');
+            }
+
+            // Monoculture: no natural predators
+            const wheat = state.monoSpecies.find(s => s.id === 'wheat');
+            if (wheat && wheat.health > 0) {
+                wheat.health = Math.max(0, wheat.health - 18);
+            }
+
+            // Diverse: natural predators control pests
+            // Birds and other predators reduce impact
+            const predatorHealth = state.diverseSpecies
+                .filter(s => ['predator', 'omnivore'].includes(s.type))
+                .reduce((sum, s) => sum + s.health, 0) / 400;
+
+            state.diverseSpecies.forEach(sp => {
+                if (sp.type === 'producer') {
+                    // Less damage when predators are healthy
+                    const damage = 8 * (1 - predatorHealth);
+                    sp.health = Math.max(0, sp.health - damage);
+                }
+            });
+
+            if (year === 2) {
+                addEvent('Monoculture: No natural pest control');
+                addEvent('Diverse: Predators keep pest populations in check');
+            }
+
+            updateOverallHealth();
+        }
+
+        function applyPollinatorDecline(year) {
+            if (year === 1) {
+                addEvent('🐝 Pollinator populations declining!');
+            }
+
+            // Both ecosystems lose pollinators
+            state.monoSpecies.forEach(sp => {
+                if (sp.type === 'pollinator') {
+                    sp.health = Math.max(0, sp.health - 15);
+                }
+            });
+
+            state.diverseSpecies.forEach(sp => {
+                if (sp.type === 'pollinator') {
+                    sp.health = Math.max(0, sp.health - 10); // Diverse has more resilient populations
+                }
+            });
+
+            // Effect on producers (need pollination)
+            if (year >= 2) {
+                const monoBees = state.monoSpecies.find(s => s.type === 'pollinator');
+                if (monoBees && monoBees.health < 50) {
+                    const wheat = state.monoSpecies.find(s => s.id === 'wheat');
+                    if (wheat) wheat.health = Math.max(0, wheat.health - 15);
+                }
+
+                // Diverse has multiple pollinators
+                const diversePollinators = state.diverseSpecies.filter(s => s.type === 'pollinator');
+                const avgPollinatorHealth = diversePollinators.reduce((sum, s) => sum + s.health, 0) / diversePollinators.length;
+
+                if (avgPollinatorHealth < 50) {
+                    // Flowers affected most
+                    const flower = state.diverseSpecies.find(s => s.id === 'flower');
+                    if (flower) flower.health = Math.max(0, flower.health - 8);
+                }
+            }
+
+            if (year === 3) {
+                addEvent('Monoculture: Crop yields plummet without pollinators');
+                addEvent('Diverse: Butterflies help compensate for bee decline');
+            }
+
+            updateOverallHealth();
+        }
+
+        function applyRecovery() {
+            // Natural recovery - diverse recovers faster
+            if (state.year > 5) {
+                // Diverse ecosystem recovery
+                state.diverseSpecies.forEach(sp => {
+                    if (sp.health > 0 && sp.health < 100) {
+                        sp.health = Math.min(100, sp.health + 3);
+                    }
+                });
+
+                // Monoculture recovery (much slower, needs intervention)
+                state.monoSpecies.forEach(sp => {
+                    if (sp.health > 0 && sp.health < 100) {
+                        sp.health = Math.min(100, sp.health + 0.5);
+                    }
+                });
+            }
+        }
+
+        function updateOverallHealth() {
+            // Calculate overall health from species
+            const diverseTotal = state.diverseSpecies.reduce((sum, s) => sum + s.health, 0);
+            state.diverseHealth = diverseTotal / state.diverseSpecies.length;
+
+            const monoTotal = state.monoSpecies.reduce((sum, s) => sum + s.health, 0);
+            state.monoHealth = monoTotal / state.monoSpecies.length;
+        }
+
+        function addEvent(text) {
+            const log = document.getElementById('eventLog');
+            const item = document.createElement('div');
+            item.className = 'event-item';
+            item.innerHTML = `<span class="event-year">Year ${state.year}:</span> ${text}`;
+            log.insertBefore(item, log.firstChild);
+        }
+
+        // ============================================================
+        // EVENT HANDLERS
+        // ============================================================
+
+        // Tab navigation
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(this.dataset.tab + '-tab').classList.add('active');
+            });
+        });
+
+        // Disturbance selection
+        document.querySelectorAll('.disturbance-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.disturbance-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                state.disturbance = this.dataset.disturbance;
+            });
+        });
+
+        // Run simulation
+        let simInterval = null;
+        document.getElementById('runBtn').addEventListener('click', function() {
+            if (!state.disturbance) {
+                alert('Please select a disturbance type first!');
+                return;
+            }
+
+            this.disabled = true;
+            state.isRunning = true;
+
+            simInterval = setInterval(() => {
+                simulateYear();
+
+                if (state.year >= 10) {
+                    clearInterval(simInterval);
+                    state.isRunning = false;
+                    document.getElementById('runBtn').disabled = false;
+                    addEvent('Simulation complete - compare the ecosystems!');
+                }
+            }, 800);
+        });
+
+        // Reset
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            clearInterval(simInterval);
+            state.isRunning = false;
+            state.year = 0;
+            state.disturbance = null;
+            state.diverseHealth = 100;
+            state.monoHealth = 100;
+            state.diverseSpecies = JSON.parse(JSON.stringify(diverseSpeciesList));
+            state.monoSpecies = JSON.parse(JSON.stringify(monoSpeciesList));
+
+            document.querySelectorAll('.disturbance-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('runBtn').disabled = false;
+            document.getElementById('yearDisplay').textContent = '0';
+            document.getElementById('eventLog').innerHTML = '<div class="event-item"><span class="event-year">Start:</span> Simulation reset. Select a disturbance and run again.</div>';
+
+            renderSpeciesGrids();
+            drawEcosystems();
+            updateHealthBars();
+        });
+
+        // POE tabs
+        document.querySelectorAll('.poe-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.poe-tab').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+
+                document.querySelectorAll('.poe-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(this.dataset.poe + '-poe').classList.add('active');
+            });
+        });
+
+        // ============================================================
+        // ECOSYSTEM SERVICES CALCULATOR
+        // ============================================================
+
+        const serviceValues = {
+            pollination: 3251,
+            water: 2455,
+            carbon: 1987,
+            flood: 4539
+        };
+
+        function setupServiceCalculator() {
+            ['pollination', 'water', 'carbon', 'flood'].forEach(service => {
+                const slider = document.getElementById(service + 'Slider');
+                slider.addEventListener('input', updateServiceValues);
+            });
+        }
+
+        function updateServiceValues() {
+            const pollination = parseInt(document.getElementById('pollinationSlider').value);
+            const water = parseInt(document.getElementById('waterSlider').value);
+            const carbon = parseInt(document.getElementById('carbonSlider').value);
+            const flood = parseInt(document.getElementById('floodSlider').value);
+
+            const pollinationValue = pollination * serviceValues.pollination;
+            const waterValue = water * serviceValues.water;
+            const carbonValue = carbon * serviceValues.carbon;
+            const floodValue = flood * serviceValues.flood;
+
+            document.getElementById('pollinationValue').textContent = pollinationValue.toLocaleString();
+            document.getElementById('waterValue').textContent = waterValue.toLocaleString();
+            document.getElementById('carbonValue').textContent = carbonValue.toLocaleString();
+            document.getElementById('floodValue').textContent = floodValue.toLocaleString();
+
+            const total = pollinationValue + waterValue + carbonValue + floodValue;
+            document.getElementById('totalValue').textContent = '$' + total.toLocaleString();
+            document.getElementById('totalHectares').textContent = (pollination + water + carbon + flood).toLocaleString();
+        }
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === ' ' && document.activeElement.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                if (!state.isRunning && state.disturbance) {
+                    document.getElementById('runBtn').click();
+                }
+            }
+            if (e.key === 'r' && document.activeElement.tagName !== 'TEXTAREA') {
+                document.getElementById('resetBtn').click();
+            }
+        });
+    </script>
+</body>
+</html>

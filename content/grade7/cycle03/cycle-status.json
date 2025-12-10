@@ -1,9 +1,9 @@
 {
-  "$comment": "PRODUCTION CONTENT - See 'readonly' flags below for protected weeks",
+  "$comment": "PRODUCTION CONTENT - All deployed weeks are READ-ONLY",
   "cycle": 3,
   "grade": 7,
-  "status": "complete",
-  "lastUpdated": "2025-12-07",
+  "status": "deployed",
+  "lastUpdated": "2025-12-10",
   "topic": "Climate Change & Energy Flow",
   "completion": {
     "overall": 100,
@@ -15,12 +15,19 @@
   },
   "deployed": {
     "week1": true,
+    "week1_date": "2025-12-01",
     "week2": true,
-    "week3": true
+    "week2_date": "2025-12-08",
+    "week3": true,
+    "week3_date": "2025-12-15"
   },
   "readonly": {
+    "week1": true,
+    "week1_reason": "PRODUCTION - DO NOT EDIT. Deployed December 2025.",
     "week2": true,
-    "week2_reason": "PRODUCTION - DO NOT EDIT. Deployed December 2025. Serves as legacy documentation."
+    "week2_reason": "PRODUCTION - DO NOT EDIT. Deployed December 2025.",
+    "week3": true,
+    "week3_reason": "PRODUCTION - DO NOT EDIT. Deployed December 2025."
   },
-  "notes": "Fully developed and deployed. First complete cycle. Week 2 is now read-only production content."
+  "notes": "Fully developed and deployed. First complete cycle. ALL weeks are now read-only production content."
 }

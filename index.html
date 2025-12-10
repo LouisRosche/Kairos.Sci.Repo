@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAMS Science Curriculum | Kairos Academies</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f7fafc;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a5f7a 0%, #234E52 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: clamp(1.8em, 5vw, 2.5em);
+            margin: 0 0 10px 0;
+        }
+        .header p {
+            margin: 5px 0;
+            font-size: clamp(1em, 2.5vw, 1.2em);
+            opacity: 0.95;
+        }
+        .current-cycle {
+            background: linear-gradient(135deg, #F0FFF4 0%, #C6F6D5 100%);
+            border: 2px solid #48BB78;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        .current-cycle h2 {
+            color: #276749;
+            margin: 0 0 20px 0;
+            font-size: 1.4em;
+        }
+        .grade-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .grade-section h3 {
+            color: #1a5f7a;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E2E8F0;
+        }
+        .week-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .week-link {
+            background: linear-gradient(135deg, #1a5f7a 0%, #276749 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95em;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .week-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 95, 122, 0.3);
+        }
+        .cycle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .cycle-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #1a5f7a;
+        }
+        .cycle-card h3 {
+            color: #1a5f7a;
+            margin: 0 0 10px 0;
+        }
+        .cycle-card p {
+            color: #4a5568;
+            margin: 0 0 15px 0;
+            font-size: 0.95em;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        .status-deployed {
+            background: #C6F6D5;
+            color: #276749;
+        }
+        .status-ready {
+            background: #BEE3F8;
+            color: #2B6CB0;
+        }
+        .status-progress {
+            background: #FEFCBF;
+            color: #975A16;
+        }
+        .info-box {
+            background: #EBF8FF;
+            border-left: 4px solid #3182CE;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .info-box h3 {
+            color: #2B6CB0;
+            margin: 0 0 10px 0;
+        }
+        .info-box p {
+            margin: 0;
+            color: #4a5568;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #718096;
+            font-size: 0.9em;
+            border-top: 1px solid #E2E8F0;
+            margin-top: 40px;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .header {
+                padding: 30px 20px;
+            }
+            .week-links {
+                flex-direction: column;
+            }
+            .week-link {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>KAMS Science Curriculum</h1>
+        <p>Kairos Academies Middle School Science | SY25-26</p>
+        <p style="font-size: 0.9em; opacity: 0.85;">NGSS-Aligned Digital Curriculum System</p>
+    </header>
+
+    <div class="info-box">
+        <h3>Welcome, Students!</h3>
+        <p>Find your weekly student pages below. Click on your grade and week to access lessons, simulations, and assignments.</p>
+    </div>
+
+    <section class="current-cycle">
+        <h2>Currently Active: Cycle 3 (Dec 1-19, 2025)</h2>
+
+        <div class="grade-section">
+            <h3>Grade 7: Climate Change &amp; Energy Flow</h3>
+            <div class="week-links">
+                <a href="content/grade7/cycle03/week1/student-page.html" class="week-link">Week 1</a>
+                <a href="content/grade7/cycle03/week2/student-page.html" class="week-link">Week 2</a>
+                <a href="content/grade7/cycle03/week3/student-page.html" class="week-link">Week 3</a>
+            </div>
+        </div>
+
+        <div class="grade-section">
+            <h3>Grade 8: Natural Selection &amp; Forces</h3>
+            <div class="week-links">
+                <a href="content/grade8/cycle03/week1/student-page.html" class="week-link">Week 1</a>
+                <a href="content/grade8/cycle03/week2/student-page.html" class="week-link">Week 2</a>
+                <a href="content/grade8/cycle03/week3/student-page.html" class="week-link">Week 3</a>
+            </div>
+        </div>
+    </section>
+
+    <h2 style="color: #2d3748; margin-bottom: 20px;">All Cycles</h2>
+
+    <div class="cycle-grid">
+        <div class="cycle-card">
+            <h3>Cycle 3 <span class="status-badge status-deployed">ACTIVE</span></h3>
+            <p><strong>G7:</strong> Climate Change &amp; Energy Flow<br><strong>G8:</strong> Natural Selection &amp; Forces</p>
+            <div class="week-links">
+                <a href="content/grade7/cycle03/week1/student-page.html" class="week-link">G7</a>
+                <a href="content/grade8/cycle03/week1/student-page.html" class="week-link">G8</a>
+            </div>
+        </div>
+
+        <div class="cycle-card">
+            <h3>Cycle 4 <span class="status-badge status-ready">READY</span></h3>
+            <p><strong>G7:</strong> Biogeochemical Cycles &amp; Human Impact<br><strong>G8:</strong> Ecosystems &amp; Energy Transfer</p>
+            <div class="week-links">
+                <a href="content/grade7/cycle04/week1/student-page.html" class="week-link">G7</a>
+                <a href="content/grade8/cycle04/week1/student-page.html" class="week-link">G8</a>
+            </div>
+        </div>
+
+        <div class="cycle-card">
+            <h3>Cycle 5 <span class="status-badge status-progress">IN PROGRESS</span></h3>
+            <p><strong>G7:</strong> Weather &amp; Climate Systems<br><strong>G8:</strong> Waves &amp; Information Transfer</p>
+            <div class="week-links">
+                <a href="content/grade7/cycle05/week1/student-page.html" class="week-link">G7</a>
+                <a href="content/grade8/cycle05/week1/student-page.html" class="week-link">G8</a>
+            </div>
+        </div>
+
+        <div class="cycle-card">
+            <h3>Cycle 6 <span class="status-badge status-progress">IN PROGRESS</span></h3>
+            <p><strong>G7:</strong> Plate Tectonics<br><strong>G8:</strong> Electricity &amp; Magnetism</p>
+            <div class="week-links">
+                <a href="content/grade7/cycle06/week1/student-page.html" class="week-link">G7</a>
+                <a href="content/grade8/cycle06/week1/student-page.html" class="week-link">G8</a>
+            </div>
+        </div>
+
+        <div class="cycle-card">
+            <h3>Cycle 7 <span class="status-badge status-progress">IN PROGRESS</span></h3>
+            <p><strong>G7:</strong> Rock Cycle &amp; Earth's History<br><strong>G8:</strong> Chemical Reactions</p>
+            <div class="week-links">
+                <a href="content/grade7/cycle07/week1/student-page.html" class="week-link">G7</a>
+                <a href="content/grade8/cycle07/week1/student-page.html" class="week-link">G8</a>
+            </div>
+        </div>
+
+        <div class="cycle-card">
+            <h3>Cycle 8 <span class="status-badge status-progress">IN PROGRESS</span></h3>
+            <p><strong>G7:</strong> Ecosystems + Year-End<br><strong>G8:</strong> Thermal Energy + Showcase</p>
+            <div class="week-links">
+                <a href="content/grade7/cycle08/week1/student-page.html" class="week-link">G7</a>
+                <a href="content/grade8/cycle08/week1/student-page.html" class="week-link">G8</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>KAMS Science Curriculum System | Kairos Academies | SY25-26</p>
+        <p style="font-size: 0.85em;">For technical issues, contact your teacher.</p>
+    </footer>
+</body>
+</html>

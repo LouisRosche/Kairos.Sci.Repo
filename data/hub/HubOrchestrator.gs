@@ -49,115 +49,153 @@ function getHubConfig() {
 
 /**
  * Master orchestration function - runs complete data pipeline
+ * Includes comprehensive error handling with step-level recovery
  * Recommended trigger: Daily at 6 PM
  */
 function runDailyOrchestration() {
-  const hubConfig = getHubConfig();
+  const startTime = new Date();
+  let hubConfig;
+
+  try {
+    hubConfig = getHubConfig();
+  } catch (configError) {
+    Logger.log(`CRITICAL: Failed to load hub config: ${configError.message}`);
+    return {
+      started: startTime.toISOString(),
+      success: false,
+      error: `Configuration load failed: ${configError.message}`,
+      steps: []
+    };
+  }
 
   Logger.log('=== KAMS Science Hub Orchestration Started ===');
-  Logger.log(`Date: ${new Date().toISOString()}`);
+  Logger.log(`Date: ${startTime.toISOString()}`);
   Logger.log(`Cycle: ${hubConfig.currentCycle}, Week: ${hubConfig.currentWeek}`);
 
   const results = {
-    started: new Date().toISOString(),
-    steps: []
+    started: startTime.toISOString(),
+    config: {
+      cycle: hubConfig.currentCycle,
+      week: hubConfig.currentWeek,
+      grades: hubConfig.grades
+    },
+    steps: [],
+    warnings: []
   };
 
+  // Helper to run a step with error handling
+  function runStep(stepName, stepFn, critical = true) {
+    const stepResult = {
+      step: stepName,
+      status: 'started',
+      timestamp: new Date().toISOString()
+    };
+    results.steps.push(stepResult);
+
+    try {
+      const output = stepFn();
+      stepResult.status = 'complete';
+      stepResult.duration = ((new Date() - new Date(stepResult.timestamp)) / 1000).toFixed(2) + 's';
+      return output;
+    } catch (e) {
+      stepResult.status = 'failed';
+      stepResult.error = e.message;
+      stepResult.stack = e.stack;
+      Logger.log(`ERROR in ${stepName}: ${e.message}`);
+
+      if (critical) {
+        throw e; // Re-throw to stop pipeline
+      } else {
+        results.warnings.push({ step: stepName, error: e.message });
+        return null; // Continue with null result
+      }
+    }
+  }
+
+  let responses, aggregatedData, mtssReports, misconceptionReport, spiralReport, interventionGroups;
+
   try {
-    // Step 1: Collect form responses
-    results.steps.push({
-      step: 'Response Collection',
-      status: 'started',
-      timestamp: new Date().toISOString()
-    });
-    const responses = collectAllResponses();
-    results.steps[results.steps.length - 1].status = 'complete';
-    results.steps[results.steps.length - 1].responseCount = countResponses(responses);
+    // Step 1: Collect form responses (CRITICAL)
+    responses = runStep('Response Collection', () => {
+      const resp = collectAllResponses();
+      results.steps[results.steps.length - 1].responseCount = countResponses(resp);
+      results.steps[results.steps.length - 1].errorCount = resp.errors?.length || 0;
+      return resp;
+    }, true);
 
-    // Step 2: Aggregate data by student
-    results.steps.push({
-      step: 'Data Aggregation',
-      status: 'started',
-      timestamp: new Date().toISOString()
-    });
-    const aggregatedData = aggregateAllGrades(responses);
-    results.steps[results.steps.length - 1].status = 'complete';
+    // Step 2: Aggregate data by student (CRITICAL)
+    aggregatedData = runStep('Data Aggregation', () => {
+      return aggregateAllGrades(responses);
+    }, true);
 
-    // Step 3: Run MTSS analysis
-    results.steps.push({
-      step: 'MTSS Analysis',
-      status: 'started',
-      timestamp: new Date().toISOString()
-    });
-    const mtssReports = generateAllMTSSReports(aggregatedData);
-    results.steps[results.steps.length - 1].status = 'complete';
-    results.steps[results.steps.length - 1].tier2Count = countTier2Students(mtssReports);
-    results.steps[results.steps.length - 1].tier3Count = countTier3Students(mtssReports);
+    // Step 3: Run MTSS analysis (CRITICAL)
+    mtssReports = runStep('MTSS Analysis', () => {
+      const reports = generateAllMTSSReports(aggregatedData);
+      results.steps[results.steps.length - 1].tier2Count = countTier2Students(reports);
+      results.steps[results.steps.length - 1].tier3Count = countTier3Students(reports);
+      return reports;
+    }, true);
 
-    // Step 4: Analyze misconceptions
-    results.steps.push({
-      step: 'Misconception Analysis',
-      status: 'started',
-      timestamp: new Date().toISOString()
-    });
-    const misconceptionReport = analyzeMisconceptions(
-      hubConfig.currentCycle,
-      hubConfig.currentWeek
-    );
-    results.steps[results.steps.length - 1].status = 'complete';
-    results.steps[results.steps.length - 1].alertCount = countAlerts(misconceptionReport);
+    // Step 4: Analyze misconceptions (NON-CRITICAL - can continue without)
+    misconceptionReport = runStep('Misconception Analysis', () => {
+      if (typeof analyzeMisconceptions === 'function') {
+        const report = analyzeMisconceptions(hubConfig.currentCycle, hubConfig.currentWeek);
+        results.steps[results.steps.length - 1].alertCount = countAlerts(report);
+        return report;
+      }
+      return {};
+    }, false);
 
-    // Step 5: Calculate spiral effectiveness
-    results.steps.push({
-      step: 'Spiral Effectiveness',
-      status: 'started',
-      timestamp: new Date().toISOString()
-    });
-    const spiralReport = analyzeSpiralEffectiveness(
-      hubConfig.currentCycle,
-      hubConfig.currentWeek
-    );
-    results.steps[results.steps.length - 1].status = 'complete';
+    // Step 5: Calculate spiral effectiveness (NON-CRITICAL)
+    spiralReport = runStep('Spiral Effectiveness', () => {
+      if (typeof analyzeSpiralEffectiveness === 'function') {
+        return analyzeSpiralEffectiveness(hubConfig.currentCycle, hubConfig.currentWeek);
+      }
+      return {};
+    }, false);
 
-    // Step 6: Generate intervention groups
-    results.steps.push({
-      step: 'Intervention Grouping',
-      status: 'started',
-      timestamp: new Date().toISOString()
-    });
-    const interventionGroups = generateAllInterventionGroups(mtssReports);
-    results.steps[results.steps.length - 1].status = 'complete';
-    results.steps[results.steps.length - 1].groupCount = countGroups(interventionGroups);
+    // Step 6: Generate intervention groups (NON-CRITICAL)
+    interventionGroups = runStep('Intervention Grouping', () => {
+      const groups = generateAllInterventionGroups(mtssReports);
+      results.steps[results.steps.length - 1].groupCount = countGroups(groups);
+      return groups;
+    }, false);
 
-    // Step 7: Update hub spreadsheet
-    results.steps.push({
-      step: 'Hub Update',
-      status: 'started',
-      timestamp: new Date().toISOString()
-    });
-    updateHubSheet(aggregatedData, mtssReports, interventionGroups);
-    results.steps[results.steps.length - 1].status = 'complete';
+    // Step 7: Update hub spreadsheet (NON-CRITICAL - data is still saved)
+    runStep('Hub Update', () => {
+      updateHubSheet(aggregatedData, mtssReports, interventionGroups || {});
+    }, false);
 
-    // Step 8: Send alerts if needed
-    results.steps.push({
-      step: 'Alert Generation',
-      status: 'started',
-      timestamp: new Date().toISOString()
-    });
-    sendAlerts(misconceptionReport, mtssReports);
-    results.steps[results.steps.length - 1].status = 'complete';
+    // Step 8: Send alerts if needed (NON-CRITICAL)
+    runStep('Alert Generation', () => {
+      sendAlerts(misconceptionReport || {}, mtssReports);
+    }, false);
 
     results.completed = new Date().toISOString();
     results.success = true;
+    results.duration = ((new Date() - startTime) / 1000).toFixed(2) + 's';
 
   } catch (error) {
     results.error = error.message;
+    results.errorStack = error.stack;
     results.success = false;
-    Logger.log('Orchestration Error: ' + error.message);
+    results.failedAt = results.steps[results.steps.length - 1]?.step || 'Unknown';
+    Logger.log(`CRITICAL Orchestration Error at ${results.failedAt}: ${error.message}`);
   }
 
-  // Log summary
+  // Always log summary
   logOrchestrationSummary(results);
+
+  // Save orchestration log
+  try {
+    const logFilename = `orchestration-${startTime.toISOString().split('T')[0]}.json`;
+    if (typeof saveToJson === 'function') {
+      saveToJson(logFilename, results);
+    }
+  } catch (logError) {
+    Logger.log(`Warning: Could not save orchestration log: ${logError.message}`);
+  }
+
   return results;
 }
 
@@ -224,40 +262,90 @@ function generateAllInterventionGroups(mtssReports) {
 
 /**
  * Updates the hub spreadsheet with latest data
+ * Includes granular error handling for each tab update
  * @param {Object} aggregatedData - Aggregated student data
  * @param {Object} mtssReports - MTSS reports
  * @param {Object} interventionGroups - Intervention groups
  */
 function updateHubSheet(aggregatedData, mtssReports, interventionGroups) {
-  const hubConfig = getHubConfig();
+  let hubConfig;
+  try {
+    hubConfig = getHubConfig();
+  } catch (e) {
+    Logger.log(`ERROR: Cannot load hub config for sheet update: ${e.message}`);
+    throw e;
+  }
 
   if (!hubConfig.hubSheetId) {
     Logger.log('Hub sheet ID not configured - skipping update');
-    return;
+    return { skipped: true, reason: 'No hubSheetId configured' };
   }
 
+  const updateResults = {
+    hubSheetId: hubConfig.hubSheetId,
+    tabs: {},
+    errors: []
+  };
+
+  let ss;
   try {
-    const ss = SpreadsheetApp.openById(hubConfig.hubSheetId);
-
-    // Update Overview tab
-    updateOverviewTab(ss, aggregatedData, mtssReports);
-
-    // Update Grade-specific tabs
-    hubConfig.grades.forEach(grade => {
-      updateGradeTab(ss, grade, aggregatedData[grade], mtssReports[grade]);
-    });
-
-    // Update MTSS tab
-    updateMTSSTab(ss, mtssReports, interventionGroups);
-
-    // Update Analysis tab
-    updateAnalysisTab(ss, aggregatedData);
-
-    Logger.log('Hub sheet updated successfully');
-
-  } catch (error) {
-    Logger.log('Hub update error: ' + error.message);
+    ss = SpreadsheetApp.openById(hubConfig.hubSheetId);
+  } catch (e) {
+    Logger.log(`ERROR: Cannot open hub spreadsheet ${hubConfig.hubSheetId}: ${e.message}`);
+    throw new Error(`Cannot access hub spreadsheet: ${e.message}`);
   }
+
+  // Update Overview tab
+  try {
+    updateOverviewTab(ss, aggregatedData, mtssReports);
+    updateResults.tabs.overview = 'success';
+  } catch (e) {
+    Logger.log(`Warning: Failed to update Overview tab: ${e.message}`);
+    updateResults.tabs.overview = 'failed';
+    updateResults.errors.push({ tab: 'Overview', error: e.message });
+  }
+
+  // Update Grade-specific tabs
+  (hubConfig.grades || []).forEach(grade => {
+    try {
+      updateGradeTab(ss, grade, aggregatedData?.[grade], mtssReports?.[grade]);
+      updateResults.tabs[`grade${grade}`] = 'success';
+    } catch (e) {
+      Logger.log(`Warning: Failed to update Grade ${grade} tab: ${e.message}`);
+      updateResults.tabs[`grade${grade}`] = 'failed';
+      updateResults.errors.push({ tab: `Grade ${grade}`, error: e.message });
+    }
+  });
+
+  // Update MTSS tab
+  try {
+    updateMTSSTab(ss, mtssReports, interventionGroups);
+    updateResults.tabs.mtss = 'success';
+  } catch (e) {
+    Logger.log(`Warning: Failed to update MTSS tab: ${e.message}`);
+    updateResults.tabs.mtss = 'failed';
+    updateResults.errors.push({ tab: 'MTSS', error: e.message });
+  }
+
+  // Update Analysis tab
+  try {
+    updateAnalysisTab(ss, aggregatedData);
+    updateResults.tabs.analysis = 'success';
+  } catch (e) {
+    Logger.log(`Warning: Failed to update Analysis tab: ${e.message}`);
+    updateResults.tabs.analysis = 'failed';
+    updateResults.errors.push({ tab: 'Analysis', error: e.message });
+  }
+
+  const successCount = Object.values(updateResults.tabs).filter(s => s === 'success').length;
+  const totalCount = Object.keys(updateResults.tabs).length;
+
+  Logger.log(`Hub sheet updated: ${successCount}/${totalCount} tabs successful`);
+  if (updateResults.errors.length > 0) {
+    Logger.log(`Tab update errors: ${JSON.stringify(updateResults.errors)}`);
+  }
+
+  return updateResults;
 }
 
 /**
@@ -576,5 +664,114 @@ function testOrchestration() {
   Logger.log('Running manual orchestration test...');
   const results = runDailyOrchestration();
   Logger.log('Test complete. Check logs for details.');
+  return results;
+}
+
+/**
+ * ============================================================================
+ * SEATING SYSTEM INTEGRATION
+ * ============================================================================
+ */
+
+/**
+ * Update performance data for seating analysis
+ * Stores data in format needed by SeatingAnalyzer
+ *
+ * @param {Object} aggregatedData - Aggregated student data by grade
+ * @param {Object} hubConfig - Hub configuration
+ * @returns {Object} Results summary
+ */
+function updateSeatingPerformanceData(aggregatedData, hubConfig) {
+  const results = {
+    periodsUpdated: 0,
+    errors: []
+  };
+
+  // Check if seating system is enabled
+  try {
+    const seatingConfig = Config.getSeatingConfig ? Config.getSeatingConfig() : null;
+    if (!seatingConfig || !seatingConfig.enabled) {
+      Logger.log('Seating system not enabled - skipping performance data bridge');
+      return results;
+    }
+  } catch (e) {
+    Logger.log('Could not check seating config: ' + e.message);
+  }
+
+  // Get grade-to-period mapping from config
+  const gradeConfig = Config.getGradeConfig ? Config.getGradeConfig() : null;
+
+  hubConfig.grades.forEach(grade => {
+    const gradeData = aggregatedData[grade];
+    if (!gradeData || !gradeData.mtss) return;
+
+    // Get periods for this grade
+    const periods = gradeConfig?.[grade]?.periods || [];
+
+    periods.forEach(periodStr => {
+      // Extract period number from string like "Period 2"
+      const periodMatch = periodStr.match(/\d+/);
+      if (!periodMatch) return;
+
+      const period = parseInt(periodMatch[0]);
+
+      try {
+        // Call SeatingDataBridge to store performance data
+        if (typeof storePerformanceForSeating === 'function') {
+          storePerformanceForSeating(gradeData, grade, period);
+          results.periodsUpdated++;
+          Logger.log(`Updated seating performance data: G${grade} P${period}`);
+        }
+      } catch (e) {
+        results.errors.push({
+          grade,
+          period,
+          error: e.message
+        });
+        Logger.log(`Error updating seating data for G${grade} P${period}: ${e.message}`);
+      }
+    });
+  });
+
+  return results;
+}
+
+/**
+ * Run seating analysis for all classes
+ * Call this weekly after sign-in data is entered
+ *
+ * @returns {Object} Analysis results by grade/period
+ */
+function runAllSeatingAnalysis() {
+  const hubConfig = getHubConfig();
+  const gradeConfig = Config.getGradeConfig ? Config.getGradeConfig() : null;
+  const results = {};
+
+  hubConfig.grades.forEach(grade => {
+    const periods = gradeConfig?.[grade]?.periods || [];
+
+    periods.forEach(periodStr => {
+      const periodMatch = periodStr.match(/\d+/);
+      if (!periodMatch) return;
+
+      const period = parseInt(periodMatch[0]);
+      const key = `g${grade}p${period}`;
+
+      try {
+        if (typeof runWeeklySeatingAnalysis === 'function') {
+          results[key] = runWeeklySeatingAnalysis(
+            grade,
+            period,
+            hubConfig.currentCycle,
+            hubConfig.currentWeek
+          );
+        }
+      } catch (e) {
+        results[key] = { error: e.message };
+      }
+    });
+  });
+
+  Logger.log('Seating analysis complete for all classes');
   return results;
 }

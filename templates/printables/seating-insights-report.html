@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seating Insights Report - KAMS Science</title>
+  <style>
+    /* ============================================
+       SEATING INSIGHTS REPORT
+       ============================================
+
+       Teacher dashboard showing:
+       - Catalyst pairs (students who work well together)
+       - Distraction vectors (students to separate)
+       - Recommended seating adjustments
+       - Week-over-week trends
+
+       Print-friendly design for teacher reference
+    */
+
+    :root {
+      --color-primary: #059669;
+      --color-primary-dark: #047857;
+      --color-secondary: #3B82F6;
+      --color-accent: #8B5CF6;
+      --color-warning: #F59E0B;
+      --color-error: #DC2626;
+      --color-text: #1F2937;
+      --color-text-muted: #6B7280;
+      --color-gray-100: #F3F4F6;
+      --color-gray-200: #E5E7EB;
+
+      /* Semantic colors */
+      --catalyst-bg: #D1FAE5;
+      --catalyst-border: #059669;
+      --catalyst-text: #065F46;
+
+      --distraction-bg: #FEE2E2;
+      --distraction-border: #DC2626;
+      --distraction-text: #991B1B;
+
+      --neutral-bg: #F3F4F6;
+      --neutral-border: #9CA3AF;
+      --neutral-text: #4B5563;
+
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--color-text);
+      background: #f5f5f5;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       PAGE LAYOUT
+       ============================================ */
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Screen-only controls */
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .controls h1 {
+      font-size: 24px;
+      color: var(--color-primary);
+      margin-bottom: 16px;
+    }
+
+    .control-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .control-group {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .control-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .control-group input,
+    .control-group select,
+    .control-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--color-gray-200);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .control-group textarea {
+      min-height: 150px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    /* ============================================
+       REPORT SECTIONS
+       ============================================ */
+
+    .report {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .report-header {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .report-header h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .report-header .subtitle {
+      opacity: 0.9;
+      font-size: 16px;
+    }
+
+    .report-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+
+    .report-meta span {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 16px;
+    }
+
+    .report-body {
+      padding: 24px;
+    }
+
+    /* Summary Stats */
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--color-gray-200);
+    }
+
+    .stat-card.positive {
+      background: var(--catalyst-bg);
+      border-color: var(--catalyst-border);
+    }
+
+    .stat-card.negative {
+      background: var(--distraction-bg);
+      border-color: var(--distraction-border);
+    }
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .stat-card.positive .stat-value { color: var(--catalyst-border); }
+    .stat-card.negative .stat-value { color: var(--distraction-border); }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    /* Section Headers */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--color-gray-200);
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .section-icon.catalyst {
+      background: var(--catalyst-bg);
+    }
+
+    .section-icon.distraction {
+      background: var(--distraction-bg);
+    }
+
+    .section-icon.recommendation {
+      background: #DBEAFE;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* Pair Cards */
+    .pair-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .pair-card {
+      padding: 16px;
+      border-radius: 8px;
+      border: 2px solid;
+    }
+
+    .pair-card.catalyst {
+      background: var(--catalyst-bg);
+      border-color: var(--catalyst-border);
+    }
+
+    .pair-card.distraction {
+      background: var(--distraction-bg);
+      border-color: var(--distraction-border);
+    }
+
+    .pair-students {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pair-connector {
+      color: var(--color-text-muted);
+      font-weight: 400;
+    }
+
+    .pair-effect {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .pair-card.catalyst .pair-effect {
+      color: var(--catalyst-border);
+    }
+
+    .pair-card.distraction .pair-effect {
+      color: var(--distraction-border);
+    }
+
+    .pair-meta {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      display: flex;
+      gap: 16px;
+    }
+
+    .confidence-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .confidence-badge.high {
+      background: var(--catalyst-bg);
+      color: var(--catalyst-text);
+    }
+
+    .confidence-badge.medium {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+
+    .confidence-badge.low {
+      background: var(--color-gray-100);
+      color: var(--color-text-muted);
+    }
+
+    /* Recommendations */
+    .recommendation-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .recommendation-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      background: var(--color-gray-100);
+      border-radius: 8px;
+      border-left: 4px solid;
+    }
+
+    .recommendation-item.keep {
+      border-color: var(--catalyst-border);
+      background: rgba(209, 250, 229, 0.3);
+    }
+
+    .recommendation-item.separate {
+      border-color: var(--distraction-border);
+      background: rgba(254, 226, 226, 0.3);
+    }
+
+    .recommendation-priority {
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .recommendation-item.keep .recommendation-priority {
+      color: var(--catalyst-border);
+    }
+
+    .recommendation-item.separate .recommendation-priority {
+      color: var(--distraction-border);
+    }
+
+    .recommendation-content {
+      flex: 1;
+    }
+
+    .recommendation-action {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .recommendation-reason {
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    /* Insights Box */
+    .insights-box {
+      background: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%);
+      border: 2px solid var(--color-accent);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 24px;
+    }
+
+    .insights-box h3 {
+      color: var(--color-accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .insights-box ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .insights-box li {
+      margin-bottom: 8px;
+      color: var(--color-text);
+    }
+
+    /* No Data State */
+    .no-data {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--color-text-muted);
+    }
+
+    .no-data-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .no-data h2 {
+      color: var(--color-text);
+      margin-bottom: 8px;
+    }
+
+    /* ============================================
+       PRINT STYLES
+       ============================================ */
+
+    @media print {
+      @page {
+        size: letter portrait;
+        margin: 0.5in;
+      }
+
+      body {
+        background: white;
+      }
+
+      .controls,
+      .no-print {
+        display: none !important;
+      }
+
+      .container {
+        padding: 0;
+        max-width: none;
+      }
+
+      .report {
+        box-shadow: none;
+      }
+
+      .summary-stats {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .pair-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pair-card,
+      .recommendation-item,
+      .insights-box {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .section {
+        page-break-inside: avoid;
+      }
+    }
+
+    @media screen {
+      .report {
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ============================================
+         CONTROLS (Screen Only)
+         ============================================ -->
+    <div class="controls no-print">
+      <h1>Seating Insights Report Generator</h1>
+      <div class="control-row">
+        <div class="control-group">
+          <label>Period</label>
+          <select id="period">
+            <option value="1">Period 1</option>
+            <option value="2">Period 2</option>
+            <option value="3">Period 3</option>
+            <option value="4">Period 4</option>
+            <option value="5">Period 5</option>
+            <option value="6">Period 6</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Grade</label>
+          <select id="grade">
+            <option value="7">Grade 7</option>
+            <option value="8">Grade 8</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Report Date</label>
+          <input type="date" id="reportDate">
+        </div>
+      </div>
+      <div class="control-group">
+        <label>Paste Analysis JSON (from SeatingAnalyzer.gs output)</label>
+        <textarea id="analysisData" placeholder='{"weeksAnalyzed": 4, "catalystPairs": [...], "distractionVectors": [...], "recommendations": [...]}'></textarea>
+      </div>
+      <div style="display: flex; gap: 12px; margin-top: 16px;">
+        <button class="btn btn-primary" onclick="generateReport()">Generate Report</button>
+        <button class="btn btn-secondary" onclick="loadSampleData()">Load Sample Data</button>
+        <button class="btn btn-secondary" onclick="window.print()">Print Report</button>
+      </div>
+    </div>
+
+    <!-- ============================================
+         REPORT OUTPUT
+         ============================================ -->
+    <div class="report" id="reportOutput">
+      <div class="no-data">
+        <div class="no-data-icon">📊</div>
+        <h2>No Data Yet</h2>
+        <p>Paste your SeatingAnalyzer.gs output above and click "Generate Report"<br>
+        or click "Load Sample Data" to see an example report.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * Generate the report from analysis data
+     */
+    function generateReport() {
+      const period = document.getElementById('period').value;
+      const grade = document.getElementById('grade').value;
+      const reportDate = document.getElementById('reportDate').value || new Date().toLocaleDateString();
+
+      let data;
+      try {
+        data = JSON.parse(document.getElementById('analysisData').value);
+      } catch (e) {
+        alert('Invalid JSON data. Please paste valid analysis output.');
+        return;
+      }
+
+      renderReport(data, { period, grade, reportDate });
+    }
+
+    /**
+     * Render the report HTML
+     */
+    function renderReport(data, meta) {
+      const output = document.getElementById('reportOutput');
+
+      // Calculate summary stats
+      const totalPairs = (data.catalystPairs?.length || 0) + (data.distractionVectors?.length || 0) + (data.neutralPairs?.length || 0);
+
+      output.innerHTML = `
+        <div class="report-header">
+          <h1>Seating Correlation Insights</h1>
+          <div class="subtitle">Period ${meta.period} | Grade ${meta.grade}</div>
+          <div class="report-meta">
+            <span>${data.weeksAnalyzed || 0} Weeks Analyzed</span>
+            <span>Generated ${meta.reportDate}</span>
+          </div>
+        </div>
+
+        <div class="report-body">
+          <!-- Summary Stats -->
+          <div class="summary-stats">
+            <div class="stat-card">
+              <div class="stat-value">${data.weeksAnalyzed || 0}</div>
+              <div class="stat-label">Weeks of Data</div>
+            </div>
+            <div class="stat-card positive">
+              <div class="stat-value">${data.catalystPairs?.length || 0}</div>
+              <div class="stat-label">Catalyst Pairs</div>
+            </div>
+            <div class="stat-card negative">
+              <div class="stat-value">${data.distractionVectors?.length || 0}</div>
+              <div class="stat-label">Distraction Vectors</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">${data.recommendations?.length || 0}</div>
+              <div class="stat-label">Recommendations</div>
+            </div>
+          </div>
+
+          <!-- Catalyst Pairs -->
+          ${data.catalystPairs?.length > 0 ? `
+          <div class="section">
+            <div class="section-header">
+              <div class="section-icon catalyst">✨</div>
+              <div class="section-title">Catalyst Pairs</div>
+            </div>
+            <p style="margin-bottom: 16px; color: var(--color-text-muted);">
+              These student pairs show improved performance when seated near each other.
+              <strong>Keep them together!</strong>
+            </p>
+            <div class="pair-grid">
+              ${data.catalystPairs.slice(0, 6).map(pair => `
+                <div class="pair-card catalyst">
+                  <div class="pair-students">
+                    ${pair.students[0]} <span class="pair-connector">&</span> ${pair.students[1]}
+                  </div>
+                  <div class="pair-effect">+${Math.round(pair.combinedEffect || pair.effect || 0)}%</div>
+                  <div class="pair-meta">
+                    <span>${pair.adjacentDays || '?'} days together</span>
+                    <span class="confidence-badge ${(pair.confidence || 'medium').toLowerCase()}">${pair.confidence || 'Medium'}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          ` : ''}
+
+          <!-- Distraction Vectors -->
+          ${data.distractionVectors?.length > 0 ? `
+          <div class="section">
+            <div class="section-header">
+              <div class="section-icon distraction">⚠️</div>
+              <div class="section-title">Distraction Vectors</div>
+            </div>
+            <p style="margin-bottom: 16px; color: var(--color-text-muted);">
+              These student pairs show decreased performance when seated near each other.
+              <strong>Consider separating them.</strong>
+            </p>
+            <div class="pair-grid">
+              ${data.distractionVectors.slice(0, 6).map(pair => `
+                <div class="pair-card distraction">
+                  <div class="pair-students">
+                    ${pair.students[0]} <span class="pair-connector">&</span> ${pair.students[1]}
+                  </div>
+                  <div class="pair-effect">${Math.round(pair.combinedEffect || pair.effect || 0)}%</div>
+                  <div class="pair-meta">
+                    <span>${pair.adjacentDays || '?'} days together</span>
+                    <span class="confidence-badge ${(pair.confidence || 'medium').toLowerCase()}">${pair.confidence || 'Medium'}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          ` : ''}
+
+          <!-- Recommendations -->
+          ${data.recommendations?.length > 0 ? `
+          <div class="section">
+            <div class="section-header">
+              <div class="section-icon recommendation">💡</div>
+              <div class="section-title">Recommended Actions</div>
+            </div>
+            <div class="recommendation-list">
+              ${data.recommendations.slice(0, 8).map(rec => `
+                <div class="recommendation-item ${rec.type === 'KEEP_TOGETHER' ? 'keep' : 'separate'}">
+                  <div class="recommendation-priority">${rec.priority}</div>
+                  <div class="recommendation-content">
+                    <div class="recommendation-action">
+                      ${rec.type === 'KEEP_TOGETHER' ? 'Keep together:' : 'Separate:'}
+                      ${rec.students.join(' & ')}
+                    </div>
+                    <div class="recommendation-reason">${rec.reason}</div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          ` : ''}
+
+          <!-- Insights -->
+          <div class="insights-box">
+            <h3>🔮 Key Insights</h3>
+            <ul>
+              ${generateInsights(data)}
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    /**
+     * Generate insight bullets based on data
+     */
+    function generateInsights(data) {
+      const insights = [];
+
+      // Catalyst insights
+      if (data.catalystPairs?.length > 0) {
+        const topCatalyst = data.catalystPairs[0];
+        insights.push(`<li><strong>${topCatalyst.students.join(' & ')}</strong> is your strongest catalyst pair - they boost each other's performance by ${Math.round(topCatalyst.combinedEffect || topCatalyst.effect)}% when seated together.</li>`);
+      }
+
+      // Distraction insights
+      if (data.distractionVectors?.length > 0) {
+        const topDistraction = data.distractionVectors[0];
+        insights.push(`<li><strong>${topDistraction.students.join(' & ')}</strong> should be separated - their performance drops ${Math.abs(Math.round(topDistraction.combinedEffect || topDistraction.effect))}% when near each other.</li>`);
+      }
+
+      // Pattern insights
+      if (data.catalystPairs?.length >= 3) {
+        const uniqueStudents = new Set(data.catalystPairs.flatMap(p => p.students));
+        const frequent = [...uniqueStudents].filter(s =>
+          data.catalystPairs.filter(p => p.students.includes(s)).length >= 2
+        );
+        if (frequent.length > 0) {
+          insights.push(`<li><strong>${frequent[0]}</strong> appears in multiple catalyst pairs - consider this student as a "hub" for positive social dynamics.</li>`);
+        }
+      }
+
+      // General insights
+      if (data.weeksAnalyzed < 4) {
+        insights.push(`<li>Only ${data.weeksAnalyzed} weeks of data - correlations will become more reliable with more data points.</li>`);
+      }
+
+      if (insights.length === 0) {
+        insights.push(`<li>Continue collecting seating data to reveal patterns in student interactions.</li>`);
+      }
+
+      return insights.join('');
+    }
+
+    /**
+     * Load sample data for demonstration
+     */
+    function loadSampleData() {
+      const sampleData = {
+        weeksAnalyzed: 5,
+        catalystPairs: [
+          { students: ["Emma S.", "Jacob M."], combinedEffect: 18, adjacentDays: 12, confidence: "HIGH" },
+          { students: ["Sophia R.", "Liam K."], combinedEffect: 14, adjacentDays: 10, confidence: "HIGH" },
+          { students: ["Noah T.", "Olivia W."], combinedEffect: 11, adjacentDays: 8, confidence: "MEDIUM" },
+          { students: ["Ava C.", "Mason D."], combinedEffect: 9, adjacentDays: 15, confidence: "HIGH" }
+        ],
+        distractionVectors: [
+          { students: ["Ethan B.", "Lucas G."], combinedEffect: -15, adjacentDays: 9, confidence: "HIGH" },
+          { students: ["Isabella N.", "Mia P."], combinedEffect: -12, adjacentDays: 7, confidence: "MEDIUM" },
+          { students: ["Aiden F.", "Elijah H."], combinedEffect: -8, adjacentDays: 11, confidence: "HIGH" }
+        ],
+        recommendations: [
+          { type: "KEEP_TOGETHER", priority: "HIGH", students: ["Emma S.", "Jacob M."], reason: "Emma S. and Jacob M. both perform 18% better when seated near each other" },
+          { type: "SEPARATE", priority: "HIGH", students: ["Ethan B.", "Lucas G."], reason: "Ethan B. and Lucas G. both perform 15% worse when seated near each other" },
+          { type: "KEEP_TOGETHER", priority: "MEDIUM", students: ["Sophia R.", "Liam K."], reason: "Sophia R. and Liam K. both perform 14% better when seated near each other" },
+          { type: "SEPARATE", priority: "MEDIUM", students: ["Isabella N.", "Mia P."], reason: "Isabella N. and Mia P. both perform 12% worse when seated near each other" },
+          { type: "KEEP_TOGETHER", priority: "MEDIUM", students: ["Noah T.", "Olivia W."], reason: "Noah T. and Olivia W. both perform 11% better when seated near each other" }
+        ]
+      };
+
+      document.getElementById('analysisData').value = JSON.stringify(sampleData, null, 2);
+      generateReport();
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
+    });
+  </script>
+</body>
+</html>

@@ -1,21 +1,24 @@
 {
   "cycle": 6,
   "grade": 7,
-  "status": "not_started",
-  "lastUpdated": "2025-12-05",
+  "status": "in_progress",
+  "lastUpdated": "2025-12-09",
   "topic": "Plate Tectonics & Earth's Interior",
   "completion": {
-    "overall": 0,
-    "curriculumDesign": 0,
+    "overall": 60,
+    "curriculumDesign": 100,
     "rubrics": 0,
-    "week1": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
-    "week2": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 },
-    "week3": { "forms": 0, "lessonPlan": 0, "studentPage": 0, "slides": 0 }
+    "week1": { "forms": 10, "lessonPlan": 100, "studentPage": 10, "slides": 0, "simulations": 0 },
+    "week2": { "forms": 10, "lessonPlan": 100, "studentPage": 10, "slides": 0, "simulations": 100 },
+    "week3": { "forms": 10, "lessonPlan": 100, "studentPage": 10, "slides": 0, "simulations": 0 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
     "week3": false
   },
-  "notes": "Placeholder structure created. Development pending."
+  "simulations": {
+    "week2": "pangaea-puzzle.html"
+  },
+  "notes": "Lesson plans complete for all weeks. Custom Pangaea puzzle simulation built for W2. Forms and student pages are placeholder templates pending content development."
 }

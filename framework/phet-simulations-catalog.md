@@ -117,10 +117,21 @@ PhET Interactive Simulations (University of Colorado Boulder) provides free, res
 | C3 W1 | Greenhouse Effect | ✅ greenhouse-effect | thermal-trap-designer | - |
 | C3 W2 | Feedback Loops | ❌ | ice-albedo-feedback, carbon-sink-simulator | - |
 | C3 W3 | Synthesis | N/A | - | - |
-| C4 W1 | Ocean Acidification | ❌ | - | **NEEDS SIM** |
-| C4 W2 | Eutrophication | ❌ | - | **NEEDS SIM** |
+| C4 W1 | Ocean Acidification | ✅ | ocean-acidification-simulator.html | - |
+| C4 W2 | Eutrophication | ✅ | eutrophication-cascade-simulator.html | - |
 | C4 W3 | Synthesis | N/A | - | - |
-| C5-C10 | TBD | ? | - | **AUDIT NEEDED** |
+| C5 W1 | Air Masses & Fronts | ✅ | air-mass-collision-simulator.html | - |
+| C5 W2 | Weather Prediction | ✅ | weather-prediction-simulator.html | - |
+| C5 W3 | Synthesis | N/A | - | - |
+| C6 W1 | Plate Tectonics | ✅ plate-tectonics | - | Use PhET |
+| C6 W2 | Seafloor Spreading | ❌ | pangaea-puzzle.html | ✅ |
+| C6 W3 | Synthesis | N/A | - | - |
+| C7 W1 | Rock Cycle | ❌ | rock-cycle-explorer.html | ✅ |
+| C7 W2 | Geologic Time | ❌ | geologic-time-explorer.html | ✅ |
+| C7 W3 | Synthesis | N/A | - | - |
+| C8 W1 | Ecosystems & Food Webs | ❌ | trophic-cascade-simulator.html | ✅ |
+| C8 W2 | Biodiversity Value | ❌ | biodiversity-resilience-simulator.html | ✅ |
+| C8 W3 | Year-End Integration | N/A | - | - |
 
 ### Grade 8 Alignment
 
@@ -132,7 +143,18 @@ PhET Interactive Simulations (University of Colorado Boulder) provides free, res
 | C4 W1 | Energy Pyramids | ✅ eating-and-exercise | energy-pyramid-calculator | - |
 | C4 W2 | Invasive Species | ❌ | trophic-cascade-simulator | - |
 | C4 W3 | Synthesis | N/A | - | - |
-| C5-C10 | TBD | ? | - | **AUDIT NEEDED** |
+| C5 W1 | Newton's Laws | ✅ forces-and-motion-basics | - | Use PhET |
+| C5 W2 | Forces in Motion | ✅ forces-and-motion-basics | - | Use PhET |
+| C5 W3 | Synthesis | N/A | - | - |
+| C6 W1 | Magnetism | ✅ magnets-and-electromagnets | - | Use PhET |
+| C6 W2 | Electromagnetism | ✅ faradays-law | - | Use PhET |
+| C6 W3 | Synthesis | N/A | - | - |
+| C7 W1 | Chemical Reactions | ✅ reactants-products-and-leftovers | - | Use PhET |
+| C7 W2 | Reaction Types | ✅ balancing-chemical-equations | - | Use PhET |
+| C7 W3 | Synthesis | N/A | - | - |
+| C8 W1 | Waves | ✅ wave-on-a-string | - | Use PhET |
+| C8 W2 | Light & Sound | ✅ bending-light | - | Use PhET |
+| C8 W3 | Year-End Integration | N/A | - | - |
 
 ---
 
@@ -175,12 +197,35 @@ Updated: {Month} 2025 | Material-Free Audit Complete
 
 | Grade | Cycle | Week | Topic | Status |
 |-------|-------|------|-------|--------|
-| G7 | C4 | W1 | Ocean Acidification | **NEEDS CUSTOM SIM** |
-| G7 | C4 | W2 | Eutrophication | **NEEDS CUSTOM SIM** |
+| G7 | C4 | W1 | Ocean Acidification | ✅ COMPLETE |
+| G7 | C4 | W2 | Eutrophication | ✅ COMPLETE |
 
-### Medium Priority (C5-C10, future development)
+> **Updated Dec 2025:** C4 custom simulations completed.
+> - `ocean-acidification-simulator.html` - pH changes, carbonate chemistry, marine life effects
+> - `eutrophication-cascade-simulator.html` - nutrient cascade, dead zones, remediation testing
 
-Audit lesson-plan.md files in C5-C10 to identify hands-on activities requiring simulation replacements.
+### Medium Priority (G7 C6-C8 Custom Simulations)
+
+> **Completed Dec 2025:** All G7 C6-C8 custom simulations have been built!
+
+| Grade | Cycle | Week | Topic | Simulation | Status |
+|-------|-------|------|-------|------------|--------|
+| G7 | C6 | W2 | Seafloor Spreading | pangaea-puzzle.html | ✅ COMPLETE |
+| G7 | C7 | W1 | Rock Cycle | rock-cycle-explorer.html | ✅ COMPLETE |
+| G7 | C7 | W2 | Geologic Time | geologic-time-explorer.html | ✅ COMPLETE |
+| G7 | C8 | W1 | Ecosystems | trophic-cascade-simulator.html | ✅ COMPLETE |
+| G7 | C8 | W2 | Biodiversity | biodiversity-resilience-simulator.html | ✅ COMPLETE |
+
+**Simulation Details:**
+- `pangaea-puzzle.html` - Drag-and-drop continental reconstruction with fossil/rock evidence
+- `rock-cycle-explorer.html` - Interactive rock type transformation with process visualization
+- `geologic-time-explorer.html` - Draggable timeline with eras, fossils, and extinction events
+- `trophic-cascade-simulator.html` - Yellowstone wolves food web with cascade scenarios
+- `biodiversity-resilience-simulator.html` - Diverse vs. monoculture ecosystem comparison
+
+**G8 Status:** All C5-C8 topics have PhET coverage (forces, magnetism, chemistry, waves).
+
+### Low Priority (Future Enhancements)
 
 ---
 

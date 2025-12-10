@@ -1,8 +1,42 @@
 {
   "$schema": "./schema/cycle-schema.json",
   "$comment": "Master configuration - validated against cycle schema structure",
-  "version": "3.0.0",
-  "lastUpdated": "2025-12-07",
+  "version": "3.1.0",
+  "lastUpdated": "2025-12-09",
+
+  "_AI_INSTRUCTION": {
+    "priority": "CRITICAL",
+    "message": "All content generation MUST comply with complianceRequirements below and align with Scholarly Foundations document",
+    "scholarlyFoundationsPath": "Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development.md"
+  },
+
+  "complianceRequirements": {
+    "materialsPolicy": {
+      "rule": "DIGITAL_FIRST_NOTECARD_ONLY",
+      "description": "All instructional materials must be digital-hosted in this repository",
+      "physicalMaterialsAllowed": "ONE notecard (3x5 or 4x6) per student per class period",
+      "rationale": {
+        "digitalNotebooks": "γ = 0.34 learning improvement (Rappolt-Schlichtmann et al., 2013)",
+        "virtualLabs": "g = 0.686 positive outcomes (2024 PLOS ONE)",
+        "accessibility": "100% async access, UDL supports, MTSS monitoring"
+      },
+      "prohibited": ["physical lab materials", "printed worksheets", "textbooks", "manipulatives"]
+    },
+    "researchAlignment": {
+      "interleaving": { "effectSize": "d = 0.83", "requirement": "2 spiral questions per exit ticket" },
+      "retrievalPractice": { "effectSize": "g = 0.50-0.61", "requirement": "Weekly retrieval in all assessments" },
+      "refutationalText": { "effectSize": "g = 0.41", "requirement": "Use for all misconception feedback" },
+      "activeLearning": { "effectSize": "33-45% gap reduction", "requirement": ">67% active learning time" },
+      "lightGuidance": { "effectSize": "85% vs 9% exploration", "requirement": "Driving questions, not step-by-step" },
+      "spacing": { "rule": "10-20% of retention interval", "requirement": "Revisit concepts every 2-3 weeks" }
+    },
+    "ngssAlignment": {
+      "threeDimensional": true,
+      "phenomenonDriven": true,
+      "cccsAsEquityEntryPoints": true,
+      "fiveInstructionalRoutines": ["elicitQuestions", "navigateInvestigations", "problematize", "synthesize", "revisitPhenomenon"]
+    }
+  },
 
   "school": {
     "name": "KAMS",
@@ -132,6 +166,51 @@
     "reportFormats": ["json", "csv", "xlsx"]
   },
 
+  "seating": {
+    "enabled": true,
+    "classroom": {
+      "layout": "perimeter",
+      "totalSeats": 24,
+      "walls": {
+        "north": { "seats": [1, 2, 3, 4, 5, 6], "label": "Front (Whiteboard)" },
+        "east": { "seats": [7, 8, 9, 10, 11, 12], "label": "Windows" },
+        "south": { "seats": [13, 14, 15, 16, 17, 18], "label": "Back" },
+        "west": { "seats": [19, 20, 21, 22, 23, 24], "label": "Hallway" }
+      }
+    },
+    "analysis": {
+      "minWeeksForCorrelation": 3,
+      "adjacencyDistance": 2,
+      "correlationThresholds": {
+        "catalystPair": 0.5,
+        "distractionVector": -0.4
+      },
+      "confidenceLevels": {
+        "high": { "minDataPoints": 20, "minBalance": 0.5 },
+        "medium": { "minDataPoints": 10, "minBalance": 0.3 }
+      }
+    },
+    "optimization": {
+      "weights": {
+        "peerTutoring": 1.5,
+        "tierClusteringPenalty": 2.0,
+        "catalystBonus": 2.0,
+        "distractionPenalty": 3.0
+      },
+      "tierPlacement": {
+        "tier3": "front",
+        "tier2": "sides",
+        "tier1": "flexible"
+      }
+    },
+    "printables": {
+      "signInCard": "templates/printables/seat-signin-card.html",
+      "seatingMap": "templates/printables/classroom-seating-map.html",
+      "insightsReport": "templates/printables/seating-insights-report.html",
+      "dataEntry": "templates/printables/signin-data-entry.html"
+    }
+  },
+
   "platforms": {
     "lms": {
       "name": "Canvas",
@@ -191,8 +270,24 @@
 
   "activeCycles": ["cycle03", "cycle04"],
   "plannedCycles": ["cycle05", "cycle06", "cycle07", "cycle08"],
-  "futureCycles": {
-    "cycles": ["cycle09", "cycle10"],
-    "_note": "These cycles exist in config but do not fit in SY25-26 calendar. Decision needed: consolidate into cycles 3-8, defer to SY26-27, or reassign topics."
+
+  "_deferredCycles": {
+    "status": "RESOLVED",
+    "resolution": "2025-12-10",
+    "details": {
+      "cycle09": {
+        "status": "deferred",
+        "reason": "No SY25-26 calendar slot available",
+        "standardsResolution": "MS-ESS1-2 and MS-ETS1-2 integrated into Cycle 8",
+        "targetYear": "SY26-27 (if calendar permits)"
+      },
+      "cycle10": {
+        "status": "merged",
+        "reason": "Year-end activities consolidated",
+        "resolution": "Content merged into Cycle 8 Week 3",
+        "targetYear": "N/A - resolved"
+      }
+    },
+    "_warning": "Config files for C9-C10 exist in config/cycles/ for reference only. Do NOT deploy."
   }
 }

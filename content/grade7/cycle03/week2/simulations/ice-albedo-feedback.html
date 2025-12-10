@@ -14,6 +14,42 @@ Part of Grade 7 Cycle 3 Week 2: Feedback Loops & Tipping Points
     <title>Ice-Albedo Feedback Loop Simulator</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #0EA5E9;
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            text-decoration: none;
+            border-radius: 0 0 8px 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Accessibility: Focus visible */
+        :focus-visible {
+            outline: 3px solid #0EA5E9;
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: white; padding: 0; }
+            .controls, button { display: none; }
+            .sim-container { box-shadow: none; border: 1px solid #ccc; }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1E3A5F 0%, #0F172A 100%);
@@ -314,11 +350,12 @@ Part of Grade 7 Cycle 3 Week 2: Feedback Loops & Tipping Points
     </style>
 </head>
 <body>
+    <a href="#simulation" class="skip-link">Skip to simulation</a>
     <div class="container">
         <h1>🧊 Ice-Albedo Feedback Loop</h1>
         <p class="subtitle">Watch how melting ice creates a POSITIVE feedback loop that accelerates warming!</p>
 
-        <div class="sim-container">
+        <div class="sim-container" id="simulation" role="main" aria-label="Ice-Albedo Feedback Loop simulation">
             <details style="margin-bottom: 20px; background: #F0F9FF; padding: 15px; border-radius: 10px; border: 2px solid #0EA5E9;">
                 <summary style="cursor: pointer; font-weight: bold; color: #0369A1; font-size: 1em;">📖 How to Use This Simulation</summary>
                 <div style="margin-top: 12px; color: #0C4A6E; font-size: 0.9em; line-height: 1.6;">
@@ -622,6 +659,26 @@ Part of Grade 7 Cycle 3 Week 2: Feedback Loops & Tipping Points
 
         // Initialize
         updateDisplay();
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'r' || e.key === 'R') {
+                resetSimulation();
+            }
+            if (e.key === ' ' || e.key === 'Enter') {
+                if (e.target.tagName === 'BUTTON') return;
+                e.preventDefault();
+                if (isRunning) {
+                    stopSimulation();
+                } else {
+                    startSimulation();
+                }
+            }
+            if (e.key === 'Escape') {
+                stopSimulation();
+            }
+        });
     </script>
 </body>
 </html>
