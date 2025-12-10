@@ -135,6 +135,33 @@ This living document captures patterns, anti-patterns, and insights discovered t
 - Never use hex codes directly in templates
 - Changing a color means updating one CSS variable
 
+### [2025-12-10] Canvas-Compatible Embedded CSS Pattern
+**Context:** Attempted to use `shared/styles/design-system.css` via external link in student pages, but Canvas LTI embeds strip external CSS references.
+
+**Lesson:** Canvas security model blocks external stylesheets. All CSS must be embedded in `<style>` tags within the HTML file itself.
+
+**Action:**
+- Embed all CSS in `<style>` tags at the top of each student-page.html
+- Use CSS custom properties (variables) in `:root` for theming consistency
+- Define station-specific gradient classes: `.header-hook`, `.header-station1`, `.header-station2`, `.header-station3`, `.header-exit`
+- Reference `templates/html/student-page-template.html` v3.1 for canonical pattern
+- design-system.css remains the source of truth for values; copy relevant portions to embedded styles
+
+### [2025-12-10] Station Header Color System
+**Context:** Station headers used inconsistent colors/gradients across different student pages.
+
+**Lesson:** Consistent visual identity helps students quickly orient to which station they're viewing.
+
+**Action:**
+- Use standardized gradients per station type:
+  - Hook: Indigo gradient (`#6366F1` → `#4F46E5`)
+  - Station 1: Green gradient (`#10B981` → `#059669`)
+  - Station 2: Orange gradient (`#F59E0B` → `#D97706`)
+  - Station 3: Purple gradient (`#8B5CF6` → `#7C3AED`)
+  - Exit Ticket: Pink gradient (`#EC4899` → `#DB2777`)
+- Always use white text (`#FFFFFF`) on gradient backgrounds
+- Include subtle text shadow for legibility
+
 ---
 
 ## Content Development
@@ -277,11 +304,12 @@ When you discover something worth documenting:
 | 2025-12-07 | Repository Audit & Production Protection | Content lifecycle, legacy handling (C2), production content protection (C3.W2), version synchronization |
 | 2025-12-07 | Architectural Refactor v3.0 | Configuration centralization, trigger management, CSS design system |
 | 2025-12-10 | Tech Debt Audit & Remediation | setPoints(0) violations fixed, orphaned cycles archived, deploy-forms.gs documented, DataUtils duplicate functions removed |
+| 2025-12-10 | CSS Styling Migration | Canvas-compatible embedded CSS pattern, station header color system, template v3.1 update, G7 C4 migration complete |
 
 ## Known Tech Debt (Tracking)
 
 ### HTML Inline Styles Migration (MEDIUM PRIORITY)
-**Status:** Not Started | **Effort:** ~4-6 hours | **Files:** 44+ student-page.html files
+**Status:** In Progress | **Effort:** ~4-6 hours | **Files:** 44+ student-page.html files
 
 **Issue:** Most student-page.html files use extensive inline styles instead of design-system.css classes.
 
@@ -291,13 +319,19 @@ When you discover something worth documenting:
 - Larger file sizes
 
 **Migration Plan:**
-1. Audit design-system.css for missing component classes
-2. Add missing classes (card, banner, nav-grid, etc.)
-3. Migrate one cycle's pages as template
-4. Batch migrate remaining pages
-5. Validate visual consistency
+1. ✅ Audit design-system.css for missing component classes
+2. ✅ Add missing classes (card, banner, nav-grid, etc.)
+3. ✅ Migrate one cycle's pages as template (G7 C4 W1-W3 complete)
+4. ⏳ Batch migrate remaining pages
+5. ⏳ Validate visual consistency
 
-**Files most affected:** grade8/cycle04/week3/student-page.html has heaviest inline usage
+**Progress (2025-12-10):**
+- Updated `templates/html/student-page-template.html` to v3.1 with 100% CSS class pattern
+- Migrated Grade 7 Cycle 4 (all 3 weeks) as reference implementation
+- Grade 8 Cycle 4 is READ-ONLY (production) - cannot migrate
+- Remaining: G7 C5-C8, G8 C5-C8 (~24 files)
+
+**Files most affected:** grade8/cycle04/week3/student-page.html has heaviest inline usage (but is now READ-ONLY)
 
 ---
 
