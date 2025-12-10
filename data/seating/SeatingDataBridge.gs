@@ -100,13 +100,22 @@ function importRoster(grade, period, students) {
   return roster;
 }
 
+// Note: normalizeStudentName() is available from shared/DataUtils.gs
+// normalizeNameForRoster() is functionally equivalent, kept for API compatibility.
+
 /**
  * Normalize a name for consistent matching
  * Handles variations like "Emma S.", "Emma Smith", "emma s"
  * @param {string} name - Raw name input
  * @returns {string} Normalized name key
+ * @see DataUtils.normalizeStudentName() - equivalent function
  */
 function normalizeNameForRoster(name) {
+  // Delegate to shared normalizeStudentName if available
+  if (typeof normalizeStudentName === 'function') {
+    return normalizeStudentName(name);
+  }
+
   if (!name) return '';
 
   return name
@@ -560,7 +569,12 @@ function getScoresForDaysBridge(studentPerf, days) {
   return scores;
 }
 
-function average(arr) {
+// Note: average() is now available from shared/DataUtils.gs
+// This local version delegates to the shared one when deployed together.
+function average_Bridge(arr) {
+  if (typeof average === 'function' && average !== average_Bridge) {
+    return average(arr);
+  }
   if (!arr || arr.length === 0) return 0;
   return arr.reduce((a, b) => a + b, 0) / arr.length;
 }

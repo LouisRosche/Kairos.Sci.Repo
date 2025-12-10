@@ -483,13 +483,20 @@ function suggestReteachResources(question, grade, cycle) {
   ];
 }
 
+// Note: findMode() is now available from shared/DataUtils.gs
+// This local version delegates to the shared one when deployed together.
+
 /**
  * Helper: Find mode of array
  * @param {Array} arr - Input array
  * @returns {*} Most common value
+ * @deprecated Use DataUtils.findMode() directly
  */
-function findMode(arr) {
-  if (arr.length === 0) return null;
+function findMode_Grouping(arr) {
+  if (typeof findMode === 'function' && findMode !== findMode_Grouping) {
+    return findMode(arr);
+  }
+  if (!arr || arr.length === 0) return null;
   const counts = {};
   arr.forEach(item => { counts[item] = (counts[item] || 0) + 1; });
   return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];

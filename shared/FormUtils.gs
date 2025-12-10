@@ -347,6 +347,9 @@ var FormUtils = {
 
   /**
    * Log form information consistently
+   * @param {Form} form - Google Form object
+   * @param {string} name - Form name
+   * @param {number} points - Total points
    */
   logForm: function(form, name, points) {
     var editUrl = form.getEditUrl();
@@ -359,6 +362,45 @@ var FormUtils = {
     Logger.log('Edit:  ' + editUrl);
     Logger.log('Embed: ' + embedUrl);
     Logger.log('');
+  },
+
+  /**
+   * Configure a complete quiz form with all standard settings
+   * Combines security, progress bar, and optional customization
+   *
+   * @param {Form} form - Google Form object
+   * @param {Object} options - Configuration options
+   * @param {string} options.title - Form title
+   * @param {string} options.description - Form description
+   * @param {string} options.confirmationMessage - Message shown after submission
+   * @returns {Form} The configured form
+   */
+  configureQuizForm: function(form, options) {
+    options = options || {};
+
+    // Apply standard security settings
+    this.configSecurity(form);
+
+    // Set title and description if provided
+    if (options.title) {
+      form.setTitle(options.title);
+    }
+    if (options.description) {
+      form.setDescription(options.description);
+    }
+
+    // Set confirmation message
+    var confirmMsg = options.confirmationMessage ||
+      'Thank you! Your responses have been recorded. ' +
+      'You will see your score after your teacher reviews your work.';
+    form.setConfirmationMessage(confirmMsg);
+
+    // NOTE: The following must be configured manually in Forms UI:
+    // - Settings > Quizzes > Release grade: "Immediately after each submission"
+    // - Settings > Quizzes > Respondent can see: Check all options
+    // - Settings > Quizzes > Shuffle option order: Check if desired
+
+    return form;
   },
 
   /**
@@ -390,4 +432,40 @@ var FormUtils = {
 // Make FormUtils available globally
 if (typeof exports !== 'undefined') {
   exports.FormUtils = FormUtils;
+}
+
+// ============================================================================
+// GLOBAL FUNCTION ALIASES
+// ============================================================================
+// These functions provide compatibility with existing forms.gs files that use
+// the logFormInfo_() naming convention. New code should use FormUtils.logForm().
+
+/**
+ * Global alias for FormUtils.logForm
+ * @deprecated Use FormUtils.logForm() directly
+ * @param {Form} form - Google Form object
+ * @param {string} name - Form name
+ * @param {number} points - Total points
+ */
+function logFormInfo_(form, name, points) {
+  FormUtils.logForm(form, name, points);
+}
+
+/**
+ * Global alias for FormUtils.configureQuizForm
+ * @deprecated Use FormUtils.configureQuizForm() directly
+ * @param {Form} form - Google Form object
+ * @param {Object} options - Configuration options
+ */
+function configureQuizForm(form, options) {
+  return FormUtils.configureQuizForm(form, options);
+}
+
+/**
+ * Global alias for FormUtils.configSecurity
+ * @deprecated Use FormUtils.configSecurity() directly
+ * @param {Form} form - Google Form object
+ */
+function configSecurity(form) {
+  FormUtils.configSecurity(form);
 }
