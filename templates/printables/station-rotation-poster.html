@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Station Rotation Guide - KAMS Science</title>
+  <style>
+    /* ============================================
+       STATION ROTATION POSTER
+       ============================================
+
+       Large format poster showing:
+       - Today's stations with descriptions
+       - Rotation timing
+       - Points per station
+       - Visual flow indicators
+
+       Designed to print on 11x17 or display on screen
+    */
+
+    :root {
+      /* Station colors from design system */
+      --hook-start: #667EEA;
+      --hook-end: #764BA2;
+      --station1-start: #F59E0B;
+      --station1-end: #D97706;
+      --station2-start: #3B82F6;
+      --station2-end: #1D4ED8;
+      --station3-start: #10B981;
+      --station3-end: #059669;
+      --exit-start: #8B5CF6;
+      --exit-end: #6D28D9;
+
+      --color-text: #1F2937;
+      --color-text-muted: #6B7280;
+      --color-gray-100: #F3F4F6;
+      --color-gray-200: #E5E7EB;
+
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--color-text);
+      background: #f0f0f0;
+    }
+
+    /* ============================================
+       POSTER LAYOUT
+       ============================================ */
+
+    .poster {
+      width: 17in;
+      height: 11in;
+      background: white;
+      padding: 0.5in;
+      display: flex;
+      flex-direction: column;
+      margin: 20px auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Header */
+    .poster-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.3in;
+      border-bottom: 4px solid var(--color-text);
+      margin-bottom: 0.3in;
+    }
+
+    .poster-title {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .poster-meta {
+      text-align: right;
+      font-size: 18px;
+      color: var(--color-text-muted);
+    }
+
+    .poster-meta .week-label {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    /* Station Grid */
+    .stations-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.25in;
+    }
+
+    /* Individual Station */
+    .station-box {
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .station-header {
+      padding: 0.25in 0.2in;
+      color: white;
+      text-align: center;
+    }
+
+    .station-header.hook {
+      background: linear-gradient(135deg, var(--hook-start), var(--hook-end));
+    }
+    .station-header.s1 {
+      background: linear-gradient(135deg, var(--station1-start), var(--station1-end));
+    }
+    .station-header.s2 {
+      background: linear-gradient(135deg, var(--station2-start), var(--station2-end));
+    }
+    .station-header.s3 {
+      background: linear-gradient(135deg, var(--station3-start), var(--station3-end));
+    }
+    .station-header.exit {
+      background: linear-gradient(135deg, var(--exit-start), var(--exit-end));
+    }
+
+    .station-number {
+      font-size: 14px;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .station-name {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .station-emoji {
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    .station-body {
+      flex: 1;
+      padding: 0.2in;
+      background: var(--color-gray-100);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .station-description {
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    .station-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--color-gray-200);
+    }
+
+    .station-points {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .station-time {
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    /* Flow Arrows */
+    .flow-arrow {
+      position: absolute;
+      right: -0.2in;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 32px;
+      color: var(--color-text-muted);
+      z-index: 10;
+    }
+
+    /* Timeline Bar */
+    .timeline-bar {
+      margin-top: 0.3in;
+      background: var(--color-gray-200);
+      border-radius: 8px;
+      padding: 0.15in 0.2in;
+      display: flex;
+      align-items: center;
+    }
+
+    .timeline-label {
+      font-weight: 600;
+      margin-right: 0.3in;
+      white-space: nowrap;
+    }
+
+    .timeline-segments {
+      flex: 1;
+      display: flex;
+      height: 24px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .timeline-segment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .timeline-segment.hook { background: var(--hook-start); flex: 10; }
+    .timeline-segment.s1 { background: var(--station1-start); flex: 18; }
+    .timeline-segment.s2 { background: var(--station2-start); flex: 15; }
+    .timeline-segment.s3 { background: var(--station3-start); flex: 20; }
+    .timeline-segment.exit { background: var(--exit-start); flex: 15; }
+    .timeline-segment.buffer { background: #9CA3AF; flex: 5; }
+
+    .timeline-total {
+      margin-left: 0.2in;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* Tips Box */
+    .tips-row {
+      margin-top: 0.2in;
+      display: flex;
+      gap: 0.3in;
+    }
+
+    .tip-box {
+      flex: 1;
+      background: var(--color-gray-100);
+      padding: 0.15in;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tip-icon {
+      font-size: 24px;
+    }
+
+    .tip-text {
+      font-size: 14px;
+    }
+
+    .tip-text strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* ============================================
+       SCREEN CONTROLS
+       ============================================ */
+
+    .controls {
+      max-width: 17in;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .controls h1 {
+      font-size: 24px;
+      color: #059669;
+      margin-bottom: 16px;
+    }
+
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .config-card {
+      padding: 16px;
+      background: var(--color-gray-100);
+      border-radius: 8px;
+    }
+
+    .config-card h3 {
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .config-card input,
+    .config-card textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--color-gray-200);
+      border-radius: 4px;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .config-card textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: #059669;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #059669;
+      border: 2px solid #059669;
+      margin-left: 8px;
+    }
+
+    /* ============================================
+       PRINT STYLES
+       ============================================ */
+
+    @media print {
+      @page {
+        size: 17in 11in landscape;
+        margin: 0;
+      }
+
+      body {
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .controls {
+        display: none !important;
+      }
+
+      .poster {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ============================================
+       CONTROLS
+       ============================================ -->
+  <div class="controls">
+    <h1>Station Rotation Poster Generator</h1>
+
+    <div style="display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;">
+      <div>
+        <label style="font-size: 12px; font-weight: 600;">Week Title</label>
+        <input type="text" id="weekTitle" value="Carbon & Ocean Chemistry" style="width: 200px;">
+      </div>
+      <div>
+        <label style="font-size: 12px; font-weight: 600;">Cycle/Week</label>
+        <input type="text" id="cycleWeek" value="Cycle 4 Week 1" style="width: 120px;">
+      </div>
+      <div>
+        <label style="font-size: 12px; font-weight: 600;">Grade</label>
+        <select id="grade" style="width: 100px;">
+          <option value="7">Grade 7</option>
+          <option value="8">Grade 8</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="config-grid">
+      <div class="config-card">
+        <h3>🐚 Hook (10 min)</h3>
+        <input type="text" id="hookName" placeholder="Activity Name" value="The Hot Car Mystery">
+        <textarea id="hookDesc" placeholder="Description">Watch the phenomenon video and predict what happens to ocean pH when CO₂ dissolves</textarea>
+      </div>
+      <div class="config-card">
+        <h3>🧪 Station 1 (18 min)</h3>
+        <input type="text" id="s1Name" placeholder="Activity Name" value="pH Investigation">
+        <textarea id="s1Desc" placeholder="Description">Test pH levels of different solutions and graph changes over time</textarea>
+      </div>
+      <div class="config-card">
+        <h3>⚖️ Station 2 (15 min)</h3>
+        <input type="text" id="s2Name" placeholder="Activity Name" value="Carbon Budget">
+        <textarea id="s2Desc" placeholder="Description">Calculate carbon inputs/outputs and model the ocean's carbon cycle</textarea>
+      </div>
+      <div class="config-card">
+        <h3>🔧 Station 3 (20 min)</h3>
+        <input type="text" id="s3Name" placeholder="Activity Name" value="Shell Strength Test">
+        <textarea id="s3Desc" placeholder="Description">Design an experiment to test how pH affects shell strength</textarea>
+      </div>
+      <div class="config-card">
+        <h3>🎓 Exit Ticket (15 min)</h3>
+        <input type="text" id="exitName" placeholder="Activity Name" value="Synthesis & Spiral">
+        <textarea id="exitDesc" placeholder="Description">Connect today's learning to real-world ocean acidification impacts</textarea>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="generatePoster()">Generate Poster</button>
+    <button class="btn btn-secondary" onclick="window.print()">Print Poster</button>
+    <button class="btn btn-secondary" onclick="loadFromCurriculum()">Load from Curriculum</button>
+  </div>
+
+  <!-- ============================================
+       POSTER OUTPUT
+       ============================================ -->
+  <div class="poster" id="posterOutput">
+    <div class="poster-header">
+      <div class="poster-title">Today's Learning Stations</div>
+      <div class="poster-meta">
+        <div class="week-label" id="displayCycleWeek">Cycle 4 Week 1</div>
+        <div id="displayWeekTitle">Carbon & Ocean Chemistry</div>
+        <div id="displayGrade">Grade 7</div>
+      </div>
+    </div>
+
+    <div class="stations-grid" id="stationsGrid">
+      <!-- Stations will be rendered here -->
+    </div>
+
+    <div class="timeline-bar">
+      <div class="timeline-label">Today's Timeline</div>
+      <div class="timeline-segments">
+        <div class="timeline-segment hook">10 min</div>
+        <div class="timeline-segment s1">18 min</div>
+        <div class="timeline-segment buffer"></div>
+        <div class="timeline-segment s2">15 min</div>
+        <div class="timeline-segment buffer"></div>
+        <div class="timeline-segment s3">20 min</div>
+        <div class="timeline-segment buffer"></div>
+        <div class="timeline-segment exit">15 min</div>
+      </div>
+      <div class="timeline-total">≈ 85 min total</div>
+    </div>
+
+    <div class="tips-row">
+      <div class="tip-box">
+        <div class="tip-icon">📱</div>
+        <div class="tip-text">
+          <strong>Digital Notebook</strong>
+          All forms are on your student page
+        </div>
+      </div>
+      <div class="tip-box">
+        <div class="tip-icon">🤝</div>
+        <div class="tip-text">
+          <strong>Collaborate</strong>
+          Work with your learning partner
+        </div>
+      </div>
+      <div class="tip-box">
+        <div class="tip-icon">❓</div>
+        <div class="tip-text">
+          <strong>Stuck?</strong>
+          Check the support box or ask a peer
+        </div>
+      </div>
+      <div class="tip-box">
+        <div class="tip-icon">💯</div>
+        <div class="tip-text">
+          <strong>100 Points</strong>
+          Complete all stations for full credit
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STATION_CONFIG = {
+      hook: { emoji: '🐚', label: 'Hook', points: 12, time: 10, class: 'hook' },
+      s1: { emoji: '🧪', label: 'Station 1', points: 20, time: 18, class: 's1' },
+      s2: { emoji: '⚖️', label: 'Station 2', points: 20, time: 15, class: 's2' },
+      s3: { emoji: '🔧', label: 'Station 3', points: 25, time: 20, class: 's3' },
+      exit: { emoji: '🎓', label: 'Exit Ticket', points: 23, time: 15, class: 'exit' }
+    };
+
+    function generatePoster() {
+      // Update header
+      document.getElementById('displayCycleWeek').textContent = document.getElementById('cycleWeek').value;
+      document.getElementById('displayWeekTitle').textContent = document.getElementById('weekTitle').value;
+      document.getElementById('displayGrade').textContent = 'Grade ' + document.getElementById('grade').value;
+
+      // Get station data
+      const stations = [
+        { id: 'hook', name: document.getElementById('hookName').value, desc: document.getElementById('hookDesc').value },
+        { id: 's1', name: document.getElementById('s1Name').value, desc: document.getElementById('s1Desc').value },
+        { id: 's2', name: document.getElementById('s2Name').value, desc: document.getElementById('s2Desc').value },
+        { id: 's3', name: document.getElementById('s3Name').value, desc: document.getElementById('s3Desc').value },
+        { id: 'exit', name: document.getElementById('exitName').value, desc: document.getElementById('exitDesc').value }
+      ];
+
+      // Render stations
+      const grid = document.getElementById('stationsGrid');
+      grid.innerHTML = stations.map((station, index) => {
+        const config = STATION_CONFIG[station.id];
+        const showArrow = index < stations.length - 1;
+
+        return `
+          <div class="station-box">
+            <div class="station-header ${config.class}">
+              <div class="station-emoji">${config.emoji}</div>
+              <div class="station-number">${config.label}</div>
+              <div class="station-name">${station.name}</div>
+            </div>
+            <div class="station-body">
+              <div class="station-description">${station.desc}</div>
+              <div class="station-footer">
+                <div class="station-points">${config.points} pts</div>
+                <div class="station-time">${config.time} min</div>
+              </div>
+            </div>
+            ${showArrow ? '<div class="flow-arrow">→</div>' : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function loadFromCurriculum() {
+      // This would load from the actual curriculum config
+      alert('This would load station data from the curriculum config files.\n\nFor now, edit the fields manually.');
+    }
+
+    // Generate on load
+    document.addEventListener('DOMContentLoaded', generatePoster);
+  </script>
+</body>
+</html>
