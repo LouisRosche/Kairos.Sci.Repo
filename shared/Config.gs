@@ -182,6 +182,52 @@ var Config = {
     return 3;
   },
 
+  /**
+   * Get misconception tracking configuration
+   * Replaces local MISCONCEPTION_CONFIG in data/analysis/MisconceptionTracker.gs
+   * @returns {Object} {alertThreshold, criticalThreshold, trackingWindow}
+   */
+  getMisconceptionConfig: function() {
+    const mtss = this.getMTSS();
+    return {
+      alertThreshold: mtss.alerts.misconceptionThreshold,
+      criticalThreshold: mtss.alerts.criticalMisconceptionThreshold || 50,
+      trackingWindow: mtss.misconceptionTracking ? mtss.misconceptionTracking.trackingWindowWeeks : 3
+    };
+  },
+
+  /**
+   * Get spiral effectiveness configuration
+   * Replaces local SPIRAL_CONFIG in data/analysis/SpiralEffectiveness.gs
+   * @returns {Object} {minEffectiveness, improvementTarget, questionsPerExit}
+   */
+  getSpiralConfig: function() {
+    const mtss = this.getMTSS();
+    const assessment = this.getAssessment();
+    return {
+      minEffectiveness: mtss.alerts.spiralEffectivenessMin || 60,
+      improvementTarget: mtss.spiral ? mtss.spiral.improvementTarget : 10,
+      questionsPerExit: assessment.spiralStructure ? assessment.spiralStructure.questionsPerExit : 2
+    };
+  },
+
+  /**
+   * Get intervention grouping configuration
+   * Replaces local GROUPING_CONFIG in data/mtss/InterventionGrouping.gs
+   * @returns {Object} {maxTier2GroupSize, maxTier3GroupSize, minGroupSize, similarityThreshold, priorityStandards}
+   */
+  getGroupingConfig: function() {
+    const mtss = this.getMTSS();
+    const grouping = mtss.grouping || {};
+    return {
+      maxTier2GroupSize: grouping.maxTier2GroupSize || 5,
+      maxTier3GroupSize: grouping.maxTier3GroupSize || 3,
+      minGroupSize: grouping.minGroupSize || 2,
+      similarityThreshold: grouping.similarityThreshold || 0.6,
+      priorityStandards: grouping.priorityStandards || ['SEP-2', 'SEP-4']
+    };
+  },
+
   // ==========================================================================
   // ASSESSMENT CONFIGURATION
   // ==========================================================================
