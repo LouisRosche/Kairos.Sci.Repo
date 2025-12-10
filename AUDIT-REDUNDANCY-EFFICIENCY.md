@@ -363,14 +363,22 @@ These exist but are **not imported** into any student-page.html files.
 ### Must Do (Critical)
 
 1. ✅ Remove or explicitly mark Cycles 9-10 as not scheduled
+   - Added NOT_SCHEDULED.md to all cycle 9-10 content directories
+   - Updated cycle-status.json with "deferred"/"merged" status
 2. ✅ Consolidate statistical helper functions to DataUtils.gs
+   - Added: average(), calculateMedian(), calculateStdDev(), findMode(), normalizeStudentName()
 3. ✅ Create centralized tier calculation function
+   - Config.getTierForScore() in Config.gs
 
 ### Should Do (High Value)
 
-4. ⬜ Extract form setup boilerplate to FormUtils.gs
-5. ⬜ Complete Config.gs migration (remove local constants)
-6. ⬜ Decide on printables: document, archive, or remove
+4. ⬜ Extract form setup boilerplate to FormUtils.gs (FormUtils.configSecurity exists but not adopted)
+5. ✅ Complete Config.gs migration - Getters added (Dec 2025):
+   - Config.getMisconceptionConfig()
+   - Config.getSpiralConfig()
+   - Config.getGroupingConfig()
+   - ⬜ Individual scripts still need updating to use getters
+6. ✅ Document printables folder - Added README.md with tool inventory and status
 
 ### Nice to Have (Future)
 
