@@ -3,8 +3,21 @@
  * Measures learning retention through spiral question performance
  *
  * @fileoverview Tracks student performance on spiral review questions across cycles
- * @version 1.0.0
+ * @version 1.0.1
  * @author KAMS Science Team
+ *
+ * STATUS: IMPLEMENTATION COMPLETE - NEEDS DATA INTEGRATION
+ * This module provides complete spiral analysis logic. The stub functions
+ * (getSpiralConcepts, getWeeklySpiralScores) require integration with actual
+ * form response data and cycle configuration.
+ *
+ * INTEGRATION NOTES:
+ * - getSpiralConcepts() should read spiral standards from config/cycles/cycle*.json
+ * - getWeeklySpiralScores() should query exit ticket responses via DataAggregator
+ * - Exit ticket structure: Q3-Q4 are spiral questions (per form template)
+ *
+ * See: data/aggregation/DataAggregator.gs for response data format
+ * See: config/cycles/cycle*.json for spiral standard definitions
  */
 
 /**

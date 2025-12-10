@@ -427,36 +427,63 @@ function generateMTSSReport(students, patterns, grade, cycle, week) {
   return report;
 }
 
+// ============================================================================
+// STATISTICAL HELPERS - USE SHARED DataUtils.gs
+// ============================================================================
+// The following functions are now available from shared/DataUtils.gs:
+//   - calculateMedian(arr)
+//   - calculateStdDev(arr)
+//   - findMostCommon(arr)
+//   - average(arr)
+//   - normalizeStudentName(name)
+//
+// When deployed together in Apps Script, these functions are automatically
+// available. The local implementations below are kept for backwards
+// compatibility but delegate to DataUtils when available.
+
 /**
- * Helper: Calculate median
+ * Helper: Calculate median (delegates to DataUtils if available)
+ * @deprecated Use DataUtils.calculateMedian() directly
  */
-function calculateMedian(arr) {
+function calculateMedian_Aggregator(arr) {
+  if (typeof calculateMedian === 'function') {
+    return calculateMedian(arr);
+  }
+  // Fallback implementation
   const sorted = [...arr].sort((a, b) => a - b);
   const mid = Math.floor(sorted.length / 2);
   return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 }
 
 /**
- * Helper: Calculate standard deviation
+ * Helper: Calculate standard deviation (delegates to DataUtils if available)
+ * @deprecated Use DataUtils.calculateStdDev() directly
  */
-function calculateStdDev(arr) {
+function calculateStdDev_Aggregator(arr) {
+  if (typeof calculateStdDev === 'function') {
+    return calculateStdDev(arr);
+  }
+  // Fallback implementation
   const mean = arr.reduce((a, b) => a + b, 0) / arr.length;
   const squareDiffs = arr.map(value => Math.pow(value - mean, 2));
   return Math.sqrt(squareDiffs.reduce((a, b) => a + b, 0) / arr.length);
 }
 
 /**
- * Helper: Find most common value in array
+ * Helper: Find most common value (delegates to DataUtils if available)
+ * @deprecated Use DataUtils.findMostCommon() directly
  */
-function findMostCommon(arr) {
+function findMostCommon_Aggregator(arr) {
+  if (typeof findMostCommon === 'function') {
+    return findMostCommon(arr);
+  }
+  // Fallback implementation
   if (arr.length === 0) return null;
-
   const counts = {};
   arr.forEach(item => {
     const key = JSON.stringify(item);
     counts[key] = (counts[key] || 0) + 1;
   });
-
   const maxKey = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
   return { value: JSON.parse(maxKey), count: counts[maxKey] };
 }
