@@ -2,8 +2,19 @@
  * DataUtils.gs
  * Utility functions for data retrieval and manipulation
  *
- * KAMS Science Curriculum System v2.0
- * Status: Placeholder - implement as needed
+ * KAMS Science Curriculum System v3.0
+ * Last Updated: December 2025
+ *
+ * CONSOLIDATION NOTE:
+ * This module is the SINGLE SOURCE OF TRUTH for statistical and data
+ * manipulation functions. Do NOT duplicate these functions in other modules.
+ *
+ * Consolidated functions (Dec 2025):
+ * - average() - replaces duplicates in SeatingAnalyzer, SeatingDataBridge, DataAggregator
+ * - calculateMedian() - replaces duplicates in DataAggregator
+ * - calculateStdDev() - replaces duplicates in DataAggregator
+ * - findMode() / findMostCommon() - replaces duplicates in DataAggregator, InterventionGrouping
+ * - normalizeStudentName() - replaces duplicates in SeatingAnalyzer, SeatingDataBridge
  */
 
 // ============================================================================
@@ -306,4 +317,174 @@ function exportToCsv(data, headers) {
   });
 
   return csvRows.join('\n');
+}
+
+// ============================================================================
+// CONSOLIDATED STATISTICAL FUNCTIONS
+// ============================================================================
+// These functions are the SINGLE SOURCE OF TRUTH for statistical calculations.
+// Do NOT reimplement these in other modules - import DataUtils instead.
+// ============================================================================
+
+/**
+ * Calculate the average (mean) of an array of numbers
+ * @param {number[]} values - Array of numeric values
+ * @returns {number} The arithmetic mean, or 0 if array is empty
+ */
+function average(values) {
+  if (!values || !Array.isArray(values) || values.length === 0) {
+    return 0;
+  }
+  const sum = values.reduce((a, b) => a + b, 0);
+  return sum / values.length;
+}
+
+/**
+ * Calculate the median of an array of numbers
+ * @param {number[]} values - Array of numeric values
+ * @returns {number} The median value, or 0 if array is empty
+ */
+function calculateMedian(values) {
+  if (!values || !Array.isArray(values) || values.length === 0) {
+    return 0;
+  }
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0
+    ? (sorted[mid - 1] + sorted[mid]) / 2
+    : sorted[mid];
+}
+
+/**
+ * Calculate the standard deviation of an array of numbers
+ * @param {number[]} values - Array of numeric values
+ * @param {boolean} sample - If true, use sample std dev (n-1); default is population (n)
+ * @returns {number} The standard deviation, or 0 if array is empty
+ */
+function calculateStdDev(values, sample) {
+  if (!values || !Array.isArray(values) || values.length === 0) {
+    return 0;
+  }
+  if (values.length === 1) {
+    return 0;
+  }
+  const mean = average(values);
+  const squaredDiffs = values.map(v => Math.pow(v - mean, 2));
+  const divisor = sample ? values.length - 1 : values.length;
+  return Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / divisor);
+}
+
+/**
+ * Find the mode (most common value) in an array
+ * @param {Array} values - Array of values (can be numbers or strings)
+ * @returns {*} The most common value, or null if array is empty
+ */
+function findMode(values) {
+  if (!values || !Array.isArray(values) || values.length === 0) {
+    return null;
+  }
+
+  const frequency = {};
+  let maxFreq = 0;
+  let mode = values[0];
+
+  values.forEach(value => {
+    const key = String(value);
+    frequency[key] = (frequency[key] || 0) + 1;
+    if (frequency[key] > maxFreq) {
+      maxFreq = frequency[key];
+      mode = value;
+    }
+  });
+
+  return mode;
+}
+
+/**
+ * Alias for findMode - find most common value
+ * @param {Array} values - Array of values
+ * @returns {*} The most common value
+ */
+function findMostCommon(values) {
+  return findMode(values);
+}
+
+// ============================================================================
+// STUDENT NAME NORMALIZATION
+// ============================================================================
+
+/**
+ * Normalize a student name for consistent matching
+ * Handles variations in case, spacing, and common formatting differences
+ * @param {string} name - The student name to normalize
+ * @returns {string} Normalized name (lowercase, trimmed, standardized spacing)
+ */
+function normalizeStudentName(name) {
+  if (!name || typeof name !== 'string') {
+    return '';
+  }
+
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, ' ')           // Collapse multiple spaces
+    .replace(/[.,'"]/g, '')         // Remove punctuation
+    .replace(/\s*-\s*/g, '-')       // Normalize hyphenated names
+    .replace(/\s*(jr|sr|ii|iii|iv)\.?$/i, ''); // Remove suffixes
+}
+
+/**
+ * Compare two student names for equality after normalization
+ * @param {string} name1 - First name
+ * @param {string} name2 - Second name
+ * @returns {boolean} True if names match after normalization
+ */
+function namesMatch(name1, name2) {
+  return normalizeStudentName(name1) === normalizeStudentName(name2);
+}
+
+/**
+ * Extract email prefix (username) for matching
+ * @param {string} email - Email address
+ * @returns {string} The username portion before @
+ */
+function getEmailPrefix(email) {
+  if (!email || typeof email !== 'string') {
+    return '';
+  }
+  const atIndex = email.indexOf('@');
+  return atIndex > 0 ? email.substring(0, atIndex).toLowerCase() : email.toLowerCase();
+}
+
+// ============================================================================
+// PERCENTILE AND RANKING
+// ============================================================================
+
+/**
+ * Calculate the percentile rank of a value in a dataset
+ * @param {number} value - The value to rank
+ * @param {number[]} dataset - The dataset to compare against
+ * @returns {number} Percentile rank (0-100)
+ */
+function calculatePercentile(value, dataset) {
+  if (!dataset || dataset.length === 0) {
+    return 0;
+  }
+  const belowCount = dataset.filter(v => v < value).length;
+  return Math.round((belowCount / dataset.length) * 100);
+}
+
+/**
+ * Get the value at a specific percentile
+ * @param {number[]} values - Sorted array of values
+ * @param {number} percentile - Percentile to find (0-100)
+ * @returns {number} Value at the specified percentile
+ */
+function getValueAtPercentile(values, percentile) {
+  if (!values || values.length === 0) {
+    return 0;
+  }
+  const sorted = [...values].sort((a, b) => a - b);
+  const index = Math.ceil((percentile / 100) * sorted.length) - 1;
+  return sorted[Math.max(0, Math.min(index, sorted.length - 1))];
 }
