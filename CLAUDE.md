@@ -105,6 +105,21 @@ node scripts/validate-config.js  # Validate cycle configs
 - **Constants:** `shared/Constants.gs` (API limits, NGSS codes)
 - **Styling:** `shared/styles/design-system.css`
 - **Triggers:** `scripts/TriggerManager.gs`
+- **Statistics:** `shared/DataUtils.gs` (average, median, stdDev, mode)
+- **Form Utilities:** `shared/FormUtils.gs` (configSecurity, addCalcItem, rubrics)
+
+## Key Config Getters (shared/Config.gs)
+
+Use these instead of defining local constants:
+
+```javascript
+Config.getTierForScore(percentage)    // Returns tier 1, 2, or 3
+Config.getMTSSThresholds()            // All tier boundaries
+Config.getMisconceptionConfig()       // alertThreshold, criticalThreshold, trackingWindow
+Config.getSpiralConfig()              // minEffectiveness, improvementTarget, questionsPerExit
+Config.getGroupingConfig()            // maxTier2/3GroupSize, similarityThreshold
+Config.getSeatingConfig()             // Classroom layout and optimization weights
+```
 
 ## Current Status (Dec 2025)
 
