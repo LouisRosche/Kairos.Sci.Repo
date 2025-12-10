@@ -1,6 +1,16 @@
+> **ARCHIVED DOCUMENT**
+>
+> This design proposal has been implemented. Cycles 5-8 are now complete with full
+> curriculum content in `/content/grade{7,8}/cycle{05-08}/`. This document is retained
+> for historical reference showing the design decisions made.
+>
+> **Archived:** December 2025
+
+---
+
 # KAMS Science Cycle Framework Design
 ## Cycles 1-2 (Foundation) + Cycles 5-8 (Completion)
-## Version 1.0 | December 2025 | FOR VALIDATION
+## Version 1.0 | December 2025 | ARCHIVED (Implemented)
 
 ---
 
