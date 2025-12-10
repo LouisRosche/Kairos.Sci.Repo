@@ -122,9 +122,8 @@ Kairos.Sci.Repo/
 │   │   ├── cycle05.json                   # 🟡 In Progress (3 wks)
 │   │   ├── cycle06.json                   # 🟡 In Progress (5 wks)
 │   │   ├── cycle07.json                   # 🟡 In Progress (4 wks)
-│   │   ├── cycle08.json                   # 🟡 In Progress (4 wks + Year-End)
-│   │   ├── cycle09.json                   # ⚠️ Deferred (standards → C8)
-│   │   └── cycle10.json                   # ⚠️ Merged (→ C8 W3)
+│   │   └── cycle08.json                   # 🟡 In Progress (4 wks + Year-End + C9/C10)
+│   #  (cycle09.json & cycle10.json archived to archive/deferred-cycles/)
 │   └── schema/                            # Validation schemas
 │
 ├── content/                               # All instructional content

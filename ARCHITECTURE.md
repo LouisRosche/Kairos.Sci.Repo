@@ -46,9 +46,8 @@ Kairos.Sci.Repo/
 │       ├── cycle05.json               # ✅ Complete (2/23-3/12)
 │       ├── cycle06.json               # ✅ Complete (3/24-4/24)
 │       ├── cycle07.json               # ✅ Complete (4/27-5/22)
-│       ├── cycle08.json               # ✅ Complete (6/1-6/26, includes Year-End)
-│       ├── cycle09.json               # ⚠️ DEFERRED - No calendar slot in SY25-26
-│       └── cycle10.json               # ⚠️ DEFERRED - No calendar slot in SY25-26
+│       └── cycle08.json               # ✅ Complete (6/1-6/26, includes Year-End + merged C9/C10)
+│       # Note: cycle09.json & cycle10.json archived to archive/deferred-cycles/
 │
 ├── templates/                         # Reusable generation templates
 │   ├── forms/

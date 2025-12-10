@@ -72,8 +72,8 @@ framework/                       # Pedagogical documentation
 ## Read-Only Content
 
 **DO NOT EDIT** content marked as deployed/read-only:
-- Cycle 3 Week 2 (both grades) - PRODUCTION
-- Check `cycle-status.json` in each cycle folder
+- Cycle 3 (all weeks, both grades) - PRODUCTION
+- Check `cycle-status.json` in each cycle folder for current deployment status
 
 ## Naming Conventions
 

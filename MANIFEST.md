@@ -24,9 +24,8 @@ Kairos.Sci.Repo/
 │   │   ├── cycle05.json         # ✅ Complete (3 weeks: Feb 23-Mar 12)
 │   │   ├── cycle06.json         # ✅ Complete (5 weeks: Mar 24-Apr 24)
 │   │   ├── cycle07.json         # ✅ Complete (4 weeks: Apr 27-May 22)
-│   │   ├── cycle08.json         # ✅ Complete (4 weeks: Jun 1-26 + Year-End)
-│   │   ├── cycle09.json         # ⚠️ DEFERRED - Standards → C8
-│   │   └── cycle10.json         # ⚠️ MERGED - → C8 Week 3
+│   │   └── cycle08.json         # ✅ Complete (4 weeks: Jun 1-26 + Year-End + C9/C10)
+│   #  (cycle09.json & cycle10.json archived to archive/deferred-cycles/)
 │   └── schema/                  # Validation schemas
 │       ├── cycle-schema.json    # ✅ Cycle config validation
 │       ├── form-schema.json     # Form validation
