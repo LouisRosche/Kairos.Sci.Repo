@@ -58,7 +58,8 @@ framework/                       # Pedagogical documentation
 4. Update `cycle-status.json` when done
 
 ### Forms.gs Rules (Google Apps Script)
-- **NEVER** use `setPoints(0)` - omit `setPoints()` for ungraded
+- **NEVER** use `setPoints(0)` on content questions - omit `setPoints()` for ungraded items
+  - Exception: `setPoints(0)` is allowed for diagnostic-only items (confidence scales, MTSS metacognition)
 - **NEVER** use `setShuffleOrder` or `setRandomize` - they don't exist
 - Exit ticket structure: 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP
 - Question IDs: `g{grade}_c{cycle}_w{week}_{station}_q{N}`
@@ -109,6 +110,6 @@ node scripts/validate-config.js  # Validate cycle configs
 
 - **Active:** Cycle 3 (deployed)
 - **Ready:** Cycle 4 (ready for deployment)
-- **Complete:** Cycles 5-8 (lesson plans done)
+- **Complete:** Cycles 5-8 (lesson plans done, forms scaffolded)
 - **Legacy:** Cycle 2 (pre-architecture, reference only)
-- **Resolved:** C9 standards → C8; C10 merged → C8 W3
+- **Archived:** C9 & C10 configs moved to `archive/config/cycles/` (standards integrated into C8)

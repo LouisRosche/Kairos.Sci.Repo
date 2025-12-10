@@ -184,8 +184,6 @@ courseId: '65244'                            -> GRADE_8_COURSE_ID
 | File | Purpose |
 |------|---------|
 | `scripts/canvas-grade-sync.gs` | Main implementation (deploy this) |
-| `scripts/sync-to-canvas.gs` | Deprecated placeholder (do not use) |
-| `canvas.Grades&EmailsSync` | Original file with hardcoded creds (can be deleted after migration) |
 
 ---
 
