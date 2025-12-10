@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Goal Tracker - KAMS Science</title>
+  <style>
+    /* ============================================
+       CLASS GOAL TRACKER POSTER
+       ============================================
+
+       Large format poster showing:
+       - Weekly class goals
+       - Progress bars updated daily
+       - Individual & class achievements
+       - Tier improvement tracking
+
+       Designed for 11x17 or wall display
+    */
+
+    :root {
+      --color-primary: #059669;
+      --color-primary-dark: #047857;
+      --color-secondary: #3B82F6;
+      --color-accent: #8B5CF6;
+      --color-warning: #F59E0B;
+      --color-error: #DC2626;
+      --color-text: #1F2937;
+      --color-text-muted: #6B7280;
+      --color-gray-100: #F3F4F6;
+      --color-gray-200: #E5E7EB;
+
+      /* Achievement colors */
+      --gold: #F59E0B;
+      --silver: #9CA3AF;
+      --bronze: #D97706;
+
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--color-text);
+      background: #f0f0f0;
+    }
+
+    /* ============================================
+       POSTER LAYOUT
+       ============================================ */
+
+    .poster {
+      width: 17in;
+      height: 11in;
+      background: linear-gradient(180deg, #f0fdf4 0%, white 30%);
+      padding: 0.4in;
+      display: flex;
+      flex-direction: column;
+      margin: 20px auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.3in;
+    }
+
+    .header-left h1 {
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 4px;
+    }
+
+    .header-left .subtitle {
+      font-size: 18px;
+      color: var(--color-text-muted);
+    }
+
+    .header-right {
+      text-align: right;
+    }
+
+    .week-badge {
+      background: var(--color-primary);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 16px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .class-info {
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    /* Main Grid */
+    .main-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 0.3in;
+    }
+
+    /* Goals Section */
+    .goals-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2in;
+    }
+
+    .goal-card {
+      background: white;
+      border-radius: 12px;
+      padding: 0.2in;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      gap: 0.2in;
+      align-items: center;
+    }
+
+    .goal-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .goal-icon.completion { background: #DBEAFE; }
+    .goal-icon.mastery { background: #D1FAE5; }
+    .goal-icon.growth { background: #FEF3C7; }
+    .goal-icon.participation { background: #EDE9FE; }
+
+    .goal-content {
+      flex: 1;
+    }
+
+    .goal-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .goal-description {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+
+    .progress-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 20px;
+      background: var(--color-gray-200);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 8px;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .progress-fill.completion { background: linear-gradient(90deg, #3B82F6, #1D4ED8); }
+    .progress-fill.mastery { background: linear-gradient(90deg, #10B981, #059669); }
+    .progress-fill.growth { background: linear-gradient(90deg, #F59E0B, #D97706); }
+    .progress-fill.participation { background: linear-gradient(90deg, #8B5CF6, #6D28D9); }
+
+    .progress-target {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+
+    .goal-status {
+      width: 50px;
+      text-align: center;
+    }
+
+    .status-icon {
+      font-size: 32px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2in;
+    }
+
+    /* Tier Distribution */
+    .tier-card {
+      background: white;
+      border-radius: 12px;
+      padding: 0.2in;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .tier-card h3 {
+      font-size: 14px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-text-muted);
+    }
+
+    .tier-visual {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tier-bar {
+      flex: 1;
+      height: 60px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+
+    .tier-bar.t1 { background: #059669; }
+    .tier-bar.t2 { background: #F59E0B; }
+    .tier-bar.t3 { background: #DC2626; }
+
+    .tier-count {
+      font-size: 24px;
+    }
+
+    .tier-label {
+      font-size: 10px;
+      opacity: 0.9;
+    }
+
+    .tier-goal {
+      font-size: 12px;
+      text-align: center;
+      color: var(--color-text-muted);
+      padding: 8px;
+      background: var(--color-gray-100);
+      border-radius: 6px;
+    }
+
+    /* Celebrations */
+    .celebrations-card {
+      background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+      border-radius: 12px;
+      padding: 0.2in;
+      flex: 1;
+    }
+
+    .celebrations-card h3 {
+      font-size: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .celebration-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .celebration-item {
+      background: white;
+      padding: 10px 12px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .celebration-icon {
+      font-size: 20px;
+    }
+
+    /* Quick Stats */
+    .stats-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .quick-stat {
+      flex: 1;
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .quick-stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .quick-stat-label {
+      font-size: 10px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Motivational Footer */
+    .footer {
+      margin-top: 0.2in;
+      text-align: center;
+      padding: 0.15in;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      border-radius: 8px;
+      color: white;
+    }
+
+    .footer-quote {
+      font-size: 18px;
+      font-weight: 600;
+      font-style: italic;
+    }
+
+    /* ============================================
+       CONTROLS
+       ============================================ */
+
+    .controls {
+      max-width: 17in;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .controls h1 {
+      font-size: 24px;
+      color: var(--color-primary);
+      margin-bottom: 16px;
+    }
+
+    .config-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .config-group {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .config-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+    }
+
+    .config-group input,
+    .config-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--color-gray-200);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+      margin-left: 8px;
+    }
+
+    /* ============================================
+       PRINT STYLES
+       ============================================ */
+
+    @media print {
+      @page {
+        size: 17in 11in landscape;
+        margin: 0;
+      }
+
+      body {
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .controls {
+        display: none !important;
+      }
+
+      .poster {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ============================================
+       CONTROLS
+       ============================================ -->
+  <div class="controls">
+    <h1>Class Goal Tracker Generator</h1>
+
+    <div class="config-row">
+      <div class="config-group">
+        <label>Period</label>
+        <select id="period">
+          <option value="1">Period 1</option>
+          <option value="2">Period 2</option>
+          <option value="3">Period 3</option>
+          <option value="4">Period 4</option>
+          <option value="5">Period 5</option>
+          <option value="6">Period 6</option>
+        </select>
+      </div>
+      <div class="config-group">
+        <label>Grade</label>
+        <select id="grade">
+          <option value="7">Grade 7</option>
+          <option value="8">Grade 8</option>
+        </select>
+      </div>
+      <div class="config-group">
+        <label>Cycle/Week</label>
+        <input type="text" id="cycleWeek" value="Cycle 4 Week 1">
+      </div>
+      <div class="config-group">
+        <label>Total Students</label>
+        <input type="number" id="totalStudents" value="28">
+      </div>
+    </div>
+
+    <div class="config-row">
+      <div class="config-group">
+        <label>Completion % (forms done)</label>
+        <input type="number" id="completionPct" value="78" min="0" max="100">
+      </div>
+      <div class="config-group">
+        <label>Mastery % (70%+ scorers)</label>
+        <input type="number" id="masteryPct" value="65" min="0" max="100">
+      </div>
+      <div class="config-group">
+        <label>Growth % (improved from last week)</label>
+        <input type="number" id="growthPct" value="42" min="0" max="100">
+      </div>
+      <div class="config-group">
+        <label>Participation % (all sign-ins)</label>
+        <input type="number" id="participationPct" value="91" min="0" max="100">
+      </div>
+    </div>
+
+    <div class="config-row">
+      <div class="config-group">
+        <label>Tier 1 Count</label>
+        <input type="number" id="tier1Count" value="20">
+      </div>
+      <div class="config-group">
+        <label>Tier 2 Count</label>
+        <input type="number" id="tier2Count" value="6">
+      </div>
+      <div class="config-group">
+        <label>Tier 3 Count</label>
+        <input type="number" id="tier3Count" value="2">
+      </div>
+      <div class="config-group">
+        <label>Class Average</label>
+        <input type="number" id="classAvg" value="76">
+      </div>
+    </div>
+
+    <div class="config-row">
+      <div class="config-group" style="flex: 3;">
+        <label>Celebrations (one per line)</label>
+        <textarea id="celebrations" rows="3" style="width: 100%;">Emma S. moved up to Tier 1!
+Best exit ticket scores this week
+3 perfect station 1 completions</textarea>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="generatePoster()">Generate Poster</button>
+    <button class="btn btn-secondary" onclick="window.print()">Print Poster</button>
+  </div>
+
+  <!-- ============================================
+       POSTER OUTPUT
+       ============================================ -->
+  <div class="poster" id="posterOutput">
+    <div class="header">
+      <div class="header-left">
+        <h1>Our Weekly Goals</h1>
+        <div class="subtitle">Together we rise!</div>
+      </div>
+      <div class="header-right">
+        <div class="week-badge" id="displayWeek">Cycle 4 Week 1</div>
+        <div class="class-info" id="displayClass">Period 2 | Grade 7</div>
+      </div>
+    </div>
+
+    <div class="main-grid">
+      <div class="goals-section" id="goalsSection">
+        <!-- Goals will be rendered here -->
+      </div>
+
+      <div class="sidebar">
+        <div class="stats-row">
+          <div class="quick-stat">
+            <div class="quick-stat-value" id="displayAvg">76%</div>
+            <div class="quick-stat-label">Class Average</div>
+          </div>
+          <div class="quick-stat">
+            <div class="quick-stat-value" id="displayTotal">28</div>
+            <div class="quick-stat-label">Scientists</div>
+          </div>
+        </div>
+
+        <div class="tier-card">
+          <h3>Tier Distribution</h3>
+          <div class="tier-visual" id="tierVisual">
+            <!-- Tier bars rendered here -->
+          </div>
+          <div class="tier-goal">Goal: 80% in Tier 1 by end of cycle</div>
+        </div>
+
+        <div class="celebrations-card">
+          <h3>🎉 This Week's Wins</h3>
+          <div class="celebration-list" id="celebrationsList">
+            <!-- Celebrations rendered here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-quote">"Progress, not perfection. Every step forward counts!"</div>
+    </div>
+  </div>
+
+  <script>
+    const GOALS = [
+      {
+        id: 'completion',
+        icon: '📋',
+        title: 'Complete All Stations',
+        description: 'Everyone finishes hook, stations 1-3, and exit ticket',
+        target: 95,
+        inputId: 'completionPct'
+      },
+      {
+        id: 'mastery',
+        icon: '🎯',
+        title: 'Hit the Mark',
+        description: 'Students scoring 70%+ on weekly assessments',
+        target: 80,
+        inputId: 'masteryPct'
+      },
+      {
+        id: 'growth',
+        icon: '📈',
+        title: 'Keep Growing',
+        description: 'Students who improved from last week',
+        target: 50,
+        inputId: 'growthPct'
+      },
+      {
+        id: 'participation',
+        icon: '🙋',
+        title: 'Show Up Strong',
+        description: 'Sign-in completion rate for the week',
+        target: 95,
+        inputId: 'participationPct'
+      }
+    ];
+
+    function getStatusIcon(current, target) {
+      if (current >= target) return '✅';
+      if (current >= target * 0.8) return '🔥';
+      if (current >= target * 0.5) return '💪';
+      return '🚀';
+    }
+
+    function generatePoster() {
+      // Update header
+      document.getElementById('displayWeek').textContent = document.getElementById('cycleWeek').value;
+      document.getElementById('displayClass').textContent =
+        `Period ${document.getElementById('period').value} | Grade ${document.getElementById('grade').value}`;
+      document.getElementById('displayAvg').textContent = document.getElementById('classAvg').value + '%';
+      document.getElementById('displayTotal').textContent = document.getElementById('totalStudents').value;
+
+      // Render goals
+      const goalsSection = document.getElementById('goalsSection');
+      goalsSection.innerHTML = GOALS.map(goal => {
+        const current = parseInt(document.getElementById(goal.inputId).value);
+        const statusIcon = getStatusIcon(current, goal.target);
+
+        return `
+          <div class="goal-card">
+            <div class="goal-icon ${goal.id}">${goal.icon}</div>
+            <div class="goal-content">
+              <div class="goal-title">${goal.title}</div>
+              <div class="goal-description">${goal.description}</div>
+              <div class="progress-container">
+                <div class="progress-bar">
+                  <div class="progress-fill ${goal.id}" style="width: ${Math.min(current, 100)}%">
+                    ${current}%
+                  </div>
+                </div>
+                <div class="progress-target">Goal: ${goal.target}%</div>
+              </div>
+            </div>
+            <div class="goal-status">
+              <div class="status-icon">${statusIcon}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Render tier distribution
+      const t1 = parseInt(document.getElementById('tier1Count').value);
+      const t2 = parseInt(document.getElementById('tier2Count').value);
+      const t3 = parseInt(document.getElementById('tier3Count').value);
+
+      document.getElementById('tierVisual').innerHTML = `
+        <div class="tier-bar t1" style="flex: ${t1};">
+          <div class="tier-count">${t1}</div>
+          <div class="tier-label">Tier 1</div>
+        </div>
+        <div class="tier-bar t2" style="flex: ${t2 || 0.5};">
+          <div class="tier-count">${t2}</div>
+          <div class="tier-label">Tier 2</div>
+        </div>
+        <div class="tier-bar t3" style="flex: ${t3 || 0.5};">
+          <div class="tier-count">${t3}</div>
+          <div class="tier-label">Tier 3</div>
+        </div>
+      `;
+
+      // Render celebrations
+      const celebrations = document.getElementById('celebrations').value.split('\n').filter(c => c.trim());
+      const icons = ['⭐', '🏆', '💪', '🎯', '🚀'];
+
+      document.getElementById('celebrationsList').innerHTML = celebrations.map((c, i) => `
+        <div class="celebration-item">
+          <div class="celebration-icon">${icons[i % icons.length]}</div>
+          <div>${c}</div>
+        </div>
+      `).join('');
+    }
+
+    // Generate on load
+    document.addEventListener('DOMContentLoaded', generatePoster);
+  </script>
+</body>
+</html>
