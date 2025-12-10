@@ -1,532 +1,648 @@
-<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #2d3748; max-width: 100%; margin: 0 auto; padding: 0;">
+<style>
+/* KAMS Science - Embedded Design System (Canvas-Compatible) */
+:root {
+  --color-primary: #059669;
+  --color-primary-dark: #047857;
+  --color-secondary: #0891B2;
+  --color-secondary-dark: #0E7490;
+  --color-accent: #8B5CF6;
+  --color-accent-dark: #7C3AED;
+  --color-success: #059669;
+  --color-success-light: #D1FAE5;
+  --color-success-border: #9AE6B4;
+  --color-warning: #D97706;
+  --color-warning-light: #FEF3C7;
+  --color-error: #DC2626;
+  --color-error-light: #FEE2E2;
+  --color-error-border: #FCA5A5;
+  --color-info: #2563EB;
+  --color-info-light: #DBEAFE;
+  --color-gray-50: #F9FAFB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1F2937;
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #4B5563;
+  --color-text-muted: #6B7280;
+  --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+.kams-page { font-family: var(--font-family); line-height: 1.6; color: var(--color-text-primary); max-width: 100%; margin: 0 auto; }
+.skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.skip-link:focus { position: static; width: auto; height: auto; padding: var(--space-3) var(--space-4); background: var(--color-primary); color: white; }
+
+/* Banners & Alerts */
+.banner-accessibility { background: #E6FFFA; border-left: 4px solid #319795; padding: var(--space-4); margin-bottom: var(--space-4); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.banner-chromebook { background: var(--color-warning-light); border-left: 5px solid #856404; padding: var(--space-5); margin-bottom: var(--space-6); border-radius: var(--radius-md); }
+.alert-form { background: #FFF5F5; border: 2px solid var(--color-error-border); padding: var(--space-5); margin-bottom: var(--space-6); border-radius: var(--radius-md); }
+.form-placeholder { background: var(--color-gray-200); padding: 40px; text-align: center; border-radius: var(--radius-sm); }
+
+/* Headers */
+.header-main { background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%); color: white; padding: 50px 40px; text-align: center; border-radius: var(--radius-lg); margin-bottom: var(--space-5); }
+.header-main h1 { font-size: clamp(1.8em, 5vw, 3em); margin: 0 0 var(--space-4) 0; font-weight: 700; }
+.header-main p { margin: 0; font-size: clamp(1em, 2.5vw, 1.2em); opacity: 0.95; }
+.header-main .subtitle { margin-top: var(--space-2); font-size: clamp(0.9em, 2vw, 1em); opacity: 0.9; }
+
+/* Navigation */
+.quick-nav { background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%); padding: var(--space-5); border-radius: var(--radius-md); margin-bottom: var(--space-6); }
+.quick-nav h2 { margin: 0 0 var(--space-4) 0; text-align: center; color: white; font-size: clamp(1.1em, 3vw, 1.3em); }
+.nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); }
+.nav-btn { background: rgba(255,255,255,0.95); color: #0E7490; padding: 14px 24px; border-radius: var(--radius-sm); text-decoration: none; font-size: 0.95em; min-height: 48px; line-height: 1.4; display: inline-block; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.nav-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+/* Section Headers (Station-specific gradients) */
+.section-header { color: white; padding: 30px 20px; margin-bottom: var(--space-5); border-radius: var(--radius-md); text-align: center; }
+.section-header h2 { margin: 0 0 var(--space-2) 0; font-size: clamp(1.5em, 4vw, 2em); }
+.section-header p { margin: 0; font-size: clamp(0.95em, 2.5vw, 1.1em); opacity: 0.95; }
+.header-hook { background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); }
+.header-station1 { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
+.header-station2 { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); }
+.header-station3 { background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); }
+.header-exit { background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); }
+
+/* Cards & Content Boxes */
+.card { background: white; border-radius: var(--radius-md); padding: var(--space-5); margin-bottom: var(--space-6); box-shadow: var(--shadow-sm); }
+.card-bordered { border: 2px solid var(--color-gray-200); }
+.card-hook { border-color: #6366F1; }
+.card-station1 { border-color: #10B981; }
+.card-station2 { border-color: #F59E0B; }
+.card-station3 { border-color: #8B5CF6; }
+.card-exit { border-color: #EC4899; }
+
+/* Content Sections */
+.info-box { padding: var(--space-4); border-radius: var(--radius-sm); margin-bottom: var(--space-4); }
+.info-box-teal { background: #ECFEFF; border-left: 4px solid #0891B2; }
+.info-box-green { background: #ECFDF5; border-left: 4px solid #10B981; }
+.info-box-orange { background: #FFFBEB; border-left: 4px solid #F59E0B; }
+.info-box-purple { background: #F5F3FF; border-left: 4px solid #8B5CF6; }
+.info-box-pink { background: #FDF2F8; border-left: 4px solid #EC4899; }
+.info-box-indigo { background: #EEF2FF; border-left: 4px solid #6366F1; }
+
+/* Phenomenon & Driving Question */
+.phenomenon-section { background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%); border-radius: var(--radius-lg); padding: 30px 24px; margin: 35px 0; }
+.phenomenon-section h2 { margin: 0 0 var(--space-4) 0; font-size: clamp(1.4em, 4vw, 1.8em); color: #0E7490; }
+.driving-question { background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%); color: white; padding: var(--space-5); border-radius: var(--radius-md); text-align: center; margin-top: var(--space-5); }
+.driving-question p { margin: 0; font-size: clamp(1.1em, 3vw, 1.3em); }
+
+/* Support Elements */
+.support-help { background: var(--color-success-light); padding: var(--space-4); margin-top: var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--color-success-border); }
+.support-help summary { cursor: pointer; font-weight: 700; color: #276749; font-size: 1.05em; }
+.support-help[open] summary { margin-bottom: var(--space-3); }
+.support-stuck { background: var(--color-error-light); padding: var(--space-4); margin-top: var(--space-3); border-radius: var(--radius-md); border: 1px solid var(--color-error-border); }
+.support-stuck summary { cursor: pointer; font-weight: 700; color: #C53030; font-size: 1.05em; }
+.support-stuck[open] summary { margin-bottom: var(--space-3); }
+.home-alternative { background: var(--color-warning-light); border: 2px dashed var(--color-warning); padding: var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-4); }
+
+/* Collapsibles */
+.collapsible-slides { background: linear-gradient(135deg, #EDF2F7 0%, #E2E8F0 100%); padding: var(--space-5); border-radius: var(--radius-lg); margin-bottom: var(--space-5); border: 2px solid #A0AEC0; }
+.collapsible-slides summary { cursor: pointer; font-size: 1.15em; color: var(--color-text-primary); font-weight: 700; padding: var(--space-2) 0; }
+.collapsible-slides .content { margin-top: var(--space-4); background: white; padding: var(--space-4); border-radius: var(--radius-md); }
+
+/* Tables */
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.95em; margin: var(--space-4) 0; }
+.data-table th, .data-table td { padding: var(--space-3) var(--space-4); text-align: left; border: 1px solid #dee2e6; }
+.data-table th { background: #0891B2; color: white; }
+.data-table tbody tr:nth-child(even) { background: var(--color-gray-50); }
+.data-table-sources th { background: #C53030; }
+.data-table-sinks th { background: var(--color-success); }
+
+/* Summary Section */
+.summary-section { background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%); padding: var(--space-6); border-radius: var(--radius-lg); margin-bottom: var(--space-6); }
+.summary-section h2 { margin: 0 0 var(--space-4) 0; color: #0E7490; font-size: clamp(1.3em, 3.5vw, 1.6em); text-align: center; }
+.summary-grid { display: grid; gap: var(--space-4); }
+.summary-item { background: white; padding: var(--space-4); border-radius: var(--radius-md); border-left: 4px solid; }
+.summary-item-teal { border-color: #0891B2; }
+.summary-item-green { border-color: #10B981; }
+.summary-item-orange { border-color: #F59E0B; }
+.summary-item-purple { border-color: #8B5CF6; }
+
+/* Utilities */
+.text-center { text-align: center; }
+.text-muted { color: var(--color-text-muted); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-success { color: var(--color-success); }
+.text-warning { color: #856404; }
+.text-error { color: #C53030; }
+.mb-0 { margin-bottom: 0; }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mt-4 { margin-top: var(--space-4); }
+.font-bold { font-weight: 700; }
+.divider { border: 0; border-top: 3px solid var(--color-gray-200); margin: 35px 0; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links { flex-direction: column; align-items: stretch; }
+  .nav-btn { text-align: center; margin: 4px 0; }
+  .header-main { padding: 30px 20px; }
+  .section-header { padding: 20px 15px; }
+}
+</style>
+
+<div class="kams-page">
 <!-- Skip to main content link for accessibility -->
-<a href="#main-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" onfocus="this.style.position='static';this.style.width='auto';this.style.height='auto';">Skip to main content</a>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
 <!-- Accessibility & Async Support Banner -->
-<div style="background:#E6FFFA;border-left:4px solid #319795;padding:15px;margin:0 0 15px 0;border-radius:0 8px 8px 0;">
-<p style="margin:0 0 8px 0;font-weight:bold;color:#234E52;">🔊 Accessibility & Learning Support</p>
-<ul style="margin:0;padding-left:20px;font-size:0.9em;color:#285E61;">
-<li><strong>Need text read aloud?</strong> Chrome: Right-click → "Read aloud" | Edge: Click speaker icon in address bar</li>
-<li><strong>Working from home?</strong> Look for the 🏠 HOME ALTERNATIVE boxes at each station</li>
-<li><strong>Need extra support?</strong> Click the green "📗 Need help?" buttons for hints and sentence starters</li>
-<li><strong>Stuck?</strong> Look for the red "🆘 Stuck?" boxes with step-by-step help</li>
-</ul>
+<div class="banner-accessibility">
+  <p class="mb-2 font-bold" style="color: #234E52;">🔊 Accessibility & Learning Support</p>
+  <ul style="margin: 0; padding-left: 20px; font-size: 0.9em; color: #285E61;">
+    <li><strong>Need text read aloud?</strong> Chrome: Right-click → "Read aloud" | Edge: Click speaker icon in address bar</li>
+    <li><strong>Working from home?</strong> Look for the 🏠 HOME ALTERNATIVE boxes at each station</li>
+    <li><strong>Need extra support?</strong> Click the green "📗 Need help?" buttons for hints and sentence starters</li>
+    <li><strong>Stuck?</strong> Look for the red "🆘 Stuck?" boxes with step-by-step help</li>
+  </ul>
 </div>
 
-<div id="main-content" style="background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%); color: white; padding: 50px 40px; text-align: center; border-radius: 12px; margin: 0 0 20px 0;" role="banner" aria-labelledby="lesson-title">
-<div id="lesson-title" style="font-size: clamp(1.8em, 5vw, 3em); margin-bottom: 15px;" role="img" aria-label="Shell and ocean emoji">🐚 <strong>Week 1: Ocean Acidification Investigation</strong> 🌊</div>
-<p style="margin: 0; font-size: clamp(1em, 2.5vw, 1.2em);">Grade 7 Science | Rosche | Kairos Academies</p>
-<p style="margin: 10px 0 0 0; font-size: clamp(0.9em, 2vw, 1em);">MS-ESS3-3 Monitoring Human Impact | 100 Points Total | ~75 Minutes</p>
+<!-- Main Header -->
+<header id="main-content" class="header-main" role="banner" aria-labelledby="lesson-title">
+  <h1 id="lesson-title">🐚 Week 1: Ocean Acidification Investigation 🌊</h1>
+  <p>Grade 7 Science | Rosche | Kairos Academies</p>
+  <p class="subtitle">MS-ESS3-3 Monitoring Human Impact | 100 Points Total | ~75 Minutes</p>
+</header>
+
+<!-- Quick Navigation -->
+<nav id="quick-nav" class="quick-nav" aria-label="Station navigation">
+  <h2>🧭 <strong>Quick Navigation</strong></h2>
+  <div class="nav-links">
+    <a class="nav-btn" href="#hook-heading">🐚 Hook (12 pts)</a>
+    <a class="nav-btn" href="#station1-heading">🧪 Station 1 (20 pts)</a>
+    <a class="nav-btn" href="#station2-heading">⚖️ Station 2 (20 pts)</a>
+    <a class="nav-btn" href="#station3-heading">🔧 Station 3 (25 pts)</a>
+    <a class="nav-btn" href="#exit-heading">🎓 Exit Ticket (23 pts)</a>
+  </div>
+</nav>
+
+<!-- Chromebook Tips Banner -->
+<div class="banner-chromebook">
+  <p class="mb-3 text-warning" style="font-size: 1.1em;"><strong>Working on Your Chromebook - Important Tips</strong></p>
+  <ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #856404;">
+    <li><strong>Your work saves automatically</strong> in Google Forms every time you click outside a text box.</li>
+    <li><strong>Complete sections in order</strong> (Hook → Station 1 → Station 2 → Station 3 → Exit)</li>
+    <li><strong>This week builds on Cycle 3!</strong> You'll use what you learned about CO₂ and the carbon cycle.</li>
+    <li><strong>KEY CONCEPT:</strong> Ocean acidification is caused by CO₂ dissolving in seawater, forming carbonic acid.</li>
+  </ul>
 </div>
 
-<div id="quick-nav" style="background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
-<h2 style="margin: 0 0 15px 0; text-align: center; color: white; font-size: clamp(1.1em, 3vw, 1.3em);">🧭 <strong>Quick Navigation</strong></h2>
-<div style="text-align: center;"><a style="background: rgba(255, 255, 255, 0.95); color: #0E7490; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#hook-heading">🐚 Hook (12 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #0E7490; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station1-heading">🧪 Station 1 (20 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #0E7490; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station2-heading">⚖️ Station 2 (20 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #0E7490; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station3-heading">🔧 Station 3 (25 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #0E7490; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#exit-heading">🎓 Exit Ticket (23 pts)</a></div>
-</div>
-
-<div style="background: #FFF3CD; border-left: 5px solid #856404; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #856404;"><strong>Working on Your Chromebook - Important Tips</strong></p>
-<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #856404;">
-<li><strong>Your work saves automatically</strong> in Google Forms every time you click outside a text box.</li>
-<li><strong>Complete sections in order</strong> (Hook → Station 1 → Station 2 → Station 3 → Exit)</li>
-<li><strong>This week builds on Cycle 3!</strong> You'll use what you learned about CO₂ and the carbon cycle.</li>
-<li><strong>KEY CONCEPT:</strong> Ocean acidification is caused by CO₂ dissolving in seawater, forming carbonic acid.</li>
-</ul>
-</div>
-
-<details style="background: linear-gradient(135deg, #EDF2F7 0%, #E2E8F0 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid #A0AEC0;">
-<summary style="cursor: pointer; font-size: 1.15em; color: #2D3748; font-weight: bold; padding: 8px 0;">📽️ Class Slides Reference (Click to expand)</summary>
-<div style="margin-top: 15px; background: white; padding: 15px; border-radius: 8px;">
-<p style="margin: 0 0 12px 0; font-size: 0.95em; color: #4a5568;">Use these slides to review class content asynchronously. Navigate using the arrows or click to advance.</p>
-<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://louisrosche.github.io/Kairos.Sci.Repo/content/grade7/cycle04/week1/G7_C4_W1_Ocean_Acidification_Slides.pptx" width="100%" height="500" style="border: 1px solid #E2E8F0; border-radius: 6px;" title="Week 1: Ocean Acidification - Class Slides" loading="lazy"></iframe>
-<p style="margin: 12px 0 0 0; font-size: 0.85em; color: #718096; text-align: center;"><a href="https://louisrosche.github.io/Kairos.Sci.Repo/content/grade7/cycle04/week1/G7_C4_W1_Ocean_Acidification_Slides.pptx" style="color: #4299E1; text-decoration: none;" download>⬇️ Download slides (PPTX)</a></p>
-</div>
-</details>
-<div style="background: white; border-left: 5px solid #0891B2; padding: 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="standards-heading">
-<h2 id="standards-heading" style="margin: 0 0 15px 0; color: #0E7490; font-size: clamp(1.2em, 3vw, 1.4em);">📚 <strong>NGSS Standards Covered This Week</strong></h2>
-<div style="background: #ECFEFF; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
-<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>MS-ESS3-3</strong> (NEW this cycle)</p>
-<p style="margin: 0 0 8px 0; font-size: 0.95em; color: #4a5568;"><strong>What it means:</strong> Apply scientific principles to design a method for monitoring and minimizing human impact on the environment.</p>
-<p style="margin: 0; font-size: 0.9em; color: #718096;"><strong>In student language:</strong> I can design a system to monitor ocean acidification and suggest ways to reduce human impact.</p>
-</div>
-<div style="background: #EBF8FF; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
-<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>Spiral Standards from Cycles 2 & 3</strong></p>
-<ul style="margin: 8px 0 0 0; padding-left: 20px; line-height: 1.7; color: #4a5568; font-size: 0.95em;">
-<li><strong>Cycle 3 MS-ESS3-5:</strong> CO₂ causes climate change (greenhouse effect)</li>
-<li><strong>Cycle 3:</strong> Carbon cycles through Earth systems</li>
-<li><strong>Cycle 2 MS-PS1-5:</strong> Atoms are conserved in reactions (mass balance)</li>
-</ul>
-</div>
-<div style="background: #F3E5F5; padding: 15px; border-radius: 6px;">
-<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>How These Connect (3-Dimensional Learning)</strong></p>
-<table style="width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 10px;">
-<thead>
-<tr style="background: #0891B2; color: white;">
-<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Dimension</th>
-<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">What You'll Practice</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>SEP-6</strong> Constructing Explanations</td>
-<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Explain how CO₂ causes ocean acidification</td>
-</tr>
-<tr style="background: #f8f9fa;">
-<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>SEP-8</strong> Obtaining Information</td>
-<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Interpret pH data and carbon budget data</td>
-</tr>
-<tr>
-<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>DCI</strong> ESS3.C Human Impacts</td>
-<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Understand how CO₂ emissions affect oceans</td>
-</tr>
-<tr style="background: #f8f9fa;">
-<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>CCC-4</strong> Systems & Models</td>
-<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Model ocean-atmosphere carbon exchange</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-
-<div style="background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%); padding: 25px 20px; margin-bottom: 25px; border-radius: 8px; text-align: center;" role="region" aria-labelledby="targets-heading">
-<h2 id="targets-heading" style="margin: 0 0 10px 0; color: #2d3748; font-size: clamp(1.4em, 4vw, 1.8em);">🎯 <strong>Learning Targets</strong></h2>
-<p style="margin: 0; color: #4a5568; font-size: clamp(0.95em, 2.5vw, 1.05em);">By the end of this week, you will be able to:</p>
-</div>
-
-<div style="background: #ECFEFF; border: 2px solid #0891B2; padding: 20px; margin-bottom: 25px; border-radius: 8px;" role="region" aria-labelledby="success-heading">
-<h3 id="success-heading" style="margin: 0 0 15px 0; color: #2d3748; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>Success Criteria – How You'll Know You've Got It</strong></h3>
-<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #0891B2;">
-<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 1:</strong> Explain how atmospheric CO₂ affects ocean pH</p>
-<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I describe the chemical reaction when CO₂ dissolves in seawater?</p>
-</div>
-<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #0891B2;">
-<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 2:</strong> Interpret pH data and predict effects on marine life</p>
-<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I read a pH data table and predict which organisms will be affected?</p>
-</div>
-<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #06B6D4;">
-<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 3:</strong> Apply mass balance to ocean-atmosphere carbon exchange</p>
-<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I calculate how much CO₂ the ocean absorbs using a carbon budget?</p>
-</div>
-<div style="background: white; padding: 15px; border-radius: 6px; border-left: 4px solid #06B6D4;">
-<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 4:</strong> Design a monitoring system for ocean acidification</p>
-<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I choose appropriate technologies and justify my monitoring network design?</p>
-</div>
-</div>
-
-<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
-
-<div style="background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%); border-radius: 12px; padding: 30px 24px; margin: 35px 0;" role="region" aria-labelledby="phenomenon-heading">
-<h2 id="phenomenon-heading" style="margin: 0 0 15px 0; font-size: clamp(1.4em, 4vw, 1.8em); color: #0E7490;">🐚 <strong>The Phenomenon: The Dissolving Shells Mystery</strong></h2>
-<div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
-<p style="font-size: clamp(0.95em, 2.5vw, 1.1em); margin: 0 0 15px 0; color: #4a5568; line-height: 1.7;">Scientists studying pteropods ("sea butterflies") discovered something alarming:</p>
-<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
-<li>Shells collected TODAY are <strong>thinner and more fragile</strong> than shells from 50 years ago</li>
-<li>Some shells are <strong>literally dissolving</strong> while the animals are still alive</li>
-<li>This is happening in <strong>oceans around the world</strong></li>
-</ul>
-<p style="font-size: clamp(0.95em, 2.5vw, 1.1em); margin: 15px 0 0 0; color: #4a5568; line-height: 1.7;">These tiny creatures haven't changed. <strong>The water has.</strong></p>
-</div>
-<div style="background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 20px 0;">
-<p style="margin: 0; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🤔 Driving Question: Why is the ocean dissolving shells now when it didn't 50 years ago? What has changed in ocean chemistry?</strong></p>
-</div>
-</div>
-
-<div style="background: #EBF8FF; border-left: 4px solid #0891B2; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<p style="margin: 0 0 12px 0; font-size: 1.1em; color: #0E7490;"><strong>Key Vocabulary This Week</strong></p>
-<table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
-<thead>
-<tr style="background: #0891B2; color: white;">
-<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Term</th>
-<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Ocean Acidification</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Decrease in ocean pH caused by CO₂ absorption from the atmosphere</td>
-</tr>
-<tr style="background: #f8f9fa;">
-<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>pH Scale</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Measures acidity: 0-6 acidic, 7 neutral, 8-14 basic (ocean is ~8.1)</td>
-</tr>
-<tr>
-<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Carbonic Acid (H₂CO₃)</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Weak acid formed when CO₂ dissolves in water: CO₂ + H₂O → H₂CO₃</td>
-</tr>
-<tr style="background: #f8f9fa;">
-<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Carbon Sink</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">A reservoir that absorbs more CO₂ than it releases (oceans absorb 25%)</td>
-</tr>
-<tr>
-<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Logarithmic Scale</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">pH scale where 0.1 unit change = 26% change in acidity</td>
-</tr>
-<tr style="background: #f8f9fa;">
-<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Calcifying Organisms</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Marine life that builds shells/skeletons from calcium carbonate (coral, oysters, pteropods)</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<div style="background: white; border: 2px solid #0891B2; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<h3 style="margin: 0 0 15px 0; color: #0E7490; font-size: clamp(1.2em, 3vw, 1.4em);"><strong>📊 Points Breakdown (100 Total)</strong></h3>
-<table style="width: 100%; border-collapse: collapse; margin-top: 15px;"><caption style="padding: 10px; text-align: left; color: #2d3748;">How you'll earn your points this week</caption>
-<thead>
-<tr style="background: #0891B2; color: white;">
-<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Component</th>
-<th style="padding: 12px; text-align: center; border: 1px solid #dee2e6;" scope="col">Points</th>
-<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">What It Tests</th>
-</tr>
-</thead>
-<tbody>
-<tr style="background: #f8f9fa;">
-<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #0E7490; text-decoration: none;" href="#hook-heading">🐚 Hook</a></td>
-<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>12</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6;">Dissolving shells phenomenon, Cycle 3 connections</td>
-</tr>
-<tr>
-<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #0E7490; text-decoration: none;" href="#station1-heading">🧪 Station 1</a></td>
-<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>20</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6;">pH scale, marine life thresholds, data interpretation</td>
-</tr>
-<tr style="background: #f8f9fa;">
-<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #0E7490; text-decoration: none;" href="#station2-heading">⚖️ Station 2</a></td>
-<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>20</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6;">Carbon budget calculations, mass balance</td>
-</tr>
-<tr>
-<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #0E7490; text-decoration: none;" href="#station3-heading">🔧 Station 3</a></td>
-<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>25</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6;">Engineering design: Monitoring system</td>
-</tr>
-<tr style="background: #f8f9fa;">
-<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #0E7490; text-decoration: none;" href="#exit-heading">🎓 Exit Ticket</a></td>
-<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>23</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6;">Integration of Cycles 3 & 4 + SEP-6</td>
-</tr>
-<tr style="background: #0891B2; color: white;">
-<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>TOTAL</strong></td>
-<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>100</strong></td>
-<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Ocean Acidification + Carbon Budget + Engineering Design</strong></td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
-
-<!-- HOOK SECTION -->
-<div id="hook-heading" style="background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="hook-title">
-<h2 id="hook-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🐚 <strong>Hook – The Dissolving Shells Mystery</strong></h2>
-<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">12 Points | ~10 Minutes</p>
-</div>
-
-<div style="background: white; border: 2px solid #6366F1; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<h3 style="margin: 0 0 15px 0; color: #4F46E5; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🐚 The Challenge</strong></h3>
-<div style="background: #EEF2FF; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #6366F1;">
-<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>What You'll Do (~10 minutes)</strong></p>
-<ol style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
-<li>Observe the phenomenon: shells dissolving in modern oceans (2 min)</li>
-<li>Connect to Cycle 3: What does CO₂ do in water? (3 min)</li>
-<li>Make predictions about ocean chemistry changes (3 min)</li>
-<li>Answer diagnostic questions (2 min)</li>
-</ol>
-</div>
-<div style="background: #FFFAF0; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
-<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #2d3748;"><strong>Think About This:</strong></p>
-<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
-<li>What gas is increasing in the atmosphere? (Cycle 3)</li>
-<li>What happens when gases dissolve in water?</li>
-<li>What do acids do to calcium carbonate (shells)?</li>
-</ul>
-</div>
-</div>
-
-<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE HOOK FORM BELOW</strong></p>
-<p style="margin: 0 0 15px 0; color: #4a5568;">Submit your predictions before moving to Station 1.</p>
-<!-- EMBED HOOK FORM HERE -->
-<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
-<p style="margin: 0; color: #718096;">[EMBED G7.C4.W1 Hook Form Here]</p>
-<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
-</div>
-</div>
-
-<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
-
-<!-- STATION 1 -->
-<div id="station1-heading" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station1-title">
-<h2 id="station1-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🧪 <strong>Station 1 – pH and Marine Life</strong></h2>
-<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">20 Points | ~18 Minutes</p>
-</div>
-
-<div style="background: white; border: 2px solid #10B981; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<h3 style="margin: 0 0 15px 0; color: #059669; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🧪 Your Mission: Investigate pH Changes</strong></h3>
-<div style="background: #ECFDF5; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #10B981;">
-<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>The pH Scale (CRITICAL: It's Logarithmic!)</strong></p>
-<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
-<li>pH 7 = neutral (pure water)</li>
-<li>Below 7 = acidic (more H⁺ ions)</li>
-<li>Above 7 = basic (fewer H⁺ ions)</li>
-<li><strong>0.1 pH change = 26% change in acidity!</strong></li>
-</ul>
-</div>
-
-<!-- ASYNC ALTERNATIVE FOR STATION 1 -->
-<div style="background: #FEF3C7; border: 2px dashed #D97706; padding: 18px; border-radius: 8px; margin-bottom: 15px;">
-<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #92400E;"><strong>🏠 COMPLETING THIS AT HOME? (No lab materials needed)</strong></p>
-<p style="margin: 0 0 8px 0; color: #78350F;"><strong>Use this historical ocean pH data for your answers:</strong></p>
-<table style="width:100%;border-collapse:collapse;font-size:0.9em;background:white;">
-<tr style="background:#D97706;color:white;"><th style="padding:8px;border:1px solid #ccc;">Year</th><th style="padding:8px;border:1px solid #ccc;">Ocean pH</th><th style="padding:8px;border:1px solid #ccc;">Change from 1800</th></tr>
-<tr><td style="padding:8px;border:1px solid #ccc;">1800</td><td style="padding:8px;border:1px solid #ccc;">8.25</td><td style="padding:8px;border:1px solid #ccc;">baseline</td></tr>
-<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">1900</td><td style="padding:8px;border:1px solid #ccc;">8.21</td><td style="padding:8px;border:1px solid #ccc;">-0.04</td></tr>
-<tr><td style="padding:8px;border:1px solid #ccc;">1950</td><td style="padding:8px;border:1px solid #ccc;">8.18</td><td style="padding:8px;border:1px solid #ccc;">-0.07</td></tr>
-<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">2000</td><td style="padding:8px;border:1px solid #ccc;">8.12</td><td style="padding:8px;border:1px solid #ccc;">-0.13</td></tr>
-<tr><td style="padding:8px;border:1px solid #ccc;">2020</td><td style="padding:8px;border:1px solid #ccc;">8.10</td><td style="padding:8px;border:1px solid #ccc;">-0.15</td></tr>
-<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;"><em>2100 (projected)</em></td><td style="padding:8px;border:1px solid #ccc;color:#C53030;"><strong>7.95</strong></td><td style="padding:8px;border:1px solid #ccc;color:#C53030;"><strong>-0.30</strong></td></tr>
-</table>
-<p style="margin: 12px 0 0 0; color: #78350F;"><strong>Organism pH Thresholds:</strong></p>
-<ul style="margin: 5px 0 0 0; padding-left: 25px; color: #78350F; font-size: 0.9em;">
-<li>Pteropods: Shells dissolve below pH 7.8</li>
-<li>Oysters: Larvae fail below pH 7.9</li>
-<li>Coral: Calcification slows below pH 8.0</li>
-</ul>
-</div>
-
-<!-- TIERED SUPPORT -->
-<details style="background:#F0FFF4;padding:15px;margin-top:15px;border-radius:8px;border:1px solid #9AE6B4;">
-<summary style="cursor:pointer;font-weight:bold;color:#276749;font-size:1.05em;">📗 Need extra support? Click here for hints and sentence starters</summary>
-<div style="margin-top:12px;padding-top:12px;border-top:1px solid #9AE6B4;">
-<p style="margin:0 0 10px 0;color:#22543D;"><strong>Key Concept Reminder:</strong></p>
-<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;">
-<li>pH going DOWN = becoming MORE acidic</li>
-<li>Logarithmic means small changes in pH = BIG changes in acidity</li>
-<li>0.1 pH change = 26% more acidic</li>
-</ul>
-<p style="margin:0 0 10px 0;color:#22543D;"><strong>Sentence Starters:</strong></p>
-<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;font-style:italic;">
-<li>"Even though 0.1 seems small, it actually means..."</li>
-<li>"For marine organisms, this is significant because..."</li>
-<li>"At pH 7.95, all three organisms would be affected because..."</li>
-</ul>
-<p style="margin:0 0 10px 0;color:#22543D;"><strong>Word Bank:</strong></p>
-<p style="margin:0;padding:10px;background:#C6F6D5;border-radius:4px;color:#22543D;">acidification • pH • carbonic acid • logarithmic • threshold • calcifying • dissolve • absorb</p>
-</div>
+<!-- Slides Reference -->
+<details class="collapsible-slides">
+  <summary>📽️ Class Slides Reference (Click to expand)</summary>
+  <div class="content">
+    <p class="mb-3 text-secondary" style="font-size: 0.95em;">Use these slides to review class content asynchronously. Navigate using the arrows or click to advance.</p>
+    <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://louisrosche.github.io/Kairos.Sci.Repo/content/grade7/cycle04/week1/G7_C4_W1_Ocean_Acidification_Slides.pptx" width="100%" height="500" style="border: 1px solid #E2E8F0; border-radius: 6px;" title="Week 1: Ocean Acidification - Class Slides" loading="lazy"></iframe>
+    <p class="mt-4 text-center text-muted" style="font-size: 0.85em;"><a href="https://louisrosche.github.io/Kairos.Sci.Repo/content/grade7/cycle04/week1/G7_C4_W1_Ocean_Acidification_Slides.pptx" style="color: #4299E1; text-decoration: none;" download>⬇️ Download slides (PPTX)</a></p>
+  </div>
 </details>
 
-<!-- STUCK PATHWAY -->
-<details style="background:#FED7D7;padding:15px;margin-top:10px;border-radius:8px;border:1px solid #FC8181;">
-<summary style="cursor:pointer;font-weight:bold;color:#C53030;font-size:1.05em;">🆘 Stuck? Click here for step-by-step help</summary>
-<div style="margin-top:12px;padding-top:12px;border-top:1px solid #FC8181;">
-<p style="margin:0 0 10px 0;color:#742A2A;"><strong>Try these steps in order:</strong></p>
-<ol style="margin:0;padding-left:20px;color:#9B2C2C;line-height:2;">
-<li>Look at the data table: Are the pH numbers getting bigger or smaller over time?</li>
-<li>Smaller pH = more acidic</li>
-<li>Compare 7.95 (predicted 2100) to each organism's threshold</li>
-<li>Is 7.95 above or below 7.8 (pteropods)? Above or below 7.9 (oysters)? Above or below 8.0 (coral)?</li>
-<li>Watch: <a href="https://www.youtube.com/results?search_query=ocean+acidification+explained+simple" style="color:#C53030;">Search "Ocean Acidification Explained"</a></li>
-<li>Still stuck? Email Mr. Rosche with your specific question</li>
-</ol>
-</div>
-</details>
-</div>
+<!-- NGSS Standards Section -->
+<section class="card card-bordered" style="border-left: 5px solid #0891B2;" role="region" aria-labelledby="standards-heading">
+  <h2 id="standards-heading" style="margin: 0 0 var(--space-4) 0; color: #0E7490; font-size: clamp(1.2em, 3vw, 1.4em);">📚 <strong>NGSS Standards Covered This Week</strong></h2>
 
-<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE STATION 1 FORM BELOW</strong></p>
-<p style="margin: 0 0 15px 0; color: #4a5568;">Analyze the pH data and predict effects on marine life.</p>
-<!-- EMBED STATION 1 FORM HERE -->
-<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
-<p style="margin: 0; color: #718096;">[EMBED G7.C4.W1 Station 1 Form Here]</p>
-<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
-</div>
-</div>
+  <div class="info-box info-box-teal mb-3">
+    <p class="mb-2" style="font-size: 1.05em;"><strong>MS-ESS3-3</strong> (NEW this cycle)</p>
+    <p class="mb-2 text-secondary" style="font-size: 0.95em;"><strong>What it means:</strong> Apply scientific principles to design a method for monitoring and minimizing human impact on the environment.</p>
+    <p class="mb-0 text-muted" style="font-size: 0.9em;"><strong>In student language:</strong> I can design a system to monitor ocean acidification and suggest ways to reduce human impact.</p>
+  </div>
 
-<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+  <div style="background: #EBF8FF; padding: var(--space-4); border-radius: var(--radius-sm); margin-bottom: var(--space-3);">
+    <p class="mb-2" style="font-size: 1.05em;"><strong>Spiral Standards from Cycles 2 & 3</strong></p>
+    <ul style="margin: 8px 0 0 0; padding-left: 20px; line-height: 1.7; color: var(--color-text-secondary); font-size: 0.95em;">
+      <li><strong>Cycle 3 MS-ESS3-5:</strong> CO₂ causes climate change (greenhouse effect)</li>
+      <li><strong>Cycle 3:</strong> Carbon cycles through Earth systems</li>
+      <li><strong>Cycle 2 MS-PS1-5:</strong> Atoms are conserved in reactions (mass balance)</li>
+    </ul>
+  </div>
 
-<!-- STATION 2 -->
-<div id="station2-heading" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station2-title">
-<h2 id="station2-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">⚖️ <strong>Station 2 – Carbon Sources and Sinks</strong></h2>
-<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">20 Points | ~15 Minutes</p>
-</div>
+  <div style="background: #F3E5F5; padding: var(--space-4); border-radius: var(--radius-sm);">
+    <p class="mb-3" style="font-size: 1.05em;"><strong>How These Connect (3-Dimensional Learning)</strong></p>
+    <table class="data-table">
+      <thead>
+        <tr><th scope="col">Dimension</th><th scope="col">What You'll Practice</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>SEP-6</strong> Constructing Explanations</td><td class="text-secondary">Explain how CO₂ causes ocean acidification</td></tr>
+        <tr><td><strong>SEP-8</strong> Obtaining Information</td><td class="text-secondary">Interpret pH data and carbon budget data</td></tr>
+        <tr><td><strong>DCI</strong> ESS3.C Human Impacts</td><td class="text-secondary">Understand how CO₂ emissions affect oceans</td></tr>
+        <tr><td><strong>CCC-4</strong> Systems & Models</td><td class="text-secondary">Model ocean-atmosphere carbon exchange</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-<div style="background: white; border: 2px solid #F59E0B; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<h3 style="margin: 0 0 15px 0; color: #D97706; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>⚖️ Your Mission: Track Carbon in the Ocean-Atmosphere System</strong></h3>
-<div style="background: #FFFBEB; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #F59E0B;">
-<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>Global Carbon Budget (billions of metric tons CO₂/year)</strong></p>
-<table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
-<tr style="background: #C53030; color: white;">
-<th style="padding: 8px; border: 1px solid #dee2e6;">SOURCES (Release CO₂)</th>
-<th style="padding: 8px; border: 1px solid #dee2e6;">Gt/year</th>
-</tr>
-<tr><td style="padding: 8px; border: 1px solid #dee2e6;">Fossil fuels + industry</td><td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">+36</td></tr>
-<tr><td style="padding: 8px; border: 1px solid #dee2e6;">Deforestation</td><td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">+4</td></tr>
-<tr style="background: #f8f9fa;"><td style="padding: 8px; border: 1px solid #dee2e6;"><strong>Total Released</strong></td><td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;"><strong>40</strong></td></tr>
-</table>
-<table style="width: 100%; border-collapse: collapse; font-size: 0.95em; margin-top: 10px;">
-<tr style="background: #059669; color: white;">
-<th style="padding: 8px; border: 1px solid #dee2e6;">SINKS (Absorb CO₂)</th>
-<th style="padding: 8px; border: 1px solid #dee2e6;">Gt/year</th>
-</tr>
-<tr><td style="padding: 8px; border: 1px solid #dee2e6;">Land plants/soil</td><td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">-12 (30%)</td></tr>
-<tr><td style="padding: 8px; border: 1px solid #dee2e6;">Ocean</td><td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">-10 (25%)</td></tr>
-<tr style="background: #f8f9fa;"><td style="padding: 8px; border: 1px solid #dee2e6;"><strong>Total Absorbed</strong></td><td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;"><strong>22</strong></td></tr>
-</table>
-<p style="margin: 15px 0 0 0; font-size: 1.1em; color: #C53030; text-align: center;"><strong>REMAINING IN ATMOSPHERE: 40 - 22 = 18 Gt/year (45%)</strong></p>
-</div>
-<p style="margin: 0; color: #4a5568;"><strong>KEY EQUATION:</strong> Sources - Sinks = Atmospheric Accumulation</p>
+<!-- Learning Targets -->
+<section style="background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%); padding: 25px 20px; margin-bottom: var(--space-6); border-radius: var(--radius-md); text-align: center;" role="region" aria-labelledby="targets-heading">
+  <h2 id="targets-heading" style="margin: 0 0 var(--space-2) 0; font-size: clamp(1.4em, 4vw, 1.8em);">🎯 <strong>Learning Targets</strong></h2>
+  <p class="text-secondary mb-0" style="font-size: clamp(0.95em, 2.5vw, 1.05em);">By the end of this week, you will be able to:</p>
+</section>
 
-<!-- TIERED SUPPORT -->
-<details style="background:#F0FFF4;padding:15px;margin-top:15px;border-radius:8px;border:1px solid #9AE6B4;">
-<summary style="cursor:pointer;font-weight:bold;color:#276749;font-size:1.05em;">📗 Need extra support? Click here for hints and sentence starters</summary>
-<div style="margin-top:12px;padding-top:12px;border-top:1px solid #9AE6B4;">
-<p style="margin:0 0 10px 0;color:#22543D;"><strong>Calculation Help:</strong></p>
-<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;">
-<li>Total released = 40 billion tons</li>
-<li>Land absorbs = 12 billion tons</li>
-<li>Stays in atmosphere = 18 billion tons</li>
-<li>Ocean absorbs = 40 - 12 - 18 = ?</li>
-</ul>
-<p style="margin:0 0 10px 0;color:#22543D;"><strong>Sentence Starters:</strong></p>
-<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;font-style:italic;">
-<li>"Using conservation of mass: Sources = Sinks + Atmosphere..."</li>
-<li>"The benefit of ocean CO₂ absorption is..."</li>
-<li>"However, the cost is..."</li>
-</ul>
-</div>
-</details>
-</div>
+<!-- Success Criteria -->
+<section class="card card-bordered" style="border-color: #0891B2;" role="region" aria-labelledby="success-heading">
+  <h3 id="success-heading" style="margin: 0 0 var(--space-4) 0; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>Success Criteria – How You'll Know You've Got It</strong></h3>
 
-<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE STATION 2 FORM BELOW</strong></p>
-<p style="margin: 0 0 15px 0; color: #4a5568;">Calculate carbon balance and analyze trade-offs. Calculator needed!</p>
-<!-- EMBED STATION 2 FORM HERE -->
-<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
-<p style="margin: 0; color: #718096;">[EMBED G7.C4.W1 Station 2 Form Here]</p>
-<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
-</div>
-</div>
+  <div style="background: white; padding: var(--space-4); border-radius: var(--radius-sm); margin-bottom: var(--space-3); border-left: 4px solid #0891B2; box-shadow: var(--shadow-sm);">
+    <p class="mb-2" style="font-size: 1.05em;"><strong>Target 1:</strong> Explain how atmospheric CO₂ affects ocean pH</p>
+    <p class="mb-0 text-secondary" style="font-size: 0.9em;"><em>Self-check:</em> Can I describe the chemical reaction when CO₂ dissolves in seawater?</p>
+  </div>
+  <div style="background: white; padding: var(--space-4); border-radius: var(--radius-sm); margin-bottom: var(--space-3); border-left: 4px solid #0891B2; box-shadow: var(--shadow-sm);">
+    <p class="mb-2" style="font-size: 1.05em;"><strong>Target 2:</strong> Interpret pH data and predict effects on marine life</p>
+    <p class="mb-0 text-secondary" style="font-size: 0.9em;"><em>Self-check:</em> Can I read a pH data table and predict which organisms will be affected?</p>
+  </div>
+  <div style="background: white; padding: var(--space-4); border-radius: var(--radius-sm); margin-bottom: var(--space-3); border-left: 4px solid #06B6D4; box-shadow: var(--shadow-sm);">
+    <p class="mb-2" style="font-size: 1.05em;"><strong>Target 3:</strong> Apply mass balance to ocean-atmosphere carbon exchange</p>
+    <p class="mb-0 text-secondary" style="font-size: 0.9em;"><em>Self-check:</em> Can I calculate how much CO₂ the ocean absorbs using a carbon budget?</p>
+  </div>
+  <div style="background: white; padding: var(--space-4); border-radius: var(--radius-sm); border-left: 4px solid #06B6D4; box-shadow: var(--shadow-sm);">
+    <p class="mb-2" style="font-size: 1.05em;"><strong>Target 4:</strong> Design a monitoring system for ocean acidification</p>
+    <p class="mb-0 text-secondary" style="font-size: 0.9em;"><em>Self-check:</em> Can I choose appropriate technologies and justify my monitoring network design?</p>
+  </div>
+</section>
 
-<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+<hr class="divider" />
 
-<!-- STATION 3 -->
-<div id="station3-heading" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station3-title">
-<h2 id="station3-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🔧 <strong>Station 3 – Design a Monitoring System</strong></h2>
-<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">25 Points | ~20 Minutes (Highest Value!)</p>
-</div>
+<!-- Phenomenon Section -->
+<section class="phenomenon-section" role="region" aria-labelledby="phenomenon-heading">
+  <h2 id="phenomenon-heading">🐚 <strong>The Phenomenon: The Dissolving Shells Mystery</strong></h2>
+  <div style="background: white; padding: var(--space-5); border-radius: var(--radius-md); margin-bottom: var(--space-4);">
+    <p class="text-secondary mb-4" style="font-size: clamp(0.95em, 2.5vw, 1.1em); line-height: 1.7;">Scientists studying pteropods ("sea butterflies") discovered something alarming:</p>
+    <ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: var(--color-text-secondary);">
+      <li>Shells collected TODAY are <strong>thinner and more fragile</strong> than shells from 50 years ago</li>
+      <li>Some shells are <strong>literally dissolving</strong> while the animals are still alive</li>
+      <li>This is happening in <strong>oceans around the world</strong></li>
+    </ul>
+    <p class="text-secondary mt-4 mb-0" style="font-size: clamp(0.95em, 2.5vw, 1.1em); line-height: 1.7;">These tiny creatures haven't changed. <strong>The water has.</strong></p>
+  </div>
+  <div class="driving-question">
+    <p><strong>🤔 Driving Question: Why is the ocean dissolving shells now when it didn't 50 years ago? What has changed in ocean chemistry?</strong></p>
+  </div>
+</section>
 
-<div style="background: white; border: 2px solid #8B5CF6; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<h3 style="margin: 0 0 15px 0; color: #7C3AED; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🔧 Engineering Challenge: Design an Ocean Acidification Monitoring System</strong></h3>
-<div style="background: #F5F3FF; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #8B5CF6;">
-<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>CONSTRAINTS:</strong></p>
-<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
-<li><strong>Budget:</strong> $500,000 annual operating cost</li>
-<li><strong>Coverage:</strong> Must monitor at least 3 ocean regions</li>
-<li><strong>Data:</strong> Must measure pH, temperature, and CO₂</li>
-<li><strong>Frequency:</strong> Data collected at least weekly</li>
-</ul>
-</div>
-<div style="background: #EBF8FF; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
-<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #0E7490;"><strong>Available Technologies:</strong></p>
-<table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
-<tr style="background: #0891B2; color: white;">
-<th style="padding: 8px; border: 1px solid #dee2e6;">Option</th>
-<th style="padding: 8px; border: 1px solid #dee2e6;">Cost/year</th>
-<th style="padding: 8px; border: 1px solid #dee2e6;">Measures</th>
-<th style="padding: 8px; border: 1px solid #dee2e6;">Pros/Cons</th>
-</tr>
-<tr><td style="padding: 8px; border: 1px solid #dee2e6;"><strong>A. Fixed Buoys</strong></td><td style="padding: 8px; border: 1px solid #dee2e6;">$50k each</td><td style="padding: 8px; border: 1px solid #dee2e6;">pH, temp, CO₂</td><td style="padding: 8px; border: 1px solid #dee2e6;">Reliable but fixed location</td></tr>
-<tr style="background:#f8f9fa;"><td style="padding: 8px; border: 1px solid #dee2e6;"><strong>B. Argo Floats</strong></td><td style="padding: 8px; border: 1px solid #dee2e6;">$30k each</td><td style="padding: 8px; border: 1px solid #dee2e6;">pH, temp only</td><td style="padding: 8px; border: 1px solid #dee2e6;">Covers large area, no CO₂</td></tr>
-<tr><td style="padding: 8px; border: 1px solid #dee2e6;"><strong>C. Ship Surveys</strong></td><td style="padding: 8px; border: 1px solid #dee2e6;">$200k each</td><td style="padding: 8px; border: 1px solid #dee2e6;">All + samples</td><td style="padding: 8px; border: 1px solid #dee2e6;">Most complete, infrequent</td></tr>
-<tr style="background:#f8f9fa;"><td style="padding: 8px; border: 1px solid #dee2e6;"><strong>D. Satellite</strong></td><td style="padding: 8px; border: 1px solid #dee2e6;">$100k</td><td style="padding: 8px; border: 1px solid #dee2e6;">Surface temp, indirect</td><td style="padding: 8px; border: 1px solid #dee2e6;">Global, surface only</td></tr>
-</table>
-</div>
+<!-- Vocabulary Section -->
+<section class="info-box info-box-teal" style="border-left: 4px solid #0891B2; margin-bottom: var(--space-6);">
+  <p class="mb-3" style="font-size: 1.1em; color: #0E7490;"><strong>Key Vocabulary This Week</strong></p>
+  <table class="data-table">
+    <thead>
+      <tr><th scope="col">Term</th><th scope="col">Definition</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Ocean Acidification</strong></td><td class="text-secondary">Decrease in ocean pH caused by CO₂ absorption from the atmosphere</td></tr>
+      <tr><td><strong>pH Scale</strong></td><td class="text-secondary">Measures acidity: 0-6 acidic, 7 neutral, 8-14 basic (ocean is ~8.1)</td></tr>
+      <tr><td><strong>Carbonic Acid (H₂CO₃)</strong></td><td class="text-secondary">Weak acid formed when CO₂ dissolves in water: CO₂ + H₂O → H₂CO₃</td></tr>
+      <tr><td><strong>Carbon Sink</strong></td><td class="text-secondary">A reservoir that absorbs more CO₂ than it releases (oceans absorb 25%)</td></tr>
+      <tr><td><strong>Logarithmic Scale</strong></td><td class="text-secondary">pH scale where 0.1 unit change = 26% change in acidity</td></tr>
+      <tr><td><strong>Calcifying Organisms</strong></td><td class="text-secondary">Marine life that builds shells/skeletons from calcium carbonate (coral, oysters, pteropods)</td></tr>
+    </tbody>
+  </table>
+</section>
 
-<!-- TIERED SUPPORT -->
-<details style="background:#F0FFF4;padding:15px;margin-top:15px;border-radius:8px;border:1px solid #9AE6B4;">
-<summary style="cursor:pointer;font-weight:bold;color:#276749;font-size:1.05em;">📗 Need extra support? Click here for design hints</summary>
-<div style="margin-top:12px;padding-top:12px;border-top:1px solid #9AE6B4;">
-<p style="margin:0 0 10px 0;color:#22543D;"><strong>Design Strategy:</strong></p>
-<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;">
-<li>Mix technologies to cover all requirements</li>
-<li>Example: 4 buoys ($200k) + 8 floats ($240k) + satellite ($100k) = $540k (over budget!)</li>
-<li>Adjust numbers to stay under $500k</li>
-</ul>
-<p style="margin:0 0 10px 0;color:#22543D;"><strong>Sentence Starters:</strong></p>
-<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;font-style:italic;">
-<li>"My monitoring network will include..."</li>
-<li>"The total cost is $_____ calculated as..."</li>
-<li>"I chose these technologies because..."</li>
-<li>"A trade-off I made was..."</li>
-</ul>
-</div>
-</details>
-</div>
+<!-- Points Breakdown -->
+<section class="card card-bordered" style="border-color: #0891B2;">
+  <h3 style="margin: 0 0 var(--space-4) 0; color: #0E7490; font-size: clamp(1.2em, 3vw, 1.4em);"><strong>📊 Points Breakdown (100 Total)</strong></h3>
+  <table class="data-table">
+    <caption style="padding: var(--space-3); text-align: left;">How you'll earn your points this week</caption>
+    <thead>
+      <tr><th scope="col">Component</th><th scope="col" style="text-align: center;">Points</th><th scope="col">What It Tests</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="#hook-heading" style="color: #0E7490; text-decoration: none;">🐚 Hook</a></td><td style="text-align: center;"><strong>12</strong></td><td>Dissolving shells phenomenon, Cycle 3 connections</td></tr>
+      <tr><td><a href="#station1-heading" style="color: #0E7490; text-decoration: none;">🧪 Station 1</a></td><td style="text-align: center;"><strong>20</strong></td><td>pH scale, marine life thresholds, data interpretation</td></tr>
+      <tr><td><a href="#station2-heading" style="color: #0E7490; text-decoration: none;">⚖️ Station 2</a></td><td style="text-align: center;"><strong>20</strong></td><td>Carbon budget calculations, mass balance</td></tr>
+      <tr><td><a href="#station3-heading" style="color: #0E7490; text-decoration: none;">🔧 Station 3</a></td><td style="text-align: center;"><strong>25</strong></td><td>Engineering design: Monitoring system</td></tr>
+      <tr><td><a href="#exit-heading" style="color: #0E7490; text-decoration: none;">🎓 Exit Ticket</a></td><td style="text-align: center;"><strong>23</strong></td><td>Integration of Cycles 3 & 4 + SEP-6</td></tr>
+    </tbody>
+    <tfoot>
+      <tr style="background: #0891B2; color: white;"><td><strong>TOTAL</strong></td><td style="text-align: center;"><strong>100</strong></td><td><strong>Ocean Acidification + Carbon Budget + Engineering Design</strong></td></tr>
+    </tfoot>
+  </table>
+</section>
 
-<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE STATION 3 FORM BELOW</strong></p>
-<p style="margin: 0 0 15px 0; color: #4a5568;">Design your monitoring system and justify your choices!</p>
-<!-- EMBED STATION 3 FORM HERE -->
-<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
-<p style="margin: 0; color: #718096;">[EMBED G7.C4.W1 Station 3 Form Here]</p>
-<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
-</div>
-</div>
+<hr class="divider" />
 
-<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+<!-- ==================== HOOK SECTION ==================== -->
+<section id="hook-heading" role="region" aria-labelledby="hook-title">
+  <div class="section-header header-hook">
+    <h2 id="hook-title">🐚 <strong>Hook – The Dissolving Shells Mystery</strong></h2>
+    <p>12 Points | ~10 Minutes</p>
+  </div>
 
-<!-- EXIT TICKET -->
-<div id="exit-heading" style="background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="exit-title">
-<h2 id="exit-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🎓 <strong>Exit Ticket – Ocean Chemistry Integration</strong></h2>
-<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">23 Points | ~15 Minutes</p>
-</div>
+  <div class="card card-bordered card-hook">
+    <h3 style="margin: 0 0 var(--space-4) 0; color: #4F46E5; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🐚 The Challenge</strong></h3>
+    <div class="info-box info-box-indigo mb-4">
+      <p class="mb-3" style="font-size: 1.05em;"><strong>What You'll Do (~10 minutes)</strong></p>
+      <ol style="margin: 0; padding-left: 25px; line-height: 1.8;" class="text-secondary">
+        <li>Observe the phenomenon: shells dissolving in modern oceans (2 min)</li>
+        <li>Connect to Cycle 3: What does CO₂ do in water? (3 min)</li>
+        <li>Make predictions about ocean chemistry changes (3 min)</li>
+        <li>Answer diagnostic questions (2 min)</li>
+      </ol>
+    </div>
+    <div style="background: #FFFAF0; padding: var(--space-4); border-radius: var(--radius-sm);">
+      <p class="mb-3" style="font-size: 1.05em;"><strong>Think About This:</strong></p>
+      <ul style="margin: 0; padding-left: 25px; line-height: 1.8;" class="text-secondary">
+        <li>What gas is increasing in the atmosphere? (Cycle 3)</li>
+        <li>What happens when gases dissolve in water?</li>
+        <li>What do acids do to calcium carbonate (shells)?</li>
+      </ul>
+    </div>
+  </div>
 
-<div style="background: white; border: 2px solid #EC4899; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<h3 style="margin: 0 0 15px 0; color: #DB2777; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🎓 Show What You Learned</strong></h3>
-<div style="background: #FDF2F8; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #EC4899;">
-<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>Question Types:</strong></p>
-<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
-<li><strong>2 NEW</strong> - Ocean acidification content (this week)</li>
-<li><strong>2 SPIRAL</strong> - Cycle 3 review (carbon cycle, greenhouse effect)</li>
-<li><strong>1 INTEGRATION</strong> - Connect atmospheric + ocean effects of CO₂</li>
-<li><strong>1 SEP-6</strong> - Construct an explanation using evidence</li>
-</ul>
-</div>
-</div>
+  <div class="alert-form">
+    <p class="mb-2 text-error" style="font-size: 1.1em;"><strong>📝 COMPLETE THE HOOK FORM BELOW</strong></p>
+    <p class="mb-4 text-secondary">Submit your predictions before moving to Station 1.</p>
+    <div class="form-placeholder">
+      <p class="mb-2 text-muted">[EMBED G7.C4.W1 Hook Form Here]</p>
+      <p class="mb-0 text-muted" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
 
-<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
-<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE EXIT TICKET BELOW</strong></p>
-<p style="margin: 0 0 15px 0; color: #4a5568;">This is your final assessment for Week 1. Take your time!</p>
-<!-- EMBED EXIT TICKET FORM HERE -->
-<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
-<p style="margin: 0; color: #718096;">[EMBED G7.C4.W1 Exit Ticket Form Here]</p>
-<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
-</div>
-</div>
+<hr class="divider" />
 
-<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+<!-- ==================== STATION 1 ==================== -->
+<section id="station1-heading" role="region" aria-labelledby="station1-title">
+  <div class="section-header header-station1">
+    <h2 id="station1-title">🧪 <strong>Station 1 – pH and Marine Life</strong></h2>
+    <p>20 Points | ~18 Minutes</p>
+  </div>
 
-<!-- WEEK SUMMARY -->
-<div style="background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%); padding: 25px; border-radius: 12px; margin-bottom: 25px;">
-<h2 style="margin: 0 0 15px 0; color: #0E7490; font-size: clamp(1.3em, 3.5vw, 1.6em); text-align: center;"><strong>Week 1 Summary: What You Learned</strong></h2>
-<div style="display: grid; gap: 15px;">
-<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #0891B2;">
-<p style="margin: 0; font-size: 1em;"><strong>Ocean Acidification:</strong> CO₂ + H₂O → H₂CO₃ (carbonic acid) → lowers pH</p>
-</div>
-<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #10B981;">
-<p style="margin: 0; font-size: 1em;"><strong>pH Changes:</strong> 0.1 pH = 26% more acidic (logarithmic scale)</p>
-</div>
-<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #F59E0B;">
-<p style="margin: 0; font-size: 1em;"><strong>Carbon Budget:</strong> Ocean absorbs 25% of human CO₂ - a double-edged sword</p>
-</div>
-<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #8B5CF6;">
-<p style="margin: 0; font-size: 1em;"><strong>Monitoring:</strong> Multiple technologies needed to track ocean chemistry changes</p>
-</div>
-</div>
-</div>
+  <div class="card card-bordered card-station1">
+    <h3 style="margin: 0 0 var(--space-4) 0; color: #059669; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🧪 Your Mission: Investigate pH Changes</strong></h3>
 
-<div style="background: #F7FAFC; padding: 20px; border-radius: 8px; text-align: center;">
-<p style="margin: 0; font-size: 1.1em; color: #4a5568;"><strong>🎉 Week 1 Complete!</strong></p>
-<p style="margin: 10px 0 0 0; color: #718096;">Next Week: What happens when nutrients run off into waterways? (Eutrophication)</p>
-</div>
+    <div class="info-box info-box-green mb-4">
+      <p class="mb-3" style="font-size: 1.05em;"><strong>The pH Scale (CRITICAL: It's Logarithmic!)</strong></p>
+      <ul style="margin: 0; padding-left: 25px; line-height: 1.8;" class="text-secondary">
+        <li>pH 7 = neutral (pure water)</li>
+        <li>Below 7 = acidic (more H⁺ ions)</li>
+        <li>Above 7 = basic (fewer H⁺ ions)</li>
+        <li><strong>0.1 pH change = 26% change in acidity!</strong></li>
+      </ul>
+    </div>
+
+    <!-- Home Alternative -->
+    <div class="home-alternative">
+      <p class="mb-3" style="font-size: 1.1em; color: #92400E;"><strong>🏠 COMPLETING THIS AT HOME? (No lab materials needed)</strong></p>
+      <p class="mb-2" style="color: #78350F;"><strong>Use this historical ocean pH data for your answers:</strong></p>
+      <table class="data-table" style="background: white;">
+        <thead style="background: #D97706;">
+          <tr><th>Year</th><th>Ocean pH</th><th>Change from 1800</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1800</td><td>8.25</td><td>baseline</td></tr>
+          <tr><td>1900</td><td>8.21</td><td>-0.04</td></tr>
+          <tr><td>1950</td><td>8.18</td><td>-0.07</td></tr>
+          <tr><td>2000</td><td>8.12</td><td>-0.13</td></tr>
+          <tr><td>2020</td><td>8.10</td><td>-0.15</td></tr>
+          <tr><td><em>2100 (projected)</em></td><td class="text-error"><strong>7.95</strong></td><td class="text-error"><strong>-0.30</strong></td></tr>
+        </tbody>
+      </table>
+      <p class="mt-3 mb-2" style="color: #78350F;"><strong>Organism pH Thresholds:</strong></p>
+      <ul style="margin: 5px 0 0 0; padding-left: 25px; color: #78350F; font-size: 0.9em;">
+        <li>Pteropods: Shells dissolve below pH 7.8</li>
+        <li>Oysters: Larvae fail below pH 7.9</li>
+        <li>Coral: Calcification slows below pH 8.0</li>
+      </ul>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>📗 Need extra support? Click here for hints and sentence starters</summary>
+      <div style="margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--color-success-border);">
+        <p class="mb-3" style="color: #22543D;"><strong>Key Concept Reminder:</strong></p>
+        <ul style="margin: 0 0 var(--space-4) 0; padding-left: 20px; color: #2F855A;">
+          <li>pH going DOWN = becoming MORE acidic</li>
+          <li>Logarithmic means small changes in pH = BIG changes in acidity</li>
+          <li>0.1 pH change = 26% more acidic</li>
+        </ul>
+        <p class="mb-3" style="color: #22543D;"><strong>Sentence Starters:</strong></p>
+        <ul style="margin: 0 0 var(--space-4) 0; padding-left: 20px; color: #2F855A; font-style: italic;">
+          <li>"Even though 0.1 seems small, it actually means..."</li>
+          <li>"For marine organisms, this is significant because..."</li>
+          <li>"At pH 7.95, all three organisms would be affected because..."</li>
+        </ul>
+        <p class="mb-2" style="color: #22543D;"><strong>Word Bank:</strong></p>
+        <p class="mb-0" style="padding: var(--space-3); background: #C6F6D5; border-radius: var(--radius-sm); color: #22543D;">acidification • pH • carbonic acid • logarithmic • threshold • calcifying • dissolve • absorb</p>
+      </div>
+    </details>
+
+    <!-- Stuck Pathway -->
+    <details class="support-stuck">
+      <summary>🆘 Stuck? Click here for step-by-step help</summary>
+      <div style="margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--color-error-border);">
+        <p class="mb-3" style="color: #742A2A;"><strong>Try these steps in order:</strong></p>
+        <ol style="margin: 0; padding-left: 20px; color: #9B2C2C; line-height: 2;">
+          <li>Look at the data table: Are the pH numbers getting bigger or smaller over time?</li>
+          <li>Smaller pH = more acidic</li>
+          <li>Compare 7.95 (predicted 2100) to each organism's threshold</li>
+          <li>Is 7.95 above or below 7.8 (pteropods)? Above or below 7.9 (oysters)? Above or below 8.0 (coral)?</li>
+          <li>Watch: <a href="https://www.youtube.com/results?search_query=ocean+acidification+explained+simple" style="color: #C53030;">Search "Ocean Acidification Explained"</a></li>
+          <li>Still stuck? Email Mr. Rosche with your specific question</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="alert-form">
+    <p class="mb-2 text-error" style="font-size: 1.1em;"><strong>📝 COMPLETE THE STATION 1 FORM BELOW</strong></p>
+    <p class="mb-4 text-secondary">Analyze the pH data and predict effects on marine life.</p>
+    <div class="form-placeholder">
+      <p class="mb-2 text-muted">[EMBED G7.C4.W1 Station 1 Form Here]</p>
+      <p class="mb-0 text-muted" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== STATION 2 ==================== -->
+<section id="station2-heading" role="region" aria-labelledby="station2-title">
+  <div class="section-header header-station2">
+    <h2 id="station2-title">⚖️ <strong>Station 2 – Carbon Sources and Sinks</strong></h2>
+    <p>20 Points | ~15 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-station2">
+    <h3 style="margin: 0 0 var(--space-4) 0; color: #D97706; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>⚖️ Your Mission: Track Carbon in the Ocean-Atmosphere System</strong></h3>
+
+    <div class="info-box info-box-orange mb-4">
+      <p class="mb-3" style="font-size: 1.05em;"><strong>Global Carbon Budget (billions of metric tons CO₂/year)</strong></p>
+      <table class="data-table data-table-sources" style="margin-bottom: var(--space-3);">
+        <thead><tr><th>SOURCES (Release CO₂)</th><th style="text-align: center;">Gt/year</th></tr></thead>
+        <tbody>
+          <tr><td>Fossil fuels + industry</td><td style="text-align: center;">+36</td></tr>
+          <tr><td>Deforestation</td><td style="text-align: center;">+4</td></tr>
+          <tr><td><strong>Total Released</strong></td><td style="text-align: center;"><strong>40</strong></td></tr>
+        </tbody>
+      </table>
+      <table class="data-table data-table-sinks">
+        <thead><tr><th>SINKS (Absorb CO₂)</th><th style="text-align: center;">Gt/year</th></tr></thead>
+        <tbody>
+          <tr><td>Land plants/soil</td><td style="text-align: center;">-12 (30%)</td></tr>
+          <tr><td>Ocean</td><td style="text-align: center;">-10 (25%)</td></tr>
+          <tr><td><strong>Total Absorbed</strong></td><td style="text-align: center;"><strong>22</strong></td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-0 text-center text-error" style="font-size: 1.1em;"><strong>REMAINING IN ATMOSPHERE: 40 - 22 = 18 Gt/year (45%)</strong></p>
+    </div>
+    <p class="text-secondary mb-0"><strong>KEY EQUATION:</strong> Sources - Sinks = Atmospheric Accumulation</p>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>📗 Need extra support? Click here for hints and sentence starters</summary>
+      <div style="margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--color-success-border);">
+        <p class="mb-3" style="color: #22543D;"><strong>Calculation Help:</strong></p>
+        <ul style="margin: 0 0 var(--space-4) 0; padding-left: 20px; color: #2F855A;">
+          <li>Total released = 40 billion tons</li>
+          <li>Land absorbs = 12 billion tons</li>
+          <li>Stays in atmosphere = 18 billion tons</li>
+          <li>Ocean absorbs = 40 - 12 - 18 = ?</li>
+        </ul>
+        <p class="mb-3" style="color: #22543D;"><strong>Sentence Starters:</strong></p>
+        <ul style="margin: 0; padding-left: 20px; color: #2F855A; font-style: italic;">
+          <li>"Using conservation of mass: Sources = Sinks + Atmosphere..."</li>
+          <li>"The benefit of ocean CO₂ absorption is..."</li>
+          <li>"However, the cost is..."</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="alert-form">
+    <p class="mb-2 text-error" style="font-size: 1.1em;"><strong>📝 COMPLETE THE STATION 2 FORM BELOW</strong></p>
+    <p class="mb-4 text-secondary">Calculate carbon balance and analyze trade-offs. Calculator needed!</p>
+    <div class="form-placeholder">
+      <p class="mb-2 text-muted">[EMBED G7.C4.W1 Station 2 Form Here]</p>
+      <p class="mb-0 text-muted" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== STATION 3 ==================== -->
+<section id="station3-heading" role="region" aria-labelledby="station3-title">
+  <div class="section-header header-station3">
+    <h2 id="station3-title">🔧 <strong>Station 3 – Design a Monitoring System</strong></h2>
+    <p>25 Points | ~20 Minutes (Highest Value!)</p>
+  </div>
+
+  <div class="card card-bordered card-station3">
+    <h3 style="margin: 0 0 var(--space-4) 0; color: #7C3AED; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🔧 Engineering Challenge: Design an Ocean Acidification Monitoring System</strong></h3>
+
+    <div class="info-box info-box-purple mb-4">
+      <p class="mb-3" style="font-size: 1.05em;"><strong>CONSTRAINTS:</strong></p>
+      <ul style="margin: 0; padding-left: 25px; line-height: 1.8;" class="text-secondary">
+        <li><strong>Budget:</strong> $500,000 annual operating cost</li>
+        <li><strong>Coverage:</strong> Must monitor at least 3 ocean regions</li>
+        <li><strong>Data:</strong> Must measure pH, temperature, and CO₂</li>
+        <li><strong>Frequency:</strong> Data collected at least weekly</li>
+      </ul>
+    </div>
+
+    <div style="background: #EBF8FF; padding: var(--space-4); border-radius: var(--radius-sm); margin-bottom: var(--space-4);">
+      <p class="mb-3" style="font-size: 1.05em; color: #0E7490;"><strong>Available Technologies:</strong></p>
+      <table class="data-table">
+        <thead><tr><th>Option</th><th>Cost/year</th><th>Measures</th><th>Pros/Cons</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A. Fixed Buoys</strong></td><td>$50k each</td><td>pH, temp, CO₂</td><td>Reliable but fixed location</td></tr>
+          <tr><td><strong>B. Argo Floats</strong></td><td>$30k each</td><td>pH, temp only</td><td>Covers large area, no CO₂</td></tr>
+          <tr><td><strong>C. Ship Surveys</strong></td><td>$200k each</td><td>All + samples</td><td>Most complete, infrequent</td></tr>
+          <tr><td><strong>D. Satellite</strong></td><td>$100k</td><td>Surface temp, indirect</td><td>Global, surface only</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>📗 Need extra support? Click here for design hints</summary>
+      <div style="margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--color-success-border);">
+        <p class="mb-3" style="color: #22543D;"><strong>Design Strategy:</strong></p>
+        <ul style="margin: 0 0 var(--space-4) 0; padding-left: 20px; color: #2F855A;">
+          <li>Mix technologies to cover all requirements</li>
+          <li>Example: 4 buoys ($200k) + 8 floats ($240k) + satellite ($100k) = $540k (over budget!)</li>
+          <li>Adjust numbers to stay under $500k</li>
+        </ul>
+        <p class="mb-3" style="color: #22543D;"><strong>Sentence Starters:</strong></p>
+        <ul style="margin: 0; padding-left: 20px; color: #2F855A; font-style: italic;">
+          <li>"My monitoring network will include..."</li>
+          <li>"The total cost is $_____ calculated as..."</li>
+          <li>"I chose these technologies because..."</li>
+          <li>"A trade-off I made was..."</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="alert-form">
+    <p class="mb-2 text-error" style="font-size: 1.1em;"><strong>📝 COMPLETE THE STATION 3 FORM BELOW</strong></p>
+    <p class="mb-4 text-secondary">Design your monitoring system and justify your choices!</p>
+    <div class="form-placeholder">
+      <p class="mb-2 text-muted">[EMBED G7.C4.W1 Station 3 Form Here]</p>
+      <p class="mb-0 text-muted" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== EXIT TICKET ==================== -->
+<section id="exit-heading" role="region" aria-labelledby="exit-title">
+  <div class="section-header header-exit">
+    <h2 id="exit-title">🎓 <strong>Exit Ticket – Ocean Chemistry Integration</strong></h2>
+    <p>23 Points | ~15 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-exit">
+    <h3 style="margin: 0 0 var(--space-4) 0; color: #DB2777; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🎓 Show What You Learned</strong></h3>
+    <div class="info-box info-box-pink">
+      <p class="mb-3" style="font-size: 1.05em;"><strong>Question Types:</strong></p>
+      <ul style="margin: 0; padding-left: 25px; line-height: 1.8;" class="text-secondary">
+        <li><strong>2 NEW</strong> - Ocean acidification content (this week)</li>
+        <li><strong>2 SPIRAL</strong> - Cycle 3 review (carbon cycle, greenhouse effect)</li>
+        <li><strong>1 INTEGRATION</strong> - Connect atmospheric + ocean effects of CO₂</li>
+        <li><strong>1 SEP-6</strong> - Construct an explanation using evidence</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="alert-form">
+    <p class="mb-2 text-error" style="font-size: 1.1em;"><strong>📝 COMPLETE THE EXIT TICKET BELOW</strong></p>
+    <p class="mb-4 text-secondary">This is your final assessment for Week 1. Take your time!</p>
+    <div class="form-placeholder">
+      <p class="mb-2 text-muted">[EMBED G7.C4.W1 Exit Ticket Form Here]</p>
+      <p class="mb-0 text-muted" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== WEEK SUMMARY ==================== -->
+<section class="summary-section">
+  <h2><strong>Week 1 Summary: What You Learned</strong></h2>
+  <div class="summary-grid">
+    <div class="summary-item summary-item-teal">
+      <p class="mb-0"><strong>Ocean Acidification:</strong> CO₂ + H₂O → H₂CO₃ (carbonic acid) → lowers pH</p>
+    </div>
+    <div class="summary-item summary-item-green">
+      <p class="mb-0"><strong>pH Changes:</strong> 0.1 pH = 26% more acidic (logarithmic scale)</p>
+    </div>
+    <div class="summary-item summary-item-orange">
+      <p class="mb-0"><strong>Carbon Budget:</strong> Ocean absorbs 25% of human CO₂ - a double-edged sword</p>
+    </div>
+    <div class="summary-item summary-item-purple">
+      <p class="mb-0"><strong>Monitoring:</strong> Multiple technologies needed to track ocean chemistry changes</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="background: var(--color-gray-50); padding: var(--space-5); border-radius: var(--radius-md); text-align: center;">
+  <p class="mb-2" style="font-size: 1.1em;"><strong>🎉 Week 1 Complete!</strong></p>
+  <p class="mb-0 text-muted">Next Week: What happens when nutrients run off into waterways? (Eutrophication)</p>
+</footer>
 </div>
