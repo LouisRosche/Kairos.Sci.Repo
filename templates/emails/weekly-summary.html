@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAMS Science - Weekly Summary</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 650px; margin: 0 auto; background-color: #ffffff;">
+    <!-- Header -->
+    <tr>
+      <td style="background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%); padding: 25px; text-align: center;">
+        <h1 style="color: #ffffff; margin: 0; font-size: 26px;">
+          📊 Weekly Summary Report
+        </h1>
+        <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">
+          Cycle <?= cycle ?> • Week <?= week ?>
+        </p>
+        <p style="color: #ffffff; margin: 5px 0 0 0; font-size: 14px; opacity: 0.8;">
+          <?= weekDateRange ?>
+        </p>
+      </td>
+    </tr>
+
+    <!-- Overall Health -->
+    <tr>
+      <td style="padding: 20px;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: <?= healthStatus === 'HEALTHY' ? '#d4edda' : (healthStatus === 'DEGRADED' ? '#fff3cd' : '#f8d7da') ?>; border-radius: 8px; padding: 15px;">
+          <tr>
+            <td>
+              <h2 style="margin: 0; color: <?= healthStatus === 'HEALTHY' ? '#155724' : (healthStatus === 'DEGRADED' ? '#856404' : '#721c24') ?>; font-size: 18px;">
+                <?= healthStatus === 'HEALTHY' ? '✅' : (healthStatus === 'DEGRADED' ? '⚠️' : '❌') ?>
+                System Status: <?= healthStatus ?>
+              </h2>
+              <p style="margin: 10px 0 0 0; color: #495057; font-size: 14px;">
+                <?= healthMessage ?>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Key Metrics Grid -->
+    <tr>
+      <td style="padding: 0 20px 20px 20px;">
+        <h2 style="margin: 0 0 15px 0; color: #495057; font-size: 18px;">📈 Key Metrics</h2>
+        <table role="presentation" width="100%" cellspacing="10" cellpadding="0">
+          <tr>
+            <!-- Completion Rate -->
+            <td width="50%" style="background-color: #e3f2fd; border-radius: 8px; padding: 15px; text-align: center;">
+              <p style="margin: 0; color: #1565c0; font-size: 32px; font-weight: bold;"><?= completionRate ?>%</p>
+              <p style="margin: 5px 0 0 0; color: #1976d2; font-size: 14px;">Completion Rate</p>
+              <p style="margin: 3px 0 0 0; color: <?= completionTrend >= 0 ? '#28a745' : '#dc3545' ?>; font-size: 12px;">
+                <?= completionTrend >= 0 ? '↑' : '↓' ?> <?= Math.abs(completionTrend) ?>% vs last week
+              </p>
+            </td>
+            <!-- Average Score -->
+            <td width="50%" style="background-color: #e8f5e9; border-radius: 8px; padding: 15px; text-align: center;">
+              <p style="margin: 0; color: #2e7d32; font-size: 32px; font-weight: bold;"><?= averageScore ?>%</p>
+              <p style="margin: 5px 0 0 0; color: #388e3c; font-size: 14px;">Average Score</p>
+              <p style="margin: 3px 0 0 0; color: <?= scoreTrend >= 0 ? '#28a745' : '#dc3545' ?>; font-size: 12px;">
+                <?= scoreTrend >= 0 ? '↑' : '↓' ?> <?= Math.abs(scoreTrend) ?>% vs last week
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <!-- Tier Distribution -->
+            <td width="50%" style="background-color: #fff3e0; border-radius: 8px; padding: 15px; text-align: center;">
+              <p style="margin: 0; color: #e65100; font-size: 14px; font-weight: bold;">MTSS Distribution</p>
+              <p style="margin: 8px 0 0 0; color: #495057; font-size: 13px;">
+                <span style="color: #28a745;">●</span> Tier 1: <?= tier1Count ?> (<?= tier1Percent ?>%)
+              </p>
+              <p style="margin: 3px 0 0 0; color: #495057; font-size: 13px;">
+                <span style="color: #ffc107;">●</span> Tier 2: <?= tier2Count ?> (<?= tier2Percent ?>%)
+              </p>
+              <p style="margin: 3px 0 0 0; color: #495057; font-size: 13px;">
+                <span style="color: #dc3545;">●</span> Tier 3: <?= tier3Count ?> (<?= tier3Percent ?>%)
+              </p>
+            </td>
+            <!-- Spiral Effectiveness -->
+            <td width="50%" style="background-color: #fce4ec; border-radius: 8px; padding: 15px; text-align: center;">
+              <p style="margin: 0; color: #c2185b; font-size: 32px; font-weight: bold;"><?= spiralEffectiveness ?>%</p>
+              <p style="margin: 5px 0 0 0; color: #d81b60; font-size: 14px;">Spiral Retention</p>
+              <p style="margin: 3px 0 0 0; color: <?= spiralEffectiveness >= 60 ? '#28a745' : '#dc3545' ?>; font-size: 12px;">
+                <?= spiralEffectiveness >= 60 ? 'Above threshold' : 'Below 60% threshold' ?>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Grade Breakdown -->
+    <tr>
+      <td style="padding: 0 20px 20px 20px;">
+        <h2 style="margin: 0 0 15px 0; color: #495057; font-size: 18px;">📚 Grade Breakdown</h2>
+
+        <!-- Grade 7 -->
+        <div style="background-color: #f8f9fa; border-radius: 8px; padding: 15px; margin-bottom: 10px;">
+          <h3 style="margin: 0 0 10px 0; color: #495057; font-size: 16px;">Grade 7 - Life & Earth Science</h3>
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="5">
+            <tr>
+              <td style="color: #6c757d; font-size: 14px;">Completion:</td>
+              <td style="color: #495057; font-size: 14px; font-weight: bold;"><?= grade7Completion ?>%</td>
+              <td style="color: #6c757d; font-size: 14px;">Avg Score:</td>
+              <td style="color: #495057; font-size: 14px; font-weight: bold;"><?= grade7Score ?>%</td>
+            </tr>
+            <tr>
+              <td style="color: #6c757d; font-size: 14px;">Tier 2:</td>
+              <td style="color: #ffc107; font-size: 14px; font-weight: bold;"><?= grade7Tier2 ?> students</td>
+              <td style="color: #6c757d; font-size: 14px;">Tier 3:</td>
+              <td style="color: #dc3545; font-size: 14px; font-weight: bold;"><?= grade7Tier3 ?> students</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Grade 8 -->
+        <div style="background-color: #f8f9fa; border-radius: 8px; padding: 15px;">
+          <h3 style="margin: 0 0 10px 0; color: #495057; font-size: 16px;">Grade 8 - Physical Science</h3>
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="5">
+            <tr>
+              <td style="color: #6c757d; font-size: 14px;">Completion:</td>
+              <td style="color: #495057; font-size: 14px; font-weight: bold;"><?= grade8Completion ?>%</td>
+              <td style="color: #6c757d; font-size: 14px;">Avg Score:</td>
+              <td style="color: #495057; font-size: 14px; font-weight: bold;"><?= grade8Score ?>%</td>
+            </tr>
+            <tr>
+              <td style="color: #6c757d; font-size: 14px;">Tier 2:</td>
+              <td style="color: #ffc107; font-size: 14px; font-weight: bold;"><?= grade8Tier2 ?> students</td>
+              <td style="color: #6c757d; font-size: 14px;">Tier 3:</td>
+              <td style="color: #dc3545; font-size: 14px; font-weight: bold;"><?= grade8Tier3 ?> students</td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Top Misconceptions -->
+    <? if (topMisconceptions.length > 0) { ?>
+    <tr>
+      <td style="padding: 0 20px 20px 20px;">
+        <h2 style="margin: 0 0 15px 0; color: #495057; font-size: 18px;">🎯 Top Misconceptions This Week</h2>
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border: 1px solid #dee2e6; border-radius: 8px; overflow: hidden;">
+          <tr style="background-color: #e9ecef;">
+            <th style="padding: 10px; text-align: left; color: #495057; font-size: 14px;">Concept</th>
+            <th style="padding: 10px; text-align: center; color: #495057; font-size: 14px;">Frequency</th>
+            <th style="padding: 10px; text-align: center; color: #495057; font-size: 14px;">Students</th>
+          </tr>
+          <? for (var i = 0; i < topMisconceptions.length; i++) { ?>
+          <tr style="background-color: <?= i % 2 === 0 ? '#ffffff' : '#f8f9fa' ?>;">
+            <td style="padding: 10px; color: #495057; font-size: 14px;"><?= topMisconceptions[i].concept ?></td>
+            <td style="padding: 10px; text-align: center; color: <?= topMisconceptions[i].frequency >= 40 ? '#dc3545' : '#ffc107' ?>; font-weight: bold; font-size: 14px;"><?= topMisconceptions[i].frequency ?>%</td>
+            <td style="padding: 10px; text-align: center; color: #6c757d; font-size: 14px;"><?= topMisconceptions[i].studentCount ?></td>
+          </tr>
+          <? } ?>
+        </table>
+      </td>
+    </tr>
+    <? } ?>
+
+    <!-- Intervention Updates -->
+    <? if (interventionUpdates.length > 0) { ?>
+    <tr>
+      <td style="padding: 0 20px 20px 20px;">
+        <h2 style="margin: 0 0 15px 0; color: #495057; font-size: 18px;">🎓 Intervention Updates</h2>
+        <? for (var i = 0; i < interventionUpdates.length; i++) { ?>
+        <div style="background-color: <?= interventionUpdates[i].type === 'GRADUATED' ? '#d4edda' : (interventionUpdates[i].type === 'ESCALATED' ? '#f8d7da' : '#fff3cd') ?>; border-radius: 4px; padding: 10px; margin-bottom: 8px;">
+          <p style="margin: 0; font-size: 14px; color: #495057;">
+            <strong><?= interventionUpdates[i].type ?>:</strong> <?= interventionUpdates[i].message ?>
+          </p>
+        </div>
+        <? } ?>
+      </td>
+    </tr>
+    <? } ?>
+
+    <!-- Priority Actions -->
+    <tr>
+      <td style="padding: 0 20px 20px 20px;">
+        <h2 style="margin: 0 0 15px 0; color: #495057; font-size: 18px;">📋 Priority Actions for Next Week</h2>
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+          <? for (var i = 0; i < priorityActions.length; i++) { ?>
+          <tr>
+            <td style="padding: 8px 0; border-bottom: 1px solid #e9ecef;">
+              <span style="display: inline-block; width: 24px; height: 24px; background-color: <?= priorityActions[i].priority === 'HIGH' ? '#dc3545' : (priorityActions[i].priority === 'MEDIUM' ? '#ffc107' : '#17a2b8') ?>; color: #ffffff; border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; margin-right: 10px;">
+                <?= i + 1 ?>
+              </span>
+              <span style="color: #495057; font-size: 14px;"><?= priorityActions[i].action ?></span>
+            </td>
+          </tr>
+          <? } ?>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Quick Links -->
+    <tr>
+      <td style="padding: 0 20px 20px 20px;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center">
+              <a href="<?= hubLink ?>" style="display: inline-block; background-color: #6f42c1; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; margin: 5px; font-size: 14px;">
+                📊 Full Dashboard
+              </a>
+              <a href="<?= mtssLink ?>" style="display: inline-block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; margin: 5px; font-size: 14px;">
+                📋 MTSS Details
+              </a>
+              <a href="<?= seatingLink ?>" style="display: inline-block; background-color: #28a745; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; margin: 5px; font-size: 14px;">
+                🪑 Seating
+              </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+      <td style="background-color: #f8f9fa; padding: 15px 20px; border-top: 1px solid #dee2e6;">
+        <p style="margin: 0; color: #6c757d; font-size: 12px; text-align: center;">
+          KAMS Science Curriculum System • Weekly Summary Report<br>
+          Generated: <?= timestamp ?>
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
