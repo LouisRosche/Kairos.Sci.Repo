@@ -110,33 +110,47 @@ This checklist guides you through deploying the KAMS Science Curriculum system t
 
 ## Phase 3: Canvas LMS Integration
 
-### 3.1 Canvas API Configuration
+> **STATUS: MANUAL INTEGRATION**
+> Canvas grade sync is currently handled manually. The automated sync script (`sync-to-canvas.gs`)
+> is planned but not yet implemented. The steps below document the manual process and future
+> automation requirements.
+
+### 3.1 Manual Grade Entry (Current Process)
+
+- [ ] Export student scores from Hub Gradebook (Google Sheets)
+- [ ] Format for Canvas import (CSV with Student ID, Assignment, Grade)
+- [ ] Import grades via Canvas → Gradebook → Import
+- [ ] Verify import success, check for missing students
+
+### 3.2 Future Automation (Not Yet Implemented)
+
+When automated sync is implemented, the following will be needed:
 
 - [ ] Generate Canvas API token:
   - Canvas → Account → Settings → New Access Token
   - Set expiration (recommend: end of school year)
-  - **IMPORTANT:** Store token securely, never commit to repo
+  - **IMPORTANT:** Store token securely using Properties Service, never commit to repo
 
-- [ ] Configure `scripts/sync-to-canvas.gs`:
-  - Set `CANVAS_CONFIG.baseUrl` to your Canvas instance URL
-  - Set `CANVAS_CONFIG.apiToken` (use Properties Service for security)
-  - Map `CANVAS_CONFIG.courseIds` for G7 and G8 courses
+- [ ] Create `scripts/sync-to-canvas.gs` with:
+  - Canvas API client with rate limiting
+  - Student ID mapping (email → Canvas ID)
+  - Grade push functionality
+  - Error handling and retry logic
 
-### 3.2 Student Mapping
+### 3.3 Student Mapping (For Future Automation)
 
 - [ ] Export Canvas roster (CSV) for each course
 - [ ] Create student mapping sheet:
   - Columns: `StudentEmail | CanvasStudentID | Grade | Section`
-- [ ] Link mapping to `getCanvasStudentId()` function
+- [ ] Document mapping in `config/canvas-mapping.json` (to be created)
 
-### 3.3 Assignment Mapping
+### 3.4 Assignment Setup (Manual)
 
 - [ ] Create Canvas assignments for each week:
   - Name format: `G{grade}.C{cycle}.W{week}: Science Lab`
   - Points: 100
   - Due date: End of week
-- [ ] Record Assignment IDs in mapping sheet or config
-- [ ] Link to `getAssignmentId()` function
+- [ ] Record Assignment IDs for reference
 
 ---
 
@@ -191,13 +205,14 @@ This checklist guides you through deploying the KAMS Science Curriculum system t
   - [ ] Hub gradebook updates
   - [ ] MTSS tiers generate correctly
 
-### 5.2 Canvas Grade Sync Test
+### 5.2 Grade Entry Test (Manual Process)
 
-- [ ] Run: `syncWeekGrades(7, 3, 1)` for test week
+- [ ] Export one week's grades from Hub Gradebook
+- [ ] Import to Canvas using CSV import
 - [ ] Verify in Canvas gradebook:
   - Test student score appears
   - Points correct (out of 100)
-- [ ] Check sync logs for errors
+- [ ] Document any issues for future automation
 
 ### 5.3 MTSS Pipeline Test
 

@@ -30,28 +30,114 @@ function getResponseConfig() {
 
 /**
  * Main entry point - collect all responses and export to JSON
+ * Includes comprehensive error handling and logging
  */
 function collectAllResponses() {
-  const config = getResponseConfig();
+  const startTime = new Date();
+  Logger.log('=== Response Collection Started ===');
+  Logger.log(`Start time: ${startTime.toISOString()}`);
+
+  let config;
+  try {
+    config = getResponseConfig();
+  } catch (e) {
+    Logger.log(`CRITICAL ERROR: Failed to load config: ${e.message}`);
+    Logger.log(`Stack trace: ${e.stack}`);
+    throw new Error(`Configuration load failed: ${e.message}`);
+  }
+
   const results = {
     collected: new Date().toISOString(),
-    grades: {}
+    grades: {},
+    errors: [],
+    stats: {
+      gradesProcessed: 0,
+      cyclesProcessed: 0,
+      formsCollected: 0,
+      totalResponses: 0
+    }
   };
 
   config.grades.forEach(grade => {
-    results.grades[grade] = {};
+    try {
+      results.grades[grade] = {};
 
-    config.activeCycles.forEach(cycle => {
-      results.grades[grade][`cycle${String(cycle).padStart(2, '0')}`] =
-        collectCycleResponses(grade, cycle);
-    });
+      config.activeCycles.forEach(cycle => {
+        try {
+          const cycleData = collectCycleResponses(grade, cycle);
+          results.grades[grade][`cycle${String(cycle).padStart(2, '0')}`] = cycleData;
+          results.stats.cyclesProcessed++;
+
+          // Count responses
+          if (cycleData && cycleData.weeks) {
+            Object.values(cycleData.weeks).forEach(weekData => {
+              results.stats.totalResponses += weekData.totalResponses || 0;
+              results.stats.formsCollected += Object.keys(weekData.forms || {}).length;
+            });
+          }
+        } catch (cycleError) {
+          const errorMsg = `Error collecting G${grade} C${cycle}: ${cycleError.message}`;
+          Logger.log(errorMsg);
+          results.errors.push({ grade, cycle, error: cycleError.message, timestamp: new Date().toISOString() });
+          results.grades[grade][`cycle${String(cycle).padStart(2, '0')}`] = { error: cycleError.message };
+        }
+      });
+
+      results.stats.gradesProcessed++;
+    } catch (gradeError) {
+      const errorMsg = `Error processing grade ${grade}: ${gradeError.message}`;
+      Logger.log(errorMsg);
+      results.errors.push({ grade, error: gradeError.message, timestamp: new Date().toISOString() });
+    }
   });
 
-  // Save master JSON
-  saveToJson('all-responses.json', results);
+  // Save master JSON with retry logic
+  try {
+    saveToJsonWithRetry('all-responses.json', results, 3);
+  } catch (saveError) {
+    Logger.log(`CRITICAL: Failed to save results after retries: ${saveError.message}`);
+    results.errors.push({ type: 'save', error: saveError.message, timestamp: new Date().toISOString() });
+  }
 
-  Logger.log('Response collection complete: ' + JSON.stringify(Object.keys(results.grades)));
+  const endTime = new Date();
+  const duration = (endTime - startTime) / 1000;
+
+  Logger.log('=== Response Collection Summary ===');
+  Logger.log(`Duration: ${duration.toFixed(2)}s`);
+  Logger.log(`Grades processed: ${results.stats.gradesProcessed}`);
+  Logger.log(`Cycles processed: ${results.stats.cyclesProcessed}`);
+  Logger.log(`Forms collected: ${results.stats.formsCollected}`);
+  Logger.log(`Total responses: ${results.stats.totalResponses}`);
+  Logger.log(`Errors: ${results.errors.length}`);
+  if (results.errors.length > 0) {
+    Logger.log(`Error details: ${JSON.stringify(results.errors)}`);
+  }
+
   return results;
+}
+
+/**
+ * Save to JSON with retry logic for transient failures
+ * @param {string} filename - Name of file to save
+ * @param {Object} data - Data to save
+ * @param {number} maxRetries - Maximum number of retry attempts
+ */
+function saveToJsonWithRetry(filename, data, maxRetries) {
+  let lastError;
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      saveToJson(filename, data);
+      return; // Success
+    } catch (e) {
+      lastError = e;
+      Logger.log(`Save attempt ${attempt}/${maxRetries} failed: ${e.message}`);
+      if (attempt < maxRetries) {
+        // Exponential backoff: 2s, 4s, 8s
+        Utilities.sleep(Math.pow(2, attempt) * 1000);
+      }
+    }
+  }
+  throw lastError;
 }
 
 /**
@@ -122,33 +208,65 @@ function getFormId(grade, cycle, week, formType) {
 }
 
 /**
- * Fetch all responses from a Google Form
+ * Fetch all responses from a Google Form with error handling
+ * @param {string} formId - Google Form ID
+ * @returns {Array} Array of response objects
  */
 function getFormResponses(formId) {
-  const form = FormApp.openById(formId);
-  const responses = form.getResponses();
-  const items = form.getItems();
+  if (!formId) {
+    throw new Error('Form ID is required');
+  }
 
-  return responses.map(response => {
-    const itemResponses = response.getItemResponses();
-    const data = {
-      timestamp: response.getTimestamp().toISOString(),
-      email: response.getRespondentEmail(),
-      answers: {}
-    };
+  let form;
+  try {
+    form = FormApp.openById(formId);
+  } catch (e) {
+    Logger.log(`Failed to open form ${formId}: ${e.message}`);
+    throw new Error(`Cannot access form ${formId}: ${e.message}`);
+  }
 
-    itemResponses.forEach((itemResponse, index) => {
-      const item = itemResponse.getItem();
-      data.answers[`q${index + 1}`] = {
-        question: item.getTitle(),
-        type: item.getType().toString(),
-        response: itemResponse.getResponse(),
-        points: getItemPoints(item)
+  let responses;
+  try {
+    responses = form.getResponses();
+  } catch (e) {
+    Logger.log(`Failed to get responses from form ${formId}: ${e.message}`);
+    throw new Error(`Cannot retrieve responses: ${e.message}`);
+  }
+
+  const processedResponses = [];
+
+  responses.forEach((response, responseIndex) => {
+    try {
+      const itemResponses = response.getItemResponses();
+      const data = {
+        timestamp: response.getTimestamp().toISOString(),
+        email: response.getRespondentEmail() || 'anonymous',
+        answers: {}
       };
-    });
 
-    return data;
+      itemResponses.forEach((itemResponse, index) => {
+        try {
+          const item = itemResponse.getItem();
+          data.answers[`q${index + 1}`] = {
+            question: item.getTitle(),
+            type: item.getType().toString(),
+            response: itemResponse.getResponse(),
+            points: getItemPoints(item)
+          };
+        } catch (itemError) {
+          Logger.log(`Error processing item ${index} in response ${responseIndex}: ${itemError.message}`);
+          data.answers[`q${index + 1}`] = { error: itemError.message };
+        }
+      });
+
+      processedResponses.push(data);
+    } catch (responseError) {
+      Logger.log(`Error processing response ${responseIndex}: ${responseError.message}`);
+      // Continue processing other responses
+    }
   });
+
+  return processedResponses;
 }
 
 /**
@@ -169,24 +287,57 @@ function getItemPoints(item) {
 }
 
 /**
- * Save data to JSON file in Drive
+ * Save data to JSON file in Drive with error handling
+ * @param {string} filename - Name of file to create/update
+ * @param {Object} data - Data to serialize as JSON
  */
 function saveToJson(filename, data) {
-  const config = getResponseConfig();
-  const jsonString = JSON.stringify(data, null, 2);
-  const folder = config.outputFolderId
-    ? DriveApp.getFolderById(config.outputFolderId)
-    : DriveApp.getRootFolder();
-
-  // Check if file exists
-  const existingFiles = folder.getFilesByName(filename);
-  if (existingFiles.hasNext()) {
-    existingFiles.next().setContent(jsonString);
-  } else {
-    folder.createFile(filename, jsonString, MimeType.PLAIN_TEXT);
+  if (!filename) {
+    throw new Error('Filename is required');
+  }
+  if (!data) {
+    throw new Error('Data is required');
   }
 
-  Logger.log(`Saved ${filename} (${jsonString.length} bytes)`);
+  let config;
+  try {
+    config = getResponseConfig();
+  } catch (e) {
+    Logger.log(`Warning: Could not load config for output folder, using root: ${e.message}`);
+    config = { outputFolderId: null };
+  }
+
+  let jsonString;
+  try {
+    jsonString = JSON.stringify(data, null, 2);
+  } catch (e) {
+    throw new Error(`Failed to serialize data to JSON: ${e.message}`);
+  }
+
+  let folder;
+  try {
+    folder = config.outputFolderId
+      ? DriveApp.getFolderById(config.outputFolderId)
+      : DriveApp.getRootFolder();
+  } catch (e) {
+    Logger.log(`Warning: Could not access output folder ${config.outputFolderId}, using root: ${e.message}`);
+    folder = DriveApp.getRootFolder();
+  }
+
+  try {
+    // Check if file exists
+    const existingFiles = folder.getFilesByName(filename);
+    if (existingFiles.hasNext()) {
+      const file = existingFiles.next();
+      file.setContent(jsonString);
+      Logger.log(`Updated ${filename} (${jsonString.length} bytes)`);
+    } else {
+      folder.createFile(filename, jsonString, MimeType.PLAIN_TEXT);
+      Logger.log(`Created ${filename} (${jsonString.length} bytes)`);
+    }
+  } catch (e) {
+    throw new Error(`Failed to save file ${filename}: ${e.message}`);
+  }
 }
 
 /**
