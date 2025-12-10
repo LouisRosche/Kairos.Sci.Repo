@@ -71,8 +71,8 @@
     "formsPerWeek": 5,
     "_calendarAlignment": {
       "source": "Kairos_SY25-26_Calendar.md",
-      "lastVerified": "2025-12-08",
-      "note": "Cycles 9-10 exist in config but have no corresponding calendar slots in SY25-26"
+      "lastVerified": "2025-12-10",
+      "note": "C9-C10 standards integrated into C8; configs archived to archive/deferred-cycles/"
     }
   },
 
@@ -546,6 +546,6 @@
         "targetYear": "N/A - resolved"
       }
     },
-    "_warning": "Config files for C9-C10 exist in config/cycles/ for reference only. Do NOT deploy."
+    "_warning": "Config files for C9-C10 archived to archive/deferred-cycles/ (not in config/cycles/)."
   }
 }

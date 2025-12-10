@@ -547,7 +547,7 @@ var Config = {
         '8': { name: 'Grade 8', subject: 'Physical Science' }
       },
       cycles: {
-        range: { start: 3, end: 10 },
+        range: { start: 3, end: 8 },
         weeksPerCycle: 3,
         pointsPerWeek: 100,
         formsPerWeek: 5
