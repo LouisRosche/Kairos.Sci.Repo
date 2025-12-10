@@ -276,6 +276,28 @@ When you discover something worth documenting:
 |------|---------------|-------------------|
 | 2025-12-07 | Repository Audit & Production Protection | Content lifecycle, legacy handling (C2), production content protection (C3.W2), version synchronization |
 | 2025-12-07 | Architectural Refactor v3.0 | Configuration centralization, trigger management, CSS design system |
+| 2025-12-10 | Tech Debt Audit & Remediation | setPoints(0) violations fixed, orphaned cycles archived, deploy-forms.gs documented, DataUtils duplicate functions removed |
+
+## Known Tech Debt (Tracking)
+
+### HTML Inline Styles Migration (MEDIUM PRIORITY)
+**Status:** Not Started | **Effort:** ~4-6 hours | **Files:** 44+ student-page.html files
+
+**Issue:** Most student-page.html files use extensive inline styles instead of design-system.css classes.
+
+**Impact:**
+- Design changes require editing every file
+- Inconsistent styling across pages
+- Larger file sizes
+
+**Migration Plan:**
+1. Audit design-system.css for missing component classes
+2. Add missing classes (card, banner, nav-grid, etc.)
+3. Migrate one cycle's pages as template
+4. Batch migrate remaining pages
+5. Validate visual consistency
+
+**Files most affected:** grade8/cycle04/week3/student-page.html has heaviest inline usage
 
 ---
 
