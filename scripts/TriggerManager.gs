@@ -653,26 +653,106 @@ function runWeeklyDigest() {
 
     // Get current cycle/week for subject
     var cycleInfo = '';
+    var cycle = 0, week = 0;
     if (typeof Config !== 'undefined' && typeof Config.getCurrentCycle === 'function') {
-      cycleInfo = 'C' + Config.getCurrentCycle() + ' W' + Config.getCurrentWeek();
+      cycle = Config.getCurrentCycle();
+      week = Config.getCurrentWeek();
+      cycleInfo = 'C' + cycle + ' W' + week;
     }
 
     var subject = 'KAMS Science Weekly Digest' + (cycleInfo ? ' - ' + cycleInfo : '');
 
-    // Log the digest (email sending would go here if configured)
-    Logger.log('Digest generated:');
-    Logger.log(digest);
+    // Collect summary data for HTML email
+    var summaryData = collectWeeklySummaryData(results, cycle, week);
+
+    // Try to send HTML email using template
+    var emailSent = false;
+    try {
+      if (typeof HtmlService !== 'undefined') {
+        var template = HtmlService.createTemplateFromFile('templates/emails/weekly-summary');
+
+        // Populate template variables
+        template.cycle = cycle;
+        template.week = week;
+        template.weekDateRange = summaryData.weekDateRange || '';
+        template.healthStatus = summaryData.healthStatus || 'UNKNOWN';
+        template.healthMessage = summaryData.healthMessage || '';
+        template.completionRate = summaryData.completionRate || 0;
+        template.completionTrend = summaryData.completionTrend || 0;
+        template.averageScore = summaryData.averageScore || 0;
+        template.scoreTrend = summaryData.scoreTrend || 0;
+        template.tier1Count = summaryData.tier1Count || 0;
+        template.tier1Percent = summaryData.tier1Percent || 0;
+        template.tier2Count = summaryData.tier2Count || 0;
+        template.tier2Percent = summaryData.tier2Percent || 0;
+        template.tier3Count = summaryData.tier3Count || 0;
+        template.tier3Percent = summaryData.tier3Percent || 0;
+        template.spiralEffectiveness = summaryData.spiralEffectiveness || 0;
+        template.grade7Completion = summaryData.grade7Completion || 0;
+        template.grade7Score = summaryData.grade7Score || 0;
+        template.grade7Tier2 = summaryData.grade7Tier2 || 0;
+        template.grade7Tier3 = summaryData.grade7Tier3 || 0;
+        template.grade8Completion = summaryData.grade8Completion || 0;
+        template.grade8Score = summaryData.grade8Score || 0;
+        template.grade8Tier2 = summaryData.grade8Tier2 || 0;
+        template.grade8Tier3 = summaryData.grade8Tier3 || 0;
+        template.topMisconceptions = summaryData.topMisconceptions || [];
+        template.interventionUpdates = summaryData.interventionUpdates || [];
+        template.priorityActions = summaryData.priorityActions || [];
+        template.hubLink = summaryData.hubLink || '#';
+        template.mtssLink = summaryData.mtssLink || '#';
+        template.seatingLink = summaryData.seatingLink || '#';
+        template.timestamp = new Date().toISOString();
+
+        var htmlBody = template.evaluate().getContent();
+        var recipientEmail = Session.getEffectiveUser().getEmail();
+
+        if (recipientEmail) {
+          MailApp.sendEmail({
+            to: recipientEmail,
+            subject: subject,
+            htmlBody: htmlBody,
+            body: digest // Plain text fallback
+          });
+          emailSent = true;
+          Logger.log('  ✓ HTML digest emailed to: ' + recipientEmail);
+        }
+      }
+    } catch (templateError) {
+      Logger.log('  ⚠ Could not use HTML template: ' + templateError.message);
+    }
+
+    // Fallback to plain text if HTML failed
+    if (!emailSent) {
+      var recipientEmail = Session.getEffectiveUser().getEmail();
+      if (recipientEmail) {
+        MailApp.sendEmail(recipientEmail, subject, digest);
+        emailSent = true;
+        Logger.log('  ✓ Plain text digest emailed to: ' + recipientEmail);
+      }
+    }
+
+    // Save digest to persistence layer
+    if (typeof InsightsDataStore !== 'undefined' && cycle > 0) {
+      var digestData = {
+        type: 'weekly_digest',
+        cycle: cycle,
+        week: week,
+        timestamp: new Date().toISOString(),
+        notifications: NotificationAggregator.getAll(),
+        pipelineResults: results,
+        summaryData: summaryData
+      };
+      InsightsDataStore.saveInsights(cycle, week, digestData);
+      Logger.log('  ✓ Digest saved to data store');
+    }
 
     results.steps.notification = {
-      status: 'GENERATED',
+      status: emailSent ? 'SENT' : 'GENERATED',
       subject: subject,
-      notificationCount: NotificationAggregator.getAll().length
+      notificationCount: NotificationAggregator.getAll().length,
+      emailSent: emailSent
     };
-
-    // Uncomment to enable email sending:
-    // var recipientEmail = Session.getEffectiveUser().getEmail();
-    // MailApp.sendEmail(recipientEmail, subject, digest);
-    // Logger.log('  ✓ Digest emailed to: ' + recipientEmail);
 
     Logger.log('  ✓ Digest ready (' + NotificationAggregator.getAll().length + ' items)');
   } catch (e) {
@@ -691,6 +771,202 @@ function runWeeklyDigest() {
   Logger.log('═══════════════════════════════════════════════════════════');
 
   return results;
+}
+
+/**
+ * Collect data for weekly summary email template
+ * @param {Object} pipelineResults - Results from the weekly pipeline
+ * @param {number} cycle - Current cycle number
+ * @param {number} week - Current week number
+ * @returns {Object} Summary data for email template
+ */
+function collectWeeklySummaryData(pipelineResults, cycle, week) {
+  var data = {
+    cycle: cycle,
+    week: week,
+    weekDateRange: '',
+    healthStatus: 'UNKNOWN',
+    healthMessage: '',
+    completionRate: 0,
+    completionTrend: 0,
+    averageScore: 0,
+    scoreTrend: 0,
+    tier1Count: 0,
+    tier1Percent: 0,
+    tier2Count: 0,
+    tier2Percent: 0,
+    tier3Count: 0,
+    tier3Percent: 0,
+    spiralEffectiveness: 0,
+    grade7Completion: 0,
+    grade7Score: 0,
+    grade7Tier2: 0,
+    grade7Tier3: 0,
+    grade8Completion: 0,
+    grade8Score: 0,
+    grade8Tier2: 0,
+    grade8Tier3: 0,
+    topMisconceptions: [],
+    interventionUpdates: [],
+    priorityActions: [],
+    hubLink: '#',
+    mtssLink: '#',
+    seatingLink: '#'
+  };
+
+  // Try to get week date range from cycle config
+  try {
+    if (typeof Config !== 'undefined') {
+      var cycleConfig = Config.getCycleConfig ? Config.getCycleConfig(cycle) : null;
+      if (cycleConfig && cycleConfig.dates && cycleConfig.dates['week' + week]) {
+        var weekDates = cycleConfig.dates['week' + week];
+        data.weekDateRange = weekDates.start + ' to ' + weekDates.end;
+      }
+    }
+  } catch (e) {
+    Logger.log('Could not get week date range: ' + e.message);
+  }
+
+  // Get health status from pipeline results
+  if (pipelineResults.steps && pipelineResults.steps.healthCheck) {
+    data.healthStatus = pipelineResults.steps.healthCheck.status || 'UNKNOWN';
+    data.healthMessage = pipelineResults.errors.length > 0 ?
+      pipelineResults.errors.length + ' errors during pipeline' :
+      'All pipeline steps completed successfully';
+  }
+
+  // Try to get MTSS and performance data from insights
+  try {
+    if (typeof InsightsDataStore !== 'undefined') {
+      var insights = InsightsDataStore.getInsights(cycle, week);
+      if (insights) {
+        // Extract MTSS data
+        if (insights.mtss) {
+          data.tier1Count = insights.mtss.tier1Count || 0;
+          data.tier1Percent = insights.mtss.tier1Percent || 0;
+          data.tier2Count = insights.mtss.tier2Count || 0;
+          data.tier2Percent = insights.mtss.tier2Percent || 0;
+          data.tier3Count = insights.mtss.tier3Count || 0;
+          data.tier3Percent = insights.mtss.tier3Percent || 0;
+        }
+
+        // Extract performance data
+        if (insights.performance) {
+          data.completionRate = insights.performance.completionRate || 0;
+          data.averageScore = insights.performance.averageScore || 0;
+        }
+
+        // Extract spiral effectiveness
+        if (insights.spiral) {
+          data.spiralEffectiveness = insights.spiral.overall || 0;
+        }
+
+        // Extract misconceptions
+        if (insights.misconceptions && insights.misconceptions.length > 0) {
+          data.topMisconceptions = insights.misconceptions.slice(0, 5).map(function(m) {
+            return {
+              concept: m.concept || m.name || 'Unknown',
+              frequency: m.frequency || 0,
+              studentCount: m.studentCount || m.students || 0
+            };
+          });
+        }
+
+        // Extract priority actions
+        if (insights.prioritizedActions) {
+          data.priorityActions = insights.prioritizedActions.slice(0, 5).map(function(a) {
+            return {
+              priority: a.priority || 'MEDIUM',
+              action: a.action || a.description || ''
+            };
+          });
+        }
+      }
+
+      // Get previous week for trends
+      var prevInsights = InsightsDataStore.getPreviousInsights(cycle, week);
+      if (prevInsights) {
+        if (prevInsights.performance) {
+          data.completionTrend = data.completionRate - (prevInsights.performance.completionRate || 0);
+          data.scoreTrend = data.averageScore - (prevInsights.performance.averageScore || 0);
+        }
+      }
+    }
+  } catch (e) {
+    Logger.log('Could not get insights data: ' + e.message);
+  }
+
+  // Try to get grade-specific data
+  try {
+    if (typeof getMtssReport === 'function') {
+      var g7Report = getMtssReport(7);
+      if (g7Report && g7Report.summary) {
+        data.grade7Completion = g7Report.summary.completionRate || 0;
+        data.grade7Score = g7Report.summary.averageScore || 0;
+        data.grade7Tier2 = g7Report.summary.tier2Count || 0;
+        data.grade7Tier3 = g7Report.summary.tier3Count || 0;
+      }
+
+      var g8Report = getMtssReport(8);
+      if (g8Report && g8Report.summary) {
+        data.grade8Completion = g8Report.summary.completionRate || 0;
+        data.grade8Score = g8Report.summary.averageScore || 0;
+        data.grade8Tier2 = g8Report.summary.tier2Count || 0;
+        data.grade8Tier3 = g8Report.summary.tier3Count || 0;
+      }
+    }
+  } catch (e) {
+    Logger.log('Could not get grade-specific data: ' + e.message);
+  }
+
+  // Try to get intervention updates
+  try {
+    if (typeof InterventionDataStore !== 'undefined') {
+      [7, 8].forEach(function(grade) {
+        var report = InterventionDataStore.generateEffectivenessReport(grade);
+        if (report) {
+          if (report.graduatedCount > 0) {
+            data.interventionUpdates.push({
+              type: 'GRADUATED',
+              message: report.graduatedCount + ' Grade ' + grade + ' students graduated from interventions'
+            });
+          }
+          if (report.escalatedCount > 0) {
+            data.interventionUpdates.push({
+              type: 'ESCALATED',
+              message: report.escalatedCount + ' Grade ' + grade + ' students need escalation'
+            });
+          }
+        }
+      });
+    }
+  } catch (e) {
+    Logger.log('Could not get intervention updates: ' + e.message);
+  }
+
+  // Set default priority actions if none found
+  if (data.priorityActions.length === 0) {
+    if (data.tier3Count > 0) {
+      data.priorityActions.push({
+        priority: 'HIGH',
+        action: 'Review ' + data.tier3Count + ' Tier 3 students for intervention updates'
+      });
+    }
+    if (data.topMisconceptions.length > 0) {
+      data.priorityActions.push({
+        priority: 'MEDIUM',
+        action: 'Address top misconception: ' + data.topMisconceptions[0].concept
+      });
+    }
+    if (data.spiralEffectiveness < 60) {
+      data.priorityActions.push({
+        priority: 'MEDIUM',
+        action: 'Review spiral question effectiveness (currently ' + data.spiralEffectiveness + '%)'
+      });
+    }
+  }
+
+  return data;
 }
 
 // ==========================================================================
