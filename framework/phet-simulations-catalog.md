@@ -124,13 +124,13 @@ PhET Interactive Simulations (University of Colorado Boulder) provides free, res
 | C5 W2 | Weather Prediction | ✅ | weather-prediction-simulator.html | - |
 | C5 W3 | Synthesis | N/A | - | - |
 | C6 W1 | Plate Tectonics | ✅ plate-tectonics | - | Use PhET |
-| C6 W2 | Seafloor Spreading | ❌ | - | **NEEDS** Pangaea puzzle |
+| C6 W2 | Seafloor Spreading | ❌ | pangaea-puzzle.html | ✅ |
 | C6 W3 | Synthesis | N/A | - | - |
-| C7 W1 | Rock Cycle | ❌ | - | **NEEDS** rock cycle sim |
-| C7 W2 | Geologic Time | ❌ | - | **NEEDS** timeline interactive |
+| C7 W1 | Rock Cycle | ❌ | rock-cycle-explorer.html | ✅ |
+| C7 W2 | Geologic Time | ❌ | geologic-time-explorer.html | ✅ |
 | C7 W3 | Synthesis | N/A | - | - |
-| C8 W1 | Ecosystems & Food Webs | ❌ | - | **NEEDS** trophic cascade |
-| C8 W2 | Biodiversity Value | ❌ | - | **NEEDS** comparison sim |
+| C8 W1 | Ecosystems & Food Webs | ❌ | trophic-cascade-simulator.html | ✅ |
+| C8 W2 | Biodiversity Value | ❌ | biodiversity-resilience-simulator.html | ✅ |
 | C8 W3 | Year-End Integration | N/A | - | - |
 
 ### Grade 8 Alignment
@@ -206,15 +206,22 @@ Updated: {Month} 2025 | Material-Free Audit Complete
 
 ### Medium Priority (G7 C6-C8 Custom Simulations)
 
-> **Audited Dec 2025:** The following G7 simulations need custom builds (no PhET equivalent):
+> **Completed Dec 2025:** All G7 C6-C8 custom simulations have been built!
 
-| Grade | Cycle | Week | Topic | Simulation Needed |
-|-------|-------|------|-------|-------------------|
-| G7 | C6 | W2 | Seafloor Spreading | Pangaea puzzle reconstruction |
-| G7 | C7 | W1 | Rock Cycle | Rock type transformation sim |
-| G7 | C7 | W2 | Geologic Time | Interactive timeline with fossils |
-| G7 | C8 | W1 | Ecosystems | Trophic cascade food web sim |
-| G7 | C8 | W2 | Biodiversity | Diverse vs. monoculture comparison |
+| Grade | Cycle | Week | Topic | Simulation | Status |
+|-------|-------|------|-------|------------|--------|
+| G7 | C6 | W2 | Seafloor Spreading | pangaea-puzzle.html | ✅ COMPLETE |
+| G7 | C7 | W1 | Rock Cycle | rock-cycle-explorer.html | ✅ COMPLETE |
+| G7 | C7 | W2 | Geologic Time | geologic-time-explorer.html | ✅ COMPLETE |
+| G7 | C8 | W1 | Ecosystems | trophic-cascade-simulator.html | ✅ COMPLETE |
+| G7 | C8 | W2 | Biodiversity | biodiversity-resilience-simulator.html | ✅ COMPLETE |
+
+**Simulation Details:**
+- `pangaea-puzzle.html` - Drag-and-drop continental reconstruction with fossil/rock evidence
+- `rock-cycle-explorer.html` - Interactive rock type transformation with process visualization
+- `geologic-time-explorer.html` - Draggable timeline with eras, fossils, and extinction events
+- `trophic-cascade-simulator.html` - Yellowstone wolves food web with cascade scenarios
+- `biodiversity-resilience-simulator.html` - Diverse vs. monoculture ecosystem comparison
 
 **G8 Status:** All C5-C8 topics have PhET coverage (forces, magnetism, chemistry, waves).
 

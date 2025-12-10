@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive geologic time scale with fossils and major events">
+    <title>Geologic Time Explorer | G7 C7 W2</title>
+    <!--
+    ================================================================================
+    Grade 7 Cycle 7 Week 2 - Geologic Time Explorer
+    ================================================================================
+    100% DIGITAL/SIMULATION-BASED INSTRUCTION
+    Interactive timeline demonstrating:
+    - Geologic eras and periods
+    - Fossil appearances through time
+    - Major extinction events
+    - Scale of deep time
+
+    Standards: MS-ESS1-4 (Earth's History)
+    Updated: December 2025 | Material-Free Audit Complete
+    ================================================================================
+    -->
+    <style>
+        :root {
+            --precambrian: #6B7280;
+            --paleozoic: #3B82F6;
+            --mesozoic: #10B981;
+            --cenozoic: #F59E0B;
+            --primary: #8B5CF6;
+            --primary-light: #EDE9FE;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-500: #6B7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --text: #1E293B;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1E3A8A 0%, #312E81 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: clamp(1.4em, 4vw, 2em);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sim-container {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .instructions {
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+        }
+
+        .instructions summary {
+            padding: 14px 18px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6D28D9;
+            list-style: none;
+        }
+
+        .instructions summary::-webkit-details-marker { display: none; }
+
+        .instructions-content {
+            padding: 14px 18px;
+            color: var(--gray-700);
+        }
+
+        .instructions-content ol { margin-left: 20px; }
+        .instructions-content li { margin-bottom: 8px; }
+
+        /* Timeline Container */
+        .timeline-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.85em;
+            color: var(--gray-500);
+        }
+
+        /* Main Timeline */
+        .timeline {
+            position: relative;
+            height: 120px;
+            background: var(--gray-100);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .era {
+            position: absolute;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .era:hover {
+            filter: brightness(1.1);
+            transform: scaleY(1.05);
+        }
+
+        .era.selected {
+            filter: brightness(1.2);
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        .precambrian { background: linear-gradient(180deg, #4B5563, #374151); }
+        .paleozoic { background: linear-gradient(180deg, #3B82F6, #2563EB); }
+        .mesozoic { background: linear-gradient(180deg, #10B981, #059669); }
+        .cenozoic { background: linear-gradient(180deg, #F59E0B, #D97706); }
+
+        /* Extinction Events */
+        .extinction-marker {
+            position: absolute;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: #EF4444;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .extinction-marker::after {
+            content: '💀';
+            position: absolute;
+            top: -25px;
+            left: -10px;
+            font-size: 1.2em;
+        }
+
+        .extinction-marker:hover::before {
+            content: attr(data-event);
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #EF4444;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            white-space: nowrap;
+        }
+
+        /* Fossil Markers */
+        .fossil-track {
+            position: relative;
+            height: 80px;
+            background: var(--gray-50);
+            border-radius: var(--radius-sm);
+            margin-top: 10px;
+            overflow: visible;
+        }
+
+        .fossil-marker {
+            position: absolute;
+            bottom: 10px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .fossil-marker:hover {
+            transform: scale(1.2) translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+        }
+
+        .fossil-marker.selected {
+            transform: scale(1.3) translateY(-10px);
+            box-shadow: 0 0 20px gold;
+        }
+
+        /* Time Indicator */
+        .time-indicator {
+            position: absolute;
+            top: 0;
+            width: 3px;
+            height: calc(100% + 90px);
+            background: var(--primary);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .time-indicator::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: -8px;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .time-display {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* Info Panel */
+        .info-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .era-info {
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid;
+        }
+
+        .era-info h4 { margin-bottom: 8px; }
+
+        .fossil-info {
+            grid-column: 1 / -1;
+            background: var(--gray-900);
+            color: white;
+            padding: 20px;
+            border-radius: var(--radius-sm);
+            min-height: 120px;
+        }
+
+        .fossil-info h4 {
+            color: gold;
+            margin-bottom: 10px;
+        }
+
+        /* Zoom Controls */
+        .zoom-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .zoom-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .zoom-btn:hover { border-color: var(--primary); }
+        .zoom-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 48px;
+        }
+
+        button:hover { transform: translateY(-2px); }
+
+        .btn-primary { background: linear-gradient(135deg, #8B5CF6, #7C3AED); color: white; }
+        .btn-secondary { background: linear-gradient(135deg, #10B981, #059669); color: white; }
+
+        /* Key Concepts */
+        .key-concepts {
+            background: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 20px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-bottom: 20px;
+        }
+
+        .key-concepts h3 { color: #92400E; margin-bottom: 12px; }
+        .key-concepts ul { margin-left: 20px; }
+        .key-concepts li { margin-bottom: 8px; }
+
+        /* POE Section */
+        .poe-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .poe-card {
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid;
+        }
+
+        .poe-card.predict { background: #F5F3FF; border-color: #8B5CF6; }
+        .poe-card.observe { background: #ECFEFF; border-color: #06B6D4; }
+        .poe-card.explain { background: #FFFBEB; border-color: #F59E0B; }
+
+        .poe-card h4 { margin-bottom: 8px; }
+        .poe-card.predict h4 { color: #6D28D9; }
+        .poe-card.observe h4 { color: #0891B2; }
+        .poe-card.explain h4 { color: #D97706; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .sim-container { padding: 15px; }
+            .info-panel { grid-template-columns: 1fr; }
+            .era { font-size: 0.7em; }
+            .fossil-marker { width: 40px; height: 40px; font-size: 1.4em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⏳ Geologic Time Explorer</h1>
+        <p class="subtitle">Journey through 4.6 billion years of Earth's history</p>
+
+        <div class="sim-container">
+            <details class="instructions" open>
+                <summary>📋 How to Use This Simulation</summary>
+                <div class="instructions-content">
+                    <ol>
+                        <li><strong>Click and drag</strong> on the timeline to explore different time periods</li>
+                        <li><strong>Click an era</strong> (colored sections) to learn about that time period</li>
+                        <li><strong>Click a fossil</strong> to learn when that organism first appeared</li>
+                        <li>Notice the <strong>extinction markers</strong> (💀) showing mass extinction events</li>
+                        <li>Use <strong>zoom buttons</strong> to focus on recent or deep time</li>
+                    </ol>
+                </div>
+            </details>
+
+            <div class="zoom-controls">
+                <button class="zoom-btn active" onclick="setZoom('full')">Full Scale (4.6 Bya)</button>
+                <button class="zoom-btn" onclick="setZoom('phanerozoic')">Phanerozoic (541 Mya)</button>
+                <button class="zoom-btn" onclick="setZoom('recent')">Recent (250 Mya)</button>
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-header">
+                    <span id="startLabel">4.6 billion years ago</span>
+                    <span id="endLabel">Present</span>
+                </div>
+
+                <div class="timeline" id="timeline">
+                    <!-- Eras will be positioned by JavaScript -->
+                    <div class="era precambrian" id="precambrian" onclick="selectEra('precambrian')">Precambrian</div>
+                    <div class="era paleozoic" id="paleozoic" onclick="selectEra('paleozoic')">Paleozoic</div>
+                    <div class="era mesozoic" id="mesozoic" onclick="selectEra('mesozoic')">Mesozoic</div>
+                    <div class="era cenozoic" id="cenozoic" onclick="selectEra('cenozoic')">Cenozoic</div>
+
+                    <!-- Extinction markers -->
+                    <div class="extinction-marker" id="ext1" data-event="End-Ordovician"></div>
+                    <div class="extinction-marker" id="ext2" data-event="Late Devonian"></div>
+                    <div class="extinction-marker" id="ext3" data-event="End-Permian (96%)"></div>
+                    <div class="extinction-marker" id="ext4" data-event="End-Triassic"></div>
+                    <div class="extinction-marker" id="ext5" data-event="End-Cretaceous (Dinosaurs)"></div>
+
+                    <!-- Time indicator -->
+                    <div class="time-indicator" id="timeIndicator">
+                        <div class="time-display" id="timeDisplay">0 Mya</div>
+                    </div>
+                </div>
+
+                <div class="fossil-track" id="fossilTrack">
+                    <!-- Fossils positioned by JavaScript -->
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <div class="era-info" id="eraInfo" style="border-color: var(--gray-500); background: var(--gray-50);">
+                    <h4>📅 Select an Era</h4>
+                    <p>Click on a colored section of the timeline to learn about that era.</p>
+                </div>
+
+                <div class="era-info" id="statsInfo" style="border-color: var(--primary); background: var(--primary-light);">
+                    <h4>📊 Time Statistics</h4>
+                    <p><strong>Earth's Age:</strong> 4.6 billion years</p>
+                    <p><strong>Life on Earth:</strong> ~3.8 billion years</p>
+                    <p><strong>Complex Life:</strong> ~541 million years</p>
+                </div>
+
+                <div class="fossil-info" id="fossilInfo">
+                    <h4>🦴 Fossil Information</h4>
+                    <p>Click on a fossil icon below the timeline to learn when that organism first appeared and what it tells us about Earth's history.</p>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-primary" onclick="resetTimeline()">🔄 Reset</button>
+                <button class="btn-secondary" onclick="playTimelapse()">▶️ Play Timelapse</button>
+            </div>
+
+            <div class="key-concepts">
+                <h3>💡 Key Concepts</h3>
+                <ul>
+                    <li><strong>Precambrian (4.6 Bya - 541 Mya):</strong> 88% of Earth's history! Simple life, stromatolites, first oxygen</li>
+                    <li><strong>Paleozoic (541-252 Mya):</strong> "Ancient Life" - Fish, amphibians, reptiles, first forests</li>
+                    <li><strong>Mesozoic (252-66 Mya):</strong> "Middle Life" - Age of Dinosaurs, first mammals and birds</li>
+                    <li><strong>Cenozoic (66 Mya-Present):</strong> "Recent Life" - Age of Mammals, humans appear ~300,000 years ago</li>
+                    <li><strong>Mass Extinctions:</strong> 5 major events shaped life's evolution, creating opportunities for survivors</li>
+                </ul>
+            </div>
+
+            <div class="poe-section">
+                <div class="poe-card predict">
+                    <h4>🤔 PREDICT</h4>
+                    <p>If you could only see fossils in one rock layer, could you determine its age? What information would you need?</p>
+                </div>
+                <div class="poe-card observe">
+                    <h4>👀 OBSERVE</h4>
+                    <p>Which era takes up the most space on the timeline? Why might this be surprising given how much we know about dinosaurs?</p>
+                </div>
+                <div class="poe-card explain">
+                    <h4>💬 EXPLAIN</h4>
+                    <p>How do fossils help scientists determine the relative age of rock layers? Why are some fossils better "index fossils" than others?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Era and fossil data
+        const eras = {
+            precambrian: {
+                name: 'Precambrian',
+                start: 4600,
+                end: 541,
+                color: '#6B7280',
+                description: 'The longest era, spanning 88% of Earth\'s history. Life began as simple single-celled organisms. Stromatolites (bacterial mats) produced oxygen, changing Earth\'s atmosphere.',
+                events: ['Earth forms (4.6 Bya)', 'First life (~3.8 Bya)', 'Great Oxidation Event (~2.4 Bya)', 'First multicellular life (~600 Mya)']
+            },
+            paleozoic: {
+                name: 'Paleozoic Era',
+                start: 541,
+                end: 252,
+                color: '#3B82F6',
+                description: '"Ancient Life" era. The Cambrian Explosion produced most modern animal groups. Fish dominated, then amphibians moved to land. Ended with the largest mass extinction (96% of species).',
+                events: ['Cambrian Explosion (541 Mya)', 'First fish (530 Mya)', 'First land plants (470 Mya)', 'First amphibians (375 Mya)', 'First reptiles (312 Mya)']
+            },
+            mesozoic: {
+                name: 'Mesozoic Era',
+                start: 252,
+                end: 66,
+                color: '#10B981',
+                description: '"Age of Dinosaurs." Dinosaurs dominated for 180 million years. First mammals, birds, and flowering plants appeared. Ended with asteroid impact extinction.',
+                events: ['First dinosaurs (230 Mya)', 'First mammals (225 Mya)', 'First birds (150 Mya)', 'First flowers (130 Mya)', 'Asteroid impact (66 Mya)']
+            },
+            cenozoic: {
+                name: 'Cenozoic Era',
+                start: 66,
+                end: 0,
+                color: '#F59E0B',
+                description: '"Age of Mammals." After dinosaurs, mammals diversified rapidly. Grasslands spread, primates evolved, and humans appeared very recently (~300,000 years ago).',
+                events: ['Mammals diversify (66 Mya)', 'First primates (55 Mya)', 'First grasslands (25 Mya)', 'First hominids (7 Mya)', 'Homo sapiens (0.3 Mya)']
+            }
+        };
+
+        const fossils = [
+            { id: 'stromatolite', emoji: '🦠', name: 'Stromatolites', age: 3500, desc: 'Bacterial mats - some of the earliest life on Earth' },
+            { id: 'trilobite', emoji: '🦐', name: 'Trilobites', age: 521, desc: 'Ancient arthropods - excellent index fossils for Paleozoic' },
+            { id: 'fish', emoji: '🐟', name: 'Fish', age: 530, desc: 'First vertebrates - dominated Paleozoic oceans' },
+            { id: 'fern', emoji: '🌿', name: 'Ferns', age: 360, desc: 'Early land plants - formed vast coal forests' },
+            { id: 'dinosaur', emoji: '🦕', name: 'Dinosaurs', age: 230, desc: 'Dominated Mesozoic for 165 million years' },
+            { id: 'ammonite', emoji: '🐚', name: 'Ammonites', age: 400, desc: 'Spiral-shelled - excellent index fossils' },
+            { id: 'mammal', emoji: '🐘', name: 'Large Mammals', age: 55, desc: 'Diversified after dinosaur extinction' },
+            { id: 'human', emoji: '👤', name: 'Humans', age: 0.3, desc: 'Homo sapiens - only 300,000 years old!' }
+        ];
+
+        const extinctions = [
+            { id: 'ext1', age: 445, event: 'End-Ordovician', percent: 85 },
+            { id: 'ext2', age: 375, event: 'Late Devonian', percent: 75 },
+            { id: 'ext3', age: 252, event: 'End-Permian', percent: 96 },
+            { id: 'ext4', age: 201, event: 'End-Triassic', percent: 80 },
+            { id: 'ext5', age: 66, event: 'End-Cretaceous', percent: 76 }
+        ];
+
+        let currentZoom = 'full';
+        let maxAge = 4600;
+        let isDragging = false;
+
+        function initTimeline() {
+            updateEraPositions();
+            createFossilMarkers();
+            updateExtinctionPositions();
+            setupTimelineInteraction();
+        }
+
+        function setZoom(zoom) {
+            currentZoom = zoom;
+            document.querySelectorAll('.zoom-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (zoom === 'full') {
+                maxAge = 4600;
+                document.getElementById('startLabel').textContent = '4.6 billion years ago';
+            } else if (zoom === 'phanerozoic') {
+                maxAge = 541;
+                document.getElementById('startLabel').textContent = '541 million years ago';
+            } else {
+                maxAge = 250;
+                document.getElementById('startLabel').textContent = '250 million years ago';
+            }
+
+            updateEraPositions();
+            createFossilMarkers();
+            updateExtinctionPositions();
+        }
+
+        function updateEraPositions() {
+            Object.keys(eras).forEach(eraId => {
+                const era = eras[eraId];
+                const el = document.getElementById(eraId);
+
+                const startPercent = Math.max(0, (maxAge - era.start) / maxAge * 100);
+                const endPercent = Math.min(100, (maxAge - era.end) / maxAge * 100);
+                const width = endPercent - startPercent;
+
+                if (era.start > maxAge) {
+                    el.style.display = 'none';
+                } else {
+                    el.style.display = 'flex';
+                    el.style.left = startPercent + '%';
+                    el.style.width = Math.max(0, width) + '%';
+                }
+            });
+        }
+
+        function createFossilMarkers() {
+            const track = document.getElementById('fossilTrack');
+            track.innerHTML = '';
+
+            fossils.forEach(fossil => {
+                if (fossil.age > maxAge) return;
+
+                const marker = document.createElement('div');
+                marker.className = 'fossil-marker';
+                marker.id = 'fossil-' + fossil.id;
+                marker.textContent = fossil.emoji;
+                marker.title = fossil.name;
+                marker.style.left = `calc(${(maxAge - fossil.age) / maxAge * 100}% - 25px)`;
+                marker.onclick = () => selectFossil(fossil);
+                track.appendChild(marker);
+            });
+        }
+
+        function updateExtinctionPositions() {
+            extinctions.forEach(ext => {
+                const el = document.getElementById(ext.id);
+                if (ext.age > maxAge) {
+                    el.style.display = 'none';
+                } else {
+                    el.style.display = 'block';
+                    el.style.left = (maxAge - ext.age) / maxAge * 100 + '%';
+                }
+            });
+        }
+
+        function setupTimelineInteraction() {
+            const timeline = document.getElementById('timeline');
+            const indicator = document.getElementById('timeIndicator');
+
+            timeline.addEventListener('mousedown', startDrag);
+            timeline.addEventListener('touchstart', startDrag, {passive: false});
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, {passive: false});
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+
+            function startDrag(e) {
+                isDragging = true;
+                updateIndicator(e);
+            }
+
+            function drag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                updateIndicator(e);
+            }
+
+            function endDrag() {
+                isDragging = false;
+            }
+
+            function updateIndicator(e) {
+                const rect = timeline.getBoundingClientRect();
+                let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                let x = clientX - rect.left;
+                x = Math.max(0, Math.min(x, rect.width));
+
+                const percent = x / rect.width;
+                const age = maxAge - (percent * maxAge);
+
+                indicator.style.left = x + 'px';
+                document.getElementById('timeDisplay').textContent = formatAge(age);
+            }
+        }
+
+        function formatAge(age) {
+            if (age >= 1000) {
+                return (age / 1000).toFixed(1) + ' Bya';
+            } else if (age >= 1) {
+                return Math.round(age) + ' Mya';
+            } else {
+                return Math.round(age * 1000) + ' Kya';
+            }
+        }
+
+        function selectEra(eraId) {
+            document.querySelectorAll('.era').forEach(e => e.classList.remove('selected'));
+            document.getElementById(eraId).classList.add('selected');
+
+            const era = eras[eraId];
+            document.getElementById('eraInfo').style.borderColor = era.color;
+            document.getElementById('eraInfo').style.background = era.color + '20';
+            document.getElementById('eraInfo').innerHTML = `
+                <h4>📅 ${era.name}</h4>
+                <p><strong>Time:</strong> ${formatAge(era.start)} - ${formatAge(era.end)}</p>
+                <p>${era.description}</p>
+            `;
+
+            document.getElementById('fossilInfo').innerHTML = `
+                <h4>📜 Key Events in ${era.name}</h4>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    ${era.events.map(e => `<li>${e}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        function selectFossil(fossil) {
+            document.querySelectorAll('.fossil-marker').forEach(m => m.classList.remove('selected'));
+            document.getElementById('fossil-' + fossil.id).classList.add('selected');
+
+            document.getElementById('fossilInfo').innerHTML = `
+                <h4>${fossil.emoji} ${fossil.name}</h4>
+                <p><strong>First Appearance:</strong> ${formatAge(fossil.age)}</p>
+                <p>${fossil.desc}</p>
+                <p><strong>Index Fossil?</strong> ${fossil.age < 541 ? 'Yes - useful for dating rocks' : 'Limited - existed before complex life explosion'}</p>
+            `;
+
+            // Move indicator to fossil position
+            const indicator = document.getElementById('timeIndicator');
+            const timeline = document.getElementById('timeline');
+            const pos = (maxAge - fossil.age) / maxAge * timeline.offsetWidth;
+            indicator.style.left = pos + 'px';
+            document.getElementById('timeDisplay').textContent = formatAge(fossil.age);
+        }
+
+        function resetTimeline() {
+            document.querySelectorAll('.era').forEach(e => e.classList.remove('selected'));
+            document.querySelectorAll('.fossil-marker').forEach(m => m.classList.remove('selected'));
+            document.getElementById('timeIndicator').style.left = '100%';
+            document.getElementById('timeDisplay').textContent = 'Present';
+
+            document.getElementById('eraInfo').innerHTML = `
+                <h4>📅 Select an Era</h4>
+                <p>Click on a colored section of the timeline to learn about that era.</p>
+            `;
+
+            document.getElementById('fossilInfo').innerHTML = `
+                <h4>🦴 Fossil Information</h4>
+                <p>Click on a fossil icon below the timeline to learn when that organism first appeared and what it tells us about Earth's history.</p>
+            `;
+        }
+
+        function playTimelapse() {
+            const indicator = document.getElementById('timeIndicator');
+            const timeline = document.getElementById('timeline');
+            const display = document.getElementById('timeDisplay');
+
+            let pos = 0;
+            indicator.style.transition = 'none';
+
+            const animate = setInterval(() => {
+                pos += 2;
+                if (pos > timeline.offsetWidth) {
+                    clearInterval(animate);
+                    indicator.style.transition = '';
+                    return;
+                }
+
+                indicator.style.left = pos + 'px';
+                const percent = pos / timeline.offsetWidth;
+                const age = maxAge - (percent * maxAge);
+                display.textContent = formatAge(age);
+            }, 50);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'r' || e.key === 'R') resetTimeline();
+            if (e.key === ' ') playTimelapse();
+        });
+
+        // Initialize
+        window.addEventListener('load', initTimeline);
+    </script>
+</body>
+</html>

@@ -81,18 +81,78 @@ function createExitTicketFromTemplate(config) {
       '1: Incorrect\n' +
       '0: No response'
     );
-  // TODO: Add question with sentence starters
+
+  form.addParagraphTextItem()
+    .setTitle('Explain [KEY CONCEPT FROM THIS WEEK] in your own words.')
+    .setHelpText(
+      'SENTENCE STARTERS:\n' +
+      '• [Concept] is when...\n' +
+      '• An example of [concept] is... because...\n' +
+      '• This matters because...\n\n' +
+      'Include: definition, example, and why it matters.'
+    )
+    .setRequired(true);
 
   // Q2: SPIRAL (4 pts auto)
   form.addSectionHeaderItem().setTitle('Question 2: SPIRAL - Week [X-1]');
-  // TODO: Add spiral question
+
+  const q2 = form.addMultipleChoiceItem()
+    .setTitle('[SPIRAL] Last week you learned about [PRIOR TOPIC]. Which is correct?')
+    .setHelpText('Think back to Week [X-1] content.')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('[Correct answer demonstrating retention]', true),
+      form.createChoice('[Near-miss - partial understanding]'),
+      form.createChoice('[Common confusion with current week]'),
+      form.createChoice('[Misconception from prior week]')
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('Excellent retention! [Brief reinforcement]')
+      .build())
+    .setFeedbackForIncorrect(FormApp.createFeedback()
+      .setText('Review: [Key concept from Week X-1]. Remember that [explanation].')
+      .build())
+    .setRequired(true);
 
   // Q3: NEW (4 pts auto)
-  // TODO: Add auto-graded new content question
+  const q3 = form.addMultipleChoiceItem()
+    .setTitle('Based on today\'s lesson about [CURRENT TOPIC], which statement is TRUE?')
+    .setHelpText('Apply what you learned in this week\'s stations.')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('[Correct application of new content]', true),
+      form.createChoice('[Common error in applying concept]'),
+      form.createChoice('[Overgeneralization]'),
+      form.createChoice('[Misconception]')
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('Correct! [Explanation of why this demonstrates understanding]')
+      .build())
+    .setFeedbackForIncorrect(FormApp.createFeedback()
+      .setText('[Refutational text]: You might think [misconception], but actually [correct understanding] because [evidence].')
+      .build())
+    .setRequired(true);
 
   // Q4: SPIRAL - Misconception Check (4 pts auto)
   form.addSectionHeaderItem().setTitle('Question 4: SPIRAL - Misconception Check');
-  // TODO: Add targeted misconception question
+
+  const q4 = form.addMultipleChoiceItem()
+    .setTitle('[SPIRAL] A common mistake is thinking [MISCONCEPTION]. Why is this incorrect?')
+    .setHelpText('This targets a common error from Week [X-1].')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('[Correct explanation of why misconception is wrong]', true),
+      form.createChoice('[Restates misconception as fact]'),
+      form.createChoice('[Partially correct but missing key point]'),
+      form.createChoice('[Different misconception]')
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('You avoided the misconception trap! [Reinforcement of correct understanding]')
+      .build())
+    .setFeedbackForIncorrect(FormApp.createFeedback()
+      .setText('IMPORTANT: [Refutational explanation]. The evidence shows [correct understanding] because [reason].')
+      .build())
+    .setRequired(true);
 
   // --- INTEGRATION ---
   form.addPageBreakItem()
@@ -110,15 +170,34 @@ function createExitTicketFromTemplate(config) {
       '1: Vague response\n' +
       '0: No response'
     );
-  // TODO: Add integration question with multi-week sentence starters
+
+  form.addParagraphTextItem()
+    .setTitle('How do [CONCEPT FROM WEEK X-1] and [CONCEPT FROM WEEK X] work together in [REAL-WORLD SCENARIO]?')
+    .setHelpText(
+      'SENTENCE STARTERS:\n' +
+      '• [Week X-1 concept] affects [Week X concept] by...\n' +
+      '• In [scenario], first [concept 1] happens, then [concept 2] causes...\n' +
+      '• The connection between [X-1] and [X] explains why...\n\n' +
+      'You must reference BOTH weeks to get full credit.'
+    )
+    .setRequired(true);
 
   // --- SEP ---
   form.addPageBreakItem()
-    .setTitle('SEP: [PRACTICE NAME] (Question 6)')
-    .setHelpText('NGSS Practice: [Practice description]');
+    .setTitle('SEP: Analyzing & Interpreting Data (Question 6)')
+    .setHelpText('NGSS Practice: Construct explanations supported by multiple sources of evidence.');
 
   // Q6: SEP (3 pts manual)
-  // TODO: Add SEP question
+  form.addParagraphTextItem()
+    .setTitle('SEP TASK: Using the data from Station 2, explain [PHENOMENON] by identifying a pattern and explaining what causes it.')
+    .setHelpText(
+      'SENTENCE STARTERS:\n' +
+      '• The data shows a pattern of...\n' +
+      '• This pattern is caused by...\n' +
+      '• My evidence for this explanation is...\n\n' +
+      'RUBRIC: 3=Pattern + cause + evidence, 2=Pattern + partial cause, 1=Pattern only, 0=No response'
+    )
+    .setRequired(true);
 
   return form;
 }

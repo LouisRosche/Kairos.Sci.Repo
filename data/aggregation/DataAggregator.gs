@@ -32,13 +32,28 @@ function getAggregatorConfig() {
 }
 
 /**
- * Main aggregation function
+ * Main aggregation function with comprehensive error handling
  * @param {Object} rawResponses - Output from ResponseCollector
  * @param {number} grade - Grade to analyze
  * @param {number} cycle - Cycle to analyze
  * @param {number} week - Week to analyze
+ * @returns {Object|null} Aggregated data or null if no data found
  */
 function aggregateWeekData(rawResponses, grade, cycle, week) {
+  const startTime = new Date();
+  Logger.log(`Aggregating G${grade} C${cycle} W${week}...`);
+
+  // Input validation
+  if (!rawResponses) {
+    Logger.log(`ERROR: rawResponses is null or undefined`);
+    return { error: 'No response data provided', grade, cycle, week };
+  }
+
+  if (!rawResponses.grades) {
+    Logger.log(`ERROR: rawResponses.grades is missing`);
+    return { error: 'Invalid response data structure', grade, cycle, week };
+  }
+
   const weekKey = `week${week}`;
   const cycleKey = `cycle${String(cycle).padStart(2, '0')}`;
 
@@ -48,126 +63,223 @@ function aggregateWeekData(rawResponses, grade, cycle, week) {
     return null;
   }
 
-  // Build student-level data
-  const students = buildStudentScores(weekData);
-
-  // Calculate class-level statistics
-  const classStats = calculateClassStats(students);
-
-  // Identify misconception patterns
-  const patterns = identifyMisconceptionPatterns(weekData);
-
-  // Generate MTSS report
-  const mtssReport = generateMTSSReport(students, patterns, grade, cycle, week);
-
-  return {
+  const result = {
     grade: grade,
     cycle: cycle,
     week: week,
     generated: new Date().toISOString(),
-    classStats: classStats,
-    patterns: patterns,
-    mtss: mtssReport
+    errors: []
   };
+
+  // Build student-level data
+  let students;
+  try {
+    students = buildStudentScores(weekData);
+    result.students = students;
+  } catch (e) {
+    Logger.log(`ERROR building student scores: ${e.message}`);
+    result.errors.push({ step: 'buildStudentScores', error: e.message });
+    students = {};
+  }
+
+  // Calculate class-level statistics
+  try {
+    result.classStats = calculateClassStats(students);
+  } catch (e) {
+    Logger.log(`ERROR calculating class stats: ${e.message}`);
+    result.errors.push({ step: 'calculateClassStats', error: e.message });
+    result.classStats = { error: e.message };
+  }
+
+  // Identify misconception patterns
+  try {
+    result.patterns = identifyMisconceptionPatterns(weekData);
+  } catch (e) {
+    Logger.log(`ERROR identifying misconception patterns: ${e.message}`);
+    result.errors.push({ step: 'identifyMisconceptionPatterns', error: e.message });
+    result.patterns = { error: e.message };
+  }
+
+  // Generate MTSS report
+  try {
+    result.mtss = generateMTSSReport(students, result.patterns, grade, cycle, week);
+  } catch (e) {
+    Logger.log(`ERROR generating MTSS report: ${e.message}`);
+    result.errors.push({ step: 'generateMTSSReport', error: e.message });
+    result.mtss = { error: e.message };
+  }
+
+  const duration = (new Date() - startTime) / 1000;
+  Logger.log(`Aggregation complete for G${grade} C${cycle} W${week} (${duration.toFixed(2)}s, ${result.errors.length} errors)`);
+
+  return result;
 }
 
 /**
- * Build student scores from week data
+ * Build student scores from week data with error handling
+ * @param {Object} weekData - Week data containing form responses
+ * @returns {Object} Student scores keyed by email
  */
 function buildStudentScores(weekData) {
-  const config = getAggregatorConfig();
+  if (!weekData || !weekData.forms) {
+    Logger.log('WARNING: weekData or weekData.forms is missing');
+    return {};
+  }
+
+  let config;
+  try {
+    config = getAggregatorConfig();
+  } catch (e) {
+    Logger.log(`WARNING: Could not load aggregator config, using defaults: ${e.message}`);
+    config = { points: { hook: 12, station1: 20, station2: 20, station3: 25, exitTicket: 23 } };
+  }
+
   const students = {};
 
   Object.keys(weekData.forms).forEach(formType => {
-    const formData = weekData.forms[formType];
-    if (!formData.responses) return;
+    try {
+      const formData = weekData.forms[formType];
+      if (!formData || !formData.responses) return;
 
-    formData.responses.forEach(response => {
-      const email = response.email;
+      formData.responses.forEach((response, responseIndex) => {
+        try {
+          const email = response.email || `unknown_${responseIndex}`;
 
-      if (!students[email]) {
-        students[email] = {
-          email: email,
-          forms: {},
-          totalEarned: 0,
-          totalPossible: 0,
-          questionDetails: []
-        };
-      }
+          if (!students[email]) {
+            students[email] = {
+              email: email,
+              forms: {},
+              totalEarned: 0,
+              totalPossible: 0,
+              questionDetails: []
+            };
+          }
 
-      // Calculate form score
-      let formEarned = 0;
-      let formPossible = config.points[formType] || 0;
+          // Calculate form score
+          let formEarned = 0;
+          let formPossible = config.points[formType] || 0;
 
-      Object.keys(response.answers).forEach(qKey => {
-        const answer = response.answers[qKey];
-        if (answer.points !== null) {
-          // Auto-graded question
-          formEarned += answer.points;
+          if (response.answers) {
+            Object.keys(response.answers).forEach(qKey => {
+              try {
+                const answer = response.answers[qKey];
+                if (answer && answer.points !== null && answer.points !== undefined && !isNaN(answer.points)) {
+                  formEarned += Number(answer.points);
+                }
+
+                students[email].questionDetails.push({
+                  form: formType,
+                  question: qKey,
+                  title: answer?.question || 'Unknown',
+                  response: answer?.response,
+                  points: answer?.points
+                });
+              } catch (answerError) {
+                Logger.log(`Warning: Error processing answer ${qKey}: ${answerError.message}`);
+              }
+            });
+          }
+
+          students[email].forms[formType] = {
+            earned: formEarned,
+            possible: formPossible,
+            percentage: formPossible > 0 ? (formEarned / formPossible) * 100 : 0
+          };
+
+          students[email].totalEarned += formEarned;
+          students[email].totalPossible += formPossible;
+        } catch (responseError) {
+          Logger.log(`Warning: Error processing response ${responseIndex} in ${formType}: ${responseError.message}`);
         }
-
-        students[email].questionDetails.push({
-          form: formType,
-          question: qKey,
-          title: answer.question,
-          response: answer.response,
-          points: answer.points
-        });
       });
-
-      students[email].forms[formType] = {
-        earned: formEarned,
-        possible: formPossible,
-        percentage: formPossible > 0 ? (formEarned / formPossible) * 100 : 0
-      };
-
-      students[email].totalEarned += formEarned;
-      students[email].totalPossible += formPossible;
-    });
+    } catch (formError) {
+      Logger.log(`Warning: Error processing form ${formType}: ${formError.message}`);
+    }
   });
 
   // Calculate overall percentage for each student
   Object.keys(students).forEach(email => {
-    students[email].overallPercentage =
-      students[email].totalPossible > 0
-        ? (students[email].totalEarned / students[email].totalPossible) * 100
-        : 0;
+    try {
+      students[email].overallPercentage =
+        students[email].totalPossible > 0
+          ? (students[email].totalEarned / students[email].totalPossible) * 100
+          : 0;
 
-    // Assign MTSS tier using centralized Config
-    students[email].tier = Config.getTierForScore(students[email].overallPercentage);
+      // Assign MTSS tier using centralized Config
+      if (typeof Config !== 'undefined' && Config.getTierForScore) {
+        students[email].tier = Config.getTierForScore(students[email].overallPercentage);
+      } else {
+        // Fallback tier calculation
+        const pct = students[email].overallPercentage;
+        students[email].tier = pct >= 70 ? 1 : (pct >= 50 ? 2 : 3);
+      }
+    } catch (tierError) {
+      Logger.log(`Warning: Error calculating tier for ${email}: ${tierError.message}`);
+      students[email].tier = 2; // Default to Tier 2
+    }
   });
 
+  Logger.log(`Built scores for ${Object.keys(students).length} students`);
   return students;
 }
 
 /**
- * Calculate class-level statistics
+ * Calculate class-level statistics with error handling
+ * @param {Object} students - Student data keyed by email
+ * @returns {Object} Class statistics
  */
 function calculateClassStats(students) {
+  if (!students || typeof students !== 'object') {
+    Logger.log('WARNING: Invalid students object for class stats');
+    return { error: 'Invalid student data', totalStudents: 0 };
+  }
+
   const emails = Object.keys(students);
   const n = emails.length;
 
-  if (n === 0) return { error: 'No students' };
+  if (n === 0) {
+    return {
+      error: 'No students',
+      totalStudents: 0,
+      tierDistribution: { tier1: 0, tier2: 0, tier3: 0 }
+    };
+  }
 
-  const percentages = emails.map(e => students[e].overallPercentage);
-  const tierCounts = { tier1: 0, tier2: 0, tier3: 0 };
+  try {
+    const percentages = emails
+      .map(e => students[e]?.overallPercentage)
+      .filter(p => p !== undefined && p !== null && !isNaN(p));
 
-  emails.forEach(email => {
-    tierCounts[`tier${students[email].tier}`]++;
-  });
+    if (percentages.length === 0) {
+      return { error: 'No valid percentages', totalStudents: n };
+    }
 
-  return {
-    totalStudents: n,
-    average: percentages.reduce((a, b) => a + b, 0) / n,
-    median: calculateMedian(percentages),
-    min: Math.min(...percentages),
-    max: Math.max(...percentages),
-    standardDeviation: calculateStdDev(percentages),
-    tierDistribution: tierCounts,
-    tier1Percent: (tierCounts.tier1 / n) * 100,
-    tier2Percent: (tierCounts.tier2 / n) * 100,
-    tier3Percent: (tierCounts.tier3 / n) * 100
-  };
+    const tierCounts = { tier1: 0, tier2: 0, tier3: 0 };
+
+    emails.forEach(email => {
+      const tier = students[email]?.tier;
+      if (tier >= 1 && tier <= 3) {
+        tierCounts[`tier${tier}`]++;
+      }
+    });
+
+    return {
+      totalStudents: n,
+      studentsWithScores: percentages.length,
+      average: percentages.reduce((a, b) => a + b, 0) / percentages.length,
+      median: calculateMedian(percentages),
+      min: Math.min(...percentages),
+      max: Math.max(...percentages),
+      standardDeviation: calculateStdDev(percentages),
+      tierDistribution: tierCounts,
+      tier1Percent: (tierCounts.tier1 / n) * 100,
+      tier2Percent: (tierCounts.tier2 / n) * 100,
+      tier3Percent: (tierCounts.tier3 / n) * 100
+    };
+  } catch (e) {
+    Logger.log(`ERROR in calculateClassStats: ${e.message}`);
+    return { error: e.message, totalStudents: n };
+  }
 }
 
 /**
