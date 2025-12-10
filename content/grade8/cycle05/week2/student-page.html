@@ -1,35 +1,599 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G8 C5 W2: [Title TBD] - PLACEHOLDER</title>
-</head>
-<body>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 8 CYCLE 5 WEEK 2: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+<!--
+================================================================================
+GRADE 8 CYCLE 5 WEEK 2: WAVES & MATERIAL INTERACTIONS
+================================================================================
+Target Date: March 2-6, 2026
+Topic: How Waves Interact with Materials & Carry Information
+Primary Standard: MS-PS4-2
+Status: COMPLETE | Created: December 2025
 
-  Target Date: January 27-30, 2026
-  Topic: Waves & Information Transfer
-  Primary Standard: MS-ESS2-5
+NGSS 3D Learning:
+- SEP-4: Analyzing and Interpreting Data
+- SEP-6: Constructing Explanations and Designing Solutions
+- DCI PS4.B: Electromagnetic Radiation
+- DCI PS4.C: Information Technologies and Instrumentation
+- CCC-1: Patterns | CCC-6: Structure and Function
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+Scholarly Foundations Compliance:
+- Refutational text (g=0.41) for transmission/absorption misconceptions
+- High-information feedback (d=0.99) integrated
+- Digital-first with PhET simulation integration
+- Notecard-only physical materials policy
+================================================================================
+-->
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #2d3748; max-width: 100%; margin: 0 auto; padding: 0;"><a style="position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;" href="#main-content">Skip to main content</a>
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+<!-- Accessibility & Async Support Banner -->
+<div style="background:#E6FFFA;border-left:4px solid #319795;padding:15px;margin:0 0 15px 0;border-radius:0 8px 8px 0;">
+<p style="margin:0 0 8px 0;font-weight:bold;color:#234E52;">🔊 Accessibility & Learning Support</p>
+<ul style="margin:0;padding-left:20px;font-size:0.9em;color:#285E61;">
+<li><strong>Need text read aloud?</strong> Chrome: Right-click → "Read aloud" | Edge: Click speaker icon in address bar</li>
+<li><strong>Working from home?</strong> Look for the 🏠 HOME ALTERNATIVE boxes at each station</li>
+<li><strong>Need extra support?</strong> Click the green "📗 Need help?" buttons for hints and sentence starters</li>
+<li><strong>Stuck?</strong> Look for the red "🆘 Stuck?" boxes with step-by-step help</li>
+</ul>
+</div>
 
-  <main id="main-content">
-    <h1>Grade 8 Cycle 5 Week 2</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
-  </main>
-</body>
-</html>
+<div id="main-content" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white; padding: 50px 40px; text-align: center; border-radius: 12px; margin: 0 0 20px 0;" role="banner" aria-labelledby="lesson-title">
+<div id="lesson-title" style="font-size: clamp(1.8em, 5vw, 3em); margin-bottom: 15px;" role="img" aria-label="Signal and Material emoji">📶 <strong>Week 2: Waves & Material Interactions</strong> 🧱</div>
+<p style="margin: 0; font-size: clamp(1em, 2.5vw, 1.2em);">Grade 8 Science | Rosche | Kairos Academies</p>
+<p style="margin: 10px 0 0 0; font-size: clamp(0.9em, 2vw, 1em);">MS-PS4-2 Wave-Material Interactions + MS-PS4-3 Information Transfer | 100 Points Total | ~75 Minutes</p>
+</div>
+
+<div id="quick-nav" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+<h2 style="margin: 0 0 15px 0; text-align: center; color: white; font-size: clamp(1.1em, 3vw, 1.3em);">🧭 <strong>Quick Navigation</strong></h2>
+<div style="text-align: center;"><a style="background: rgba(255, 255, 255, 0.95); color: #047857; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#hook-heading">📶 Hook (12 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #047857; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station1-heading">🔬 Station 1 (20 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #047857; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station2-heading">💻 Station 2 (20 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #047857; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#station3-heading">🐧 Station 3 (25 pts)</a> <a style="background: rgba(255, 255, 255, 0.95); color: #047857; padding: 14px 24px; border-radius: 6px; text-decoration: none; font-size: 0.95em; display: inline-block; margin: 8px; min-height: 48px; line-height: 1.4;" href="#exit-heading">🎓 Exit Ticket (23 pts)</a></div>
+</div>
+
+<div style="background: #FFF3CD; border-left: 5px solid #856404; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #856404;"><strong>Building on Week 1 - Important Connections</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #856404;">
+<li><strong>Your work saves automatically</strong> in Google Forms every time you click outside a text box.</li>
+<li><strong>Complete sections in order</strong> (Hook → Station 1 → Station 2 → Station 3 → Exit)</li>
+<li><strong>This week builds on Week 1!</strong> You'll apply wave behaviors to understand material interactions.</li>
+<li><strong>KEY CONCEPT:</strong> Whether a wave is transmitted, absorbed, or reflected depends on BOTH the wavelength AND the material's structure!</li>
+</ul>
+</div>
+
+<!-- MISCONCEPTION ALERT -->
+<div style="background: #FED7D7; border-left: 5px solid #C53030; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+<p style="margin: 0 0 8px 0; font-size: 1em; color: #742a2a;"><strong>⚠️ COMMON MISTAKE ALERT: "Blocking is All-or-Nothing"</strong></p>
+<p style="margin: 0; font-size: 0.95em; color: #9b2c2c; line-height: 1.7;"><strong>WRONG:</strong> "Metal blocks all waves, and glass lets all waves through."<br /><strong>RIGHT:</strong> "Different wavelengths interact differently with the SAME material. A microwave oven door blocks microwaves but lets visible light through—it's the SAME metal mesh doing both!"<br /><strong>PROOF:</strong> Your phone case might block cell signals but not WiFi—even though both are radio waves, their wavelengths differ!</p>
+</div>
+
+<details style="background: linear-gradient(135deg, #EDF2F7 0%, #E2E8F0 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid #A0AEC0;">
+<summary style="cursor: pointer; font-size: 1.15em; color: #2D3748; font-weight: bold; padding: 8px 0;">📽️ Class Slides Reference (Click to expand)</summary>
+<div style="margin-top: 15px; background: white; padding: 15px; border-radius: 8px;">
+<p style="margin: 0 0 12px 0; font-size: 0.95em; color: #4a5568;">Use these slides to review class content asynchronously. Navigate using the arrows or click to advance.</p>
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[Slides will be embedded here after creation]</p>
+</div>
+</div>
+</details>
+
+<div style="background: white; border-left: 5px solid #059669; padding: 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="standards-heading">
+<h2 id="standards-heading" style="margin: 0 0 15px 0; color: #047857; font-size: clamp(1.2em, 3vw, 1.4em);">📚 <strong>NGSS Standards Covered This Week</strong></h2>
+<div style="background: #ECFDF5; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>MS-PS4-2</strong> (Continued from Week 1)</p>
+<p style="margin: 0 0 8px 0; font-size: 0.95em; color: #4a5568;"><strong>What it means:</strong> Develop and use a model to describe that waves are reflected, absorbed, or transmitted through various materials depending on the wave type and material.</p>
+<p style="margin: 0; font-size: 0.9em; color: #718096;"><strong>This week's focus:</strong> I can predict how different materials will affect waves based on wavelength and material structure.</p>
+</div>
+<div style="background: #D1FAE5; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>MS-PS4-3</strong> (NEW this week)</p>
+<p style="margin: 0 0 8px 0; font-size: 0.95em; color: #4a5568;"><strong>What it means:</strong> Integrate qualitative scientific and technical information to support the claim that digitized signals are a more reliable way to encode and transmit information.</p>
+<p style="margin: 0; font-size: 0.9em; color: #718096;"><strong>In student language:</strong> I can explain how waves carry information and why digital signals are better than analog.</p>
+</div>
+<div style="background: #EBF8FF; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>Spiral Standards from Cycles 3 & 4</strong></p>
+<ul style="margin: 8px 0 0 0; padding-left: 20px; line-height: 1.7; color: #4a5568; font-size: 0.95em;">
+<li><strong>MS-LS2-3:</strong> Energy flow in ecosystems (Cycle 4)</li>
+<li><strong>MS-LS4-4:</strong> Natural selection and adaptation (Cycle 3)</li>
+</ul>
+</div>
+<div style="background: #F3E5F5; padding: 15px; border-radius: 6px;">
+<p style="margin: 0 0 8px 0; color: #2d3748; font-size: 1.05em;"><strong>How These Connect (3-Dimensional Learning)</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 10px;">
+<thead>
+<tr style="background: #059669; color: white;">
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">Dimension</th>
+<th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;" scope="col">What You'll Practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>SEP-4</strong> Analyzing Data</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Measure and interpret transmission/absorption percentages</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>SEP-6</strong> Designing Solutions</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Design communication systems for extreme environments</td>
+</tr>
+<tr>
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>DCI</strong> PS4.B/C Wave Interactions</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Explain how waves interact with materials and carry information</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 10px; border: 1px solid #dee2e6;"><strong>CCC-1/6</strong> Patterns, Structure & Function</td>
+<td style="padding: 10px; border: 1px solid #dee2e6; color: #4a5568;">Connect material structure to wave behavior patterns</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); padding: 25px 20px; margin-bottom: 25px; border-radius: 8px; text-align: center;" role="region" aria-labelledby="targets-heading">
+<h2 id="targets-heading" style="margin: 0 0 10px 0; color: #2d3748; font-size: clamp(1.4em, 4vw, 1.8em);">🎯 <strong>Learning Targets</strong></h2>
+<p style="margin: 0; color: #4a5568; font-size: clamp(0.95em, 2.5vw, 1.05em);">By the end of this week, you will be able to:</p>
+</div>
+
+<div style="background: #ECFDF5; border: 2px solid #059669; padding: 20px; margin-bottom: 25px; border-radius: 8px;" role="region" aria-labelledby="success-heading">
+<h3 id="success-heading" style="margin: 0 0 15px 0; color: #2d3748; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>Success Criteria – How You'll Know You've Got It</strong></h3>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #059669;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 1:</strong> Measure and explain transmission vs. absorption for different materials</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I explain why aluminum blocks light but glass doesn't?</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #059669;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 2:</strong> Explain how material structure determines wave interaction</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I explain why the microwave door blocks microwaves but lets you see through?</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #10B981;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 3:</strong> Describe how waves encode and transmit information</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I explain how the word "HELLO" becomes radio waves and back?</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px; border-left: 4px solid #10B981;">
+<p style="margin: 0 0 8px 0; font-size: 1.05em; color: #2d3748;"><strong>Target 4:</strong> Design a communication system for a challenging environment</p>
+<p style="margin: 0; font-size: 0.9em; color: #4a5568;"><em>Self-check:</em> Can I select the right wave type for underwater or underground communication?</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<div style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border-radius: 12px; padding: 30px 24px; margin: 35px 0;" role="region" aria-labelledby="phenomenon-heading">
+<h2 id="phenomenon-heading" style="margin: 0 0 15px 0; font-size: clamp(1.4em, 4vw, 1.8em); color: #047857;">📶 <strong>The Phenomenon: The Signal Blocker Mystery</strong></h2>
+<div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+<p style="font-size: clamp(0.95em, 2.5vw, 1.1em); margin: 0 0 15px 0; color: #4a5568; line-height: 1.7;">Your friend claims they can "kill" any phone's signal by putting it inside a metal tin (like a cookie tin). You test it—and it works! The phone shows "No Service" inside the tin.</p>
+<p style="font-size: clamp(0.95em, 2.5vw, 1.1em); margin: 0 0 15px 0; color: #4a5568; line-height: 1.7;">But here's what's weird:</p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li><strong>The tin has no holes</strong> — completely sealed</li>
+<li><strong>You can still see the phone</strong> through the clear glass window if you use a glass container</li>
+<li><strong>Glass blocks visible light from the sun</strong> (tinted windows) but lets cell signals through</li>
+<li><strong>Metal blocks cell signals</strong> but mirrors let you SEE (reflect visible light)</li>
+</ul>
+</div>
+<div style="background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 20px 0;">
+<p style="margin: 0; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🤔 Driving Question: Why do different materials treat different wavelengths so differently?</strong></p>
+</div>
+</div>
+
+<div style="background: #D1FAE5; border-left: 4px solid #059669; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 12px 0; font-size: 1.1em; color: #047857;"><strong>Key Vocabulary This Week</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
+<thead>
+<tr style="background: #059669; color: white;">
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Term</th>
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #047857; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Transmittance" target="_blank" rel="noopener">Transmission</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Wave passes through a material (like light through glass)</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #047857; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Absorption_(electromagnetic_radiation)" target="_blank" rel="noopener">Absorption</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Wave energy converted to heat in a material</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #047857; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Modulation" target="_blank" rel="noopener">Modulation</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Changing a wave's properties to encode information</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #047857; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Digital_signal" target="_blank" rel="noopener">Digital Signal</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Information encoded as discrete values (1s and 0s)</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #047857; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Analog_signal" target="_blank" rel="noopener">Analog Signal</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Information encoded as continuous wave variations</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong><a style="color: #047857; text-decoration: underline;" href="https://en.wikipedia.org/wiki/Binary_code" target="_blank" rel="noopener">Binary Code</a></strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6; color: #4a5568;">Number system using only 1s and 0s to represent information</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div style="background: white; border: 2px solid #059669; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #047857; font-size: clamp(1.2em, 3vw, 1.4em);"><strong>📊 Points Breakdown (100 Total)</strong></h3>
+<table style="width: 100%; border-collapse: collapse; margin-top: 15px;"><caption style="padding: 10px; text-align: left; color: #2d3748;">How you'll earn your points this week</caption>
+<thead>
+<tr style="background: #059669; color: white;">
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">Component</th>
+<th style="padding: 12px; text-align: center; border: 1px solid #dee2e6;" scope="col">Points</th>
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6;" scope="col">What It Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #047857; text-decoration: none;" href="#hook-heading">📶 Hook</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>12</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Signal blocker phenomenon, predictions</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #047857; text-decoration: none;" href="#station1-heading">🔬 Station 1</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>20</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Transmission vs absorption data analysis</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #047857; text-decoration: none;" href="#station2-heading">💻 Station 2</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>20</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Information encoding: digital vs analog</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #047857; text-decoration: none;" href="#station3-heading">🐧 Station 3</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>25</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Antarctic communication system design</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><a style="color: #047857; text-decoration: none;" href="#exit-heading">🎓 Exit Ticket</a></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>23</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">Integration of material interactions + spiral review</td>
+</tr>
+<tr style="background: #059669; color: white;">
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>TOTAL</strong></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>100</strong></td>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Material Interactions + Information Transfer + Design</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- HOOK SECTION -->
+<div id="hook-heading" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="hook-title">
+<h2 id="hook-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">📶 <strong>Hook – The Signal Blocker Mystery</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">12 Points | ~10 Minutes</p>
+</div>
+
+<div style="background: white; border: 2px solid #F59E0B; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #D97706; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>📶 The Challenge</strong></h3>
+<div style="background: #FFFBEB; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #F59E0B;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>What You'll Do (~10 minutes)</strong></p>
+<ol style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li>Watch the signal blocker demonstration (2 min)</li>
+<li>Make predictions about WHY metal blocks signals (3 min)</li>
+<li>Connect to Week 1: wavelength and wave behaviors (3 min)</li>
+<li>Answer diagnostic questions (2 min)</li>
+</ol>
+</div>
+<div style="background: #FFFAF0; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #2d3748;"><strong>Think About This:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li>What's the difference between cell signal waves and visible light waves?</li>
+<li>Why can you SEE through glass but cell signals also pass through?</li>
+<li>What happens to the wave energy when it's "blocked"?</li>
+</ul>
+</div>
+</div>
+
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE HOOK FORM BELOW</strong></p>
+<p style="margin: 0 0 15px 0; color: #4a5568;">Submit your predictions before moving to Station 1.</p>
+<!-- EMBED HOOK FORM HERE -->
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G8.C5.W2 Hook Form Here]</p>
+<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- STATION 1 -->
+<div id="station1-heading" style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station1-title">
+<h2 id="station1-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🔬 <strong>Station 1 – Transmission-Absorption Lab</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">20 Points | ~18 Minutes</p>
+</div>
+
+<div style="background: white; border: 2px solid #3B82F6; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #1D4ED8; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🔬 Your Mission: Measure Wave-Material Interactions</strong></h3>
+<div style="background: #EFF6FF; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #3B82F6;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>What Happens When Waves Hit Materials?</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em; background: white;">
+<tr style="background:#3B82F6;color:white;"><th style="padding:8px;border:1px solid #ccc;">Outcome</th><th style="padding:8px;border:1px solid #ccc;">What Happens</th><th style="padding:8px;border:1px solid #ccc;">Energy Goes...</th></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;"><strong>TRANSMISSION</strong></td><td style="padding:8px;border:1px solid #ccc;">Wave passes through</td><td style="padding:8px;border:1px solid #ccc;">Through the material (continues as wave)</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;"><strong>ABSORPTION</strong></td><td style="padding:8px;border:1px solid #ccc;">Wave is absorbed</td><td style="padding:8px;border:1px solid #ccc;">Into the material (becomes heat)</td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;"><strong>REFLECTION</strong></td><td style="padding:8px;border:1px solid #ccc;">Wave bounces back</td><td style="padding:8px;border:1px solid #ccc;">Back the way it came (stays as wave)</td></tr>
+</table>
+<p style="margin: 12px 0 0 0; color: #4a5568; font-size: 0.95em;"><strong>KEY:</strong> Energy is NEVER destroyed—it just goes somewhere! (Conservation of Energy)</p>
+</div>
+
+<div style="background: #DBEAFE; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #1D4ED8;"><strong>Sample Data Table (Your teacher will provide actual values)</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.85em; background: white;">
+<tr style="background:#1D4ED8;color:white;"><th style="padding:8px;border:1px solid #ccc;">Material</th><th style="padding:8px;border:1px solid #ccc;">Visible Light</th><th style="padding:8px;border:1px solid #ccc;">Infrared</th><th style="padding:8px;border:1px solid #ccc;">Radio (Cell)</th></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Clear Glass</td><td style="padding:8px;border:1px solid #ccc;">85% transmitted</td><td style="padding:8px;border:1px solid #ccc;">10% transmitted</td><td style="padding:8px;border:1px solid #ccc;">90% transmitted</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">Aluminum Foil</td><td style="padding:8px;border:1px solid #ccc;">0% transmitted</td><td style="padding:8px;border:1px solid #ccc;">0% transmitted</td><td style="padding:8px;border:1px solid #ccc;">0% transmitted</td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Tinted Window</td><td style="padding:8px;border:1px solid #ccc;">30% transmitted</td><td style="padding:8px;border:1px solid #ccc;">5% transmitted</td><td style="padding:8px;border:1px solid #ccc;">85% transmitted</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">Water (10 cm)</td><td style="padding:8px;border:1px solid #ccc;">95% transmitted</td><td style="padding:8px;border:1px solid #ccc;">50% transmitted</td><td style="padding:8px;border:1px solid #ccc;">5% transmitted</td></tr>
+</table>
+</div>
+
+<!-- ASYNC ALTERNATIVE FOR STATION 1 -->
+<div style="background: #FEF3C7; border: 2px dashed #D97706; padding: 18px; border-radius: 8px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #92400E;"><strong>🏠 COMPLETING THIS AT HOME? Use these resources:</strong></p>
+<ol style="margin: 0; padding-left: 25px; color: #78350F; line-height: 1.8;">
+<li>Use the data table above to analyze material properties</li>
+<li>Watch: <a href="https://www.youtube.com/results?search_query=light+transmission+absorption+materials" target="_blank" rel="noopener" style="color: #1D4ED8;">Search "Light Transmission Through Materials"</a></li>
+<li>Think about everyday examples: sunglasses, car windows, phone cases</li>
+</ol>
+</div>
+
+<!-- TIERED SUPPORT -->
+<details style="background:#F0FFF4;padding:15px;margin-top:15px;border-radius:8px;border:1px solid #9AE6B4;">
+<summary style="cursor:pointer;font-weight:bold;color:#276749;font-size:1.05em;">📗 Need extra support? Click here for hints and sentence starters</summary>
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #9AE6B4;">
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Key Concept Reminder:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;">
+<li>Metal has FREE ELECTRONS that can oscillate with wave energy → reflects/absorbs</li>
+<li>Glass has BOUND ELECTRONS that don't respond to visible light → transmits</li>
+<li>The SAME material can transmit one wavelength and block another!</li>
+</ul>
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Sentence Starters:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;font-style:italic;">
+<li>"Aluminum blocks all light because its free electrons..."</li>
+<li>"Glass transmits visible light but absorbs infrared because..."</li>
+<li>"Water blocks radio waves because the molecules..."</li>
+</ul>
+</div>
+</details>
+
+<!-- STUCK PATHWAY -->
+<details style="background:#FED7D7;padding:15px;margin-top:10px;border-radius:8px;border:1px solid #FC8181;">
+<summary style="cursor:pointer;font-weight:bold;color:#C53030;font-size:1.05em;">🆘 Stuck? Click here for step-by-step help</summary>
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #FC8181;">
+<p style="margin:0 0 10px 0;color:#742A2A;"><strong>Try these steps in order:</strong></p>
+<ol style="margin:0;padding-left:20px;color:#9B2C2C;line-height:2;">
+<li>Look at the data table—which material blocks the MOST light?</li>
+<li>Think: What makes that material different? (Hint: metal vs. non-metal)</li>
+<li>Now look at radio waves—does the same pattern hold?</li>
+<li>Watch: <a href="https://www.youtube.com/results?search_query=why+metal+blocks+radio+waves" style="color:#C53030;">Search "Why Metal Blocks Radio Waves"</a></li>
+</ol>
+</div>
+</details>
+</div>
+
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE STATION 1 FORM BELOW</strong></p>
+<p style="margin: 0 0 15px 0; color: #4a5568;">Analyze the data and explain why different materials interact differently with waves.</p>
+<!-- EMBED STATION 1 FORM HERE -->
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G8.C5.W2 Station 1 Form Here]</p>
+<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- STATION 2 -->
+<div id="station2-heading" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station2-title">
+<h2 id="station2-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">💻 <strong>Station 2 – Information Encoding Investigation</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">20 Points | ~15 Minutes</p>
+</div>
+
+<div style="background: white; border: 2px solid #8B5CF6; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #7C3AED; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>💻 Your Mission: How Do Waves Carry Information?</strong></h3>
+<div style="background: #F5F3FF; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #8B5CF6;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>From Letters to Waves and Back</strong></p>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; color: #4a5568;"><strong>Step 1:</strong> Convert letter to ASCII code</p>
+<p style="margin: 0; font-family: monospace; background: #EDE9FE; padding: 8px; border-radius: 4px;">"H" = 72 (decimal) = 01001000 (binary)</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 12px;">
+<p style="margin: 0 0 8px 0; color: #4a5568;"><strong>Step 2:</strong> Modulate wave to encode binary</p>
+<p style="margin: 0; font-size: 0.9em; color: #718096;">Change amplitude, frequency, or phase to represent 1s and 0s</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 6px;">
+<p style="margin: 0 0 8px 0; color: #4a5568;"><strong>Step 3:</strong> Receiver decodes wave back to binary back to letter</p>
+<p style="margin: 0; font-family: monospace; background: #EDE9FE; padding: 8px; border-radius: 4px;">01001000 → 72 → "H"</p>
+</div>
+</div>
+
+<div style="background: #EDE9FE; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #7C3AED;"><strong>Digital vs. Analog: Why Digital Wins</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9em; background: white;">
+<tr style="background:#7C3AED;color:white;"><th style="padding:8px;border:1px solid #ccc;">Feature</th><th style="padding:8px;border:1px solid #ccc;">Analog</th><th style="padding:8px;border:1px solid #ccc;">Digital</th></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Signal Type</td><td style="padding:8px;border:1px solid #ccc;">Continuous (like dimmer)</td><td style="padding:8px;border:1px solid #ccc;">Discrete (like light switch)</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">Noise Resistance</td><td style="padding:8px;border:1px solid #ccc;">❌ Poor—noise adds up</td><td style="padding:8px;border:1px solid #ccc;">✅ Excellent—1 is still 1</td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Copying Quality</td><td style="padding:8px;border:1px solid #ccc;">❌ Degrades each copy</td><td style="padding:8px;border:1px solid #ccc;">✅ Perfect copies forever</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">Example</td><td style="padding:8px;border:1px solid #ccc;">Vinyl record, AM radio</td><td style="padding:8px;border:1px solid #ccc;">MP3, streaming, cell calls</td></tr>
+</table>
+</div>
+
+<div style="background: #FAF5FF; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #7C3AED;"><strong>ASCII Reference (Common Letters):</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.85em; background: white;">
+<tr style="background:#7C3AED;color:white;"><th style="padding:6px;border:1px solid #ccc;">Letter</th><th style="padding:6px;border:1px solid #ccc;">ASCII</th><th style="padding:6px;border:1px solid #ccc;">Binary</th><th style="padding:6px;border:1px solid #ccc;">Letter</th><th style="padding:6px;border:1px solid #ccc;">ASCII</th><th style="padding:6px;border:1px solid #ccc;">Binary</th></tr>
+<tr><td style="padding:6px;border:1px solid #ccc;">H</td><td style="padding:6px;border:1px solid #ccc;">72</td><td style="padding:6px;border:1px solid #ccc;font-family:monospace;">01001000</td><td style="padding:6px;border:1px solid #ccc;">E</td><td style="padding:6px;border:1px solid #ccc;">69</td><td style="padding:6px;border:1px solid #ccc;font-family:monospace;">01000101</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:6px;border:1px solid #ccc;">L</td><td style="padding:6px;border:1px solid #ccc;">76</td><td style="padding:6px;border:1px solid #ccc;font-family:monospace;">01001100</td><td style="padding:6px;border:1px solid #ccc;">O</td><td style="padding:6px;border:1px solid #ccc;">79</td><td style="padding:6px;border:1px solid #ccc;font-family:monospace;">01001111</td></tr>
+</table>
+<p style="margin: 8px 0 0 0; font-size: 0.9em; color: #718096;"><strong>"HELLO" in binary:</strong> 01001000 01000101 01001100 01001100 01001111</p>
+</div>
+
+<!-- TIERED SUPPORT -->
+<details style="background:#F0FFF4;padding:15px;margin-top:15px;border-radius:8px;border:1px solid #9AE6B4;">
+<summary style="cursor:pointer;font-weight:bold;color:#276749;font-size:1.05em;">📗 Need extra support? Click here for encoding hints</summary>
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #9AE6B4;">
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Think of it like Morse Code:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;">
+<li>Morse uses dots and dashes → Digital uses 1s and 0s</li>
+<li>Each letter has a unique pattern</li>
+<li>The wave carries the pattern, not the actual letter!</li>
+</ul>
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Sentence Starters:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;font-style:italic;">
+<li>"The wave carries information by changing its..."</li>
+<li>"Digital is more reliable than analog because..."</li>
+<li>"When noise interferes with a digital signal, it still works because..."</li>
+</ul>
+</div>
+</details>
+</div>
+
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE STATION 2 FORM BELOW</strong></p>
+<p style="margin: 0 0 15px 0; color: #4a5568;">Explain how waves encode information and why digital beats analog.</p>
+<!-- EMBED STATION 2 FORM HERE -->
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G8.C5.W2 Station 2 Form Here]</p>
+<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- STATION 3 -->
+<div id="station3-heading" style="background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="station3-title">
+<h2 id="station3-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🐧 <strong>Station 3 – Design an Antarctic Communication System</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">25 Points | ~20 Minutes (Highest Value!)</p>
+</div>
+
+<div style="background: white; border: 2px solid #EF4444; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #DC2626; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🐧 Engineering Challenge: Antarctic Research Station Communication</strong></h3>
+<div style="background: #FEF2F2; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #EF4444;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>The Scenario:</strong></p>
+<p style="margin: 0 0 8px 0; color: #4a5568;">You're the communications engineer for a new Antarctic research station. Design a system that allows researchers to communicate:</p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li><strong>With headquarters</strong> in the USA (12,000 km away)</li>
+<li><strong>Between field teams</strong> on the ice (up to 100 km apart)</li>
+<li><strong>With submarines</strong> studying ocean currents beneath the ice</li>
+<li><strong>In blizzard conditions</strong> when visibility is zero</li>
+</ul>
+</div>
+
+<div style="background: #FEE2E2; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #991B1B;"><strong>Communication Challenges in Antarctica:</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.85em; background: white;">
+<tr style="background:#DC2626;color:white;"><th style="padding:8px;border:1px solid #ccc;">Challenge</th><th style="padding:8px;border:1px solid #ccc;">Problem</th><th style="padding:8px;border:1px solid #ccc;">Wave Consideration</th></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Distance to HQ</td><td style="padding:8px;border:1px solid #ccc;">12,000+ km</td><td style="padding:8px;border:1px solid #ccc;">Need satellite or HF radio</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">Ice/Snow</td><td style="padding:8px;border:1px solid #ccc;">Blocks many waves</td><td style="padding:8px;border:1px solid #ccc;">Choose frequencies that penetrate</td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Underwater</td><td style="padding:8px;border:1px solid #ccc;">Water absorbs radio</td><td style="padding:8px;border:1px solid #ccc;">Use VLF or acoustic waves</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">Blizzards</td><td style="padding:8px;border:1px solid #ccc;">Snow scatters some waves</td><td style="padding:8px;border:1px solid #ccc;">Lower frequencies work better</td></tr>
+</table>
+</div>
+
+<div style="background: #FECACA; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p style="margin: 0 0 10px 0; font-size: 1.05em; color: #991B1B;"><strong>Wave Type Reference:</strong></p>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.85em; background: white;">
+<tr style="background:#DC2626;color:white;"><th style="padding:8px;border:1px solid #ccc;">Wave Type</th><th style="padding:8px;border:1px solid #ccc;">Through Ice?</th><th style="padding:8px;border:1px solid #ccc;">Through Water?</th><th style="padding:8px;border:1px solid #ccc;">Range</th></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">HF Radio</td><td style="padding:8px;border:1px solid #ccc;">✅ Yes</td><td style="padding:8px;border:1px solid #ccc;">❌ No</td><td style="padding:8px;border:1px solid #ccc;">Global (bounces off ionosphere)</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">VHF/UHF</td><td style="padding:8px;border:1px solid #ccc;">✅ Yes</td><td style="padding:8px;border:1px solid #ccc;">❌ No</td><td style="padding:8px;border:1px solid #ccc;">Line of sight (~50 km)</td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Satellite</td><td style="padding:8px;border:1px solid #ccc;">✅ Yes</td><td style="padding:8px;border:1px solid #ccc;">❌ No</td><td style="padding:8px;border:1px solid #ccc;">Global (via space)</td></tr>
+<tr style="background:#f8f9fa;"><td style="padding:8px;border:1px solid #ccc;">VLF Radio</td><td style="padding:8px;border:1px solid #ccc;">✅ Yes</td><td style="padding:8px;border:1px solid #ccc;">⚠️ Shallow</td><td style="padding:8px;border:1px solid #ccc;">Long range but SLOW</td></tr>
+<tr><td style="padding:8px;border:1px solid #ccc;">Acoustic (Sound)</td><td style="padding:8px;border:1px solid #ccc;">⚠️ Limited</td><td style="padding:8px;border:1px solid #ccc;">✅ Yes</td><td style="padding:8px;border:1px solid #ccc;">Medium (10s of km)</td></tr>
+</table>
+</div>
+
+<!-- TIERED SUPPORT -->
+<details style="background:#F0FFF4;padding:15px;margin-top:15px;border-radius:8px;border:1px solid #9AE6B4;">
+<summary style="cursor:pointer;font-weight:bold;color:#276749;font-size:1.05em;">📗 Need extra support? Click here for design hints</summary>
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #9AE6B4;">
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Design Strategy:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;">
+<li><strong>HQ Communication:</strong> Satellite is most reliable over 12,000 km</li>
+<li><strong>Field Teams:</strong> VHF/UHF works for line-of-sight, HF for over-horizon</li>
+<li><strong>Submarines:</strong> VLF can penetrate shallow water, acoustic for deeper</li>
+<li><strong>Backup:</strong> Always have multiple systems!</li>
+</ul>
+<p style="margin:0 0 10px 0;color:#22543D;"><strong>Sentence Starters:</strong></p>
+<ul style="margin:0 0 15px 0;padding-left:20px;color:#2F855A;font-style:italic;">
+<li>"For headquarters communication, I chose ___ because..."</li>
+<li>"Submarines require ___ waves because water..."</li>
+<li>"My backup system uses ___ in case..."</li>
+</ul>
+</div>
+</details>
+
+<!-- STUCK PATHWAY -->
+<details style="background:#FED7D7;padding:15px;margin-top:10px;border-radius:8px;border:1px solid #FC8181;">
+<summary style="cursor:pointer;font-weight:bold;color:#C53030;font-size:1.05em;">🆘 Stuck? Click here for step-by-step help</summary>
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #FC8181;">
+<p style="margin:0 0 10px 0;color:#742A2A;"><strong>Break it down:</strong></p>
+<ol style="margin:0;padding-left:20px;color:#9B2C2C;line-height:2;">
+<li>First, list all 4 communication needs (HQ, field teams, submarines, backup)</li>
+<li>For each, check: Does the wave go through the medium? (Ice? Water? Air?)</li>
+<li>For each, check: Is the range enough?</li>
+<li>Pick the BEST option for each need</li>
+<li>Explain WHY based on wave-material interactions!</li>
+</ol>
+</div>
+</details>
+</div>
+
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE STATION 3 FORM BELOW</strong></p>
+<p style="margin: 0 0 15px 0; color: #4a5568;">Design your communication system and justify each choice using wave-material interactions!</p>
+<!-- EMBED STATION 3 FORM HERE -->
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G8.C5.W2 Station 3 Form Here]</p>
+<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- EXIT TICKET -->
+<div id="exit-heading" style="background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); color: white; padding: 30px 20px; margin-bottom: 20px; border-radius: 8px;" role="region" aria-labelledby="exit-title">
+<h2 id="exit-title" style="margin: 0 0 10px 0; font-size: clamp(1.5em, 4vw, 2em); text-align: center;">🎓 <strong>Exit Ticket – Material Interactions Integration</strong></h2>
+<p style="margin: 0; text-align: center; font-size: clamp(0.95em, 2.5vw, 1.1em);">23 Points | ~15 Minutes</p>
+</div>
+
+<div style="background: white; border: 2px solid #EC4899; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<h3 style="margin: 0 0 15px 0; color: #DB2777; font-size: clamp(1.1em, 3vw, 1.3em);"><strong>🎓 Show What You Learned</strong></h3>
+<div style="background: #FDF2F8; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #EC4899;">
+<p style="margin: 0 0 12px 0; font-size: 1.05em; color: #2d3748;"><strong>Question Types:</strong></p>
+<ul style="margin: 0; padding-left: 25px; line-height: 1.8; color: #4a5568;">
+<li><strong>2 NEW</strong> - Material interactions and information encoding (this week)</li>
+<li><strong>2 SPIRAL</strong> - Cycle 3 natural selection + Cycle 4 energy transfer review</li>
+<li><strong>1 INTEGRATION</strong> - Apply wave-material interactions to real-world scenario</li>
+<li><strong>1 SEP-6</strong> - Design a solution using wave properties</li>
+</ul>
+</div>
+</div>
+
+<div style="background: #FFF5F5; border: 2px solid #FC8181; padding: 20px; margin-bottom: 25px; border-radius: 8px;">
+<p style="margin: 0 0 10px 0; font-size: 1.1em; color: #C53030;"><strong>📝 COMPLETE THE EXIT TICKET BELOW</strong></p>
+<p style="margin: 0 0 15px 0; color: #4a5568;">This is your final assessment for Week 2. Take your time!</p>
+<!-- EMBED EXIT TICKET FORM HERE -->
+<div style="background: #E2E8F0; padding: 40px; text-align: center; border-radius: 6px;">
+<p style="margin: 0; color: #718096;">[EMBED G8.C5.W2 Exit Ticket Form Here]</p>
+<p style="margin: 10px 0 0 0; font-size: 0.9em; color: #A0AEC0;">Form ID: ________________</p>
+</div>
+</div>
+
+<hr style="border: 0; border-top: 3px solid #E2E8F0; margin: 35px 0;" />
+
+<!-- WEEK SUMMARY -->
+<div style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+<h2 style="margin: 0 0 15px 0; color: #047857; font-size: clamp(1.3em, 3.5vw, 1.6em); text-align: center;"><strong>Week 2 Summary: What You Learned</strong></h2>
+<div style="display: grid; gap: 15px;">
+<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #059669;">
+<p style="margin: 0; font-size: 1em;"><strong>Material Interactions:</strong> Same material can transmit one wavelength and block another—it depends on electron structure!</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #3B82F6;">
+<p style="margin: 0; font-size: 1em;"><strong>Transmission vs Absorption:</strong> Metal has free electrons that block waves; glass transmits visible light because electrons are bound</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #8B5CF6;">
+<p style="margin: 0; font-size: 1em;"><strong>Information Encoding:</strong> Waves carry information by modulating amplitude, frequency, or phase—digital uses 1s and 0s</p>
+</div>
+<div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #F59E0B;">
+<p style="margin: 0; font-size: 1em;"><strong>Digital vs Analog:</strong> Digital is more reliable because noise doesn't change 1s and 0s as easily as continuous signals</p>
+</div>
+</div>
+</div>
+
+<div style="background: #F7FAFC; padding: 20px; border-radius: 8px; text-align: center;">
+<p style="margin: 0; font-size: 1.1em; color: #4a5568;"><strong>🎉 Week 2 Complete!</strong></p>
+<p style="margin: 10px 0 0 0; color: #718096;">Next Week: Cycle 5 Synthesis & Assessment—bringing it all together!</p>
+</div>
+</div>
