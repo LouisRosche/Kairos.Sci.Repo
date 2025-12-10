@@ -1,10 +1,17 @@
 <!--
 ============================================================================
-STUDENT PAGE HTML TEMPLATE v3.0
+STUDENT PAGE HTML TEMPLATE v3.1
 ============================================================================
 
 PURPOSE: Template for generating Canvas module page HTML
 USAGE: Copy and customize for each grade/cycle/week
+
+CHANGES IN v3.1:
+- 100% CSS class-based styling (zero inline styles in body content)
+- Canvas-ready format (embedded CSS, no external dependencies)
+- Enhanced station header classes with consistent gradients
+- Improved responsive design
+- Better separation of concerns (CSS vs. content)
 
 CHANGES IN v3.0:
 - Semantic HTML5 structure (<main>, <section>, <article>)
@@ -44,9 +51,13 @@ MTSS FEATURES:
 - Sentence starters and word banks
 - "Stuck?" escalation pathways
 
+CANVAS COMPATIBILITY NOTE:
+Canvas LTI embeds cannot use external CSS files. All styles MUST be embedded
+in a <style> tag at the top of the HTML content. This template uses that pattern.
+
 TEMPLATE VARIABLES (use find-replace):
 {{GRADE}}, {{CYCLE}}, {{WEEK}}, {{TOPIC}}, {{EMOJI}}, {{EMOJI_DESCRIPTION}}
-{{COLOR1}}, {{COLOR2}} - gradient colors
+{{CYCLE_COLOR1}}, {{CYCLE_COLOR2}} - cycle-specific gradient colors
 {{NGSS_STANDARD}}, {{NGSS_DESCRIPTION}}
 {{LEARNING_TARGET_1}}, {{LEARNING_TARGET_2}}, {{LEARNING_TARGET_3}}
 {{PHENOMENON_QUESTION}}, {{PHENOMENON_CONTEXT}}
@@ -56,324 +67,900 @@ TEMPLATE VARIABLES (use find-replace):
 ============================================================================
 -->
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G{{GRADE}} C{{CYCLE}} W{{WEEK}}: {{TOPIC}}</title>
-  <style>
-    /* Design System Tokens - from shared/styles/design-system.css */
-    :root {
-      --color-primary: #059669;
-      --color-primary-dark: #047857;
-      --color-success-light: #D1FAE5;
-      --color-success-border: #9AE6B4;
-      --color-warning: #D97706;
-      --color-warning-light: #FEF3C7;
-      --color-error: #DC2626;
-      --color-error-light: #FEE2E2;
-      --color-info: #8B5CF6;
-      --color-info-light: #EDE9FE;
-      --color-gray-50: #F9FAFB;
-      --color-gray-100: #F3F4F6;
-      --color-gray-200: #E5E7EB;
-      --color-gray-600: #4B5563;
-      --color-gray-700: #374151;
-      --color-text-primary: #1F2937;
-      --color-text-inverse: #FFFFFF;
-      --space-2: 8px; --space-3: 12px; --space-4: 16px;
-      --space-5: 20px; --space-6: 24px; --space-8: 32px;
-      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-      --border-radius-md: 8px;
-      --border-radius-lg: 12px;
-      --gradient-hook: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
-      --gradient-station1: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-      --gradient-station2: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
-      --gradient-station3: linear-gradient(135deg, #10B981 0%, #059669 100%);
-      --gradient-exit: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
-      --gradient-nav: linear-gradient(135deg, #48BB78 0%, #276749 100%);
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: var(--font-family); line-height: 1.6; color: var(--color-text-primary); }
-    .container { max-width: 100%; margin: 0 auto; padding: 0; }
-    .skip-link { position: absolute; left: -9999px; }
-    .skip-link:focus { position: static; padding: var(--space-3); background: var(--color-primary); color: white; }
-    .section-header { padding: var(--space-6) var(--space-5); color: var(--color-text-inverse); border-radius: var(--border-radius-md); margin-bottom: var(--space-5); text-align: center; }
-    .section-header h2 { margin: 0 0 var(--space-2) 0; }
-    .section-header p { margin: 0; opacity: 0.9; }
-    .quick-nav { background: var(--gradient-nav); padding: var(--space-5); border-radius: var(--border-radius-md); margin-bottom: var(--space-6); }
-    .quick-nav h2 { margin: 0 0 var(--space-4) 0; text-align: center; color: var(--color-text-inverse); }
-    .quick-nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); }
-    .btn-nav { background: rgba(255,255,255,0.95); color: #276749; padding: var(--space-3) var(--space-6); border-radius: 6px; text-decoration: none; display: inline-block; margin: var(--space-2); min-height: 48px; }
-    .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    .alert-info { background: var(--color-info-light); border-left: 4px solid var(--color-info); padding: var(--space-3); margin-bottom: var(--space-4); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; }
-    .alert-warning { background: var(--color-warning-light); border: 2px dashed var(--color-warning); padding: var(--space-4); border-radius: var(--border-radius-md); margin-bottom: var(--space-4); }
-    .alert-error { background: var(--color-error-light); border-left: 4px solid var(--color-error); padding: var(--space-4); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; margin-bottom: var(--space-4); }
-    details.support { background: var(--color-success-light); padding: var(--space-4); margin-bottom: var(--space-4); border-radius: var(--border-radius-md); border: 1px solid var(--color-success-border); }
-    details.support summary { cursor: pointer; font-weight: bold; color: var(--color-primary-dark); }
-    details.support[open] summary { margin-bottom: var(--space-3); }
-    .form-embed { background: var(--color-gray-100); padding: var(--space-6); border-radius: var(--border-radius-md); text-align: center; margin-bottom: var(--space-5); }
-    table { width: 100%; border-collapse: collapse; margin-bottom: var(--space-5); }
-    th, td { padding: var(--space-3) var(--space-4); text-align: left; border-bottom: 1px solid var(--color-gray-200); }
-    th { background: var(--color-gray-100); font-weight: 600; }
-    .curriculum-nav { display: flex; justify-content: space-between; padding: var(--space-4); background: var(--color-gray-50); border-radius: var(--border-radius-md); margin-top: var(--space-6); }
-    .curriculum-nav a { color: var(--color-primary); text-decoration: none; font-weight: 500; }
-    @media (max-width: 768px) {
-      .quick-nav-links { flex-direction: column; align-items: stretch; }
-      .btn-nav { text-align: center; }
-      .curriculum-nav { flex-direction: column; gap: var(--space-3); text-align: center; }
-    }
-  </style>
-</head>
-<body>
-<div class="container">
+<style>
+/* KAMS Science - Embedded Design System (Canvas-Compatible) v3.1 */
+/* Source: shared/styles/design-system.css - embedded for Canvas LTI compatibility */
 
-<!-- SKIP LINK -->
+:root {
+  /* Color Palette */
+  --color-primary: #059669;
+  --color-primary-dark: #047857;
+  --color-secondary: #0891B2;
+  --color-secondary-dark: #0E7490;
+  --color-accent: #8B5CF6;
+  --color-accent-dark: #7C3AED;
+
+  /* Semantic Colors */
+  --color-success: #059669;
+  --color-success-light: #D1FAE5;
+  --color-success-border: #9AE6B4;
+  --color-warning: #D97706;
+  --color-warning-light: #FEF3C7;
+  --color-error: #DC2626;
+  --color-error-light: #FEE2E2;
+  --color-error-border: #FCA5A5;
+  --color-info: #2563EB;
+  --color-info-light: #DBEAFE;
+
+  /* Gray Scale */
+  --color-gray-50: #F9FAFB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1F2937;
+
+  /* Text Colors */
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #4B5563;
+  --color-text-muted: #6B7280;
+  --color-text-inverse: #FFFFFF;
+
+  /* Spacing (8px baseline) */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-sm: 0.875em;
+  --font-size-base: 1em;
+  --font-size-lg: 1.125em;
+  --font-size-xl: 1.25em;
+  --font-size-2xl: clamp(1.5em, 4vw, 2em);
+  --font-size-3xl: clamp(1.8em, 5vw, 3em);
+
+  /* Borders & Shadows */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+
+  /* Station Gradients */
+  --gradient-hook: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  --gradient-station1: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  --gradient-station2: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  --gradient-station3: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  --gradient-exit: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+  --gradient-nav: linear-gradient(135deg, #0891B2 0%, #0E7490 100%);
+}
+
+/* Base Styles */
+.kams-page {
+  font-family: var(--font-family);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Skip Link (Accessibility) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* Banners & Alerts */
+.banner-accessibility {
+  background: #E6FFFA;
+  border-left: 4px solid #319795;
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.banner-accessibility .banner-title {
+  margin: 0 0 var(--space-2) 0;
+  font-weight: 700;
+  color: #234E52;
+}
+.banner-accessibility ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: var(--font-size-sm);
+  color: #285E61;
+}
+
+.banner-chromebook {
+  background: var(--color-warning-light);
+  border-left: 5px solid #856404;
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  border-radius: var(--radius-md);
+}
+.banner-chromebook .banner-title {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+  color: #856404;
+}
+.banner-chromebook ul {
+  margin: 0;
+  padding-left: 25px;
+  line-height: 1.8;
+  color: #856404;
+}
+
+/* Main Header */
+.header-main {
+  background: var(--gradient-nav);
+  color: var(--color-text-inverse);
+  padding: 50px 40px;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-5);
+}
+.header-main h1 {
+  font-size: var(--font-size-3xl);
+  margin: 0 0 var(--space-4) 0;
+  font-weight: 700;
+}
+.header-main .subtitle {
+  margin: 0;
+  font-size: clamp(1em, 2.5vw, 1.2em);
+  opacity: 0.95;
+}
+.header-main .meta {
+  margin-top: var(--space-2);
+  font-size: clamp(0.9em, 2vw, 1em);
+  opacity: 0.9;
+}
+
+/* Quick Navigation */
+.quick-nav {
+  background: var(--gradient-nav);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-6);
+}
+.quick-nav h2 {
+  margin: 0 0 var(--space-4) 0;
+  text-align: center;
+  color: var(--color-text-inverse);
+  font-size: clamp(1.1em, 3vw, 1.3em);
+}
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+.nav-btn {
+  background: rgba(255,255,255,0.95);
+  color: #0E7490;
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-size: 0.95em;
+  min-height: 48px;
+  line-height: 1.4;
+  display: inline-block;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Section Headers (Station-specific gradients) */
+.section-header {
+  color: var(--color-text-inverse);
+  padding: 30px 20px;
+  margin-bottom: var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+.section-header h2 {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-2xl);
+}
+.section-header p {
+  margin: 0;
+  font-size: clamp(0.95em, 2.5vw, 1.1em);
+  opacity: 0.95;
+}
+.header-hook { background: var(--gradient-hook); }
+.header-station1 { background: var(--gradient-station1); }
+.header-station2 { background: var(--gradient-station2); }
+.header-station3 { background: var(--gradient-station3); }
+.header-exit { background: var(--gradient-exit); }
+
+/* Cards & Content Boxes */
+.card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+.card-bordered { border: 2px solid var(--color-gray-200); }
+.card-hook { border-color: #6366F1; }
+.card-station1 { border-color: #10B981; }
+.card-station2 { border-color: #F59E0B; }
+.card-station3 { border-color: #8B5CF6; }
+.card-exit { border-color: #EC4899; }
+
+.card-title {
+  margin: 0 0 var(--space-4) 0;
+  font-size: clamp(1.1em, 3vw, 1.3em);
+}
+.card-title-hook { color: #4F46E5; }
+.card-title-station1 { color: #059669; }
+.card-title-station2 { color: #D97706; }
+.card-title-station3 { color: #7C3AED; }
+.card-title-exit { color: #DB2777; }
+
+/* Info Boxes */
+.info-box {
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-4);
+}
+.info-box-teal { background: #ECFEFF; border-left: 4px solid #0891B2; }
+.info-box-green { background: #ECFDF5; border-left: 4px solid #10B981; }
+.info-box-orange { background: #FFFBEB; border-left: 4px solid #F59E0B; }
+.info-box-purple { background: #F5F3FF; border-left: 4px solid #8B5CF6; }
+.info-box-pink { background: #FDF2F8; border-left: 4px solid #EC4899; }
+.info-box-indigo { background: #EEF2FF; border-left: 4px solid #6366F1; }
+.info-box-blue { background: #EFF6FF; border-left: 4px solid #3B82F6; }
+
+.info-box-title {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+}
+
+/* Phenomenon Section */
+.phenomenon-section {
+  background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%);
+  border-radius: var(--radius-lg);
+  padding: 30px 24px;
+  margin: 35px 0;
+}
+.phenomenon-section h2 {
+  margin: 0 0 var(--space-4) 0;
+  font-size: clamp(1.4em, 4vw, 1.8em);
+  color: #0E7490;
+}
+.phenomenon-content {
+  background: white;
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+.phenomenon-content p {
+  font-size: clamp(0.95em, 2.5vw, 1.1em);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+.driving-question {
+  background: var(--gradient-nav);
+  color: var(--color-text-inverse);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+.driving-question p {
+  margin: 0;
+  font-size: clamp(1.1em, 3vw, 1.3em);
+}
+
+/* Support Elements */
+.support-help {
+  background: var(--color-success-light);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-success-border);
+}
+.support-help summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #276749;
+  font-size: var(--font-size-lg);
+}
+.support-help[open] summary { margin-bottom: var(--space-3); }
+.support-help .content {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-success-border);
+  color: #2F855A;
+}
+
+.support-stuck {
+  background: var(--color-error-light);
+  padding: var(--space-4);
+  margin-top: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-error-border);
+}
+.support-stuck summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #C53030;
+  font-size: var(--font-size-lg);
+}
+.support-stuck[open] summary { margin-bottom: var(--space-3); }
+.support-stuck .content {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-error-border);
+  color: #9B2C2C;
+}
+
+.home-alternative {
+  background: var(--color-warning-light);
+  border: 2px dashed var(--color-warning);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+.home-alternative .title {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+  color: #92400E;
+}
+.home-alternative p, .home-alternative ul {
+  color: #78350F;
+}
+
+/* Form Embed */
+.form-embed {
+  background: #FFF5F5;
+  border: 2px solid var(--color-error-border);
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  border-radius: var(--radius-md);
+}
+.form-embed-title {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-lg);
+  color: #C53030;
+}
+.form-embed-subtitle {
+  margin: 0 0 var(--space-4) 0;
+  color: var(--color-text-secondary);
+}
+.form-placeholder {
+  background: var(--color-gray-200);
+  padding: 40px;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+}
+
+/* Tables */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+  margin: var(--space-4) 0;
+}
+.data-table th, .data-table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+.data-table th {
+  background: var(--color-secondary);
+  color: var(--color-text-inverse);
+}
+.data-table tbody tr:nth-child(even) { background: var(--color-gray-50); }
+
+/* Summary Section */
+.summary-section {
+  background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-6);
+}
+.summary-section h2 {
+  margin: 0 0 var(--space-4) 0;
+  color: #0E7490;
+  font-size: clamp(1.3em, 3.5vw, 1.6em);
+  text-align: center;
+}
+.summary-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+.summary-item {
+  background: white;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border-left: 4px solid;
+}
+.summary-item p { margin: 0; }
+
+/* Word Bank */
+.word-bank {
+  padding: var(--space-3);
+  background: #C6F6D5;
+  border-radius: var(--radius-sm);
+  color: #22543D;
+}
+
+/* Curriculum Navigation */
+.curriculum-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-5);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-6);
+}
+.curriculum-nav a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.curriculum-nav .current {
+  color: var(--color-text-muted);
+}
+
+/* Utilities */
+.text-center { text-align: center; }
+.text-muted { color: var(--color-text-muted); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-success { color: var(--color-success); }
+.text-warning { color: #856404; }
+.text-error { color: #C53030; }
+.mb-0 { margin-bottom: 0; }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.font-bold { font-weight: 700; }
+.divider {
+  border: 0;
+  border-top: 3px solid var(--color-gray-200);
+  margin: 35px 0;
+}
+
+/* Footer */
+.page-footer {
+  background: var(--color-gray-50);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+.page-footer .complete-message {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-lg);
+}
+.page-footer .next-week {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-links { flex-direction: column; align-items: stretch; }
+  .nav-btn { text-align: center; margin: 4px 0; }
+  .header-main { padding: 30px 20px; }
+  .section-header { padding: 20px 15px; }
+  .curriculum-nav { flex-direction: column; gap: var(--space-3); text-align: center; }
+}
+</style>
+
+<div class="kams-page">
+<!-- Skip to main content link for accessibility -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<!-- LEARNING SUPPORT BANNER -->
-<aside class="alert-info" role="complementary" aria-label="Learning support">
-  <p style="margin:0 0 6px 0;font-weight:bold;color:#553C9A;">🔊 Learning Support</p>
-  <ul style="margin:0;padding-left:20px;font-size:0.9em;color:#6B46C1;">
-    <li><strong>Text-to-speech:</strong> Right-click → "Read aloud"</li>
-    <li><strong>At home:</strong> Use 🏠 HOME ALTERNATIVE boxes</li>
-    <li><strong>Support:</strong> 📗 Green buttons | 🆘 Red "Stuck?" boxes</li>
+<!-- Accessibility & Async Support Banner -->
+<div class="banner-accessibility">
+  <p class="banner-title">🔊 Accessibility & Learning Support</p>
+  <ul>
+    <li><strong>Need text read aloud?</strong> Chrome: Right-click → "Read aloud" | Edge: Click speaker icon in address bar</li>
+    <li><strong>Working from home?</strong> Look for the 🏠 HOME ALTERNATIVE boxes at each station</li>
+    <li><strong>Need extra support?</strong> Click the green "📗 Need help?" buttons for hints and sentence starters</li>
+    <li><strong>Stuck?</strong> Look for the red "🆘 Stuck?" boxes with step-by-step help</li>
   </ul>
-</aside>
+</div>
 
-<!-- HEADER -->
-<header id="main-content" class="section-header" style="background: linear-gradient(135deg, {{COLOR1}} 0%, {{COLOR2}} 100%);" role="banner">
-  <h1 style="font-size: clamp(1.8em, 5vw, 3em); margin-bottom: 15px;">
-    <span role="img" aria-label="{{EMOJI_DESCRIPTION}}">{{EMOJI}}</span>
-    <strong>Week {{WEEK}}: {{TOPIC}}</strong>
-    <span role="img" aria-label="{{EMOJI_DESCRIPTION}}">{{EMOJI}}</span>
-  </h1>
-  <p style="font-size: clamp(1em, 2.5vw, 1.2em);">Grade {{GRADE}} Science | Rosche | Kairos Academies</p>
-  <p style="font-size: clamp(0.9em, 2vw, 1em);">{{NGSS_STANDARD}} | 100 Points Total | ~75 Minutes</p>
+<!-- Main Header -->
+<header id="main-content" class="header-main" role="banner" aria-labelledby="lesson-title">
+  <h1 id="lesson-title">{{EMOJI}} <strong>Week {{WEEK}}: {{TOPIC}}</strong> {{EMOJI}}</h1>
+  <p class="subtitle">Grade {{GRADE}} Science | Rosche | Kairos Academies</p>
+  <p class="meta">{{NGSS_STANDARD}} | 100 Points Total | ~75 Minutes</p>
 </header>
 
-<main>
-
-<!-- QUICK NAVIGATION -->
-<nav class="quick-nav" aria-label="Page sections">
+<!-- Quick Navigation -->
+<nav id="quick-nav" class="quick-nav" aria-label="Station navigation">
   <h2>🧭 <strong>Quick Navigation</strong></h2>
-  <div class="quick-nav-links">
-    <a class="btn-nav" href="#hook-section">🎯 Hook (12 pts)</a>
-    <a class="btn-nav" href="#station1-section">{{STATION1_EMOJI}} Station 1 (20 pts)</a>
-    <a class="btn-nav" href="#station2-section">{{STATION2_EMOJI}} Station 2 (20 pts)</a>
-    <a class="btn-nav" href="#station3-section">{{STATION3_EMOJI}} Station 3 (25 pts)</a>
-    <a class="btn-nav" href="#exit-section">🎓 Exit Ticket (23 pts)</a>
+  <div class="nav-links">
+    <a class="nav-btn" href="#hook-section">🎯 Hook (12 pts)</a>
+    <a class="nav-btn" href="#station1-section">{{STATION1_EMOJI}} Station 1 (20 pts)</a>
+    <a class="nav-btn" href="#station2-section">{{STATION2_EMOJI}} Station 2 (20 pts)</a>
+    <a class="nav-btn" href="#station3-section">{{STATION3_EMOJI}} Station 3 (25 pts)</a>
+    <a class="nav-btn" href="#exit-section">🎓 Exit Ticket (23 pts)</a>
   </div>
 </nav>
 
-<!-- STANDARDS -->
-<section id="standards-section" aria-labelledby="standards-heading">
-  <h2 id="standards-heading" style="color: var(--color-gray-700);">📋 Standards & Learning Targets</h2>
-  <div style="background: var(--color-gray-50); padding: var(--space-4); border-radius: var(--border-radius-md);">
-    <p><strong>NGSS:</strong> {{NGSS_STANDARD}} - {{NGSS_DESCRIPTION}}</p>
-    <p><strong>Learning Targets:</strong></p>
-    <ul>
-      <li>{{LEARNING_TARGET_1}}</li>
-      <li>{{LEARNING_TARGET_2}}</li>
+<!-- Chromebook Tips Banner -->
+<div class="banner-chromebook">
+  <p class="banner-title"><strong>Working on Your Chromebook - Important Tips</strong></p>
+  <ul>
+    <li><strong>Your work saves automatically</strong> in Google Forms every time you click outside a text box.</li>
+    <li><strong>Complete sections in order</strong> (Hook → Station 1 → Station 2 → Station 3 → Exit)</li>
+    <li><strong>This week builds on previous cycles!</strong> Use what you learned before.</li>
+    <li><strong>KEY CONCEPT:</strong> {{KEY_CONCEPT}}</li>
+  </ul>
+</div>
+
+<!-- NGSS Standards Section -->
+<section class="card card-bordered" role="region" aria-labelledby="standards-heading">
+  <h2 id="standards-heading" class="card-title" style="color: var(--color-secondary);">📚 <strong>NGSS Standards Covered This Week</strong></h2>
+
+  <div class="info-box info-box-teal mb-3">
+    <p class="info-box-title"><strong>{{NGSS_STANDARD}}</strong> (NEW this cycle)</p>
+    <p class="text-secondary mb-2"><strong>What it means:</strong> {{NGSS_DESCRIPTION}}</p>
+    <p class="text-muted mb-0"><strong>In student language:</strong> {{NGSS_STUDENT_LANGUAGE}}</p>
+  </div>
+
+  <div class="info-box info-box-blue">
+    <p class="info-box-title"><strong>Spiral Standards from Previous Cycles</strong></p>
+    <ul class="text-secondary mb-0">
+      <li>{{SPIRAL_STANDARD_1}}</li>
+      <li>{{SPIRAL_STANDARD_2}}</li>
     </ul>
-    <p><strong>Success Criteria:</strong> I can {{SUCCESS_CRITERIA}}</p>
   </div>
 </section>
 
-<!-- PHENOMENON -->
-<section id="phenomenon-section" aria-labelledby="phenomenon-heading">
-  <h2 id="phenomenon-heading" style="color: var(--color-gray-700);">🔬 This Week's Phenomenon</h2>
-  <div style="background: linear-gradient(135deg, var(--color-info-light), #F3E8FF); padding: var(--space-5); border-radius: var(--border-radius-lg); border-left: 4px solid var(--color-info);">
-    <p style="font-size: 1.2em; font-weight: 600; margin: 0;">{{PHENOMENON_QUESTION}}</p>
-    <p style="margin-top: var(--space-3); font-style: italic; color: var(--color-gray-600);">{{PHENOMENON_CONTEXT}}</p>
+<!-- Learning Targets -->
+<section class="card card-bordered" role="region" aria-labelledby="targets-heading">
+  <h2 id="targets-heading" class="card-title" style="color: var(--color-secondary);">🎯 <strong>Learning Targets & Success Criteria</strong></h2>
+
+  <p class="text-secondary mb-4">By the end of this week, you will be able to:</p>
+
+  <div class="info-box info-box-teal mb-3">
+    <p class="mb-2"><strong>Target 1:</strong> {{LEARNING_TARGET_1}}</p>
+    <p class="text-secondary mb-0"><em>Self-check:</em> {{SUCCESS_CRITERIA_1}}</p>
+  </div>
+  <div class="info-box info-box-teal mb-3">
+    <p class="mb-2"><strong>Target 2:</strong> {{LEARNING_TARGET_2}}</p>
+    <p class="text-secondary mb-0"><em>Self-check:</em> {{SUCCESS_CRITERIA_2}}</p>
+  </div>
+  <div class="info-box info-box-teal mb-0">
+    <p class="mb-2"><strong>Target 3:</strong> {{LEARNING_TARGET_3}}</p>
+    <p class="text-secondary mb-0"><em>Self-check:</em> {{SUCCESS_CRITERIA_3}}</p>
   </div>
 </section>
 
-<!-- VOCABULARY -->
-<section id="vocabulary-section" aria-labelledby="vocabulary-heading">
-  <h2 id="vocabulary-heading" style="color: var(--color-gray-700);">📚 Key Vocabulary</h2>
-  <table>
-    <thead><tr><th scope="col">Term</th><th scope="col">Definition</th></tr></thead>
+<hr class="divider" />
+
+<!-- Phenomenon Section -->
+<section class="phenomenon-section" role="region" aria-labelledby="phenomenon-heading">
+  <h2 id="phenomenon-heading">{{EMOJI}} <strong>The Phenomenon: {{PHENOMENON_TITLE}}</strong></h2>
+  <div class="phenomenon-content">
+    <p class="mb-4">{{PHENOMENON_CONTEXT}}</p>
+    <ul class="mb-0">
+      <li>{{PHENOMENON_POINT_1}}</li>
+      <li>{{PHENOMENON_POINT_2}}</li>
+      <li>{{PHENOMENON_POINT_3}}</li>
+    </ul>
+  </div>
+  <div class="driving-question">
+    <p><strong>🤔 Driving Question: {{PHENOMENON_QUESTION}}</strong></p>
+  </div>
+</section>
+
+<!-- Vocabulary Section -->
+<section class="card card-bordered" role="region" aria-labelledby="vocab-heading">
+  <h2 id="vocab-heading" class="card-title" style="color: var(--color-secondary);">📖 <strong>Key Vocabulary This Week</strong></h2>
+  <table class="data-table">
+    <thead>
+      <tr><th scope="col">Term</th><th scope="col">Definition</th></tr>
+    </thead>
     <tbody>
-      <tr><td><strong>{{VOCAB_TERM_1}}</strong></td><td>{{VOCAB_DEF_1}}</td></tr>
-      <tr><td><strong>{{VOCAB_TERM_2}}</strong></td><td>{{VOCAB_DEF_2}}</td></tr>
-      <tr><td><strong>{{VOCAB_TERM_3}}</strong></td><td>{{VOCAB_DEF_3}}</td></tr>
+      <tr><td><strong>{{VOCAB_TERM_1}}</strong></td><td class="text-secondary">{{VOCAB_DEF_1}}</td></tr>
+      <tr><td><strong>{{VOCAB_TERM_2}}</strong></td><td class="text-secondary">{{VOCAB_DEF_2}}</td></tr>
+      <tr><td><strong>{{VOCAB_TERM_3}}</strong></td><td class="text-secondary">{{VOCAB_DEF_3}}</td></tr>
+      <tr><td><strong>{{VOCAB_TERM_4}}</strong></td><td class="text-secondary">{{VOCAB_DEF_4}}</td></tr>
     </tbody>
   </table>
 </section>
 
-<!-- HOOK SECTION -->
-<section id="hook-section" aria-labelledby="hook-heading">
-  <header class="section-header" style="background: var(--gradient-hook);">
+<!-- Points Breakdown -->
+<section class="card card-bordered" role="region" aria-labelledby="points-heading">
+  <h2 id="points-heading" class="card-title" style="color: var(--color-secondary);">📊 <strong>Points Breakdown (100 Total)</strong></h2>
+  <table class="data-table">
+    <caption class="text-secondary" style="text-align: left; padding: var(--space-3);">How you'll earn your points this week</caption>
+    <thead>
+      <tr><th scope="col">Component</th><th scope="col" style="text-align: center;">Points</th><th scope="col">What It Tests</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="#hook-section" style="color: var(--color-secondary);">🎯 Hook</a></td><td style="text-align: center;"><strong>12</strong></td><td>{{HOOK_TESTS}}</td></tr>
+      <tr><td><a href="#station1-section" style="color: var(--color-secondary);">{{STATION1_EMOJI}} Station 1</a></td><td style="text-align: center;"><strong>20</strong></td><td>{{STATION1_TESTS}}</td></tr>
+      <tr><td><a href="#station2-section" style="color: var(--color-secondary);">{{STATION2_EMOJI}} Station 2</a></td><td style="text-align: center;"><strong>20</strong></td><td>{{STATION2_TESTS}}</td></tr>
+      <tr><td><a href="#station3-section" style="color: var(--color-secondary);">{{STATION3_EMOJI}} Station 3</a></td><td style="text-align: center;"><strong>25</strong></td><td>{{STATION3_TESTS}}</td></tr>
+      <tr><td><a href="#exit-section" style="color: var(--color-secondary);">🎓 Exit Ticket</a></td><td style="text-align: center;"><strong>23</strong></td><td>{{EXIT_TESTS}}</td></tr>
+    </tbody>
+    <tfoot>
+      <tr style="background: var(--color-secondary); color: white;">
+        <td><strong>TOTAL</strong></td><td style="text-align: center;"><strong>100</strong></td><td><strong>{{WEEK_SUMMARY}}</strong></td>
+      </tr>
+    </tfoot>
+  </table>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== HOOK SECTION ==================== -->
+<section id="hook-section" role="region" aria-labelledby="hook-heading">
+  <div class="section-header header-hook">
     <h2 id="hook-heading">🎯 <strong>Hook – {{HOOK_TITLE}}</strong></h2>
     <p>12 Points | ~10 Minutes</p>
-  </header>
-  <article>
-    <p>{{HOOK_INSTRUCTIONS}}</p>
-    <div class="form-embed">
-      <p style="color: var(--color-gray-600);">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Hook Form]</p>
-    </div>
-    <details class="support">
-      <summary>📗 Need extra support? Click here</summary>
-      <div style="margin-top: var(--space-3);">
-        <p><strong>HINT:</strong> {{HOOK_HINT}}</p>
-        <p><strong>SENTENCE STARTERS:</strong></p>
-        <ul><li>"I notice that..."</li><li>"This makes me wonder..."</li></ul>
-      </div>
-    </details>
-  </article>
-</section>
+  </div>
 
-<!-- STATION 1 SECTION -->
-<section id="station1-section" aria-labelledby="station1-heading">
-  <header class="section-header" style="background: var(--gradient-station1);">
-    <h2 id="station1-heading">{{STATION1_EMOJI}} <strong>Station 1 – {{STATION1_TITLE}}</strong></h2>
-    <p>20 Points | ~18 Minutes</p>
-  </header>
-  <article>
-    <div class="alert-warning">
-      <p style="margin:0 0 var(--space-2) 0;font-size:1.1em;color:#92400E;"><strong>🏠 COMPLETING THIS AT HOME?</strong></p>
-      <p style="margin:0;color:#78350F;">{{STATION1_HOME_ALT}}</p>
-    </div>
-    <p>{{STATION1_INSTRUCTIONS}}</p>
-    <div class="form-embed">
-      <p style="color: var(--color-gray-600);">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Station 1 Form]</p>
-    </div>
-    <details class="support">
-      <summary>📗 Need extra support? Click here</summary>
-      <div style="margin-top: var(--space-3);">
-        <p><strong>HINT:</strong> {{STATION1_HINT}}</p>
-        <p style="padding: var(--space-2); background: #C6F6D5; border-radius: 4px;"><strong>WORD BANK:</strong> {{STATION1_WORD_BANK}}</p>
-      </div>
-    </details>
-    <div class="alert-error">
-      <p style="margin:0 0 var(--space-2) 0;font-weight:bold;color:#742A2A;">🆘 Stuck? Try these in order:</p>
-      <ol style="margin:0;padding-left:20px;color:#9B2C2C;">
-        <li>Re-read the instructions</li>
-        <li>Check the 📗 support section</li>
-        <li>Raise your hand for Mr. Rosche</li>
+  <div class="card card-bordered card-hook">
+    <h3 class="card-title card-title-hook"><strong>🎯 The Challenge</strong></h3>
+    <div class="info-box info-box-indigo mb-4">
+      <p class="info-box-title"><strong>What You'll Do (~10 minutes)</strong></p>
+      <ol class="text-secondary mb-0">
+        <li>{{HOOK_STEP_1}}</li>
+        <li>{{HOOK_STEP_2}}</li>
+        <li>{{HOOK_STEP_3}}</li>
+        <li>{{HOOK_STEP_4}}</li>
       </ol>
     </div>
-  </article>
-</section>
+  </div>
 
-<!-- STATION 2 SECTION -->
-<section id="station2-section" aria-labelledby="station2-heading">
-  <header class="section-header" style="background: var(--gradient-station2);">
-    <h2 id="station2-heading">{{STATION2_EMOJI}} <strong>Station 2 – {{STATION2_TITLE}}</strong></h2>
-    <p>20 Points | ~15 Minutes</p>
-  </header>
-  <article>
-    <div class="alert-warning">
-      <p style="margin:0 0 var(--space-2) 0;font-size:1.1em;color:#92400E;"><strong>🏠 COMPLETING THIS AT HOME?</strong></p>
-      <p style="margin:0;color:#78350F;">{{STATION2_HOME_ALT}}</p>
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>📝 COMPLETE THE HOOK FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">Submit your predictions before moving to Station 1.</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Hook Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
     </div>
-    <p>{{STATION2_INSTRUCTIONS}}</p>
-    <div class="form-embed">
-      <p style="color: var(--color-gray-600);">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Station 2 Form]</p>
-    </div>
-    <details class="support">
-      <summary>📗 Need extra support? Click here</summary>
-      <div style="margin-top: var(--space-3);">
-        <p><strong>HINT:</strong> {{STATION2_HINT}}</p>
-        <p style="padding: var(--space-2); background: #C6F6D5; border-radius: 4px;"><strong>WORD BANK:</strong> {{STATION2_WORD_BANK}}</p>
-      </div>
-    </details>
-    <div class="alert-error">
-      <p style="margin:0 0 var(--space-2) 0;font-weight:bold;color:#742A2A;">🆘 Stuck? Try these in order:</p>
-      <ol style="margin:0;padding-left:20px;color:#9B2C2C;">
-        <li>Re-read the instructions</li>
-        <li>Check the 📗 support section</li>
-        <li>Raise your hand for Mr. Rosche</li>
-      </ol>
-    </div>
-  </article>
-</section>
-
-<!-- STATION 3 SECTION -->
-<section id="station3-section" aria-labelledby="station3-heading">
-  <header class="section-header" style="background: var(--gradient-station3);">
-    <h2 id="station3-heading">{{STATION3_EMOJI}} <strong>Station 3 – {{STATION3_TITLE}}</strong></h2>
-    <p>25 Points | ~20 Minutes | Engineering Design</p>
-  </header>
-  <article>
-    <div class="alert-warning">
-      <p style="margin:0 0 var(--space-2) 0;font-size:1.1em;color:#92400E;"><strong>🏠 COMPLETING THIS AT HOME?</strong></p>
-      <p style="margin:0;color:#78350F;">{{STATION3_HOME_ALT}}</p>
-    </div>
-    <p>{{STATION3_INSTRUCTIONS}}</p>
-    <div class="form-embed">
-      <p style="color: var(--color-gray-600);">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Station 3 Form]</p>
-    </div>
-    <details class="support">
-      <summary>📗 Need extra support? Click here</summary>
-      <div style="margin-top: var(--space-3);">
-        <p><strong>HINT:</strong> {{STATION3_HINT}}</p>
-        <p><strong>SENTENCE STARTERS:</strong></p>
-        <ul><li>"My design includes..."</li><li>"This works because..."</li></ul>
-      </div>
-    </details>
-    <div class="alert-error">
-      <p style="margin:0 0 var(--space-2) 0;font-weight:bold;color:#742A2A;">🆘 Stuck? Try these in order:</p>
-      <ol style="margin:0;padding-left:20px;color:#9B2C2C;">
-        <li>Look at the example designs</li>
-        <li>Check the 📗 support section</li>
-        <li>Raise your hand for Mr. Rosche</li>
-      </ol>
-    </div>
-  </article>
-</section>
-
-<!-- EXIT TICKET SECTION -->
-<section id="exit-section" aria-labelledby="exit-heading">
-  <header class="section-header" style="background: var(--gradient-exit);">
-    <h2 id="exit-heading">🎓 <strong>Exit Ticket – Synthesis & Assessment</strong></h2>
-    <p>23 Points | ~15 Minutes</p>
-  </header>
-  <article>
-    <p><strong>Structure:</strong> 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP-1 (question generator)</p>
-    <div class="form-embed">
-      <p style="color: var(--color-gray-600);">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Exit Ticket Form]</p>
-    </div>
-    <details class="support">
-      <summary>📗 Need extra support? Click here</summary>
-      <div style="margin-top: var(--space-3);">
-        <p><strong>Remember:</strong> Spiral questions come from previous cycles. Use what you learned before!</p>
-        <p style="padding: var(--space-2); background: #C6F6D5; border-radius: 4px;"><strong>For SEP-1:</strong> Write HOW or WHY questions with specific variables</p>
-      </div>
-    </details>
-  </article>
-</section>
-
-<!-- WEEK SUMMARY -->
-<section id="summary-section" aria-labelledby="summary-heading">
-  <h2 id="summary-heading" style="color: var(--color-gray-700);">📝 Week Summary</h2>
-  <div style="background: linear-gradient(135deg, #E0E7FF, #C7D2FE); padding: var(--space-5); border-radius: var(--border-radius-lg);">
-    <p><strong>This week you learned:</strong></p>
-    <ul>
-      <li>{{SUMMARY_POINT_1}}</li>
-      <li>{{SUMMARY_POINT_2}}</li>
-      <li>{{SUMMARY_POINT_3}}</li>
-    </ul>
-    <p style="margin-top: var(--space-4); font-weight: 600;">Great work! 🎉</p>
   </div>
 </section>
 
-<!-- CROSS-CURRICULUM NAVIGATION -->
+<hr class="divider" />
+
+<!-- ==================== STATION 1 ==================== -->
+<section id="station1-section" role="region" aria-labelledby="station1-heading">
+  <div class="section-header header-station1">
+    <h2 id="station1-heading">{{STATION1_EMOJI}} <strong>Station 1 – {{STATION1_TITLE}}</strong></h2>
+    <p>20 Points | ~18 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-station1">
+    <h3 class="card-title card-title-station1"><strong>{{STATION1_EMOJI}} Your Mission: {{STATION1_MISSION}}</strong></h3>
+
+    <div class="info-box info-box-green mb-4">
+      <p class="info-box-title"><strong>{{STATION1_CONCEPT_TITLE}}</strong></p>
+      <p class="text-secondary mb-0">{{STATION1_CONCEPT_CONTENT}}</p>
+    </div>
+
+    <!-- Home Alternative -->
+    <div class="home-alternative">
+      <p class="title"><strong>🏠 COMPLETING THIS AT HOME?</strong></p>
+      <p class="mb-0">{{STATION1_HOME_ALT}}</p>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>📗 Need extra support? Click here for hints and sentence starters</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Key Concept Reminder:</p>
+        <ul class="mb-4">
+          <li>{{STATION1_HINT_1}}</li>
+          <li>{{STATION1_HINT_2}}</li>
+        </ul>
+        <p class="font-bold mb-3">Sentence Starters:</p>
+        <ul class="mb-4" style="font-style: italic;">
+          <li>"{{STATION1_SENTENCE_1}}"</li>
+          <li>"{{STATION1_SENTENCE_2}}"</li>
+        </ul>
+        <p class="font-bold mb-2">Word Bank:</p>
+        <p class="word-bank mb-0">{{STATION1_WORD_BANK}}</p>
+      </div>
+    </details>
+
+    <!-- Stuck Pathway -->
+    <details class="support-stuck">
+      <summary>🆘 Stuck? Click here for step-by-step help</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Try these steps in order:</p>
+        <ol class="mb-0" style="line-height: 2;">
+          <li>{{STATION1_STUCK_1}}</li>
+          <li>{{STATION1_STUCK_2}}</li>
+          <li>{{STATION1_STUCK_3}}</li>
+          <li>Still stuck? Email Mr. Rosche with your specific question</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>📝 COMPLETE THE STATION 1 FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">{{STATION1_FORM_INSTRUCTIONS}}</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Station 1 Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== STATION 2 ==================== -->
+<section id="station2-section" role="region" aria-labelledby="station2-heading">
+  <div class="section-header header-station2">
+    <h2 id="station2-heading">{{STATION2_EMOJI}} <strong>Station 2 – {{STATION2_TITLE}}</strong></h2>
+    <p>20 Points | ~15 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-station2">
+    <h3 class="card-title card-title-station2"><strong>{{STATION2_EMOJI}} Your Mission: {{STATION2_MISSION}}</strong></h3>
+
+    <div class="info-box info-box-orange mb-4">
+      <p class="info-box-title"><strong>{{STATION2_CONCEPT_TITLE}}</strong></p>
+      <p class="text-secondary mb-0">{{STATION2_CONCEPT_CONTENT}}</p>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>📗 Need extra support? Click here for hints</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Key Concept Reminder:</p>
+        <ul class="mb-4">
+          <li>{{STATION2_HINT_1}}</li>
+          <li>{{STATION2_HINT_2}}</li>
+        </ul>
+        <p class="font-bold mb-3">Sentence Starters:</p>
+        <ul class="mb-0" style="font-style: italic;">
+          <li>"{{STATION2_SENTENCE_1}}"</li>
+          <li>"{{STATION2_SENTENCE_2}}"</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>📝 COMPLETE THE STATION 2 FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">{{STATION2_FORM_INSTRUCTIONS}}</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Station 2 Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== STATION 3 ==================== -->
+<section id="station3-section" role="region" aria-labelledby="station3-heading">
+  <div class="section-header header-station3">
+    <h2 id="station3-heading">{{STATION3_EMOJI}} <strong>Station 3 – {{STATION3_TITLE}}</strong></h2>
+    <p>25 Points | ~20 Minutes (Highest Value!)</p>
+  </div>
+
+  <div class="card card-bordered card-station3">
+    <h3 class="card-title card-title-station3"><strong>{{STATION3_EMOJI}} Engineering Challenge: {{STATION3_MISSION}}</strong></h3>
+
+    <div class="info-box info-box-purple mb-4">
+      <p class="info-box-title"><strong>CONSTRAINTS:</strong></p>
+      <ul class="text-secondary mb-0">
+        <li>{{STATION3_CONSTRAINT_1}}</li>
+        <li>{{STATION3_CONSTRAINT_2}}</li>
+        <li>{{STATION3_CONSTRAINT_3}}</li>
+      </ul>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>📗 Need extra support? Click here for design hints</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Design Strategy:</p>
+        <ul class="mb-4">
+          <li>{{STATION3_HINT_1}}</li>
+          <li>{{STATION3_HINT_2}}</li>
+        </ul>
+        <p class="font-bold mb-3">Sentence Starters:</p>
+        <ul class="mb-0" style="font-style: italic;">
+          <li>"My design includes..."</li>
+          <li>"This works because..."</li>
+          <li>"A trade-off I made was..."</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>📝 COMPLETE THE STATION 3 FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">Design your solution and justify your choices!</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Station 3 Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== EXIT TICKET ==================== -->
+<section id="exit-section" role="region" aria-labelledby="exit-heading">
+  <div class="section-header header-exit">
+    <h2 id="exit-heading">🎓 <strong>Exit Ticket – {{EXIT_TITLE}}</strong></h2>
+    <p>23 Points | ~15 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-exit">
+    <h3 class="card-title card-title-exit"><strong>🎓 Show What You Learned</strong></h3>
+    <div class="info-box info-box-pink">
+      <p class="info-box-title"><strong>Question Types:</strong></p>
+      <ul class="text-secondary mb-0">
+        <li><strong>2 NEW</strong> - {{EXIT_NEW_CONTENT}} (this week)</li>
+        <li><strong>2 SPIRAL</strong> - {{EXIT_SPIRAL_CONTENT}} (previous cycles)</li>
+        <li><strong>1 INTEGRATION</strong> - {{EXIT_INTEGRATION}}</li>
+        <li><strong>1 SEP</strong> - {{EXIT_SEP}}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>📝 COMPLETE THE EXIT TICKET BELOW</strong></p>
+    <p class="form-embed-subtitle">This is your final assessment for Week {{WEEK}}. Take your time!</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G{{GRADE}}.C{{CYCLE}}.W{{WEEK}} Exit Ticket Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== WEEK SUMMARY ==================== -->
+<section class="summary-section">
+  <h2><strong>Week {{WEEK}} Summary: What You Learned</strong></h2>
+  <div class="summary-grid">
+    <div class="summary-item" style="border-color: var(--color-secondary);">
+      <p><strong>{{SUMMARY_CONCEPT_1}}:</strong> {{SUMMARY_DETAIL_1}}</p>
+    </div>
+    <div class="summary-item" style="border-color: #10B981;">
+      <p><strong>{{SUMMARY_CONCEPT_2}}:</strong> {{SUMMARY_DETAIL_2}}</p>
+    </div>
+    <div class="summary-item" style="border-color: #F59E0B;">
+      <p><strong>{{SUMMARY_CONCEPT_3}}:</strong> {{SUMMARY_DETAIL_3}}</p>
+    </div>
+    <div class="summary-item" style="border-color: #8B5CF6;">
+      <p><strong>{{SUMMARY_CONCEPT_4}}:</strong> {{SUMMARY_DETAIL_4}}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Cross-Curriculum Navigation -->
 <nav class="curriculum-nav" aria-label="Navigate between weeks">
   <a href="{{PREV_WEEK_URL}}">← Previous: Week {{PREV_WEEK}}</a>
-  <span style="color: var(--color-gray-600);">Week {{WEEK}} of 3</span>
+  <span class="current">Week {{WEEK}} of 3</span>
   <a href="{{NEXT_WEEK_URL}}">Next: Week {{NEXT_WEEK}} →</a>
 </nav>
 
-</main>
-
-<footer style="text-align: center; padding: var(--space-6); color: var(--color-gray-600); font-size: 0.9em;">
-  <p>Need help? Email <a href="mailto:rosche@kairos.edu">rosche@kairos.edu</a></p>
-  <p>Grade {{GRADE}} Science | Cycle {{CYCLE}} | KAMS 2025-2026</p>
+<!-- Footer -->
+<footer class="page-footer">
+  <p class="complete-message"><strong>🎉 Week {{WEEK}} Complete!</strong></p>
+  <p class="next-week">{{NEXT_WEEK_PREVIEW}}</p>
 </footer>
-
 </div>
-</body>
-</html>
