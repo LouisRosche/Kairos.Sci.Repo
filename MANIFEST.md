@@ -91,8 +91,6 @@ Kairos.Sci.Repo/
 │   └── validate-config.js       # Cycle validation
 │
 ├── shared/                      # Cross-grade utilities
-│   ├── Config.gs                # ⭐ Centralized configuration
-│   ├── Constants.gs             # Immutable system constants
 │   ├── FormUtils.gs             # Form creation helpers
 │   ├── DataUtils.gs             # Data retrieval utilities
 │   ├── ValidationUtils.gs       # Config validation
@@ -334,12 +332,12 @@ Content files completed (Dec 2025):
 
 | File | Purpose | Status |
 |------|---------|--------|
-| `Config.gs` | **Centralized configuration accessor** | ✅ Complete |
-| `Constants.gs` | Immutable system constants | ✅ Complete |
 | `FormUtils.gs` | Form helper functions | ✅ Complete |
 | `DataUtils.gs` | Data retrieval utilities | ✅ Complete |
 | `ValidationUtils.gs` | Config validation | ✅ Complete |
 | `styles/design-system.css` | **CSS design tokens** | ✅ Complete |
+
+> **Note:** Config.gs and Constants.gs were designed but never adopted in production. They have been archived to `archive/deprecated-shared/` (Dec 2025).
 
 ### `/templates/` - Content Generation
 

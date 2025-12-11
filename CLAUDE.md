@@ -44,7 +44,7 @@ content/grade{7,8}/cycle{03-08}/week{1-5}/
   └── simulations/       # Custom HTML5 sims
 
 config/cycles/cycle{03-08}.json  # Cycle configurations
-shared/                          # Utilities (Config.gs, Constants.gs)
+shared/                          # Utilities (FormUtils.gs, DataUtils.gs)
 data/                            # Data aggregation & MTSS
 framework/                       # Pedagogical documentation
 ```
@@ -101,25 +101,12 @@ node scripts/validate-config.js  # Validate cycle configs
 
 ## Single Sources of Truth
 
-- **Configuration:** `config/master-config.json` → `shared/Config.gs`
-- **Constants:** `shared/Constants.gs` (API limits, NGSS codes)
+- **Configuration:** `config/master-config.json` and `config/cycles/*.json`
 - **Styling:** `shared/styles/design-system.css`
 - **Triggers:** `scripts/TriggerManager.gs`
 - **Statistics:** `shared/DataUtils.gs` (average, median, stdDev, mode)
 - **Form Utilities:** `shared/FormUtils.gs` (configSecurity, addCalcItem, rubrics)
-
-## Key Config Getters (shared/Config.gs)
-
-Use these instead of defining local constants:
-
-```javascript
-Config.getTierForScore(percentage)    // Returns tier 1, 2, or 3
-Config.getMTSSThresholds()            // All tier boundaries
-Config.getMisconceptionConfig()       // alertThreshold, criticalThreshold, trackingWindow
-Config.getSpiralConfig()              // minEffectiveness, improvementTarget, questionsPerExit
-Config.getGroupingConfig()            // maxTier2/3GroupSize, similarityThreshold
-Config.getSeatingConfig()             // Classroom layout and optimization weights
-```
+- **PPTX Generation:** `scripts/pptx_common.py` (shared colors, helpers)
 
 ## Current Status (Dec 2025)
 

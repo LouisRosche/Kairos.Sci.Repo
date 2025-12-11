@@ -18,11 +18,10 @@ This document defines the organizational architecture for a complete middle scho
 
 ### v3.0 Architectural Principles
 
-1. **Single Source of Truth** - All configuration flows from `config/master-config.json` → `shared/Config.gs`
-2. **Centralized Constants** - Immutable system values in `shared/Constants.gs`
-3. **Unified Trigger Management** - No race conditions via `scripts/TriggerManager.gs`
-4. **Design Token System** - CSS variables in `shared/styles/design-system.css`
-5. **Semantic HTML** - Accessible, well-structured templates
+1. **Single Source of Truth** - All configuration in `config/master-config.json` and `config/cycles/*.json`
+2. **Unified Trigger Management** - No race conditions via `scripts/TriggerManager.gs`
+3. **Design Token System** - CSS variables in `shared/styles/design-system.css`
+4. **Semantic HTML** - Accessible, well-structured templates
 
 ---
 
@@ -100,9 +99,7 @@ Kairos.Sci.Repo/
 │       ├── audit-w2-content.md
 │       └── exemplars-cycle03-week2.md
 │
-├── shared/                            # Cross-grade utilities & core modules
-│   ├── Config.gs                      # ⭐ SINGLE SOURCE OF TRUTH - centralized config
-│   ├── Constants.gs                   # Immutable system constants
+├── shared/                            # Cross-grade utilities
 │   ├── FormUtils.gs                   # Form creation helpers
 │   ├── DataUtils.gs                   # Data retrieval helpers
 │   ├── ValidationUtils.gs             # Config validation
@@ -243,46 +240,6 @@ Detailed configuration for each cycle:
 
 ## v3.0 Core Modules
 
-### Config.gs - Centralized Configuration
-
-All runtime configuration flows through the `Config` module. **Never hardcode configuration values in individual scripts.**
-
-```javascript
-// Usage in any module:
-var Config = Config || {};
-
-// Get configuration values
-Config.getActiveGrades();           // ["7", "8"]
-Config.getActiveCycles();           // [3, 4, 5, ...]
-Config.getFormTypes();              // ["hook", "station1", "station2", "station3", "exitTicket"]
-Config.getFormPoints();             // { hook: 12, station1: 20, ... }
-Config.getMTSSThresholds();         // { tier1Min: 70, tier2Min: 50, tier3Min: 30, ... }
-Config.getTierForScore(percentage); // Returns 1, 2, or 3
-Config.getCurrentCycle();           // Current active cycle based on date
-Config.getOutputFolderId();         // Drive folder for data output
-```
-
-**Migration Note:** All `HUB_CONFIG`, `RESPONSE_CONFIG`, `MTSS_TIERS`, and similar local constants have been deprecated. Use Config module methods instead.
-
-### Constants.gs - Immutable System Values
-
-System constants that never change at runtime. Use for validation, API limits, and pedagogical standards.
-
-```javascript
-// Google Forms API constraints
-Constants.FORMS.MAX_CHOICES_PER_QUESTION;     // 30
-Constants.FORMS.MAX_QUESTIONS_PER_FORM;       // 200
-Constants.FORMS.MAX_TITLE_LENGTH;             // 150
-
-// NGSS pedagogical constants
-Constants.NGSS.SEP_CODES;    // ["SEP-1", "SEP-2", ...]
-Constants.NGSS.CCC_CONCEPTS; // ["Patterns", "Cause and Effect", ...]
-
-// Trigger schedules (used by TriggerManager)
-Constants.TRIGGERS.RESPONSE_COLLECTION_HOUR;  // 17 (5 PM)
-Constants.TRIGGERS.ORCHESTRATION_HOUR;        // 18 (6 PM)
-```
-
 ### TriggerManager.gs - Unified Trigger Coordination
 
 Prevents race conditions by managing all time-based triggers centrally.
@@ -390,23 +347,21 @@ Each question in the system follows this schema:
 
 ## Data Flow Architecture
 
-### v3.0 Configuration Hierarchy
+### Configuration Hierarchy
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                    CONFIGURATION LAYER                               │
 ├─────────────────────────────────────────────────────────────────────┤
-│  config/master-config.json (Single Source of Truth)                  │
+│  config/master-config.json (Global settings)                         │
 │           │                                                          │
 │           ↓                                                          │
-│  shared/Config.gs (Runtime accessor)                                 │
+│  config/cycles/*.json (Per-cycle configuration)                      │
 │           │                                                          │
-│           ├──→ HubOrchestrator.gs (via getHubConfig())              │
-│           ├──→ ResponseCollector.gs (via getResponseConfig())       │
-│           ├──→ DataAggregator.gs (via getAggregatorConfig())        │
-│           └──→ All other modules                                     │
+│           └──→ Used directly by forms.gs scripts                     │
 │                                                                      │
-│  shared/Constants.gs ──→ Immutable values (API limits, NGSS codes)  │
+│  Note: Config values are accessed directly from JSON files.          │
+│  Each forms.gs defines its own constants as needed.                  │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -621,28 +576,21 @@ Content locations:
 - Create teacher dashboard
 
 ### Phase 5: Architectural Refactor v3.0 (Complete) ✅
-Comprehensive refactoring to eliminate configuration fragmentation and establish single sources of truth:
+Comprehensive refactoring to improve code organization:
 
-**New Modules Created:**
-- `shared/Config.gs` - Centralized configuration accessor
-- `shared/Constants.gs` - Immutable system constants
+**Key Changes:**
 - `scripts/TriggerManager.gs` - Unified trigger coordination
 - `shared/styles/design-system.css` - CSS design tokens
-
-**Modules Refactored:**
-- `HubOrchestrator.gs` - Now uses `getHubConfig()` via Config module
-- `ResponseCollector.gs` - Now uses `getResponseConfig()` via Config module
-- `DataAggregator.gs` - Now uses `getAggregatorConfig()` via Config module
 - `student-page-template.html` - Semantic HTML5 with CSS variables
+- `scripts/pptx_common.py` - Shared PPTX generation utilities
 
 **Issues Resolved:**
-- Eliminated 5 duplicate configuration sources
 - Fixed trigger race condition (5:30 PM / 6:00 PM staggering)
 - Removed ~80% inline CSS from templates
 - Added semantic HTML structure for accessibility
-- Established clear module boundaries
+- Consolidated PPTX generation boilerplate
 
-See `AUDIT-REPORT.md` for full audit details and remediation summary.
+**Note:** Config.gs and Constants.gs were designed but never adopted. They have been archived to `archive/deprecated-shared/` (Dec 2025).
 
 ---
 
