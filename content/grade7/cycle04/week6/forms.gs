@@ -441,11 +441,15 @@ function createExitTicketForm_() {
  * @param {GoogleAppsScript.Forms.Form} form - The form to configure
  */
 function configFormSettings_(form) {
+  // Required form settings per CONTENT-DESIGN-GUIDE.md
   form.setIsQuiz(true);
+  form.setRequireLogin(true);
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
+  form.setAllowResponseEdits(true);
   form.setShowLinkToRespondAgain(false);
   form.setProgressBar(true);
+  form.setShuffleQuestions(false);
   form.setConfirmationMessage(
     'Your Cycle 4 Assessment is complete!\n\n' +
     'Key Takeaway: Earth\'s biogeochemical cycles are all connected. ' +
