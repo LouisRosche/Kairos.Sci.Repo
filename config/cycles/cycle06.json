@@ -302,9 +302,10 @@
         }
       },
       "materials": {
-        "station1": ["Convection tank", "Hot plate", "Food coloring", "Thermometers", "Plate model pieces"],
-        "station2": ["World maps (blank)", "Boundary type reference cards", "Colored pencils", "Data tables"],
-        "station3": ["Building materials (straws, clay, tape)", "Shake table or vibration source", "Measurement tools"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "PhET Plate Tectonics simulation", "Interactive convection visualization (embedded)", "Notecards"],
+        "station2": ["Chromebooks", "Interactive tectonic map tool (embedded)", "Digital boundary reference guide"],
+        "station3": ["Chromebooks", "Virtual earthquake engineering simulator", "Notecards"]
       }
     },
 
@@ -595,9 +596,10 @@
         }
       },
       "materials": {
-        "station1": ["Bar magnets (various)", "Iron filings", "Compasses", "Plastic trays", "Paper"],
-        "station2": ["Insulated wire", "Iron nails/cores", "Batteries", "Ammeters", "Paper clips"],
-        "station3": ["Coils (various turns)", "Strong magnets", "Galvanometers", "Motor kits"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "PhET Faraday's Electromagnetic Lab simulation", "PhET Magnets and Compasses simulation", "Notecards"],
+        "station2": ["Chromebooks", "PhET Circuit Construction Kit: DC simulation", "Virtual electromagnet builder"],
+        "station3": ["Chromebooks", "PhET Generator simulation", "Virtual motor design tool", "Notecards"]
       }
     }
   },

@@ -200,9 +200,10 @@
         }
       },
       "materials": {
-        "station1": ["Chromebooks", "PhET access", "Molecular model printouts"],
-        "station2": ["Carbon atom manipulatives", "Carbon cycle poster", "Calculators"],
-        "station3": ["Material samples set", "Building containers", "Heat lamp", "Thermometers"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "PhET Molecules and Light simulation", "Notecards"],
+        "station2": ["Chromebooks", "Interactive carbon cycle diagram (embedded)", "Digital calculator"],
+        "station3": ["Chromebooks", "PhET Energy Forms and Changes simulation", "Notecards"]
       }
     },
 
@@ -392,9 +393,10 @@
         }
       },
       "materials": {
-        "station1": ["Chromebooks", "Slow-mo video queued", "Calculators", "F=ma cards"],
-        "station2": ["Dried beans (3 colors)", "Large trays", "Timers", "Data tables"],
-        "station3": ["Constraint cards", "Graph paper", "Colored pencils"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "Slow-mo chase video (embedded)", "Digital calculator", "Notecards"],
+        "station2": ["Chromebooks", "PhET Natural Selection simulation", "Digital data tables"],
+        "station3": ["Chromebooks", "Digital design canvas (embedded)", "Notecards"]
       }
     }
   },
