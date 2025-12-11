@@ -1,6 +1,6 @@
 # KAMS Science Standards Alignment
-## NGSS Mapping Across Cycles 3-8 (SY25-26)
-## Version 2.0 | December 2025
+## NGSS Mapping Across Cycles 1-8 (SY25-26)
+## Version 3.0 | December 2025
 
 ---
 
@@ -8,7 +8,7 @@
 
 This document maps all Next Generation Science Standards (NGSS) coverage across the KAMS Science curriculum for Grades 7 and 8, grounded in the *Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development*. Each cycle targets specific Performance Expectations while spiraling previously taught standards.
 
-> **Calendar Alignment Note (Dec 2025):** SY25-26 supports Cycles 3-8 only. MS-ESS1-2 (G7) and MS-ETS1-2 (G8) from deferred C9 are integrated as secondary standards in Cycle 8. Year-End Integration (C10) is merged into Cycle 8 Week 3.
+> **Calendar Alignment Note (Dec 2025):** SY25-26 supports Cycles 1-8 (38 instructional weeks). Cycle 1 (8 weeks) establishes foundational Life Science (G7) and Physical Science (G8) standards. Cycle 2 is legacy pre-architecture content. MS-ESS1-2 (G7) and MS-ETS1-2 (G8) from deferred C9 are integrated as secondary standards in Cycle 8. Year-End Integration (C10) is merged into Cycle 8 Week 4.
 
 ---
 
@@ -44,18 +44,53 @@ Research establishes CCCs as "complementary lenses on phenomena" that leverage s
 
 ### Standards Coverage Matrix
 
-| Cycle | Primary Standard | Secondary | Description | Spiral Standards |
-|-------|------------------|-----------|-------------|------------------|
-| **C3** | MS-ESS3-5 | — | Climate change factors and evidence | MS-PS1-5, MS-PS1-6 (from C2) |
-| **C4** | MS-ESS3-3 | — | Human impact monitoring and mitigation | MS-ESS3-5 (from C3), MS-PS1-5 (from C2) |
-| **C5** | MS-ESS2-5 | — | Air mass interactions and weather | MS-ESS3-3 (from C4) |
-| **C6** | MS-ESS2-2 | — | Geoscience processes and Earth's surface | MS-ESS2-5 (from C5) |
-| **C7** | MS-ESS1-4 | — | Rock strata and geologic time scale | MS-ESS2-2 (from C6) |
-| **C8** | MS-LS2-4 | **MS-ESS1-2** | Ecosystems + **Solar system/gravity** | MS-ESS1-4, MS-ESS3-5, MS-ESS3-3 |
+| Cycle | Weeks | Primary Standards | Secondary | Description | Spiral Standards |
+|-------|-------|-------------------|-----------|-------------|------------------|
+| **C1** | 8 | MS-LS1-1, MS-LS1-2, MS-LS1-3, MS-LS3-1, MS-LS3-2 | — | Cells, body systems, and heredity | — (Foundation cycle) |
+| **C2** | 5 | MS-PS1-1, MS-PS1-5, MS-PS1-6 | — | *(Legacy)* Molecular structure & reactions | — |
+| **C3** | 3 | MS-ESS3-5 | — | Climate change factors and evidence | MS-PS1-5, MS-PS1-6 (from C2) |
+| **C4** | 6 | MS-ESS3-3 | — | Human impact monitoring and mitigation | MS-ESS3-5 (from C3), MS-LS1-3 (from C1) |
+| **C5** | 3 | MS-ESS2-5 | — | Air mass interactions and weather | MS-ESS3-3 (from C4) |
+| **C6** | 5 | MS-ESS2-2 | — | Geoscience processes and Earth's surface | MS-ESS2-5 (from C5) |
+| **C7** | 4 | MS-ESS1-4 | — | Rock strata and geologic time scale | MS-ESS2-2 (from C6) |
+| **C8** | 4 | MS-LS2-4 | **MS-ESS1-2** | Ecosystems + **Solar system/gravity** | MS-ESS1-4, MS-ESS3-5, MS-LS3-2 (from C1) |
 
-> **Note:** MS-ESS1-2 (Space Systems) integrated into C8 as secondary standard. Year-End Integration included in C8 Week 3.
+> **Note:** MS-ESS1-2 (Space Systems) integrated into C8 as secondary standard. Year-End Integration included in C8 Week 4.
 
 ### Detailed Standard Breakdown
+
+#### Cycle 1: MS-LS1-1, MS-LS1-2, MS-LS1-3, MS-LS3-1, MS-LS3-2 (8 weeks)
+**Performance Expectations:**
+- MS-LS1-1: Conduct an investigation to provide evidence that living things are made of cells
+- MS-LS1-2: Develop and use a model to describe cell function and organelle contributions
+- MS-LS1-3: Use argument supported by evidence for how the body is a system of interacting subsystems
+- MS-LS3-1: Develop a model to describe why structural changes to genes may affect proteins and organisms
+- MS-LS3-2: Develop a model to describe why sexual reproduction results in genetic variation
+
+**Disciplinary Core Ideas:**
+- LS1.A: Structure and Function
+- LS1.B: Growth and Development of Organisms
+- LS3.A: Inheritance of Traits
+- LS3.B: Variation of Traits
+
+**Science & Engineering Practices:**
+- SEP-3: Planning and Carrying Out Investigations
+- SEP-2: Developing and Using Models
+- SEP-7: Engaging in Argument from Evidence
+
+**Crosscutting Concepts:**
+- CCC-6: Structure and Function
+- CCC-4: Systems and System Models
+- CCC-2: Cause and Effect
+
+**Weekly Progression:**
+- W1-W2: Cell structure and function (MS-LS1-1, MS-LS1-2)
+- W3-W4: Body systems and cell communication (MS-LS1-3)
+- W5-W6: Heredity and genetics (MS-LS3-1, MS-LS3-2)
+- W7: Sexual vs asexual reproduction
+- W8: Synthesis and Assessment
+
+---
 
 #### Cycle 3: MS-ESS3-5
 **Performance Expectation:** Ask questions to clarify evidence of the factors that have caused the rise in global temperatures over the past century.
@@ -138,18 +173,51 @@ Research establishes CCCs as "complementary lenses on phenomena" that leverage s
 
 ### Standards Coverage Matrix
 
-| Cycle | Primary Standard | Secondary | Description | Spiral Standards |
-|-------|------------------|-----------|-------------|------------------|
-| **C3** | MS-LS4-4 | — | Natural selection and survival probability | MS-PS2-1, MS-PS2-2 (from C2) |
-| **C4** | MS-LS2-3 | — | Matter cycling and energy flow in ecosystems | MS-LS4-4 (from C3), MS-PS2-2 (from C2) |
-| **C5** | MS-PS4-2 | — | Wave reflection, absorption, and transmission | MS-LS2-3 (from C4) |
-| **C6** | MS-PS2-3 | — | Electric and magnetic force factors | MS-PS4-2 (from C5) |
-| **C7** | MS-PS1-2 | — | Chemical reaction evidence and analysis | MS-PS2-3 (from C6) |
-| **C8** | MS-PS3-4 | **MS-ETS1-2** | Energy transfer + **Engineering design** | MS-PS1-2, MS-LS4-4, MS-LS2-3 |
+| Cycle | Weeks | Primary Standards | Secondary | Description | Spiral Standards |
+|-------|-------|-------------------|-----------|-------------|------------------|
+| **C1** | 8 | MS-PS1-4, MS-PS3-3, MS-PS3-4, MS-PS3-5 | — | Matter, thermal energy, and motion | — (Foundation cycle) |
+| **C2** | 5 | MS-PS2-1, MS-PS2-2, MS-PS3-1 | — | *(Legacy)* Forces and energy | — |
+| **C3** | 3 | MS-LS4-4 | — | Natural selection and survival probability | MS-PS2-1, MS-PS2-2 (from C2) |
+| **C4** | 6 | MS-LS2-3 | — | Matter cycling and energy flow in ecosystems | MS-LS4-4 (from C3), MS-PS3-5 (from C1) |
+| **C5** | 3 | MS-PS4-2 | — | Wave reflection, absorption, and transmission | MS-LS2-3 (from C4) |
+| **C6** | 5 | MS-PS2-3 | — | Electric and magnetic force factors | MS-PS4-2 (from C5), MS-PS1-4 (from C1) |
+| **C7** | 4 | MS-PS1-2 | — | Chemical reaction evidence and analysis | MS-PS2-3 (from C6) |
+| **C8** | 4 | MS-PS3-4 | **MS-ETS1-2** | Energy transfer + **Engineering design** | MS-PS1-2, MS-PS3-3 (from C1), MS-LS4-4 |
 
-> **Note:** MS-ETS1-2 (Engineering Design) integrated into C8 as secondary standard via Engineering Design Showcase. Year-End Integration included in C8 Week 3.
+> **Note:** MS-ETS1-2 (Engineering Design) integrated into C8 as secondary standard via Engineering Design Showcase. Year-End Integration included in C8 Week 4.
 
 ### Detailed Standard Breakdown
+
+#### Cycle 1: MS-PS1-4, MS-PS3-3, MS-PS3-4, MS-PS3-5 (8 weeks)
+**Performance Expectations:**
+- MS-PS1-4: Develop a model that predicts and describes changes in particle motion, temperature, and state when thermal energy is added/removed
+- MS-PS3-3: Apply scientific principles to design, construct, and test a device that minimizes or maximizes thermal energy transfer
+- MS-PS3-4: Plan an investigation to determine relationships among energy transferred, matter type, mass, and average kinetic energy change
+- MS-PS3-5: Construct and present arguments to support the claim that when kinetic energy changes, energy is transferred to/from the object
+
+**Disciplinary Core Ideas:**
+- PS1.A: Structure and Properties of Matter
+- PS3.A: Definitions of Energy
+- PS3.B: Conservation of Energy and Energy Transfer
+
+**Science & Engineering Practices:**
+- SEP-2: Developing and Using Models
+- SEP-3: Planning and Carrying Out Investigations
+- SEP-7: Engaging in Argument from Evidence
+
+**Crosscutting Concepts:**
+- CCC-5: Energy and Matter
+- CCC-2: Cause and Effect
+- CCC-3: Scale, Proportion, and Quantity
+
+**Weekly Progression:**
+- W1-W2: Thermal energy and particle motion (MS-PS1-4)
+- W3-W4: Heat transfer and thermal properties (MS-PS3-3)
+- W5-W6: Kinetic and potential energy (MS-PS3-4)
+- W7: Energy transfer in collisions (MS-PS3-5)
+- W8: Synthesis and Assessment
+
+---
 
 #### Cycle 3: MS-LS4-4
 **Performance Expectation:** Construct an explanation based on evidence that describes how genetic variations of traits in a population increase some individuals' probability of surviving.
@@ -232,28 +300,28 @@ Research establishes CCCs as "complementary lenses on phenomena" that leverage s
 
 ### Science & Engineering Practices (SEPs)
 
-| SEP | Cycles Emphasized |
-|-----|-------------------|
-| SEP-1: Asking Questions | C3, C6, C9 |
-| SEP-2: Developing Models | C4, C5, C9 |
-| SEP-3: Planning Investigations | C5, C8 |
-| SEP-4: Analyzing Data | C3, C4, C7 |
-| SEP-5: Using Mathematics | C5, C8 |
-| SEP-6: Constructing Explanations | C3, C4, C6, C7 |
-| SEP-7: Engaging in Argument | C3, C8 |
-| SEP-8: Obtaining Information | C4, C5 |
+| SEP | Cycles Emphasized (G7) | Cycles Emphasized (G8) |
+|-----|------------------------|------------------------|
+| SEP-1: Asking Questions | C3, C6 | C6 |
+| SEP-2: Developing Models | **C1**, C4, C5 | **C1**, C4, C5 |
+| SEP-3: Planning Investigations | **C1**, C5, C8 | **C1**, C5, C8 |
+| SEP-4: Analyzing Data | C3, C4, C7 | C3, C4, C7 |
+| SEP-5: Using Mathematics | C5, C8 | **C1**, C5, C8 |
+| SEP-6: Constructing Explanations | C3, C4, C6, C7 | C3, C4, C6, C7 |
+| SEP-7: Engaging in Argument | **C1**, C3, C8 | **C1**, C3, C8 |
+| SEP-8: Obtaining Information | C4, C5 | C4, C5 |
 
 ### Crosscutting Concepts (CCCs)
 
-| CCC | Cycles Emphasized |
-|-----|-------------------|
-| CCC-1: Patterns | C5, C7, C8 |
-| CCC-2: Cause and Effect | C3, C4, C6 |
-| CCC-3: Scale and Proportion | C3, C9 |
-| CCC-4: Systems and Models | C4, C5 |
-| CCC-5: Energy and Matter | C3, C4, C8 |
-| CCC-6: Structure and Function | C6, C7 |
-| CCC-7: Stability and Change | C3, C4, C8 |
+| CCC | Cycles Emphasized (G7) | Cycles Emphasized (G8) |
+|-----|------------------------|------------------------|
+| CCC-1: Patterns | C5, C7, C8 | **C1**, C5, C7, C8 |
+| CCC-2: Cause and Effect | **C1**, C3, C4, C6 | **C1**, C3, C4, C6 |
+| CCC-3: Scale and Proportion | C3, C7 | **C1**, C3, C7 |
+| CCC-4: Systems and Models | **C1**, C4, C5 | C4, C5 |
+| CCC-5: Energy and Matter | C3, C4, C8 | **C1**, C3, C4, C8 |
+| CCC-6: Structure and Function | **C1**, C6, C7 | C5, C6, C7 |
+| CCC-7: Stability and Change | C3, C4, C8 | C3, C4, C8 |
 
 ---
 
@@ -303,5 +371,6 @@ Each exit ticket includes:
 
 ---
 
-*Standards Alignment Version 2.0 | December 2025 | KAMS Science*
+*Standards Alignment Version 3.0 | December 2025 | KAMS Science*
 *Aligned with Scholarly Foundations for NGSS-Aligned Middle School Science Curriculum Development*
+*Cycles 1-8 | 38 Instructional Weeks | Full SY25-26 Coverage*

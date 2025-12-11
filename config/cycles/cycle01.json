@@ -1,0 +1,923 @@
+{
+  "$schema": "../schema/cycle-schema.json",
+  "cycle": 1,
+  "name": "Cycle 1: Foundation Concepts",
+  "status": "planned",
+  "dates": {
+    "start": "2025-08-18",
+    "end": "2025-10-10",
+    "week1": { "start": "2025-08-18", "end": "2025-08-22" },
+    "week2": { "start": "2025-08-25", "end": "2025-08-29" },
+    "week3": { "start": "2025-09-02", "end": "2025-09-05", "_note": "4 days (Labor Day 9/1)" },
+    "week4": { "start": "2025-09-08", "end": "2025-09-12" },
+    "week5": { "start": "2025-09-15", "end": "2025-09-19" },
+    "week6": { "start": "2025-09-22", "end": "2025-09-26" },
+    "week7": { "start": "2025-09-29", "end": "2025-10-03" },
+    "week8": { "start": "2025-10-06", "end": "2025-10-10" },
+    "_notes": "Labor Day 9/1; PD week 10/14-10/17 follows"
+  },
+
+  "grades": {
+    "7": {
+      "topic": "From Cells to Organisms & Heredity",
+      "phenomenon": {
+        "week1": "How can a single cell become a whole human being?",
+        "week2": "Why do different body parts look and act so differently if they all came from one cell?",
+        "week3": "How do cells know what job to do?",
+        "week4": "What happens when cells stop working together properly?",
+        "week5": "Why do some siblings look alike while others look completely different?",
+        "week6": "How do parents pass traits to their children without touching their DNA?",
+        "week7": "Why do some traits skip generations?",
+        "week8": "Synthesis & Assessment"
+      },
+      "ngss": {
+        "primary": [
+          {
+            "code": "MS-LS1-1",
+            "description": "Conduct an investigation to provide evidence that living things are made of cells; either one cell or many different numbers and types of cells."
+          },
+          {
+            "code": "MS-LS1-2",
+            "description": "Develop and use a model to describe the function of a cell as a whole and ways the parts of cells contribute to the function."
+          },
+          {
+            "code": "MS-LS1-3",
+            "description": "Use argument supported by evidence for how the body is a system of interacting subsystems composed of groups of cells."
+          },
+          {
+            "code": "MS-LS3-1",
+            "description": "Develop and use a model to describe why structural changes to genes (mutations) located on chromosomes may affect proteins and may result in harmful, beneficial, or neutral effects to the structure and function of the organism."
+          },
+          {
+            "code": "MS-LS3-2",
+            "description": "Develop and use a model to describe why asexual reproduction results in offspring with identical genetic information and sexual reproduction results in offspring with genetic variation."
+          }
+        ],
+        "spiral": []
+      },
+      "threeDimensional": {
+        "sep": ["SEP-3: Planning and Carrying Out Investigations", "SEP-2: Developing and Using Models", "SEP-7: Engaging in Argument from Evidence"],
+        "dci": ["LS1.A: Structure and Function", "LS1.B: Growth and Development", "LS3.A: Inheritance of Traits", "LS3.B: Variation of Traits"],
+        "ccc": ["CCC-6: Structure and Function", "CCC-4: Systems and System Models", "CCC-2: Cause and Effect"]
+      },
+      "misconceptions": [
+        {
+          "id": "cells-hollow",
+          "description": "Cells are hollow or empty inside",
+          "correctUnderstanding": "Cells are filled with cytoplasm and organelles, each with specific functions",
+          "frequency": 55,
+          "targetedIn": ["w1_s1_q3", "w1_exit_q2"]
+        },
+        {
+          "id": "cell-specialization-random",
+          "description": "Cell specialization is random or luck-based",
+          "correctUnderstanding": "Gene expression controlled by chemical signals determines cell type",
+          "frequency": 50,
+          "targetedIn": ["w3_s1_q2", "w3_exit_q3"]
+        },
+        {
+          "id": "traits-blend",
+          "description": "Traits from parents blend like mixing paint",
+          "correctUnderstanding": "Genes are discrete units; dominant/recessive patterns determine expression",
+          "frequency": 60,
+          "targetedIn": ["w5_s2_q4", "w6_exit_q2"]
+        },
+        {
+          "id": "mutations-always-bad",
+          "description": "Mutations are always harmful",
+          "correctUnderstanding": "Mutations can be beneficial, harmful, or neutral depending on context",
+          "frequency": 55,
+          "targetedIn": ["w6_s1_q5", "w7_exit_q3"]
+        }
+      ],
+      "weeks": {
+        "1": {
+          "title": "Introduction to Cells",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle01/week1/forms.gs",
+            "studentPage": "content/grade7/cycle01/week1/student-page.html",
+            "lessonPlan": "content/grade7/cycle01/week1/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The One Cell Wonder",
+              "points": 12,
+              "resource": "Fertilized egg → baby timelapse video",
+              "questions": 5,
+              "focus": "How can one cell become trillions?"
+            },
+            "station1": {
+              "title": "Cell Discovery Lab",
+              "points": 20,
+              "resource": "PhET Cells simulation + virtual microscope images",
+              "questions": 6,
+              "focus": "Observe cells in different organisms, compare structures"
+            },
+            "station2": {
+              "title": "Cell Structure Investigation",
+              "points": 20,
+              "resource": "Interactive cell diagram + organelle cards",
+              "questions": 5,
+              "focus": "Identify organelles and their functions"
+            },
+            "station3": {
+              "title": "Design a Cell Model",
+              "points": 25,
+              "resource": "Analogy challenge - cell as factory/city",
+              "questions": 5,
+              "focus": "Create functional analogy for cell parts"
+            },
+            "exitTicket": {
+              "title": "Cell Basics Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 4, "spiral": 0, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "2": {
+          "title": "Cell Specialization & Tissues",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle01/week2/forms.gs",
+            "studentPage": "content/grade7/cycle01/week2/student-page.html",
+            "lessonPlan": "content/grade7/cycle01/week2/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "Same DNA, Different Jobs",
+              "points": 12,
+              "resource": "Comparison images: neuron vs muscle vs skin cell",
+              "questions": 5,
+              "focus": "Why do cells with same DNA look/act differently?"
+            },
+            "station1": {
+              "title": "Cell Type Investigation",
+              "points": 20,
+              "resource": "Virtual histology slides + cell identification",
+              "questions": 6,
+              "focus": "Compare specialized cell structures to functions",
+              "spiralTarget": "Basic cell structure from W1"
+            },
+            "station2": {
+              "title": "Tissue Organization",
+              "points": 20,
+              "resource": "Tissue type cards + organization hierarchy",
+              "questions": 5,
+              "focus": "Cells → tissues → organs → systems"
+            },
+            "station3": {
+              "title": "Design a Specialized Cell",
+              "points": 25,
+              "resource": "Function requirements + design constraints",
+              "questions": 5,
+              "focus": "Connect structure to function in cell design"
+            },
+            "exitTicket": {
+              "title": "Specialization Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 3, "spiral": 1, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "3": {
+          "title": "Cell Communication & Gene Expression",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle01/week3/forms.gs",
+            "studentPage": "content/grade7/cycle01/week3/student-page.html",
+            "lessonPlan": "content/grade7/cycle01/week3/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Cell's Instruction Manual",
+              "points": 12,
+              "resource": "Gene expression animation + stem cell differentiation",
+              "questions": 5,
+              "focus": "How do cells 'read' only the genes they need?"
+            },
+            "station1": {
+              "title": "Gene Expression Simulation",
+              "points": 20,
+              "resource": "Interactive gene switching simulation",
+              "questions": 6,
+              "focus": "Model how signals turn genes on/off",
+              "spiralTarget": "Cell types from W2"
+            },
+            "station2": {
+              "title": "Signal Analysis",
+              "points": 20,
+              "resource": "Cell signaling pathway cards + scenario analysis",
+              "questions": 5,
+              "focus": "Trace chemical signals to cell responses"
+            },
+            "station3": {
+              "title": "Design a Cell Signal System",
+              "points": 25,
+              "resource": "Multicellular organism scenario + communication constraints",
+              "questions": 5,
+              "focus": "Apply signaling knowledge to coordination problem"
+            },
+            "exitTicket": {
+              "title": "Gene Expression Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "4": {
+          "title": "Body Systems Integration",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle01/week4/forms.gs",
+            "studentPage": "content/grade7/cycle01/week4/student-page.html",
+            "lessonPlan": "content/grade7/cycle01/week4/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "When Systems Fail",
+              "points": 12,
+              "resource": "Disease case studies showing system breakdown",
+              "questions": 5,
+              "focus": "What happens when cells stop cooperating?"
+            },
+            "station1": {
+              "title": "System Interaction Lab",
+              "points": 20,
+              "resource": "Body systems interactive diagram",
+              "questions": 6,
+              "focus": "Map how systems depend on each other",
+              "spiralTarget": "Cell specialization from W2-W3"
+            },
+            "station2": {
+              "title": "Feedback Loop Analysis",
+              "points": 20,
+              "resource": "Homeostasis examples + data interpretation",
+              "questions": 5,
+              "focus": "Analyze negative feedback in body systems"
+            },
+            "station3": {
+              "title": "Design a Treatment Plan",
+              "points": 25,
+              "resource": "Disease scenario + intervention options",
+              "questions": 5,
+              "focus": "Apply systems thinking to medical problem"
+            },
+            "exitTicket": {
+              "title": "Systems Integration Check",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "5": {
+          "title": "Introduction to Heredity",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle01/week5/forms.gs",
+            "studentPage": "content/grade7/cycle01/week5/student-page.html",
+            "lessonPlan": "content/grade7/cycle01/week5/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Sibling Similarity Mystery",
+              "points": 12,
+              "resource": "Family trait comparison photos + discussion",
+              "questions": 5,
+              "focus": "Why do siblings share some but not all traits?"
+            },
+            "station1": {
+              "title": "Chromosome Investigation",
+              "points": 20,
+              "resource": "Chromosome pairing simulation + karyotype analysis",
+              "questions": 6,
+              "focus": "Understand chromosomes carry genetic information",
+              "spiralTarget": "Gene expression from W3"
+            },
+            "station2": {
+              "title": "Trait Inheritance Patterns",
+              "points": 20,
+              "resource": "Punnett square introduction + practice problems",
+              "questions": 5,
+              "focus": "Model dominant/recessive trait inheritance"
+            },
+            "station3": {
+              "title": "Design a Breeding Plan",
+              "points": 25,
+              "resource": "Agricultural scenario + trait goals",
+              "questions": 5,
+              "focus": "Apply inheritance knowledge to predict offspring"
+            },
+            "exitTicket": {
+              "title": "Heredity Basics Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "6": {
+          "title": "Mutations & Genetic Variation",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle01/week6/forms.gs",
+            "studentPage": "content/grade7/cycle01/week6/student-page.html",
+            "lessonPlan": "content/grade7/cycle01/week6/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Unexpected Trait Mystery",
+              "points": 12,
+              "resource": "Examples of beneficial mutations (sickle cell, lactose tolerance)",
+              "questions": 5,
+              "focus": "Are all mutations bad?"
+            },
+            "station1": {
+              "title": "Mutation Types Investigation",
+              "points": 20,
+              "resource": "DNA mutation simulation + protein effects",
+              "questions": 6,
+              "focus": "Model how DNA changes affect proteins",
+              "spiralTarget": "Chromosomes and inheritance from W5"
+            },
+            "station2": {
+              "title": "Mutation Outcome Analysis",
+              "points": 20,
+              "resource": "Case studies of beneficial, harmful, neutral mutations",
+              "questions": 5,
+              "focus": "Analyze mutation effects in context"
+            },
+            "station3": {
+              "title": "Design a Genetic Counseling Guide",
+              "points": 25,
+              "resource": "Family history scenario + mutation data",
+              "questions": 5,
+              "focus": "Apply mutation knowledge to real-world decisions"
+            },
+            "exitTicket": {
+              "title": "Mutation Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "7": {
+          "title": "Sexual vs Asexual Reproduction",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade7/cycle01/week7/forms.gs",
+            "studentPage": "content/grade7/cycle01/week7/student-page.html",
+            "lessonPlan": "content/grade7/cycle01/week7/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Clone Dilemma",
+              "points": 12,
+              "resource": "Comparison: banana clones vs diverse wild populations",
+              "questions": 5,
+              "focus": "Why is genetic diversity important?"
+            },
+            "station1": {
+              "title": "Reproduction Comparison Lab",
+              "points": 20,
+              "resource": "Meiosis vs mitosis simulation + offspring prediction",
+              "questions": 6,
+              "focus": "Model genetic outcomes of each reproduction type",
+              "spiralTarget": "Mutations and variation from W6"
+            },
+            "station2": {
+              "title": "Genetic Diversity Analysis",
+              "points": 20,
+              "resource": "Population genetics data + disease resistance scenarios",
+              "questions": 5,
+              "focus": "Analyze advantages/disadvantages of variation"
+            },
+            "station3": {
+              "title": "Design a Conservation Strategy",
+              "points": 25,
+              "resource": "Endangered species scenario + genetic diversity constraints",
+              "questions": 5,
+              "focus": "Apply reproductive knowledge to conservation"
+            },
+            "exitTicket": {
+              "title": "Reproduction Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "8": {
+          "title": "Synthesis & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "files": {
+            "forms": "content/grade7/cycle01/week8/forms.gs",
+            "studentPage": "content/grade7/cycle01/week8/student-page.html",
+            "lessonPlan": "content/grade7/cycle01/week8/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect cells, systems, and heredity concepts"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Cell Structure & Function", "B: Body Systems", "C: Heredity & Genetics", "D: Integration"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["cells-hollow", "cell-specialization-random", "traits-blend", "mutations-always-bad"]
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        }
+      },
+      "materials": {
+        "station1": ["Chromebooks", "PhET simulations", "Virtual microscope access"],
+        "station2": ["Cell/tissue cards", "Punnett square templates", "Data tables"],
+        "station3": ["Design constraint cards", "Scenario descriptions", "Evaluation rubrics"]
+      }
+    },
+
+    "8": {
+      "topic": "Matter, Thermal Energy & Motion",
+      "phenomenon": {
+        "week1": "Why does ice melt faster in a drink than in a cooler?",
+        "week2": "Why do some materials feel cold to touch even at room temperature?",
+        "week3": "How can we design materials with specific thermal properties?",
+        "week4": "Why does a balloon shrink when you put it in the freezer?",
+        "week5": "How do roller coasters work without engines on most of the track?",
+        "week6": "Why do billiard balls sometimes stop completely after collision?",
+        "week7": "How can we predict what happens in a collision?",
+        "week8": "Synthesis & Assessment"
+      },
+      "ngss": {
+        "primary": [
+          {
+            "code": "MS-PS1-4",
+            "description": "Develop a model that predicts and describes changes in particle motion, temperature, and state of a pure substance when thermal energy is added or removed."
+          },
+          {
+            "code": "MS-PS3-3",
+            "description": "Apply scientific principles to design, construct, and test a device that either minimizes or maximizes thermal energy transfer."
+          },
+          {
+            "code": "MS-PS3-4",
+            "description": "Plan an investigation to determine the relationships among the energy transferred, the type of matter, the mass, and the change in the average kinetic energy of the particles as measured by the temperature of the sample."
+          },
+          {
+            "code": "MS-PS3-5",
+            "description": "Construct, use, and present arguments to support the claim that when the kinetic energy of an object changes, energy is transferred to or from the object."
+          }
+        ],
+        "spiral": []
+      },
+      "threeDimensional": {
+        "sep": ["SEP-2: Developing and Using Models", "SEP-3: Planning and Carrying Out Investigations", "SEP-7: Engaging in Argument from Evidence"],
+        "dci": ["PS1.A: Structure and Properties of Matter", "PS3.A: Definitions of Energy", "PS3.B: Conservation of Energy and Energy Transfer"],
+        "ccc": ["CCC-5: Energy and Matter", "CCC-2: Cause and Effect", "CCC-3: Scale, Proportion, and Quantity"]
+      },
+      "misconceptions": [
+        {
+          "id": "cold-transfer",
+          "description": "Cold can transfer from one object to another",
+          "correctUnderstanding": "Only thermal energy transfers; 'cold' is absence of thermal energy",
+          "frequency": 65,
+          "targetedIn": ["w1_s1_q2", "w1_exit_q3"]
+        },
+        {
+          "id": "temp-heat-same",
+          "description": "Temperature and heat are the same thing",
+          "correctUnderstanding": "Temperature measures average kinetic energy; heat is energy transfer",
+          "frequency": 60,
+          "targetedIn": ["w2_s1_q4", "w4_exit_q2"]
+        },
+        {
+          "id": "metals-cold",
+          "description": "Metals are naturally colder than other materials",
+          "correctUnderstanding": "Metals conduct heat faster, so they feel cold by drawing heat from your hand",
+          "frequency": 55,
+          "targetedIn": ["w2_s2_q3", "w3_exit_q4"]
+        },
+        {
+          "id": "energy-disappears",
+          "description": "Energy can disappear or be used up",
+          "correctUnderstanding": "Energy is conserved; it transforms between forms but total amount stays constant",
+          "frequency": 50,
+          "targetedIn": ["w5_s1_q5", "w6_exit_q1"]
+        }
+      ],
+      "weeks": {
+        "1": {
+          "title": "Thermal Energy & Particle Motion",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle01/week1/forms.gs",
+            "studentPage": "content/grade8/cycle01/week1/student-page.html",
+            "lessonPlan": "content/grade8/cycle01/week1/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Melting Ice Race",
+              "points": 12,
+              "resource": "Ice melting comparison video (air vs water vs metal)",
+              "questions": 5,
+              "focus": "Why does ice melt at different rates in different materials?"
+            },
+            "station1": {
+              "title": "Particle Motion Investigation",
+              "points": 20,
+              "resource": "PhET States of Matter simulation",
+              "resourceUrl": "https://phet.colorado.edu/en/simulations/states-of-matter",
+              "questions": 6,
+              "focus": "Model particle motion at different temperatures"
+            },
+            "station2": {
+              "title": "Temperature vs Thermal Energy",
+              "points": 20,
+              "resource": "Thermal energy data sets + mass comparisons",
+              "questions": 5,
+              "focus": "Distinguish temperature from total thermal energy"
+            },
+            "station3": {
+              "title": "Design a Temperature Experiment",
+              "points": 25,
+              "resource": "Investigation planning template + variables",
+              "questions": 5,
+              "focus": "Design controlled experiment on thermal energy"
+            },
+            "exitTicket": {
+              "title": "Thermal Energy Basics",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 4, "spiral": 0, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "2": {
+          "title": "Heat Transfer Mechanisms",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle01/week2/forms.gs",
+            "studentPage": "content/grade8/cycle01/week2/student-page.html",
+            "lessonPlan": "content/grade8/cycle01/week2/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Metal Spoon Mystery",
+              "points": 12,
+              "resource": "Different materials in hot water comparison",
+              "questions": 5,
+              "focus": "Why do some materials feel colder at room temperature?"
+            },
+            "station1": {
+              "title": "Conduction Investigation",
+              "points": 20,
+              "resource": "Thermal conductivity simulation + material data",
+              "questions": 6,
+              "focus": "Model how particle collisions transfer energy",
+              "spiralTarget": "Particle motion from W1"
+            },
+            "station2": {
+              "title": "Heat Transfer Methods",
+              "points": 20,
+              "resource": "Conduction, convection, radiation comparison cards",
+              "questions": 5,
+              "focus": "Compare three heat transfer mechanisms"
+            },
+            "station3": {
+              "title": "Design a Heat Barrier",
+              "points": 25,
+              "resource": "Material options + heat transfer constraints",
+              "questions": 5,
+              "focus": "Apply heat transfer knowledge to insulation design"
+            },
+            "exitTicket": {
+              "title": "Heat Transfer Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 3, "spiral": 1, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "3": {
+          "title": "Thermal Properties of Materials",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle01/week3/forms.gs",
+            "studentPage": "content/grade8/cycle01/week3/student-page.html",
+            "lessonPlan": "content/grade8/cycle01/week3/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "Engineering the Perfect Cooler",
+              "points": 12,
+              "resource": "Cooler design comparison + thermal data",
+              "questions": 5,
+              "focus": "How do engineers choose materials for thermal applications?"
+            },
+            "station1": {
+              "title": "Specific Heat Investigation",
+              "points": 20,
+              "resource": "Heating curve simulation + material comparison",
+              "questions": 6,
+              "focus": "Understand why different materials heat differently",
+              "spiralTarget": "Heat transfer mechanisms from W2"
+            },
+            "station2": {
+              "title": "Material Property Analysis",
+              "points": 20,
+              "resource": "Thermal property data tables + application matching",
+              "questions": 5,
+              "focus": "Match material properties to engineering needs"
+            },
+            "station3": {
+              "title": "Design a Thermal Device",
+              "points": 25,
+              "resource": "Design challenge: maximize OR minimize heat transfer",
+              "questions": 5,
+              "focus": "Apply thermal properties to design problem"
+            },
+            "exitTicket": {
+              "title": "Thermal Properties Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "4": {
+          "title": "State Changes & Phase Transitions",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle01/week4/forms.gs",
+            "studentPage": "content/grade8/cycle01/week4/student-page.html",
+            "lessonPlan": "content/grade8/cycle01/week4/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Shrinking Balloon Mystery",
+              "points": 12,
+              "resource": "Balloon in freezer timelapse + gas behavior demo",
+              "questions": 5,
+              "focus": "Why do gases behave differently at different temperatures?"
+            },
+            "station1": {
+              "title": "Phase Change Investigation",
+              "points": 20,
+              "resource": "PhET States of Matter + heating/cooling curves",
+              "questions": 6,
+              "focus": "Model particle behavior during phase changes",
+              "spiralTarget": "Thermal properties from W3"
+            },
+            "station2": {
+              "title": "Phase Diagram Analysis",
+              "points": 20,
+              "resource": "Phase diagrams + substance comparison",
+              "questions": 5,
+              "focus": "Interpret phase diagrams to predict state changes"
+            },
+            "station3": {
+              "title": "Design a Phase Change Application",
+              "points": 25,
+              "resource": "Engineering scenario using phase change (cooling vest, ice pack)",
+              "questions": 5,
+              "focus": "Apply phase change knowledge to practical problem"
+            },
+            "exitTicket": {
+              "title": "Matter & Thermal Energy Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "5": {
+          "title": "Kinetic & Potential Energy",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle01/week5/forms.gs",
+            "studentPage": "content/grade8/cycle01/week5/student-page.html",
+            "lessonPlan": "content/grade8/cycle01/week5/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Roller Coaster Mystery",
+              "points": 12,
+              "resource": "Roller coaster POV video + energy tracking",
+              "questions": 5,
+              "focus": "How does the coaster keep moving without an engine?"
+            },
+            "station1": {
+              "title": "Energy Transformation Lab",
+              "points": 20,
+              "resource": "PhET Energy Skate Park simulation",
+              "resourceUrl": "https://phet.colorado.edu/en/simulations/energy-skate-park-basics",
+              "questions": 6,
+              "focus": "Model PE↔KE transformations quantitatively",
+              "spiralTarget": "Thermal energy from W1-W4"
+            },
+            "station2": {
+              "title": "Energy Conservation Analysis",
+              "points": 20,
+              "resource": "Motion data + energy calculations",
+              "questions": 5,
+              "focus": "Track total energy through system changes"
+            },
+            "station3": {
+              "title": "Design a Roller Coaster",
+              "points": 25,
+              "resource": "Track constraints + energy budget",
+              "questions": 5,
+              "focus": "Apply energy conservation to coaster design"
+            },
+            "exitTicket": {
+              "title": "Energy Types Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "6": {
+          "title": "Energy Transfer in Collisions",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle01/week6/forms.gs",
+            "studentPage": "content/grade8/cycle01/week6/student-page.html",
+            "lessonPlan": "content/grade8/cycle01/week6/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Perfect Stop Mystery",
+              "points": 12,
+              "resource": "Billiard shot video showing ball stopping completely",
+              "questions": 5,
+              "focus": "Why do objects sometimes stop completely after collision?"
+            },
+            "station1": {
+              "title": "Collision Investigation",
+              "points": 20,
+              "resource": "PhET Collision Lab simulation",
+              "resourceUrl": "https://phet.colorado.edu/en/simulations/collision-lab",
+              "questions": 6,
+              "focus": "Model elastic vs inelastic collisions",
+              "spiralTarget": "Energy transformations from W5"
+            },
+            "station2": {
+              "title": "Momentum & Energy Analysis",
+              "points": 20,
+              "resource": "Collision data sets + conservation calculations",
+              "questions": 5,
+              "focus": "Track energy and momentum in collisions"
+            },
+            "station3": {
+              "title": "Design a Safety Device",
+              "points": 25,
+              "resource": "Car crash data + protection constraints",
+              "questions": 5,
+              "focus": "Apply collision physics to safety engineering"
+            },
+            "exitTicket": {
+              "title": "Collision Energy Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "7": {
+          "title": "Energy Systems & Conservation",
+          "status": "not_started",
+          "files": {
+            "forms": "content/grade8/cycle01/week7/forms.gs",
+            "studentPage": "content/grade8/cycle01/week7/student-page.html",
+            "lessonPlan": "content/grade8/cycle01/week7/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Perpetual Motion Fraud",
+              "points": 12,
+              "resource": "Perpetual motion machine claims + debunking",
+              "questions": 5,
+              "focus": "Why can't machines run forever?"
+            },
+            "station1": {
+              "title": "Energy System Investigation",
+              "points": 20,
+              "resource": "Complex system simulation + energy accounting",
+              "questions": 6,
+              "focus": "Track all energy inputs, outputs, and losses",
+              "spiralTarget": "Collisions and energy loss from W6"
+            },
+            "station2": {
+              "title": "Efficiency Analysis",
+              "points": 20,
+              "resource": "Machine efficiency data + comparison charts",
+              "questions": 5,
+              "focus": "Calculate and compare system efficiencies"
+            },
+            "station3": {
+              "title": "Design an Efficient System",
+              "points": 25,
+              "resource": "Energy challenge scenario + efficiency targets",
+              "questions": 5,
+              "focus": "Optimize energy use in practical system"
+            },
+            "exitTicket": {
+              "title": "Energy Conservation Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "8": {
+          "title": "Synthesis & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "files": {
+            "forms": "content/grade8/cycle01/week8/forms.gs",
+            "studentPage": "content/grade8/cycle01/week8/student-page.html",
+            "lessonPlan": "content/grade8/cycle01/week8/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect thermal energy, phase changes, and motion energy"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Thermal Energy & Particles", "B: Heat Transfer", "C: Kinetic & Potential Energy", "D: Energy Conservation"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["cold-transfer", "temp-heat-same", "metals-cold", "energy-disappears"]
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        }
+      },
+      "materials": {
+        "station1": ["Chromebooks", "PhET simulations", "Thermometers", "Data tables"],
+        "station2": ["Thermal property cards", "Calculation worksheets", "Graph paper"],
+        "station3": ["Design constraint cards", "Material samples (digital)", "Evaluation rubrics"]
+      }
+    }
+  },
+
+  "analytics": {
+    "lastDataPull": null,
+    "completionRates": {},
+    "averageScores": {},
+    "misconceptionFlags": []
+  }
+}
