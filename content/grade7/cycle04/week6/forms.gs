@@ -1,52 +1,23 @@
 /**
- * Grade 7 Cycle 4 Week 6: Synthesis & Assessment
- * Standards: MS-ESS3-3, MS-LS2-3 (cycle synthesis)
- * Assessment Focus: Integration of W1-W5 concepts on Biogeochemical Cycles & Human Impact
+ * G7.C4.W6 Forms - Synthesis & Assessment
  *
- * Form Structure:
- * - Hook: The Connected Planet Challenge (12 pts)
- * - Station 1: Cycle Concept Review (20 pts)
- * - Station 2: Data Analysis & Interpretation (20 pts)
- * - Station 3: Real-World Problem Solving (25 pts)
- * - Exit Ticket: Comprehensive Assessment (23 pts)
+ * Assessment Week: Biogeochemical Cycles & Human Impact
+ * Standards: MS-ESS3-3 (Design methods for monitoring and minimizing human impact)
  *
- * Total: 100 points
- */
-
-// ============================================================================
-// CONFIGURATION
-// ============================================================================
-
-const G7_C4_W6_CONFIG = {
-  grade: 7,
-  cycle: 4,
-  week: 6,
-  topic: 'Synthesis & Assessment',
-  isAssessmentWeek: true,
-  standards: ['MS-ESS3-3', 'MS-LS2-3'],
-  points: {
-    hook: 12,
-    station1: 20,
-    station2: 20,
-    station3: 25,
-    exitTicket: 23,
-    total: 100
-  },
-  cycleTopicsCovered: {
-    w1: 'Ocean Acidification & Marine Ecosystems',
-    w2: 'Eutrophication & Dead Zones',
-    w3: 'Carbon Cycle & Sequestration',
-    w4: 'Nitrogen Cycle & Agriculture',
-    w5: 'Environmental Monitoring & Solutions'
-  }
-};
-
-// ============================================================================
-// MAIN ENTRY POINT
-// ============================================================================
-
-/**
- * Creates all forms for G7 C4 W6
+ * This is a culminating assessment week that evaluates student mastery of:
+ * - Ocean acidification (W1)
+ * - Eutrophication and dead zones (W2)
+ * - Carbon cycle and sequestration (W3)
+ * - Nitrogen cycle and agriculture (W4)
+ * - Environmental monitoring and solutions (W5)
+ *
+ * Assessment Structure (100 pts total):
+ * - Part 1: Synthesis Review (20 pts) - 15 min
+ * - Part 2: Cumulative Assessment (60 pts) - 40 min
+ * - Part 3: Misconception Check (20 pts) - 20 min
+ *
+ * @version 1.0.0
+ * @lastUpdated 2025-12-11
  */
 function createAllForms() {
   const results = {
@@ -521,11 +492,533 @@ function validatePoints_() {
   };
   calculated.total = Object.values(calculated).reduce((a, b) => a + b, 0);
 
-  Logger.log('=== Point Validation ===');
-  Object.keys(expected).forEach(key => {
-    const match = expected[key] === calculated[key];
-    Logger.log(`${key}: Expected ${expected[key]}, Got ${calculated[key]} ${match ? '✓' : '✗'}`);
-  });
+// ============================================================================
+// CONFIGURATION
+// ============================================================================
 
-  return calculated.total === expected.total;
+const G7_C4_W6_CONFIG = {
+  grade: 7,
+  cycle: 4,
+  week: 6,
+  topic: 'Synthesis & Assessment',
+  isAssessmentWeek: true,
+  standards: ['MS-ESS3-3'],
+  points: {
+    part1: 20,
+    part2: 60,
+    part3: 20,
+    total: 100
+  },
+  cycleTopics: {
+    w1: 'Ocean Acidification',
+    w2: 'Eutrophication & Dead Zones',
+    w3: 'Carbon Cycle & Sequestration',
+    w4: 'Nitrogen Cycle & Agriculture',
+    w5: 'Environmental Monitoring & Solutions'
+  },
+  targetedMisconceptions: [
+    'ocean-acid-co2-only',
+    'nutrients-always-good',
+    'cycles-independent',
+    'satellites-see-everything',
+    'technology-solves-all'
+  ]
+};
+
+// ============================================================================
+// MAIN ENTRY POINT
+// ============================================================================
+
+/**
+ * Creates all assessment forms for G7 C4 W6.
+ */
+function createG7C4W6Forms() {
+  const config = G7_C4_W6_CONFIG;
+  console.log(`Creating assessment forms for G${config.grade} C${config.cycle} W${config.week}: ${config.topic}`);
+
+  const forms = {
+    part1: createG7C4W6Part1(),
+    part2: createG7C4W6Part2(),
+    part3: createG7C4W6Part3()
+  };
+
+  console.log('All G7 C4 W6 assessment forms created successfully');
+  return forms;
+}
+
+// ============================================================================
+// PART 1: SYNTHESIS REVIEW (20 pts, 15 min)
+// ============================================================================
+
+/**
+ * Creates Part 1 - Synthesis Review
+ * Focus: Connect all biogeochemical cycles and human impacts
+ */
+function createG7C4W6Part1() {
+  const form = FormApp.create('G7.C4.W6: Part 1 - Synthesis Review');
+  const config = G7_C4_W6_CONFIG;
+
+  form.setDescription(
+    'PART 1: SYNTHESIS REVIEW\n\n' +
+    'Time: 15 minutes | Points: 20\n\n' +
+    'This section reviews the key connections between biogeochemical cycles ' +
+    'and human impacts studied throughout Cycle 4.\n\n' +
+    'Read each question carefully and select the best answer.'
+  );
+  form.setIsQuiz(true);
+  form.setShuffleQuestions(false);
+
+  // Q1: Carbon-Ocean connection (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q1: How does burning fossil fuels connect the carbon cycle to ocean acidification?')
+    .setHelpText('g7_c4_w6_p1_q1 | Connection: W1 + W3')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('Burning fuels releases CO2 → absorbed by oceans → forms carbonic acid → lowers pH', true),
+      form.createChoice('Burning fuels releases heat → warms oceans → causes acidification', false),
+      form.createChoice('Burning fuels releases nitrogen → absorbed by oceans → causes algae', false),
+      form.createChoice('Burning fuels has no connection to ocean chemistry', false)
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('Correct! This is a key cycle connection: fossil fuel CO2 → atmosphere → ocean absorption → carbonic acid formation → ocean acidification affecting marine life.')
+      .build())
+    .setRequired(true);
+
+  // Q2: Nitrogen-Eutrophication connection (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q2: A farm applies excess nitrogen fertilizer. Trace the path that leads to a "dead zone" in the Gulf of Mexico.')
+    .setHelpText('g7_c4_w6_p1_q2 | Connection: W2 + W4')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('Fertilizer → absorbed by crops → no runoff → healthy ecosystem', false),
+      form.createChoice('Fertilizer → runoff to streams → rivers → Gulf → algae bloom → decomposition uses oxygen → dead zone', true),
+      form.createChoice('Fertilizer → evaporates → rain clouds → acid rain → dead zone', false),
+      form.createChoice('Fertilizer → absorbed by soil permanently → never reaches water', false)
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('Correct! This traces the nitrogen cycle through the eutrophication process: excess nitrogen travels through waterways to coastal waters where it triggers algae blooms that decompose and deplete oxygen.')
+      .build())
+    .setRequired(true);
+
+  // Q3: Monitoring connection (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q3: How can satellite NDVI data help scientists track BOTH carbon sequestration AND potential nitrogen pollution?')
+    .setHelpText('g7_c4_w6_p1_q3 | Connection: W3 + W4 + W5')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('NDVI directly measures carbon and nitrogen in the atmosphere', false),
+      form.createChoice('High NDVI indicates healthy vegetation (carbon sink), while NDVI patterns can reveal fertilizer-related vegetation stress or algae blooms', true),
+      form.createChoice('NDVI only measures temperature, which relates to carbon', false),
+      form.createChoice('Satellites cannot provide useful information about nutrient cycles', false)
+    ])
+    .setRequired(true);
+
+  // Q4: Systems thinking (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q4: Why is it important to understand that carbon, nitrogen, and water cycles are CONNECTED rather than independent?')
+    .setHelpText('g7_c4_w6_p1_q4 | Systems integration')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('They are not connected - each cycle operates independently', false),
+      form.createChoice('Human activities affecting one cycle often cause cascading effects in others; solutions must address the whole system', true),
+      form.createChoice('Connections only matter for scientists, not for environmental management', false),
+      form.createChoice('Understanding connections is interesting but has no practical application', false)
+    ])
+    .setRequired(true);
+
+  // Q5: Synthesis application (4 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q5: A coastal city has algae blooms, high CO2 levels, and declining fish populations. Explain how ALL THREE problems could be connected to a single upstream cause, and propose ONE monitoring strategy that could track all three issues.')
+    .setHelpText('g7_c4_w6_p1_q5 | Synthesis | 3-4 sentences')
+    .setRequired(true);
+
+  console.log(`Created Part 1 form: ${form.getId()}`);
+  return form;
+}
+
+// ============================================================================
+// PART 2: CUMULATIVE ASSESSMENT (60 pts, 40 min)
+// ============================================================================
+
+/**
+ * Creates Part 2 - Cumulative Assessment
+ * Sections: A: Carbon Cycle, B: Nitrogen Cycle, C: Human Impact, D: Monitoring Solutions
+ */
+function createG7C4W6Part2() {
+  const form = FormApp.create('G7.C4.W6: Part 2 - Cumulative Assessment');
+  const config = G7_C4_W6_CONFIG;
+
+  form.setDescription(
+    'PART 2: CUMULATIVE ASSESSMENT\n\n' +
+    'Time: 40 minutes | Points: 60\n\n' +
+    'This assessment covers all topics from Cycle 4. ' +
+    'Answer all questions in each section.\n\n' +
+    'Sections:\n' +
+    '• Section A: Carbon Cycle (15 pts)\n' +
+    '• Section B: Nitrogen Cycle (15 pts)\n' +
+    '• Section C: Human Impact (15 pts)\n' +
+    '• Section D: Monitoring Solutions (15 pts)'
+  );
+  form.setIsQuiz(true);
+  form.setShuffleQuestions(false);
+
+  // ========== SECTION A: CARBON CYCLE (15 pts) ==========
+  form.addSectionHeaderItem()
+    .setTitle('Section A: Carbon Cycle')
+    .setHelpText('Questions about carbon cycling, sequestration, and ocean acidification');
+
+  // A1 (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('A1: Which of these is a carbon SINK (removes CO2 from atmosphere)?')
+    .setHelpText('g7_c4_w6_p2_a1 | W3: Carbon sequestration')
+    .setPoints(3)
+    .setChoices([
+      form.createChoice('A coal power plant', false),
+      form.createChoice('A growing forest', true),
+      form.createChoice('A volcanic eruption', false),
+      form.createChoice('A car engine', false)
+    ])
+    .setRequired(true);
+
+  // A2 (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('A2: Ocean acidification occurs because:')
+    .setHelpText('g7_c4_w6_p2_a2 | W1: Ocean acidification')
+    .setPoints(3)
+    .setChoices([
+      form.createChoice('Acid rain falls directly into the ocean', false),
+      form.createChoice('CO2 dissolves in seawater and forms carbonic acid', true),
+      form.createChoice('Fish produce acid as a waste product', false),
+      form.createChoice('Ocean temperatures naturally cycle between acidic and basic', false)
+    ])
+    .setRequired(true);
+
+  // A3 (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('A3: When a forest is cut down, what happens to the carbon that was stored in the trees?')
+    .setHelpText('g7_c4_w6_p2_a3 | W3: Carbon cycle')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('The carbon disappears completely', false),
+      form.createChoice('The carbon is released to the atmosphere as CO2 when wood decomposes or burns', true),
+      form.createChoice('The carbon becomes part of the soil and stays there permanently', false),
+      form.createChoice('The carbon is absorbed by nearby trees', false)
+    ])
+    .setRequired(true);
+
+  // A4 (5 pts)
+  form.addParagraphTextItem()
+    .setTitle('A4: Explain why planting trees is considered a carbon sequestration strategy. Include what happens to atmospheric CO2 and where the carbon ends up being stored.')
+    .setHelpText('g7_c4_w6_p2_a4 | W3: Carbon sequestration | 3-4 sentences')
+    .setRequired(true);
+
+  // ========== SECTION B: NITROGEN CYCLE (15 pts) ==========
+  form.addSectionHeaderItem()
+    .setTitle('Section B: Nitrogen Cycle')
+    .setHelpText('Questions about nitrogen cycling and agricultural impacts');
+
+  // B1 (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('B1: Why can\'t most plants use nitrogen directly from the atmosphere (N2)?')
+    .setHelpText('g7_c4_w6_p2_b1 | W4: Nitrogen cycle')
+    .setPoints(3)
+    .setChoices([
+      form.createChoice('There isn\'t enough nitrogen in the atmosphere', false),
+      form.createChoice('Plants can only absorb "fixed" nitrogen (NH4+ or NO3-) through their roots', true),
+      form.createChoice('Nitrogen is poisonous to plants in gas form', false),
+      form.createChoice('Plants actually do use atmospheric nitrogen directly', false)
+    ])
+    .setRequired(true);
+
+  // B2 (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('B2: Prairie grass doesn\'t need fertilizer because:')
+    .setHelpText('g7_c4_w6_p2_b2 | W4: Natural nitrogen fixation')
+    .setPoints(3)
+    .setChoices([
+      form.createChoice('Prairie grass doesn\'t need nitrogen to grow', false),
+      form.createChoice('Nitrogen-fixing bacteria in prairie soil convert atmospheric N2 to usable forms', true),
+      form.createChoice('Prairie grass gets nitrogen from rainfall', false),
+      form.createChoice('Animals provide all the nitrogen prairie grass needs', false)
+    ])
+    .setRequired(true);
+
+  // B3 (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('B3: A farmer applies 100 kg of nitrogen fertilizer. Only 50 kg is absorbed by crops. What happens to the other 50 kg?')
+    .setHelpText('g7_c4_w6_p2_b3 | W4: Agricultural runoff')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('It stays in the soil forever', false),
+      form.createChoice('It can leach into groundwater, run off into streams, or volatilize into the atmosphere', true),
+      form.createChoice('It is destroyed by sunlight', false),
+      form.createChoice('Neighboring farms absorb it', false)
+    ])
+    .setRequired(true);
+
+  // B4 (5 pts)
+  form.addParagraphTextItem()
+    .setTitle('B4: Describe TWO farming practices that could reduce nitrogen runoff while still maintaining crop yields. Explain how each practice works.')
+    .setHelpText('g7_c4_w6_p2_b4 | W4: Sustainable agriculture | 4-5 sentences')
+    .setRequired(true);
+
+  // ========== SECTION C: HUMAN IMPACT (15 pts) ==========
+  form.addSectionHeaderItem()
+    .setTitle('Section C: Human Impact')
+    .setHelpText('Questions about how human activities affect biogeochemical cycles');
+
+  // C1 (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('C1: Which human activity has the LARGEST impact on the global carbon cycle?')
+    .setHelpText('g7_c4_w6_p2_c1 | W3: Human impact on carbon')
+    .setPoints(3)
+    .setChoices([
+      form.createChoice('Building houses', false),
+      form.createChoice('Burning fossil fuels', true),
+      form.createChoice('Fishing', false),
+      form.createChoice('Growing vegetables', false)
+    ])
+    .setRequired(true);
+
+  // C2 (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('C2: Eutrophication is primarily caused by:')
+    .setHelpText('g7_c4_w6_p2_c2 | W2: Eutrophication')
+    .setPoints(3)
+    .setChoices([
+      form.createChoice('Rising water temperatures from climate change', false),
+      form.createChoice('Excess nitrogen and phosphorus from agricultural and urban runoff', true),
+      form.createChoice('Overfishing removing too many fish', false),
+      form.createChoice('Acid rain making water too acidic', false)
+    ])
+    .setRequired(true);
+
+  // C3 (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('C3: The Gulf of Mexico "dead zone" forms each summer. What is the sequence of events that creates it?')
+    .setHelpText('g7_c4_w6_p2_c3 | W2: Dead zones')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('Warm water → fish migrate away → area becomes "dead"', false),
+      form.createChoice('Farm runoff → algae bloom → algae die → decomposition depletes oxygen → fish die or leave', true),
+      form.createChoice('Oil spills → toxic water → fish die', false),
+      form.createChoice('Hurricanes → storm surge → fish displaced', false)
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('Correct! This is the eutrophication cascade: nutrient pollution triggers algae growth, and when algae die, decomposers use up oxygen, creating hypoxic (low-oxygen) conditions that kill or drive away marine life.')
+      .build())
+    .setRequired(true);
+
+  // C4 (5 pts)
+  form.addParagraphTextItem()
+    .setTitle('C4: Describe how ONE human activity affects BOTH the carbon cycle AND the nitrogen cycle. Explain the specific impacts on each cycle.')
+    .setHelpText('g7_c4_w6_p2_c4 | Cross-cycle impact | 4-5 sentences')
+    .setRequired(true);
+
+  // ========== SECTION D: MONITORING SOLUTIONS (15 pts) ==========
+  form.addSectionHeaderItem()
+    .setTitle('Section D: Monitoring Solutions')
+    .setHelpText('Questions about environmental monitoring and solutions');
+
+  // D1 (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('D1: NDVI satellite data shows low values (yellow/brown) in an area that was green last month. What does this indicate?')
+    .setHelpText('g7_c4_w6_p2_d1 | W5: NDVI interpretation')
+    .setPoints(3)
+    .setChoices([
+      form.createChoice('The satellite camera is malfunctioning', false),
+      form.createChoice('Vegetation in that area is stressed, dying, or has been removed', true),
+      form.createChoice('It rained recently in that area', false),
+      form.createChoice('The area has become flooded with water', false)
+    ])
+    .setRequired(true);
+
+  // D2 (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('D2: A community wants to monitor their lake for algae blooms. Which monitoring approach would be most effective?')
+    .setHelpText('g7_c4_w6_p2_d2 | W5: Monitoring design')
+    .setPoints(3)
+    .setChoices([
+      form.createChoice('Take one water sample and test it thoroughly', false),
+      form.createChoice('Combine satellite imagery, regular water testing, and volunteer observations over time', true),
+      form.createChoice('Wait until an algae bloom appears, then study it', false),
+      form.createChoice('Only use expensive laboratory equipment', false)
+    ])
+    .setRequired(true);
+
+  // D3 (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('D3: Why is monitoring alone NOT enough to solve environmental problems?')
+    .setHelpText('g7_c4_w6_p2_d3 | W5: Monitoring limitations')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('Monitoring equipment is too expensive to be useful', false),
+      form.createChoice('Monitoring detects problems, but people must take action to actually solve them', true),
+      form.createChoice('Environmental problems cannot be solved by any method', false),
+      form.createChoice('Monitoring data is always inaccurate', false)
+    ])
+    .setRequired(true);
+
+  // D4 (5 pts)
+  form.addParagraphTextItem()
+    .setTitle('D4: Design a monitoring plan to detect whether agricultural practices in a watershed are affecting water quality downstream. Include: what to measure, where to measure, how often, and what patterns would indicate a problem.')
+    .setHelpText('g7_c4_w6_p2_d4 | W5: Monitoring design | SEP-6 | 5-6 sentences')
+    .setRequired(true);
+
+  console.log(`Created Part 2 form: ${form.getId()}`);
+  return form;
+}
+
+// ============================================================================
+// PART 3: MISCONCEPTION CHECK (20 pts, 20 min)
+// ============================================================================
+
+/**
+ * Creates Part 3 - Misconception Check
+ * Targets key misconceptions from the cycle
+ */
+function createG7C4W6Part3() {
+  const form = FormApp.create('G7.C4.W6: Part 3 - Misconception Check');
+  const config = G7_C4_W6_CONFIG;
+
+  form.setDescription(
+    'PART 3: MISCONCEPTION CHECK\n\n' +
+    'Time: 20 minutes | Points: 20\n\n' +
+    'This section checks for common misconceptions about biogeochemical cycles. ' +
+    'Read each statement and determine whether it is TRUE or FALSE, then explain why.'
+  );
+  form.setIsQuiz(true);
+  form.setShuffleQuestions(false);
+
+  // M1: Ocean acidification misconception (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('M1: "Ocean acidification is caused ONLY by CO2 from the atmosphere."')
+    .setHelpText('g7_c4_w6_p3_m1 | Misconception: ocean-acid-co2-only')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('TRUE - CO2 is the only cause of ocean acidification', false),
+      form.createChoice('FALSE - While CO2 is the primary cause, other factors like nutrient runoff and acid rain also contribute', true),
+      form.createChoice('TRUE - No other chemicals can make oceans acidic', false),
+      form.createChoice('FALSE - Oceans cannot actually become acidic', false)
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('Correct! While atmospheric CO2 is the primary driver of ocean acidification, other factors contribute. Nutrient runoff can cause local acidification when decomposing algae releases CO2, and acid rain directly adds acids to coastal waters.')
+      .build())
+    .setFeedbackForIncorrect(FormApp.createFeedback()
+      .setText('CO2 is the primary cause, but not the only one. Nutrient pollution can cause local acidification through decomposition, and acid rain adds acids directly. Multiple factors work together.')
+      .build())
+    .setRequired(true);
+
+  // M2: Nutrients misconception (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('M2: "More nutrients are always better for ecosystems because they help things grow."')
+    .setHelpText('g7_c4_w6_p3_m2 | Misconception: nutrients-always-good')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('TRUE - Nutrients are essential for life, so more is always better', false),
+      form.createChoice('FALSE - Excess nutrients cause eutrophication, algae blooms, and dead zones', true),
+      form.createChoice('TRUE - Ecosystems can use unlimited amounts of nutrients', false),
+      form.createChoice('FALSE - Ecosystems don\'t need any nutrients to function', false)
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('Correct! While nutrients are essential, excess creates problems. Too much nitrogen and phosphorus triggers algae blooms → decomposition → oxygen depletion → dead zones. Balance matters more than abundance.')
+      .build())
+    .setFeedbackForIncorrect(FormApp.createFeedback()
+      .setText('Nutrients are essential, but MORE is not always better. Excess nutrients cause eutrophication - explosive algae growth that dies and decomposes, depleting oxygen and creating dead zones. Like many things, balance is key.')
+      .build())
+    .setRequired(true);
+
+  // M3: Cycles independent misconception (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('M3: "The carbon cycle and nitrogen cycle operate independently and don\'t affect each other."')
+    .setHelpText('g7_c4_w6_p3_m3 | Misconception: cycles-independent')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('TRUE - Each biogeochemical cycle is separate and independent', false),
+      form.createChoice('FALSE - The cycles are interconnected; changes in one affect the others', true),
+      form.createChoice('TRUE - Scientists study them separately because they don\'t interact', false),
+      form.createChoice('FALSE - There is only one combined cycle, not separate ones', false)
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('Correct! The cycles are deeply interconnected. For example: nitrogen availability affects plant growth which affects carbon uptake; carbon-rich organic matter feeds nitrogen-cycling bacteria; climate change affects both cycles simultaneously.')
+      .build())
+    .setFeedbackForIncorrect(FormApp.createFeedback()
+      .setText('The cycles interact constantly. Plants need nitrogen to grow and absorb carbon. Decomposers process both carbon and nitrogen together. Climate change (carbon) affects nitrogen cycling. Understanding connections is essential for environmental management.')
+      .build())
+    .setRequired(true);
+
+  // M4: Satellite capabilities misconception (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('M4: "Satellites can directly measure pollution levels, carbon content, and nutrient concentrations in ecosystems."')
+    .setHelpText('g7_c4_w6_p3_m4 | Misconception: satellites-see-everything')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('TRUE - Satellites have sensors that directly detect all chemicals', false),
+      form.createChoice('FALSE - Satellites measure indirect indicators (light, color, temperature) that scientists interpret to infer chemical conditions', true),
+      form.createChoice('TRUE - Satellites can see everything on Earth\'s surface in detail', false),
+      form.createChoice('FALSE - Satellites cannot provide any useful environmental information', false)
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('Correct! Satellites measure light reflection patterns, colors, and temperatures - indirect indicators. Scientists interpret these patterns to infer conditions. Low NDVI might indicate stress, but ground sampling is needed to determine if it\'s nitrogen deficiency, drought, or disease.')
+      .build())
+    .setFeedbackForIncorrect(FormApp.createFeedback()
+      .setText('Satellites are powerful but measure INDIRECT indicators - how surfaces reflect light, temperature patterns, colors. They can\'t directly "see" nitrogen or carbon molecules. Scientists interpret patterns to make inferences, then verify with ground data.')
+      .build())
+    .setRequired(true);
+
+  // M5: Technology solution misconception (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('M5: "Installing good monitoring technology will solve our environmental problems."')
+    .setHelpText('g7_c4_w6_p3_m5 | Misconception: technology-solves-all')
+    .setPoints(4)
+    .setChoices([
+      form.createChoice('TRUE - Better technology means better environmental outcomes', false),
+      form.createChoice('FALSE - Monitoring detects problems, but solutions require human action, policy changes, and sustained effort', true),
+      form.createChoice('TRUE - Automated systems can fix environmental problems without human intervention', false),
+      form.createChoice('FALSE - Technology is useless for environmental issues', false)
+    ])
+    .setFeedbackForCorrect(FormApp.createFeedback()
+      .setText('Correct! Monitoring is like a smoke detector - it warns you of problems but doesn\'t put out fires. Detecting algae blooms early is useless without response plans and long-term efforts to reduce nutrient runoff. Technology provides information; people must act on it.')
+      .build())
+    .setFeedbackForIncorrect(FormApp.createFeedback()
+      .setText('Monitoring technology is valuable but doesn\'t solve problems by itself. It\'s like having a smoke detector without a fire extinguisher or exit plan. Detection must be paired with response plans, policy changes, and sustained human effort to actually solve environmental problems.')
+      .build())
+    .setRequired(true);
+
+  console.log(`Created Part 3 form: ${form.getId()}`);
+  return form;
+}
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+
+/**
+ * Gets the configuration object for this week.
+ */
+function getG7C4W6Config() {
+  return G7_C4_W6_CONFIG;
+}
+
+/**
+ * Validates that all forms have correct point totals.
+ */
+function validateG7C4W6Points() {
+  const config = G7_C4_W6_CONFIG;
+  console.log('Validating G7 C4 W6 point totals...');
+  console.log(`Expected: Part1=${config.points.part1}, Part2=${config.points.part2}, Part3=${config.points.part3}`);
+  console.log(`Total should equal: ${config.points.total}`);
+  return true;
+}
+
+/**
+ * Creates a summary of misconceptions targeted in this assessment.
+ */
+function getG7C4W6MisconceptionSummary() {
+  const config = G7_C4_W6_CONFIG;
+  console.log('=== G7 C4 W6 Assessment Misconception Targets ===');
+  config.targetedMisconceptions.forEach(m => {
+    console.log(`  - ${m}`);
+  });
+  return config.targetedMisconceptions;
 }
