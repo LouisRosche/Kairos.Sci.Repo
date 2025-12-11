@@ -114,4 +114,4 @@ node scripts/validate-config.js  # Validate cycle configs
 - **Ready:** Cycle 4 (ready for deployment)
 - **Complete:** Cycles 5-8 (lesson plans done, forms scaffolded)
 - **Legacy:** Cycle 2 (pre-architecture, reference only)
-- **Archived:** C9 & C10 configs moved to `archive/config/cycles/` (standards integrated into C8)
+- **Archived:** C9 & C10 configs moved to `archive/deferred-cycles/` (standards integrated into C8)
