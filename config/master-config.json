@@ -61,13 +61,15 @@
 
   "cycles": {
     "range": {
-      "start": 3,
+      "start": 1,
       "end": 8,
-      "_note": "SY25-26 calendar supports cycles 3-8 only (cycles 1-2 predate this system)"
+      "_note": "SY25-26 full calendar: C1-C8. C2 is legacy pre-architecture."
     },
-    "totalCycles": 6,
+    "totalCycles": 8,
     "weeksPerCycle": {
       "_note": "Week counts vary by cycle per official Kairos SY25-26 calendar",
+      "cycle01": 8,
+      "cycle02": 5,
       "cycle03": 3,
       "cycle04": 6,
       "cycle05": 3,
@@ -75,7 +77,7 @@
       "cycle07": 4,
       "cycle08": 4
     },
-    "totalInstructionalWeeks": 25,
+    "totalInstructionalWeeks": 38,
     "pointsPerWeek": 100,
     "formsPerWeek": 5,
     "_calendarAlignment": {
@@ -536,7 +538,8 @@
   },
 
   "activeCycles": ["cycle03", "cycle04"],
-  "plannedCycles": ["cycle05", "cycle06", "cycle07", "cycle08"],
+  "plannedCycles": ["cycle01", "cycle05", "cycle06", "cycle07", "cycle08"],
+  "legacyCycles": ["cycle02"],
 
   "_deferredCycles": {
     "status": "RESOLVED",
