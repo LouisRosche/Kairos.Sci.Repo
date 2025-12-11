@@ -8,15 +8,20 @@ Part 2: Cumulative Assessment (60 pts) - Full cycle content + data analysis
 Part 3: Misconception Check (20 pts) - Common misconceptions + explanations
 
 Color scheme: Green (#059669, #047857) with cyan, purple accents
+
+REFACTORED: Now uses pptx_common.py for shared utilities.
+See scripts/PPTX_DESIGN_GUIDE.md for best practices.
 """
 
-from pptx import Presentation
-from pptx.util import Inches, Pt
-from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from pptx_common import (
+    create_base_presentation,
+    add_colored_shape,
+    add_text_box,
+    Inches, Pt, RGBColor, PP_ALIGN, MSO_ANCHOR
+)
 import os
 
-# Theme colors
+# Theme colors (cycle-specific - override common palette)
 GREEN_PRIMARY = RGBColor(5, 150, 105)    # #059669
 GREEN_DARK = RGBColor(4, 120, 87)        # #047857
 CYAN_PRIMARY = RGBColor(8, 145, 178)     # #0891B2
@@ -27,81 +32,49 @@ WHITE = RGBColor(255, 255, 255)
 DARK_TEXT = RGBColor(45, 55, 72)
 LIGHT_BG = RGBColor(240, 253, 244)       # #F0FDF4
 
+
 def add_title_slide(prs, title, subtitle, bg_color=GREEN_PRIMARY):
     """Add a title slide with colored background."""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
 
     # Background
-    background = slide.shapes.add_shape(1, Inches(0), Inches(0), Inches(10), Inches(5.625))
-    background.fill.solid()
-    background.fill.fore_color.rgb = bg_color
-    background.line.fill.background()
+    add_colored_shape(slide, Inches(0), Inches(0), Inches(10), Inches(5.625), bg_color, shape_type=1)
 
     # Title
-    title_box = slide.shapes.add_textbox(Inches(0.5), Inches(1.8), Inches(9), Inches(1.2))
-    tf = title_box.text_frame
-    tf.word_wrap = True
-    p = tf.paragraphs[0]
-    p.text = title
-    p.font.size = Pt(44)
-    p.font.bold = True
-    p.font.color.rgb = WHITE
-    p.alignment = PP_ALIGN.CENTER
+    add_text_box(slide, Inches(0.5), Inches(1.8), Inches(9), Inches(1.2),
+                 title, font_size=44, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
     # Subtitle
-    sub_box = slide.shapes.add_textbox(Inches(0.5), Inches(3.2), Inches(9), Inches(1))
-    tf = sub_box.text_frame
-    tf.word_wrap = True
-    p = tf.paragraphs[0]
-    p.text = subtitle
-    p.font.size = Pt(24)
-    p.font.color.rgb = WHITE
-    p.alignment = PP_ALIGN.CENTER
+    add_text_box(slide, Inches(0.5), Inches(3.2), Inches(9), Inches(1),
+                 subtitle, font_size=24, color=WHITE, align=PP_ALIGN.CENTER)
 
     return slide
+
 
 def add_section_header(prs, title, metadata, bg_color=GREEN_PRIMARY):
     """Add a section header slide with two-line format."""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
 
     # Background
-    background = slide.shapes.add_shape(1, Inches(0), Inches(0), Inches(10), Inches(5.625))
-    background.fill.solid()
-    background.fill.fore_color.rgb = bg_color
-    background.line.fill.background()
+    add_colored_shape(slide, Inches(0), Inches(0), Inches(10), Inches(5.625), bg_color, shape_type=1)
 
     # Title (line 1)
-    title_box = slide.shapes.add_textbox(Inches(0.5), Inches(2.0), Inches(9), Inches(1))
-    tf = title_box.text_frame
-    tf.word_wrap = True
-    p = tf.paragraphs[0]
-    p.text = title
-    p.font.size = Pt(40)
-    p.font.bold = True
-    p.font.color.rgb = WHITE
-    p.alignment = PP_ALIGN.CENTER
+    add_text_box(slide, Inches(0.5), Inches(2.0), Inches(9), Inches(1),
+                 title, font_size=40, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
     # Metadata (line 2)
-    meta_box = slide.shapes.add_textbox(Inches(0.5), Inches(3.2), Inches(9), Inches(0.6))
-    tf = meta_box.text_frame
-    tf.word_wrap = True
-    p = tf.paragraphs[0]
-    p.text = metadata
-    p.font.size = Pt(22)
-    p.font.color.rgb = WHITE
-    p.alignment = PP_ALIGN.CENTER
+    add_text_box(slide, Inches(0.5), Inches(3.2), Inches(9), Inches(0.6),
+                 metadata, font_size=22, color=WHITE, align=PP_ALIGN.CENTER)
 
     return slide
+
 
 def add_content_slide(prs, title, metadata, bullets, title_color=GREEN_PRIMARY):
     """Add a content slide with title and bullet points."""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
 
     # Light background
-    background = slide.shapes.add_shape(1, Inches(0), Inches(0), Inches(10), Inches(5.625))
-    background.fill.solid()
-    background.fill.fore_color.rgb = LIGHT_BG
-    background.line.fill.background()
+    add_colored_shape(slide, Inches(0), Inches(0), Inches(10), Inches(5.625), LIGHT_BG, shape_type=1)
 
     # Title with metadata (two-line header)
     title_box = slide.shapes.add_textbox(Inches(0.4), Inches(0.2), Inches(9.2), Inches(1.1))
@@ -141,15 +114,13 @@ def add_content_slide(prs, title, metadata, bullets, title_color=GREEN_PRIMARY):
 
     return slide
 
+
 def add_two_column_slide(prs, title, metadata, left_title, left_items, right_title, right_items, title_color=GREEN_PRIMARY):
     """Add a two-column content slide."""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
 
     # Light background
-    background = slide.shapes.add_shape(1, Inches(0), Inches(0), Inches(10), Inches(5.625))
-    background.fill.solid()
-    background.fill.fore_color.rgb = LIGHT_BG
-    background.line.fill.background()
+    add_colored_shape(slide, Inches(0), Inches(0), Inches(10), Inches(5.625), LIGHT_BG, shape_type=1)
 
     # Title with metadata
     title_box = slide.shapes.add_textbox(Inches(0.4), Inches(0.2), Inches(9.2), Inches(1.1))
@@ -203,11 +174,10 @@ def add_two_column_slide(prs, title, metadata, left_title, left_items, right_tit
 
     return slide
 
+
 def create_presentation():
     """Create the G8 C4 W3 Assessment presentation."""
-    prs = Presentation()
-    prs.slide_width = Inches(10)
-    prs.slide_height = Inches(5.625)
+    prs = create_base_presentation()
 
     # Slide 1: Title
     add_title_slide(
@@ -370,6 +340,7 @@ def create_presentation():
 
     return prs
 
+
 def main():
     # Create presentation
     prs = create_presentation()
@@ -382,6 +353,7 @@ def main():
     prs.save(output_path)
     print(f"Presentation saved to: {output_path}")
     print(f"Total slides: {len(prs.slides)}")
+
 
 if __name__ == "__main__":
     main()
