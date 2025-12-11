@@ -62,6 +62,7 @@ When generating/modifying content, ALWAYS verify against these requirements.
 
 | Cycle | G7 Topic | G8 Topic | Weeks | Status |
 |-------|----------|----------|-------|--------|
+| **C1** | Prior Production - WIP
 | **C2** | Molecular Structure & Bonding | Forces, Energy & Collisions | 4 | 📦 Legacy - Reference Only |
 | **C3** | Climate Change & Energy Flow | Natural Selection & Forces | 3 | ✅ DEPLOYED (Read-Only) |
 | **C4** | Biogeochemical Cycles & Human Impact | Ecosystems & Energy Transfer | 3 | ✅ READY |
@@ -69,8 +70,6 @@ When generating/modifying content, ALWAYS verify against these requirements.
 | **C6** | Plate Tectonics | Electricity & Magnetism | 5 (Mar 24-Apr 24) | ✅ Complete |
 | **C7** | Rock Cycle & Earth's History | Chemical Reactions | 4 (Apr 27-May 22) | ✅ Complete |
 | **C8** | Ecosystems + Year-End | Thermal Energy + Engineering | 4 (Jun 1-26) | ✅ Complete |
-| **C9** | *(Standards → C8)* | *(Standards → C8)* | — | ⏸️ Deferred to SY26-27 |
-| **C10** | *(Merged → C8 W3)* | *(Merged → C8 W3)* | — | ✅ Resolved |
 
 **Legend:** ✅ Complete/Deployed | ⏸️ Deferred | 📦 Legacy (pre-architecture, reference only)
 
