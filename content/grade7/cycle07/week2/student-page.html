@@ -1,35 +1,1016 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G7 C7 W2: [Title TBD] - PLACEHOLDER</title>
-</head>
-<body>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 7 CYCLE 5 WEEK 2: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+<style>
+/* KAMS Science - Embedded Design System (Canvas-Compatible) v3.1 */
+/* G7 C7 W2: Geologic Time & Fossil Evidence */
 
-  Target Date: January 27-30, 2026
-  Topic: Rock Cycle & Earth's History
-  Primary Standard: MS-ESS2-5
+:root {
+  /* Color Palette */
+  --color-primary: #059669;
+  --color-primary-dark: #047857;
+  --color-secondary: #0891B2;
+  --color-secondary-dark: #0E7490;
+  --color-accent: #8B5CF6;
+  --color-accent-dark: #7C3AED;
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+  /* Semantic Colors */
+  --color-success: #059669;
+  --color-success-light: #D1FAE5;
+  --color-success-border: #9AE6B4;
+  --color-warning: #D97706;
+  --color-warning-light: #FEF3C7;
+  --color-error: #DC2626;
+  --color-error-light: #FEE2E2;
+  --color-error-border: #FCA5A5;
+  --color-info: #2563EB;
+  --color-info-light: #DBEAFE;
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+  /* Gray Scale */
+  --color-gray-50: #F9FAFB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1F2937;
 
-  <main id="main-content">
-    <h1>Grade 7 Cycle 7 Week 2</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
-  </main>
-</body>
-</html>
+  /* Text Colors */
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #4B5563;
+  --color-text-muted: #6B7280;
+  --color-text-inverse: #FFFFFF;
+
+  /* Spacing (8px baseline) */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-sm: 0.875em;
+  --font-size-base: 1em;
+  --font-size-lg: 1.125em;
+  --font-size-xl: 1.25em;
+  --font-size-2xl: clamp(1.5em, 4vw, 2em);
+  --font-size-3xl: clamp(1.8em, 5vw, 3em);
+
+  /* Borders & Shadows */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+
+  /* Station Gradients */
+  --gradient-hook: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  --gradient-station1: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  --gradient-station2: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  --gradient-station3: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  --gradient-exit: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+  --gradient-nav: linear-gradient(135deg, #78716C 0%, #57534E 100%);
+}
+
+/* Base Styles */
+.kams-page {
+  font-family: var(--font-family);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Skip Link (Accessibility) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* Banners & Alerts */
+.banner-accessibility {
+  background: #E6FFFA;
+  border-left: 4px solid #319795;
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.banner-accessibility .banner-title {
+  margin: 0 0 var(--space-2) 0;
+  font-weight: 700;
+  color: #234E52;
+}
+.banner-accessibility ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: var(--font-size-sm);
+  color: #285E61;
+}
+
+.banner-chromebook {
+  background: var(--color-warning-light);
+  border-left: 5px solid #856404;
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  border-radius: var(--radius-md);
+}
+.banner-chromebook .banner-title {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+  color: #856404;
+}
+.banner-chromebook ul {
+  margin: 0;
+  padding-left: 25px;
+  line-height: 1.8;
+  color: #856404;
+}
+
+/* Main Header - Time/Fossil theme */
+.header-main {
+  background: var(--gradient-nav);
+  color: var(--color-text-inverse);
+  padding: 50px 40px;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-5);
+}
+.header-main h1 {
+  font-size: var(--font-size-3xl);
+  margin: 0 0 var(--space-4) 0;
+  font-weight: 700;
+}
+.header-main .subtitle {
+  margin: 0;
+  font-size: clamp(1em, 2.5vw, 1.2em);
+  opacity: 0.95;
+}
+.header-main .meta {
+  margin-top: var(--space-2);
+  font-size: clamp(0.9em, 2vw, 1em);
+  opacity: 0.9;
+}
+
+/* Quick Navigation */
+.quick-nav {
+  background: var(--gradient-nav);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-6);
+}
+.quick-nav h2 {
+  margin: 0 0 var(--space-4) 0;
+  text-align: center;
+  color: var(--color-text-inverse);
+  font-size: clamp(1.1em, 3vw, 1.3em);
+}
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+.nav-btn {
+  background: rgba(255,255,255,0.95);
+  color: #57534E;
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-size: 0.95em;
+  min-height: 48px;
+  line-height: 1.4;
+  display: inline-block;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Section Headers (Station-specific gradients) */
+.section-header {
+  color: var(--color-text-inverse);
+  padding: 30px 20px;
+  margin-bottom: var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+.section-header h2 {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-2xl);
+}
+.section-header p {
+  margin: 0;
+  font-size: clamp(0.95em, 2.5vw, 1.1em);
+  opacity: 0.95;
+}
+.header-hook { background: var(--gradient-hook); }
+.header-station1 { background: var(--gradient-station1); }
+.header-station2 { background: var(--gradient-station2); }
+.header-station3 { background: var(--gradient-station3); }
+.header-exit { background: var(--gradient-exit); }
+
+/* Cards & Content Boxes */
+.card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+.card-bordered { border: 2px solid var(--color-gray-200); }
+.card-hook { border-color: #6366F1; }
+.card-station1 { border-color: #10B981; }
+.card-station2 { border-color: #F59E0B; }
+.card-station3 { border-color: #8B5CF6; }
+.card-exit { border-color: #EC4899; }
+
+.card-title {
+  margin: 0 0 var(--space-4) 0;
+  font-size: clamp(1.1em, 3vw, 1.3em);
+}
+.card-title-hook { color: #4F46E5; }
+.card-title-station1 { color: #059669; }
+.card-title-station2 { color: #D97706; }
+.card-title-station3 { color: #7C3AED; }
+.card-title-exit { color: #DB2777; }
+
+/* Info Boxes */
+.info-box {
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-4);
+}
+.info-box-teal { background: #ECFEFF; border-left: 4px solid #0891B2; }
+.info-box-green { background: #ECFDF5; border-left: 4px solid #10B981; }
+.info-box-orange { background: #FFFBEB; border-left: 4px solid #F59E0B; }
+.info-box-purple { background: #F5F3FF; border-left: 4px solid #8B5CF6; }
+.info-box-pink { background: #FDF2F8; border-left: 4px solid #EC4899; }
+.info-box-indigo { background: #EEF2FF; border-left: 4px solid #6366F1; }
+.info-box-blue { background: #EFF6FF; border-left: 4px solid #3B82F6; }
+.info-box-brown { background: #FEF3E2; border-left: 4px solid #78716C; }
+
+.info-box-title {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+}
+
+/* Phenomenon Section */
+.phenomenon-section {
+  background: linear-gradient(135deg, #F5F5F4 0%, #E7E5E4 100%);
+  border-radius: var(--radius-lg);
+  padding: 30px 24px;
+  margin: 35px 0;
+}
+.phenomenon-section h2 {
+  margin: 0 0 var(--space-4) 0;
+  font-size: clamp(1.4em, 4vw, 1.8em);
+  color: #57534E;
+}
+.phenomenon-content {
+  background: white;
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+.phenomenon-content p {
+  font-size: clamp(0.95em, 2.5vw, 1.1em);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+.driving-question {
+  background: var(--gradient-nav);
+  color: var(--color-text-inverse);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+.driving-question p {
+  margin: 0;
+  font-size: clamp(1.1em, 3vw, 1.3em);
+}
+
+/* Support Elements */
+.support-help {
+  background: var(--color-success-light);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-success-border);
+}
+.support-help summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #276749;
+  font-size: var(--font-size-lg);
+}
+.support-help[open] summary { margin-bottom: var(--space-3); }
+.support-help .content {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-success-border);
+  color: #2F855A;
+}
+
+.support-stuck {
+  background: var(--color-error-light);
+  padding: var(--space-4);
+  margin-top: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-error-border);
+}
+.support-stuck summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #C53030;
+  font-size: var(--font-size-lg);
+}
+.support-stuck[open] summary { margin-bottom: var(--space-3); }
+.support-stuck .content {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-error-border);
+  color: #9B2C2C;
+}
+
+.home-alternative {
+  background: var(--color-warning-light);
+  border: 2px dashed var(--color-warning);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+.home-alternative .title {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+  color: #92400E;
+}
+.home-alternative p, .home-alternative ul {
+  color: #78350F;
+}
+
+/* Form Embed */
+.form-embed {
+  background: #FFF5F5;
+  border: 2px solid var(--color-error-border);
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  border-radius: var(--radius-md);
+}
+.form-embed-title {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-lg);
+  color: #C53030;
+}
+.form-embed-subtitle {
+  margin: 0 0 var(--space-4) 0;
+  color: var(--color-text-secondary);
+}
+.form-placeholder {
+  background: var(--color-gray-200);
+  padding: 40px;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+}
+
+/* Tables */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+  margin: var(--space-4) 0;
+}
+.data-table th, .data-table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+.data-table th {
+  background: #78716C;
+  color: var(--color-text-inverse);
+}
+.data-table tbody tr:nth-child(even) { background: var(--color-gray-50); }
+
+/* Summary Section */
+.summary-section {
+  background: linear-gradient(135deg, #F5F5F4 0%, #E7E5E4 100%);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-6);
+}
+.summary-section h2 {
+  margin: 0 0 var(--space-4) 0;
+  color: #57534E;
+  font-size: clamp(1.3em, 3.5vw, 1.6em);
+  text-align: center;
+}
+.summary-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+.summary-item {
+  background: white;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border-left: 4px solid;
+}
+.summary-item p { margin: 0; }
+
+/* Word Bank */
+.word-bank {
+  padding: var(--space-3);
+  background: #C6F6D5;
+  border-radius: var(--radius-sm);
+  color: #22543D;
+}
+
+/* Curriculum Navigation */
+.curriculum-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-5);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-6);
+}
+.curriculum-nav a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.curriculum-nav .current {
+  color: var(--color-text-muted);
+}
+
+/* Utilities */
+.text-center { text-align: center; }
+.text-muted { color: var(--color-text-muted); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-success { color: var(--color-success); }
+.text-warning { color: #856404; }
+.text-error { color: #C53030; }
+.mb-0 { margin-bottom: 0; }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.font-bold { font-weight: 700; }
+.divider {
+  border: 0;
+  border-top: 3px solid var(--color-gray-200);
+  margin: 35px 0;
+}
+
+/* Simulation Link */
+.simulation-link {
+  display: block;
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  color: white;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  text-align: center;
+  font-weight: 600;
+  margin: var(--space-4) 0;
+  transition: transform 0.2s;
+}
+.simulation-link:hover {
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.page-footer {
+  background: var(--color-gray-50);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+.page-footer .complete-message {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-lg);
+}
+.page-footer .next-week {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* Timeline visualization */
+.timeline-visual {
+  background: linear-gradient(to right, #1F2937, #374151);
+  color: white;
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  margin: var(--space-4) 0;
+}
+.timeline-visual h4 {
+  margin: 0 0 var(--space-3) 0;
+  text-align: center;
+}
+.timeline-bar {
+  height: 30px;
+  background: linear-gradient(to right, #4B5563 0%, #78716C 85%, #10B981 99.99%, #EF4444 100%);
+  border-radius: var(--radius-sm);
+  margin: var(--space-3) 0;
+  position: relative;
+}
+.timeline-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+  opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-links { flex-direction: column; align-items: stretch; }
+  .nav-btn { text-align: center; margin: 4px 0; }
+  .header-main { padding: 30px 20px; }
+  .section-header { padding: 20px 15px; }
+  .curriculum-nav { flex-direction: column; gap: var(--space-3); text-align: center; }
+}
+</style>
+
+<div class="kams-page">
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Accessibility & Async Support Banner -->
+<div class="banner-accessibility">
+  <p class="banner-title">Accessibility & Learning Support</p>
+  <ul>
+    <li><strong>Need text read aloud?</strong> Chrome: Right-click "Read aloud" | Edge: Click speaker icon in address bar</li>
+    <li><strong>Working from home?</strong> Look for the HOME ALTERNATIVE boxes at each station</li>
+    <li><strong>Need extra support?</strong> Click the green "Need help?" buttons for hints and sentence starters</li>
+    <li><strong>Stuck?</strong> Look for the red "Stuck?" boxes with step-by-step help</li>
+  </ul>
+</div>
+
+<!-- Main Header -->
+<header id="main-content" class="header-main" role="banner" aria-labelledby="lesson-title">
+  <h1 id="lesson-title"><strong>Week 2: Geologic Time & Fossil Evidence</strong></h1>
+  <p class="subtitle">Grade 7 Science | Rosche | Kairos Academies</p>
+  <p class="meta">MS-ESS1-4 | 100 Points Total | ~75 Minutes</p>
+</header>
+
+<!-- Quick Navigation -->
+<nav id="quick-nav" class="quick-nav" aria-label="Station navigation">
+  <h2><strong>Quick Navigation</strong></h2>
+  <div class="nav-links">
+    <a class="nav-btn" href="#hook-section">Hook (12 pts)</a>
+    <a class="nav-btn" href="#station1-section">Station 1 (20 pts)</a>
+    <a class="nav-btn" href="#station2-section">Station 2 (20 pts)</a>
+    <a class="nav-btn" href="#station3-section">Station 3 (25 pts)</a>
+    <a class="nav-btn" href="#exit-section">Exit Ticket (23 pts)</a>
+  </div>
+</nav>
+
+<!-- Chromebook Tips Banner -->
+<div class="banner-chromebook">
+  <p class="banner-title"><strong>Working on Your Chromebook - Important Tips</strong></p>
+  <ul>
+    <li><strong>Your work saves automatically</strong> in Google Forms every time you click outside a text box.</li>
+    <li><strong>Complete sections in order</strong> (Hook, Station 1, Station 2, Station 3, Exit)</li>
+    <li><strong>This week builds on Week 1!</strong> Use what you learned about rock types and the rock cycle.</li>
+    <li><strong>KEY CONCEPT:</strong> Rock layers and fossils tell the story of Earth's past - like pages in a history book!</li>
+  </ul>
+</div>
+
+<!-- NGSS Standards Section -->
+<section class="card card-bordered" role="region" aria-labelledby="standards-heading">
+  <h2 id="standards-heading" class="card-title" style="color: #78716C;"><strong>NGSS Standards Covered This Week</strong></h2>
+
+  <div class="info-box info-box-brown mb-3">
+    <p class="info-box-title"><strong>MS-ESS1-4</strong> (Continuing from Week 1)</p>
+    <p class="text-secondary mb-2"><strong>What it means:</strong> Construct a scientific explanation based on evidence from rock strata for how the geologic time scale is used to organize Earth's history.</p>
+    <p class="text-muted mb-0"><strong>In student language:</strong> I can use rock layers and fossils to explain what Earth was like millions of years ago.</p>
+  </div>
+
+  <div class="info-box info-box-blue">
+    <p class="info-box-title"><strong>Spiral Standards from Previous Learning</strong></p>
+    <ul class="text-secondary mb-0">
+      <li><strong>C7 Week 1</strong>: Rock types and the rock cycle - where fossils are found</li>
+      <li><strong>MS-ESS2-2</strong> (Cycle 6): Plate tectonics - how rock layers get moved and tilted</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Learning Targets -->
+<section class="card card-bordered" role="region" aria-labelledby="targets-heading">
+  <h2 id="targets-heading" class="card-title" style="color: #78716C;"><strong>Learning Targets & Success Criteria</strong></h2>
+
+  <p class="text-secondary mb-4">By the end of this week, you will be able to:</p>
+
+  <div class="info-box info-box-brown mb-3">
+    <p class="mb-2"><strong>Target 1:</strong> Use superposition and fossils to determine relative ages of rock layers.</p>
+    <p class="text-secondary mb-0"><em>Self-check:</em> Can I explain which layer is older in a rock sequence?</p>
+  </div>
+  <div class="info-box info-box-brown mb-3">
+    <p class="mb-2"><strong>Target 2:</strong> Interpret the fossil record to identify major events in Earth's history.</p>
+    <p class="text-secondary mb-0"><em>Self-check:</em> Can I explain what mass extinctions tell us about Earth's past?</p>
+  </div>
+  <div class="info-box info-box-brown mb-0">
+    <p class="mb-2"><strong>Target 3:</strong> Explain how index fossils help correlate rock layers across continents.</p>
+    <p class="text-secondary mb-0"><em>Self-check:</em> Can I use an index fossil to date a rock layer?</p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- Phenomenon Section -->
+<section class="phenomenon-section" role="region" aria-labelledby="phenomenon-heading">
+  <h2 id="phenomenon-heading"><strong>The Phenomenon: The Deep Time Mystery</strong></h2>
+  <div class="phenomenon-content">
+    <p class="mb-4">Earth is <strong>4.5 billion years old</strong>. That's almost impossible to imagine!</p>
+    <div class="timeline-visual">
+      <h4>If Earth's History Were a 24-Hour Day...</h4>
+      <div class="timeline-bar"></div>
+      <div class="timeline-labels">
+        <span>Midnight (Earth forms)</span>
+        <span>4 AM (First life)</span>
+        <span>9:30 PM (Fish)</span>
+        <span>11:59:59 PM (Humans!)</span>
+      </div>
+    </div>
+    <ul class="mb-0">
+      <li><strong>First life:</strong> Appears at 4:00 AM (simple bacteria)</li>
+      <li><strong>Fish:</strong> Appear at 9:30 PM</li>
+      <li><strong>Dinosaurs:</strong> 10:45 PM to 11:40 PM (they're already extinct!)</li>
+      <li><strong>Humans:</strong> 11:59:59 PM - less than ONE SECOND before midnight</li>
+    </ul>
+  </div>
+  <div class="driving-question">
+    <p><strong>Driving Question: How do we know what Earth looked like millions of years ago if we can't travel back in time?</strong></p>
+  </div>
+</section>
+
+<!-- Vocabulary Section -->
+<section class="card card-bordered" role="region" aria-labelledby="vocab-heading">
+  <h2 id="vocab-heading" class="card-title" style="color: #78716C;"><strong>Key Vocabulary This Week</strong></h2>
+  <table class="data-table">
+    <thead>
+      <tr><th scope="col">Term</th><th scope="col">Definition</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Stratigraphy</strong></td><td class="text-secondary">The study of rock layers (strata) and how they form over time</td></tr>
+      <tr><td><strong>Superposition</strong></td><td class="text-secondary">The principle that in undisturbed rock layers, the oldest is on the bottom</td></tr>
+      <tr><td><strong>Relative Age</strong></td><td class="text-secondary">The age of something compared to other things (older/younger) without exact dates</td></tr>
+      <tr><td><strong>Absolute Age</strong></td><td class="text-secondary">The exact age in years (e.g., "250 million years old")</td></tr>
+      <tr><td><strong>Index Fossil</strong></td><td class="text-secondary">A fossil that lived for a short time but was widespread - used to date rock layers</td></tr>
+      <tr><td><strong>Mass Extinction</strong></td><td class="text-secondary">An event where most species on Earth go extinct in a short time</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Points Breakdown -->
+<section class="card card-bordered" role="region" aria-labelledby="points-heading">
+  <h2 id="points-heading" class="card-title" style="color: #78716C;"><strong>Points Breakdown (100 Total)</strong></h2>
+  <table class="data-table">
+    <caption class="text-secondary" style="text-align: left; padding: var(--space-3);">How you'll earn your points this week</caption>
+    <thead>
+      <tr><th scope="col">Component</th><th scope="col" style="text-align: center;">Points</th><th scope="col">What It Tests</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="#hook-section" style="color: #78716C;">Hook</a></td><td style="text-align: center;"><strong>12</strong></td><td>Week 1 review, initial predictions about geologic time</td></tr>
+      <tr><td><a href="#station1-section" style="color: #78716C;">Station 1</a></td><td style="text-align: center;"><strong>20</strong></td><td>Stratigraphy principles, index fossils</td></tr>
+      <tr><td><a href="#station2-section" style="color: #78716C;">Station 2</a></td><td style="text-align: center;"><strong>20</strong></td><td>Fossil record patterns, mass extinctions</td></tr>
+      <tr><td><a href="#station3-section" style="color: #78716C;">Station 3</a></td><td style="text-align: center;"><strong>25</strong></td><td>Design investigation, environment reconstruction</td></tr>
+      <tr><td><a href="#exit-section" style="color: #78716C;">Exit Ticket</a></td><td style="text-align: center;"><strong>23</strong></td><td>Integration, spiral review, scientific explanation</td></tr>
+    </tbody>
+    <tfoot>
+      <tr style="background: #78716C; color: white;">
+        <td><strong>TOTAL</strong></td><td style="text-align: center;"><strong>100</strong></td><td><strong>Geologic time, fossils, Earth's history</strong></td>
+      </tr>
+    </tfoot>
+  </table>
+</section>
+
+<!-- Simulation Resource -->
+<section class="card card-bordered" role="region" aria-labelledby="simulation-heading">
+  <h2 id="simulation-heading" class="card-title" style="color: #78716C;"><strong>Interactive Simulation</strong></h2>
+  <p class="text-secondary mb-3">Use this simulation throughout the stations to explore geologic time:</p>
+  <a href="simulations/geologic-time-explorer.html" class="simulation-link" target="_blank">
+    Launch Geologic Time Explorer Simulation
+  </a>
+  <p class="text-muted text-center mb-0">Explore rock layers, fossils, and major events in Earth's history!</p>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== HOOK SECTION ==================== -->
+<section id="hook-section" role="region" aria-labelledby="hook-heading">
+  <div class="section-header header-hook">
+    <h2 id="hook-heading"><strong>Hook - The Deep Time Mystery</strong></h2>
+    <p>12 Points | ~10 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-hook">
+    <h3 class="card-title card-title-hook"><strong>The Challenge</strong></h3>
+    <div class="info-box info-box-indigo mb-4">
+      <p class="info-box-title"><strong>What You'll Do (~10 minutes)</strong></p>
+      <ol class="text-secondary mb-0">
+        <li>Review what you learned about fossils in Week 1</li>
+        <li>Explore the 24-hour Earth model to understand deep time</li>
+        <li>Predict how scientists learn about Earth's past</li>
+        <li>Apply superposition to predict fossil patterns</li>
+      </ol>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>Need extra support? Click here for hints and sentence starters</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Key Concept Reminder (Week 1):</p>
+        <ul class="mb-4">
+          <li>Fossils are almost only found in SEDIMENTARY rock</li>
+          <li>Fossils tell us about the environment where the rock formed</li>
+        </ul>
+        <p class="font-bold mb-3">Sentence Starters:</p>
+        <ul class="mb-4" style="font-style: italic;">
+          <li>"Scientists can learn about Earth's past by studying..."</li>
+          <li>"The 24-hour model shows me that most of Earth's history..."</li>
+        </ul>
+        <p class="font-bold mb-2">Word Bank:</p>
+        <p class="word-bank mb-0">rock layers, fossils, sedimentary, older, younger, billions, millions, evidence</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>COMPLETE THE HOOK FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">Think about how scientists "read" Earth's history before moving to Station 1.</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G7.C7.W2 Hook Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== STATION 1 ==================== -->
+<section id="station1-section" role="region" aria-labelledby="station1-heading">
+  <div class="section-header header-station1">
+    <h2 id="station1-heading"><strong>Station 1 - Stratigraphy Investigation</strong></h2>
+    <p>20 Points | ~18 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-station1">
+    <h3 class="card-title card-title-station1"><strong>Your Mission: Read Rock Layers Like a History Book</strong></h3>
+
+    <div class="info-box info-box-green mb-4">
+      <p class="info-box-title"><strong>Key Stratigraphy Principles</strong></p>
+      <table class="data-table mb-0">
+        <thead>
+          <tr><th>Principle</th><th>What It Tells You</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Superposition</strong></td><td>Bottom layer = oldest, Top layer = youngest</td></tr>
+          <tr><td><strong>Original Horizontality</strong></td><td>Tilted layers were disturbed after forming</td></tr>
+          <tr><td><strong>Cross-Cutting</strong></td><td>Features that cut through layers are younger</td></tr>
+          <tr><td><strong>Fossil Succession</strong></td><td>Same fossils = same age (even far apart)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Home Alternative -->
+    <div class="home-alternative">
+      <p class="title"><strong>COMPLETING THIS AT HOME?</strong></p>
+      <p class="mb-0">Use the Geologic Time Explorer simulation to examine virtual rock layers and identify fossils in each layer!</p>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>Need extra support? Click here for hints and sentence starters</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Key Concept Reminder:</p>
+        <ul class="mb-4">
+          <li>Think of rock layers like a stack of pancakes - the first one you make is at the BOTTOM</li>
+          <li>Index fossils are like time stamps - they only existed during specific periods</li>
+        </ul>
+        <p class="font-bold mb-3">Sentence Starters:</p>
+        <ul class="mb-4" style="font-style: italic;">
+          <li>"Layer ___ is oldest because it's at the bottom according to superposition..."</li>
+          <li>"The index fossil tells me this layer is from... because..."</li>
+        </ul>
+        <p class="font-bold mb-2">Word Bank:</p>
+        <p class="word-bank mb-0">superposition, undisturbed, relative age, absolute age, index fossil, correlation</p>
+      </div>
+    </details>
+
+    <!-- Stuck Pathway -->
+    <details class="support-stuck">
+      <summary>Stuck? Click here for step-by-step help</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Try these steps in order:</p>
+        <ol class="mb-0" style="line-height: 2;">
+          <li>Look at the position of layers - which is on bottom? That's oldest.</li>
+          <li>Check if layers are tilted - if yes, they were disturbed after forming</li>
+          <li>Look for index fossils - use the reference to determine age range</li>
+          <li>Still stuck? Email Mr. Rosche with your specific question</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>COMPLETE THE STATION 1 FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">Apply stratigraphy principles to determine relative ages of rock layers.</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G7.C7.W2 Station 1 Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== STATION 2 ==================== -->
+<section id="station2-section" role="region" aria-labelledby="station2-heading">
+  <div class="section-header header-station2">
+    <h2 id="station2-heading"><strong>Station 2 - Fossil Record Analysis</strong></h2>
+    <p>20 Points | ~15 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-station2">
+    <h3 class="card-title card-title-station2"><strong>Your Mission: Decode Earth's History from Fossils</strong></h3>
+
+    <div class="info-box info-box-orange mb-4">
+      <p class="info-box-title"><strong>Major Events in Earth's History</strong></p>
+      <table class="data-table mb-0">
+        <thead>
+          <tr><th>Event</th><th>Time (Ma)</th><th>What Happened</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Cambrian Explosion</strong></td><td>540 Ma</td><td>Complex animals suddenly appear</td></tr>
+          <tr><td><strong>Great Dying</strong></td><td>252 Ma</td><td>96% of marine species extinct</td></tr>
+          <tr><td><strong>K-Pg Extinction</strong></td><td>66 Ma</td><td>Dinosaurs go extinct</td></tr>
+          <tr><td><strong>Ice Ages</strong></td><td>2.6 Ma-now</td><td>Climate oscillations, humans evolve</td></tr>
+        </tbody>
+      </table>
+      <p class="text-secondary mt-3 mb-0"><em>Ma = Million years ago</em></p>
+    </div>
+
+    <a href="simulations/geologic-time-explorer.html" class="simulation-link" target="_blank">
+      Use the Geologic Time Explorer - Examine fossil patterns through time!
+    </a>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>Need extra support? Click here for hints</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Key Concept Reminder:</p>
+        <ul class="mb-4">
+          <li>Mass extinctions create clear "boundaries" in the fossil record</li>
+          <li>After extinctions, NEW and DIFFERENT species appear - not the same ones</li>
+          <li>The same fossils on different continents = those continents were once connected</li>
+        </ul>
+        <p class="font-bold mb-3">Sentence Starters:</p>
+        <ul class="mb-0" style="font-style: italic;">
+          <li>"The pattern I notice is..."</li>
+          <li>"After the extinction, the fossil record shows..."</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>COMPLETE THE STATION 2 FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">Analyze fossil patterns and identify what they tell us about Earth's history.</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G7.C7.W2 Station 2 Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== STATION 3 ==================== -->
+<section id="station3-section" role="region" aria-labelledby="station3-heading">
+  <div class="section-header header-station3">
+    <h2 id="station3-heading"><strong>Station 3 - Design a Geologic Investigation</strong></h2>
+    <p>25 Points | ~20 Minutes (Highest Value!)</p>
+  </div>
+
+  <div class="card card-bordered card-station3">
+    <h3 class="card-title card-title-station3"><strong>Engineering Challenge: Decode a Mystery Rock Formation</strong></h3>
+
+    <div class="info-box info-box-purple mb-4">
+      <p class="info-box-title"><strong>THE SCENARIO:</strong></p>
+      <p class="text-secondary mb-3">You've discovered a new rock formation with THREE distinct layers:</p>
+      <ul class="text-secondary mb-0">
+        <li><strong>Layer A (top):</strong> Red sandstone with footprints</li>
+        <li><strong>Layer B (middle):</strong> Gray limestone with seashells</li>
+        <li><strong>Layer C (bottom):</strong> Black shale with plant fossils</li>
+      </ul>
+    </div>
+
+    <div class="info-box info-box-purple mb-4">
+      <p class="info-box-title"><strong>YOUR TASK:</strong></p>
+      <p class="text-secondary mb-0">Design an investigation to determine: (1) the relative ages of layers, (2) what environment each layer formed in, and (3) approximately when each layer formed.</p>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>Need extra support? Click here for design hints</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Rock Type Clues:</p>
+        <ul class="mb-4">
+          <li>Sandstone = desert or beach (sand deposits)</li>
+          <li>Limestone = shallow ocean (shells and coral)</li>
+          <li>Shale = swamp or deep water (fine mud)</li>
+        </ul>
+        <p class="font-bold mb-3">Investigation Structure:</p>
+        <ul class="mb-0" style="font-style: italic;">
+          <li>"To determine relative ages, I will use superposition..."</li>
+          <li>"Layer A formed in... because the footprints suggest..."</li>
+          <li>"The environmental change over time tells us..."</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>COMPLETE THE STATION 3 FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">Design your investigation and reconstruct the geologic history!</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G7.C7.W2 Station 3 Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== EXIT TICKET ==================== -->
+<section id="exit-section" role="region" aria-labelledby="exit-heading">
+  <div class="section-header header-exit">
+    <h2 id="exit-heading"><strong>Exit Ticket - Geologic Time Integration</strong></h2>
+    <p>23 Points | ~15 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-exit">
+    <h3 class="card-title card-title-exit"><strong>Show What You Learned</strong></h3>
+    <div class="info-box info-box-pink">
+      <p class="info-box-title"><strong>Question Types:</strong></p>
+      <ul class="text-secondary mb-0">
+        <li><strong>2 NEW</strong> - Stratigraphy and index fossils (this week)</li>
+        <li><strong>2 SPIRAL</strong> - Week 1 rock types + Cycle 6 plate tectonics</li>
+        <li><strong>1 INTEGRATION</strong> - Connect fossils, rock cycle, and geologic time</li>
+        <li><strong>1 SEP</strong> - Construct explanation for how we know Earth's past</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>COMPLETE THE EXIT TICKET BELOW</strong></p>
+    <p class="form-embed-subtitle">This is your final assessment for Week 2. Take your time!</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G7.C7.W2 Exit Ticket Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== WEEK SUMMARY ==================== -->
+<section class="summary-section">
+  <h2><strong>Week 2 Summary: What You Learned</strong></h2>
+  <div class="summary-grid">
+    <div class="summary-item" style="border-color: #78716C;">
+      <p><strong>Superposition:</strong> In undisturbed rock layers, the oldest layer is at the bottom, youngest at the top.</p>
+    </div>
+    <div class="summary-item" style="border-color: #10B981;">
+      <p><strong>Index Fossils:</strong> Fossils that lived for a short time but were widespread help date rock layers across continents.</p>
+    </div>
+    <div class="summary-item" style="border-color: #F59E0B;">
+      <p><strong>Mass Extinctions:</strong> Major events that wiped out most species create clear boundaries in the fossil record.</p>
+    </div>
+    <div class="summary-item" style="border-color: #8B5CF6;">
+      <p><strong>Geologic Investigation:</strong> Rock type, fossils, and layer position together reveal environmental changes over time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Cross-Curriculum Navigation -->
+<nav class="curriculum-nav" aria-label="Navigate between weeks">
+  <a href="../week1/student-page.html">Previous: Week 1 - Rock Types</a>
+  <span class="current">Week 2 of 3</span>
+  <a href="../week3/student-page.html">Next: Week 3 - Cycle Assessment</a>
+</nav>
+
+<!-- Footer -->
+<footer class="page-footer">
+  <p class="complete-message"><strong>Week 2 Complete!</strong></p>
+  <p class="next-week">Next week: Cycle 7 Assessment - Show everything you've learned about Earth's history!</p>
+</footer>
+</div>
