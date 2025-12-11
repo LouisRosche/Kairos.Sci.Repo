@@ -281,9 +281,10 @@
         }
       },
       "materials": {
-        "station1": ["Chromebooks", "Population simulation access", "Food web diagrams", "Graphing calculators"],
-        "station2": ["Population data sets (printed)", "Graph paper", "Colored pencils", "Factor cards"],
-        "station3": ["Ecosystem scenario cards", "Species profile cards", "Budget constraints", "Planning templates"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "Population dynamics simulation (embedded)", "Interactive food web builder", "Notecards"],
+        "station2": ["Chromebooks", "Digital population data explorer", "Google Sheets for graphing"],
+        "station3": ["Chromebooks", "Virtual ecosystem design tool", "Digital species database", "Notecards"]
       }
     },
 
@@ -545,9 +546,10 @@
         }
       },
       "materials": {
-        "station1": ["Metal rods (various)", "Hot plate", "Thermometers", "Stopwatches", "Safety equipment"],
-        "station2": ["Calorimeters", "Water", "Various substances", "Balances", "Data tables"],
-        "station3": ["Insulation materials (foam, fabric, foil)", "Containers", "Hot/cold water", "Temperature probes"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "PhET Energy Forms and Changes simulation", "Thermal conductivity data explorer (embedded)", "Notecards"],
+        "station2": ["Chromebooks", "PhET States of Matter simulation", "Virtual calorimetry tool", "Digital data tables"],
+        "station3": ["Chromebooks", "Virtual insulation testing simulator", "Engineering design canvas (Google Slides)", "Notecards"]
       }
     }
   },

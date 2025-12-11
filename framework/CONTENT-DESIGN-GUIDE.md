@@ -349,6 +349,8 @@ content/grade{7,8}/cycle{03-10}/week{1-3}/
 
 ### 3.2 Point Distribution (100 pts/week)
 
+> **MANDATORY COMPLIANCE:** All new content MUST follow this exact point distribution. Total must equal 100 points.
+
 | Component | Points | Questions | Time | Focus |
 |-----------|--------|-----------|------|-------|
 | Hook | 12 | 5 | 10 min | Phenomenon intro, prior knowledge |
@@ -357,6 +359,9 @@ content/grade{7,8}/cycle{03-10}/week{1-3}/
 | Station 3 | 25 | 5 | 20 min | Design challenge, highest synthesis |
 | Exit Ticket | 23 | 6 | 15 min | Integration, spiral, SEP-1 |
 | **TOTAL** | **100** | **26-27** | **~78 min** | |
+
+**Known Exception (Production):**
+- G8.C3.W1 has Station 2 = 21 pts, Exit Ticket = 22 pts (total still 100). This is deployed production content and changing would affect existing gradebook data. New content must use standard distribution.
 
 ### 3.3 Naming Conventions
 

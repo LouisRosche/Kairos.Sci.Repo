@@ -285,8 +285,9 @@
   },
 
   "formNaming": {
-    "pattern": "G{grade}.C{cycle}.W{week}: {station} - {title} [{points} pts]",
-    "example": "G7.C3.W1: Hook - The Hot Car Mystery [12 pts]"
+    "pattern": "G{grade}.C{cycle}.W{week}: {station} - {title}",
+    "example": "G7.C3.W1: Hook - The Hot Car Mystery",
+    "_note": "Points are tracked in form description and config, not in form title"
   },
 
   "questionIds": {

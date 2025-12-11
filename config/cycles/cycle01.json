@@ -460,9 +460,10 @@
         }
       },
       "materials": {
-        "station1": ["Chromebooks", "PhET simulations", "Virtual microscope access"],
-        "station2": ["Cell/tissue cards", "Punnett square templates", "Data tables"],
-        "station3": ["Design constraint cards", "Scenario descriptions", "Evaluation rubrics"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "PhET simulations", "Virtual microscope tool (embedded)", "Notecards"],
+        "station2": ["Chromebooks", "Interactive Punnett square builder (embedded)", "Digital data tables"],
+        "station3": ["Chromebooks", "Digital design constraints database", "Evaluation rubric (Google Forms)", "Notecards"]
       }
     },
 
@@ -907,9 +908,10 @@
         }
       },
       "materials": {
-        "station1": ["Chromebooks", "PhET simulations", "Thermometers", "Data tables"],
-        "station2": ["Thermal property cards", "Calculation worksheets", "Graph paper"],
-        "station3": ["Design constraint cards", "Material samples (digital)", "Evaluation rubrics"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "PhET Energy Forms and Changes simulation", "PhET States of Matter simulation", "Notecards"],
+        "station2": ["Chromebooks", "Digital thermal property database", "Google Sheets for calculations"],
+        "station3": ["Chromebooks", "Virtual material testing tool (embedded)", "Evaluation rubric (Google Forms)", "Notecards"]
       }
     }
   },

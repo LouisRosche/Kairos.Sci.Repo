@@ -199,9 +199,10 @@
         }
       },
       "materials": {
-        "station1": ["Convection tank", "Food coloring", "Hot/cold water", "Thermometers", "Data tables"],
-        "station2": ["Weather maps (printed)", "Colored pencils", "Isobar reference guide"],
-        "station3": ["Sensor specification cards", "Community maps", "Budget worksheets"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "PhET States of Matter simulation (convection)", "Digital data tables", "Notecards"],
+        "station2": ["Chromebooks", "Interactive weather map tool (embedded)", "Digital isobar reference"],
+        "station3": ["Chromebooks", "Digital sensor database", "Google Maps for community analysis", "Notecards"]
       }
     },
 
@@ -392,9 +393,10 @@
         }
       },
       "materials": {
-        "station1": ["Ripple tank", "Wave generator", "Barriers (various)", "Rulers", "Stopwatches"],
-        "station2": ["Chromebooks", "PhET access", "EM spectrum posters", "Wavelength cards"],
-        "station3": ["Material samples (foam, metal, fabric, glass)", "Signal meters", "Design templates"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "PhET Wave on a String simulation", "PhET Wave Interference simulation", "Notecards"],
+        "station2": ["Chromebooks", "PhET Bending Light simulation", "Interactive EM spectrum explorer (embedded)"],
+        "station3": ["Chromebooks", "Virtual material transmission tester (embedded)", "Design template (Google Slides)", "Notecards"]
       }
     }
   },

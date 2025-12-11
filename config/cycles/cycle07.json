@@ -251,9 +251,10 @@
         }
       },
       "materials": {
-        "station1": ["Rock sample sets (labeled)", "Hand lenses", "Hardness test kit", "Classification charts"],
-        "station2": ["Crayons (various colors)", "Hot plate", "Aluminum foil", "Safety equipment"],
-        "station3": ["Process cards (weathering, heat, pressure, melting)", "Blank timeline templates"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "Virtual rock identification tool (embedded)", "Interactive classification chart", "Notecards"],
+        "station2": ["Chromebooks", "Rock cycle simulation video", "PhET States of Matter (melting visualization)"],
+        "station3": ["Chromebooks", "Interactive rock cycle diagram builder", "Digital timeline template", "Notecards"]
       }
     },
 
@@ -494,9 +495,10 @@
         }
       },
       "materials": {
-        "station1": ["Glow sticks", "Reaction chemicals (safe)", "Color-change indicators", "Temperature probes"],
-        "station2": ["Digital balances", "Sealed containers", "Baking soda/vinegar", "Data tables"],
-        "station3": ["Molecular model kits", "Equation balance cards", "Periodic table references"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "PhET Reactants Products and Leftovers simulation", "Virtual reaction videos (embedded)", "Notecards"],
+        "station2": ["Chromebooks", "PhET Balancing Chemical Equations simulation", "Digital data tables"],
+        "station3": ["Chromebooks", "PhET Build a Molecule simulation", "Interactive periodic table", "Notecards"]
       }
     }
   },

@@ -343,9 +343,10 @@
         }
       },
       "materials": {
-        "station1": ["Chromebooks", "pH test strips (optional demo)", "Data tables"],
-        "station2": ["Calculators", "Carbon budget worksheets", "Graphing materials"],
-        "station3": ["Sensor spec sheets", "Cost constraint cards", "Design templates"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "PhET pH Scale simulation", "Digital data tables", "Notecards"],
+        "station2": ["Chromebooks", "Digital calculator", "Interactive carbon budget tool (embedded)"],
+        "station3": ["Chromebooks", "Digital sensor spec database", "Design template (Google Slides)", "Notecards"]
       }
     },
 
@@ -675,9 +676,10 @@
         }
       },
       "materials": {
-        "station1": ["Chromebooks", "Energy pyramid templates", "Calculators"],
-        "station2": ["Biomass data cards", "Graphing paper", "Calculators"],
-        "station3": ["Farm design constraints", "Energy budget worksheets"]
+        "_digitalFirst": "All materials digital per compliance policy. Notecard provided at entry.",
+        "station1": ["Chromebooks", "Interactive energy pyramid builder (embedded)", "Digital calculator", "Notecards"],
+        "station2": ["Chromebooks", "Digital biomass data explorer", "Google Sheets for graphing"],
+        "station3": ["Chromebooks", "Digital farm design simulator", "Notecards"]
       }
     }
   },
