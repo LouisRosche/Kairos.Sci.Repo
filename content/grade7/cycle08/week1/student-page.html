@@ -1,35 +1,969 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G7 C8 W1: [Title TBD] - PLACEHOLDER</title>
-</head>
-<body>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 7 CYCLE 5 WEEK 1: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+<style>
+/* KAMS Science - Embedded Design System (Canvas-Compatible) v3.1 */
+/* Grade 7 Cycle 8 Week 1: Ecosystem Dynamics & Trophic Cascades */
 
-  Target Date: January 27-30, 2026
-  Topic: Ecosystems & Biodiversity
-  Primary Standard: MS-ESS2-5
+:root {
+  /* Color Palette */
+  --color-primary: #059669;
+  --color-primary-dark: #047857;
+  --color-secondary: #0891B2;
+  --color-secondary-dark: #0E7490;
+  --color-accent: #8B5CF6;
+  --color-accent-dark: #7C3AED;
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+  /* Semantic Colors */
+  --color-success: #059669;
+  --color-success-light: #D1FAE5;
+  --color-success-border: #9AE6B4;
+  --color-warning: #D97706;
+  --color-warning-light: #FEF3C7;
+  --color-error: #DC2626;
+  --color-error-light: #FEE2E2;
+  --color-error-border: #FCA5A5;
+  --color-info: #2563EB;
+  --color-info-light: #DBEAFE;
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+  /* Gray Scale */
+  --color-gray-50: #F9FAFB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1F2937;
 
-  <main id="main-content">
-    <h1>Grade 7 Cycle 8 Week 1</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
-  </main>
-</body>
-</html>
+  /* Text Colors */
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #4B5563;
+  --color-text-muted: #6B7280;
+  --color-text-inverse: #FFFFFF;
+
+  /* Spacing (8px baseline) */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-sm: 0.875em;
+  --font-size-base: 1em;
+  --font-size-lg: 1.125em;
+  --font-size-xl: 1.25em;
+  --font-size-2xl: clamp(1.5em, 4vw, 2em);
+  --font-size-3xl: clamp(1.8em, 5vw, 3em);
+
+  /* Borders & Shadows */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+
+  /* Station Gradients */
+  --gradient-hook: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  --gradient-station1: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  --gradient-station2: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  --gradient-station3: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  --gradient-exit: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+  --gradient-nav: linear-gradient(135deg, #0891B2 0%, #0E7490 100%);
+}
+
+/* Base Styles */
+.kams-page {
+  font-family: var(--font-family);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Skip Link (Accessibility) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* Banners & Alerts */
+.banner-accessibility {
+  background: #E6FFFA;
+  border-left: 4px solid #319795;
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.banner-accessibility .banner-title {
+  margin: 0 0 var(--space-2) 0;
+  font-weight: 700;
+  color: #234E52;
+}
+.banner-accessibility ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: var(--font-size-sm);
+  color: #285E61;
+}
+
+.banner-chromebook {
+  background: var(--color-warning-light);
+  border-left: 5px solid #856404;
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  border-radius: var(--radius-md);
+}
+.banner-chromebook .banner-title {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+  color: #856404;
+}
+.banner-chromebook ul {
+  margin: 0;
+  padding-left: 25px;
+  line-height: 1.8;
+  color: #856404;
+}
+
+/* Main Header */
+.header-main {
+  background: var(--gradient-nav);
+  color: var(--color-text-inverse);
+  padding: 50px 40px;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-5);
+}
+.header-main h1 {
+  font-size: var(--font-size-3xl);
+  margin: 0 0 var(--space-4) 0;
+  font-weight: 700;
+}
+.header-main .subtitle {
+  margin: 0;
+  font-size: clamp(1em, 2.5vw, 1.2em);
+  opacity: 0.95;
+}
+.header-main .meta {
+  margin-top: var(--space-2);
+  font-size: clamp(0.9em, 2vw, 1em);
+  opacity: 0.9;
+}
+
+/* Quick Navigation */
+.quick-nav {
+  background: var(--gradient-nav);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-6);
+}
+.quick-nav h2 {
+  margin: 0 0 var(--space-4) 0;
+  text-align: center;
+  color: var(--color-text-inverse);
+  font-size: clamp(1.1em, 3vw, 1.3em);
+}
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+.nav-btn {
+  background: rgba(255,255,255,0.95);
+  color: #0E7490;
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-size: 0.95em;
+  min-height: 48px;
+  line-height: 1.4;
+  display: inline-block;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Section Headers (Station-specific gradients) */
+.section-header {
+  color: var(--color-text-inverse);
+  padding: 30px 20px;
+  margin-bottom: var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+.section-header h2 {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-2xl);
+}
+.section-header p {
+  margin: 0;
+  font-size: clamp(0.95em, 2.5vw, 1.1em);
+  opacity: 0.95;
+}
+.header-hook { background: var(--gradient-hook); }
+.header-station1 { background: var(--gradient-station1); }
+.header-station2 { background: var(--gradient-station2); }
+.header-station3 { background: var(--gradient-station3); }
+.header-exit { background: var(--gradient-exit); }
+
+/* Cards & Content Boxes */
+.card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+.card-bordered { border: 2px solid var(--color-gray-200); }
+.card-hook { border-color: #6366F1; }
+.card-station1 { border-color: #10B981; }
+.card-station2 { border-color: #F59E0B; }
+.card-station3 { border-color: #8B5CF6; }
+.card-exit { border-color: #EC4899; }
+
+.card-title {
+  margin: 0 0 var(--space-4) 0;
+  font-size: clamp(1.1em, 3vw, 1.3em);
+}
+.card-title-hook { color: #4F46E5; }
+.card-title-station1 { color: #059669; }
+.card-title-station2 { color: #D97706; }
+.card-title-station3 { color: #7C3AED; }
+.card-title-exit { color: #DB2777; }
+
+/* Info Boxes */
+.info-box {
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-4);
+}
+.info-box-teal { background: #ECFEFF; border-left: 4px solid #0891B2; }
+.info-box-green { background: #ECFDF5; border-left: 4px solid #10B981; }
+.info-box-orange { background: #FFFBEB; border-left: 4px solid #F59E0B; }
+.info-box-purple { background: #F5F3FF; border-left: 4px solid #8B5CF6; }
+.info-box-pink { background: #FDF2F8; border-left: 4px solid #EC4899; }
+.info-box-indigo { background: #EEF2FF; border-left: 4px solid #6366F1; }
+.info-box-blue { background: #EFF6FF; border-left: 4px solid #3B82F6; }
+
+.info-box-title {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+}
+
+/* Phenomenon Section */
+.phenomenon-section {
+  background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%);
+  border-radius: var(--radius-lg);
+  padding: 30px 24px;
+  margin: 35px 0;
+}
+.phenomenon-section h2 {
+  margin: 0 0 var(--space-4) 0;
+  font-size: clamp(1.4em, 4vw, 1.8em);
+  color: #0E7490;
+}
+.phenomenon-content {
+  background: white;
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+.phenomenon-content p {
+  font-size: clamp(0.95em, 2.5vw, 1.1em);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+.driving-question {
+  background: var(--gradient-nav);
+  color: var(--color-text-inverse);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+.driving-question p {
+  margin: 0;
+  font-size: clamp(1.1em, 3vw, 1.3em);
+}
+
+/* Support Elements */
+.support-help {
+  background: var(--color-success-light);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-success-border);
+}
+.support-help summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #276749;
+  font-size: var(--font-size-lg);
+}
+.support-help[open] summary { margin-bottom: var(--space-3); }
+.support-help .content {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-success-border);
+  color: #2F855A;
+}
+
+.support-stuck {
+  background: var(--color-error-light);
+  padding: var(--space-4);
+  margin-top: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-error-border);
+}
+.support-stuck summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #C53030;
+  font-size: var(--font-size-lg);
+}
+.support-stuck[open] summary { margin-bottom: var(--space-3); }
+.support-stuck .content {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-error-border);
+  color: #9B2C2C;
+}
+
+.home-alternative {
+  background: var(--color-warning-light);
+  border: 2px dashed var(--color-warning);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+.home-alternative .title {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+  color: #92400E;
+}
+.home-alternative p, .home-alternative ul {
+  color: #78350F;
+}
+
+/* Form Embed */
+.form-embed {
+  background: #FFF5F5;
+  border: 2px solid var(--color-error-border);
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  border-radius: var(--radius-md);
+}
+.form-embed-title {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-lg);
+  color: #C53030;
+}
+.form-embed-subtitle {
+  margin: 0 0 var(--space-4) 0;
+  color: var(--color-text-secondary);
+}
+.form-placeholder {
+  background: var(--color-gray-200);
+  padding: 40px;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+}
+
+/* Tables */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+  margin: var(--space-4) 0;
+}
+.data-table th, .data-table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+.data-table th {
+  background: var(--color-secondary);
+  color: var(--color-text-inverse);
+}
+.data-table tbody tr:nth-child(even) { background: var(--color-gray-50); }
+
+/* Summary Section */
+.summary-section {
+  background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-6);
+}
+.summary-section h2 {
+  margin: 0 0 var(--space-4) 0;
+  color: #0E7490;
+  font-size: clamp(1.3em, 3.5vw, 1.6em);
+  text-align: center;
+}
+.summary-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+.summary-item {
+  background: white;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border-left: 4px solid;
+}
+.summary-item p { margin: 0; }
+
+/* Word Bank */
+.word-bank {
+  padding: var(--space-3);
+  background: #C6F6D5;
+  border-radius: var(--radius-sm);
+  color: #22543D;
+}
+
+/* Curriculum Navigation */
+.curriculum-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-5);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-6);
+}
+.curriculum-nav a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.curriculum-nav .current {
+  color: var(--color-text-muted);
+}
+
+/* Simulation Section */
+.simulation-container {
+  background: #F0FDF4;
+  border: 2px solid #10B981;
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin: var(--space-4) 0;
+}
+.simulation-container h3 {
+  margin: 0 0 var(--space-3) 0;
+  color: #059669;
+}
+.simulation-container iframe {
+  width: 100%;
+  min-height: 600px;
+  border: none;
+  border-radius: var(--radius-sm);
+}
+
+/* Utilities */
+.text-center { text-align: center; }
+.text-muted { color: var(--color-text-muted); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-success { color: var(--color-success); }
+.text-warning { color: #856404; }
+.text-error { color: #C53030; }
+.mb-0 { margin-bottom: 0; }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.font-bold { font-weight: 700; }
+.divider {
+  border: 0;
+  border-top: 3px solid var(--color-gray-200);
+  margin: 35px 0;
+}
+
+/* Footer */
+.page-footer {
+  background: var(--color-gray-50);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+.page-footer .complete-message {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-lg);
+}
+.page-footer .next-week {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-links { flex-direction: column; align-items: stretch; }
+  .nav-btn { text-align: center; margin: 4px 0; }
+  .header-main { padding: 30px 20px; }
+  .section-header { padding: 20px 15px; }
+  .curriculum-nav { flex-direction: column; gap: var(--space-3); text-align: center; }
+}
+</style>
+
+<div class="kams-page">
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Accessibility & Async Support Banner -->
+<div class="banner-accessibility">
+  <p class="banner-title">🔊 Accessibility & Learning Support</p>
+  <ul>
+    <li><strong>Need text read aloud?</strong> Chrome: Right-click → "Read aloud" | Edge: Click speaker icon in address bar</li>
+    <li><strong>Working from home?</strong> Look for the 🏠 HOME ALTERNATIVE boxes at each station</li>
+    <li><strong>Need extra support?</strong> Click the green "📗 Need help?" buttons for hints and sentence starters</li>
+    <li><strong>Stuck?</strong> Look for the red "🆘 Stuck?" boxes with step-by-step help</li>
+  </ul>
+</div>
+
+<!-- Main Header -->
+<header id="main-content" class="header-main" role="banner" aria-labelledby="lesson-title">
+  <h1 id="lesson-title">🐺 <strong>Week 1: Ecosystem Dynamics & Trophic Cascades</strong> 🐺</h1>
+  <p class="subtitle">Grade 7 Science | Rosche | Kairos Academies</p>
+  <p class="meta">MS-LS2-4 | 100 Points Total | ~78 Minutes</p>
+</header>
+
+<!-- Quick Navigation -->
+<nav id="quick-nav" class="quick-nav" aria-label="Station navigation">
+  <h2>🧭 <strong>Quick Navigation</strong></h2>
+  <div class="nav-links">
+    <a class="nav-btn" href="#hook-section">🎯 Hook (12 pts)</a>
+    <a class="nav-btn" href="#station1-section">🌿 Station 1 (20 pts)</a>
+    <a class="nav-btn" href="#station2-section">📊 Station 2 (20 pts)</a>
+    <a class="nav-btn" href="#station3-section">🔬 Station 3 (25 pts)</a>
+    <a class="nav-btn" href="#exit-section">🎓 Exit Ticket (23 pts)</a>
+  </div>
+</nav>
+
+<!-- Chromebook Tips Banner -->
+<div class="banner-chromebook">
+  <p class="banner-title"><strong>Working on Your Chromebook - Important Tips</strong></p>
+  <ul>
+    <li><strong>Your work saves automatically</strong> in Google Forms every time you click outside a text box.</li>
+    <li><strong>Complete sections in order</strong> (Hook → Station 1 → Station 2 → Station 3 → Exit)</li>
+    <li><strong>This week builds on Cycles 4 & 7!</strong> Use what you learned about human impact and geologic time.</li>
+    <li><strong>KEY CONCEPT:</strong> Changes to one species create "cascade" effects through the whole ecosystem</li>
+  </ul>
+</div>
+
+<!-- NGSS Standards Section -->
+<section class="card card-bordered" role="region" aria-labelledby="standards-heading">
+  <h2 id="standards-heading" class="card-title" style="color: var(--color-secondary);">📚 <strong>NGSS Standards Covered This Week</strong></h2>
+
+  <div class="info-box info-box-teal mb-3">
+    <p class="info-box-title"><strong>MS-LS2-4</strong> (NEW this cycle)</p>
+    <p class="text-secondary mb-2"><strong>What it means:</strong> Construct an argument supported by empirical evidence that changes to physical or biological components of an ecosystem affect populations.</p>
+    <p class="text-muted mb-0"><strong>In student language:</strong> I can explain how changing one part of an ecosystem (like removing wolves) affects everything else.</p>
+  </div>
+
+  <div class="info-box info-box-blue">
+    <p class="info-box-title"><strong>Spiral Standards from Previous Cycles</strong></p>
+    <ul class="text-secondary mb-0">
+      <li><strong>MS-ESS1-4</strong> (Cycle 7): Geologic time scale - how ecosystems recover after mass extinctions</li>
+      <li><strong>MS-ESS3-3</strong> (Cycle 4): Human impact on the environment</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Learning Targets -->
+<section class="card card-bordered" role="region" aria-labelledby="targets-heading">
+  <h2 id="targets-heading" class="card-title" style="color: var(--color-secondary);">🎯 <strong>Learning Targets & Success Criteria</strong></h2>
+
+  <p class="text-secondary mb-4">By the end of this week, you will be able to:</p>
+
+  <div class="info-box info-box-teal mb-3">
+    <p class="mb-2"><strong>Target 1:</strong> Explain how energy flows through trophic levels</p>
+    <p class="text-secondary mb-0"><em>Self-check:</em> Can I trace energy from producers to apex predators using the 10% rule?</p>
+  </div>
+  <div class="info-box info-box-teal mb-3">
+    <p class="mb-2"><strong>Target 2:</strong> Model cascading effects through food webs</p>
+    <p class="text-secondary mb-0"><em>Self-check:</em> Can I predict what happens to willows when wolves are removed?</p>
+  </div>
+  <div class="info-box info-box-teal mb-3">
+    <p class="mb-2"><strong>Target 3:</strong> Predict ecosystem changes from species removal/addition</p>
+    <p class="text-secondary mb-0"><em>Self-check:</em> Can I explain why removing a keystone species has bigger effects than removing other species?</p>
+  </div>
+  <div class="info-box info-box-teal mb-0">
+    <p class="mb-2"><strong>Target 4:</strong> Design interventions for ecosystem restoration</p>
+    <p class="text-secondary mb-0"><em>Self-check:</em> Can I create a plan to restore an ecosystem using trophic cascade principles?</p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- Phenomenon Section -->
+<section class="phenomenon-section" role="region" aria-labelledby="phenomenon-heading">
+  <h2 id="phenomenon-heading">🐺 <strong>The Phenomenon: Wolves Changed Rivers</strong></h2>
+  <div class="phenomenon-content">
+    <p class="mb-4">When wolves were hunted to extinction in Yellowstone by 1926, something unexpected happened over the following decades:</p>
+    <ul class="mb-0">
+      <li><strong>Elk populations exploded</strong> without wolf predation</li>
+      <li><strong>Riverbanks were overgrazed</strong> as elk ate all the willows</li>
+      <li><strong>Rivers widened and meandered</strong> without plant roots to stabilize banks</li>
+      <li><strong>Beavers disappeared</strong> because they had no willows for food or dam-building</li>
+    </ul>
+    <p class="mt-4">Then in 1995, 14 wolves were reintroduced. Within 20 years, the rivers literally changed course!</p>
+  </div>
+  <div class="driving-question">
+    <p><strong>🤔 Driving Question: Why did removing wolves from Yellowstone change the rivers?</strong></p>
+  </div>
+</section>
+
+<!-- Vocabulary Section -->
+<section class="card card-bordered" role="region" aria-labelledby="vocab-heading">
+  <h2 id="vocab-heading" class="card-title" style="color: var(--color-secondary);">📖 <strong>Key Vocabulary This Week</strong></h2>
+  <table class="data-table">
+    <thead>
+      <tr><th scope="col">Term</th><th scope="col">Definition</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Trophic Level</strong></td><td class="text-secondary">A position in a food chain (producer, primary consumer, secondary consumer, apex predator)</td></tr>
+      <tr><td><strong>Trophic Cascade</strong></td><td class="text-secondary">When changes at one trophic level ripple through and affect all other levels in the ecosystem</td></tr>
+      <tr><td><strong>Keystone Species</strong></td><td class="text-secondary">A species that has disproportionately large effects on its ecosystem compared to its population size</td></tr>
+      <tr><td><strong>10% Rule</strong></td><td class="text-secondary">Only about 10% of energy transfers from one trophic level to the next</td></tr>
+      <tr><td><strong>Apex Predator</strong></td><td class="text-secondary">A predator at the top of a food chain that has no natural predators</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Points Breakdown -->
+<section class="card card-bordered" role="region" aria-labelledby="points-heading">
+  <h2 id="points-heading" class="card-title" style="color: var(--color-secondary);">📊 <strong>Points Breakdown (100 Total)</strong></h2>
+  <table class="data-table">
+    <caption class="text-secondary" style="text-align: left; padding: var(--space-3);">How you'll earn your points this week</caption>
+    <thead>
+      <tr><th scope="col">Component</th><th scope="col" style="text-align: center;">Points</th><th scope="col">What It Tests</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="#hook-section" style="color: var(--color-secondary);">🎯 Hook</a></td><td style="text-align: center;"><strong>12</strong></td><td>Prior knowledge, initial predictions about phenomenon</td></tr>
+      <tr><td><a href="#station1-section" style="color: var(--color-secondary);">🌿 Station 1</a></td><td style="text-align: center;"><strong>20</strong></td><td>Trophic cascade simulation, predator-prey relationships</td></tr>
+      <tr><td><a href="#station2-section" style="color: var(--color-secondary);">📊 Station 2</a></td><td style="text-align: center;"><strong>20</strong></td><td>Data analysis, identifying patterns in population data</td></tr>
+      <tr><td><a href="#station3-section" style="color: var(--color-secondary);">🔬 Station 3</a></td><td style="text-align: center;"><strong>25</strong></td><td>Engineering design - ecosystem restoration planning</td></tr>
+      <tr><td><a href="#exit-section" style="color: var(--color-secondary);">🎓 Exit Ticket</a></td><td style="text-align: center;"><strong>23</strong></td><td>Integration of new + spiral content, argumentation</td></tr>
+    </tbody>
+    <tfoot>
+      <tr style="background: var(--color-secondary); color: white;">
+        <td><strong>TOTAL</strong></td><td style="text-align: center;"><strong>100</strong></td><td><strong>Ecosystem dynamics & trophic cascades</strong></td>
+      </tr>
+    </tfoot>
+  </table>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== HOOK SECTION ==================== -->
+<section id="hook-section" role="region" aria-labelledby="hook-heading">
+  <div class="section-header header-hook">
+    <h2 id="hook-heading">🎯 <strong>Hook – The Wolves and Rivers Mystery</strong></h2>
+    <p>12 Points | ~10 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-hook">
+    <h3 class="card-title card-title-hook"><strong>🎯 The Challenge</strong></h3>
+    <div class="info-box info-box-indigo mb-4">
+      <p class="info-box-title"><strong>What You'll Do (~10 minutes)</strong></p>
+      <ol class="text-secondary mb-0">
+        <li>Watch the "How Wolves Change Rivers" video (or read the text description)</li>
+        <li>Recall what you know about food chains and energy flow</li>
+        <li>Make predictions about how predators can affect geography</li>
+        <li>Connect to what you learned in Cycle 7 about ecosystem recovery</li>
+      </ol>
+    </div>
+
+    <!-- Video Link -->
+    <div class="info-box info-box-teal mb-4">
+      <p class="info-box-title"><strong>📺 Watch First:</strong></p>
+      <p class="text-secondary mb-0">Search YouTube for "How Wolves Change Rivers" (4:30 video) or read the description in the phenomenon section above.</p>
+    </div>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>📝 COMPLETE THE HOOK FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">Submit your predictions before moving to Station 1.</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G7.C8.W1 Hook Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== STATION 1 ==================== -->
+<section id="station1-section" role="region" aria-labelledby="station1-heading">
+  <div class="section-header header-station1">
+    <h2 id="station1-heading">🌿 <strong>Station 1 – Trophic Cascade Simulation</strong></h2>
+    <p>20 Points | ~18 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-station1">
+    <h3 class="card-title card-title-station1"><strong>🌿 Your Mission: Model Ecosystem Changes</strong></h3>
+
+    <div class="info-box info-box-green mb-4">
+      <p class="info-box-title"><strong>The 10% Energy Rule</strong></p>
+      <p class="text-secondary mb-0">Only about 10% of energy transfers from one trophic level to the next. That's why apex predators are always rare - there's very little energy left at the top of the food chain!</p>
+    </div>
+
+    <!-- Simulation Container -->
+    <div class="simulation-container">
+      <h3>🎮 Trophic Cascade Simulator</h3>
+      <p class="text-secondary mb-3">Use the interactive simulation below to explore what happens when you remove or add species to the Yellowstone ecosystem.</p>
+      <iframe
+        src="simulations/trophic-cascade-simulator.html"
+        title="Trophic Cascade Simulator - Yellowstone Ecosystem"
+        style="width: 100%; min-height: 700px; border: none; border-radius: 8px;">
+      </iframe>
+    </div>
+
+    <!-- Home Alternative -->
+    <div class="home-alternative">
+      <p class="title"><strong>🏠 COMPLETING THIS AT HOME?</strong></p>
+      <p class="mb-0">The simulation should work on any device with a web browser. If it doesn't load, try refreshing the page or using a different browser (Chrome works best).</p>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>📗 Need extra support? Click here for hints and sentence starters</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Key Concept Reminders:</p>
+        <ul class="mb-4">
+          <li>A trophic cascade is like dominoes - one change triggers the next</li>
+          <li>Keystone species have BIG effects despite small numbers</li>
+        </ul>
+        <p class="font-bold mb-3">Sentence Starters:</p>
+        <ul class="mb-4" style="font-style: italic;">
+          <li>"When wolves were removed, the first effect was..."</li>
+          <li>"This caused a cascade because elk then..."</li>
+        </ul>
+        <p class="font-bold mb-2">Word Bank:</p>
+        <p class="word-bank mb-0">trophic cascade, keystone species, apex predator, overgrazing, population explosion, ecosystem balance</p>
+      </div>
+    </details>
+
+    <!-- Stuck Pathway -->
+    <details class="support-stuck">
+      <summary>🆘 Stuck? Click here for step-by-step help</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Try these steps in order:</p>
+        <ol class="mb-0" style="line-height: 2;">
+          <li>In the simulation, click "Remove Apex Predator" first</li>
+          <li>Press Play and watch the wolf population go to 0</li>
+          <li>Then watch what happens to elk - do they increase or decrease?</li>
+          <li>Still stuck? Email Mr. Rosche with your specific question</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>📝 COMPLETE THE STATION 1 FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">Run at least 2 scenarios in the simulation before answering!</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G7.C8.W1 Station 1 Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== STATION 2 ==================== -->
+<section id="station2-section" role="region" aria-labelledby="station2-heading">
+  <div class="section-header header-station2">
+    <h2 id="station2-heading">📊 <strong>Station 2 – Population Dynamics Analysis</strong></h2>
+    <p>20 Points | ~15 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-station2">
+    <h3 class="card-title card-title-station2"><strong>📊 Your Mission: Analyze Real Yellowstone Data</strong></h3>
+
+    <div class="info-box info-box-orange mb-4">
+      <p class="info-box-title"><strong>Real Data from Yellowstone</strong></p>
+      <p class="text-secondary mb-2">Scientists have tracked populations in Yellowstone for over 100 years. Use this real data to identify patterns!</p>
+
+      <table class="data-table" style="margin-top: 12px;">
+        <thead>
+          <tr><th>Year</th><th>Wolves</th><th>Elk</th><th>Willows</th><th>Beavers</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1920</td><td>150</td><td>12,000</td><td>100%</td><td>1,500</td></tr>
+          <tr><td>1926</td><td style="color: #DC2626; font-weight: bold;">0</td><td>12,000</td><td>100%</td><td>1,500</td></tr>
+          <tr><td>1950</td><td>0</td><td style="color: #DC2626;">20,000</td><td style="color: #DC2626;">40%</td><td>200</td></tr>
+          <tr><td>1970</td><td>0</td><td style="color: #DC2626;">25,000</td><td style="color: #DC2626;">20%</td><td>50</td></tr>
+          <tr><td>1995</td><td style="color: #059669; font-weight: bold;">14*</td><td>20,000</td><td>15%</td><td>30</td></tr>
+          <tr><td>2000</td><td>120</td><td>15,000</td><td>25%</td><td>100</td></tr>
+          <tr><td>2010</td><td>97</td><td style="color: #059669;">6,000</td><td style="color: #059669;">50%</td><td>350</td></tr>
+          <tr><td>2020</td><td>123</td><td>7,500</td><td style="color: #059669;">65%</td><td>600</td></tr>
+        </tbody>
+      </table>
+      <p class="text-muted" style="font-size: 0.85em; margin-top: 8px;">* 14 wolves reintroduced in 1995. Willows shown as % of 1920 coverage.</p>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>📗 Need extra support? Click here for hints</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Pattern-Finding Tips:</p>
+        <ul class="mb-4">
+          <li>Look at what happened from 1926-1970 when there were no wolves</li>
+          <li>Then look at 1995-2020 after wolves returned</li>
+          <li>Which columns move in opposite directions? (inverse relationship)</li>
+        </ul>
+        <p class="font-bold mb-3">Sentence Starters:</p>
+        <ul class="mb-0" style="font-style: italic;">
+          <li>"The data shows that when wolves were absent..."</li>
+          <li>"After wolves returned in 1995, the pattern reversed because..."</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>📝 COMPLETE THE STATION 2 FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">Reference the data table above while answering the questions.</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G7.C8.W1 Station 2 Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== STATION 3 ==================== -->
+<section id="station3-section" role="region" aria-labelledby="station3-heading">
+  <div class="section-header header-station3">
+    <h2 id="station3-heading">🔬 <strong>Station 3 – Design a Conservation Plan</strong></h2>
+    <p>25 Points | ~20 Minutes (Highest Value!)</p>
+  </div>
+
+  <div class="card card-bordered card-station3">
+    <h3 class="card-title card-title-station3"><strong>🔬 Engineering Challenge: Restore an Ecosystem</strong></h3>
+
+    <div class="info-box info-box-purple mb-4">
+      <p class="info-box-title"><strong>THE SCENARIO:</strong></p>
+      <p class="text-secondary mb-2">A local prairie ecosystem has lost its keystone species (prairie dogs) due to disease. You are a conservation scientist tasked with designing a restoration plan.</p>
+      <ul class="text-secondary mb-0">
+        <li>Prairie dogs burrow and aerate soil</li>
+        <li>Their burrows provide homes for burrowing owls</li>
+        <li>Hawks and coyotes depend on prairie dogs for food</li>
+        <li>Without prairie dogs, vegetation is overgrown and soil is compacting</li>
+      </ul>
+    </div>
+
+    <div class="info-box info-box-purple mb-4">
+      <p class="info-box-title"><strong>CONSTRAINTS:</strong></p>
+      <ul class="text-secondary mb-0">
+        <li><strong>Budget:</strong> $100,000 total</li>
+        <li><strong>Timeline:</strong> 5 years</li>
+        <li><strong>Requirement:</strong> Must address at least 3 affected species</li>
+      </ul>
+    </div>
+
+    <!-- Tiered Support -->
+    <details class="support-help">
+      <summary>📗 Need extra support? Click here for design hints</summary>
+      <div class="content">
+        <p class="font-bold mb-3">Design Strategy:</p>
+        <ul class="mb-4">
+          <li>Start by identifying what the keystone species did for the ecosystem</li>
+          <li>Consider combining multiple options that work together</li>
+        </ul>
+        <p class="font-bold mb-3">Sentence Starters:</p>
+        <ul class="mb-0" style="font-style: italic;">
+          <li>"My plan includes... because this addresses the cascade by..."</li>
+          <li>"A trade-off I made was... because..."</li>
+          <li>"I predict that in Year 3, the hawks will... because..."</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>📝 COMPLETE THE STATION 3 FORM BELOW</strong></p>
+    <p class="form-embed-subtitle">Design your solution and justify your choices!</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G7.C8.W1 Station 3 Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== EXIT TICKET ==================== -->
+<section id="exit-section" role="region" aria-labelledby="exit-heading">
+  <div class="section-header header-exit">
+    <h2 id="exit-heading">🎓 <strong>Exit Ticket – Ecosystem Dynamics Integration</strong></h2>
+    <p>23 Points | ~15 Minutes</p>
+  </div>
+
+  <div class="card card-bordered card-exit">
+    <h3 class="card-title card-title-exit"><strong>🎓 Show What You Learned</strong></h3>
+    <div class="info-box info-box-pink">
+      <p class="info-box-title"><strong>Question Types:</strong></p>
+      <ul class="text-secondary mb-0">
+        <li><strong>2 NEW</strong> - Trophic cascades and keystone species (this week)</li>
+        <li><strong>2 SPIRAL</strong> - Geologic time (Cycle 7) and human impact (Cycle 4)</li>
+        <li><strong>1 INTEGRATION</strong> - Connect ecosystem recovery timescales</li>
+        <li><strong>1 SEP-7</strong> - Argue from evidence about species conservation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="form-embed">
+    <p class="form-embed-title"><strong>📝 COMPLETE THE EXIT TICKET BELOW</strong></p>
+    <p class="form-embed-subtitle">This is your final assessment for Week 1. Take your time!</p>
+    <div class="form-placeholder">
+      <p class="mb-2">[EMBED G7.C8.W1 Exit Ticket Form Here]</p>
+      <p class="mb-0" style="font-size: 0.9em;">Form ID: ________________</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ==================== WEEK SUMMARY ==================== -->
+<section class="summary-section">
+  <h2><strong>Week 1 Summary: What You Learned</strong></h2>
+  <div class="summary-grid">
+    <div class="summary-item" style="border-color: var(--color-secondary);">
+      <p><strong>Trophic Cascades:</strong> Changes at one trophic level ripple through the entire ecosystem - like dominoes falling</p>
+    </div>
+    <div class="summary-item" style="border-color: #10B981;">
+      <p><strong>Keystone Species:</strong> Some species have effects far beyond their population size - removing wolves changed rivers!</p>
+    </div>
+    <div class="summary-item" style="border-color: #F59E0B;">
+      <p><strong>10% Rule:</strong> Only 10% of energy transfers between trophic levels, so apex predators are always rare</p>
+    </div>
+    <div class="summary-item" style="border-color: #8B5CF6;">
+      <p><strong>Ecosystem Restoration:</strong> Understanding cascades helps us design effective conservation interventions</p>
+    </div>
+  </div>
+</section>
+
+<!-- Cross-Curriculum Navigation -->
+<nav class="curriculum-nav" aria-label="Navigate between weeks">
+  <a href="#">← Previous: Cycle 7 Week 3</a>
+  <span class="current">Week 1 of 3</span>
+  <a href="#">Next: Week 2 (Biodiversity) →</a>
+</nav>
+
+<!-- Footer -->
+<footer class="page-footer">
+  <p class="complete-message"><strong>🎉 Week 1 Complete!</strong></p>
+  <p class="next-week">Next week: How does biodiversity affect ecosystem resilience?</p>
+</footer>
+</div>
