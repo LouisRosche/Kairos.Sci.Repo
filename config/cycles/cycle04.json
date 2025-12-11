@@ -6,10 +6,13 @@
   "dates": {
     "start": "2026-01-06",
     "end": "2026-02-12",
-    "week1": { "start": "2026-01-06", "end": "2026-01-10" },
-    "week2": { "start": "2026-01-13", "end": "2026-01-17" },
-    "week3": { "start": "2026-01-26", "end": "2026-01-30" },
-    "_notes": "MLK Day 1/19; buffer 2/2-2/12 before Presidents Day PD week"
+    "week1": { "start": "2026-01-06", "end": "2026-01-09", "_note": "4 days (PD 1/5)" },
+    "week2": { "start": "2026-01-12", "end": "2026-01-16" },
+    "week3": { "start": "2026-01-20", "end": "2026-01-23", "_note": "4 days (MLK Day 1/19)" },
+    "week4": { "start": "2026-01-26", "end": "2026-01-30" },
+    "week5": { "start": "2026-02-02", "end": "2026-02-06" },
+    "week6": { "start": "2026-02-09", "end": "2026-02-12", "_note": "4 days" },
+    "_notes": "MLK Day 1/19; Presidents Day PD week follows (2/16-2/20)"
   },
 
   "grades": {
@@ -18,7 +21,10 @@
       "phenomenon": {
         "week1": "Why is the ocean becoming more acidic?",
         "week2": "What happens when nutrients run off into waterways?",
-        "week3": "Synthesis & Assessment"
+        "week3": "TBD - Requires curriculum development",
+        "week4": "TBD - Requires curriculum development",
+        "week5": "TBD - Requires curriculum development",
+        "week6": "Synthesis & Assessment"
       },
       "ngss": {
         "primary": {
@@ -189,6 +195,43 @@
           },
           "formIds": {},
           "responseSheetIds": {}
+        },
+        "4": {
+          "title": "TBD - Requires Curriculum Development",
+          "status": "not_started",
+          "_note": "CALENDAR ALIGNMENT: This week was previously unlisted. Content needs development.",
+          "files": {
+            "forms": "content/grade7/cycle04/week4/forms.gs",
+            "studentPage": "content/grade7/cycle04/week4/student-page.html",
+            "lessonPlan": "content/grade7/cycle04/week4/lesson-plan.md"
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "5": {
+          "title": "TBD - Requires Curriculum Development",
+          "status": "not_started",
+          "_note": "CALENDAR ALIGNMENT: This week was previously unlisted. Content needs development.",
+          "files": {
+            "forms": "content/grade7/cycle04/week5/forms.gs",
+            "studentPage": "content/grade7/cycle04/week5/student-page.html",
+            "lessonPlan": "content/grade7/cycle04/week5/lesson-plan.md"
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "6": {
+          "title": "Synthesis & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 6.",
+          "files": {
+            "forms": "content/grade7/cycle04/week6/forms.gs",
+            "studentPage": "content/grade7/cycle04/week6/student-page.html",
+            "lessonPlan": "content/grade7/cycle04/week6/lesson-plan.md"
+          },
+          "formIds": {},
+          "responseSheetIds": {}
         }
       },
       "materials": {
@@ -203,7 +246,10 @@
       "phenomenon": {
         "week1": "Why are there more plants than animals in most ecosystems?",
         "week2": "How do invasive species disrupt energy flow?",
-        "week3": "Synthesis & Assessment"
+        "week3": "TBD - Requires curriculum development",
+        "week4": "TBD - Requires curriculum development",
+        "week5": "TBD - Requires curriculum development",
+        "week6": "Synthesis & Assessment"
       },
       "ngss": {
         "primary": {
@@ -370,6 +416,43 @@
               "time": "20 min",
               "targets": ["energy-recycled", "pyramid-stability"]
             }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "4": {
+          "title": "TBD - Requires Curriculum Development",
+          "status": "not_started",
+          "_note": "CALENDAR ALIGNMENT: This week was previously unlisted. Content needs development.",
+          "files": {
+            "forms": "content/grade8/cycle04/week4/forms.gs",
+            "studentPage": "content/grade8/cycle04/week4/student-page.html",
+            "lessonPlan": "content/grade8/cycle04/week4/lesson-plan.md"
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "5": {
+          "title": "TBD - Requires Curriculum Development",
+          "status": "not_started",
+          "_note": "CALENDAR ALIGNMENT: This week was previously unlisted. Content needs development.",
+          "files": {
+            "forms": "content/grade8/cycle04/week5/forms.gs",
+            "studentPage": "content/grade8/cycle04/week5/student-page.html",
+            "lessonPlan": "content/grade8/cycle04/week5/lesson-plan.md"
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "6": {
+          "title": "Synthesis & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 6.",
+          "files": {
+            "forms": "content/grade8/cycle04/week6/forms.gs",
+            "studentPage": "content/grade8/cycle04/week6/student-page.html",
+            "lessonPlan": "content/grade8/cycle04/week6/lesson-plan.md"
           },
           "formIds": {},
           "responseSheetIds": {}

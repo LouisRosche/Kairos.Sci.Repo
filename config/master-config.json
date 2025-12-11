@@ -66,12 +66,21 @@
       "_note": "SY25-26 calendar supports cycles 3-8 only (cycles 1-2 predate this system)"
     },
     "totalCycles": 6,
-    "weeksPerCycle": 3,
+    "weeksPerCycle": {
+      "_note": "Week counts vary by cycle per official Kairos SY25-26 calendar",
+      "cycle03": 3,
+      "cycle04": 6,
+      "cycle05": 3,
+      "cycle06": 5,
+      "cycle07": 4,
+      "cycle08": 4
+    },
+    "totalInstructionalWeeks": 25,
     "pointsPerWeek": 100,
     "formsPerWeek": 5,
     "_calendarAlignment": {
       "source": "Kairos_SY25-26_Calendar.md",
-      "lastVerified": "2025-12-10",
+      "lastVerified": "2025-12-11",
       "note": "C9-C10 standards integrated into C8; configs archived to archive/deferred-cycles/"
     }
   },
