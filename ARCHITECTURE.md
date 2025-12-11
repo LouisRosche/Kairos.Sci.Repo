@@ -101,6 +101,7 @@ Kairos.Sci.Repo/
 │
 ├── shared/                            # Cross-grade utilities
 │   ├── FormUtils.gs                   # Form creation helpers
+│   ├── FormSettings.gs                # Standard form settings
 │   ├── DataUtils.gs                   # Data retrieval helpers
 │   ├── ValidationUtils.gs             # Config validation
 │   └── styles/

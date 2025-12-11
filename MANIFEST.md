@@ -92,6 +92,7 @@ Kairos.Sci.Repo/
 │
 ├── shared/                      # Cross-grade utilities
 │   ├── FormUtils.gs             # Form creation helpers
+│   ├── FormSettings.gs          # Standard form settings
 │   ├── DataUtils.gs             # Data retrieval utilities
 │   ├── ValidationUtils.gs       # Config validation
 │   └── styles/
@@ -332,8 +333,9 @@ Content files completed (Dec 2025):
 
 | File | Purpose | Status |
 |------|---------|--------|
-| `FormUtils.gs` | Form helper functions | ✅ Complete |
-| `DataUtils.gs` | Data retrieval utilities | ✅ Complete |
+| `FormUtils.gs` | Form helpers (configSecurity, addCalcItem, rubrics) | ✅ Complete |
+| `FormSettings.gs` | Standard Google Form settings & API constraints | ✅ Complete |
+| `DataUtils.gs` | Statistical utilities (average, median, stdDev, findMode) | ✅ Complete |
 | `ValidationUtils.gs` | Config validation | ✅ Complete |
 | `styles/design-system.css` | **CSS design tokens** | ✅ Complete |
 
