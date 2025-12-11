@@ -19,7 +19,7 @@
       "phenomenon": {
         "week1": "How can you find seashells on top of a mountain?",
         "week2": "How do we know what Earth looked like millions of years ago?",
-        "week3": "TBD - Requires curriculum development",
+        "week3": "How can scientists determine the age of a dinosaur bone?",
         "week4": "Synthesis & Assessment"
       },
       "ngss": {
@@ -168,32 +168,49 @@
           "responseSheetIds": {}
         },
         "3": {
-          "title": "Synthesis & Assessment",
+          "title": "Radiometric Dating & Absolute Age",
           "status": "not_started",
-          "isAssessmentWeek": true,
+          "_note": "CALENDAR ALIGNMENT: Previously assessment week, now instructional. Assessment moved to W4.",
           "files": {
             "forms": "content/grade7/cycle07/week3/forms.gs",
             "studentPage": "content/grade7/cycle07/week3/student-page.html",
             "lessonPlan": "content/grade7/cycle07/week3/lesson-plan.md"
           },
-          "assessmentParts": {
-            "part1": {
-              "title": "Synthesis Review",
-              "points": 20,
-              "time": "15 min",
-              "focus": "Connect W1 rock cycle + W2 geologic time"
+          "stations": {
+            "hook": {
+              "title": "The Dinosaur Age Mystery",
+              "points": 12,
+              "resource": "Fossil specimen + age determination comparison methods",
+              "questions": 5,
+              "focus": "How can scientists determine the age of a dinosaur bone?"
             },
-            "part2": {
-              "title": "Cumulative Assessment",
-              "points": 60,
-              "time": "40 min",
-              "sections": ["A: Rock Types", "B: Rock Cycle", "C: Geologic Time", "D: Evidence-Based Explanations"]
-            },
-            "part3": {
-              "title": "Misconception Check",
+            "station1": {
+              "title": "Radioactive Decay Investigation",
               "points": 20,
-              "time": "20 min",
-              "targets": ["fossils-bones-only", "rock-permanent", "older-deeper-always"]
+              "resource": "Half-life simulation + decay curve data",
+              "questions": 6,
+              "focus": "Model radioactive decay and half-life calculations",
+              "spiralTarget": "Geologic time scale from W2"
+            },
+            "station2": {
+              "title": "Dating Methods Analysis",
+              "points": 20,
+              "resource": "Carbon-14, Uranium-238 data + age range comparisons",
+              "questions": 5,
+              "focus": "Compare relative and absolute dating methods"
+            },
+            "station3": {
+              "title": "Design a Dating Strategy",
+              "points": 25,
+              "resource": "Unknown sample scenario + dating tool options + constraints",
+              "questions": 5,
+              "focus": "Apply dating methods to determine fossil/rock ages"
+            },
+            "exitTicket": {
+              "title": "Absolute Dating Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
             }
           },
           "formIds": {},
@@ -208,6 +225,26 @@
             "forms": "content/grade7/cycle07/week4/forms.gs",
             "studentPage": "content/grade7/cycle07/week4/student-page.html",
             "lessonPlan": "content/grade7/cycle07/week4/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect rock cycle, geologic time, and dating methods"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Rock Types & Cycle", "B: Geologic Time", "C: Dating Methods", "D: Evidence-Based Explanations"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["fossils-bones-only", "rock-permanent", "older-deeper-always"]
+            }
           },
           "formIds": {},
           "responseSheetIds": {}
@@ -225,7 +262,7 @@
       "phenomenon": {
         "week1": "Why do glow sticks eventually stop glowing?",
         "week2": "How can mixing two clear liquids make something solid appear?",
-        "week3": "TBD - Requires curriculum development",
+        "week3": "Why does food cook faster on a hot day than a cold day?",
         "week4": "Synthesis & Assessment"
       },
       "ngss": {
@@ -374,32 +411,49 @@
           "responseSheetIds": {}
         },
         "3": {
-          "title": "Synthesis & Assessment",
+          "title": "Reaction Rates & Factors",
           "status": "not_started",
-          "isAssessmentWeek": true,
+          "_note": "CALENDAR ALIGNMENT: Previously assessment week, now instructional. Assessment moved to W4.",
           "files": {
             "forms": "content/grade8/cycle07/week3/forms.gs",
             "studentPage": "content/grade8/cycle07/week3/student-page.html",
             "lessonPlan": "content/grade8/cycle07/week3/lesson-plan.md"
           },
-          "assessmentParts": {
-            "part1": {
-              "title": "Synthesis Review",
-              "points": 20,
-              "time": "15 min",
-              "focus": "Connect W1 reaction evidence + W2 reaction types"
+          "stations": {
+            "hook": {
+              "title": "The Cooking Speed Mystery",
+              "points": 12,
+              "resource": "Food cooking time comparisons + temperature data",
+              "questions": 5,
+              "focus": "Why does food cook faster on a hot day than a cold day?"
             },
-            "part2": {
-              "title": "Cumulative Assessment",
-              "points": 60,
-              "time": "40 min",
-              "sections": ["A: Reaction Evidence", "B: Mass Conservation", "C: Reaction Types", "D: Data Analysis"]
-            },
-            "part3": {
-              "title": "Misconception Check",
+            "station1": {
+              "title": "Temperature & Reaction Rate Investigation",
               "points": 20,
-              "time": "20 min",
-              "targets": ["mass-lost-reactions", "chemical-physical-confused", "reactions-destroy-atoms"]
+              "resource": "Reaction rate simulation + temperature variable data",
+              "questions": 6,
+              "focus": "Explore how temperature affects collision frequency and reaction speed",
+              "spiralTarget": "Conservation of mass from W1"
+            },
+            "station2": {
+              "title": "Factors Affecting Rates Analysis",
+              "points": 20,
+              "resource": "Surface area, concentration, catalyst data sets",
+              "questions": 5,
+              "focus": "Analyze multiple factors that change reaction rates"
+            },
+            "station3": {
+              "title": "Design an Optimal Reaction",
+              "points": 25,
+              "resource": "Reaction scenario + rate constraints + variable options",
+              "questions": 5,
+              "focus": "Apply rate knowledge to speed up or slow down reactions"
+            },
+            "exitTicket": {
+              "title": "Reaction Rate Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
             }
           },
           "formIds": {},
@@ -414,6 +468,26 @@
             "forms": "content/grade8/cycle07/week4/forms.gs",
             "studentPage": "content/grade8/cycle07/week4/student-page.html",
             "lessonPlan": "content/grade8/cycle07/week4/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect reaction evidence, types, conservation, and rates"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Reaction Evidence", "B: Mass Conservation", "C: Reaction Types", "D: Reaction Rates"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["mass-lost-reactions", "chemical-physical-confused", "reactions-destroy-atoms"]
+            }
           },
           "formIds": {},
           "responseSheetIds": {}

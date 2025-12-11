@@ -28,7 +28,7 @@
       "phenomenon": {
         "week1": "Why did removing wolves from Yellowstone change the rivers?",
         "week2": "How can one small change collapse an entire ecosystem?",
-        "week3": "TBD - Requires curriculum development",
+        "week3": "Why are coral reefs dying even in protected areas?",
         "week4": "Year-End Integration: Student-selected ecosystem investigation + CCC synthesis"
       },
       "ngss": {
@@ -183,14 +183,64 @@
           "responseSheetIds": {}
         },
         "3": {
-          "title": "Year-End Integration & Assessment",
+          "title": "Climate Change Impact on Ecosystems",
           "status": "not_started",
-          "isAssessmentWeek": true,
-          "isYearEndIntegration": true,
+          "_note": "CALENDAR ALIGNMENT: Previously assessment week, now instructional. Assessment moved to W4.",
           "files": {
             "forms": "content/grade7/cycle08/week3/forms.gs",
             "studentPage": "content/grade7/cycle08/week3/student-page.html",
             "lessonPlan": "content/grade7/cycle08/week3/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Dying Reefs Mystery",
+              "points": 12,
+              "resource": "Coral reef before/after images + ocean temperature data",
+              "questions": 5,
+              "focus": "Why are coral reefs dying even in protected areas?"
+            },
+            "station1": {
+              "title": "Ocean Warming Investigation",
+              "points": 20,
+              "resource": "Coral bleaching simulation + temperature threshold data",
+              "questions": 6,
+              "focus": "Model how temperature affects coral-algae symbiosis",
+              "spiralTarget": "Ecosystem resilience from W2"
+            },
+            "station2": {
+              "title": "Climate Impact Analysis",
+              "points": 20,
+              "resource": "Multi-ecosystem climate data + species range shifts",
+              "questions": 5,
+              "focus": "Analyze climate change effects across different ecosystems"
+            },
+            "station3": {
+              "title": "Design a Climate Adaptation Plan",
+              "points": 25,
+              "resource": "Ecosystem scenario + climate projections + intervention options",
+              "questions": 5,
+              "focus": "Apply ecosystem knowledge to climate resilience challenge"
+            },
+            "exitTicket": {
+              "title": "Climate & Ecosystems Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "4": {
+          "title": "Year-End Integration & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "isYearEndIntegration": true,
+          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 4.",
+          "files": {
+            "forms": "content/grade7/cycle08/week4/forms.gs",
+            "studentPage": "content/grade7/cycle08/week4/student-page.html",
+            "lessonPlan": "content/grade7/cycle08/week4/lesson-plan.md"
           },
           "_structure": {
             "part1": "Cycle 8 Assessment (Ecosystems)",
@@ -203,13 +253,13 @@
               "title": "Cycle 8 Synthesis",
               "points": 25,
               "time": "20 min",
-              "focus": "Connect W1 trophic cascades + W2 biodiversity"
+              "focus": "Connect trophic cascades, biodiversity, and climate impacts"
             },
             "part2": {
               "title": "Student Investigation Presentation",
               "points": 35,
               "time": "30 min",
-              "focus": "Present self-selected ecosystem investigation (prep from W2)",
+              "focus": "Present self-selected ecosystem investigation (prep from W3)",
               "rubricCriteria": ["Scientific accuracy", "Evidence use", "CCC application", "Communication"]
             },
             "part3": {
@@ -228,20 +278,6 @@
           },
           "formIds": {},
           "responseSheetIds": {}
-        },
-        "4": {
-          "title": "Year-End Integration & Assessment",
-          "status": "not_started",
-          "isAssessmentWeek": true,
-          "isYearEndIntegration": true,
-          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 4.",
-          "files": {
-            "forms": "content/grade7/cycle08/week4/forms.gs",
-            "studentPage": "content/grade7/cycle08/week4/student-page.html",
-            "lessonPlan": "content/grade7/cycle08/week4/lesson-plan.md"
-          },
-          "formIds": {},
-          "responseSheetIds": {}
         }
       },
       "materials": {
@@ -256,7 +292,7 @@
       "phenomenon": {
         "week1": "Why does a metal spoon get hot in soup but a wooden spoon doesn't?",
         "week2": "How do thermoses keep hot things hot AND cold things cold?",
-        "week3": "TBD - Requires curriculum development",
+        "week3": "Why are cities hotter than the countryside?",
         "week4": "Year-End Integration: Engineering design showcase + CCC synthesis"
       },
       "ngss": {
@@ -411,14 +447,64 @@
           "responseSheetIds": {}
         },
         "3": {
-          "title": "Year-End Integration & Assessment",
+          "title": "Urban Heat Island Effect & Solutions",
           "status": "not_started",
-          "isAssessmentWeek": true,
-          "isYearEndIntegration": true,
+          "_note": "CALENDAR ALIGNMENT: Previously assessment week, now instructional. Assessment moved to W4.",
           "files": {
             "forms": "content/grade8/cycle08/week3/forms.gs",
             "studentPage": "content/grade8/cycle08/week3/student-page.html",
             "lessonPlan": "content/grade8/cycle08/week3/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Hot City Mystery",
+              "points": 12,
+              "resource": "Thermal images of city vs countryside + temperature data",
+              "questions": 5,
+              "focus": "Why are cities hotter than the countryside?"
+            },
+            "station1": {
+              "title": "Surface Properties Investigation",
+              "points": 20,
+              "resource": "Albedo simulation + material absorption data",
+              "questions": 6,
+              "focus": "Test how different surfaces absorb and reflect heat",
+              "spiralTarget": "Specific heat from W2"
+            },
+            "station2": {
+              "title": "Urban Heat Analysis",
+              "points": 20,
+              "resource": "City temperature maps + vegetation cover data",
+              "questions": 5,
+              "focus": "Correlate urban design features with heat patterns"
+            },
+            "station3": {
+              "title": "Design a Cool City Solution",
+              "points": 25,
+              "resource": "Urban planning scenario + cooling strategies + budget",
+              "questions": 5,
+              "focus": "Apply thermal principles to reduce urban heat"
+            },
+            "exitTicket": {
+              "title": "Urban Thermal Systems Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "4": {
+          "title": "Year-End Integration & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "isYearEndIntegration": true,
+          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 4.",
+          "files": {
+            "forms": "content/grade8/cycle08/week4/forms.gs",
+            "studentPage": "content/grade8/cycle08/week4/student-page.html",
+            "lessonPlan": "content/grade8/cycle08/week4/lesson-plan.md"
           },
           "_structure": {
             "part1": "Cycle 8 Assessment (Thermal Energy)",
@@ -431,7 +517,7 @@
               "title": "Cycle 8 Synthesis",
               "points": 25,
               "time": "20 min",
-              "focus": "Connect W1 heat transfer + W2 energy conservation"
+              "focus": "Connect heat transfer, energy conservation, and urban thermal systems"
             },
             "part2": {
               "title": "Engineering Design Showcase",
@@ -453,20 +539,6 @@
               "time": "15 min",
               "focus": "Growth mindset reflection, engineering identity, favorite design challenge"
             }
-          },
-          "formIds": {},
-          "responseSheetIds": {}
-        },
-        "4": {
-          "title": "Year-End Integration & Assessment",
-          "status": "not_started",
-          "isAssessmentWeek": true,
-          "isYearEndIntegration": true,
-          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 4.",
-          "files": {
-            "forms": "content/grade8/cycle08/week4/forms.gs",
-            "studentPage": "content/grade8/cycle08/week4/student-page.html",
-            "lessonPlan": "content/grade8/cycle08/week4/lesson-plan.md"
           },
           "formIds": {},
           "responseSheetIds": {}
