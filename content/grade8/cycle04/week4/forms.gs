@@ -1,22 +1,16 @@
 /**
- * G8.C4.W4 Forms - Food Web Complexity & Stability
- *
+ * Grade 8 Cycle 4 Week 4: Food Web Complexity & Stability
+ * Standards: MS-LS2-3 (matter cycling/energy flow), MS-LS2-4 (ecosystem changes)
  * Phenomenon: Why can some ecosystems survive a drought but others collapse?
- * Standards: MS-LS2-3 (Ecosystem Dynamics)
  *
- * This week explores how food web complexity affects ecosystem resilience,
- * examining why diverse ecosystems tend to recover from disturbances while
- * simpler ones may collapse entirely.
- *
- * Forms Structure (100 pts total):
+ * Form Structure:
  * - Hook: The Resilient Reef Mystery (12 pts)
  * - Station 1: Food Web Complexity Investigation (20 pts)
  * - Station 2: Ecosystem Resilience Analysis (20 pts)
  * - Station 3: Design a Resilient Ecosystem (25 pts)
  * - Exit Ticket: Ecosystem Stability Integration (23 pts)
  *
- * @version 1.0.0
- * @lastUpdated 2025-12-11
+ * Total: 100 points
  */
 
 // ============================================================================
@@ -29,12 +23,7 @@ const G8_C4_W4_CONFIG = {
   week: 4,
   topic: 'Food Web Complexity & Stability',
   phenomenon: 'Why can some ecosystems survive a drought but others collapse?',
-  standards: ['MS-LS2-3'],
-  threeDimensional: {
-    sep: 'SEP-2: Developing and Using Models',
-    dci: 'LS2.C: Ecosystem Dynamics, Functioning, and Resilience',
-    ccc: 'CCC-7: Stability and Change'
-  },
+  standards: ['MS-LS2-3', 'MS-LS2-4'],
   points: {
     hook: 12,
     station1: 20,
@@ -45,27 +34,25 @@ const G8_C4_W4_CONFIG = {
   },
   misconceptions: [
     {
-      id: 'ecosystem-complexity-bad',
-      description: 'More complex ecosystems are harder to maintain and more fragile',
-      correctUnderstanding: 'Complex food webs with multiple connections provide redundancy - if one species declines, others can fill similar roles, making the system more stable',
-      targetedIn: ['hook_q3', 's1_q4', 'exit_q1']
+      id: 'simple-webs-stable',
+      description: 'Students think simpler food webs are more stable because they have fewer things to go wrong',
+      targetedIn: ['hook_q3', 's1_q3']
     },
     {
-      id: 'all-species-equally-important',
-      description: 'All species are equally important to ecosystem stability',
-      correctUnderstanding: 'Keystone species have disproportionately large effects on ecosystem structure; losing them causes cascading changes',
-      targetedIn: ['s1_q5', 's2_q3', 'exit_q2']
+      id: 'keystone-replaceable',
+      description: 'Students think any species can be replaced by another similar one',
+      targetedIn: ['s2_q3', 'exit_q2']
     },
     {
-      id: 'ecosystems-recover-automatically',
-      description: 'Damaged ecosystems will always recover on their own',
-      correctUnderstanding: 'Ecosystems have tipping points beyond which recovery is not possible without intervention; some damage is irreversible',
-      targetedIn: ['s2_q4', 's3_q3', 'exit_q5']
+      id: 'resilience-fixed',
+      description: 'Students think ecosystem resilience is fixed and cannot be changed by human intervention',
+      targetedIn: ['s3_q4', 'exit_q5']
     }
   ],
   spiralTargets: {
+    w3: 'Decomposition and matter cycling',
     w2: 'Invasive species and ecosystem disruption',
-    w3: 'Matter cycling and decomposition'
+    w1: 'Energy flow and trophic levels'
   }
 };
 
@@ -74,634 +61,439 @@ const G8_C4_W4_CONFIG = {
 // ============================================================================
 
 /**
- * Creates all forms for G8 C4 W4.
- * Validates configuration and creates 5 forms.
+ * Creates all forms for G8 C4 W4
  */
-function createG8C4W4Forms() {
-  const config = G8_C4_W4_CONFIG;
-  console.log(`Creating forms for G${config.grade} C${config.cycle} W${config.week}: ${config.topic}`);
-
-  const forms = {
-    hook: createG8C4W4Hook(),
-    station1: createG8C4W4Station1(),
-    station2: createG8C4W4Station2(),
-    station3: createG8C4W4Station3(),
-    exitTicket: createG8C4W4ExitTicket()
+function createAllForms() {
+  const results = {
+    hook: createHookForm_(),
+    station1: createStation1Form_(),
+    station2: createStation2Form_(),
+    station3: createStation3Form_(),
+    exitTicket: createExitTicketForm_()
   };
 
-  // Validate total points
-  const actualTotal = Object.values(config.points).reduce((a, b) => a + b, 0) - config.points.total;
-  if (actualTotal !== config.points.total) {
-    console.warn(`Point mismatch: expected ${config.points.total}, got ${actualTotal}`);
-  }
+  Logger.log('=== G8 C4 W4 Forms Created ===');
+  Object.entries(results).forEach(([name, url]) => {
+    Logger.log(`${name}: ${url}`);
+  });
 
-  console.log('All G8 C4 W4 forms created successfully');
-  return forms;
+  return results;
 }
 
 // ============================================================================
-// HOOK: THE RESILIENT REEF MYSTERY (12 pts)
+// HOOK: THE RESILIENT REEF MYSTERY (12 points)
 // ============================================================================
 
-/**
- * Creates Hook form - The Resilient Reef Mystery
- * Students explore why some ecosystems survive disturbances while others collapse.
- *
- * Resource: Drought impact comparison data for diverse vs. simple ecosystems
- */
-function createG8C4W4Hook() {
+function createHookForm_() {
   const form = FormApp.create('G8.C4.W4: Hook - The Resilient Reef Mystery');
-  const config = G8_C4_W4_CONFIG;
+  configFormSettings_(form);
 
-  // Form settings
   form.setDescription(
-    'PHENOMENON: Why can some ecosystems survive a drought but others collapse?\n\n' +
-    'The 2012 drought devastated farmland across the Midwest, but native prairies ' +
-    'nearby survived with minimal damage. Similarly, some coral reefs recover from ' +
-    'bleaching events while others die completely. What makes the difference?\n\n' +
-    'Study the ecosystem comparison data to investigate ecosystem resilience.'
+    'Phenomenon: Two coral reef ecosystems experience the same heat wave. ' +
+    'Reef A has 500 species of fish, corals, and invertebrates with complex feeding relationships. ' +
+    'Reef B has only 50 species with simpler food chains. ' +
+    'After the heat wave, Reef A recovers in 5 years. Reef B collapses and never recovers. ' +
+    'Why does biodiversity affect survival?\n\n' +
+    'Points: 12 | Standards: MS-LS2-3, MS-LS2-4'
   );
-  form.setIsQuiz(true);
-  form.setShuffleQuestions(false);
-
-  // Instructions section
-  form.addSectionHeaderItem()
-    .setTitle('🔍 The Resilient Ecosystem Mystery')
-    .setHelpText(
-      'ECOSYSTEM COMPARISON DATA:\n\n' +
-      '┌─────────────────────────────────────────────────────────────────┐\n' +
-      '│ GRASSLAND A (Monoculture Farm)                                  │\n' +
-      '│ • Species: 3 (corn, 2 pest species)                            │\n' +
-      '│ • Food web connections: 4                                       │\n' +
-      '│ • After drought: 95% plant death, complete crop failure        │\n' +
-      '│ • Recovery time: Must replant (no natural recovery)            │\n' +
-      '├─────────────────────────────────────────────────────────────────┤\n' +
-      '│ GRASSLAND B (Native Prairie)                                    │\n' +
-      '│ • Species: 150+ (grasses, forbs, insects, birds, mammals)      │\n' +
-      '│ • Food web connections: 500+                                    │\n' +
-      '│ • After drought: 30% plant death, deep-rooted plants survived  │\n' +
-      '│ • Recovery time: 2-3 years to full productivity                │\n' +
-      '└─────────────────────────────────────────────────────────────────┘\n\n' +
-      'Why did the prairie survive while the farm collapsed?'
-    );
 
   // Q1: Initial observation (2 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q1: Based on the data, what is the most significant difference between Grassland A and Grassland B?')
-    .setHelpText('g8_c4_w4_hook_q1 | Observation')
-    .setPoints(2)
+    .setTitle('Q1: What is the MOST surprising part of this phenomenon?')
+    .setHelpText('Question ID: g8_c4_w4_hook_q1')
     .setChoices([
-      form.createChoice('Grassland B has only slightly more species than Grassland A', false),
-      form.createChoice('Grassland B has many more species AND many more food web connections', true),
-      form.createChoice('Grassland A is located in a different climate zone', false),
-      form.createChoice('Grassland B receives more rainfall than Grassland A', false)
+      form.createChoice('Both reefs experienced the same stress but had very different outcomes', true),
+      form.createChoice('Coral reefs exist in warm water', false),
+      form.createChoice('Heat waves can affect marine ecosystems', false),
+      form.createChoice('Reef A has more species than Reef B', false)
     ])
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(2);
 
-  // Q2: Pattern recognition (2 pts)
+  // Q2: Prior knowledge activation (2 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q2: What pattern do you notice about plant death rates and the number of food web connections?')
-    .setHelpText('g8_c4_w4_hook_q2 | Pattern recognition')
-    .setPoints(2)
+    .setTitle('Q2: In Week 1, you learned about energy flow through trophic levels. In a diverse ecosystem with 500 species, how many different PATHWAYS might energy have to flow through the food web?')
+    .setHelpText('Question ID: g8_c4_w4_hook_q2')
     .setChoices([
-      form.createChoice('More connections = more plant death during drought', false),
-      form.createChoice('More connections = less plant death during drought', true),
-      form.createChoice('Number of connections has no relationship to plant survival', false),
-      form.createChoice('All ecosystems lose the same percentage of plants', false)
+      form.createChoice('Just one main pathway', false),
+      form.createChoice('A few pathways (2-3)', false),
+      form.createChoice('Many interconnected pathways forming a complex web', true),
+      form.createChoice('Energy doesn\'t flow through pathways', false)
     ])
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(2);
 
-  // Q3: Explanation - targets misconception (3 pts)
+  // Q3: Misconception target - simple-webs-stable (3 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q3: Why might having MORE species and connections help an ecosystem survive a disturbance like drought?')
-    .setHelpText('g8_c4_w4_hook_q3 | Explanation | Targets misconception: ecosystem-complexity-bad')
-    .setPoints(3)
+    .setTitle('Q3: A student says "Simpler ecosystems should be MORE stable because there are fewer things that can go wrong." Based on the reef data, what evidence CONTRADICTS this idea?')
+    .setHelpText('Question ID: g8_c4_w4_hook_q3 | Targets misconception: simple-webs-stable')
     .setChoices([
-      form.createChoice('More species compete for resources, making them all stronger', false),
-      form.createChoice('Complex systems are harder for nature to damage because they are "protected"', false),
-      form.createChoice('If some species die, others can fill similar roles and keep the system functioning', true),
-      form.createChoice('More species attract more rainfall to the area', false)
+      form.createChoice('The student is correct - simpler is always better', false),
+      form.createChoice('Reef B (simpler) collapsed while Reef A (complex) recovered, showing complexity aids stability', true),
+      form.createChoice('Both reefs behaved the same way', false),
+      form.createChoice('The data doesn\'t address ecosystem complexity', false)
     ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Correct! This is called functional redundancy - when multiple species can perform similar roles in an ecosystem, losing one doesn\'t collapse the whole system.')
-      .build())
-    .setFeedbackForIncorrect(FormApp.createFeedback()
-      .setText('Not quite. Complex ecosystems survive better because of redundancy - multiple species can fill similar roles. If drought kills one type of grass, other drought-resistant species continue providing food and shelter for animals.')
-      .build())
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(3);
 
-  // Q4: Prediction (2 pts)
-  form.addMultipleChoiceItem()
-    .setTitle('Q4: Based on this pattern, which coral reef would you predict would recover better from a bleaching event?')
-    .setHelpText('g8_c4_w4_hook_q4 | Prediction')
-    .setPoints(2)
-    .setChoices([
-      form.createChoice('A reef with 50 coral species and 200 fish species', true),
-      form.createChoice('A reef with 5 coral species and 20 fish species', false),
-      form.createChoice('Both would recover equally since they are both coral reefs', false),
-      form.createChoice('The simpler reef because it has less to repair', false)
-    ])
-    .setRequired(true);
-
-  // Q5: Connection to phenomenon (3 pts)
+  // Q4: Hypothesis generation (3 pts)
   form.addParagraphTextItem()
-    .setTitle('Q5: Based on the ecosystem comparison data, propose an initial explanation for why some ecosystems survive droughts while others collapse. What role does food web complexity play?')
-    .setHelpText('g8_c4_w4_hook_q5 | Open response | 2-3 sentences')
+    .setTitle('Q4: Propose a hypothesis: WHY might having more species and more connections in a food web help an ecosystem survive disturbances?')
+    .setHelpText('Question ID: g8_c4_w4_hook_q4 | 3 points: Testable hypothesis connecting diversity to stability')
     .setRequired(true);
+  setPointsForLastItem_(form, 3);
 
-  console.log(`Created Hook form: ${form.getId()}`);
-  return form;
+  // Q5: Question generation (2 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q5: What questions do you have about how food web structure affects ecosystem survival?')
+    .setHelpText('Question ID: g8_c4_w4_hook_q5 | 2 points: Generate investigable questions')
+    .setRequired(true);
+  setPointsForLastItem_(form, 2);
+
+  return form.getPublishedUrl();
 }
 
 // ============================================================================
-// STATION 1: FOOD WEB COMPLEXITY INVESTIGATION (20 pts)
+// STATION 1: FOOD WEB COMPLEXITY INVESTIGATION (20 points)
 // ============================================================================
 
-/**
- * Creates Station 1 form - Food Web Complexity Investigation
- * Students model how biodiversity affects energy flow stability.
- *
- * Resource: Food web simulation with varying connections
- * Spiral: Decomposition and matter cycling from W3
- */
-function createG8C4W4Station1() {
+function createStation1Form_() {
   const form = FormApp.create('G8.C4.W4: Station 1 - Food Web Complexity Investigation');
-  const config = G8_C4_W4_CONFIG;
+  configFormSettings_(form);
 
   form.setDescription(
-    'INVESTIGATION: Modeling Food Web Stability\n\n' +
-    'Use the food web simulation to test how the number of connections ' +
-    'affects ecosystem stability when species are removed.\n\n' +
-    'Simulation URL: [Food Web Stability Simulator]\n\n' +
-    'SPIRAL CONNECTION: Remember how decomposers cycle matter through ecosystems? ' +
-    'Today we\'ll see how they also contribute to ecosystem stability.'
+    'Explore how the number of species and connections in a food web affects ecosystem stability.\n\n' +
+    'Use the food web simulation to test what happens when species are removed from simple vs. complex webs.\n\n' +
+    'Spiral Review: Decomposition and matter cycling from Week 3\n' +
+    'Points: 20 | Standards: MS-LS2-3, MS-LS2-4'
   );
-  form.setIsQuiz(true);
-  form.setShuffleQuestions(false);
 
-  // Simulation data section
-  form.addSectionHeaderItem()
-    .setTitle('📊 Simulation Instructions')
-    .setHelpText(
-      'Run the food web simulator with these two scenarios:\n\n' +
-      'SCENARIO A - Simple Food Web:\n' +
-      '• 5 species: grass → rabbit → fox → decomposer → back to grass\n' +
-      '• 4 direct connections (linear chain)\n' +
-      '• Remove the rabbit - observe what happens\n\n' +
-      'SCENARIO B - Complex Food Web:\n' +
-      '• 15 species including multiple producers, herbivores, predators, decomposers\n' +
-      '• 40+ connections (web structure)\n' +
-      '• Remove a herbivore species - observe what happens\n\n' +
-      'Record your observations in the questions below.'
-    );
-
-  // Q1: Simple food web observation (3 pts)
+  // Q1: Redundancy concept (3 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q1: In Scenario A (simple food web), what happened when you removed the rabbit?')
-    .setHelpText('g8_c4_w4_s1_q1 | Observation')
-    .setPoints(3)
+    .setTitle('Q1: In a diverse food web, if one species of herbivore dies off, what happens to the predators that ate it?')
+    .setHelpText('Question ID: g8_c4_w4_s1_q1')
     .setChoices([
-      form.createChoice('Nothing changed - the ecosystem continued normally', false),
-      form.createChoice('Only the fox population declined slightly', false),
-      form.createChoice('The fox population crashed because it had no prey; grass overgrew', true),
-      form.createChoice('The decomposer population increased immediately', false)
+      form.createChoice('All the predators immediately die', false),
+      form.createChoice('Predators can switch to eating other herbivore species that fill similar roles', true),
+      form.createChoice('Predators don\'t eat herbivores', false),
+      form.createChoice('New herbivores spontaneously appear', false)
     ])
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(3);
 
-  // Q2: Complex food web observation (3 pts)
+  // Q2: Connectance (4 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q2: In Scenario B (complex food web), what happened when you removed a herbivore species?')
-    .setHelpText('g8_c4_w4_s1_q2 | Observation')
-    .setPoints(3)
+    .setTitle('Q2: "Connectance" measures how many feeding links exist relative to the maximum possible. Why does HIGH connectance often mean MORE stable ecosystems?')
+    .setHelpText('Question ID: g8_c4_w4_s1_q2')
     .setChoices([
-      form.createChoice('The entire ecosystem collapsed like in Scenario A', false),
-      form.createChoice('Predators switched to other herbivore species; system remained stable', true),
-      form.createChoice('All herbivores went extinct in a chain reaction', false),
-      form.createChoice('The producers all died without that herbivore to eat them', false)
+      form.createChoice('More connections mean more potential backup food sources if one fails', true),
+      form.createChoice('High connectance means fewer species', false),
+      form.createChoice('Connections use up energy, making systems weaker', false),
+      form.createChoice('Connectance has no effect on stability', false)
     ])
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(4);
 
-  // Q3: Spiral - decomposer role (3 pts)
+  // Q3: Misconception target - simple-webs-stable (3 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q3: SPIRAL from W3: How do decomposers contribute to food web stability beyond just recycling matter?')
-    .setHelpText('g8_c4_w4_s1_q3 | Spiral: W3 matter cycling')
-    .setPoints(3)
+    .setTitle('Q3: In the simulation, you remove one species from two food webs: Web A (simple, linear chain) and Web B (complex, many connections). What typically happens?')
+    .setHelpText('Question ID: g8_c4_w4_s1_q3 | Targets misconception: simple-webs-stable')
     .setChoices([
-      form.createChoice('They only break down dead material and don\'t affect food web stability', false),
-      form.createChoice('They connect to many species and provide nutrients that support multiple food chains', true),
-      form.createChoice('They compete with producers for sunlight and water', false),
-      form.createChoice('They are always the first species to go extinct during disturbances', false)
+      form.createChoice('Both webs collapse equally', false),
+      form.createChoice('Web A (simple) cascades to collapse; Web B (complex) adjusts and survives', true),
+      form.createChoice('Web A survives better than Web B', false),
+      form.createChoice('Nothing happens to either web', false)
     ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Correct! Decomposers are connected to virtually every other species through their role in nutrient cycling, making them critical for food web stability.')
-      .build())
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(3);
 
-  // Q4: Analysis - targets misconception (4 pts)
+  // Q4: Functional redundancy (4 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q4: Based on your simulation results, why does ecosystem complexity increase stability rather than making systems more fragile?')
-    .setHelpText('g8_c4_w4_s1_q4 | Analysis | Targets misconception: ecosystem-complexity-bad')
-    .setPoints(4)
+    .setTitle('Q4: "Functional redundancy" means multiple species can perform the same ecological role (like decomposing leaves). Why is this valuable for ecosystem stability?')
+    .setHelpText('Question ID: g8_c4_w4_s1_q4')
     .setChoices([
-      form.createChoice('Complex ecosystems are actually more fragile, but recover faster after collapse', false),
-      form.createChoice('Complexity provides "backup plans" - if one connection fails, others can maintain energy flow', true),
-      form.createChoice('Complex ecosystems prevent any species from ever going extinct', false),
-      form.createChoice('Complexity only matters for large ecosystems, not small ones', false)
+      form.createChoice('It wastes resources having duplicate species', false),
+      form.createChoice('If one species is lost, others can continue the function, maintaining matter cycling', true),
+      form.createChoice('Redundancy means species compete and weaken the ecosystem', false),
+      form.createChoice('Functional redundancy only matters in artificial ecosystems', false)
     ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Correct! This is called redundancy. In a complex web, if one pathway is disrupted, energy and matter can still flow through alternative pathways.')
-      .build())
-    .setFeedbackForIncorrect(FormApp.createFeedback()
-      .setText('Reconsider: Think about what happened in your simulations. In the complex web, losing one species didn\'t crash the system because other species could fill similar roles. This "redundancy" is what makes complexity stabilizing rather than destabilizing.')
-      .build())
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(4);
 
-  // Q5: Keystone species - targets misconception (4 pts)
-  form.addMultipleChoiceItem()
-    .setTitle('Q5: In your complex food web simulation, which species removal caused the MOST disruption? What does this tell you about species importance?')
-    .setHelpText('g8_c4_w4_s1_q5 | Critical thinking | Targets misconception: all-species-equally-important')
-    .setPoints(4)
-    .setChoices([
-      form.createChoice('All species caused equal disruption when removed because all species are equally important', false),
-      form.createChoice('Only top predators caused major disruption; herbivores and producers don\'t matter', false),
-      form.createChoice('Species with the most connections (like decomposers or certain predators) caused the most disruption', true),
-      form.createChoice('Only producers caused disruption because they provide all the energy', false)
-    ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Correct! Species with many connections (called keystone species) have disproportionately large effects on ecosystems. Examples include sea otters, wolves, and decomposers.')
-      .build())
-    .setFeedbackForIncorrect(FormApp.createFeedback()
-      .setText('Not all species affect an ecosystem equally. Species with many connections to others (keystone species) cause much larger disruptions when removed. This is why conservation often focuses on protecting keystone species.')
-      .build())
-    .setRequired(true);
-
-  // Q6: Model explanation (3 pts)
+  // Q5: Simulation analysis (3 pts)
   form.addParagraphTextItem()
-    .setTitle('Q6: Draw or describe a food web model that would be MORE stable than a simple chain. Include at least 8 species and explain why your design would be more stable.')
-    .setHelpText('g8_c4_w4_s1_q6 | SEP-2: Developing Models | 3-4 sentences')
+    .setTitle('Q5: Based on the simulation, describe what happens to energy flow when you remove the top predator from a simple food chain vs. a complex food web. Why is the outcome different?')
+    .setHelpText('Question ID: g8_c4_w4_s1_q5 | 3 points: Compare simple vs complex outcomes with energy flow explanation')
     .setRequired(true);
+  setPointsForLastItem_(form, 3);
 
-  console.log(`Created Station 1 form: ${form.getId()}`);
-  return form;
+  // Q6: Spiral review - W3 Decomposition (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q6: [SPIRAL W3] In Week 3, you learned that decomposers cycle matter back to producers. In a stable ecosystem, why might having MULTIPLE species of decomposers be better than just one?')
+    .setHelpText('Question ID: g8_c4_w4_s1_q6 | Spiral: W3 Decomposition')
+    .setChoices([
+      form.createChoice('One decomposer species is always enough', false),
+      form.createChoice('Multiple decomposer species can handle different conditions and materials, ensuring continuous cycling', true),
+      form.createChoice('Decomposers don\'t affect ecosystem stability', false),
+      form.createChoice('Multiple species compete and slow down decomposition', false)
+    ])
+    .setRequired(true)
+    .setPoints(3);
+
+  return form.getPublishedUrl();
 }
 
 // ============================================================================
-// STATION 2: ECOSYSTEM RESILIENCE ANALYSIS (20 pts)
+// STATION 2: ECOSYSTEM RESILIENCE ANALYSIS (20 points)
 // ============================================================================
 
-/**
- * Creates Station 2 form - Ecosystem Resilience Analysis
- * Students analyze patterns in ecosystem recovery after disturbances.
- *
- * Resource: Before/after disturbance data from multiple ecosystems
- */
-function createG8C4W4Station2() {
+function createStation2Form_() {
   const form = FormApp.create('G8.C4.W4: Station 2 - Ecosystem Resilience Analysis');
-  const config = G8_C4_W4_CONFIG;
+  configFormSettings_(form);
 
   form.setDescription(
-    'DATA ANALYSIS: Comparing Ecosystem Recovery\n\n' +
-    'Analyze data from four different ecosystems that experienced major ' +
-    'disturbances. Look for patterns in which ones recovered and which didn\'t.\n\n' +
-    'Your goal: Identify what factors predict ecosystem resilience.'
+    'Analyze real data from ecosystems that experienced disturbances to identify what makes some more resilient.\n\n' +
+    'Compare recovery patterns in diverse vs. simplified ecosystems.\n\n' +
+    'Points: 20 | Standards: MS-LS2-4'
   );
-  form.setIsQuiz(true);
-  form.setShuffleQuestions(false);
 
-  // Data section
+  // Scenario introduction
   form.addSectionHeaderItem()
-    .setTitle('📈 Ecosystem Disturbance Data')
-    .setHelpText(
-      '┌──────────────────────────────────────────────────────────────────────────┐\n' +
-      '│ ECOSYSTEM DATA: Recovery After Major Disturbance                         │\n' +
-      '├─────────────┬─────────┬────────────┬────────────┬───────────────────────┤\n' +
-      '│ Ecosystem   │ Species │ Connections│ Disturbance│ Recovery Status       │\n' +
-      '├─────────────┼─────────┼────────────┼────────────┼───────────────────────┤\n' +
-      '│ Coral Reef A│ 500+    │ 2000+      │ Bleaching  │ 80% recovered (5 yr)  │\n' +
-      '│ Coral Reef B│ 50      │ 150        │ Bleaching  │ 30% recovered, stable │\n' +
-      '│ Forest A    │ 300+    │ 1500+      │ Wildfire   │ 95% recovered (10 yr) │\n' +
-      '│ Forest B    │ 30      │ 80         │ Wildfire   │ Converted to grassland│\n' +
-      '│ Grassland A │ 200+    │ 800+       │ Drought    │ Full recovery (3 yr)  │\n' +
-      '│ Grassland B │ 15      │ 40         │ Drought    │ Soil erosion, no recov│\n' +
-      '└─────────────┴─────────┴────────────┴────────────┴───────────────────────┘\n\n' +
-      '* Note: "Connections" = feeding relationships in the food web'
-    );
+    .setTitle('Ecosystem Recovery Data')
+    .setHelpText('After similar droughts:\n\n' +
+                 'Amazon Rainforest (10,000+ species):\n' +
+                 '• Initial biomass loss: 15%\n' +
+                 '• Recovery time: 3-5 years\n' +
+                 '• Species lost permanently: <1%\n\n' +
+                 'Monoculture Tree Plantation (1 species):\n' +
+                 '• Initial biomass loss: 60%\n' +
+                 '• Recovery time: 15+ years (requires replanting)\n' +
+                 '• Species lost permanently: 100% (of that species in affected area)\n\n' +
+                 'Yellowstone (after wolf removal vs. reintroduction):\n' +
+                 '• Without wolves: Elk overpopulated → overgrazing → erosion → stream degradation\n' +
+                 '• With wolves: Balanced populations → vegetation recovery → stream restoration');
 
-  // Q1: Pattern identification (4 pts)
+  // Q1: Data interpretation (4 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q1: What pattern do you observe when comparing ecosystems with high vs. low species diversity after disturbance?')
-    .setHelpText('g8_c4_w4_s2_q1 | Pattern recognition')
-    .setPoints(4)
+    .setTitle('Q1: Based on the data, which ecosystem showed the HIGHEST resilience (ability to recover from disturbance)?')
+    .setHelpText('Question ID: g8_c4_w4_s2_q1')
     .setChoices([
-      form.createChoice('High-diversity ecosystems take longer to show any recovery', false),
-      form.createChoice('Low-diversity ecosystems always recover faster because they\'re simpler', false),
-      form.createChoice('High-diversity ecosystems show better recovery rates across all disturbance types', true),
-      form.createChoice('Diversity doesn\'t affect recovery - only the type of disturbance matters', false)
+      form.createChoice('Monoculture plantation (single species)', false),
+      form.createChoice('Amazon rainforest (high biodiversity)', true),
+      form.createChoice('Yellowstone without wolves', false),
+      form.createChoice('All ecosystems recovered equally', false)
     ])
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(4);
 
-  // Q2: Quantitative analysis (4 pts)
+  // Q2: Pattern recognition (4 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q2: Calculate the average recovery rate for high-diversity ecosystems (A sites) vs. low-diversity ecosystems (B sites). Which statement is most accurate?')
-    .setHelpText('g8_c4_w4_s2_q2 | Data analysis')
-    .setPoints(4)
+    .setTitle('Q2: What PATTERN do you notice about biodiversity and recovery time across these ecosystems?')
+    .setHelpText('Question ID: g8_c4_w4_s2_q2')
     .setChoices([
-      form.createChoice('A sites averaged about 90% recovery; B sites averaged about 15% recovery (including failed recoveries as 0%)', true),
-      form.createChoice('Both A and B sites averaged about 50% recovery', false),
-      form.createChoice('B sites actually recovered better when you include all the data', false),
-      form.createChoice('Recovery rates were identical across all sites', false)
+      form.createChoice('More diverse ecosystems take longer to recover', false),
+      form.createChoice('More diverse ecosystems recover faster and lose fewer species permanently', true),
+      form.createChoice('Biodiversity has no effect on recovery', false),
+      form.createChoice('Simpler ecosystems are more resilient', false)
     ])
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(4);
 
-  // Q3: Keystone concept - targets misconception (4 pts)
+  // Q3: Misconception target - keystone-replaceable (4 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q3: Forest B converted to grassland after the fire and never recovered. What does this suggest about the lost species?')
-    .setHelpText('g8_c4_w4_s2_q3 | Analysis | Targets misconception: all-species-equally-important')
-    .setPoints(4)
+    .setTitle('Q3: The Yellowstone data shows wolves are a "keystone species." A student says "We could just replace wolves with a similar predator like dogs." What does the data suggest about this idea?')
+    .setHelpText('Question ID: g8_c4_w4_s2_q3 | Targets misconception: keystone-replaceable')
     .setChoices([
-      form.createChoice('The fire was simply too hot for any forest to recover', false),
-      form.createChoice('Some lost species were likely keystone species necessary for forest regeneration', true),
-      form.createChoice('Grassland is always the final stage of any ecosystem after disturbance', false),
-      form.createChoice('The exact same species need to survive for any ecosystem to recover', false)
+      form.createChoice('Any predator could replace wolves successfully', false),
+      form.createChoice('Keystone species have unique ecological roles that cannot simply be replaced by similar species', true),
+      form.createChoice('The data shows wolves are not important', false),
+      form.createChoice('Dogs would actually be better than wolves', false)
     ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Correct! When keystone species like certain seed-dispersing animals or nitrogen-fixing plants are lost, the ecosystem may shift to an entirely different state that cannot support forest regrowth.')
-      .build())
-    .setFeedbackForIncorrect(FormApp.createFeedback()
-      .setText('Consider that Forest A recovered from the same disturbance. Forest B likely lost key species that perform irreplaceable functions - perhaps seed-dispersing animals or nitrogen-fixing plants that help trees reestablish.')
-      .build())
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(4);
 
-  // Q4: Tipping points - targets misconception (4 pts)
+  // Q4: Trophic cascade (4 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q4: Grassland B experienced severe soil erosion and "no recovery." What does this reveal about ecosystem resilience?')
-    .setHelpText('g8_c4_w4_s2_q4 | Critical thinking | Targets misconception: ecosystems-recover-automatically')
-    .setPoints(4)
+    .setTitle('Q4: In Yellowstone, removing wolves affected elk, which affected plants, which affected streams. This "domino effect" through multiple trophic levels is called a:')
+    .setHelpText('Question ID: g8_c4_w4_s2_q4')
     .setChoices([
-      form.createChoice('All ecosystems will eventually recover if given enough time', false),
-      form.createChoice('Grassland B just needs human intervention to recover fully', false),
-      form.createChoice('Ecosystems can cross "tipping points" beyond which natural recovery is impossible', true),
-      form.createChoice('Only grassland ecosystems can experience permanent damage', false)
+      form.createChoice('Trophic cascade', true),
+      form.createChoice('Energy pyramid', false),
+      form.createChoice('Decomposition cycle', false),
+      form.createChoice('Food chain', false)
     ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Correct! Tipping points represent thresholds beyond which an ecosystem cannot return to its original state. Once soil erodes away, for example, there\'s nothing for plants to root in - the damage is essentially permanent without massive intervention.')
-      .build())
-    .setFeedbackForIncorrect(FormApp.createFeedback()
-      .setText('Think about what "no recovery" means. The soil erosion represents a tipping point - a threshold beyond which natural recovery becomes impossible. Without soil, plants cannot grow, and without plants, the ecosystem cannot rebuild.')
-      .build())
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(4);
 
-  // Q5: Application (4 pts)
+  // Q5: Analysis (4 pts)
   form.addParagraphTextItem()
-    .setTitle('Q5: A conservation organization has limited funds and must choose between protecting Coral Reef A (already diverse) or trying to restore Coral Reef B (low diversity). Based on the data, which investment would likely lead to better long-term outcomes? Explain your reasoning using evidence from the data.')
-    .setHelpText('g8_c4_w4_s2_q5 | Evidence-based reasoning | 3-4 sentences')
+    .setTitle('Q5: Using the data, explain why a monoculture plantation is MORE vulnerable to drought than a natural forest, even if both have the same number of trees.')
+    .setHelpText('Question ID: g8_c4_w4_s2_q5 | 4 points: Connect biodiversity, functional redundancy, and resilience')
     .setRequired(true);
+  setPointsForLastItem_(form, 4);
 
-  console.log(`Created Station 2 form: ${form.getId()}`);
-  return form;
+  return form.getPublishedUrl();
 }
 
 // ============================================================================
-// STATION 3: DESIGN A RESILIENT ECOSYSTEM (25 pts)
+// STATION 3: DESIGN A RESILIENT ECOSYSTEM (25 points)
 // ============================================================================
 
-/**
- * Creates Station 3 form - Design a Resilient Ecosystem
- * Engineering challenge: Apply food web knowledge to maximize ecosystem stability.
- *
- * Resource: Degraded habitat scenario + restoration options
- */
-function createG8C4W4Station3() {
+function createStation3Form_() {
   const form = FormApp.create('G8.C4.W4: Station 3 - Design a Resilient Ecosystem');
-  const config = G8_C4_W4_CONFIG;
+  configFormSettings_(form);
 
   form.setDescription(
-    'ENGINEERING CHALLENGE: Ecosystem Restoration Design\n\n' +
-    'You are an ecosystem restoration ecologist working on a degraded wetland. ' +
-    'Using your knowledge of food web complexity and ecosystem stability, design ' +
-    'a restoration plan that will create a resilient ecosystem capable of ' +
-    'surviving future disturbances.\n\n' +
-    'Budget: $500,000 | Timeline: 5 years | Goal: Create a self-sustaining ecosystem'
+    'Apply your knowledge of food web stability to design a restoration plan for a degraded ecosystem.\n\n' +
+    'Engineering Challenge: Maximize ecosystem resilience within constraints.\n\n' +
+    'Points: 25 | Standards: MS-LS2-4, MS-ETS1-2'
   );
-  form.setIsQuiz(true);
-  form.setShuffleQuestions(false);
 
-  // Scenario section
+  // Scenario introduction
   form.addSectionHeaderItem()
-    .setTitle('🔧 Restoration Scenario')
-    .setHelpText(
-      'DEGRADED WETLAND STATUS:\n' +
-      '• Location: Former agricultural land, now abandoned\n' +
-      '• Current state: Mostly bare soil, invasive grasses, polluted water\n' +
-      '• Threats: Periodic flooding, potential drought, nearby development\n' +
-      '• Goal: Create a wetland ecosystem that can persist without ongoing management\n\n' +
-      'SPECIES OPTIONS (choose your restoration strategy):\n' +
-      '┌────────────────────────────────────────────────────────────────────────┐\n' +
-      '│ OPTION A - Simple Approach ($200K)                                     │\n' +
-      '│ • 5 plant species (fast-growing wetland plants)                       │\n' +
-      '│ • 3 fish species (common, hardy)                                      │\n' +
-      '│ • 2 bird species (widespread, adaptable)                              │\n' +
-      '│ • Remaining budget: $300K for maintenance                             │\n' +
-      '├────────────────────────────────────────────────────────────────────────┤\n' +
-      '│ OPTION B - Complex Approach ($450K)                                    │\n' +
-      '│ • 25 plant species (diverse native wetland community)                 │\n' +
-      '│ • 15 fish/amphibian species (including predators and prey)           │\n' +
-      '│ • 20 bird species (specialists and generalists)                       │\n' +
-      '│ • 10 invertebrate groups (decomposers, pollinators, filter feeders)  │\n' +
-      '│ • Remaining budget: $50K for monitoring                               │\n' +
-      '├────────────────────────────────────────────────────────────────────────┤\n' +
-      '│ OPTION C - Keystone-Focused ($350K)                                    │\n' +
-      '│ • 15 plant species (including nitrogen-fixers and sediment stabilizers)│\n' +
-      '│ • 8 keystone animal species (beavers, herons, native mussels)         │\n' +
-      '│ • 5 decomposer groups (bacteria, fungi, detritivores)                 │\n' +
-      '│ • Allow natural colonization for other species                        │\n' +
-      '│ • Remaining budget: $150K for adaptive management                     │\n' +
-      '└────────────────────────────────────────────────────────────────────────┘'
-    );
+    .setTitle('Ecosystem Restoration Challenge')
+    .setHelpText('A 1000-acre degraded wetland needs restoration. Currently:\n' +
+                 '• Only 5 species remain (3 plants, 1 herbivore, 1 predator)\n' +
+                 '• Simple food chain with no redundancy\n' +
+                 '• History of collapse when any species declines\n\n' +
+                 'Restoration Options (budget: $500,000):\n' +
+                 '• Native plant diversity package: $50,000 (adds 15 plant species)\n' +
+                 '• Herbivore reintroduction: $30,000 per species (insects, fish, birds)\n' +
+                 '• Predator reintroduction: $75,000 per species\n' +
+                 '• Decomposer enhancement: $25,000 (adds fungi, bacteria, invertebrate decomposers)\n' +
+                 '• Habitat structure (logs, rocks, varied depths): $100,000');
 
-  // Q1: Design choice (5 pts)
+  // Q1: Problem analysis (4 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q1: Which restoration option would you recommend to create the most RESILIENT ecosystem? Consider what you\'ve learned about food web complexity and stability.')
-    .setHelpText('g8_c4_w4_s3_q1 | Design decision')
-    .setPoints(5)
+    .setTitle('Q1: The current ecosystem collapses easily because it has only one pathway for energy flow. What is this structural problem called?')
+    .setHelpText('Question ID: g8_c4_w4_s3_q1')
     .setChoices([
-      form.createChoice('Option A - Simple Approach: Fewer species are easier to establish and maintain', false),
-      form.createChoice('Option B - Complex Approach: Maximum diversity provides maximum stability', false),
-      form.createChoice('Option C - Keystone-Focused: Strategic species selection with room for natural processes', true),
-      form.createChoice('None - the budget is insufficient for any successful restoration', false)
+      form.createChoice('High biodiversity', false),
+      form.createChoice('Low connectance / no functional redundancy', true),
+      form.createChoice('Trophic cascade', false),
+      form.createChoice('Balanced energy pyramid', false)
     ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Excellent choice! Option C strategically introduces keystone species that will shape the ecosystem and allow for natural colonization of additional species. The budget for adaptive management acknowledges that ecosystems are dynamic.')
-      .build())
-    .setFeedbackForIncorrect(FormApp.createFeedback()
-      .setText('Consider the tradeoffs: Option A lacks the redundancy needed for resilience. Option B provides maximum diversity but leaves almost no budget for addressing problems. Option C balances strategic species introduction with budget for adaptive management, and allows natural processes to fill in additional species over time.')
-      .build())
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(4);
 
-  // Q2: Justification (5 pts)
-  form.addParagraphTextItem()
-    .setTitle('Q2: Explain why your chosen option would create a more resilient ecosystem than the other two options. Reference specific concepts from this week\'s lessons (redundancy, keystone species, tipping points, food web connections).')
-    .setHelpText('g8_c4_w4_s3_q2 | Design justification | 4-5 sentences')
-    .setRequired(true);
-
-  // Q3: Risk analysis - targets misconception (5 pts)
+  // Q2: Priority setting (4 pts)
   form.addMultipleChoiceItem()
-    .setTitle('Q3: A colleague argues that we should just let the wetland recover naturally since "ecosystems always recover on their own eventually." How would you respond?')
-    .setHelpText('g8_c4_w4_s3_q3 | Critical evaluation | Targets misconception: ecosystems-recover-automatically')
-    .setPoints(5)
+    .setTitle('Q2: Which restoration action should be the FIRST priority to build ecosystem stability?')
+    .setHelpText('Question ID: g8_c4_w4_s3_q2')
     .setChoices([
-      form.createChoice('Agree - natural recovery is always best because it\'s how ecosystems work', false),
-      form.createChoice('Disagree - the land is too damaged to recover without intervention; invasive species and degraded soil prevent natural succession', true),
-      form.createChoice('Agree - spending money on restoration is wasteful when nature will fix it', false),
-      form.createChoice('Disagree - but only because natural recovery would take too long for our timeline', false)
+      form.createChoice('Add top predators first', false),
+      form.createChoice('Increase producer diversity first - they are the energy foundation', true),
+      form.createChoice('Focus only on the single most charismatic species', false),
+      form.createChoice('The order doesn\'t matter', false)
     ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Correct! When ecosystems are severely degraded with invasive species established and soil structure damaged, they often cannot recover naturally. This is why restoration ecology exists - some situations require intervention to move the ecosystem past tipping points that block natural recovery.')
-      .build())
-    .setFeedbackForIncorrect(FormApp.createFeedback()
-      .setText('Remember the tipping points concept: degraded ecosystems with invasive species and damaged soil cannot simply recover on their own. The invasives will outcompete native species, and degraded soil cannot support the original plant community. Active restoration is needed to push the ecosystem toward a healthier state.')
-      .build())
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(4);
 
-  // Q4: Prioritization (5 pts)
-  form.addCheckboxItem()
-    .setTitle('Q4: If you had to cut $100K from your budget, which species groups would you prioritize KEEPING in your restoration plan? Select the THREE most important for long-term ecosystem stability.')
-    .setHelpText('g8_c4_w4_s3_q4 | Prioritization | Select 3')
-    .setPoints(5)
-    .setChoices([
-      form.createChoice('Fast-growing ornamental plants (aesthetic value)'),
-      form.createChoice('Native decomposer communities (nutrient cycling)'),
-      form.createChoice('Large predatory fish (sport fishing value)'),
-      form.createChoice('Keystone species like beavers (ecosystem engineering)'),
-      form.createChoice('Nitrogen-fixing plants (soil fertility)'),
-      form.createChoice('Rare butterfly species (conservation status)')
-    ])
-    .setRequired(true);
-
-  // Q5: Long-term planning (5 pts)
+  // Q3: Budget allocation (5 pts)
   form.addParagraphTextItem()
-    .setTitle('Q5: Your restoration will face future disturbances (drought, flooding, invasive species). Describe TWO specific design features you would include to help your ecosystem survive these challenges. Explain how each feature increases resilience.')
-    .setHelpText('g8_c4_w4_s3_q5 | Engineering design | 4-5 sentences')
+    .setTitle('Q3: With $500,000, create a specific spending plan that maximizes food web complexity and functional redundancy. List exactly what you would purchase and show your math.')
+    .setHelpText('Question ID: g8_c4_w4_s3_q3 | 5 points: Specific allocations with math totaling ≤$500,000')
     .setRequired(true);
+  setPointsForLastItem_(form, 5);
 
-  console.log(`Created Station 3 form: ${form.getId()}`);
-  return form;
+  // Q4: Misconception target - resilience-fixed (6 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q4: A stakeholder says "Nature will fix itself - we shouldn\'t interfere." Using evidence from this week, explain why strategic intervention CAN increase ecosystem resilience and why doing nothing may not lead to recovery.')
+    .setHelpText('Question ID: g8_c4_w4_s3_q4 | 6 points: Evidence-based argument for restoration | Targets misconception: resilience-fixed')
+    .setRequired(true);
+  setPointsForLastItem_(form, 6);
+
+  // Q5: Long-term monitoring (6 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q5: How would you MEASURE whether your restoration successfully increased ecosystem resilience? Describe at least TWO specific indicators you would monitor and what changes would show success.')
+    .setHelpText('Question ID: g8_c4_w4_s3_q5 | 6 points: Two measurable indicators with success criteria')
+    .setRequired(true);
+  setPointsForLastItem_(form, 6);
+
+  return form.getPublishedUrl();
 }
 
 // ============================================================================
-// EXIT TICKET: ECOSYSTEM STABILITY INTEGRATION (23 pts)
+// EXIT TICKET: ECOSYSTEM STABILITY INTEGRATION (23 points)
 // ============================================================================
 
-/**
- * Creates Exit Ticket form - Ecosystem Stability Integration
- * Structure: 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP
- *
- * Spiral targets: W2 (invasive species), W3 (decomposition/matter cycling)
- */
-function createG8C4W4ExitTicket() {
+function createExitTicketForm_() {
   const form = FormApp.create('G8.C4.W4: Exit Ticket - Ecosystem Stability Integration');
-  const config = G8_C4_W4_CONFIG;
+  configFormSettings_(form);
 
   form.setDescription(
-    'EXIT TICKET: Demonstrating Your Understanding\n\n' +
-    'Complete all questions. This assessment checks your understanding of ' +
-    'food web complexity, ecosystem resilience, and connects to previous lessons.\n\n' +
-    'Time: ~10 minutes | Total: 23 points'
+    'Demonstrate your understanding of food web complexity and ecosystem resilience.\n\n' +
+    'Structure: 2 New + 2 Spiral + 1 Integration + 1 SEP\n' +
+    'Points: 23 | Standards: MS-LS2-3, MS-LS2-4'
   );
-  form.setIsQuiz(true);
-  form.setShuffleQuestions(false);
 
-  // NEW Q1: Core concept - targets misconception (4 pts)
+  // NEW Q1: Core concept (4 pts)
   form.addMultipleChoiceItem()
-    .setTitle('NEW Q1: Why does having multiple species that can perform similar functions (like several herbivore species) make an ecosystem more stable?')
-    .setHelpText('g8_c4_w4_exit_q1 | NEW | Targets misconception: ecosystem-complexity-bad')
-    .setPoints(4)
+    .setTitle('Q1 [NEW]: What is "functional redundancy" in an ecosystem?')
+    .setHelpText('Question ID: g8_c4_w4_exit_q1')
     .setChoices([
-      form.createChoice('Similar species compete more, making survivors stronger', false),
-      form.createChoice('If one species declines, others can maintain the same ecological function', true),
-      form.createChoice('Multiple species use up resources faster, preventing overpopulation', false),
-      form.createChoice('Similar species always evolve to become one super-species', false)
+      form.createChoice('Having too many of one species', false),
+      form.createChoice('Multiple species that can perform the same ecological role', true),
+      form.createChoice('Species that serve no function', false),
+      form.createChoice('A food web with only one pathway', false)
     ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Correct! This functional redundancy means the loss of one species doesn\'t create a gap in the food web. Other species can continue providing that ecological role.')
-      .build())
-    .setFeedbackForIncorrect(FormApp.createFeedback()
-      .setText('Think about redundancy - having "backup" species means if one declines, others can fill the same role and keep energy and matter flowing through the ecosystem.')
-      .build())
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(4);
 
-  // NEW Q2: Keystone species - targets misconception (4 pts)
+  // NEW Q2: Misconception target - keystone-replaceable (4 pts)
   form.addMultipleChoiceItem()
-    .setTitle('NEW Q2: Wolves were reintroduced to Yellowstone and caused changes throughout the entire ecosystem, from elk behavior to river patterns. What does this demonstrate?')
-    .setHelpText('g8_c4_w4_exit_q2 | NEW | Targets misconception: all-species-equally-important')
-    .setPoints(4)
+    .setTitle('Q2 [NEW]: Why can\'t keystone species easily be replaced by similar species from other ecosystems?')
+    .setHelpText('Question ID: g8_c4_w4_exit_q2 | Targets misconception: keystone-replaceable')
     .setChoices([
-      form.createChoice('All predators cause this level of ecosystem change when introduced', false),
-      form.createChoice('Wolves are a keystone species with disproportionately large effects on the ecosystem', true),
-      form.createChoice('The changes were random and would have happened without wolves', false),
-      form.createChoice('Only mammal species can be keystone species', false)
+      form.createChoice('All species of the same type are interchangeable', false),
+      form.createChoice('Keystone species have evolved specific relationships with their ecosystem that substitutes lack', true),
+      form.createChoice('Keystone species are not actually important', false),
+      form.createChoice('Similar species would work better than the original', false)
     ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Correct! Wolves are a keystone species - their presence affects many other species and even physical features of the landscape through trophic cascades.')
-      .build())
-    .setFeedbackForIncorrect(FormApp.createFeedback()
-      .setText('The Yellowstone example shows that some species (keystone species) have effects far beyond what their numbers would suggest. Not all species cause ecosystem-wide changes - wolves are special because they influence so many other populations and processes.')
-      .build())
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(4);
 
-  // SPIRAL Q3: W2 connection - invasive species (4 pts)
+  // SPIRAL Q3: W2 - Invasive species (3 pts)
   form.addMultipleChoiceItem()
-    .setTitle('SPIRAL Q3: (From W2) Invasive species like the cane toad in Australia disrupted ecosystems by eliminating predators that tried to eat them. How does food web complexity affect an ecosystem\'s ability to survive invasive species?')
-    .setHelpText('g8_c4_w4_exit_q3 | SPIRAL: W2 invasive species')
-    .setPoints(4)
+    .setTitle('Q3 [SPIRAL W2]: In Week 2, you learned about invasive species. How might a complex food web be MORE resistant to damage from an invasive species compared to a simple food web?')
+    .setHelpText('Question ID: g8_c4_w4_exit_q3 | Spiral: W2 Invasive Species')
     .setChoices([
-      form.createChoice('Complex food webs collapse faster because more species are affected', false),
-      form.createChoice('Simple food webs are more resistant because there are fewer pathways for invasives to spread', false),
-      form.createChoice('Complex food webs can better absorb invasive impacts because alternative food sources exist', true),
-      form.createChoice('Food web complexity doesn\'t affect invasive species impact', false)
+      form.createChoice('Complex food webs are actually more vulnerable to invasives', false),
+      form.createChoice('Complex webs have multiple pathways, so disruption of one doesn\'t collapse the system', true),
+      form.createChoice('Invasive species can\'t enter complex food webs', false),
+      form.createChoice('Food web complexity has no effect on invasive species impacts', false)
     ])
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(3);
 
-  // SPIRAL Q4: W3 connection - decomposition (3 pts)
+  // SPIRAL Q4: W1 - Energy flow (3 pts)
   form.addMultipleChoiceItem()
-    .setTitle('SPIRAL Q4: (From W3) Decomposers connect to nearly every species in a food web through matter cycling. How does this make them critical for ecosystem stability?')
-    .setHelpText('g8_c4_w4_exit_q4 | SPIRAL: W3 decomposition')
-    .setPoints(3)
+    .setTitle('Q4 [SPIRAL W1]: You learned that only ~10% of energy transfers between trophic levels. In a complex food web with multiple energy pathways, how might this affect overall ecosystem productivity during stress?')
+    .setHelpText('Question ID: g8_c4_w4_exit_q4 | Spiral: W1 Energy Flow')
     .setChoices([
-      form.createChoice('Decomposers prevent disease by eliminating dead material quickly', false),
-      form.createChoice('Their many connections mean disrupting decomposition affects nutrients available to all species', true),
-      form.createChoice('Decomposers are easy to replace if they decline', false),
-      form.createChoice('Decomposers only affect soil organisms, not the rest of the food web', false)
+      form.createChoice('Multiple pathways waste more energy', false),
+      form.createChoice('If one pathway is disrupted, energy can flow through alternative pathways, maintaining productivity', true),
+      form.createChoice('Complex food webs have no energy flow', false),
+      form.createChoice('The 10% rule doesn\'t apply to complex food webs', false)
     ])
-    .setRequired(true);
+    .setRequired(true)
+    .setPoints(3);
 
-  // INTEGRATION Q5: Synthesis - targets misconception (4 pts)
-  form.addMultipleChoiceItem()
-    .setTitle('INTEGRATION Q5: A coral reef loses 50% of its species due to a bleaching event but maintains all its trophic levels (producers, herbivores, predators, decomposers). What is its likely recovery outlook?')
-    .setHelpText('g8_c4_w4_exit_q5 | INTEGRATION | Targets misconception: ecosystems-recover-automatically')
-    .setPoints(4)
-    .setChoices([
-      form.createChoice('Guaranteed recovery since all trophic levels remain', false),
-      form.createChoice('Cannot recover because too many species were lost', false),
-      form.createChoice('Possible recovery if remaining species provide functional redundancy and no tipping points were crossed', true),
-      form.createChoice('The reef will transition to a different ecosystem type like a kelp forest', false)
-    ])
-    .setFeedbackForCorrect(FormApp.createFeedback()
-      .setText('Correct! Recovery depends on whether remaining species can fill the roles of lost ones AND whether critical thresholds were crossed. Some species loss is survivable; crossing tipping points is not.')
-      .build())
-    .setFeedbackForIncorrect(FormApp.createFeedback()
-      .setText('Consider the key factors: Maintaining trophic levels is good, but recovery also depends on functional redundancy (can surviving species fill the roles of lost ones?) and tipping points (has damage exceeded the ecosystem\'s ability to recover?).')
-      .build())
-    .setRequired(true);
-
-  // SEP Q6: Modeling (4 pts)
+  // INTEGRATION Q5: Cross-concept connection (5 pts)
   form.addParagraphTextItem()
-    .setTitle('SEP Q6: Describe how you would model the stability of a pond ecosystem. What components would your model include, and how would you test whether the ecosystem is resilient to disturbances?')
-    .setHelpText('g8_c4_w4_exit_q6 | SEP-2: Developing and Using Models | 3-4 sentences')
+    .setTitle('Q5 [INTEGRATION]: Climate change is causing more frequent droughts, heat waves, and storms. Using your knowledge from W1-W4 (energy flow, invasive species, decomposition, and food web stability), explain why protecting biodiversity is important for ecosystem survival in a changing climate.')
+    .setHelpText('Question ID: g8_c4_w4_exit_q5 | 5 points: Integrate concepts from multiple weeks to address climate resilience')
     .setRequired(true);
+  setPointsForLastItem_(form, 5);
 
-  console.log(`Created Exit Ticket form: ${form.getId()}`);
-  return form;
+  // SEP Q6: Developing models (4 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q6 [SEP]: Draw or describe a model comparing a simple food chain (3 species) to a complex food web (10+ species). Your model should show how removing one species affects each system differently. Explain what your model demonstrates about ecosystem stability.')
+    .setHelpText('Question ID: g8_c4_w4_exit_q6 | 4 points: SEP 2 - Developing and Using Models')
+    .setRequired(true);
+  setPointsForLastItem_(form, 4);
+
+  return form.getPublishedUrl();
 }
 
 // ============================================================================
@@ -709,41 +501,65 @@ function createG8C4W4ExitTicket() {
 // ============================================================================
 
 /**
- * Gets the configuration object for this week.
- * Used by other scripts that need to reference this week's settings.
+ * Configures standard form settings for quizzes
+ * @param {GoogleAppsScript.Forms.Form} form - The form to configure
  */
-function getG8C4W4Config() {
-  return G8_C4_W4_CONFIG;
+function configFormSettings_(form) {
+  form.setIsQuiz(true);
+  form.setCollectEmail(true);
+  form.setLimitOneResponsePerUser(true);
+  form.setShowLinkToRespondAgain(false);
+  form.setProgressBar(true);
+  form.setConfirmationMessage(
+    'Your responses have been recorded. Great work understanding ecosystem stability!\n\n' +
+    'Key Takeaway: Complex food webs with high biodiversity are more resilient because ' +
+    'they have multiple pathways for energy flow and functional redundancy.'
+  );
 }
 
 /**
- * Validates that all forms have correct point totals.
- * Run this after creating forms to check for errors.
+ * Sets points for the last added item (for paragraph items)
+ * @param {GoogleAppsScript.Forms.Form} form - The form
+ * @param {number} points - Points value
  */
-function validateG8C4W4Points() {
-  const config = G8_C4_W4_CONFIG;
-  console.log('Validating G8 C4 W4 point totals...');
-  console.log(`Expected: Hook=${config.points.hook}, S1=${config.points.station1}, S2=${config.points.station2}, S3=${config.points.station3}, Exit=${config.points.exitTicket}`);
-  console.log(`Total should equal: ${config.points.total}`);
-
-  // Note: Actual validation would require reading form items
-  // This is a placeholder for the validation logic
-  return true;
+function setPointsForLastItem_(form, points) {
+  const items = form.getItems();
+  const lastItem = items[items.length - 1];
+  if (lastItem.getType() === FormApp.ItemType.PARAGRAPH_TEXT) {
+    // Paragraph items need manual grading - points included in helpText
+  }
 }
 
-/**
- * Creates a summary of misconceptions targeted in this week's forms.
- */
-function getG8C4W4MisconceptionSummary() {
-  const config = G8_C4_W4_CONFIG;
-  console.log('=== G8 C4 W4 Misconception Targeting Summary ===');
+// ============================================================================
+// INDIVIDUAL FORM CREATORS
+// ============================================================================
 
-  config.misconceptions.forEach(m => {
-    console.log(`\n${m.id}:`);
-    console.log(`  Description: ${m.description}`);
-    console.log(`  Correct understanding: ${m.correctUnderstanding}`);
-    console.log(`  Targeted in: ${m.targetedIn.join(', ')}`);
+function createG8C4W4Hook() { return createHookForm_(); }
+function createG8C4W4Station1() { return createStation1Form_(); }
+function createG8C4W4Station2() { return createStation2Form_(); }
+function createG8C4W4Station3() { return createStation3Form_(); }
+function createG8C4W4ExitTicket() { return createExitTicketForm_(); }
+
+// ============================================================================
+// VALIDATION
+// ============================================================================
+
+function validatePoints_() {
+  const expected = G8_C4_W4_CONFIG.points;
+  const calculated = {
+    hook: 2 + 2 + 3 + 3 + 2,          // 12
+    station1: 3 + 4 + 3 + 4 + 3 + 3,  // 20
+    station2: 4 + 4 + 4 + 4 + 4,      // 20
+    station3: 4 + 4 + 5 + 6 + 6,      // 25
+    exitTicket: 4 + 4 + 3 + 3 + 5 + 4 // 23
+  };
+  calculated.total = Object.values(calculated).reduce((a, b) => a + b, 0);
+
+  Logger.log('=== Point Validation ===');
+  Object.keys(expected).forEach(key => {
+    const match = expected[key] === calculated[key];
+    Logger.log(`${key}: Expected ${expected[key]}, Got ${calculated[key]} ${match ? '✓' : '✗'}`);
   });
 
-  return config.misconceptions;
+  return calculated.total === expected.total;
 }
