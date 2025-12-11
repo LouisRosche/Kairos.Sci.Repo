@@ -21,9 +21,9 @@
       "phenomenon": {
         "week1": "Why is the ocean becoming more acidic?",
         "week2": "What happens when nutrients run off into waterways?",
-        "week3": "TBD - Requires curriculum development",
-        "week4": "TBD - Requires curriculum development",
-        "week5": "TBD - Requires curriculum development",
+        "week3": "Where does all the carbon go when forests are cut down?",
+        "week4": "Why does corn need fertilizer but prairie grass doesn't?",
+        "week5": "How can satellites tell us if an ecosystem is healthy?",
         "week6": "Synthesis & Assessment"
       },
       "ngss": {
@@ -165,57 +165,146 @@
           "responseSheetIds": {}
         },
         "3": {
-          "title": "Synthesis & Assessment",
-          "status": "complete",
-          "isAssessmentWeek": true,
+          "title": "Carbon Cycle & Sequestration",
+          "status": "not_started",
+          "_note": "CALENDAR ALIGNMENT: Previously assessment week, now instructional. Assessment moved to W6.",
           "files": {
             "forms": "content/grade7/cycle04/week3/forms.gs",
             "studentPage": "content/grade7/cycle04/week3/student-page.html",
             "lessonPlan": "content/grade7/cycle04/week3/lesson-plan.md"
           },
-          "assessmentParts": {
-            "part1": {
-              "title": "Synthesis Review",
-              "points": 20,
-              "time": "15 min",
-              "focus": "Connect W1 ocean acidification + W2 eutrophication"
+          "stations": {
+            "hook": {
+              "title": "The Disappearing Carbon Mystery",
+              "points": 12,
+              "resource": "Deforestation before/after images + carbon data",
+              "questions": 5,
+              "focus": "Where does carbon go when forests are cut down?"
             },
-            "part2": {
-              "title": "Cumulative Assessment",
-              "points": 60,
-              "time": "40 min",
-              "sections": ["A: Ocean Chemistry", "B: Eutrophication", "C: Data Analysis", "D: Engineering Design"]
-            },
-            "part3": {
-              "title": "Misconception Check",
+            "station1": {
+              "title": "Carbon Cycle Investigation",
               "points": 20,
-              "time": "20 min",
-              "targets": ["ocean-acid-co2-only", "nutrients-always-good"]
+              "resource": "Interactive carbon cycle simulation",
+              "questions": 6,
+              "focus": "Trace carbon through atmosphere, biosphere, lithosphere",
+              "spiralTarget": "Ocean acidification from W1"
+            },
+            "station2": {
+              "title": "Carbon Sequestration Analysis",
+              "points": 20,
+              "resource": "Data on forests, oceans, and soil as carbon sinks",
+              "questions": 5,
+              "focus": "Compare natural carbon storage mechanisms"
+            },
+            "station3": {
+              "title": "Design a Carbon Reduction Strategy",
+              "points": 25,
+              "resource": "Community scenario + carbon budget constraints",
+              "questions": 5,
+              "focus": "Apply carbon cycle knowledge to reduce atmospheric CO2"
+            },
+            "exitTicket": {
+              "title": "Carbon Cycle Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
             }
           },
           "formIds": {},
           "responseSheetIds": {}
         },
         "4": {
-          "title": "TBD - Requires Curriculum Development",
+          "title": "Nitrogen Cycle & Agriculture",
           "status": "not_started",
-          "_note": "CALENDAR ALIGNMENT: This week was previously unlisted. Content needs development.",
           "files": {
             "forms": "content/grade7/cycle04/week4/forms.gs",
             "studentPage": "content/grade7/cycle04/week4/student-page.html",
             "lessonPlan": "content/grade7/cycle04/week4/lesson-plan.md"
           },
+          "stations": {
+            "hook": {
+              "title": "The Fertilizer Mystery",
+              "points": 12,
+              "resource": "Prairie vs. farm field comparison data",
+              "questions": 5,
+              "focus": "Why do some plants need fertilizer and others don't?"
+            },
+            "station1": {
+              "title": "Nitrogen Cycle Investigation",
+              "points": 20,
+              "resource": "Interactive nitrogen cycle diagram + simulation",
+              "questions": 6,
+              "focus": "Trace nitrogen through atmosphere, soil, plants, and back",
+              "spiralTarget": "Carbon cycle from W3"
+            },
+            "station2": {
+              "title": "Agricultural Impact Analysis",
+              "points": 20,
+              "resource": "Fertilizer runoff data sets + watershed maps",
+              "questions": 5,
+              "focus": "Analyze data on nitrogen pollution from farming"
+            },
+            "station3": {
+              "title": "Design a Sustainable Farm",
+              "points": 25,
+              "resource": "Farm scenario + nitrogen management options",
+              "questions": 5,
+              "focus": "Apply nitrogen cycle knowledge to reduce environmental impact"
+            },
+            "exitTicket": {
+              "title": "Nitrogen Cycle Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
           "formIds": {},
           "responseSheetIds": {}
         },
         "5": {
-          "title": "TBD - Requires Curriculum Development",
+          "title": "Environmental Monitoring & Solutions",
           "status": "not_started",
-          "_note": "CALENDAR ALIGNMENT: This week was previously unlisted. Content needs development.",
           "files": {
             "forms": "content/grade7/cycle04/week5/forms.gs",
             "studentPage": "content/grade7/cycle04/week5/student-page.html",
             "lessonPlan": "content/grade7/cycle04/week5/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Satellite View Mystery",
+              "points": 12,
+              "resource": "NASA satellite imagery of ecosystem health",
+              "questions": 5,
+              "focus": "How can we monitor Earth from space?"
+            },
+            "station1": {
+              "title": "Remote Sensing Investigation",
+              "points": 20,
+              "resource": "NDVI data interpretation + color analysis",
+              "questions": 6,
+              "focus": "Analyze satellite data to detect ecosystem changes",
+              "spiralTarget": "Nitrogen and carbon cycles from W3-W4"
+            },
+            "station2": {
+              "title": "Monitoring Technology Analysis",
+              "points": 20,
+              "resource": "Sensor comparison data + cost-benefit analysis",
+              "questions": 5,
+              "focus": "Compare different environmental monitoring methods"
+            },
+            "station3": {
+              "title": "Design a Monitoring System",
+              "points": 25,
+              "resource": "Ecosystem scenario + monitoring tool options",
+              "questions": 5,
+              "focus": "Design a system to detect and respond to environmental changes"
+            },
+            "exitTicket": {
+              "title": "Monitoring & Solutions Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
           },
           "formIds": {},
           "responseSheetIds": {}
@@ -224,11 +313,30 @@
           "title": "Synthesis & Assessment",
           "status": "not_started",
           "isAssessmentWeek": true,
-          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 6.",
           "files": {
             "forms": "content/grade7/cycle04/week6/forms.gs",
             "studentPage": "content/grade7/cycle04/week6/student-page.html",
             "lessonPlan": "content/grade7/cycle04/week6/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect all biogeochemical cycles and human impacts"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Carbon Cycle", "B: Nitrogen Cycle", "C: Human Impact", "D: Monitoring Solutions"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["ocean-acid-co2-only", "nutrients-always-good", "cycles-independent"]
+            }
           },
           "formIds": {},
           "responseSheetIds": {}
@@ -246,9 +354,9 @@
       "phenomenon": {
         "week1": "Why are there more plants than animals in most ecosystems?",
         "week2": "How do invasive species disrupt energy flow?",
-        "week3": "TBD - Requires curriculum development",
-        "week4": "TBD - Requires curriculum development",
-        "week5": "TBD - Requires curriculum development",
+        "week3": "Why don't dead leaves pile up forever in forests?",
+        "week4": "Why can some ecosystems survive a drought but others collapse?",
+        "week5": "How much would it cost to replace bees with robots?",
         "week6": "Synthesis & Assessment"
       },
       "ngss": {
@@ -389,57 +497,146 @@
           "responseSheetIds": {}
         },
         "3": {
-          "title": "Synthesis & Assessment",
-          "status": "complete",
-          "isAssessmentWeek": true,
+          "title": "Matter Cycling & Decomposition",
+          "status": "not_started",
+          "_note": "CALENDAR ALIGNMENT: Previously assessment week, now instructional. Assessment moved to W6.",
           "files": {
             "forms": "content/grade8/cycle04/week3/forms.gs",
             "studentPage": "content/grade8/cycle04/week3/student-page.html",
             "lessonPlan": "content/grade8/cycle04/week3/lesson-plan.md"
           },
-          "assessmentParts": {
-            "part1": {
-              "title": "Synthesis Review",
-              "points": 20,
-              "time": "15 min",
-              "focus": "Connect W1 energy flow + W2 ecosystem disruption"
+          "stations": {
+            "hook": {
+              "title": "The Disappearing Leaves Mystery",
+              "points": 12,
+              "resource": "Forest floor timelapse + decomposition data",
+              "questions": 5,
+              "focus": "Why don't leaves pile up forever?"
             },
-            "part2": {
-              "title": "Cumulative Assessment",
-              "points": 60,
-              "time": "40 min",
-              "sections": ["A: Energy Pyramids", "B: Ecosystem Disruption", "C: Data Analysis", "D: Engineering Design"]
-            },
-            "part3": {
-              "title": "Misconception Check",
+            "station1": {
+              "title": "Decomposition Investigation",
               "points": 20,
-              "time": "20 min",
-              "targets": ["energy-recycled", "pyramid-stability"]
+              "resource": "Matter cycling simulation + decomposer role cards",
+              "questions": 6,
+              "focus": "Model how decomposers return nutrients to ecosystems",
+              "spiralTarget": "Energy flow from W1"
+            },
+            "station2": {
+              "title": "Nutrient Cycle Analysis",
+              "points": 20,
+              "resource": "Carbon and nitrogen cycling data in ecosystems",
+              "questions": 5,
+              "focus": "Track matter through living and nonliving components"
+            },
+            "station3": {
+              "title": "Design a Composting System",
+              "points": 25,
+              "resource": "Composting scenario + optimization variables",
+              "questions": 5,
+              "focus": "Apply decomposition knowledge to waste management"
+            },
+            "exitTicket": {
+              "title": "Matter Cycling Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
             }
           },
           "formIds": {},
           "responseSheetIds": {}
         },
         "4": {
-          "title": "TBD - Requires Curriculum Development",
+          "title": "Food Web Complexity & Stability",
           "status": "not_started",
-          "_note": "CALENDAR ALIGNMENT: This week was previously unlisted. Content needs development.",
           "files": {
             "forms": "content/grade8/cycle04/week4/forms.gs",
             "studentPage": "content/grade8/cycle04/week4/student-page.html",
             "lessonPlan": "content/grade8/cycle04/week4/lesson-plan.md"
           },
+          "stations": {
+            "hook": {
+              "title": "The Resilient Reef Mystery",
+              "points": 12,
+              "resource": "Drought impact comparison: diverse vs. simple ecosystems",
+              "questions": 5,
+              "focus": "Why do some ecosystems survive disturbances better?"
+            },
+            "station1": {
+              "title": "Food Web Complexity Investigation",
+              "points": 20,
+              "resource": "Food web simulation with varying connections",
+              "questions": 6,
+              "focus": "Model how biodiversity affects energy flow stability",
+              "spiralTarget": "Decomposition and matter cycling from W3"
+            },
+            "station2": {
+              "title": "Ecosystem Resilience Analysis",
+              "points": 20,
+              "resource": "Before/after disturbance data from multiple ecosystems",
+              "questions": 5,
+              "focus": "Analyze patterns in ecosystem recovery"
+            },
+            "station3": {
+              "title": "Design a Resilient Ecosystem",
+              "points": 25,
+              "resource": "Degraded habitat scenario + restoration options",
+              "questions": 5,
+              "focus": "Apply food web knowledge to maximize ecosystem stability"
+            },
+            "exitTicket": {
+              "title": "Ecosystem Stability Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
+          },
           "formIds": {},
           "responseSheetIds": {}
         },
         "5": {
-          "title": "TBD - Requires Curriculum Development",
+          "title": "Ecosystem Services & Human Dependence",
           "status": "not_started",
-          "_note": "CALENDAR ALIGNMENT: This week was previously unlisted. Content needs development.",
           "files": {
             "forms": "content/grade8/cycle04/week5/forms.gs",
             "studentPage": "content/grade8/cycle04/week5/student-page.html",
             "lessonPlan": "content/grade8/cycle04/week5/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Robot Bee Mystery",
+              "points": 12,
+              "resource": "Pollination economics + robot bee concept video",
+              "questions": 5,
+              "focus": "How much would it cost to replace natural pollinators?"
+            },
+            "station1": {
+              "title": "Ecosystem Services Investigation",
+              "points": 20,
+              "resource": "Ecosystem services valuation data + categories",
+              "questions": 6,
+              "focus": "Identify and categorize ecosystem services",
+              "spiralTarget": "Food web complexity from W4"
+            },
+            "station2": {
+              "title": "Economic Value Analysis",
+              "points": 20,
+              "resource": "Cost-benefit data for natural vs. technological solutions",
+              "questions": 5,
+              "focus": "Calculate economic value of ecosystem services"
+            },
+            "station3": {
+              "title": "Design a Conservation Plan",
+              "points": 25,
+              "resource": "Community scenario + ecosystem service priorities",
+              "questions": 5,
+              "focus": "Apply ecosystem services knowledge to land use decisions"
+            },
+            "exitTicket": {
+              "title": "Ecosystem Services Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
           },
           "formIds": {},
           "responseSheetIds": {}
@@ -448,11 +645,30 @@
           "title": "Synthesis & Assessment",
           "status": "not_started",
           "isAssessmentWeek": true,
-          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 6.",
           "files": {
             "forms": "content/grade8/cycle04/week6/forms.gs",
             "studentPage": "content/grade8/cycle04/week6/student-page.html",
             "lessonPlan": "content/grade8/cycle04/week6/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect energy flow, matter cycling, and ecosystem services"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Energy Flow", "B: Matter Cycling", "C: Ecosystem Stability", "D: Ecosystem Services"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["energy-recycled", "pyramid-stability", "matter-disappears"]
+            }
           },
           "formIds": {},
           "responseSheetIds": {}

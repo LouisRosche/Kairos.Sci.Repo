@@ -20,8 +20,8 @@
       "phenomenon": {
         "week1": "Why do earthquakes happen in the same places over and over?",
         "week2": "How can mountains exist on the ocean floor?",
-        "week3": "TBD - Requires curriculum development",
-        "week4": "TBD - Requires curriculum development",
+        "week3": "Why do some volcanoes explode violently while others ooze slowly?",
+        "week4": "How do we know what's inside Earth if no one has ever been there?",
         "week5": "Synthesis & Assessment"
       },
       "ngss": {
@@ -170,45 +170,99 @@
           "responseSheetIds": {}
         },
         "3": {
-          "title": "Synthesis & Assessment",
+          "title": "Volcanic Eruption Styles & Magma Properties",
           "status": "not_started",
-          "isAssessmentWeek": true,
+          "_note": "CALENDAR ALIGNMENT: Previously assessment week, now instructional. Assessment moved to W5.",
           "files": {
             "forms": "content/grade7/cycle06/week3/forms.gs",
             "studentPage": "content/grade7/cycle06/week3/student-page.html",
             "lessonPlan": "content/grade7/cycle06/week3/lesson-plan.md"
           },
-          "assessmentParts": {
-            "part1": {
-              "title": "Synthesis Review",
-              "points": 20,
-              "time": "15 min",
-              "focus": "Connect W1 plate boundaries + W2 evidence for movement"
+          "stations": {
+            "hook": {
+              "title": "The Explosive vs Oozing Mystery",
+              "points": 12,
+              "resource": "Comparison videos: Mt. St. Helens vs Hawaiian volcanoes",
+              "questions": 5,
+              "focus": "Why do some volcanoes explode violently while others ooze slowly?"
             },
-            "part2": {
-              "title": "Cumulative Assessment",
-              "points": 60,
-              "time": "40 min",
-              "sections": ["A: Plate Boundaries", "B: Seafloor Evidence", "C: Continental Drift", "D: System Explanations"]
-            },
-            "part3": {
-              "title": "Misconception Check",
+            "station1": {
+              "title": "Magma Viscosity Investigation",
               "points": 20,
-              "time": "20 min",
-              "targets": ["plates-float-magma", "continents-move-fast", "earthquakes-random"]
+              "resource": "Viscosity simulation + composition data",
+              "questions": 6,
+              "focus": "Connect silica content to magma flow and eruption style",
+              "spiralTarget": "Plate boundaries from W1"
+            },
+            "station2": {
+              "title": "Eruption Type Analysis",
+              "points": 20,
+              "resource": "Volcanic eruption case studies + hazard maps",
+              "questions": 5,
+              "focus": "Compare explosive vs effusive eruptions and predict hazards"
+            },
+            "station3": {
+              "title": "Design a Volcano Monitoring System",
+              "points": 25,
+              "resource": "Monitoring tools + volcano scenario + risk constraints",
+              "questions": 5,
+              "focus": "Apply eruption knowledge to hazard mitigation"
+            },
+            "exitTicket": {
+              "title": "Volcanic Systems Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
             }
           },
           "formIds": {},
           "responseSheetIds": {}
         },
         "4": {
-          "title": "TBD - Requires Curriculum Development",
+          "title": "Earth's Interior Structure & Evidence",
           "status": "not_started",
           "_note": "CALENDAR ALIGNMENT: This week was previously unlisted. Content needs development.",
           "files": {
             "forms": "content/grade7/cycle06/week4/forms.gs",
             "studentPage": "content/grade7/cycle06/week4/student-page.html",
             "lessonPlan": "content/grade7/cycle06/week4/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Unreachable Mystery",
+              "points": 12,
+              "resource": "Deepest hole drilled vs Earth's radius comparison + core diagram",
+              "questions": 5,
+              "focus": "How do we know what's inside Earth if no one has ever been there?"
+            },
+            "station1": {
+              "title": "Seismic Wave Investigation",
+              "points": 20,
+              "resource": "Seismic wave simulation + wave travel time data",
+              "questions": 6,
+              "focus": "Interpret P-wave and S-wave behavior through layers",
+              "spiralTarget": "Volcanic magma properties from W3"
+            },
+            "station2": {
+              "title": "Earth's Layers Analysis",
+              "points": 20,
+              "resource": "Density data + temperature gradient + layer diagrams",
+              "questions": 5,
+              "focus": "Construct evidence-based model of Earth's interior"
+            },
+            "station3": {
+              "title": "Design an Earth Model",
+              "points": 25,
+              "resource": "Seismic data + constraints + layer properties",
+              "questions": 5,
+              "focus": "Apply indirect evidence to construct Earth's structure"
+            },
+            "exitTicket": {
+              "title": "Earth's Interior Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
           },
           "formIds": {},
           "responseSheetIds": {}
@@ -222,6 +276,26 @@
             "forms": "content/grade7/cycle06/week5/forms.gs",
             "studentPage": "content/grade7/cycle06/week5/student-page.html",
             "lessonPlan": "content/grade7/cycle06/week5/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect all plate tectonics concepts and Earth's interior structure"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Plate Boundaries", "B: Seafloor Evidence", "C: Volcanic Systems", "D: Earth's Interior"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["plates-float-magma", "continents-move-fast", "earthquakes-random"]
+            }
           },
           "formIds": {},
           "responseSheetIds": {}
@@ -239,8 +313,8 @@
       "phenomenon": {
         "week1": "Why do some magnets attract through tables while others don't?",
         "week2": "How can spinning a magnet create electricity?",
-        "week3": "TBD - Requires curriculum development",
-        "week4": "TBD - Requires curriculum development",
+        "week3": "Why do the lights dim when you turn on a hairdryer?",
+        "week4": "How can a tiny electric motor lift a car?",
         "week5": "Synthesis & Assessment"
       },
       "ngss": {
@@ -389,45 +463,99 @@
           "responseSheetIds": {}
         },
         "3": {
-          "title": "Synthesis & Assessment",
+          "title": "Electric Circuits & Power",
           "status": "not_started",
-          "isAssessmentWeek": true,
+          "_note": "CALENDAR ALIGNMENT: Previously assessment week, now instructional. Assessment moved to W5.",
           "files": {
             "forms": "content/grade8/cycle06/week3/forms.gs",
             "studentPage": "content/grade8/cycle06/week3/student-page.html",
             "lessonPlan": "content/grade8/cycle06/week3/lesson-plan.md"
           },
-          "assessmentParts": {
-            "part1": {
-              "title": "Synthesis Review",
-              "points": 20,
-              "time": "15 min",
-              "focus": "Connect W1 magnetic forces + W2 electromagnetism"
+          "stations": {
+            "hook": {
+              "title": "The Dimming Lights Mystery",
+              "points": 12,
+              "resource": "Circuit demonstration + voltage meter readings",
+              "questions": 5,
+              "focus": "Why do the lights dim when you turn on a hairdryer?"
             },
-            "part2": {
-              "title": "Cumulative Assessment",
-              "points": 60,
-              "time": "40 min",
-              "sections": ["A: Magnetic Fields", "B: Force Relationships", "C: Electromagnetism", "D: Energy Transfer"]
-            },
-            "part3": {
-              "title": "Misconception Check",
+            "station1": {
+              "title": "Ohm's Law Investigation",
               "points": 20,
-              "time": "20 min",
-              "targets": ["magnets-unlimited", "electricity-consumed", "em-unrelated"]
+              "resource": "Circuit simulation + voltage/current/resistance data",
+              "questions": 6,
+              "focus": "Explore relationships between voltage, current, and resistance",
+              "spiralTarget": "Electromagnet construction from W2"
+            },
+            "station2": {
+              "title": "Power & Energy Analysis",
+              "points": 20,
+              "resource": "Appliance power ratings + circuit load calculations",
+              "questions": 5,
+              "focus": "Calculate power consumption and circuit capacity"
+            },
+            "station3": {
+              "title": "Design a Safe Circuit",
+              "points": 25,
+              "resource": "Circuit constraints + safety requirements + load options",
+              "questions": 5,
+              "focus": "Apply circuit principles to prevent overload"
+            },
+            "exitTicket": {
+              "title": "Circuit Systems Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
             }
           },
           "formIds": {},
           "responseSheetIds": {}
         },
         "4": {
-          "title": "TBD - Requires Curriculum Development",
+          "title": "Electric Motors & Mechanical Advantage",
           "status": "not_started",
           "_note": "CALENDAR ALIGNMENT: This week was previously unlisted. Content needs development.",
           "files": {
             "forms": "content/grade8/cycle06/week4/forms.gs",
             "studentPage": "content/grade8/cycle06/week4/student-page.html",
             "lessonPlan": "content/grade8/cycle06/week4/lesson-plan.md"
+          },
+          "stations": {
+            "hook": {
+              "title": "The Tiny Motor Mystery",
+              "points": 12,
+              "resource": "Car jack demonstration + motor specifications",
+              "questions": 5,
+              "focus": "How can a tiny electric motor lift a car?"
+            },
+            "station1": {
+              "title": "Motor Efficiency Investigation",
+              "points": 20,
+              "resource": "Motor simulation + torque/speed data + efficiency calculations",
+              "questions": 6,
+              "focus": "Analyze energy transfer in electric motors",
+              "spiralTarget": "Circuit power from W3"
+            },
+            "station2": {
+              "title": "Mechanical Advantage Analysis",
+              "points": 20,
+              "resource": "Gear ratios + pulley systems + force multiplication data",
+              "questions": 5,
+              "focus": "Calculate mechanical advantage in motor systems"
+            },
+            "station3": {
+              "title": "Design a Lifting System",
+              "points": 25,
+              "resource": "Motor specs + mechanical components + lifting requirements",
+              "questions": 5,
+              "focus": "Apply electromagnetism and mechanical advantage to engineering challenge"
+            },
+            "exitTicket": {
+              "title": "Motor Systems Integration",
+              "points": 23,
+              "questions": 6,
+              "structure": { "new": 2, "spiral": 2, "integration": 1, "sep1": 1 }
+            }
           },
           "formIds": {},
           "responseSheetIds": {}
@@ -441,6 +569,26 @@
             "forms": "content/grade8/cycle06/week5/forms.gs",
             "studentPage": "content/grade8/cycle06/week5/student-page.html",
             "lessonPlan": "content/grade8/cycle06/week5/lesson-plan.md"
+          },
+          "assessmentParts": {
+            "part1": {
+              "title": "Synthesis Review",
+              "points": 20,
+              "time": "15 min",
+              "focus": "Connect magnetic forces, electromagnetism, circuits, and motors"
+            },
+            "part2": {
+              "title": "Cumulative Assessment",
+              "points": 60,
+              "time": "40 min",
+              "sections": ["A: Magnetic Fields", "B: Electromagnetism", "C: Circuits & Power", "D: Motors & Applications"]
+            },
+            "part3": {
+              "title": "Misconception Check",
+              "points": 20,
+              "time": "20 min",
+              "targets": ["magnets-unlimited", "electricity-consumed", "em-unrelated"]
+            }
           },
           "formIds": {},
           "responseSheetIds": {}
