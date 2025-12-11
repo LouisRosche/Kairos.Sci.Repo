@@ -177,11 +177,10 @@ Kairos.Sci.Repo/
 │   └── phet-simulations-catalog.md        # Digital resources
 │
 ├── shared/                                # Cross-grade utilities
-│   ├── Config.gs                          # Centralized configuration
-│   ├── Constants.gs                       # Immutable system values
-│   ├── FormUtils.gs
-│   ├── DataUtils.gs
-│   ├── ValidationUtils.gs
+│   ├── FormUtils.gs                       # Form creation helpers
+│   ├── FormSettings.gs                    # Standard form settings
+│   ├── DataUtils.gs                       # Data retrieval helpers
+│   ├── ValidationUtils.gs                 # Config validation
 │   └── styles/
 │       └── design-system.css              # CSS design tokens
 │
@@ -254,7 +253,7 @@ Kairos.Sci.Repo/
 ## Infrastructure Status
 
 ### Complete
-- ✅ Configuration system (JSON-based, centralized via `Config.gs`)
+- ✅ Configuration system (JSON-based: `config/master-config.json` + `config/cycles/*.json`)
 - ✅ Cycle configs (C3-C10 with status tracking)
 - ✅ Data aggregation pipeline (with comprehensive error handling)
 - ✅ 3D learning analyzer

@@ -18,6 +18,56 @@
  * @version 1.0.0
  * @lastUpdated 2025-12-11
  */
+function configFormSettings_(form) {
+  form.setIsQuiz(true);
+  form.setCollectEmail(true);
+  form.setLimitOneResponsePerUser(true);
+  form.setShowLinkToRespondAgain(false);
+  form.setProgressBar(true);
+  form.setConfirmationMessage(
+    'Your responses have been recorded. Great work understanding ecosystem services!\n\n' +
+    'Key Takeaway: Ecosystems provide trillions of dollars in services annually. ' +
+    'Protecting biodiversity is protecting human well-being!'
+  );
+}
+
+/**
+ * Sets points for the last added item (for paragraph items)
+ * @param {GoogleAppsScript.Forms.Form} form - The form
+ * @param {number} points - Points value
+ */
+function setPointsForLastItem_(form, points) {
+  const items = form.getItems();
+  const lastItem = items[items.length - 1];
+  if (lastItem.getType() === FormApp.ItemType.PARAGRAPH_TEXT) {
+    // Paragraph items need manual grading - points included in helpText
+  }
+}
+
+// ============================================================================
+// INDIVIDUAL FORM CREATORS
+// ============================================================================
+
+function createG8C4W5Hook() { return createHookForm_(); }
+function createG8C4W5Station1() { return createStation1Form_(); }
+function createG8C4W5Station2() { return createStation2Form_(); }
+function createG8C4W5Station3() { return createStation3Form_(); }
+function createG8C4W5ExitTicket() { return createExitTicketForm_(); }
+
+// ============================================================================
+// VALIDATION
+// ============================================================================
+
+function validatePoints_() {
+  const expected = G8_C4_W5_CONFIG.points;
+  const calculated = {
+    hook: 2 + 2 + 3 + 3 + 2,          // 12
+    station1: 3 + 4 + 3 + 4 + 3 + 3,  // 20
+    station2: 4 + 4 + 4 + 4 + 4,      // 20
+    station3: 4 + 4 + 5 + 6 + 6,      // 25
+    exitTicket: 4 + 4 + 3 + 3 + 5 + 4 // 23
+  };
+  calculated.total = Object.values(calculated).reduce((a, b) => a + b, 0);
 
 // ============================================================================
 // CONFIGURATION

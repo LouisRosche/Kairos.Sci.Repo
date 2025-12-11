@@ -16,7 +16,7 @@ Middle school social dynamics are complex. This system helps you:
 ### Week 1-2: Setup & Data Collection
 
 1. **Print Sign-In Cards**
-   - Open `templates/printables/seat-signin-card.html` in a browser
+   - Open `archive/experimental/printables/seat-signin-card.html` in a browser
    - Configure: Period, Week, Cycle, Total Seats
    - Print on cardstock (landscape, 4 cards per page)
    - Cut and post at each perimeter seat
@@ -41,7 +41,7 @@ After 3+ weeks of data:
    - Run `analyzeSeatingCorrelations()` for insights
 
 2. **Review Insights Report**
-   - Open `templates/printables/seating-insights-report.html`
+   - Open `archive/experimental/printables/seating-insights-report.html`
    - Paste analysis JSON output
    - Review catalyst pairs and distraction vectors
 
@@ -58,7 +58,7 @@ data/seating/
 ├── SEATING-SYSTEM-GUIDE.md  # This guide
 └── output/                  # Generated reports & data
 
-templates/printables/
+archive/experimental/printables/
 ├── seat-signin-card.html         # Weekly sign-in cards
 ├── classroom-seating-map.html    # Visual seating chart
 └── seating-insights-report.html  # Analysis dashboard

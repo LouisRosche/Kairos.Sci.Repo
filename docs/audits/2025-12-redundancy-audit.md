@@ -417,7 +417,9 @@ These exist but are **not imported** into any student-page.html files.
 | Action | Status | Commits |
 |--------|--------|---------|
 | Remove Cycles 9-10 placeholders | ✅ Done | 48 files removed |
-| Archive unused printables | ✅ Done | Moved to archive/experimental/ |
+| Archive unused printables | ✅ Done | Moved to archive/experimental/printables/ |
+| Archive unused HTML components | ✅ Done | Moved to archive/experimental/html-components/ |
+| Fix stale printables references | ✅ Done | Updated config + SEATING-SYSTEM-GUIDE |
 | Consolidate statistical functions | ✅ Done | Added to DataUtils.gs |
 | Add logFormInfo_() to FormUtils | ✅ Done | Global alias added |
 | Add configureQuizForm() helper | ✅ Done | Added to FormUtils.gs |
@@ -434,6 +436,7 @@ These exist but are **not imported** into any student-page.html files.
 
 **Archived:**
 - `templates/printables/*` → `archive/experimental/printables/` (9 files)
+- `templates/html/components/*` → `archive/experimental/html-components/` (4 files)
 
 **Updated:**
 - `shared/DataUtils.gs` - Added 6 utility functions

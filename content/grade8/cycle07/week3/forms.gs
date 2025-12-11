@@ -675,7 +675,7 @@ function createG8C7W3Part3MisconceptionCheck_() {
   meta.setHelpText('Question ID: g8_c7_w3_misc_meta | Points: 0 | MTSS Metacognition Check');
   meta.setBounds(1, 5);
   meta.setLabels('Not confident at all', 'Very confident');
-  meta.setPoints(0);
+  // Note: No setPoints() - ungraded diagnostic item
 
   // Final reflection (0 pts - for teacher review)
   const reflect = form.addParagraphTextItem();

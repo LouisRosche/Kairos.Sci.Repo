@@ -522,7 +522,7 @@ function createG8C1W3ExitTicket_() {
     .setBounds(1, 5)
     .setLabels('Not confident', 'Very confident')
     .setRequired(true);
-  confidence.setPoints(0);
+  // Note: No setPoints() - ungraded diagnostic item
 
   configFormSettings_(form, 'exitTicket');
   return form;
