@@ -507,6 +507,7 @@ function createExitTicketForm_() {
 function configFormSettings_(form) {
   form.setIsQuiz(true);
   form.setCollectEmail(true);
+  form.setRequireLogin(true);
   form.setLimitOneResponsePerUser(true);
   form.setShowLinkToRespondAgain(false);
   form.setProgressBar(true);
