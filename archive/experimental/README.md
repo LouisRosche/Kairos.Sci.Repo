@@ -34,3 +34,9 @@ These tools may still be useful for classroom management but need:
 - Documentation on how to use them
 - Integration with the seating data pipeline
 - Testing and validation
+
+## HTML Components (Archived December 2025)
+
+**Reason for archival:** Component templates were never adopted in student pages. They use outdated v2.0 inline styles instead of the v3.0 CSS class pattern.
+
+See `html-components/README.md` for details
