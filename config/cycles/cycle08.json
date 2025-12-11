@@ -8,8 +8,9 @@
     "end": "2026-06-26",
     "week1": { "start": "2026-06-01", "end": "2026-06-05" },
     "week2": { "start": "2026-06-08", "end": "2026-06-12" },
-    "week3": { "start": "2026-06-15", "end": "2026-06-18" },
-    "_notes": "Juneteenth 6/19; buffer 6/22-6/26 for Year-End activities; school year ends 6/30"
+    "week3": { "start": "2026-06-15", "end": "2026-06-18", "_note": "4 days (Juneteenth 6/19)" },
+    "week4": { "start": "2026-06-22", "end": "2026-06-26" },
+    "_notes": "Juneteenth 6/19; school year ends 6/30"
   },
   "_yearEndIntegration": {
     "note": "Week 3 combines cycle assessment with Year-End Integration activities (merged from deferred C10)",
@@ -27,7 +28,8 @@
       "phenomenon": {
         "week1": "Why did removing wolves from Yellowstone change the rivers?",
         "week2": "How can one small change collapse an entire ecosystem?",
-        "week3": "Year-End Integration: Student-selected ecosystem investigation + CCC synthesis"
+        "week3": "TBD - Requires curriculum development",
+        "week4": "Year-End Integration: Student-selected ecosystem investigation + CCC synthesis"
       },
       "ngss": {
         "primary": {
@@ -226,6 +228,20 @@
           },
           "formIds": {},
           "responseSheetIds": {}
+        },
+        "4": {
+          "title": "Year-End Integration & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "isYearEndIntegration": true,
+          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 4.",
+          "files": {
+            "forms": "content/grade7/cycle08/week4/forms.gs",
+            "studentPage": "content/grade7/cycle08/week4/student-page.html",
+            "lessonPlan": "content/grade7/cycle08/week4/lesson-plan.md"
+          },
+          "formIds": {},
+          "responseSheetIds": {}
         }
       },
       "materials": {
@@ -240,7 +256,8 @@
       "phenomenon": {
         "week1": "Why does a metal spoon get hot in soup but a wooden spoon doesn't?",
         "week2": "How do thermoses keep hot things hot AND cold things cold?",
-        "week3": "Year-End Integration: Engineering design showcase + CCC synthesis"
+        "week3": "TBD - Requires curriculum development",
+        "week4": "Year-End Integration: Engineering design showcase + CCC synthesis"
       },
       "ngss": {
         "primary": {
@@ -436,6 +453,20 @@
               "time": "15 min",
               "focus": "Growth mindset reflection, engineering identity, favorite design challenge"
             }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "4": {
+          "title": "Year-End Integration & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "isYearEndIntegration": true,
+          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 4.",
+          "files": {
+            "forms": "content/grade8/cycle08/week4/forms.gs",
+            "studentPage": "content/grade8/cycle08/week4/student-page.html",
+            "lessonPlan": "content/grade8/cycle08/week4/lesson-plan.md"
           },
           "formIds": {},
           "responseSheetIds": {}

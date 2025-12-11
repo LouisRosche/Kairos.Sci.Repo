@@ -9,7 +9,8 @@
     "week1": { "start": "2026-04-27", "end": "2026-05-01" },
     "week2": { "start": "2026-05-04", "end": "2026-05-08" },
     "week3": { "start": "2026-05-11", "end": "2026-05-15" },
-    "_notes": "Memorial Day 5/25; buffer 5/18-5/22"
+    "week4": { "start": "2026-05-18", "end": "2026-05-22" },
+    "_notes": "Memorial Day 5/25 follows cycle end"
   },
 
   "grades": {
@@ -18,7 +19,8 @@
       "phenomenon": {
         "week1": "How can you find seashells on top of a mountain?",
         "week2": "How do we know what Earth looked like millions of years ago?",
-        "week3": "Synthesis & Assessment"
+        "week3": "TBD - Requires curriculum development",
+        "week4": "Synthesis & Assessment"
       },
       "ngss": {
         "primary": {
@@ -196,6 +198,19 @@
           },
           "formIds": {},
           "responseSheetIds": {}
+        },
+        "4": {
+          "title": "Synthesis & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 4.",
+          "files": {
+            "forms": "content/grade7/cycle07/week4/forms.gs",
+            "studentPage": "content/grade7/cycle07/week4/student-page.html",
+            "lessonPlan": "content/grade7/cycle07/week4/lesson-plan.md"
+          },
+          "formIds": {},
+          "responseSheetIds": {}
         }
       },
       "materials": {
@@ -210,7 +225,8 @@
       "phenomenon": {
         "week1": "Why do glow sticks eventually stop glowing?",
         "week2": "How can mixing two clear liquids make something solid appear?",
-        "week3": "Synthesis & Assessment"
+        "week3": "TBD - Requires curriculum development",
+        "week4": "Synthesis & Assessment"
       },
       "ngss": {
         "primary": {
@@ -385,6 +401,19 @@
               "time": "20 min",
               "targets": ["mass-lost-reactions", "chemical-physical-confused", "reactions-destroy-atoms"]
             }
+          },
+          "formIds": {},
+          "responseSheetIds": {}
+        },
+        "4": {
+          "title": "Synthesis & Assessment",
+          "status": "not_started",
+          "isAssessmentWeek": true,
+          "_note": "CALENDAR ALIGNMENT: Assessment moved from week 3 to week 4.",
+          "files": {
+            "forms": "content/grade8/cycle07/week4/forms.gs",
+            "studentPage": "content/grade8/cycle07/week4/student-page.html",
+            "lessonPlan": "content/grade8/cycle07/week4/lesson-plan.md"
           },
           "formIds": {},
           "responseSheetIds": {}
