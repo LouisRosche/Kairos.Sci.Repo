@@ -3,33 +3,234 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G8 C7 W2: [Title TBD] - PLACEHOLDER</title>
+  <title>G8 C7 W2: Reaction Types & Conservation</title>
+  <style>
+    :root {
+      --color-primary: #1a5f7a;
+      --color-background: #fefbf3;
+      --color-text: #2d3436;
+      --color-text-light: #636e72;
+      --color-border: #dfe6e9;
+      --color-success: #00b894;
+      --color-warning: #fdcb6e;
+      --hook-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --station1-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --station2-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --station3-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --exit-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --font-primary: 'Segoe UI', system-ui, sans-serif;
+      --spacing-sm: 0.5rem; --spacing-md: 1rem; --spacing-lg: 1.5rem; --spacing-xl: 2rem;
+      --border-radius: 8px;
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: var(--font-primary); line-height: 1.6; color: var(--color-text); background: var(--color-background); margin: 0; padding: var(--spacing-md); }
+    .skip-link { position: absolute; top: -40px; left: 0; background: var(--color-primary); color: white; padding: var(--spacing-sm) var(--spacing-md); z-index: 100; }
+    .skip-link:focus { top: 0; }
+    .page-container { max-width: 900px; margin: 0 auto; }
+    .week-header { background: var(--hook-gradient); color: white; padding: var(--spacing-xl); border-radius: var(--border-radius); margin-bottom: var(--spacing-xl); text-align: center; }
+    .week-header h1 { margin: 0 0 var(--spacing-sm); font-size: 1.8rem; }
+    .badge { background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin: 4px; display: inline-block; }
+    .station-card { background: white; border-radius: var(--border-radius); margin-bottom: var(--spacing-lg); box-shadow: var(--shadow-md); overflow: hidden; }
+    .station-header { padding: var(--spacing-lg); color: white; display: flex; align-items: center; gap: var(--spacing-md); }
+    .station-header.hook { background: var(--hook-gradient); }
+    .station-header.station1 { background: var(--station1-gradient); }
+    .station-header.station2 { background: var(--station2-gradient); }
+    .station-header.station3 { background: var(--station3-gradient); }
+    .station-header.exit { background: var(--exit-gradient); }
+    .station-icon { width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .station-title h2 { margin: 0; font-size: 1.2rem; }
+    .station-title .meta { font-size: 0.9rem; opacity: 0.9; }
+    .station-content { padding: var(--spacing-lg); }
+    .info-box { padding: var(--spacing-md); border-radius: var(--border-radius); margin: var(--spacing-md) 0; border-left: 4px solid; }
+    .info-box.concept { background: #e8f4fd; border-color: #4facfe; }
+    .info-box.success { background: #d5f5e3; border-color: var(--color-success); }
+    .info-box.warning { background: #fef9e7; border-color: var(--color-warning); }
+    .info-box strong { display: block; margin-bottom: 4px; }
+    .reaction-table { width: 100%; border-collapse: collapse; margin: var(--spacing-md) 0; font-size: 0.95rem; }
+    .reaction-table th, .reaction-table td { padding: var(--spacing-sm) var(--spacing-md); text-align: left; border: 1px solid var(--color-border); }
+    .reaction-table th { background: var(--color-primary); color: white; }
+    .reaction-table tr:nth-child(even) { background: var(--color-background); }
+    .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-md); margin: var(--spacing-md) 0; }
+    .vocab-card { background: var(--color-background); padding: var(--spacing-md); border-radius: var(--border-radius); border-left: 4px solid #c38e70; }
+    .vocab-card .term { font-weight: 600; color: var(--color-primary); }
+    .vocab-card .def { font-size: 0.9rem; color: var(--color-text-light); margin-top: 4px; }
+    .form-embed { background: var(--color-background); border: 2px dashed var(--color-border); border-radius: var(--border-radius); padding: var(--spacing-lg); text-align: center; margin-top: var(--spacing-md); }
+    .mtss-support summary { cursor: pointer; padding: var(--spacing-md); background: var(--color-background); border-radius: var(--border-radius); font-weight: 600; color: var(--color-primary); border: 1px solid var(--color-border); list-style: none; }
+    .mtss-support[open] .mtss-content { padding: var(--spacing-md); border: 1px solid var(--color-border); border-top: none; border-radius: 0 0 var(--border-radius) var(--border-radius); background: white; }
+    .page-footer { text-align: center; padding: var(--spacing-lg); color: var(--color-text-light); font-size: 0.85rem; border-top: 1px solid var(--color-border); margin-top: var(--spacing-xl); }
+    @media (max-width: 600px) { .station-header { flex-direction: column; text-align: center; } .vocab-grid { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 8 CYCLE 5 WEEK 2: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="page-container">
+    <header class="week-header">
+      <h1>Cycle 7 Week 2: Reaction Types & Conservation</h1>
+      <p>The Disappearing Solid Mystery</p>
+      <div><span class="badge">100 Points</span><span class="badge">MS-PS1-2</span><span class="badge">Chemical Reactions</span></div>
+    </header>
 
-  Target Date: January 27-30, 2026
-  Topic: Chemical Reactions & Conservation
-  Primary Standard: MS-ESS2-5
+    <main id="main-content">
+      <!-- Phenomenon -->
+      <section class="station-card">
+        <div class="station-header hook">
+          <div class="station-icon">🧪</div>
+          <div class="station-title">
+            <h2>The Disappearing Solid Mystery</h2>
+            <div class="meta">Where does a precipitate come from?</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box concept">
+            <strong>Driving Question:</strong>
+            How can mixing two clear liquids make something solid appear?
+          </div>
+          <p>Pour one clear liquid into another - suddenly a white solid appears! Neither liquid contained a solid, yet one forms instantly. Where did the atoms come from? They were rearranged from both liquids in a double replacement reaction!</p>
+        </div>
+      </section>
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+      <!-- Station 1 -->
+      <section class="station-card">
+        <div class="station-header station1">
+          <div class="station-icon">🔄</div>
+          <div class="station-title">
+            <h2>Station 1: Reaction Type Classification</h2>
+            <div class="meta">20 points | ~18 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <h3>Five Types of Chemical Reactions</h3>
+          <table class="reaction-table">
+            <thead><tr><th>Type</th><th>Pattern</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Synthesis</strong></td><td>A + B → AB</td><td>2H₂ + O₂ → 2H₂O</td></tr>
+              <tr><td><strong>Decomposition</strong></td><td>AB → A + B</td><td>2H₂O → 2H₂ + O₂</td></tr>
+              <tr><td><strong>Single Replacement</strong></td><td>A + BC → AC + B</td><td>Zn + CuSO₄ → ZnSO₄ + Cu</td></tr>
+              <tr><td><strong>Double Replacement</strong></td><td>AB + CD → AD + CB</td><td>NaCl + AgNO₃ → NaNO₃ + AgCl</td></tr>
+              <tr><td><strong>Combustion</strong></td><td>Fuel + O₂ → CO₂ + H₂O</td><td>CH₄ + 2O₂ → CO₂ + 2H₂O</td></tr>
+            </tbody>
+          </table>
+          <div class="form-embed"><p><strong>Station 1 Form</strong> - Form will be embedded here</p></div>
+        </div>
+      </section>
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+      <!-- Station 2 -->
+      <section class="station-card">
+        <div class="station-header station2">
+          <div class="station-icon">⚖️</div>
+          <div class="station-title">
+            <h2>Station 2: Balancing Equations Lab</h2>
+            <div class="meta">20 points | ~15 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box success">
+            <strong>Key Rule:</strong>
+            Same atoms in = same atoms out. Balancing proves conservation of mass at the atomic level!
+          </div>
+          <h3>Coefficients vs Subscripts</h3>
+          <ul>
+            <li><strong>Coefficient (2H₂O):</strong> How many molecules (2 molecules)</li>
+            <li><strong>Subscript (H₂O):</strong> How many atoms per molecule (2 H per molecule)</li>
+            <li><strong>NEVER change subscripts</strong> - that changes the substance!</li>
+          </ul>
+          <div class="info-box warning">
+            <strong>Balancing Steps:</strong> 1) Count atoms on each side. 2) Adjust coefficients only. 3) Re-count to verify. 4) Reduce to smallest whole numbers.
+          </div>
+          <div class="form-embed"><p><strong>Station 2 Form</strong> - Form will be embedded here</p></div>
+        </div>
+      </section>
 
-  <main id="main-content">
-    <h1>Grade 8 Cycle 7 Week 2</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
-  </main>
+      <!-- Station 3 -->
+      <section class="station-card">
+        <div class="station-header station3">
+          <div class="station-icon">🌍</div>
+          <div class="station-title">
+            <h2>Station 3: Design a Chemical Process</h2>
+            <div class="meta">25 points | ~20 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box concept">
+            <strong>Design Challenge:</strong>
+            Remove lead from contaminated water using precipitation reactions!
+          </div>
+          <h3>The Process</h3>
+          <ol>
+            <li>Add a chemical that provides ions to react with lead (e.g., NaCl provides Cl⁻)</li>
+            <li>Lead ions combine with chloride ions: Pb²⁺ + 2Cl⁻ → PbCl₂(s)</li>
+            <li>The insoluble precipitate can be filtered out</li>
+            <li>Dispose of precipitate as hazardous waste (still contains toxic lead!)</li>
+          </ol>
+          <div class="form-embed"><p><strong>Station 3 Form</strong> - Form will be embedded here</p></div>
+        </div>
+      </section>
+
+      <!-- Exit Ticket -->
+      <section class="station-card">
+        <div class="station-header exit">
+          <div class="station-icon">✓</div>
+          <div class="station-title">
+            <h2>Exit Ticket</h2>
+            <div class="meta">23 points | ~15 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <ul>
+            <li><strong>2 NEW:</strong> Reaction types, balancing</li>
+            <li><strong>2 SPIRAL:</strong> Week 1 evidence, Cycle 6 energy</li>
+            <li><strong>1 INTEGRATION:</strong> Connect types to conservation</li>
+            <li><strong>1 SEP-6:</strong> Construct explanation</li>
+          </ul>
+          <div class="form-embed"><p><strong>Exit Ticket Form</strong> - Form will be embedded here</p></div>
+        </div>
+      </section>
+
+      <!-- Vocabulary -->
+      <section class="station-card">
+        <div class="station-header station2">
+          <div class="station-icon">📚</div>
+          <div class="station-title"><h2>Key Vocabulary</h2></div>
+        </div>
+        <div class="station-content">
+          <div class="vocab-grid">
+            <div class="vocab-card"><div class="term">Synthesis</div><div class="def">A + B → AB (combining)</div></div>
+            <div class="vocab-card"><div class="term">Decomposition</div><div class="def">AB → A + B (breaking apart)</div></div>
+            <div class="vocab-card"><div class="term">Single Replacement</div><div class="def">A + BC → AC + B</div></div>
+            <div class="vocab-card"><div class="term">Double Replacement</div><div class="def">AB + CD → AD + CB</div></div>
+            <div class="vocab-card"><div class="term">Combustion</div><div class="def">Burning with oxygen → CO₂ + H₂O</div></div>
+            <div class="vocab-card"><div class="term">Coefficient</div><div class="def">Number of molecules (in front)</div></div>
+            <div class="vocab-card"><div class="term">Subscript</div><div class="def">Atoms per molecule (below)</div></div>
+            <div class="vocab-card"><div class="term">Balanced Equation</div><div class="def">Same atoms on both sides</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MTSS -->
+      <details class="mtss-support">
+        <summary>Need Extra Support? Click Here</summary>
+        <div class="mtss-content">
+          <h3>Tier 2 Supports</h3>
+          <ul>
+            <li>Reaction type pattern cards for reference</li>
+            <li>Guided balancing worksheets with atom counting tables</li>
+            <li>Molecular model kits for visualization</li>
+          </ul>
+          <h3>Sentence Starters</h3>
+          <ul>
+            <li>"This is a [type] reaction because..."</li>
+            <li>"The equation is balanced because..."</li>
+            <li>"The atoms are conserved because..."</li>
+          </ul>
+        </div>
+      </details>
+    </main>
+
+    <footer class="page-footer">
+      <p>Grade 8 | Cycle 7 Week 2 | Reaction Types & Conservation</p>
+      <p>NGSS: MS-PS1-2 | Student Page v1.0</p>
+    </footer>
+  </div>
 </body>
 </html>

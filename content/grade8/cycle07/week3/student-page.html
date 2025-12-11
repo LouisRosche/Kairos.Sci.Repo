@@ -3,33 +3,853 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G8 C7 W3: [Title TBD] - PLACEHOLDER</title>
+  <title>G8 C7 W3: Synthesis & Assessment - Chemical Reactions & Conservation</title>
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════════════
+       CSS Design System v3.1 - Assessment Week Styling
+       Based on shared/styles/design-system.css
+       Chemistry Theme with Assessment Gradients
+       ═══════════════════════════════════════════════════════════════════════════ */
+
+    /* CSS Variables */
+    :root {
+      --color-primary: #6c5ce7;
+      --color-secondary: #a29bfe;
+      --color-accent: #fd79a8;
+      --color-background: #f8f9fc;
+      --color-text: #2d3436;
+      --color-text-light: #636e72;
+      --color-border: #dfe6e9;
+      --color-success: #00b894;
+      --color-warning: #fdcb6e;
+      --color-error: #e17055;
+
+      /* Assessment-specific colors */
+      --assessment-gradient-start: #6c5ce7;
+      --assessment-gradient-end: #a29bfe;
+      --synthesis-color: #00b894;
+      --cumulative-color: #0984e3;
+      --misconception-color: #e17055;
+
+      /* Chemistry accent */
+      --chem-glow: rgba(108, 92, 231, 0.3);
+
+      --font-primary: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Consolas', 'Monaco', monospace;
+
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+
+      --border-radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    /* Reset and Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      line-height: 1.6;
+      color: var(--color-text);
+      background-color: var(--color-background);
+      margin: 0;
+      padding: var(--spacing-md);
+    }
+
+    /* Skip Link for Accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--color-primary);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      z-index: 100;
+      text-decoration: none;
+      border-radius: 0 0 var(--border-radius) 0;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* Main Container */
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Assessment Header */
+    .assessment-header {
+      background: linear-gradient(135deg, var(--assessment-gradient-start), var(--assessment-gradient-end));
+      color: white;
+      padding: var(--spacing-xl);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-xl);
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .assessment-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: subtle-pulse 8s ease-in-out infinite;
+    }
+
+    @keyframes subtle-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.3; }
+    }
+
+    .assessment-header h1 {
+      margin: 0 0 var(--spacing-sm);
+      font-size: 1.8rem;
+      position: relative;
+    }
+
+    .assessment-header .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      margin-bottom: var(--spacing-md);
+      position: relative;
+    }
+
+    .assessment-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      margin: var(--spacing-xs);
+      position: relative;
+    }
+
+    /* Assessment Overview */
+    .assessment-overview {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+      box-shadow: var(--shadow-md);
+      border-left: 4px solid var(--assessment-gradient-start);
+    }
+
+    .assessment-overview h2 {
+      color: var(--color-primary);
+      margin-top: 0;
+      font-size: 1.3rem;
+    }
+
+    .points-breakdown {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-md);
+    }
+
+    .points-card {
+      background: var(--color-background);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      text-align: center;
+      border: 2px solid var(--color-border);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .points-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .points-card.synthesis {
+      border-color: var(--synthesis-color);
+    }
+
+    .points-card.cumulative {
+      border-color: var(--cumulative-color);
+    }
+
+    .points-card.misconception {
+      border-color: var(--misconception-color);
+    }
+
+    .points-card .points {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--color-primary);
+    }
+
+    .points-card .label {
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+    }
+
+    /* Assessment Section */
+    .assessment-section {
+      background: white;
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: var(--spacing-lg);
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .section-header.synthesis {
+      background: linear-gradient(135deg, var(--synthesis-color), #00cec9);
+    }
+
+    .section-header.cumulative {
+      background: linear-gradient(135deg, var(--cumulative-color), #74b9ff);
+    }
+
+    .section-header.misconception {
+      background: linear-gradient(135deg, var(--misconception-color), #fab1a0);
+    }
+
+    .section-icon {
+      font-size: 1.5rem;
+      background: rgba(255,255,255,0.2);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .section-title {
+      flex: 1;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .section-title .meta {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .section-content {
+      padding: var(--spacing-lg);
+    }
+
+    /* Info Box */
+    .info-box {
+      background: #e8f4fd;
+      border-left: 4px solid var(--cumulative-color);
+      padding: var(--spacing-md);
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .info-box.success {
+      background: #d5f5e3;
+      border-color: var(--synthesis-color);
+    }
+
+    .info-box.warning {
+      background: #fef9e7;
+      border-color: var(--color-warning);
+    }
+
+    .info-box.chemistry {
+      background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(162, 155, 254, 0.1));
+      border-color: var(--color-primary);
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: var(--spacing-xs);
+      color: var(--color-text);
+    }
+
+    /* Concept Connection Table */
+    .concept-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--spacing-md) 0;
+      font-size: 0.95rem;
+    }
+
+    .concept-table th,
+    .concept-table td {
+      padding: var(--spacing-sm) var(--spacing-md);
+      text-align: left;
+      border: 1px solid var(--color-border);
+    }
+
+    .concept-table th {
+      background: var(--color-primary);
+      color: white;
+      font-weight: 600;
+    }
+
+    .concept-table tr:nth-child(even) {
+      background: var(--color-background);
+    }
+
+    /* Chemical Equation Display */
+    .equation-display {
+      font-family: var(--font-mono);
+      background: linear-gradient(135deg, rgba(108, 92, 231, 0.05), rgba(162, 155, 254, 0.05));
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      text-align: center;
+      margin: var(--spacing-md) 0;
+      border: 1px solid var(--color-primary);
+    }
+
+    /* Form Embed Container */
+    .form-embed {
+      background: var(--color-background);
+      border: 2px dashed var(--color-border);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      text-align: center;
+      margin-top: var(--spacing-md);
+    }
+
+    .form-embed p {
+      color: var(--color-text-light);
+      margin: 0;
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: var(--spacing-md) 0;
+    }
+
+    .checklist li {
+      padding: var(--spacing-sm) 0;
+      padding-left: var(--spacing-lg);
+      position: relative;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      color: var(--color-primary);
+      font-weight: bold;
+    }
+
+    /* MTSS Support Section */
+    .mtss-support {
+      margin-top: var(--spacing-lg);
+    }
+
+    .mtss-support summary {
+      cursor: pointer;
+      padding: var(--spacing-md);
+      background: var(--color-background);
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      color: var(--color-primary);
+      border: 1px solid var(--color-border);
+      list-style: none;
+    }
+
+    .mtss-support summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .mtss-support summary::before {
+      content: "▶ ";
+      font-size: 0.8rem;
+    }
+
+    .mtss-support[open] summary::before {
+      content: "▼ ";
+    }
+
+    .mtss-support .support-content {
+      padding: var(--spacing-md);
+      border: 1px solid var(--color-border);
+      border-top: none;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      background: white;
+    }
+
+    /* Vocabulary Quick Reference */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--spacing-sm);
+      margin: var(--spacing-md) 0;
+    }
+
+    .vocab-item {
+      background: var(--color-background);
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius);
+      border-left: 3px solid var(--color-primary);
+    }
+
+    .vocab-item .term {
+      font-weight: 600;
+      color: var(--color-primary);
+      font-size: 0.9rem;
+    }
+
+    .vocab-item .def {
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+    }
+
+    /* Test Taking Tips */
+    .tips-box {
+      background: linear-gradient(135deg, rgba(108, 92, 231, 0.15), rgba(162, 155, 254, 0.15));
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-lg) 0;
+      border: 1px solid var(--color-primary);
+    }
+
+    .tips-box h3 {
+      margin-top: 0;
+      color: var(--color-primary);
+    }
+
+    .tips-box ul {
+      margin: 0;
+      padding-left: var(--spacing-lg);
+    }
+
+    .tips-box li {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    /* Reaction Type Reference */
+    .reaction-types-ref {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--spacing-sm);
+      margin: var(--spacing-md) 0;
+    }
+
+    .reaction-type-card {
+      background: white;
+      border: 2px solid var(--color-border);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-sm);
+      text-align: center;
+    }
+
+    .reaction-type-card .type-name {
+      font-weight: 600;
+      color: var(--color-primary);
+      font-size: 0.85rem;
+    }
+
+    .reaction-type-card .type-pattern {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--color-text-light);
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding: var(--spacing-lg);
+      color: var(--color-text-light);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--color-border);
+      margin-top: var(--spacing-xl);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: var(--spacing-sm);
+      }
+
+      .assessment-header {
+        padding: var(--spacing-lg);
+      }
+
+      .assessment-header h1 {
+        font-size: 1.4rem;
+      }
+
+      .points-breakdown {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .vocab-grid,
+      .reaction-types-ref {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      .skip-link,
+      .form-embed,
+      .mtss-support {
+        display: none;
+      }
+
+      .assessment-section {
+        break-inside: avoid;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 8 CYCLE 5 WEEK 3: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+  <!-- Accessibility: Skip to main content -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  Target Date: January 27-30, 2026
-  Topic: Chemical Reactions & Conservation
-  Primary Standard: MS-ESS2-5
+  <div class="page-container">
+    <!-- Assessment Header -->
+    <header class="assessment-header" role="banner">
+      <h1>Cycle 7 Week 3: Synthesis & Assessment</h1>
+      <p class="subtitle">Chemical Reactions & Conservation - Cumulative Assessment</p>
+      <div class="badges" aria-label="Assessment information">
+        <span class="assessment-badge">100 Total Points</span>
+        <span class="assessment-badge">~75 Minutes</span>
+        <span class="assessment-badge">MS-PS1-2</span>
+      </div>
+    </header>
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+    <main id="main-content" role="main">
+      <!-- Assessment Overview -->
+      <section class="assessment-overview" aria-labelledby="overview-heading">
+        <h2 id="overview-heading">Assessment Overview</h2>
+        <p>This assessment evaluates your understanding of chemical reactions and conservation from Weeks 1 and 2. You'll demonstrate your ability to connect reaction evidence with reaction types and the law of conservation of mass.</p>
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+        <div class="points-breakdown">
+          <div class="points-card synthesis">
+            <div class="points">20 pts</div>
+            <div class="label">Part 1: Synthesis</div>
+          </div>
+          <div class="points-card cumulative">
+            <div class="points">60 pts</div>
+            <div class="label">Part 2: Cumulative</div>
+          </div>
+          <div class="points-card misconception">
+            <div class="points">20 pts</div>
+            <div class="label">Part 3: Misconceptions</div>
+          </div>
+        </div>
+      </section>
 
-  <main id="main-content">
-    <h1>Grade 8 Cycle 7 Week 3</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
-  </main>
+      <!-- Test Taking Tips -->
+      <div class="tips-box" role="note" aria-label="Test-taking strategies">
+        <h3>Test-Taking Tips</h3>
+        <ul>
+          <li><strong>Read carefully:</strong> Some questions include common misconceptions as answer choices</li>
+          <li><strong>Use evidence:</strong> For constructed responses, explain your reasoning using reaction types and conservation laws</li>
+          <li><strong>Count atoms:</strong> When balancing equations, verify atoms match on both sides</li>
+          <li><strong>Think systems:</strong> Remember that mass is conserved in sealed systems - gases count too!</li>
+        </ul>
+      </div>
+
+      <!-- Part 1: Synthesis -->
+      <section class="assessment-section" aria-labelledby="part1-heading">
+        <div class="section-header synthesis">
+          <div class="section-icon" aria-hidden="true">1</div>
+          <div class="section-title">
+            <h2 id="part1-heading">Part 1: Synthesis</h2>
+            <div class="meta">20 points | ~15 minutes | Connecting Concepts</div>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="info-box success">
+            <strong>Focus: Week 1 + Week 2 Integration</strong>
+            This section tests your ability to connect reaction evidence with reaction types and conservation of mass. How do these concepts work together?
+          </div>
+
+          <h3>Key Connections</h3>
+          <table class="concept-table" role="table" aria-label="Concept connections between weeks">
+            <thead>
+              <tr>
+                <th scope="col">Week 1 Concept</th>
+                <th scope="col">Week 2 Application</th>
+                <th scope="col">Integration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>5 types of reaction evidence</td>
+                <td>Reaction type classification</td>
+                <td>Each reaction type produces specific evidence</td>
+              </tr>
+              <tr>
+                <td>Mass conservation</td>
+                <td>Balanced equations</td>
+                <td>Balancing proves conservation (same atoms both sides)</td>
+              </tr>
+              <tr>
+                <td>Chemical vs. physical change</td>
+                <td>Atom rearrangement</td>
+                <td>Chemical = new molecules; physical = same molecules</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="form-embed">
+            <p><strong>Part 1: Synthesis Assessment Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+            <!-- Replace with: <iframe src="FORM_URL" width="100%" height="800" frameborder="0" title="Part 1 Synthesis Assessment"></iframe> -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Part 2: Cumulative Assessment -->
+      <section class="assessment-section" aria-labelledby="part2-heading">
+        <div class="section-header cumulative">
+          <div class="section-icon" aria-hidden="true">2</div>
+          <div class="section-title">
+            <h2 id="part2-heading">Part 2: Cumulative Assessment</h2>
+            <div class="meta">60 points | ~40 minutes | All Cycle 7 Content</div>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="info-box">
+            <strong>Four Sections, 15 Points Each</strong>
+            This comprehensive assessment covers everything from Cycle 7. Take your time and think through each question.
+          </div>
+
+          <h3>Assessment Sections</h3>
+          <ul class="checklist" role="list" aria-label="Assessment sections checklist">
+            <li><strong>Section A: Reaction Evidence</strong> - Identify evidence types, distinguish chemical vs. physical changes, explain at the molecular level</li>
+            <li><strong>Section B: Mass Conservation</strong> - Predict mass outcomes, explain apparent mass loss, apply conservation to novel scenarios</li>
+            <li><strong>Section C: Reaction Types</strong> - Classify reactions, identify patterns, predict products based on reaction type</li>
+            <li><strong>Section D: Data Analysis</strong> - Balance equations, analyze experimental data, construct explanations</li>
+          </ul>
+
+          <h3>Quick Reference: Reaction Types</h3>
+          <div class="reaction-types-ref">
+            <div class="reaction-type-card">
+              <div class="type-name">Synthesis</div>
+              <div class="type-pattern">A + B → AB</div>
+            </div>
+            <div class="reaction-type-card">
+              <div class="type-name">Decomposition</div>
+              <div class="type-pattern">AB → A + B</div>
+            </div>
+            <div class="reaction-type-card">
+              <div class="type-name">Single Replacement</div>
+              <div class="type-pattern">A + BC → AC + B</div>
+            </div>
+            <div class="reaction-type-card">
+              <div class="type-name">Double Replacement</div>
+              <div class="type-pattern">AB + CD → AD + CB</div>
+            </div>
+            <div class="reaction-type-card">
+              <div class="type-name">Combustion</div>
+              <div class="type-pattern">Fuel + O₂ → CO₂ + H₂O</div>
+            </div>
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Part 2: Cumulative Assessment Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+            <!-- Replace with: <iframe src="FORM_URL" width="100%" height="1200" frameborder="0" title="Part 2 Cumulative Assessment"></iframe> -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Part 3: Misconception Check -->
+      <section class="assessment-section" aria-labelledby="part3-heading">
+        <div class="section-header misconception">
+          <div class="section-icon" aria-hidden="true">3</div>
+          <div class="section-title">
+            <h2 id="part3-heading">Part 3: Misconception Check</h2>
+            <div class="meta">20 points | ~20 minutes | Correcting Common Errors</div>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="info-box warning">
+            <strong>Watch Out for Tricky Questions!</strong>
+            This section targets common misconceptions. Read carefully - some answer choices sound right but contain common errors in thinking.
+          </div>
+
+          <h3>Common Misconceptions to Avoid</h3>
+          <table class="concept-table" role="table" aria-label="Common misconceptions">
+            <thead>
+              <tr>
+                <th scope="col">Misconception</th>
+                <th scope="col">Correct Understanding</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>"Mass is lost when things burn"</td>
+                <td>Mass becomes CO₂ and H₂O gases that escape - still conserved!</td>
+              </tr>
+              <tr>
+                <td>"Dissolving is a chemical reaction"</td>
+                <td>Dissolving is physical - molecules separate but don't change</td>
+              </tr>
+              <tr>
+                <td>"Atoms are destroyed in reactions"</td>
+                <td>Atoms are rearranged, never created or destroyed</td>
+              </tr>
+              <tr>
+                <td>"Reactions always need heat"</td>
+                <td>Many reactions occur at room temperature (rusting, acid-base)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="equation-display">
+            <strong>Remember:</strong> Conservation of Mass<br>
+            Total Mass of Reactants = Total Mass of Products<br>
+            (Account for ALL substances, including gases!)
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Part 3: Misconception Check Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+            <!-- Replace with: <iframe src="FORM_URL" width="100%" height="800" frameborder="0" title="Part 3 Misconception Check"></iframe> -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Reference: Key Vocabulary -->
+      <section class="assessment-section" aria-labelledby="vocab-heading">
+        <div class="section-header cumulative">
+          <div class="section-title" style="text-align: center;">
+            <h2 id="vocab-heading">Quick Reference: Key Vocabulary</h2>
+          </div>
+        </div>
+        <div class="section-content">
+          <h3>Reaction Evidence</h3>
+          <div class="vocab-grid">
+            <div class="vocab-item">
+              <div class="term">Color Change</div>
+              <div class="def">New substance with different color</div>
+            </div>
+            <div class="vocab-item">
+              <div class="term">Precipitate</div>
+              <div class="def">Solid formed from liquids mixing</div>
+            </div>
+            <div class="vocab-item">
+              <div class="term">Gas Production</div>
+              <div class="def">Bubbling or fizzing observed</div>
+            </div>
+            <div class="vocab-item">
+              <div class="term">Temperature Change</div>
+              <div class="def">Exothermic (warm) or endothermic (cool)</div>
+            </div>
+          </div>
+
+          <h3>Conservation & Change</h3>
+          <div class="vocab-grid">
+            <div class="vocab-item">
+              <div class="term">Conservation of Mass</div>
+              <div class="def">Total mass stays the same in reactions</div>
+            </div>
+            <div class="vocab-item">
+              <div class="term">Chemical Change</div>
+              <div class="def">New substances with new properties form</div>
+            </div>
+            <div class="vocab-item">
+              <div class="term">Physical Change</div>
+              <div class="def">Same substance, different form</div>
+            </div>
+            <div class="vocab-item">
+              <div class="term">Balanced Equation</div>
+              <div class="def">Equal atoms on both sides</div>
+            </div>
+          </div>
+
+          <h3>Reaction Types</h3>
+          <div class="vocab-grid">
+            <div class="vocab-item">
+              <div class="term">Synthesis</div>
+              <div class="def">Combine to form one product</div>
+            </div>
+            <div class="vocab-item">
+              <div class="term">Decomposition</div>
+              <div class="def">One breaks into multiple products</div>
+            </div>
+            <div class="vocab-item">
+              <div class="term">Replacement</div>
+              <div class="def">Elements trade places in compounds</div>
+            </div>
+            <div class="vocab-item">
+              <div class="term">Combustion</div>
+              <div class="def">Fuel + O₂ → CO₂ + H₂O + energy</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MTSS Support -->
+      <details class="mtss-support" aria-label="Additional support resources">
+        <summary>Need Extra Support? Click Here</summary>
+        <div class="support-content">
+          <h3>Tier 2 Supports Available</h3>
+          <ul>
+            <li><strong>Extended time:</strong> Ask your teacher if you need up to 1.5x the standard time</li>
+            <li><strong>Reference sheets:</strong> Periodic table and reaction type guide available upon request</li>
+            <li><strong>Sentence starters:</strong> For constructed responses, use:
+              <ul>
+                <li>"This evidence indicates a chemical reaction because..."</li>
+                <li>"According to conservation of mass..."</li>
+                <li>"This is a [type] reaction because the pattern shows..."</li>
+                <li>"The total mass is conserved because..."</li>
+              </ul>
+            </li>
+          </ul>
+
+          <h3>Tier 3 Supports</h3>
+          <ul>
+            <li><strong>Modified assessment:</strong> See your teacher for alternative format</li>
+            <li><strong>One-on-one support:</strong> Request individual administration if needed</li>
+            <li><strong>Molecular models:</strong> Available for visualizing reactions</li>
+          </ul>
+
+          <div class="info-box chemistry">
+            <strong>Remember:</strong> It's okay to ask for help! These supports are here to help you show what you know.
+          </div>
+        </div>
+      </details>
+    </main>
+
+    <footer class="page-footer" role="contentinfo">
+      <p>Grade 8 | Cycle 7 Week 3 | Chemical Reactions & Conservation Assessment</p>
+      <p>NGSS Standard: MS-PS1-2 | Spiral: MS-PS2-3, MS-PS4-2</p>
+      <p><small>Student Page v1.0 | CSS Design System v3.1</small></p>
+    </footer>
+  </div>
 </body>
 </html>

@@ -3,33 +3,713 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G8 C7 W1: [Title TBD] - PLACEHOLDER</title>
+  <title>G8 C7 W1: Evidence of Chemical Reactions</title>
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════════════
+       CSS Design System v3.1 - Chemical Reactions Theme
+       Based on shared/styles/design-system.css
+       ═══════════════════════════════════════════════════════════════════════════ */
+
+    :root {
+      --color-primary: #1a5f7a;
+      --color-secondary: #57837b;
+      --color-accent: #c38e70;
+      --color-background: #fefbf3;
+      --color-text: #2d3436;
+      --color-text-light: #636e72;
+      --color-border: #dfe6e9;
+      --color-success: #00b894;
+      --color-warning: #fdcb6e;
+      --color-error: #e17055;
+
+      /* Chemistry theme colors */
+      --chem-glow: #00ff88;
+      --chem-reaction: #ff6b6b;
+      --chem-evidence: #4ecdc4;
+      --chem-conservation: #45b7d1;
+
+      /* Station gradients */
+      --hook-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --station1-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --station2-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --station3-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --exit-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+
+      --font-primary: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --border-radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-primary);
+      line-height: 1.6;
+      color: var(--color-text);
+      background-color: var(--color-background);
+      margin: 0;
+      padding: var(--spacing-md);
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--color-primary);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      z-index: 100;
+      text-decoration: none;
+    }
+
+    .skip-link:focus { top: 0; }
+
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Week Header */
+    .week-header {
+      background: var(--hook-gradient);
+      color: white;
+      padding: var(--spacing-xl);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-xl);
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .week-header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.3; }
+    }
+
+    .week-header h1 {
+      margin: 0 0 var(--spacing-sm);
+      font-size: 1.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .week-header .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      margin-bottom: var(--spacing-md);
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge-container {
+      display: flex;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.2);
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    /* Phenomenon Box */
+    .phenomenon-box {
+      background: linear-gradient(135deg, #232526, #414345);
+      color: white;
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-xl);
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .phenomenon-box::after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 60px;
+      height: 60px;
+      background: var(--chem-glow);
+      border-radius: 50%;
+      filter: blur(20px);
+      opacity: 0.6;
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.2); }
+    }
+
+    .phenomenon-box h2 {
+      margin-top: 0;
+      color: var(--chem-glow);
+    }
+
+    .driving-question {
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: var(--spacing-md);
+      background: rgba(255,255,255,0.1);
+      border-left: 4px solid var(--chem-glow);
+      margin-top: var(--spacing-md);
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+
+    /* Station Cards */
+    .station-card {
+      background: white;
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .station-header {
+      padding: var(--spacing-lg);
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .station-header.hook { background: var(--hook-gradient); }
+    .station-header.station1 { background: var(--station1-gradient); }
+    .station-header.station2 { background: var(--station2-gradient); }
+    .station-header.station3 { background: var(--station3-gradient); }
+    .station-header.exit { background: var(--exit-gradient); }
+
+    .station-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .station-title h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .station-title .meta {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .station-content {
+      padding: var(--spacing-lg);
+    }
+
+    /* Evidence Table */
+    .evidence-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--spacing-md) 0;
+      font-size: 0.95rem;
+    }
+
+    .evidence-table th,
+    .evidence-table td {
+      padding: var(--spacing-sm) var(--spacing-md);
+      text-align: left;
+      border: 1px solid var(--color-border);
+    }
+
+    .evidence-table th {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .evidence-table tr:nth-child(even) {
+      background: var(--color-background);
+    }
+
+    /* Info Boxes */
+    .info-box {
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-md) 0;
+      border-left: 4px solid;
+    }
+
+    .info-box.concept {
+      background: #e8f4fd;
+      border-color: var(--chem-conservation);
+    }
+
+    .info-box.warning {
+      background: #fef9e7;
+      border-color: var(--color-warning);
+    }
+
+    .info-box.success {
+      background: #d5f5e3;
+      border-color: var(--color-success);
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    /* Vocabulary Section */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      margin: var(--spacing-md) 0;
+    }
+
+    .vocab-card {
+      background: var(--color-background);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--color-accent);
+    }
+
+    .vocab-card .term {
+      font-weight: 600;
+      color: var(--color-primary);
+      font-size: 1rem;
+    }
+
+    .vocab-card .definition {
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      margin-top: var(--spacing-xs);
+    }
+
+    /* Form Embed */
+    .form-embed {
+      background: var(--color-background);
+      border: 2px dashed var(--color-border);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      text-align: center;
+      margin-top: var(--spacing-md);
+    }
+
+    .form-embed p {
+      color: var(--color-text-light);
+      margin: 0;
+    }
+
+    /* MTSS Support */
+    .mtss-support {
+      margin-top: var(--spacing-lg);
+    }
+
+    .mtss-support summary {
+      cursor: pointer;
+      padding: var(--spacing-md);
+      background: var(--color-background);
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      color: var(--color-primary);
+      border: 1px solid var(--color-border);
+      list-style: none;
+    }
+
+    .mtss-support summary::-webkit-details-marker { display: none; }
+    .mtss-support summary::before { content: "▶ "; font-size: 0.8rem; }
+    .mtss-support[open] summary::before { content: "▼ "; }
+
+    .mtss-content {
+      padding: var(--spacing-md);
+      border: 1px solid var(--color-border);
+      border-top: none;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      background: white;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding: var(--spacing-lg);
+      color: var(--color-text-light);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--color-border);
+      margin-top: var(--spacing-xl);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .week-header { padding: var(--spacing-lg); }
+      .week-header h1 { font-size: 1.4rem; }
+      .station-header { flex-direction: column; text-align: center; }
+      .vocab-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 8 CYCLE 5 WEEK 1: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  Target Date: January 27-30, 2026
-  Topic: Chemical Reactions & Conservation
-  Primary Standard: MS-ESS2-5
+  <div class="page-container">
+    <!-- Week Header -->
+    <header class="week-header" role="banner">
+      <h1>Cycle 7 Week 1: Evidence of Chemical Reactions</h1>
+      <p class="subtitle">The Fading Glow Mystery</p>
+      <div class="badge-container">
+        <span class="badge">100 Total Points</span>
+        <span class="badge">MS-PS1-2</span>
+        <span class="badge">Chemical Reactions</span>
+      </div>
+    </header>
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+    <main id="main-content" role="main">
+      <!-- Phenomenon Box -->
+      <section class="phenomenon-box" aria-labelledby="phenomenon-heading">
+        <h2 id="phenomenon-heading">The Fading Glow Mystery</h2>
+        <p>Crack a glow stick and it lights up - no batteries, no electricity, just a bright glow that slowly fades over hours until it's completely dark. What's happening inside?</p>
+        <div class="driving-question">
+          <strong>Driving Question:</strong> Why do glow sticks eventually stop glowing?
+        </div>
+      </section>
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+      <!-- Learning Targets -->
+      <section class="station-card" aria-labelledby="targets-heading">
+        <div class="station-header hook">
+          <div class="station-icon" aria-hidden="true">🎯</div>
+          <div class="station-title">
+            <h2 id="targets-heading">Learning Targets</h2>
+            <div class="meta">What you'll be able to do by the end of this week</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <ol>
+            <li>Identify five types of evidence for chemical reactions</li>
+            <li>Distinguish between chemical and physical changes</li>
+            <li>Explain that mass is conserved during chemical reactions</li>
+            <li>Design investigations to detect chemical reactions</li>
+          </ol>
+        </div>
+      </section>
 
-  <main id="main-content">
-    <h1>Grade 8 Cycle 7 Week 1</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
-  </main>
+      <!-- Hook -->
+      <section class="station-card" aria-labelledby="hook-heading">
+        <div class="station-header hook">
+          <div class="station-icon" aria-hidden="true">💡</div>
+          <div class="station-title">
+            <h2 id="hook-heading">Hook: The Fading Glow Mystery</h2>
+            <div class="meta">12 points | ~10 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box concept">
+            <strong>What to Think About:</strong>
+            When you crack a glow stick, you mix two chemicals that react and release energy as light. But why does the glow eventually fade? What's being "used up" inside?
+          </div>
+
+          <h3>Key Observations</h3>
+          <ul>
+            <li>Fresh glow stick: Instant bright glow when cracked</li>
+            <li>After several hours: Glow becomes dimmer</li>
+            <li>After a day or more: Completely dark</li>
+            <li>Cannot be "recharged" - unlike a battery!</li>
+          </ul>
+
+          <div class="form-embed">
+            <p><strong>Hook Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Station 1 -->
+      <section class="station-card" aria-labelledby="station1-heading">
+        <div class="station-header station1">
+          <div class="station-icon" aria-hidden="true">🔬</div>
+          <div class="station-title">
+            <h2 id="station1-heading">Station 1: Reaction Evidence Lab</h2>
+            <div class="meta">20 points | ~18 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box concept">
+            <strong>Focus:</strong>
+            Learn to identify the five types of evidence that indicate a chemical reaction has occurred.
+          </div>
+
+          <h3>Five Types of Reaction Evidence</h3>
+          <table class="evidence-table" role="table" aria-label="Types of chemical reaction evidence">
+            <thead>
+              <tr>
+                <th scope="col">Evidence Type</th>
+                <th scope="col">What to Look For</th>
+                <th scope="col">Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Color Change</strong></td>
+                <td>New color appears that wasn't in either reactant</td>
+                <td>pH indicator turning pink</td>
+              </tr>
+              <tr>
+                <td><strong>Gas Production</strong></td>
+                <td>Bubbles, fizzing, or foam</td>
+                <td>Baking soda + vinegar</td>
+              </tr>
+              <tr>
+                <td><strong>Temperature Change</strong></td>
+                <td>Gets hot (exothermic) or cold (endothermic)</td>
+                <td>Hand warmer heating up</td>
+              </tr>
+              <tr>
+                <td><strong>Precipitate</strong></td>
+                <td>Solid appears from mixing liquids</td>
+                <td>White solid from clear solutions</td>
+              </tr>
+              <tr>
+                <td><strong>Light Production</strong></td>
+                <td>Glowing without being heated</td>
+                <td>Glow stick (chemiluminescence)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="info-box warning">
+            <strong>Common Misconception:</strong>
+            Not all bubbles indicate a chemical reaction! Bubbles from boiling water or air escaping a liquid are physical changes. Chemical reaction bubbles continue as long as reactants remain.
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Station 1 Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Station 2 -->
+      <section class="station-card" aria-labelledby="station2-heading">
+        <div class="station-header station2">
+          <div class="station-icon" aria-hidden="true">⚖️</div>
+          <div class="station-title">
+            <h2 id="station2-heading">Station 2: Mass Conservation Investigation</h2>
+            <div class="meta">20 points | ~15 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box success">
+            <strong>Key Principle:</strong>
+            <em>Law of Conservation of Mass</em> - In a chemical reaction, the total mass of reactants equals the total mass of products. Atoms are rearranged, not created or destroyed!
+          </div>
+
+          <h3>Understanding Mass Conservation</h3>
+          <table class="evidence-table" role="table" aria-label="Mass conservation in different systems">
+            <thead>
+              <tr>
+                <th scope="col">System Type</th>
+                <th scope="col">What Happens</th>
+                <th scope="col">Mass Observation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Sealed Container</strong></td>
+                <td>Nothing can enter or leave</td>
+                <td>Mass stays exactly the same</td>
+              </tr>
+              <tr>
+                <td><strong>Open Container</strong></td>
+                <td>Gas can escape to the air</td>
+                <td>Mass appears to decrease</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Why Does Burning Wood Seem to "Lose" Mass?</h3>
+          <p>When wood burns, most of it combines with oxygen and escapes as gases (CO₂ and H₂O vapor). The ash is just the minerals that couldn't burn. If you could capture ALL the gases, total mass would be conserved!</p>
+
+          <div class="info-box warning">
+            <strong>Common Misconception:</strong>
+            Mass is NOT converted to energy in chemical reactions. Energy is released from chemical bonds, but all the atoms (and their mass) remain.
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Station 2 Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Station 3 -->
+      <section class="station-card" aria-labelledby="station3-heading">
+        <div class="station-header station3">
+          <div class="station-icon" aria-hidden="true">🎨</div>
+          <div class="station-title">
+            <h2 id="station3-heading">Station 3: Design a Reaction Detector</h2>
+            <div class="meta">25 points | ~20 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box concept">
+            <strong>Design Challenge:</strong>
+            A food company needs to detect when milk has spoiled. Spoilage is a chemical reaction that produces lactic acid. Design a detection system!
+          </div>
+
+          <h3>The Science Behind Spoilage</h3>
+          <ul>
+            <li><strong>What happens:</strong> Bacteria convert lactose (milk sugar) → lactic acid</li>
+            <li><strong>Evidence:</strong> pH drops from ~6.6 (fresh) to ~4.5 (spoiled)</li>
+            <li><strong>Your tool:</strong> pH indicators change color at specific pH values</li>
+          </ul>
+
+          <h3>Design Requirements</h3>
+          <ol>
+            <li>Must use at least one type of reaction evidence</li>
+            <li>Must be food-safe (no contamination)</li>
+            <li>Must give a clear visual signal</li>
+            <li>Should work over the product's shelf life</li>
+          </ol>
+
+          <div class="info-box success">
+            <strong>Real-World Connection:</strong>
+            Smart food packaging already uses similar chemistry! Some labels contain pH-sensitive dyes that change color when food spoils.
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Station 3 Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Exit Ticket -->
+      <section class="station-card" aria-labelledby="exit-heading">
+        <div class="station-header exit">
+          <div class="station-icon" aria-hidden="true">✓</div>
+          <div class="station-title">
+            <h2 id="exit-heading">Exit Ticket</h2>
+            <div class="meta">23 points | ~15 minutes | 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <h3>Exit Ticket Structure</h3>
+          <ul>
+            <li><strong>2 NEW questions:</strong> Reaction evidence, mass conservation</li>
+            <li><strong>2 SPIRAL questions:</strong> Cycle 6 (energy), Cycle 5 (light waves)</li>
+            <li><strong>1 INTEGRATION:</strong> Connect energy release to evidence</li>
+            <li><strong>1 SEP-4:</strong> Analyze reaction data</li>
+          </ul>
+
+          <div class="form-embed">
+            <p><strong>Exit Ticket Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Vocabulary -->
+      <section class="station-card" aria-labelledby="vocab-heading">
+        <div class="station-header station2">
+          <div class="station-icon" aria-hidden="true">📚</div>
+          <div class="station-title">
+            <h2 id="vocab-heading">Key Vocabulary</h2>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="vocab-grid">
+            <div class="vocab-card">
+              <div class="term">Chemical Reaction</div>
+              <div class="definition">Process where substances combine or break apart to form new substances</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Reactant</div>
+              <div class="definition">Starting substance in a chemical reaction</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Product</div>
+              <div class="definition">New substance formed by a chemical reaction</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Exothermic</div>
+              <div class="definition">Reaction that releases heat (feels warm)</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Endothermic</div>
+              <div class="definition">Reaction that absorbs heat (feels cold)</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Precipitate</div>
+              <div class="definition">Solid that forms from mixing liquids</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Conservation of Mass</div>
+              <div class="definition">Mass before reaction = mass after reaction</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Chemiluminescence</div>
+              <div class="definition">Light produced by a chemical reaction</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MTSS Support -->
+      <details class="mtss-support" aria-label="Additional support resources">
+        <summary>Need Extra Support? Click Here</summary>
+        <div class="mtss-content">
+          <h3>Tier 2 Supports</h3>
+          <ul>
+            <li><strong>Reaction evidence chart</strong> - Reference sheet with all five evidence types</li>
+            <li><strong>Chemical vs physical comparison</strong> - Side-by-side examples</li>
+            <li><strong>Vocabulary visual guide</strong> - Diagrams for key terms</li>
+          </ul>
+
+          <h3>Sentence Starters</h3>
+          <ul>
+            <li>"This is a chemical reaction because I observed..."</li>
+            <li>"Mass is conserved because..."</li>
+            <li>"The evidence that a reaction occurred is..."</li>
+            <li>"The difference between chemical and physical change is..."</li>
+          </ul>
+
+          <h3>Tier 3 Supports</h3>
+          <ul>
+            <li><strong>One-on-one observation support</strong> - Work with teacher on evidence identification</li>
+            <li><strong>Modified mass conservation demo</strong> - Simplified sealed container experiment</li>
+            <li><strong>Visual sorting activity</strong> - Sort examples into chemical/physical categories</li>
+          </ul>
+        </div>
+      </details>
+    </main>
+
+    <footer class="page-footer" role="contentinfo">
+      <p>Grade 8 | Cycle 7 Week 1 | Evidence of Chemical Reactions</p>
+      <p>NGSS Standard: MS-PS1-2 | Spiral: MS-PS2-3, MS-PS4-2</p>
+      <p><small>Student Page v1.0 | CSS Design System v3.1</small></p>
+    </footer>
+  </div>
 </body>
 </html>
