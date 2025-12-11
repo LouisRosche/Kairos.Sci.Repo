@@ -1,463 +1,551 @@
 /**
- * ============================================================================
- * GRADE 7 - CYCLE 4 WEEK 3: SYNTHESIS & ASSESSMENT
- * 3 Forms | 100 Points Total | ~75 Minutes
- * ============================================================================
+ * Grade 7 Cycle 4 Week 3: Carbon Cycle & Sequestration
+ * Standards: MS-ESS3-3 (monitoring/minimizing human impact), MS-PS1-5 (conservation of mass)
+ * Phenomenon: Where does all the carbon go when forests are cut down?
  *
- * ASSESSMENT WEEK STRUCTURE:
- *   Part 1: Synthesis Review (20 pts, ~15 min) - Connects W1+W2 concepts
- *   Part 2: Cumulative Assessment (60 pts, ~40 min) - All learning targets
- *   Part 3: Misconception Final Check (20 pts, ~20 min) - Targeted remediation
+ * Form Structure:
+ * - Hook: The Disappearing Carbon Mystery (12 pts)
+ * - Station 1: Carbon Cycle Investigation (20 pts)
+ * - Station 2: Carbon Sequestration Analysis (20 pts)
+ * - Station 3: Design a Carbon Reduction Strategy (25 pts)
+ * - Exit Ticket: Carbon Cycle Integration (23 pts)
  *
- * LEARNING TARGETS ASSESSED (from W1 & W2):
- *   W1-1: Explain how CO2 dissolution causes ocean acidification
- *   W1-2: Interpret pH data and predict effects on marine life
- *   W1-3: Apply mass balance to ocean-atmosphere carbon exchange
- *   W1-4: Design a monitoring system for ocean acidification
- *   W2-1: Trace nitrogen and phosphorus through ecosystems
- *   W2-2: Explain the eutrophication cascade
- *   W2-3: Analyze Gulf of Mexico dead zone data
- *   W2-4: Design solutions to minimize nutrient runoff
- *
- * SPIRAL FROM CYCLE 3:
- *   MS-ESS3-5: Climate change factors, feedback loops
- *
- * MISCONCEPTIONS TARGETED:
- *   1. "Ocean acidification is only from CO2" (W1)
- *   2. "More nutrients are always better" (W2)
- *   3. "Dead zones are permanent" (W2)
- *
- * ============================================================================
+ * Total: 100 points
  */
 
 // ============================================================================
-// MAIN FUNCTION
+// CONFIGURATION
 // ============================================================================
 
-function createAllG7C4W3Forms() {
-  Logger.log('================================================');
-  Logger.log('G7 CYCLE 4 WEEK 3: SYNTHESIS & ASSESSMENT');
-  Logger.log('================================================\n');
+const G7_C4_W3_CONFIG = {
+  grade: 7,
+  cycle: 4,
+  week: 3,
+  topic: 'Carbon Cycle & Sequestration',
+  phenomenon: 'Where does all the carbon go when forests are cut down?',
+  standards: ['MS-ESS3-3', 'MS-PS1-5'],
+  points: {
+    hook: 12,
+    station1: 20,
+    station2: 20,
+    station3: 25,
+    exitTicket: 23,
+    total: 100
+  },
+  misconceptions: [
+    {
+      id: 'carbon-destroyed',
+      description: 'Students think carbon disappears or is destroyed when burned',
+      targetedIn: ['hook_q4', 's1_q4']
+    },
+    {
+      id: 'trees-only-storage',
+      description: 'Students think only trees store carbon',
+      targetedIn: ['s2_q3', 'exit_q2']
+    },
+    {
+      id: 'carbon-one-direction',
+      description: 'Students think carbon only moves one direction in the cycle',
+      targetedIn: ['s1_q3', 's2_q4']
+    }
+  ],
+  spiralTargets: {
+    w1: 'Ocean acidification from CO2 dissolution'
+  }
+};
 
-  const forms = {
-    synthesis: createG7C4W3Synthesis_(),
-    assessment: createG7C4W3Assessment_(),
-    misconceptionCheck: createG7C4W3MisconceptionCheck_()
+// ============================================================================
+// MAIN ENTRY POINT
+// ============================================================================
+
+/**
+ * Creates all forms for G7 C4 W3
+ */
+function createAllForms() {
+  const results = {
+    hook: createHookForm_(),
+    station1: createStation1Form_(),
+    station2: createStation2Form_(),
+    station3: createStation3Form_(),
+    exitTicket: createExitTicketForm_()
   };
 
-  Logger.log('\n================================================');
-  Logger.log('ALL 3 FORMS CREATED - 100 POINTS TOTAL');
-  Logger.log('================================================');
+  Logger.log('=== G7 C4 W3 Forms Created ===');
+  Object.entries(results).forEach(([name, url]) => {
+    Logger.log(`${name}: ${url}`);
+  });
 
-  return forms;
+  return results;
 }
 
 // ============================================================================
-// PART 1: SYNTHESIS REVIEW (20 points, ~15 min)
+// HOOK: THE DISAPPEARING CARBON MYSTERY (12 points)
 // ============================================================================
 
-function createG7C4W3Synthesis_() {
-  const form = FormApp.create('G7.C4.W3: Part 1 - Synthesis Review');
+function createHookForm_() {
+  const form = FormApp.create('G7.C4.W3: Hook - The Disappearing Carbon Mystery');
+  configFormSettings_(form);
 
   form.setDescription(
-    'CYCLE 4 SYNTHESIS: CONNECTING HUMAN IMPACTS\n\n' +
-    'Over the past two weeks, you learned:\n' +
-    '- Week 1: Ocean acidification from CO2 dissolving in seawater\n' +
-    '- Week 2: Eutrophication from nutrient runoff creating dead zones\n\n' +
-    'Both are examples of how human activities disrupt Earth systems.\n' +
-    'Now connect these ideas into a complete picture.\n\n' +
-    '---\n' +
-    'Time: About 15 minutes | Points: 20'
+    'Phenomenon: Every year, about 10 million hectares of forest are cut down. ' +
+    'A single large tree can store hundreds of kilograms of carbon. ' +
+    'When the forest is cleared, where does all that carbon GO?\n\n' +
+    'Points: 12 | Standards: MS-ESS3-3, MS-PS1-5'
   );
 
-  form.setIsQuiz(true);
-  form.setRequireLogin(true);
-  form.setCollectEmail(true);
-  form.setLimitOneResponsePerUser(true);
-  form.setAllowResponseEdits(true);
-  form.setProgressBar(true);
-  form.setConfirmationMessage(
-    'Synthesis Review complete! Take a 5-minute break, then continue to Part 2.'
-  );
+  // Q1: Initial observation (2 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q1: When a tree is cut down and burned, the wood seems to "disappear." Based on conservation of mass, what actually happens to the matter in the wood?')
+    .setHelpText('Question ID: g7_c4_w3_hook_q1')
+    .setChoices([
+      form.createChoice('The matter is destroyed by the fire', false),
+      form.createChoice('The matter transforms into gases (CO2, water vapor) and ash', true),
+      form.createChoice('The matter turns into pure energy', false),
+      form.createChoice('The matter teleports underground', false)
+    ])
+    .setRequired(true)
+    .setPoints(2);
 
-  // --- COMPARISON ---
-  form.addPageBreakItem()
-    .setTitle('Comparing Two Human Impacts')
-    .setHelpText('Both problems involve humans adding chemicals to water systems.');
+  // Q2: Scale of the problem (2 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q2: If deforestation releases carbon into the atmosphere, which of these is MOST likely to happen?')
+    .setHelpText('Question ID: g7_c4_w3_hook_q2')
+    .setChoices([
+      form.createChoice('Atmospheric CO2 levels decrease', false),
+      form.createChoice('Atmospheric CO2 levels increase', true),
+      form.createChoice('Atmospheric CO2 levels stay the same', false),
+      form.createChoice('The carbon disappears completely', false)
+    ])
+    .setRequired(true)
+    .setPoints(2);
 
-  // Q1: Input comparison (4 pts)
-  const q1 = form.addMultipleChoiceItem()
-    .setTitle('Complete this comparison:\n\nOcean Acidification is caused by _____ entering the ocean.\nEutrophication is caused by _____ entering waterways.')
+  // Q3: Prior knowledge connection (3 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q3: In Week 1, you learned how CO2 dissolves in the ocean and causes acidification. If deforestation releases more CO2 into the atmosphere, how might this affect the oceans?')
+    .setHelpText('Question ID: g7_c4_w3_hook_q3 | 3 points: Connect deforestation to ocean acidification')
     .setRequired(true);
+  setPointsForLastItem_(form, 3);
 
-  q1.setChoices([
-    q1.createChoice('Carbon dioxide (CO2) | Nitrogen and phosphorus (N, P)', true),
-    q1.createChoice('Nitrogen and phosphorus | Carbon dioxide', false),
-    q1.createChoice('Oxygen | Carbon dioxide', false),
-    q1.createChoice('Salt | Oxygen', false)
-  ]);
-  q1.setPoints(4);
+  // Q4: Misconception target - carbon-destroyed (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q4: A student says "When we burn forests, we destroy the carbon so it\'s gone forever." What is WRONG with this statement?')
+    .setHelpText('Question ID: g7_c4_w3_hook_q4 | Targets misconception: carbon-destroyed')
+    .setChoices([
+      form.createChoice('Nothing - the statement is correct', false),
+      form.createChoice('Carbon cannot be destroyed, only transformed into different compounds like CO2', true),
+      form.createChoice('Forests don\'t contain carbon', false),
+      form.createChoice('Burning creates new carbon atoms', false)
+    ])
+    .setRequired(true)
+    .setPoints(3);
 
-  // Q2: Cascade similarity (4 pts manual)
-  const q2 = form.addParagraphTextItem()
-    .setTitle('Both ocean acidification and eutrophication involve a CASCADE of effects. Describe one similarity in HOW the cascade works for both problems.')
-    .setHelpText('Think about: initial input -> chain of effects -> harm to organisms')
+  // Q5: Question generation (2 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q5: What questions do you have about where carbon goes and how it cycles through Earth\'s systems?')
+    .setHelpText('Question ID: g7_c4_w3_hook_q5 | 2 points: Generate investigable questions')
     .setRequired(true);
+  setPointsForLastItem_(form, 2);
 
-  // Q3: Feedback loop connection (4 pts)
-  const q3 = form.addMultipleChoiceItem()
-    .setTitle('SPIRAL (Cycle 3): Both processes can involve positive feedback loops. Which statement is correct?')
-    .setRequired(true);
-
-  q3.setChoices([
-    q3.createChoice('Both problems can make themselves worse over time without intervention', true),
-    q3.createChoice('Both problems automatically fix themselves over time', false),
-    q3.createChoice('Only ocean acidification involves feedback loops', false),
-    q3.createChoice('Neither involves feedback loops', false)
-  ]);
-  q3.setPoints(4);
-
-  // Q4: Solution comparison (4 pts manual)
-  const q4 = form.addParagraphTextItem()
-    .setTitle('You designed solutions for both problems (monitoring for W1, remediation for W2). What do effective solutions have in COMMON?')
-    .setHelpText('Think about: Do they address the source or the symptom? Do they require behavior change?')
-    .setRequired(true);
-
-  // Q5: Integration question (4 pts manual)
-  const q5 = form.addParagraphTextItem()
-    .setTitle('A coastal bay experiences BOTH ocean acidification AND eutrophication. Explain how organisms in this bay face a "double threat" - how might the two problems interact?')
-    .setHelpText('Consider: What does each problem do to the water? How might combined effects be worse than either alone?')
-    .setRequired(true);
-
-  Logger.log('Part 1 created: Synthesis Review (20 pts)');
-  return form;
+  return form.getPublishedUrl();
 }
 
 // ============================================================================
-// PART 2: CUMULATIVE ASSESSMENT (60 points, ~40 min)
+// STATION 1: CARBON CYCLE INVESTIGATION (20 points)
 // ============================================================================
 
-function createG7C4W3Assessment_() {
-  const form = FormApp.create('G7.C4.W3: Part 2 - Cumulative Assessment');
+function createStation1Form_() {
+  const form = FormApp.create('G7.C4.W3: Station 1 - Carbon Cycle Investigation');
+  configFormSettings_(form);
 
   form.setDescription(
-    'CYCLE 4 CUMULATIVE ASSESSMENT\n\n' +
-    'This assessment covers all learning targets from Weeks 1 and 2.\n\n' +
-    'Sections:\n' +
-    'A: Ocean Acidification (15 pts)\n' +
-    'B: Eutrophication & Dead Zones (15 pts)\n' +
-    'C: Data Analysis (15 pts)\n' +
-    'D: Engineering Design (15 pts)\n\n' +
-    '---\n' +
-    'Time: About 40 minutes | Points: 60\n' +
-    'Read each question carefully. Show your best scientific thinking!'
+    'Trace carbon through Earth\'s major reservoirs: atmosphere, biosphere, hydrosphere, and lithosphere.\n\n' +
+    'Use the interactive carbon cycle simulation to track carbon movement.\n\n' +
+    'Spiral Review: Ocean acidification from Week 1\n' +
+    'Points: 20 | Standards: MS-ESS3-3'
   );
 
-  form.setIsQuiz(true);
-  form.setRequireLogin(true);
-  form.setCollectEmail(true);
-  form.setLimitOneResponsePerUser(true);
-  form.setAllowResponseEdits(true);
-  form.setProgressBar(true);
-  form.setConfirmationMessage(
-    'Assessment complete! After a short break, complete Part 3: Misconception Check.'
-  );
+  // Q1: Carbon reservoirs (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q1: Which of these is the LARGEST reservoir of carbon on Earth?')
+    .setHelpText('Question ID: g7_c4_w3_s1_q1')
+    .setChoices([
+      form.createChoice('Atmosphere', false),
+      form.createChoice('Oceans (dissolved CO2 and carbonate rocks)', true),
+      form.createChoice('Living organisms', false),
+      form.createChoice('Fossil fuels', false)
+    ])
+    .setRequired(true)
+    .setPoints(3);
 
-  // --- SECTION A: OCEAN ACIDIFICATION (15 pts) ---
-  form.addPageBreakItem()
-    .setTitle('Section A: Ocean Acidification')
-    .setHelpText('Questions about Week 1 content.');
+  // Q2: Photosynthesis role (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q2: How do plants remove carbon from the atmosphere?')
+    .setHelpText('Question ID: g7_c4_w3_s1_q2')
+    .setChoices([
+      form.createChoice('They burn carbon for energy', false),
+      form.createChoice('They absorb CO2 through photosynthesis and store carbon in their tissues', true),
+      form.createChoice('They filter carbon out of the air mechanically', false),
+      form.createChoice('Plants don\'t affect atmospheric carbon', false)
+    ])
+    .setRequired(true)
+    .setPoints(3);
 
-  // A1: Mechanism (4 pts)
-  const a1 = form.addMultipleChoiceItem()
-    .setTitle('What happens chemically when CO2 dissolves in ocean water?')
+  // Q3: Misconception target - carbon-one-direction (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q3: Carbon moves from the atmosphere INTO plants through photosynthesis. How does carbon move BACK to the atmosphere?')
+    .setHelpText('Question ID: g7_c4_w3_s1_q3 | Targets misconception: carbon-one-direction')
+    .setChoices([
+      form.createChoice('It doesn\'t - carbon stays in plants forever', false),
+      form.createChoice('Through respiration (plants and animals), decomposition, and combustion', true),
+      form.createChoice('Carbon spontaneously evaporates from plants', false),
+      form.createChoice('Sunlight converts plant carbon directly to atmospheric CO2', false)
+    ])
+    .setRequired(true)
+    .setPoints(3);
+
+  // Q4: Misconception target - carbon-destroyed (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q4: In the simulation, you see carbon moving between reservoirs. Why does the TOTAL amount of carbon on Earth stay constant?')
+    .setHelpText('Question ID: g7_c4_w3_s1_q4 | Targets misconception: carbon-destroyed')
+    .setChoices([
+      form.createChoice('New carbon is constantly being created to replace what\'s used', false),
+      form.createChoice('Conservation of mass - carbon is transformed but never created or destroyed', true),
+      form.createChoice('The simulation is simplified and doesn\'t show carbon loss', false),
+      form.createChoice('Carbon is being added from outer space', false)
+    ])
+    .setRequired(true)
+    .setPoints(4);
+
+  // Q5: Data analysis (4 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q5: Using the simulation data, trace the path of a single carbon atom from the atmosphere, through a plant, into an animal, and back to the atmosphere. Describe each step.')
+    .setHelpText('Question ID: g7_c4_w3_s1_q5 | 4 points: Complete carbon pathway with all transitions explained')
     .setRequired(true);
+  setPointsForLastItem_(form, 4);
 
-  a1.setChoices([
-    a1.createChoice('CO2 + H2O forms carbonic acid, which lowers pH', true),
-    a1.createChoice('CO2 evaporates, raising pH', false),
-    a1.createChoice('CO2 reacts with salt to form chlorine gas', false),
-    a1.createChoice('CO2 has no chemical effect on water', false)
-  ]);
-  a1.setPoints(4);
+  // Q6: Spiral review - W1 ocean acidification (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q6: [SPIRAL W1] In Week 1, you learned about ocean acidification. The ocean is a carbon reservoir. When atmospheric CO2 increases, what happens to ocean carbon levels?')
+    .setHelpText('Question ID: g7_c4_w3_s1_q6 | Spiral: W1 Ocean Acidification')
+    .setChoices([
+      form.createChoice('Ocean carbon decreases as oceans release CO2', false),
+      form.createChoice('Ocean carbon increases as more CO2 dissolves in seawater', true),
+      form.createChoice('Ocean carbon stays exactly the same', false),
+      form.createChoice('Oceans and atmosphere are not connected', false)
+    ])
+    .setRequired(true)
+    .setPoints(3);
 
-  // A2: Impact explanation (5 pts manual)
-  const a2 = form.addParagraphTextItem()
-    .setTitle('Explain why ocean acidification is harmful to organisms that build shells (like oysters, clams, and pteropods). Include the chemistry in your explanation.')
-    .setRequired(true);
-
-  // A3: pH interpretation (3 pts)
-  const a3 = form.addMultipleChoiceItem()
-    .setTitle('Ocean pH has dropped from 8.2 to 8.1 over 200 years. A scientist says this is "a 30% increase in acidity." How is this possible when the numbers only changed by 0.1?')
-    .setRequired(true);
-
-  a3.setChoices([
-    a3.createChoice('The pH scale is logarithmic - each 0.1 change is a large % change in H+ ions', true),
-    a3.createChoice('The scientist made a calculation error', false),
-    a3.createChoice('8.1 is 30% smaller than 8.2', false),
-    a3.createChoice('The measurement was inaccurate', false)
-  ]);
-  a3.setPoints(3);
-
-  // A4: Conservation of mass (3 pts)
-  const a4 = form.addMultipleChoiceItem()
-    .setTitle('SPIRAL: CO2 from a car in Iowa ends up in the Pacific Ocean. This demonstrates:')
-    .setRequired(true);
-
-  a4.setChoices([
-    a4.createChoice('Conservation of mass - carbon atoms moved through Earth systems', true),
-    a4.createChoice('Conservation of energy', false),
-    a4.createChoice('New carbon was created', false),
-    a4.createChoice('Carbon was destroyed and recreated', false)
-  ]);
-  a4.setPoints(3);
-
-  // --- SECTION B: EUTROPHICATION (15 pts) ---
-  form.addPageBreakItem()
-    .setTitle('Section B: Eutrophication & Dead Zones')
-    .setHelpText('Questions about Week 2 content.');
-
-  // B1: Cascade ordering (4 pts)
-  const b1 = form.addMultipleChoiceItem()
-    .setTitle('What is the correct ORDER of the eutrophication cascade?')
-    .setRequired(true);
-
-  b1.setChoices([
-    b1.createChoice('Nutrients enter -> Algae bloom -> Algae die -> Bacteria decompose -> Oxygen depleted', true),
-    b1.createChoice('Oxygen depleted -> Algae die -> Bacteria decompose -> Nutrients enter', false),
-    b1.createChoice('Algae bloom -> Nutrients enter -> Oxygen increases -> Fish thrive', false),
-    b1.createChoice('Bacteria decompose -> Algae bloom -> Nutrients enter -> Oxygen increases', false)
-  ]);
-  b1.setPoints(4);
-
-  // B2: Feedback identification (3 pts)
-  const b2 = form.addMultipleChoiceItem()
-    .setTitle('Eutrophication is a positive feedback loop because:')
-    .setRequired(true);
-
-  b2.setChoices([
-    b2.createChoice('More death leads to more decomposition, which causes more oxygen depletion, causing more death', true),
-    b2.createChoice('The system automatically returns to normal', false),
-    b2.createChoice('Fish eat the algae, reducing the problem', false),
-    b2.createChoice('Nutrients are used up, stopping the process', false)
-  ]);
-  b2.setPoints(3);
-
-  // B3: Source identification (4 pts)
-  const b3 = form.addCheckboxItem()
-    .setTitle('Which are major sources of nutrient runoff causing eutrophication? SELECT ALL THAT APPLY.')
-    .setRequired(true);
-
-  b3.setChoices([
-    b3.createChoice('Agricultural fertilizers', true),
-    b3.createChoice('Sewage treatment discharge', true),
-    b3.createChoice('Animal waste from farms', true),
-    b3.createChoice('Carbon dioxide from cars', false),
-    b3.createChoice('Sunlight', false)
-  ]);
-  b3.setPoints(4);
-
-  // B4: Explanation (4 pts manual)
-  const b4 = form.addParagraphTextItem()
-    .setTitle('Explain why adding chemicals to kill algae is NOT a good long-term solution to eutrophication.')
-    .setRequired(true);
-
-  // --- SECTION C: DATA ANALYSIS (15 pts) ---
-  form.addPageBreakItem()
-    .setTitle('Section C: Data Analysis')
-    .setHelpText('Apply your skills to interpret data.');
-
-  // C1: Trend interpretation (5 pts manual)
-  const c1 = form.addParagraphTextItem()
-    .setTitle('The Gulf of Mexico dead zone was 4,000 km² in 1985 and 16,000 km² in 2021. Calculate the percent increase and explain what this trend means for marine ecosystems.')
-    .setHelpText('Show your calculation: (new - old) / old x 100')
-    .setRequired(true);
-
-  // C2: Correlation (5 pts)
-  const c2 = form.addMultipleChoiceItem()
-    .setTitle('Data shows that as Mississippi River nitrogen levels increase, dead zone size increases. What type of relationship is this?')
-    .setRequired(true);
-
-  c2.setChoices([
-    c2.createChoice('Positive correlation - as one increases, the other increases', true),
-    c2.createChoice('Negative correlation - as one increases, the other decreases', false),
-    c2.createChoice('No correlation - the variables are unrelated', false),
-    c2.createChoice('Inverse relationship - they move in opposite directions', false)
-  ]);
-  c2.setPoints(5);
-
-  // C3: Seasonal pattern (5 pts manual)
-  const c3 = form.addParagraphTextItem()
-    .setTitle('The dead zone is largest in July-August. Explain why, using your knowledge of agriculture, algae growth, and decomposition.')
-    .setRequired(true);
-
-  // --- SECTION D: ENGINEERING DESIGN (15 pts) ---
-  form.addPageBreakItem()
-    .setTitle('Section D: Engineering Design')
-    .setHelpText('Apply scientific principles to design solutions.');
-
-  // D1: Monitoring design (5 pts manual)
-  const d1 = form.addParagraphTextItem()
-    .setTitle('Design a simple monitoring system to detect early signs of eutrophication in a lake. What would you measure? How often? What values would trigger an alert?')
-    .setRequired(true);
-
-  // D2: Solution evaluation (5 pts)
-  const d2 = form.addCheckboxItem()
-    .setTitle('Which interventions would reduce BOTH ocean acidification AND eutrophication? SELECT ALL THAT APPLY.')
-    .setRequired(true);
-
-  d2.setChoices([
-    d2.createChoice('Reducing fossil fuel use (less CO2)', true),
-    d2.createChoice('Planting trees (carbon absorption)', true),
-    d2.createChoice('Reducing fertilizer use', false),
-    d2.createChoice('Building sea walls', false),
-    d2.createChoice('Restoring wetlands (filter runoff + store carbon)', true)
-  ]);
-  d2.setPoints(5);
-
-  // D3: Trade-offs (5 pts manual)
-  const d3 = form.addParagraphTextItem()
-    .setTitle('A farmer says: "If I use less fertilizer, my crops will produce less food." How would you respond? Propose a solution that addresses BOTH food production AND environmental protection.')
-    .setRequired(true);
-
-  Logger.log('Part 2 created: Cumulative Assessment (60 pts)');
-  return form;
+  return form.getPublishedUrl();
 }
 
 // ============================================================================
-// PART 3: MISCONCEPTION CHECK (20 points, ~20 min)
+// STATION 2: CARBON SEQUESTRATION ANALYSIS (20 points)
 // ============================================================================
 
-function createG7C4W3MisconceptionCheck_() {
-  const form = FormApp.create('G7.C4.W3: Part 3 - Misconception Check');
+function createStation2Form_() {
+  const form = FormApp.create('G7.C4.W3: Station 2 - Carbon Sequestration Analysis');
+  configFormSettings_(form);
 
   form.setDescription(
-    'MISCONCEPTION FINAL CHECK\n\n' +
-    'This section targets common misconceptions from Cycle 4.\n' +
-    'These are the ideas students often get wrong on the first try.\n\n' +
-    'Take your time. Think carefully before answering.\n\n' +
-    '---\n' +
-    'Time: About 20 minutes | Points: 20'
+    'Analyze data on natural carbon sinks: forests, oceans, and soil.\n\n' +
+    'Compare how different ecosystems store carbon and which are most effective.\n\n' +
+    'Points: 20 | Standards: MS-ESS3-3'
   );
 
-  form.setIsQuiz(true);
-  form.setRequireLogin(true);
-  form.setCollectEmail(true);
-  form.setLimitOneResponsePerUser(true);
-  form.setAllowResponseEdits(true);
-  form.setProgressBar(true);
-  form.setConfirmationMessage(
-    'Cycle 4 Assessment Complete!\n\n' +
-    'Great work this cycle. You learned how human activities affect Earth\'s water systems.\n\n' +
-    'Next cycle: We\'ll explore more connections between human actions and environmental change.'
+  // Scenario introduction
+  form.addSectionHeaderItem()
+    .setTitle('Carbon Storage Data')
+    .setHelpText('Carbon stored per hectare:\n' +
+                 '• Tropical rainforest: 250 tonnes C/ha (trees) + 100 tonnes C/ha (soil)\n' +
+                 '• Temperate forest: 150 tonnes C/ha (trees) + 200 tonnes C/ha (soil)\n' +
+                 '• Grassland: 10 tonnes C/ha (plants) + 300 tonnes C/ha (soil)\n' +
+                 '• Peatland: 5 tonnes C/ha (plants) + 1500 tonnes C/ha (soil)');
+
+  // Q1: Data interpretation (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q1: Based on the data, which ecosystem stores the MOST total carbon per hectare?')
+    .setHelpText('Question ID: g7_c4_w3_s2_q1')
+    .setChoices([
+      form.createChoice('Tropical rainforest (350 tonnes/ha)', false),
+      form.createChoice('Temperate forest (350 tonnes/ha)', false),
+      form.createChoice('Grassland (310 tonnes/ha)', false),
+      form.createChoice('Peatland (1505 tonnes/ha)', true)
+    ])
+    .setRequired(true)
+    .setPoints(4);
+
+  // Q2: Below-ground storage (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q2: Looking at the data, where is MOST of the carbon stored in peatlands and grasslands?')
+    .setHelpText('Question ID: g7_c4_w3_s2_q2')
+    .setChoices([
+      form.createChoice('In the living plants above ground', false),
+      form.createChoice('In the soil below ground', true),
+      form.createChoice('In the animals living there', false),
+      form.createChoice('In the atmosphere above them', false)
+    ])
+    .setRequired(true)
+    .setPoints(4);
+
+  // Q3: Misconception target - trees-only-storage (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q3: Many people focus on planting trees to store carbon. Based on this data, why might protecting peatlands be EVEN MORE important?')
+    .setHelpText('Question ID: g7_c4_w3_s2_q3 | Targets misconception: trees-only-storage')
+    .setChoices([
+      form.createChoice('Peatlands are prettier than forests', false),
+      form.createChoice('Peatlands store 4x more carbon per hectare than tropical rainforests', true),
+      form.createChoice('Trees actually release more carbon than they store', false),
+      form.createChoice('Peatlands and forests store the same amount', false)
+    ])
+    .setRequired(true)
+    .setPoints(4);
+
+  // Q4: Misconception target - carbon-one-direction (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q4: If a peatland is drained for agriculture, what happens to its stored carbon?')
+    .setHelpText('Question ID: g7_c4_w3_s2_q4 | Targets misconception: carbon-one-direction')
+    .setChoices([
+      form.createChoice('The carbon stays safely underground', false),
+      form.createChoice('Oxygen reaches the peat, decomposition accelerates, and CO2 is released', true),
+      form.createChoice('The carbon is destroyed when the water drains', false),
+      form.createChoice('The carbon moves to nearby forests', false)
+    ])
+    .setRequired(true)
+    .setPoints(4);
+
+  // Q5: Application (4 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q5: A country wants to maximize carbon storage per hectare. Based on the data, recommend a land use strategy and explain your reasoning.')
+    .setHelpText('Question ID: g7_c4_w3_s2_q5 | 4 points: Strategy with data-supported reasoning')
+    .setRequired(true);
+  setPointsForLastItem_(form, 4);
+
+  return form.getPublishedUrl();
+}
+
+// ============================================================================
+// STATION 3: DESIGN A CARBON REDUCTION STRATEGY (25 points)
+// ============================================================================
+
+function createStation3Form_() {
+  const form = FormApp.create('G7.C4.W3: Station 3 - Design a Carbon Reduction Strategy');
+  configFormSettings_(form);
+
+  form.setDescription(
+    'Apply your carbon cycle knowledge to design a strategy for reducing atmospheric CO2.\n\n' +
+    'Engineering Challenge: Help a community reduce its carbon footprint.\n\n' +
+    'Points: 25 | Standards: MS-ESS3-3, MS-ETS1-2'
   );
 
-  // --- MISCONCEPTION 1: Nutrients ---
-  form.addPageBreakItem()
-    .setTitle('Check Your Understanding: Nutrients')
-    .setHelpText('This targets a common misconception about nutrients in ecosystems.');
+  // Scenario introduction
+  form.addSectionHeaderItem()
+    .setTitle('Community Carbon Challenge')
+    .setHelpText('A town of 10,000 people produces 100,000 tonnes of CO2 per year.\n' +
+                 'They want to become "carbon neutral" (net zero emissions).\n' +
+                 'Options:\n' +
+                 '• Plant trees ($500/ha, stores 10 tonnes CO2/year/ha)\n' +
+                 '• Restore peatland ($2000/ha, prevents 20 tonnes CO2/year/ha release)\n' +
+                 '• Solar panels ($10,000 per household, saves 5 tonnes CO2/year)\n' +
+                 'Budget: $5 million');
 
-  const m1 = form.addMultipleChoiceItem()
-    .setTitle('MISCONCEPTION CHECK: "Since plants need nutrients to grow, adding more nutrients to an ecosystem will always make it healthier." Is this TRUE or FALSE?')
+  // Q1: Problem analysis (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q1: To offset 100,000 tonnes of CO2/year using ONLY tree planting, how many hectares would be needed?')
+    .setHelpText('Question ID: g7_c4_w3_s3_q1 | Calculate: 100,000 tonnes ÷ 10 tonnes/ha/year')
+    .setChoices([
+      form.createChoice('1,000 hectares', false),
+      form.createChoice('10,000 hectares', true),
+      form.createChoice('100,000 hectares', false),
+      form.createChoice('1,000,000 hectares', false)
+    ])
+    .setRequired(true)
+    .setPoints(4);
+
+  // Q2: Cost analysis (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q2: How much would it cost to plant 10,000 hectares of trees?')
+    .setHelpText('Question ID: g7_c4_w3_s3_q2')
+    .setChoices([
+      form.createChoice('$500,000', false),
+      form.createChoice('$5,000,000', true),
+      form.createChoice('$50,000,000', false),
+      form.createChoice('$500,000,000', false)
+    ])
+    .setRequired(true)
+    .setPoints(4);
+
+  // Q3: Strategy comparison (5 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q3: Compare two approaches: (A) Spend entire $5M on tree planting, or (B) Spend $2M on peatland restoration and $3M on other solutions. Which reduces more CO2? Show your calculations.')
+    .setHelpText('Question ID: g7_c4_w3_s3_q3 | 5 points: Complete calculations for both scenarios')
     .setRequired(true);
+  setPointsForLastItem_(form, 5);
 
-  m1.setChoices([
-    m1.createChoice('TRUE - more nutrients always helps', false),
-    m1.createChoice('FALSE - excess nutrients cause eutrophication and harm ecosystems', true)
-  ]);
-  m1.setPoints(4);
-  m1.setFeedbackForCorrect(
-    FormApp.createFeedback()
-      .setText('Correct! This is one of the most common misconceptions. Excess nutrients cause algae blooms, oxygen depletion, and dead zones.')
-      .build()
+  // Q4: Design proposal (6 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q4: Design a complete carbon reduction strategy for the town using the $5M budget. Specify: (1) How much to spend on each option, (2) Total CO2 offset achieved, (3) Why this combination is optimal.')
+    .setHelpText('Question ID: g7_c4_w3_s3_q4 | 6 points: Complete strategy with math and reasoning')
+    .setRequired(true);
+  setPointsForLastItem_(form, 6);
+
+  // Q5: Limitations analysis (6 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q5: Your strategy uses the carbon cycle to reduce atmospheric CO2. What are TWO limitations of these approaches? What could go wrong?')
+    .setHelpText('Question ID: g7_c4_w3_s3_q5 | 6 points: Two distinct limitations with explanations')
+    .setRequired(true);
+  setPointsForLastItem_(form, 6);
+
+  return form.getPublishedUrl();
+}
+
+// ============================================================================
+// EXIT TICKET: CARBON CYCLE INTEGRATION (23 points)
+// ============================================================================
+
+function createExitTicketForm_() {
+  const form = FormApp.create('G7.C4.W3: Exit Ticket - Carbon Cycle Integration');
+  configFormSettings_(form);
+
+  form.setDescription(
+    'Demonstrate your understanding of the carbon cycle and sequestration.\n\n' +
+    'Structure: 2 New + 2 Spiral + 1 Integration + 1 SEP\n' +
+    'Points: 23 | Standards: MS-ESS3-3, MS-PS1-5'
   );
-  m1.setFeedbackForIncorrect(
-    FormApp.createFeedback()
-      .setText('This is a common misconception! While plants DO need nutrients, EXCESS nutrients cause eutrophication - algae blooms that lead to oxygen depletion and dead zones.')
-      .build()
-  );
 
-  const m1_explain = form.addParagraphTextItem()
-    .setTitle('Explain WHY excess nutrients are harmful, using the eutrophication cascade.')
+  // NEW Q1: Carbon cycle basics (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q1 [NEW]: Which process moves carbon FROM the atmosphere INTO living organisms?')
+    .setHelpText('Question ID: g7_c4_w3_exit_q1')
+    .setChoices([
+      form.createChoice('Respiration', false),
+      form.createChoice('Photosynthesis', true),
+      form.createChoice('Combustion', false),
+      form.createChoice('Decomposition', false)
+    ])
+    .setRequired(true)
+    .setPoints(4);
+
+  // NEW Q2: Misconception target - trees-only-storage (4 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q2 [NEW]: A student says "We just need to plant more trees to solve climate change." What is this statement MISSING?')
+    .setHelpText('Question ID: g7_c4_w3_exit_q2 | Targets misconception: trees-only-storage')
+    .setChoices([
+      form.createChoice('Trees don\'t actually store carbon', false),
+      form.createChoice('Other carbon sinks (oceans, soil, peatlands) are also critical and store more carbon', true),
+      form.createChoice('Climate change has nothing to do with carbon', false),
+      form.createChoice('The statement is complete - trees are the only solution needed', false)
+    ])
+    .setRequired(true)
+    .setPoints(4);
+
+  // SPIRAL Q3: W1 - Ocean acidification (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q3 [SPIRAL W1]: When the ocean absorbs CO2, what happens to the water\'s pH?')
+    .setHelpText('Question ID: g7_c4_w3_exit_q3 | Spiral: W1 Ocean Acidification')
+    .setChoices([
+      form.createChoice('pH increases (more basic)', false),
+      form.createChoice('pH decreases (more acidic)', true),
+      form.createChoice('pH stays exactly the same', false),
+      form.createChoice('CO2 cannot dissolve in water', false)
+    ])
+    .setRequired(true)
+    .setPoints(3);
+
+  // SPIRAL Q4: W2 - Nutrient cycling connection (3 pts)
+  form.addMultipleChoiceItem()
+    .setTitle('Q4 [SPIRAL W2]: In Week 2, you learned about nutrient runoff causing dead zones. How does this connect to the carbon cycle?')
+    .setHelpText('Question ID: g7_c4_w3_exit_q4 | Spiral: W2 Eutrophication')
+    .setChoices([
+      form.createChoice('Nutrient cycles and carbon cycles are completely separate', false),
+      form.createChoice('Excess nutrients cause algae blooms that initially absorb CO2 but release it when they die and decompose', true),
+      form.createChoice('Dead zones absorb extra carbon from the atmosphere', false),
+      form.createChoice('Nutrients destroy carbon molecules', false)
+    ])
+    .setRequired(true)
+    .setPoints(3);
+
+  // INTEGRATION Q5: Cross-concept connection (5 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q5 [INTEGRATION]: A coastal community both burns fossil fuels (releasing CO2) AND has nutrient runoff (causing dead zones). Using your knowledge from W1-W3, explain how these two human impacts BOTH affect the ocean and how they might interact.')
+    .setHelpText('Question ID: g7_c4_w3_exit_q5 | 5 points: Connect carbon emissions, acidification, and eutrophication')
     .setRequired(true);
+  setPointsForLastItem_(form, 5);
 
-  // --- MISCONCEPTION 2: Dead zones ---
-  form.addPageBreakItem()
-    .setTitle('Check Your Understanding: Dead Zones')
-    .setHelpText('Another common misconception.');
-
-  const m2 = form.addMultipleChoiceItem()
-    .setTitle('MISCONCEPTION CHECK: "Once a dead zone forms, it is permanent and can never recover." Is this TRUE or FALSE?')
+  // SEP Q6: Constructing explanations (4 pts)
+  form.addParagraphTextItem()
+    .setTitle('Q6 [SEP]: Construct an explanation for why cutting down a tropical rainforest and replacing it with grassland would result in a NET RELEASE of carbon to the atmosphere, even though both have living plants.')
+    .setHelpText('Question ID: g7_c4_w3_exit_q6 | 4 points: SEP 6 - Constructing Explanations')
     .setRequired(true);
+  setPointsForLastItem_(form, 4);
 
-  m2.setChoices([
-    m2.createChoice('TRUE - dead zones are permanent', false),
-    m2.createChoice('FALSE - dead zones can recover if nutrient input is reduced', true)
-  ]);
-  m2.setPoints(4);
-  m2.setFeedbackForCorrect(
-    FormApp.createFeedback()
-      .setText('Correct! Dead zones CAN recover. When nutrient input is reduced, the cascade stops, oxygen levels recover, and marine life returns.')
-      .build()
-  );
-
-  const m2_explain = form.addParagraphTextItem()
-    .setTitle('Explain what would need to happen for a dead zone to recover.')
-    .setRequired(true);
-
-  // --- MISCONCEPTION 3: pH scale ---
-  form.addPageBreakItem()
-    .setTitle('Check Your Understanding: Ocean Acidification')
-    .setHelpText('Common confusion about pH changes.');
-
-  const m3 = form.addMultipleChoiceItem()
-    .setTitle('MISCONCEPTION CHECK: "A pH change from 8.2 to 8.1 is tiny and unimportant." Is this TRUE or FALSE?')
-    .setRequired(true);
-
-  m3.setChoices([
-    m3.createChoice('TRUE - 0.1 is a tiny change', false),
-    m3.createChoice('FALSE - pH is logarithmic, so 0.1 = 30% more acidic, which affects shell-builders', true)
-  ]);
-  m3.setPoints(4);
-  m3.setFeedbackForCorrect(
-    FormApp.createFeedback()
-      .setText('Correct! The pH scale is logarithmic. A change of 0.1 means a 30% increase in hydrogen ions - a significant change for organisms.')
-      .build()
-  );
-
-  const m3_explain = form.addParagraphTextItem()
-    .setTitle('Explain why even "small" pH changes matter for marine organisms.')
-    .setRequired(true);
-
-  // --- SPIRAL MISCONCEPTION ---
-  form.addPageBreakItem()
-    .setTitle('Cycle 3 Spiral Check')
-    .setHelpText('Checking retention of previous cycle concepts.');
-
-  const spiral = form.addMultipleChoiceItem()
-    .setTitle('SPIRAL CHECK (Cycle 3): In positive feedback loops, what happens?')
-    .setRequired(true);
-
-  spiral.setChoices([
-    spiral.createChoice('The initial change is amplified - the system moves further from equilibrium', true),
-    spiral.createChoice('The system returns to its original state', false),
-    spiral.createChoice('Nothing changes', false),
-    spiral.createChoice('The initial change is reversed', false)
-  ]);
-  spiral.setPoints(4);
-
-  Logger.log('Part 3 created: Misconception Check (20 pts)');
-  return form;
+  return form.getPublishedUrl();
 }
 
 // ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
 
-function getG7C4W3FormUrls() {
-  const forms = createAllG7C4W3Forms();
-  Logger.log('\n=== FORM URLS ===');
-  Object.entries(forms).forEach(([name, form]) => {
-    Logger.log(name + ': ' + form.getPublishedUrl());
+/**
+ * Configures standard form settings for quizzes
+ * @param {GoogleAppsScript.Forms.Form} form - The form to configure
+ */
+function configFormSettings_(form) {
+  form.setIsQuiz(true);
+  form.setCollectEmail(true);
+  form.setLimitOneResponsePerUser(true);
+  form.setShowLinkToRespondAgain(false);
+  form.setProgressBar(true);
+  form.setConfirmationMessage(
+    'Your responses have been recorded. Great work understanding the carbon cycle!\n\n' +
+    'Key Takeaway: Carbon cycles through atmosphere, biosphere, hydrosphere, and lithosphere - ' +
+    'it\'s never destroyed, only transformed!'
+  );
+}
+
+/**
+ * Sets points for the last added item (for paragraph items)
+ * @param {GoogleAppsScript.Forms.Form} form - The form
+ * @param {number} points - Points value
+ */
+function setPointsForLastItem_(form, points) {
+  const items = form.getItems();
+  const lastItem = items[items.length - 1];
+  if (lastItem.getType() === FormApp.ItemType.PARAGRAPH_TEXT) {
+    // Paragraph items need manual grading - points included in helpText
+  }
+}
+
+// ============================================================================
+// INDIVIDUAL FORM CREATORS
+// ============================================================================
+
+function createG7C4W3Hook() { return createHookForm_(); }
+function createG7C4W3Station1() { return createStation1Form_(); }
+function createG7C4W3Station2() { return createStation2Form_(); }
+function createG7C4W3Station3() { return createStation3Form_(); }
+function createG7C4W3ExitTicket() { return createExitTicketForm_(); }
+
+// ============================================================================
+// VALIDATION
+// ============================================================================
+
+function validatePoints_() {
+  const expected = G7_C4_W3_CONFIG.points;
+  const calculated = {
+    hook: 2 + 2 + 3 + 3 + 2,        // 12
+    station1: 3 + 3 + 3 + 4 + 4 + 3,  // 20
+    station2: 4 + 4 + 4 + 4 + 4,     // 20
+    station3: 4 + 4 + 5 + 6 + 6,     // 25
+    exitTicket: 4 + 4 + 3 + 3 + 5 + 4  // 23
+  };
+  calculated.total = Object.values(calculated).reduce((a, b) => a + b, 0);
+
+  Logger.log('=== Point Validation ===');
+  Object.keys(expected).forEach(key => {
+    const match = expected[key] === calculated[key];
+    Logger.log(`${key}: Expected ${expected[key]}, Got ${calculated[key]} ${match ? '✓' : '✗'}`);
   });
+
+  return calculated.total === expected.total;
 }
