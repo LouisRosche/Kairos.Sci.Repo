@@ -505,11 +505,15 @@ function createExitTicketForm_() {
  * @param {GoogleAppsScript.Forms.Form} form - The form to configure
  */
 function configFormSettings_(form) {
+  // Required form settings per CONTENT-DESIGN-GUIDE.md
   form.setIsQuiz(true);
+  form.setRequireLogin(true);
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
+  form.setAllowResponseEdits(true);
   form.setShowLinkToRespondAgain(false);
   form.setProgressBar(true);
+  form.setShuffleQuestions(false);
   form.setConfirmationMessage(
     'Your responses have been recorded. Great work understanding ecosystem stability!\n\n' +
     'Key Takeaway: Complex food webs with high biodiversity are more resilient because ' +

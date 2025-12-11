@@ -19,11 +19,15 @@
  * @lastUpdated 2025-12-11
  */
 function configFormSettings_(form) {
+  // Required form settings per CONTENT-DESIGN-GUIDE.md
   form.setIsQuiz(true);
+  form.setRequireLogin(true);
   form.setCollectEmail(true);
   form.setLimitOneResponsePerUser(true);
+  form.setAllowResponseEdits(true);
   form.setShowLinkToRespondAgain(false);
   form.setProgressBar(true);
+  form.setShuffleQuestions(false);
   form.setConfirmationMessage(
     'Your responses have been recorded. Great work understanding ecosystem services!\n\n' +
     'Key Takeaway: Ecosystems provide trillions of dollars in services annually. ' +
