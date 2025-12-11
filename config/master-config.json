@@ -230,10 +230,10 @@
       }
     },
     "printables": {
-      "signInCard": "templates/printables/seat-signin-card.html",
-      "seatingMap": "templates/printables/classroom-seating-map.html",
-      "insightsReport": "templates/printables/seating-insights-report.html",
-      "dataEntry": "templates/printables/signin-data-entry.html"
+      "signInCard": "archive/experimental/printables/seat-signin-card.html",
+      "seatingMap": "archive/experimental/printables/classroom-seating-map.html",
+      "insightsReport": "archive/experimental/printables/seating-insights-report.html",
+      "dataEntry": "archive/experimental/printables/signin-data-entry.html"
     }
   },
 
