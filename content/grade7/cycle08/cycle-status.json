@@ -13,6 +13,13 @@
     "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 0 },
     "week4": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
+  "techDebt": {
+    "cssMigration": {
+      "status": "complete",
+      "pattern": "css-design-system-v3.1",
+      "completedDate": "2025-12-12"
+    }
+  },
   "deployed": {
     "week1": false,
     "week2": false,
@@ -23,5 +30,5 @@
     "week1": "trophic-cascade-simulator.html",
     "week2": "biodiversity-resilience-simulator.html"
   },
-  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Ecosystem Dynamics & Trophic Cascades. W2: Biodiversity & Ecosystem Resilience. W3: Climate Change Impact on Ecosystems. W4: Year-End Integration & Assessment. Custom simulations for W1 and W2. Only slides remaining."
+  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Ecosystem Dynamics & Trophic Cascades. W2: Biodiversity & Ecosystem Resilience. W3: Climate Change Impact on Ecosystems. W4: Year-End Integration & Assessment. Custom simulations for W1 and W2. CSS migrated to Design System v3.1. Only slides remaining."
 }

@@ -309,9 +309,9 @@ When you discover something worth documenting:
 ## Known Tech Debt (Tracking)
 
 ### HTML Inline Styles Migration (MEDIUM PRIORITY)
-**Status:** In Progress | **Effort:** ~4-6 hours | **Files:** 44+ student-page.html files
+**Status:** Partially Complete | **Effort:** ~4-6 hours remaining | **Files:** 11 student-page.html files remaining
 
-**Issue:** Most student-page.html files use extensive inline styles instead of design-system.css classes.
+**Issue:** Some student-page.html files use extensive inline styles instead of design-system.css classes.
 
 **Impact:**
 - Design changes require editing every file
@@ -322,16 +322,33 @@ When you discover something worth documenting:
 1. ✅ Audit design-system.css for missing component classes
 2. ✅ Add missing classes (card, banner, nav-grid, etc.)
 3. ✅ Migrate one cycle's pages as template (G7 C4 W1-W3 complete)
-4. ⏳ Batch migrate remaining pages
-5. ⏳ Validate visual consistency
+4. ✅ Added techDebt tracking to cycle-status.json files
+5. ⏳ Batch migrate remaining pages
+6. ⏳ Validate visual consistency
 
-**Progress (2025-12-10):**
-- Updated `templates/html/student-page-template.html` to v3.1 with 100% CSS class pattern
-- Migrated Grade 7 Cycle 4 (all 3 weeks) as reference implementation
-- Grade 8 Cycle 4 is READ-ONLY (production) - cannot migrate
-- Remaining: G7 C5-C8, G8 C5-C8 (~24 files)
+**Progress (2025-12-12):**
 
-**Files most affected:** grade8/cycle04/week3/student-page.html has heaviest inline usage (but is now READ-ONLY)
+**COMPLETE (CSS Design System v3.1):**
+| Grade | Cycle | Weeks | Pattern | Status |
+|-------|-------|-------|---------|--------|
+| G7 | C3 | W1-W5 | embedded | DEPLOYED (read-only) |
+| G7 | C4 | W1-W3 | embedded | Complete |
+| G7 | C6 | W1-W5 | embedded | Complete |
+| G7 | C7 | W1-W4 | embedded | Complete |
+| G7 | C8 | W1-W4 | embedded | Complete |
+| G8 | C3 | W1-W5 | embedded | DEPLOYED (read-only) |
+| G8 | C4 | W1-W3 | embedded | Complete |
+| G8 | C7 | W1-W4 | embedded | Complete |
+| G8 | C8 | W1-W4 | embedded | Complete |
+
+**PENDING (Inline Styles - functional but not DRY):**
+| Grade | Cycle | Files | Status |
+|-------|-------|-------|--------|
+| G7 | C5 | 3 files | techDebt.cssMigration.status: "pending" |
+| G8 | C5 | 3 files | techDebt.cssMigration.status: "pending" |
+| G8 | C6 | 5 files | techDebt.cssMigration.status: "pending" |
+
+**Note:** All content is functional. CSS migration is a maintainability improvement, not a functional requirement.
 
 ---
 
@@ -394,6 +411,7 @@ When you discover something worth documenting:
 | 2025-12-10 | Tech Debt Audit & Remediation | setPoints(0) violations fixed, orphaned cycles archived, deploy-forms.gs documented, DataUtils duplicate functions removed |
 | 2025-12-10 | CSS Styling Migration | Canvas-compatible embedded CSS pattern, station header color system, template v3.1 update, G7 C4 migration complete |
 | 2025-12-12 | UX Infrastructure Overhaul | Config.gs created, protected-files enforcement, pre-commit hooks, MTSS intervention templates, cycle-status schema |
+| 2025-12-12 | Curriculum Status Audit | CSS migration tracking added to cycle-status.json, tech debt documentation updated, migration status clarified |
 
 ---
 
