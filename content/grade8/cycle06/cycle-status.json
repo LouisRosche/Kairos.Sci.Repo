@@ -2,20 +2,24 @@
   "cycle": 6,
   "grade": 8,
   "status": "in_progress",
-  "lastUpdated": "2025-12-10",
+  "lastUpdated": "2025-12-12",
   "topic": "Electricity & Magnetism",
   "completion": {
-    "overall": 65,
+    "overall": 85,
     "curriculumDesign": 100,
     "rubrics": 0,
-    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 },
-    "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 },
-    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 }
+    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
+    "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
+    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "_note": "Page has Synthesis content - assessment now moved to W5. W3 can be reworked for Electric Circuits & Power if needed." },
+    "week4": { "forms": 10, "lessonPlan": 10, "studentPage": 100, "slides": 0 },
+    "week5": { "forms": 10, "lessonPlan": 10, "studentPage": 100, "slides": 0 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
-    "week3": false
+    "week3": false,
+    "week4": false,
+    "week5": false
   },
-  "notes": "All forms complete (W1-W3). Student pages and slides pending. Rubrics needed before deployment."
+  "notes": "W1-W5 student pages complete. W4 = Motors & Mechanical Advantage. W5 = Full Cycle Assessment. Remaining: forms.gs for W4/W5, slides, rubrics."
 }
