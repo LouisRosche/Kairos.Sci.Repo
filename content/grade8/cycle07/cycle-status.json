@@ -2,7 +2,7 @@
   "cycle": 7,
   "grade": 8,
   "status": "complete",
-  "lastUpdated": "2025-12-11",
+  "lastUpdated": "2025-12-12",
   "topic": "Chemical Reactions & Conservation",
   "completion": {
     "overall": 95,
@@ -10,12 +10,14 @@
     "rubrics": 100,
     "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
     "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
-    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
+    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
+    "week4": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
-    "week3": false
+    "week3": false,
+    "week4": false
   },
-  "notes": "Complete development: All forms.gs (5-form rotation for W1/W2, 3-part assessment for W3), student-page.html (CSS Design System v3.1 with chemistry theme), and lesson plans finished. Topics: W1 Evidence of Chemical Reactions, W2 Reaction Types & Conservation, W3 Synthesis & Assessment. Ready for deployment."
+  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Evidence of Chemical Reactions (Fading Glow Mystery). W2: Reaction Types & Conservation (Disappearing Solid Mystery). W3: Reaction Rates & Factors (Cooking Speed Mystery). W4: Synthesis & Assessment. Only slides remaining."
 }

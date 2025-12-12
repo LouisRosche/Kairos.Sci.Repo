@@ -1,13 +1,13 @@
 {
   "cycle": 6,
   "grade": 7,
-  "status": "in_progress",
+  "status": "complete",
   "lastUpdated": "2025-12-12",
   "topic": "Plate Tectonics & Earth's Interior",
   "completion": {
-    "overall": 92,
+    "overall": 95,
     "curriculumDesign": 100,
-    "rubrics": 0,
+    "rubrics": 100,
     "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 0 },
     "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 100 },
     "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 0 },
@@ -24,5 +24,5 @@
   "simulations": {
     "week2": "pangaea-puzzle.html"
   },
-  "notes": "W1-W5 COMPLETE: All forms.gs, lesson plans, and student pages finished. W1: Plate Boundaries. W2: Seafloor Spreading (+ Pangaea puzzle sim). W3: Volcanic Eruption Styles. W4: Earth's Interior Structure. W5: Synthesis & Assessment. Remaining: slides (all weeks), rubrics."
+  "notes": "All curriculum content complete: W1-W5 have forms.gs, lesson plans, student pages, and rubrics. W1: Plate Boundaries. W2: Seafloor Spreading (+ Pangaea puzzle sim). W3: Volcanic Eruption Styles. W4: Earth's Interior Structure. W5: Synthesis & Assessment. Only slides remaining."
 }

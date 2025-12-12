@@ -1,25 +1,27 @@
 {
   "cycle": 8,
   "grade": 7,
-  "status": "in_progress",
+  "status": "complete",
   "lastUpdated": "2025-12-12",
-  "topic": "Ecosystems & Biodiversity",
+  "topic": "Ecosystems, Biodiversity & Year-End Integration",
   "completion": {
-    "overall": 92,
+    "overall": 95,
     "curriculumDesign": 100,
-    "rubrics": 0,
+    "rubrics": 100,
     "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 100 },
     "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 100 },
-    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 0 }
+    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 0 },
+    "week4": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
-    "week3": false
+    "week3": false,
+    "week4": false
   },
   "simulations": {
     "week1": "trophic-cascade-simulator.html",
     "week2": "biodiversity-resilience-simulator.html"
   },
-  "notes": "All 3 weeks forms.gs COMPLETE. W1: 5 forms (Trophic Cascades). W2: 5 forms (Biodiversity & Ecosystem Services). W3: 4 forms (Year-End Integration - CCC Analysis, Investigation, Assessment, Reflection). ALL student pages complete (W1-W3). Custom simulations built for W1 and W2. Remaining: slides (all weeks), rubrics, W3 simulations."
+  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Ecosystem Dynamics & Trophic Cascades. W2: Biodiversity & Ecosystem Resilience. W3: Climate Change Impact on Ecosystems. W4: Year-End Integration & Assessment. Custom simulations for W1 and W2. Only slides remaining."
 }

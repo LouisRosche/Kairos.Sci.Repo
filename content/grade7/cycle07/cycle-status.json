@@ -2,7 +2,7 @@
   "cycle": 7,
   "grade": 7,
   "status": "complete",
-  "lastUpdated": "2025-12-11",
+  "lastUpdated": "2025-12-12",
   "topic": "Rock Cycle & Earth's History",
   "completion": {
     "overall": 95,
@@ -10,16 +10,18 @@
     "rubrics": 100,
     "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 100 },
     "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 100 },
-    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 0 }
+    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 0 },
+    "week4": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
-    "week3": false
+    "week3": false,
+    "week4": false
   },
   "simulations": {
     "week1": "rock-cycle-explorer.html",
     "week2": "geologic-time-explorer.html"
   },
-  "notes": "Complete development: All forms.gs (5-form rotation + assessment structure), student-page.html (CSS Design System v3.1), lesson plans, and rubrics finished. Custom simulations built for W1 (Rock Cycle Explorer) and W2 (Geologic Time Explorer). Ready for deployment."
+  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Rock Types & Rock Cycle. W2: Geologic Time & Fossil Evidence. W3: Radiometric Dating & Absolute Age. W4: Synthesis & Assessment. Custom simulations for W1 (Rock Cycle Explorer) and W2 (Geologic Time Explorer). Only slides remaining."
 }
