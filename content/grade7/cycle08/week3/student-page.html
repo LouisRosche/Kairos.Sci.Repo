@@ -3,35 +3,791 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G7 C8 W3: [Title TBD] - PLACEHOLDER</title>
+  <title>G7 C8 W3: Year-End Integration & Assessment</title>
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════════════
+       CSS Design System v3.1 - Year-End Celebration Theme
+       Based on shared/styles/design-system.css
+       ═══════════════════════════════════════════════════════════════════════════ */
+
+    :root {
+      --color-primary: #7c3aed;
+      --color-secondary: #8b5cf6;
+      --color-accent: #a78bfa;
+      --color-background: #faf5ff;
+      --color-text: #1e1b4b;
+      --color-text-light: #6b7280;
+      --color-border: #e5e7eb;
+      --color-success: #16a34a;
+      --color-warning: #f59e0b;
+      --color-error: #dc2626;
+
+      /* Year-end celebration colors */
+      --grad-gold: #fbbf24;
+      --grad-silver: #94a3b8;
+      --grad-bronze: #f97316;
+      --celebration-gradient: linear-gradient(135deg, #059669 0%, #0891b2 50%, #7c3aed 100%);
+
+      /* Station gradients */
+      --hook-gradient: linear-gradient(135deg, #059669 0%, #047857 100%);
+      --station1-gradient: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+      --station2-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      --station3-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+      --exit-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+
+      --font-primary: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --border-radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-primary);
+      line-height: 1.6;
+      color: var(--color-text);
+      background-color: var(--color-background);
+      margin: 0;
+      padding: var(--spacing-md);
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--color-primary);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      z-index: 100;
+      text-decoration: none;
+    }
+
+    .skip-link:focus { top: 0; }
+
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Week Header */
+    .week-header {
+      background: var(--celebration-gradient);
+      color: white;
+      padding: var(--spacing-xl);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-xl);
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .week-header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      animation: celebration-shine 3s ease-in-out infinite;
+    }
+
+    @keyframes celebration-shine {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+      50% { transform: scale(1.1) rotate(180deg); opacity: 0.3; }
+    }
+
+    .week-header h1 {
+      margin: 0 0 var(--spacing-sm);
+      font-size: 1.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .week-header .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      margin-bottom: var(--spacing-md);
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge-container {
+      display: flex;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.2);
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    .badge.gold {
+      background: var(--grad-gold);
+      color: #1c1917;
+    }
+
+    /* Overview Box */
+    .overview-box {
+      background: linear-gradient(135deg, #064e3b, #065f46);
+      color: white;
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-xl);
+      box-shadow: var(--shadow-md);
+    }
+
+    .overview-box h2 {
+      margin-top: 0;
+      color: #a7f3d0;
+    }
+
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-md);
+    }
+
+    .day-card {
+      background: rgba(255,255,255,0.1);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      text-align: center;
+    }
+
+    .day-card .day-num {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--grad-gold);
+    }
+
+    .day-card .day-focus {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    /* Station Cards */
+    .station-card {
+      background: white;
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .station-header {
+      padding: var(--spacing-lg);
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .station-header.hook { background: var(--hook-gradient); }
+    .station-header.station1 { background: var(--station1-gradient); }
+    .station-header.station2 { background: var(--station2-gradient); }
+    .station-header.station3 { background: var(--station3-gradient); }
+    .station-header.exit { background: var(--exit-gradient); }
+
+    .station-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .station-title h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .station-title .meta {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .station-content {
+      padding: var(--spacing-lg);
+    }
+
+    /* Data Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--spacing-md) 0;
+      font-size: 0.95rem;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: var(--spacing-sm) var(--spacing-md);
+      text-align: left;
+      border: 1px solid var(--color-border);
+    }
+
+    .data-table th {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .data-table tr:nth-child(even) {
+      background: var(--color-background);
+    }
+
+    /* Info Boxes */
+    .info-box {
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-md) 0;
+      border-left: 4px solid;
+    }
+
+    .info-box.concept {
+      background: #ede9fe;
+      border-color: var(--color-primary);
+    }
+
+    .info-box.warning {
+      background: #fee2e2;
+      border-color: var(--color-error);
+    }
+
+    .info-box.success {
+      background: #dcfce7;
+      border-color: var(--color-success);
+    }
+
+    .info-box.celebration {
+      background: #fef3c7;
+      border-color: var(--grad-gold);
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    /* CCC Grid */
+    .ccc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--spacing-md);
+      margin: var(--spacing-md) 0;
+    }
+
+    .ccc-card {
+      background: var(--color-background);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      border-left: 4px solid;
+    }
+
+    .ccc-card:nth-child(1) { border-color: #ef4444; }
+    .ccc-card:nth-child(2) { border-color: #f97316; }
+    .ccc-card:nth-child(3) { border-color: #eab308; }
+    .ccc-card:nth-child(4) { border-color: #22c55e; }
+    .ccc-card:nth-child(5) { border-color: #0ea5e9; }
+    .ccc-card:nth-child(6) { border-color: #8b5cf6; }
+    .ccc-card:nth-child(7) { border-color: #ec4899; }
+
+    .ccc-card .ccc-name {
+      font-weight: 700;
+      color: var(--color-text);
+      font-size: 1rem;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .ccc-card .ccc-example {
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+    }
+
+    .ccc-card .points {
+      display: inline-block;
+      background: var(--color-primary);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      margin-top: var(--spacing-sm);
+    }
+
+    /* Rubric */
+    .rubric-grid {
+      display: grid;
+      gap: var(--spacing-sm);
+      margin: var(--spacing-md) 0;
+    }
+
+    .rubric-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--color-background);
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--color-primary);
+    }
+
+    .rubric-item .criteria {
+      font-weight: 600;
+    }
+
+    .rubric-item .points {
+      background: var(--color-primary);
+      color: white;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    /* Reflection Box */
+    .reflection-box {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-md) 0;
+      border: 2px solid var(--grad-gold);
+    }
+
+    .reflection-box h4 {
+      margin-top: 0;
+      color: #92400e;
+    }
+
+    .reflection-prompts {
+      list-style: none;
+      padding: 0;
+    }
+
+    .reflection-prompts li {
+      padding: var(--spacing-sm) 0;
+      border-bottom: 1px dashed #d97706;
+    }
+
+    .reflection-prompts li:last-child {
+      border-bottom: none;
+    }
+
+    /* Form Embed */
+    .form-embed {
+      background: var(--color-background);
+      border: 2px dashed var(--color-border);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      text-align: center;
+      margin-top: var(--spacing-md);
+    }
+
+    .form-embed p {
+      color: var(--color-text-light);
+      margin: 0;
+    }
+
+    /* MTSS Support */
+    .mtss-support {
+      margin-top: var(--spacing-lg);
+    }
+
+    .mtss-support summary {
+      cursor: pointer;
+      padding: var(--spacing-md);
+      background: var(--color-background);
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      color: var(--color-primary);
+      border: 1px solid var(--color-border);
+      list-style: none;
+    }
+
+    .mtss-support summary::-webkit-details-marker { display: none; }
+    .mtss-support summary::before { content: "▶ "; font-size: 0.8rem; }
+    .mtss-support[open] summary::before { content: "▼ "; }
+
+    .mtss-content {
+      padding: var(--spacing-md);
+      border: 1px solid var(--color-border);
+      border-top: none;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      background: white;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding: var(--spacing-lg);
+      color: var(--color-text-light);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--color-border);
+      margin-top: var(--spacing-xl);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .week-header { padding: var(--spacing-lg); }
+      .week-header h1 { font-size: 1.4rem; }
+      .station-header { flex-direction: column; text-align: center; }
+      .day-grid { grid-template-columns: 1fr; }
+      .ccc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<!-- Skip to main content link for accessibility -->
-<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to main content</a>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 7 CYCLE 5 WEEK 3: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  Target Date: January 27-30, 2026
-  Topic: Ecosystems & Biodiversity
-  Primary Standard: MS-ESS2-5
+  <div class="page-container">
+    <!-- Week Header -->
+    <header class="week-header" role="banner">
+      <h1>Cycle 8 Week 3: Year-End Integration</h1>
+      <p class="subtitle">CCC Synthesis & Student Investigations</p>
+      <div class="badge-container">
+        <span class="badge gold">YEAR-END</span>
+        <span class="badge">100 Total Points</span>
+        <span class="badge">All CCCs</span>
+      </div>
+    </header>
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+    <main id="main-content" role="main">
+      <!-- Overview Box -->
+      <section class="overview-box" aria-labelledby="overview-heading">
+        <h2 id="overview-heading">Year-End Integration Week</h2>
+        <p>This is your final week of Grade 7 Science! You'll demonstrate mastery of the 7 Cross-Cutting Concepts, present your independent investigations, and reflect on your growth as a scientist this year.</p>
+        <div class="day-grid">
+          <div class="day-card">
+            <div class="day-num">Day 1</div>
+            <div class="day-focus">CCC Synthesis</div>
+          </div>
+          <div class="day-card">
+            <div class="day-num">Day 2</div>
+            <div class="day-focus">Investigation Presentations</div>
+          </div>
+          <div class="day-card">
+            <div class="day-num">Day 3</div>
+            <div class="day-focus">Assessment & Reflection</div>
+          </div>
+        </div>
+      </section>
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+      <!-- Learning Targets -->
+      <section class="station-card" aria-labelledby="targets-heading">
+        <div class="station-header hook">
+          <div class="station-icon" aria-hidden="true">🎯</div>
+          <div class="station-title">
+            <h2 id="targets-heading">Learning Targets</h2>
+            <div class="meta">What you'll demonstrate this week</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <ol>
+            <li>Apply all 7 cross-cutting concepts to ecosystem analysis</li>
+            <li>Present independent investigation findings with evidence</li>
+            <li>Demonstrate integrated understanding of year content</li>
+            <li>Reflect on scientific thinking development</li>
+          </ol>
+        </div>
+      </section>
 
-  <main id="main-content">
-    <h1>Grade 7 Cycle 8 Week 3</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
-  </main>
+      <!-- Day 1: CCC Synthesis -->
+      <section class="station-card" aria-labelledby="day1-heading">
+        <div class="station-header station1">
+          <div class="station-icon" aria-hidden="true">🔗</div>
+          <div class="station-title">
+            <h2 id="day1-heading">Day 1: Cross-Cutting Concept Synthesis</h2>
+            <div class="meta">40 points | Apply all 7 CCCs to Yellowstone ecosystem</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box concept">
+            <strong>Today's Challenge:</strong>
+            Work in groups to analyze how each of the 7 Cross-Cutting Concepts applies to the Yellowstone ecosystem. Show how the "big ideas" of science connect everything we've learned!
+          </div>
+
+          <h3>The 7 Cross-Cutting Concepts Applied to Ecosystems</h3>
+          <div class="ccc-grid">
+            <div class="ccc-card">
+              <div class="ccc-name">1. Patterns</div>
+              <div class="ccc-example">Population cycles (elk, wolves), migration patterns, seasonal changes in Yellowstone</div>
+              <span class="points">5 pts</span>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">2. Cause & Effect</div>
+              <div class="ccc-example">Wolf removal → elk increase → vegetation loss → river change (trophic cascade!)</div>
+              <span class="points">6 pts</span>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">3. Scale, Proportion, Quantity</div>
+              <div class="ccc-example">Energy transfer (10% rule), population sizes, trophic level ratios</div>
+              <span class="points">6 pts</span>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">4. Systems & System Models</div>
+              <div class="ccc-example">Food web diagrams, nutrient cycling models, ecosystem boundaries</div>
+              <span class="points">5 pts</span>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">5. Energy & Matter</div>
+              <div class="ccc-example">Energy flow through trophic levels (sun → producers → consumers), matter cycling</div>
+              <span class="points">6 pts</span>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">6. Structure & Function</div>
+              <div class="ccc-example">Wolf teeth designed for hunting, elk hooves for grazing, beaver dams for habitat</div>
+              <span class="points">6 pts</span>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">7. Stability & Change</div>
+              <div class="ccc-example">Ecosystem before/after wolves, succession after disturbance, equilibrium</div>
+              <span class="points">6 pts</span>
+            </div>
+          </div>
+
+          <h3>Group Presentation Requirements</h3>
+          <ul>
+            <li>Each group presents 1-2 CCCs (assigned by teacher)</li>
+            <li>Must include <strong>specific Yellowstone examples</strong></li>
+            <li>Connect to <strong>at least one other cycle's</strong> content</li>
+            <li>5-7 minutes per group presentation</li>
+          </ul>
+
+          <div class="info-box success">
+            <strong>Connection Tip:</strong>
+            Think about how these CCCs appeared in other cycles! Patterns in climate (C3), cause & effect in human impact (C4), systems in weather (C5), etc.
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Day 1 Form - CCC Analysis</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Day 2: Investigation Presentations -->
+      <section class="station-card" aria-labelledby="day2-heading">
+        <div class="station-header station2">
+          <div class="station-icon" aria-hidden="true">🔬</div>
+          <div class="station-title">
+            <h2 id="day2-heading">Day 2: Student Investigation Presentations</h2>
+            <div class="meta">40 points | Present your independent research</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box celebration">
+            <strong>Showcase Day!</strong>
+            Today you present your independent investigation to the class. This is your chance to share what you discovered and how you used the scientific process!
+          </div>
+
+          <h3>Presentation Format</h3>
+          <ul>
+            <li><strong>Time:</strong> 3-5 minutes per student</li>
+            <li><strong>Must include:</strong> Question, Methods, Evidence, Conclusions</li>
+            <li><strong>Required:</strong> Connection to at least 2 cycles</li>
+            <li><strong>Q&A:</strong> 1-2 questions from peers</li>
+          </ul>
+
+          <h3>Investigation Rubric</h3>
+          <div class="rubric-grid">
+            <div class="rubric-item">
+              <span class="criteria">Clear research question</span>
+              <span class="points">5 pts</span>
+            </div>
+            <div class="rubric-item">
+              <span class="criteria">Evidence-based methods</span>
+              <span class="points">10 pts</span>
+            </div>
+            <div class="rubric-item">
+              <span class="criteria">Accurate conclusions supported by data</span>
+              <span class="points">10 pts</span>
+            </div>
+            <div class="rubric-item">
+              <span class="criteria">Connection to at least 2 cycles</span>
+              <span class="points">10 pts</span>
+            </div>
+            <div class="rubric-item">
+              <span class="criteria">Presentation quality and clarity</span>
+              <span class="points">5 pts</span>
+            </div>
+          </div>
+
+          <h3>Peer Feedback</h3>
+          <p>For each presentation you watch, provide written feedback:</p>
+          <ul>
+            <li><strong>Strengths:</strong> What did they do well?</li>
+            <li><strong>Questions:</strong> What do you want to know more about?</li>
+            <li><strong>Connections:</strong> How does this connect to your learning?</li>
+          </ul>
+
+          <div class="form-embed">
+            <p><strong>Day 2 Form - Peer Feedback</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Day 3: Assessment & Reflection -->
+      <section class="station-card" aria-labelledby="day3-heading">
+        <div class="station-header station3">
+          <div class="station-icon" aria-hidden="true">📝</div>
+          <div class="station-title">
+            <h2 id="day3-heading">Day 3: Cycle 8 Assessment & Year Reflection</h2>
+            <div class="meta">20 points | Demonstrate mastery and reflect on growth</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <h3>Cycle 8 Content Assessment (15 pts)</h3>
+          <table class="data-table" role="table" aria-label="Assessment sections">
+            <thead>
+              <tr>
+                <th scope="col">Section</th>
+                <th scope="col">Points</th>
+                <th scope="col">Focus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Section A: Ecosystem Dynamics</strong></td>
+                <td>5 pts</td>
+                <td>Trophic cascades, food webs, keystone species</td>
+              </tr>
+              <tr>
+                <td><strong>Section B: Biodiversity & Services</strong></td>
+                <td>5 pts</td>
+                <td>Resilience, ecosystem services, conservation</td>
+              </tr>
+              <tr>
+                <td><strong>Section C: Integration</strong></td>
+                <td>5 pts</td>
+                <td>Connect to previous cycles, apply CCCs</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Year-End Reflection (5 pts)</h3>
+          <div class="reflection-box">
+            <h4>Reflect on Your Scientific Growth</h4>
+            <ol class="reflection-prompts">
+              <li>What was the <strong>most surprising thing</strong> you learned this year?</li>
+              <li>Which Science & Engineering Practice (SEP) did you <strong>improve the most</strong>? Provide evidence.</li>
+              <li>How has your <strong>thinking about science</strong> changed?</li>
+              <li>What <strong>questions</strong> do you still have about Earth and life science?</li>
+            </ol>
+          </div>
+
+          <div class="info-box celebration">
+            <strong>Congratulations!</strong>
+            You've completed Grade 7 Science! You've explored climate change, biogeochemical cycles, weather systems, plate tectonics, rock cycles, and ecosystems. You're ready for Grade 8!
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Day 3 Form - Assessment & Reflection</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Assessment Summary -->
+      <section class="station-card" aria-labelledby="summary-heading">
+        <div class="station-header exit">
+          <div class="station-icon" aria-hidden="true">📊</div>
+          <div class="station-title">
+            <h2 id="summary-heading">Week Points Summary</h2>
+            <div class="meta">100 Total Points</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <table class="data-table" role="table" aria-label="Points breakdown">
+            <thead>
+              <tr>
+                <th scope="col">Component</th>
+                <th scope="col">Points</th>
+                <th scope="col">Day</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>CCC Synthesis</strong></td>
+                <td>40</td>
+                <td>Day 1</td>
+              </tr>
+              <tr>
+                <td><strong>Investigation Presentation</strong></td>
+                <td>40</td>
+                <td>Day 2</td>
+              </tr>
+              <tr>
+                <td><strong>Cycle 8 Assessment</strong></td>
+                <td>15</td>
+                <td>Day 3</td>
+              </tr>
+              <tr>
+                <td><strong>Year Reflection</strong></td>
+                <td>5</td>
+                <td>Day 3</td>
+              </tr>
+              <tr>
+                <td><strong>TOTAL</strong></td>
+                <td><strong>100</strong></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- MTSS Support -->
+      <details class="mtss-support" aria-label="Additional support resources">
+        <summary>Need Extra Support? Click Here</summary>
+        <div class="mtss-content">
+          <h3>Tier 2 Supports</h3>
+          <ul>
+            <li><strong>CCC reference sheet with definitions</strong> - Quick lookup guide</li>
+            <li><strong>Presentation template with prompts</strong> - Structured outline</li>
+            <li><strong>Sentence starters for reflection</strong> - Guided writing support</li>
+          </ul>
+
+          <h3>Presentation Sentence Starters</h3>
+          <ul>
+            <li>"My research question was..."</li>
+            <li>"I collected evidence by..."</li>
+            <li>"My data shows that..."</li>
+            <li>"This connects to [cycle] because..."</li>
+          </ul>
+
+          <h3>Tier 3 Supports</h3>
+          <ul>
+            <li><strong>Extended presentation time</strong></li>
+            <li><strong>Reduced CCC analysis</strong> - Focus on 3-4 concepts</li>
+            <li><strong>One-on-one presentation option</strong></li>
+            <li><strong>Oral reflection alternative</strong></li>
+          </ul>
+        </div>
+      </details>
+    </main>
+
+    <footer class="page-footer" role="contentinfo">
+      <p>Grade 7 | Cycle 8 Week 3 | Year-End Integration & Assessment</p>
+      <p>NGSS Standard: MS-LS2-4 | Year-End Synthesis: All CCCs</p>
+      <p><small>Student Page v1.0 | CSS Design System v3.1</small></p>
+    </footer>
+  </div>
 </body>
 </html>
