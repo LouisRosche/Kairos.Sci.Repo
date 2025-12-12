@@ -19,6 +19,21 @@ The modules were well-designed but the adoption never occurred:
 2. No migration effort to refactor existing forms
 3. Forms work correctly without these modules
 
+### Data Scripts
+
+Some data scripts (`data/aggregation/`, `data/hub/`, etc.) DO reference `Config.*` but all have defensive fallback code:
+
+```javascript
+if (typeof Config !== 'undefined' && Config.getTierForScore) {
+  tier = Config.getTierForScore(score);
+} else {
+  // Fallback tier calculation
+  tier = score >= 70 ? 1 : (score >= 50 ? 2 : 3);
+}
+```
+
+These scripts work correctly without Config.gs - the fallback calculations match the centralized config values.
+
 ### If You Need This Functionality
 
 The configuration values these modules provided are available directly in:
