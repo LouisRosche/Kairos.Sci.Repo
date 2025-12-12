@@ -3,25 +3,741 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G7 C6 Week 5 - SCAFFOLD</title>
-  <link rel="stylesheet" href="../../../../shared/styles/design-system.css">
+  <title>G7 C6 W5: Synthesis & Assessment - Plate Tectonics</title>
+  <!-- CSS Design System v3.1 - Embedded for Canvas LMS compatibility -->
+  <style>
+    /* ============================================
+       CSS DESIGN SYSTEM v3.1 - Assessment Theme
+       G7 Cycle 6 Week 5: Synthesis & Assessment
+       ============================================ */
+
+    :root {
+      /* Assessment Theme Colors */
+      --assess-purple: #6A1B9A;
+      --assess-deep: #4A148C;
+      --synthesis-teal: #00897B;
+      --review-blue: #1565C0;
+      --earth-brown: #5D4037;
+      --success-green: #2E7D32;
+      --accent-gold: #FF8F00;
+
+      /* Part Gradients */
+      --part1-gradient: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+      --part2-gradient: linear-gradient(135deg, #00897B 0%, #004D40 100%);
+      --part3-gradient: linear-gradient(135deg, #6A1B9A 0%, #4A148C 100%);
+      --header-gradient: linear-gradient(135deg, #5D4037 0%, #3E2723 100%);
+
+      /* Semantic Colors */
+      --success: #2E7D32;
+      --warning: #F57C00;
+      --info: #1565C0;
+      --text-primary: #212121;
+      --text-secondary: #616161;
+      --bg-light: #FAFAFA;
+      --bg-card: #FFFFFF;
+      --border-light: #E0E0E0;
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.2);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    /* Reset & Base */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: linear-gradient(180deg, #EDE7F6 0%, #D1C4E9 100%);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    /* Accessibility */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .skip-link:focus {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      width: auto;
+      height: auto;
+      padding: 12px 24px;
+      background: var(--assess-purple);
+      color: white;
+      z-index: 10000;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .page-header {
+      background: var(--header-gradient);
+      color: white;
+      padding: 40px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10,50 L30,30 L50,50 L70,30 L90,50' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='2'/%3E%3Cpath d='M10,70 L30,50 L50,70 L70,50 L90,70' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='2'/%3E%3C/svg%3E") repeat;
+      opacity: 0.3;
+    }
+    .page-header h1 {
+      margin: 0 0 8px 0;
+      font-size: 2rem;
+      font-weight: 700;
+      position: relative;
+    }
+    .page-header .subtitle {
+      margin: 0;
+      font-size: 1.25rem;
+      opacity: 0.95;
+      position: relative;
+    }
+    .week-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    /* Navigation */
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      background: var(--bg-card);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-tab {
+      padding: 12px 20px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--bg-light);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-tab:hover {
+      background: var(--assess-purple);
+      color: white;
+    }
+    .nav-tab.active {
+      background: var(--assess-deep);
+      color: white;
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-tab .points {
+      background: rgba(255,255,255,0.2);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+    }
+
+    /* Section Panels */
+    .section-panel {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .section-panel.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+    }
+    .card-header {
+      padding: 20px 28px;
+      margin: -28px -28px 24px -28px;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      color: white;
+    }
+    .card-header.part1 { background: var(--part1-gradient); }
+    .card-header.part2 { background: var(--part2-gradient); }
+    .card-header.part3 { background: var(--part3-gradient); }
+    .card-header.overview { background: var(--header-gradient); }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.375rem;
+      font-weight: 600;
+    }
+    .card-header .points-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      margin-top: 8px;
+      display: inline-block;
+    }
+
+    /* Assessment Overview Box */
+    .assessment-overview {
+      background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+      border-left: 4px solid var(--success-green);
+      padding: 20px 24px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin-bottom: 24px;
+    }
+    .assessment-overview h3 {
+      color: var(--success-green);
+      margin: 0 0 12px 0;
+      font-size: 1.125rem;
+    }
+
+    /* Form Embed */
+    .form-container {
+      background: var(--bg-light);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-top: 20px;
+    }
+    .form-placeholder {
+      background: linear-gradient(135deg, #ECEFF1 0%, #CFD8DC 100%);
+      border: 2px dashed var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 40px;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+    .form-placeholder .icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    /* Content Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .content-item {
+      background: var(--bg-light);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border-left: 4px solid var(--synthesis-teal);
+    }
+    .content-item:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .content-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    .content-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .content-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    /* Section Summary */
+    .section-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .section-card {
+      background: var(--bg-light);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      border-top: 4px solid;
+    }
+    .section-card.boundaries { border-color: #E65100; }
+    .section-card.seafloor { border-color: #0277BD; }
+    .section-card.volcanic { border-color: #BF360C; }
+    .section-card.interior { border-color: #5D4037; }
+    .section-card h4 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+    .section-card ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.875rem;
+    }
+    .section-card li {
+      margin-bottom: 4px;
+    }
+
+    /* Misconception Check */
+    .misconception-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .misconception-item {
+      background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--warning);
+    }
+    .misconception-item h4 {
+      color: var(--warning);
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+    .wrong {
+      color: #C62828;
+      font-size: 0.9rem;
+    }
+    .correct {
+      color: var(--success-green);
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    /* MTSS Supports */
+    details.mtss-support {
+      background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-top: 20px;
+    }
+    details.mtss-support summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--info);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    details.mtss-support summary::before {
+      content: '💡';
+    }
+    details.mtss-support[open] summary {
+      margin-bottom: 12px;
+    }
+    .tier-badge {
+      display: inline-block;
+      background: var(--info);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      margin-left: 8px;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .page-header { padding: 24px; }
+      .page-header h1 { font-size: 1.5rem; }
+      .nav-tabs { gap: 6px; }
+      .nav-tab { padding: 10px 14px; font-size: 0.875rem; }
+      .card { padding: 20px; }
+      .card-header { margin: -20px -20px 20px -20px; padding: 16px 20px; }
+    }
+  </style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <main id="main-content" role="main">
-    <header>
-      <h1>Grade 7 - Cycle 6 - Week 5</h1>
-      <p class="subtitle">Synthesis & Assessment</p>
+  <div class="container">
+    <header class="page-header" role="banner">
+      <span class="week-badge">Week 5 of 5 - Assessment</span>
+      <h1>Synthesis & Assessment</h1>
+      <p class="subtitle">Plate Tectonics & Earth's Interior</p>
     </header>
 
-    <section class="notice warning" aria-labelledby="scaffold-notice">
-      <h2 id="scaffold-notice">Content Development Required</h2>
-      <p>This week was added during calendar alignment audit (2025-12-11).</p>
-      <p>Content needs to be developed following <code>framework/CONTENT-DESIGN-GUIDE.md</code></p>
-      <p><strong>Dates:</strong> April 20-24, 2026</p>
-    </section>
+    <nav class="nav-tabs" role="tablist" aria-label="Assessment sections">
+      <button class="nav-tab active" role="tab" aria-selected="true" onclick="showSection('overview')">
+        Overview
+      </button>
+      <button class="nav-tab" role="tab" aria-selected="false" onclick="showSection('part1')">
+        Part 1 <span class="points">20 pts</span>
+      </button>
+      <button class="nav-tab" role="tab" aria-selected="false" onclick="showSection('part2')">
+        Part 2 <span class="points">60 pts</span>
+      </button>
+      <button class="nav-tab" role="tab" aria-selected="false" onclick="showSection('part3')">
+        Part 3 <span class="points">20 pts</span>
+      </button>
+    </nav>
 
-  </main>
+    <main id="main-content" role="main">
+
+      <!-- OVERVIEW SECTION -->
+      <section id="overview" class="section-panel active" role="tabpanel" aria-labelledby="overview-tab">
+        <article class="card">
+          <div class="card-header overview">
+            <h2>Assessment Overview</h2>
+            <span class="points-badge">100 Points Total</span>
+          </div>
+
+          <div class="assessment-overview">
+            <h3>What You'll Demonstrate</h3>
+            <p>This assessment covers everything you've learned in Cycle 6 about plate tectonics, volcanic activity, and Earth's interior structure. Show what you know!</p>
+          </div>
+
+          <h3>Assessment Structure</h3>
+          <div class="content-grid">
+            <div class="content-item">
+              <div class="content-icon">🔗</div>
+              <div class="content-title">Part 1: Synthesis Review</div>
+              <div class="content-desc">20 points | 15 minutes</div>
+            </div>
+            <div class="content-item">
+              <div class="content-icon">📝</div>
+              <div class="content-title">Part 2: Main Assessment</div>
+              <div class="content-desc">60 points | 40 minutes</div>
+            </div>
+            <div class="content-item">
+              <div class="content-icon">🎯</div>
+              <div class="content-title">Part 3: Misconception Check</div>
+              <div class="content-desc">20 points | 20 minutes</div>
+            </div>
+          </div>
+
+          <h3>What You've Learned</h3>
+          <div class="section-summary">
+            <div class="section-card boundaries">
+              <h4>Week 1: Plate Boundaries</h4>
+              <ul>
+                <li>Divergent (spreading apart)</li>
+                <li>Convergent (coming together)</li>
+                <li>Transform (sliding past)</li>
+                <li>Earthquake patterns</li>
+              </ul>
+            </div>
+            <div class="section-card seafloor">
+              <h4>Week 2: Seafloor Evidence</h4>
+              <ul>
+                <li>Magnetic stripe patterns</li>
+                <li>Seafloor age distribution</li>
+                <li>Continental drift evidence</li>
+                <li>Pangaea reconstruction</li>
+              </ul>
+            </div>
+            <div class="section-card volcanic">
+              <h4>Week 3: Volcanic Systems</h4>
+              <ul>
+                <li>Magma viscosity & eruption style</li>
+                <li>Volcano locations</li>
+                <li>Volcanic hazards</li>
+                <li>Hot spots vs boundaries</li>
+              </ul>
+            </div>
+            <div class="section-card interior">
+              <h4>Week 4: Earth's Interior</h4>
+              <ul>
+                <li>P-waves and S-waves</li>
+                <li>Shadow zone evidence</li>
+                <li>Earth's four layers</li>
+                <li>Core composition</li>
+              </ul>
+            </div>
+          </div>
+
+          <details class="mtss-support">
+            <summary>Study Tips <span class="tier-badge">Tier 2/3</span></summary>
+            <p><strong>Big Picture:</strong> All these topics are connected! Earth's internal heat drives mantle convection, which moves plates, creates earthquakes, and causes volcanic activity.</p>
+            <p><strong>Key Evidence Chain:</strong> Seismic waves → reveal Earth's layers → prove mantle is solid → explain plate movement → predict earthquake/volcano locations</p>
+          </details>
+        </article>
+      </section>
+
+      <!-- PART 1 SECTION -->
+      <section id="part1" class="section-panel" role="tabpanel" aria-labelledby="part1-tab">
+        <article class="card">
+          <div class="card-header part1">
+            <h2>Part 1: Synthesis Review</h2>
+            <span class="points-badge">20 Points | 15 Minutes</span>
+          </div>
+
+          <div class="assessment-overview">
+            <h3>Connecting the Concepts</h3>
+            <p>Before the main assessment, let's review how all the concepts from Cycle 6 connect together.</p>
+          </div>
+
+          <h3>Key Connections</h3>
+          <div class="content-grid">
+            <div class="content-item">
+              <div class="content-icon">🔄</div>
+              <div class="content-title">Boundaries → Earthquakes</div>
+              <div class="content-desc">~95% of earthquakes occur at plate boundaries</div>
+            </div>
+            <div class="content-item">
+              <div class="content-icon">🌋</div>
+              <div class="content-title">Boundaries → Volcanoes</div>
+              <div class="content-desc">Most volcanoes form at convergent boundaries</div>
+            </div>
+            <div class="content-item">
+              <div class="content-icon">🌊</div>
+              <div class="content-title">Mantle → Movement</div>
+              <div class="content-desc">Convection in mantle drives plate tectonics</div>
+            </div>
+            <div class="content-item">
+              <div class="content-icon">🔬</div>
+              <div class="content-title">Waves → Layers</div>
+              <div class="content-desc">Seismic waves reveal Earth's interior structure</div>
+            </div>
+          </div>
+
+          <h3>Review Questions Focus</h3>
+          <ul>
+            <li>Q1: How do plate boundaries relate to earthquake patterns?</li>
+            <li>Q2: What evidence supports continental drift?</li>
+            <li>Q3: Why do volcanoes form at certain locations?</li>
+            <li>Q4: How do seismic waves reveal Earth's interior?</li>
+            <li>Q5: How are ALL these processes connected?</li>
+          </ul>
+
+          <div class="form-container">
+            <div class="form-placeholder">
+              <div class="icon">📋</div>
+              <p><strong>Part 1 Form</strong></p>
+              <p>Your teacher will provide the form link</p>
+              <p><em>G7.C6.W5: Part 1 - Synthesis Review</em></p>
+            </div>
+          </div>
+
+          <details class="mtss-support">
+            <summary>Need Help? <span class="tier-badge">Tier 2/3</span></summary>
+            <p><strong>The Big Connection:</strong> Earth's internal heat (from core) → drives mantle convection → moves tectonic plates → creates earthquakes and volcanoes at boundaries</p>
+            <p><strong>Evidence Connection:</strong> Magnetic stripes + fossils + coastlines + climate = Pangaea existed → continental drift proved → seafloor spreading confirmed</p>
+          </details>
+        </article>
+      </section>
+
+      <!-- PART 2 SECTION -->
+      <section id="part2" class="section-panel" role="tabpanel" aria-labelledby="part2-tab">
+        <article class="card">
+          <div class="card-header part2">
+            <h2>Part 2: Cumulative Assessment</h2>
+            <span class="points-badge">60 Points | 40 Minutes</span>
+          </div>
+
+          <div class="assessment-overview">
+            <h3>Main Assessment</h3>
+            <p>This section tests your understanding across all four weeks of content. Take your time and show what you know!</p>
+          </div>
+
+          <h3>Assessment Sections</h3>
+          <div class="section-summary">
+            <div class="section-card boundaries">
+              <h4>Section A: Plate Boundaries (15 pts)</h4>
+              <ul>
+                <li>Divergent boundary features</li>
+                <li>Convergent boundary types</li>
+                <li>Transform boundary earthquakes</li>
+                <li>Identifying real-world boundaries</li>
+              </ul>
+            </div>
+            <div class="section-card seafloor">
+              <h4>Section B: Seafloor Evidence (15 pts)</h4>
+              <ul>
+                <li>Magnetic stripe patterns</li>
+                <li>Seafloor age patterns</li>
+                <li>Continental drift evidence</li>
+                <li>Pangaea reconstruction</li>
+              </ul>
+            </div>
+            <div class="section-card volcanic">
+              <h4>Section C: Volcanic Systems (15 pts)</h4>
+              <ul>
+                <li>Magma viscosity & eruptions</li>
+                <li>Volcano locations</li>
+                <li>Volcanic hazards</li>
+                <li>Hot spots vs boundaries</li>
+              </ul>
+            </div>
+            <div class="section-card interior">
+              <h4>Section D: Earth's Interior (15 pts)</h4>
+              <ul>
+                <li>P-wave & S-wave properties</li>
+                <li>Shadow zone evidence</li>
+                <li>Layer properties & density</li>
+                <li>Core composition evidence</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-container">
+            <div class="form-placeholder">
+              <div class="icon">📋</div>
+              <p><strong>Part 2 Form</strong></p>
+              <p>Your teacher will provide the form link</p>
+              <p><em>G7.C6.W5: Part 2 - Cumulative Assessment</em></p>
+            </div>
+          </div>
+
+          <details class="mtss-support">
+            <summary>Need Help? <span class="tier-badge">Tier 2/3</span></summary>
+            <h4>Section A Quick Review:</h4>
+            <ul>
+              <li>Divergent = spreading apart (Mid-Atlantic Ridge)</li>
+              <li>Convergent = coming together (Cascades, Andes)</li>
+              <li>Transform = sliding past (San Andreas)</li>
+            </ul>
+            <h4>Section B Quick Review:</h4>
+            <ul>
+              <li>Magnetic stripes are symmetric around ridges</li>
+              <li>Youngest seafloor at ridges, oldest near continents</li>
+            </ul>
+            <h4>Section C Quick Review:</h4>
+            <ul>
+              <li>High silica = thick magma = explosive eruptions</li>
+              <li>Low silica = runny magma = gentle flows</li>
+            </ul>
+            <h4>Section D Quick Review:</h4>
+            <ul>
+              <li>P-waves through everything; S-waves only solids</li>
+              <li>S-wave shadow zone = liquid outer core</li>
+            </ul>
+          </details>
+        </article>
+      </section>
+
+      <!-- PART 3 SECTION -->
+      <section id="part3" class="section-panel" role="tabpanel" aria-labelledby="part3-tab">
+        <article class="card">
+          <div class="card-header part3">
+            <h2>Part 3: Misconception Check</h2>
+            <span class="points-badge">20 Points | 20 Minutes</span>
+          </div>
+
+          <div class="assessment-overview">
+            <h3>Common Misconceptions</h3>
+            <p>This section checks if you've overcome the most common wrong ideas about plate tectonics and Earth's interior. Read carefully!</p>
+          </div>
+
+          <h3>Misconceptions We Target</h3>
+          <div class="misconception-list">
+            <div class="misconception-item">
+              <h4>Plates Float on Magma?</h4>
+              <p class="wrong">Wrong: "Tectonic plates float on liquid magma like boats on water"</p>
+              <p class="correct">Correct: Plates rest on the asthenosphere (upper mantle), which is SOLID but flows slowly like plastic over millions of years. S-waves travel through it, proving it's solid!</p>
+            </div>
+            <div class="misconception-item">
+              <h4>Continents Move Fast?</h4>
+              <p class="wrong">Wrong: "Continents move quickly enough to notice in a lifetime"</p>
+              <p class="correct">Correct: Plates move 2-10 cm per year—about as fast as your fingernails grow! It takes millions of years to see significant movement.</p>
+            </div>
+            <div class="misconception-item">
+              <h4>Earthquakes Are Random?</h4>
+              <p class="wrong">Wrong: "Earthquakes happen randomly anywhere on Earth"</p>
+              <p class="correct">Correct: About 95% of earthquakes occur at plate boundaries in predictable zones. The "Ring of Fire" is a prime example!</p>
+            </div>
+            <div class="misconception-item">
+              <h4>Mantle Is Liquid?</h4>
+              <p class="wrong">Wrong: "The mantle is liquid magma under the crust"</p>
+              <p class="correct">Correct: S-waves travel through the mantle, proving it's solid. Only small pockets melt to form magma at plate boundaries.</p>
+            </div>
+          </div>
+
+          <div class="form-container">
+            <div class="form-placeholder">
+              <div class="icon">📋</div>
+              <p><strong>Part 3 Form</strong></p>
+              <p>Your teacher will provide the form link</p>
+              <p><em>G7.C6.W5: Part 3 - Misconception Check</em></p>
+            </div>
+          </div>
+
+          <details class="mtss-support">
+            <summary>Need Help? <span class="tier-badge">Tier 2/3</span></summary>
+            <p><strong>Key Evidence to Remember:</strong></p>
+            <ul>
+              <li>S-waves only travel through solids → they go through mantle → mantle is solid!</li>
+              <li>GPS measurements show plate movement in cm/year → very slow!</li>
+              <li>Earthquake maps show clear patterns at plate boundaries → not random!</li>
+              <li>The asthenosphere flows like very thick tar, not like water → solid but plastic!</li>
+            </ul>
+          </details>
+        </article>
+      </section>
+
+    </main>
+
+    <footer class="page-footer" role="contentinfo">
+      <p>Grade 7 | Cycle 6 | Week 5 | Synthesis & Assessment</p>
+      <p>Total Points: 100 | NGSS: MS-ESS2-1, MS-ESS2-2, MS-ESS2-3, MS-ESS3-2</p>
+    </footer>
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      // Hide all panels
+      document.querySelectorAll('.section-panel').forEach(panel => {
+        panel.classList.remove('active');
+      });
+      // Deactivate all tabs
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.classList.remove('active');
+        tab.setAttribute('aria-selected', 'false');
+      });
+      // Show selected panel
+      document.getElementById(sectionId).classList.add('active');
+      // Activate selected tab
+      event.target.closest('.nav-tab').classList.add('active');
+      event.target.closest('.nav-tab').setAttribute('aria-selected', 'true');
+      // Scroll to top of content
+      document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
