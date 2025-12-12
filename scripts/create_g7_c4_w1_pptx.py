@@ -1,61 +1,56 @@
 #!/usr/bin/env python3
 """
-Create G7_C4_W1 Ocean Acidification Investigation presentation
-Following established patterns from C3 presentations
-Colors matched to student-page.html (teal/cyan theme)
+Create G7_C4_W1 Ocean Acidification Investigation presentation.
 
-See create_g7_c3_w2_pptx.py for full PPTX DESIGN BEST PRACTICES documentation
+See PPTX_DESIGN_GUIDE.md for best practices documentation.
 """
 
-from pptx import Presentation
-from pptx.util import Inches, Pt
-from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from pptx.enum.shapes import MSO_SHAPE
 import os
+from pptx.dml.color import RGBColor
+from pptx.enum.shapes import MSO_SHAPE
+from pptx_common import (
+    COLORS as BASE_COLORS,
+    create_base_presentation,
+    add_text_box,
+    Inches,
+    Pt,
+    PP_ALIGN,
+    MSO_ANCHOR,
+)
 
-# HTML Color Palette (matching student-page.html - teal/cyan theme)
-COLORS = {
-    # Main theme colors
-    'teal_primary': RGBColor(0x08, 0x91, 0xB2),      # #0891B2
-    'teal_dark': RGBColor(0x0E, 0x74, 0x90),         # #0E7490
-    'teal_light': RGBColor(0xEC, 0xFE, 0xFF),        # #ECFEFF
-    'cyan_light': RGBColor(0xCF, 0xFA, 0xFE),        # #CFFAFE
-    # Hook purple
-    'hook_purple': RGBColor(0x63, 0x66, 0xF1),       # #6366F1
-    'hook_purple_dark': RGBColor(0x4F, 0x46, 0xE5),  # #4F46E5
-    # Station colors
-    'station1_green': RGBColor(0x10, 0xB9, 0x81),    # #10B981
-    'station1_green_dark': RGBColor(0x05, 0x96, 0x69),  # #059669
-    'station2_orange': RGBColor(0xF5, 0x9E, 0x0B),   # #F59E0B
-    'station2_orange_dark': RGBColor(0xD9, 0x77, 0x06),  # #D97706
-    'station3_purple': RGBColor(0x8B, 0x5C, 0xF6),   # #8B5CF6
-    'station3_purple_dark': RGBColor(0x7C, 0x3A, 0xED),  # #7C3AED
-    'exit_pink': RGBColor(0xEC, 0x48, 0x99),         # #EC4899
-    'exit_pink_dark': RGBColor(0xDB, 0x27, 0x77),    # #DB2777
-    # Text colors
-    'dark_text': RGBColor(0x2D, 0x37, 0x48),         # #2D3748
-    'gray_text': RGBColor(0x4A, 0x55, 0x68),         # #4A5568
-    'white': RGBColor(0xFF, 0xFF, 0xFF),
-    # Background colors
-    'light_bg': RGBColor(0xF7, 0xFA, 0xFC),          # #F7FAFC
-    'light_teal_bg': RGBColor(0xE6, 0xFF, 0xFA),     # #E6FFFA
-    'light_green_bg': RGBColor(0xEC, 0xFD, 0xF5),    # #ECFDF5
-    'light_orange_bg': RGBColor(0xFF, 0xFB, 0xEB),   # #FFFBEB
-    'light_purple_bg': RGBColor(0xF5, 0xF3, 0xFF),   # #F5F3FF
-    'light_pink_bg': RGBColor(0xFD, 0xF2, 0xF8),     # #FDF2F8
-    # Alert colors
-    'red_alert': RGBColor(0xC5, 0x30, 0x30),         # #C53030
-    'warning_yellow': RGBColor(0x92, 0x40, 0x0E),    # #92400E
-}
+# Teal/Cyan theme for C4 W1 - extend base colors
+COLORS = {**BASE_COLORS}
+COLORS.update({
+    'teal_primary': RGBColor(0x08, 0x91, 0xB2),
+    'cyan_light': RGBColor(0xCF, 0xFA, 0xFE),
+    'hook_purple': RGBColor(0x63, 0x66, 0xF1),
+    'hook_purple_dark': RGBColor(0x4F, 0x46, 0xE5),
+    'station1_green': RGBColor(0x10, 0xB9, 0x81),
+    'station1_green_dark': RGBColor(0x05, 0x96, 0x69),
+    'station2_orange': RGBColor(0xF5, 0x9E, 0x0B),
+    'station2_orange_dark': RGBColor(0xD9, 0x77, 0x06),
+    'station3_purple': RGBColor(0x8B, 0x5C, 0xF6),
+    'station3_purple_dark': RGBColor(0x7C, 0x3A, 0xED),
+    'exit_pink': RGBColor(0xEC, 0x48, 0x99),
+    'exit_pink_dark': RGBColor(0xDB, 0x27, 0x77),
+    'light_bg': RGBColor(0xF7, 0xFA, 0xFC),
+    'warning_yellow': RGBColor(0x92, 0x40, 0x0E),
+})
+
+
+def add_colored_shape(slide, left, top, width, height, color):
+    """Add a colored rectangle shape (uses RECTANGLE for C4 theme)"""
+    shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, height)
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = color
+    shape.line.fill.background()
+    return shape
+
 
 def create_presentation():
     """Create the G7_C4_W1 presentation"""
-    prs = Presentation()
-    prs.slide_width = Inches(10)
-    prs.slide_height = Inches(5.625)  # 16:9 aspect ratio
+    prs = create_base_presentation()
 
-    # Add all slides
     add_title_slide(prs)
     add_phenomenon_slide(prs)
     add_driving_question_slide(prs)
@@ -74,34 +69,6 @@ def create_presentation():
     add_summary_slide(prs)
 
     return prs
-
-
-def add_colored_shape(slide, left, top, width, height, color):
-    """Add a colored rectangle shape"""
-    shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, height)
-    shape.fill.solid()
-    shape.fill.fore_color.rgb = color
-    shape.line.fill.background()
-    return shape
-
-
-def add_text_box(slide, left, top, width, height, text, font_size=18, bold=False,
-                 color=None, align=PP_ALIGN.LEFT, font_name="Arial", anchor=None):
-    """Add a text box with specified formatting"""
-    txBox = slide.shapes.add_textbox(left, top, width, height)
-    tf = txBox.text_frame
-    tf.word_wrap = True
-    if anchor:
-        tf.anchor = anchor
-    p = tf.paragraphs[0]
-    p.text = text
-    p.font.size = Pt(font_size)
-    p.font.bold = bold
-    p.font.name = font_name
-    if color:
-        p.font.color.rgb = color
-    p.alignment = align
-    return txBox
 
 
 def add_title_slide(prs):

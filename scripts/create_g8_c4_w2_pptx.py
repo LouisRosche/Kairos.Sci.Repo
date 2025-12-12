@@ -1,18 +1,26 @@
 #!/usr/bin/env python3
 """
-Create G8_C4_W2 Ecosystem Disruption & Invasive Species presentation
-Following established patterns - red theme
-See create_g7_c3_w2_pptx.py for full PPTX DESIGN BEST PRACTICES
+Create G8_C4_W2 Ecosystem Disruption & Invasive Species presentation.
+
+See PPTX_DESIGN_GUIDE.md for best practices documentation.
 """
 
-from pptx import Presentation
-from pptx.util import Inches, Pt
-from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from pptx.enum.shapes import MSO_SHAPE
 import os
+from pptx.dml.color import RGBColor
+from pptx.enum.shapes import MSO_SHAPE
+from pptx_common import (
+    COLORS as BASE_COLORS,
+    create_base_presentation,
+    add_text_box,
+    Inches,
+    Pt,
+    PP_ALIGN,
+    MSO_ANCHOR,
+)
 
-COLORS = {
+# Red theme for G8 C4 W2 - extend base colors
+COLORS = {**BASE_COLORS}
+COLORS.update({
     'red_primary': RGBColor(0xDC, 0x26, 0x26),
     'red_dark': RGBColor(0xB9, 0x1C, 0x1C),
     'red_light': RGBColor(0xFE, 0xF2, 0xF2),
@@ -21,23 +29,23 @@ COLORS = {
     'station2_purple': RGBColor(0x8B, 0x5C, 0xF6),
     'station3_green': RGBColor(0x05, 0x96, 0x69),
     'exit_pink': RGBColor(0xEC, 0x48, 0x99),
-    'dark_text': RGBColor(0x2D, 0x37, 0x48),
-    'gray_text': RGBColor(0x4A, 0x55, 0x68),
-    'white': RGBColor(0xFF, 0xFF, 0xFF),
     'light_bg': RGBColor(0xF7, 0xFA, 0xFC),
     'light_red_bg': RGBColor(0xFE, 0xF2, 0xF2),
-    'light_orange_bg': RGBColor(0xFF, 0xFB, 0xEB),
-    'light_blue_bg': RGBColor(0xEF, 0xF6, 0xFF),
-    'light_purple_bg': RGBColor(0xF5, 0xF3, 0xFF),
-    'light_green_bg': RGBColor(0xEC, 0xFD, 0xF5),
-    'light_pink_bg': RGBColor(0xFD, 0xF2, 0xF8),
     'warning_bg': RGBColor(0xFE, 0xD7, 0xD7),
-}
+})
+
+
+def add_colored_shape(slide, left, top, width, height, color):
+    """Add a colored rectangle shape (uses RECTANGLE for C4 theme)"""
+    shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, height)
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = color
+    shape.line.fill.background()
+    return shape
+
 
 def create_presentation():
-    prs = Presentation()
-    prs.slide_width = Inches(10)
-    prs.slide_height = Inches(5.625)
+    prs = create_base_presentation()
 
     add_title_slide(prs)
     add_phenomenon_slide(prs)
@@ -58,29 +66,6 @@ def create_presentation():
 
     return prs
 
-def add_colored_shape(slide, left, top, width, height, color):
-    shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, height)
-    shape.fill.solid()
-    shape.fill.fore_color.rgb = color
-    shape.line.fill.background()
-    return shape
-
-def add_text_box(slide, left, top, width, height, text, font_size=18, bold=False,
-                 color=None, align=PP_ALIGN.LEFT, font_name="Arial", anchor=None):
-    txBox = slide.shapes.add_textbox(left, top, width, height)
-    tf = txBox.text_frame
-    tf.word_wrap = True
-    if anchor:
-        tf.anchor = anchor
-    p = tf.paragraphs[0]
-    p.text = text
-    p.font.size = Pt(font_size)
-    p.font.bold = bold
-    p.font.name = font_name
-    if color:
-        p.font.color.rgb = color
-    p.alignment = align
-    return txBox
 
 def add_title_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])

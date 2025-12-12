@@ -1,42 +1,38 @@
 #!/usr/bin/env python3
 """
-Create G7_C3_W3 Synthesis & Assessment presentation
-Assessment week - different structure than regular weeks
+Create G7_C3_W3 Synthesis & Assessment presentation.
+Assessment week - different structure than regular weeks.
+
+See PPTX_DESIGN_GUIDE.md for best practices documentation.
 """
 
-from pptx import Presentation
-from pptx.util import Inches, Pt
-from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from pptx.enum.shapes import MSO_SHAPE
 import os
+from pptx.dml.color import RGBColor
+from pptx_common import (
+    COLORS as BASE_COLORS,
+    create_base_presentation,
+    add_colored_shape,
+    add_text_box,
+    Inches,
+    Pt,
+    PP_ALIGN,
+    MSO_ANCHOR,
+)
 
-COLORS = {
+# Assessment week uses red theme - extend base colors
+COLORS = {**BASE_COLORS}
+COLORS.update({
     'red_start': RGBColor(0xE5, 0x3E, 0x3E),
     'red_end': RGBColor(0xC5, 0x30, 0x30),
     'red_dark': RGBColor(0x9B, 0x2C, 0x2C),
-    'purple_start': RGBColor(0x66, 0x7E, 0xEA),
-    'purple_end': RGBColor(0x76, 0x4B, 0xA2),
-    'green_start': RGBColor(0x48, 0xBB, 0x78),
-    'green_end': RGBColor(0x27, 0x67, 0x49),
-    'teal': RGBColor(0x38, 0xB2, 0xAC),
-    'teal_dark': RGBColor(0x23, 0x4E, 0x52),
-    'orange': RGBColor(0xD6, 0x9E, 0x2E),
-    'dark_text': RGBColor(0x2D, 0x37, 0x48),
-    'gray_text': RGBColor(0x4A, 0x55, 0x68),
-    'white': RGBColor(0xFF, 0xFF, 0xFF),
     'light_red_bg': RGBColor(0xFF, 0xF5, 0xF5),
-    'light_purple_bg': RGBColor(0xFA, 0xF5, 0xFF),
-    'light_green_bg': RGBColor(0xF0, 0xFF, 0xF4),
-    'light_teal_bg': RGBColor(0xE6, 0xFF, 0xFA),
+    'orange': RGBColor(0xD6, 0x9E, 0x2E),
     'light_orange_bg': RGBColor(0xFF, 0xFB, 0xEB),
-}
+})
 
 
 def create_presentation():
-    prs = Presentation()
-    prs.slide_width = Inches(10)
-    prs.slide_height = Inches(5.625)
+    prs = create_base_presentation()
 
     add_title_slide(prs)
     add_assessment_overview_slide(prs)
@@ -51,32 +47,6 @@ def create_presentation():
     add_completion_slide(prs)
 
     return prs
-
-
-def add_colored_shape(slide, left, top, width, height, color, shape_type=MSO_SHAPE.ROUNDED_RECTANGLE):
-    shape = slide.shapes.add_shape(shape_type, left, top, width, height)
-    shape.fill.solid()
-    shape.fill.fore_color.rgb = color
-    shape.line.fill.background()
-    return shape
-
-
-def add_text_box(slide, left, top, width, height, text, font_size=18, bold=False,
-                 color=None, align=PP_ALIGN.LEFT, font_name="Arial", anchor=None):
-    txBox = slide.shapes.add_textbox(left, top, width, height)
-    tf = txBox.text_frame
-    tf.word_wrap = True
-    if anchor:
-        tf.anchor = anchor
-    p = tf.paragraphs[0]
-    p.text = text
-    p.font.size = Pt(font_size)
-    p.font.bold = bold
-    p.font.name = font_name
-    p.alignment = align
-    if color:
-        p.font.color.rgb = color
-    return txBox
 
 
 def add_title_slide(prs):
