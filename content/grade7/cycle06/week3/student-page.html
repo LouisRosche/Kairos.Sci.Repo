@@ -3,35 +3,964 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G7 C6 W3: [Title TBD] - PLACEHOLDER</title>
+  <title>G7 C6 W3: Volcanic Eruption Styles & Magma Properties</title>
+  <!-- CSS Design System v3.1 - Embedded for Canvas LMS compatibility -->
+  <style>
+    /* ============================================
+       CSS DESIGN SYSTEM v3.1 - Volcanic Theme
+       G7 Cycle 6 Week 3: Volcanic Eruptions
+       ============================================ */
+
+    :root {
+      /* Volcanic Theme Colors */
+      --magma-deep: #BF360C;
+      --magma-bright: #FF5722;
+      --lava-orange: #FF9800;
+      --ash-gray: #616161;
+      --plinian-purple: #6A1B9A;
+      --hawaiian-blue: #1976D2;
+      --safety-green: #2E7D32;
+
+      /* Station Gradients */
+      --hook-gradient: linear-gradient(135deg, #BF360C 0%, #FF5722 100%);
+      --station1-gradient: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      --station2-gradient: linear-gradient(135deg, #6A1B9A 0%, #9C27B0 100%);
+      --station3-gradient: linear-gradient(135deg, #2E7D32 0%, #43A047 100%);
+      --exit-gradient: linear-gradient(135deg, #455A64 0%, #263238 100%);
+
+      /* Semantic Colors */
+      --success: #2E7D32;
+      --warning: #F57C00;
+      --info: #1565C0;
+      --text-primary: #212121;
+      --text-secondary: #616161;
+      --bg-light: #FAFAFA;
+      --bg-card: #FFFFFF;
+      --border-light: #E0E0E0;
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.2);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: linear-gradient(180deg, #FBE9E7 0%, #FFCCBC 100%);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .skip-link:focus {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      width: auto;
+      height: auto;
+      padding: 12px 24px;
+      background: var(--magma-deep);
+      color: white;
+      z-index: 10000;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .container { max-width: 1000px; margin: 0 auto; }
+
+    .page-header {
+      background: var(--hook-gradient);
+      color: white;
+      padding: 40px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath d='M0,10 Q10,5 20,10 T40,10 T60,10 T80,10 T100,10 L100,20 L0,20 Z' fill='rgba(255,255,255,0.15)'/%3E%3C/svg%3E") repeat-x;
+      animation: lava-flow 4s ease-in-out infinite;
+    }
+    @keyframes lava-flow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    .page-header h1 { margin: 0 0 8px 0; font-size: 2rem; font-weight: 700; position: relative; }
+    .page-header .subtitle { margin: 0; font-size: 1.25rem; opacity: 0.95; position: relative; }
+    .week-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      background: var(--bg-card);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-tab {
+      padding: 10px 20px;
+      border: none;
+      background: var(--bg-light);
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+    .nav-tab:hover { background: #E0E0E0; }
+    .nav-tab.active { background: var(--magma-deep); color: white; }
+
+    .section { display: none; animation: fadeIn 0.3s ease; }
+    .section.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+    }
+    .card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      flex-shrink: 0;
+    }
+    .card-icon.hook { background: var(--hook-gradient); }
+    .card-icon.station1 { background: var(--station1-gradient); }
+    .card-icon.station2 { background: var(--station2-gradient); }
+    .card-icon.station3 { background: var(--station3-gradient); }
+    .card-icon.exit { background: var(--exit-gradient); }
+    .card h2 { margin: 0 0 4px 0; font-size: 1.35rem; color: var(--text-primary); }
+    .card h3 { margin: 0 0 16px 0; font-size: 1.15rem; color: var(--text-primary); }
+    .points-badge { font-size: 0.8rem; font-weight: 600; color: var(--magma-deep); }
+
+    .phenomenon-box {
+      background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+      border-left: 5px solid var(--magma-deep);
+      border-radius: var(--radius-sm);
+      padding: 24px;
+      margin: 20px 0;
+    }
+    .phenomenon-box h4 { margin: 0 0 12px 0; color: var(--magma-deep); font-size: 1.1rem; }
+    .driving-question {
+      font-size: 1.2rem;
+      font-weight: 600;
+      font-style: italic;
+      color: #5D4037;
+      margin: 16px 0 0 0;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.95rem;
+    }
+    .data-table th, .data-table td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .data-table th {
+      background: var(--magma-deep);
+      color: white;
+      font-weight: 600;
+    }
+    .data-table tr:hover { background: #F5F5F5; }
+
+    /* Eruption Comparison Cards */
+    .eruption-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 24px 0;
+    }
+    .eruption-card {
+      background: var(--bg-light);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      border: 2px solid var(--border-light);
+      transition: all 0.3s ease;
+    }
+    .eruption-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .eruption-card.hawaiian {
+      border-top: 4px solid var(--hawaiian-blue);
+    }
+    .eruption-card.plinian {
+      border-top: 4px solid var(--plinian-purple);
+    }
+    .eruption-card h4 { margin: 0 0 12px 0; display: flex; align-items: center; gap: 10px; }
+    .eruption-card ul { margin: 12px 0 0 0; padding-left: 20px; }
+    .eruption-card li { margin-bottom: 6px; }
+
+    /* Viscosity Meter */
+    .viscosity-meter {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      background: var(--bg-light);
+      border-radius: var(--radius-md);
+      margin: 24px 0;
+    }
+    .viscosity-bar {
+      height: 40px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      margin: 8px 0;
+      color: white;
+      font-weight: 600;
+      transition: width 0.5s ease;
+    }
+    .viscosity-bar.low {
+      width: 40%;
+      background: linear-gradient(90deg, var(--hawaiian-blue) 0%, #42A5F5 100%);
+    }
+    .viscosity-bar.high {
+      width: 90%;
+      background: linear-gradient(90deg, var(--magma-deep) 0%, var(--plinian-purple) 100%);
+    }
+    .viscosity-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    /* Hazard Ranking */
+    .hazard-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .hazard-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: var(--bg-light);
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--warning);
+    }
+    .hazard-rank {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--magma-deep);
+      min-width: 30px;
+    }
+    .hazard-details h5 { margin: 0 0 4px 0; }
+    .hazard-details p { margin: 0; font-size: 0.9rem; color: var(--text-secondary); }
+
+    .stat-highlight {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #FFCCBC 0%, #FFAB91 100%);
+      padding: 16px 24px;
+      border-radius: var(--radius-md);
+      margin: 16px 0;
+    }
+    .stat-number { font-size: 2.5rem; font-weight: 800; color: var(--magma-deep); }
+    .stat-label { font-size: 1rem; color: #5D4037; max-width: 200px; }
+
+    .vocab-section {
+      background: #E8F5E9;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin: 24px 0;
+    }
+    .vocab-section h4 { margin: 0 0 16px 0; color: var(--success); }
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .vocab-item {
+      background: white;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--success);
+    }
+    .vocab-term { font-weight: 700; color: var(--magma-deep); margin-bottom: 4px; }
+    .vocab-def { font-size: 0.9rem; color: var(--text-secondary); }
+
+    .design-challenge {
+      background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin: 24px 0;
+    }
+    .design-challenge h4 { color: var(--safety-green); margin: 0 0 16px 0; }
+
+    .form-container {
+      background: var(--bg-light);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .form-placeholder {
+      background: white;
+      border: 2px dashed var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+    .form-placeholder-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.5; }
+
+    .mtss-support { margin: 24px 0; }
+    .mtss-support summary {
+      background: var(--bg-light);
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .mtss-support summary:hover { background: #E0E0E0; }
+    .mtss-support[open] summary { border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+    .mtss-content {
+      background: white;
+      border: 1px solid var(--border-light);
+      border-top: none;
+      padding: 20px;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    }
+    .tier-label { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; margin-bottom: 8px; }
+    .tier-2 { background: #FFF3E0; color: #E65100; }
+    .tier-3 { background: #FCE4EC; color: #C2185B; }
+
+    .misconception-alert {
+      background: #FFF8E1;
+      border-left: 4px solid var(--warning);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .misconception-alert h5 { color: var(--warning); margin: 0 0 10px 0; }
+    .misconception-wrong { color: #C62828; margin: 8px 0; }
+    .misconception-right { color: var(--success); margin: 8px 0; }
+
+    .page-footer { text-align: center; padding: 24px; color: var(--text-secondary); font-size: 0.85rem; margin-top: 40px; }
+
+    @media (max-width: 768px) {
+      body { padding: 12px; }
+      .page-header { padding: 28px 20px; }
+      .page-header h1 { font-size: 1.5rem; }
+      .card { padding: 20px; }
+      .nav-tabs { flex-direction: column; gap: 6px; }
+      .nav-tab { text-align: center; }
+      .eruption-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<!-- Skip to main content link for accessibility -->
-<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to main content</a>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 7 CYCLE 5 WEEK 3: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
-  Target Date: January 27-30, 2026
-  Topic: Plate Tectonics & Earth's Interior
-  Primary Standard: MS-ESS2-5
+<div class="container">
+  <header class="page-header">
+    <span class="week-badge">Week 3 of 3</span>
+    <h1>Volcanic Eruption Styles & Magma Properties</h1>
+    <p class="subtitle">Grade 7 | Cycle 6 | MS-ESS2-2, MS-ESS3-2 | 100 Points Total</p>
+  </header>
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+  <nav class="nav-tabs" role="tablist" aria-label="Lesson sections">
+    <button class="nav-tab active" role="tab" aria-selected="true" onclick="showSection('overview')">Overview</button>
+    <button class="nav-tab" role="tab" aria-selected="false" onclick="showSection('hook')">Hook</button>
+    <button class="nav-tab" role="tab" aria-selected="false" onclick="showSection('station1')">Station 1</button>
+    <button class="nav-tab" role="tab" aria-selected="false" onclick="showSection('station2')">Station 2</button>
+    <button class="nav-tab" role="tab" aria-selected="false" onclick="showSection('station3')">Station 3</button>
+    <button class="nav-tab" role="tab" aria-selected="false" onclick="showSection('exit')">Exit Ticket</button>
+  </nav>
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+  <main id="main-content" role="main">
 
-  <main id="main-content">
-    <h1>Grade 7 Cycle 6 Week 3</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
+    <!-- OVERVIEW SECTION -->
+    <section id="overview" class="section active" role="tabpanel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon hook">🌋</div>
+          <div>
+            <h2>The Explosive vs Oozing Mystery</h2>
+            <span class="points-badge">Week Overview</span>
+          </div>
+        </div>
+
+        <div class="phenomenon-box">
+          <h4>This Week's Phenomenon</h4>
+          <p>On May 18, 1980, Mt. St. Helens exploded with the force of a nuclear bomb, killing 57 people. Yet in Hawaii, tourists stand just meters away from glowing lava rivers! How can two volcanoes be so dramatically different?</p>
+          <p class="driving-question">Why do some volcanoes explode violently while others ooze slowly?</p>
+        </div>
+
+        <div class="stat-highlight">
+          <span class="stat-number">700°C</span>
+          <span class="stat-label">Temperature of pyroclastic flows—they move at 100+ km/hr</span>
+        </div>
+
+        <h3>Learning Targets</h3>
+        <p>By the end of this week, you will be able to:</p>
+        <ol>
+          <li>Connect magma viscosity to silica content and eruption style</li>
+          <li>Differentiate between Hawaiian and Plinian eruption types</li>
+          <li>Rank volcanic hazards by danger level</li>
+          <li>Design a volcano monitoring and warning system</li>
+        </ol>
+
+        <h3>Connection to Weeks 1 & 2</h3>
+        <p>You've learned that <strong>plate boundaries</strong> determine where volcanoes form, and <strong>seafloor spreading</strong> creates new rock at divergent boundaries. This week, we explore WHY volcanoes at different boundaries erupt so differently!</p>
+
+        <h3>This Week's Structure</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Activity</th>
+              <th>Points</th>
+              <th>Focus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hook: Explosive vs Oozing Mystery</td>
+              <td>12 pts</td>
+              <td>Compare eruption styles</td>
+            </tr>
+            <tr>
+              <td>Station 1: Magma Viscosity Investigation</td>
+              <td>20 pts</td>
+              <td>Silica → viscosity → eruption</td>
+            </tr>
+            <tr>
+              <td>Station 2: Eruption Type Analysis</td>
+              <td>20 pts</td>
+              <td>Hawaiian vs Plinian hazards</td>
+            </tr>
+            <tr>
+              <td>Station 3: Volcano Monitoring System</td>
+              <td>25 pts</td>
+              <td>Engineering design challenge</td>
+            </tr>
+            <tr>
+              <td>Exit Ticket: Integration</td>
+              <td>23 pts</td>
+              <td>Demonstrate understanding</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- HOOK SECTION -->
+    <section id="hook" class="section" role="tabpanel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon hook">💥</div>
+          <div>
+            <h2>Hook: The Explosive vs Oozing Mystery</h2>
+            <span class="points-badge">12 Points</span>
+          </div>
+        </div>
+
+        <div class="phenomenon-box">
+          <h4>Two Very Different Volcanoes</h4>
+          <p><strong>Mt. St. Helens (1980):</strong> Exploded sideways, blast leveled trees 25 km away, 57 deaths.</p>
+          <p><strong>Kilauea (ongoing):</strong> Tourists photograph glowing lava from safe viewing areas.</p>
+          <p class="driving-question">Why do some volcanoes explode violently while others ooze slowly?</p>
+        </div>
+
+        <div class="eruption-grid">
+          <div class="eruption-card hawaiian">
+            <h4>🌊 Hawaiian Eruption</h4>
+            <ul>
+              <li>Gentle lava fountains</li>
+              <li>Fluid, fast-flowing lava</li>
+              <li>Gas escapes easily</li>
+              <li>Shield volcano shape (broad, flat)</li>
+              <li>Relatively safe to observe</li>
+            </ul>
+          </div>
+          <div class="eruption-card plinian">
+            <h4>💥 Plinian Eruption</h4>
+            <ul>
+              <li>Explosive blasts</li>
+              <li>Thick, slow-moving lava</li>
+              <li>Gas trapped → pressure builds</li>
+              <li>Stratovolcano shape (steep cone)</li>
+              <li>Extremely dangerous</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="misconception-alert">
+          <h5>Common Misconception</h5>
+          <p class="misconception-wrong"><strong>Wrong:</strong> "All volcanoes erupt explosively with ash clouds and flying rocks."</p>
+          <p class="misconception-right"><strong>Correct:</strong> Eruption style depends on magma properties! Many eruptions are gentle lava flows.</p>
+        </div>
+
+        <div class="form-container">
+          <h4>Complete the Hook Activity</h4>
+          <div class="form-placeholder">
+            <div class="form-placeholder-icon">📋</div>
+            <p><strong>Form embed will appear here</strong></p>
+            <p>G7.C6.W3: Hook - The Explosive vs Oozing Mystery</p>
+          </div>
+        </div>
+
+        <details class="mtss-support">
+          <summary>Need Extra Support?</summary>
+          <div class="mtss-content">
+            <span class="tier-label tier-2">Tier 2</span>
+            <p><strong>Side-by-side video:</strong> Watch labeled clips comparing the two eruption styles.</p>
+            <span class="tier-label tier-3">Tier 3</span>
+            <p><strong>Venn diagram:</strong> List differences and similarities between the two eruptions.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- STATION 1 SECTION -->
+    <section id="station1" class="section" role="tabpanel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon station1">🧪</div>
+          <div>
+            <h2>Station 1: Magma Viscosity Investigation</h2>
+            <span class="points-badge">20 Points</span>
+          </div>
+        </div>
+
+        <p>The secret to eruption style is <strong>viscosity</strong>—how thick or runny the magma is. And viscosity is controlled by <strong>silica content</strong>!</p>
+
+        <div class="vocab-section">
+          <h4>Key Vocabulary</h4>
+          <div class="vocab-grid">
+            <div class="vocab-item">
+              <div class="vocab-term">Viscosity</div>
+              <div class="vocab-def">Resistance to flow—how "thick" a liquid is</div>
+            </div>
+            <div class="vocab-item">
+              <div class="vocab-term">Silica (SiO₂)</div>
+              <div class="vocab-def">A mineral compound that makes magma sticky and thick</div>
+            </div>
+            <div class="vocab-item">
+              <div class="vocab-term">Basalt</div>
+              <div class="vocab-def">Low-silica rock (50%)—produces runny lava</div>
+            </div>
+            <div class="vocab-item">
+              <div class="vocab-term">Rhyolite</div>
+              <div class="vocab-def">High-silica rock (70%)—produces thick, explosive magma</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Viscosity Comparison</h3>
+        <div class="viscosity-meter">
+          <p><strong>Basalt (Hawaiian volcanos)</strong></p>
+          <div class="viscosity-bar low">Low Viscosity - Flows easily</div>
+          <p class="viscosity-label">50% silica | 1,100°C | Flows like warm honey</p>
+
+          <p style="margin-top: 24px;"><strong>Rhyolite (Mt. St. Helens)</strong></p>
+          <div class="viscosity-bar high">High Viscosity - Resists flow</div>
+          <p class="viscosity-label">70% silica | 800°C | Thick like cold toothpaste</p>
+        </div>
+
+        <h3>The Gas Trap Mechanism</h3>
+        <p>All magma contains dissolved gases (water vapor, CO₂). What happens when these gases try to escape?</p>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Magma Type</th>
+              <th>Viscosity</th>
+              <th>Gas Behavior</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Basalt (low silica)</td>
+              <td>Low (runny)</td>
+              <td>Gas bubbles escape easily</td>
+              <td>Gentle eruption</td>
+            </tr>
+            <tr>
+              <td>Rhyolite (high silica)</td>
+              <td>High (thick)</td>
+              <td>Gas trapped → pressure builds</td>
+              <td>Explosive eruption!</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="misconception-alert">
+          <h5>Think Like a Scientist</h5>
+          <p>Shake a bottle of soda (high gas, low viscosity) → Opens with a spray</p>
+          <p>Now imagine if that soda were thick like tar... the pressure would build until BOOM!</p>
+        </div>
+
+        <div class="form-container">
+          <h4>Complete Station 1</h4>
+          <div class="form-placeholder">
+            <div class="form-placeholder-icon">📋</div>
+            <p><strong>Form embed will appear here</strong></p>
+            <p>G7.C6.W3: Station 1 - Magma Viscosity Investigation</p>
+          </div>
+        </div>
+
+        <details class="mtss-support">
+          <summary>Need Extra Support?</summary>
+          <div class="mtss-content">
+            <span class="tier-label tier-2">Tier 2</span>
+            <p><strong>Viscosity simulation:</strong> Use the interactive to test how silica affects flow rate.</p>
+            <span class="tier-label tier-3">Tier 3</span>
+            <p><strong>Cause-effect map:</strong> Complete: "High silica → ______ viscosity → gas ______ → ______ eruption"</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- STATION 2 SECTION -->
+    <section id="station2" class="section" role="tabpanel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon station2">⚠️</div>
+          <div>
+            <h2>Station 2: Eruption Type Analysis</h2>
+            <span class="points-badge">20 Points</span>
+          </div>
+        </div>
+
+        <p>Different eruption types create different hazards. Understanding these helps communities prepare and saves lives!</p>
+
+        <h3>Volcanic Hazard Ranking</h3>
+        <div class="hazard-list">
+          <div class="hazard-item">
+            <span class="hazard-rank">#1</span>
+            <div class="hazard-details">
+              <h5>Pyroclastic Flows</h5>
+              <p>Superheated gas + rock avalanches at 100-700 km/hr, 700°C. Unsurvivable. Killed 30,000+ at Mt. Pelée (1902).</p>
+            </div>
+          </div>
+          <div class="hazard-item">
+            <span class="hazard-rank">#2</span>
+            <div class="hazard-details">
+              <h5>Lahars (Volcanic Mudflows)</h5>
+              <p>Hot water + volcanic debris at 60+ km/hr. Can travel 50+ km. Buried Armero, Colombia (23,000 deaths, 1985).</p>
+            </div>
+          </div>
+          <div class="hazard-item">
+            <span class="hazard-rank">#3</span>
+            <div class="hazard-details">
+              <h5>Ash Fall</h5>
+              <p>Heavy, abrasive volcanic ash collapses roofs, damages lungs, grounds aircraft, destroys crops.</p>
+            </div>
+          </div>
+          <div class="hazard-item">
+            <span class="hazard-rank">#4</span>
+            <div class="hazard-details">
+              <h5>Lava Flows</h5>
+              <p>Destructive but SLOW (walking pace). Usually survivable because people can evacuate.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="misconception-alert">
+          <h5>Common Misconception</h5>
+          <p class="misconception-wrong"><strong>Wrong:</strong> "Lava is the most dangerous volcanic hazard."</p>
+          <p class="misconception-right"><strong>Correct:</strong> Pyroclastic flows and lahars kill far more people because they're too fast to escape!</p>
+        </div>
+
+        <h3>Eruption Type vs Hazards</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Eruption Type</th>
+              <th>Primary Hazards</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hawaiian (effusive)</td>
+              <td>Lava flows, volcanic gases</td>
+              <td>Low viscosity = gas escapes, no explosions</td>
+            </tr>
+            <tr>
+              <td>Plinian (explosive)</td>
+              <td>Pyroclastic flows, ash, lahars</td>
+              <td>High viscosity = trapped gas explodes</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="form-container">
+          <h4>Complete Station 2</h4>
+          <div class="form-placeholder">
+            <div class="form-placeholder-icon">📋</div>
+            <p><strong>Form embed will appear here</strong></p>
+            <p>G7.C6.W3: Station 2 - Eruption Type Analysis</p>
+          </div>
+        </div>
+
+        <details class="mtss-support">
+          <summary>Need Extra Support?</summary>
+          <div class="mtss-content">
+            <span class="tier-label tier-2">Tier 2</span>
+            <p><strong>Hazard comparison chart:</strong> Pre-filled table comparing speed, temperature, and danger of each hazard.</p>
+            <span class="tier-label tier-3">Tier 3</span>
+            <p><strong>Sorting activity:</strong> Rank hazards by speed, then by temperature, then by historical deaths.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- STATION 3 SECTION -->
+    <section id="station3" class="section" role="tabpanel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon station3">📡</div>
+          <div>
+            <h2>Station 3: Design a Volcano Monitoring System</h2>
+            <span class="points-badge">25 Points</span>
+          </div>
+        </div>
+
+        <div class="design-challenge">
+          <h4>Engineering Challenge: Mt. Rainier Warning System</h4>
+          <p><strong>Mt. Rainier</strong> is a potentially dangerous stratovolcano near Seattle. Over 3 million people live in the lahar hazard zone. Your challenge: design a monitoring system that gives people enough warning to evacuate!</p>
+        </div>
+
+        <h3>Pre-Eruption Warning Signs</h3>
+        <p>Volcanoes don't erupt without warning. Scientists monitor for these signals:</p>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Warning Sign</th>
+              <th>What It Means</th>
+              <th>Detection Method</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Earthquake swarms</td>
+              <td>Magma breaking rock as it rises</td>
+              <td>Seismometers</td>
+            </tr>
+            <tr>
+              <td>Ground deformation</td>
+              <td>Magma pushing up from below</td>
+              <td>GPS, tiltmeters</td>
+            </tr>
+            <tr>
+              <td>Gas emissions increase</td>
+              <td>Fresh magma releasing gas</td>
+              <td>Gas sensors, spectrometers</td>
+            </tr>
+            <tr>
+              <td>Temperature changes</td>
+              <td>Hot magma heating groundwater</td>
+              <td>Thermal sensors, satellites</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Mt. Rainier's Special Challenge: Lahars</h3>
+        <p>Mt. Rainier has 25+ glaciers. If an eruption melts this ice, massive lahars will race down river valleys toward Seattle suburbs. Lahars can travel at <strong>60+ km/hr</strong>—people may have only 30-60 minutes to evacuate!</p>
+
+        <h3>Design Requirements</h3>
+        <ul>
+          <li><strong>Detection:</strong> Identify eruption AND lahar formation</li>
+          <li><strong>Speed:</strong> Alert system must activate within 5 minutes</li>
+          <li><strong>Coverage:</strong> Warn all communities in hazard zone</li>
+          <li><strong>Reliability:</strong> Must work 24/7, all weather conditions</li>
+        </ul>
+
+        <div class="form-container">
+          <h4>Complete Station 3</h4>
+          <div class="form-placeholder">
+            <div class="form-placeholder-icon">📋</div>
+            <p><strong>Form embed will appear here</strong></p>
+            <p>G7.C6.W3: Station 3 - Design a Volcano Monitoring System</p>
+          </div>
+        </div>
+
+        <details class="mtss-support">
+          <summary>Need Extra Support?</summary>
+          <div class="mtss-content">
+            <span class="tier-label tier-2">Tier 2</span>
+            <p><strong>Design template:</strong> Fill in blanks for sensor placement, warning signals, and evacuation triggers.</p>
+            <span class="tier-label tier-3">Tier 3</span>
+            <p><strong>Guided questions:</strong> "What sensor detects rising magma?" → "Where should it be placed?" → "How fast must the alert go out?"</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- EXIT TICKET SECTION -->
+    <section id="exit" class="section" role="tabpanel">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon exit">🎯</div>
+          <div>
+            <h2>Exit Ticket: Volcanic Systems Integration</h2>
+            <span class="points-badge">23 Points</span>
+          </div>
+        </div>
+
+        <p>Demonstrate your understanding of magma properties, eruption styles, and volcano hazards.</p>
+
+        <h3>Exit Ticket Structure</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Question Type</th>
+              <th>Count</th>
+              <th>Focus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>NEW Content</td>
+              <td>2</td>
+              <td>Viscosity, eruption types, hazards</td>
+            </tr>
+            <tr>
+              <td>SPIRAL Review</td>
+              <td>2</td>
+              <td>Plate boundaries (W1), Seafloor spreading (W2)</td>
+            </tr>
+            <tr>
+              <td>INTEGRATION</td>
+              <td>1</td>
+              <td>Plate boundary → magma type → eruption style</td>
+            </tr>
+            <tr>
+              <td>SEP (Analyzing Data)</td>
+              <td>1</td>
+              <td>Use hazard data to recommend evacuation priorities</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Key Chain of Reasoning</h3>
+        <div class="vocab-section">
+          <h4>From Plate Boundary to Eruption Style</h4>
+          <div class="vocab-grid">
+            <div class="vocab-item">
+              <div class="vocab-term">1. Boundary Type</div>
+              <div class="vocab-def">Divergent, Convergent, or Hot Spot</div>
+            </div>
+            <div class="vocab-item">
+              <div class="vocab-term">2. Source Material</div>
+              <div class="vocab-def">Mantle (basalt) or Crust (rhyolite)</div>
+            </div>
+            <div class="vocab-item">
+              <div class="vocab-term">3. Silica Content</div>
+              <div class="vocab-def">Low (50%) or High (70%)</div>
+            </div>
+            <div class="vocab-item">
+              <div class="vocab-term">4. Viscosity</div>
+              <div class="vocab-def">Low (runny) or High (thick)</div>
+            </div>
+            <div class="vocab-item">
+              <div class="vocab-term">5. Gas Behavior</div>
+              <div class="vocab-def">Escapes easily or Trapped (pressure)</div>
+            </div>
+            <div class="vocab-item">
+              <div class="vocab-term">6. Eruption Style</div>
+              <div class="vocab-def">Effusive (gentle) or Explosive</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-container">
+          <h4>Complete Exit Ticket</h4>
+          <div class="form-placeholder">
+            <div class="form-placeholder-icon">📋</div>
+            <p><strong>Form embed will appear here</strong></p>
+            <p>G7.C6.W3: Exit Ticket - Volcanic Systems Integration</p>
+          </div>
+        </div>
+
+        <details class="mtss-support">
+          <summary>Need Extra Support?</summary>
+          <div class="mtss-content">
+            <span class="tier-label tier-2">Tier 2</span>
+            <p><strong>Chain of reasoning template:</strong> Fill-in-the-blank connecting boundary → source → silica → viscosity → eruption.</p>
+            <span class="tier-label tier-3">Tier 3</span>
+            <p><strong>Reference cards:</strong> Keep hazard ranking and viscosity comparison visible during assessment.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
   </main>
+
+  <footer class="page-footer">
+    <p>Grade 7 | Cycle 6 Week 3 | Volcanic Eruption Styles & Magma Properties</p>
+    <p>NGSS: MS-ESS2-2, MS-ESS3-2 | April 2026</p>
+  </footer>
+</div>
+
+<script>
+  function showSection(sectionId) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    document.getElementById(sectionId).classList.add('active');
+    event.target.classList.add('active');
+    event.target.setAttribute('aria-selected', 'true');
+    document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+
 </body>
 </html>
