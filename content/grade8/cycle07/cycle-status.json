@@ -13,11 +13,18 @@
     "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
     "week4": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
+  "techDebt": {
+    "cssMigration": {
+      "status": "complete",
+      "pattern": "css-design-system-v3.1",
+      "completedDate": "2025-12-12"
+    }
+  },
   "deployed": {
     "week1": false,
     "week2": false,
     "week3": false,
     "week4": false
   },
-  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Evidence of Chemical Reactions (Fading Glow Mystery). W2: Reaction Types & Conservation (Disappearing Solid Mystery). W3: Reaction Rates & Factors (Cooking Speed Mystery). W4: Synthesis & Assessment. Only slides remaining."
+  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Evidence of Chemical Reactions (Fading Glow Mystery). W2: Reaction Types & Conservation (Disappearing Solid Mystery). W3: Reaction Rates & Factors (Cooking Speed Mystery). W4: Synthesis & Assessment. CSS migrated to Design System v3.1. Only slides remaining."
 }

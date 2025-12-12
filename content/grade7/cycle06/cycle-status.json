@@ -14,6 +14,13 @@
     "week4": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
     "week5": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
+  "techDebt": {
+    "cssMigration": {
+      "status": "complete",
+      "pattern": "css-design-system-v3.1",
+      "completedDate": "2025-12-12"
+    }
+  },
   "deployed": {
     "week1": false,
     "week2": false,
@@ -24,5 +31,5 @@
   "simulations": {
     "week2": "pangaea-puzzle.html"
   },
-  "notes": "All curriculum content complete: W1-W5 have forms.gs, lesson plans, student pages, and rubrics. W1: Plate Boundaries. W2: Seafloor Spreading (+ Pangaea puzzle sim). W3: Volcanic Eruption Styles. W4: Earth's Interior Structure. W5: Synthesis & Assessment. Only slides remaining."
+  "notes": "All curriculum content complete: W1-W5 have forms.gs, lesson plans, student pages, and rubrics. W1: Plate Boundaries. W2: Seafloor Spreading (+ Pangaea puzzle sim). W3: Volcanic Eruption Styles. W4: Earth's Interior Structure. W5: Synthesis & Assessment. CSS migrated to Design System v3.1. Only slides remaining."
 }

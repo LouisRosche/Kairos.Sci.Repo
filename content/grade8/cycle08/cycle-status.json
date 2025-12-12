@@ -13,11 +13,18 @@
     "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
     "week4": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
+  "techDebt": {
+    "cssMigration": {
+      "status": "complete",
+      "pattern": "css-design-system-v3.1",
+      "completedDate": "2025-12-12"
+    }
+  },
   "deployed": {
     "week1": false,
     "week2": false,
     "week3": false,
     "week4": false
   },
-  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Thermal Energy & Heat Transfer Methods (Hot Spoon Mystery). W2: Energy Conservation & Thermal Applications (Thermos Mystery). W3: Urban Heat Island Effect & Solutions (Hot City Mystery). W4: Year-End Integration & Assessment. Only slides remaining."
+  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Thermal Energy & Heat Transfer Methods (Hot Spoon Mystery). W2: Energy Conservation & Thermal Applications (Thermos Mystery). W3: Urban Heat Island Effect & Solutions (Hot City Mystery). W4: Year-End Integration & Assessment. CSS migrated to Design System v3.1. Only slides remaining."
 }

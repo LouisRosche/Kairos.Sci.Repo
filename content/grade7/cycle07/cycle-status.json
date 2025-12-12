@@ -13,6 +13,13 @@
     "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 0 },
     "week4": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
+  "techDebt": {
+    "cssMigration": {
+      "status": "complete",
+      "pattern": "css-design-system-v3.1",
+      "completedDate": "2025-12-12"
+    }
+  },
   "deployed": {
     "week1": false,
     "week2": false,
@@ -23,5 +30,5 @@
     "week1": "rock-cycle-explorer.html",
     "week2": "geologic-time-explorer.html"
   },
-  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Rock Types & Rock Cycle. W2: Geologic Time & Fossil Evidence. W3: Radiometric Dating & Absolute Age. W4: Synthesis & Assessment. Custom simulations for W1 (Rock Cycle Explorer) and W2 (Geologic Time Explorer). Only slides remaining."
+  "notes": "All curriculum content complete: W1-W4 have forms.gs, lesson plans, student pages, and rubrics. W1: Rock Types & Rock Cycle. W2: Geologic Time & Fossil Evidence. W3: Radiometric Dating & Absolute Age. W4: Synthesis & Assessment. Custom simulations for W1 (Rock Cycle Explorer) and W2 (Geologic Time Explorer). CSS migrated to Design System v3.1. Only slides remaining."
 }
