@@ -2,15 +2,15 @@
   "cycle": 6,
   "grade": 7,
   "status": "in_progress",
-  "lastUpdated": "2025-12-09",
+  "lastUpdated": "2025-12-12",
   "topic": "Plate Tectonics & Earth's Interior",
   "completion": {
-    "overall": 60,
+    "overall": 85,
     "curriculumDesign": 100,
     "rubrics": 0,
-    "week1": { "forms": 10, "lessonPlan": 100, "studentPage": 10, "slides": 0, "simulations": 0 },
-    "week2": { "forms": 10, "lessonPlan": 100, "studentPage": 10, "slides": 0, "simulations": 100 },
-    "week3": { "forms": 10, "lessonPlan": 100, "studentPage": 10, "slides": 0, "simulations": 0 }
+    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 0 },
+    "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 100 },
+    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "simulations": 0 }
   },
   "deployed": {
     "week1": false,
@@ -20,5 +20,5 @@
   "simulations": {
     "week2": "pangaea-puzzle.html"
   },
-  "notes": "Lesson plans complete for all weeks. Custom Pangaea puzzle simulation built for W2. Forms and student pages are placeholder templates pending content development."
+  "notes": "W1-W3 COMPLETE: All forms.gs (100%), lesson plans, and student pages finished. W1: Plate Boundaries. W2: Seafloor Spreading. W3: Volcanic Eruption Styles. Custom Pangaea puzzle simulation for W2. Remaining: slides (all weeks), rubrics, W4/W5 scaffold weeks."
 }
