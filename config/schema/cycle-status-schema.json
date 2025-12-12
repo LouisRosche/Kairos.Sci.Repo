@@ -1,0 +1,187 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://kams.edu/schemas/cycle-status-schema.json",
+  "title": "KAMS Cycle Status Schema",
+  "description": "Schema for cycle-status.json files that track development and deployment state",
+  "type": "object",
+
+  "required": ["cycle", "grade", "status", "lastUpdated", "completion"],
+
+  "properties": {
+    "$comment": {
+      "type": "string",
+      "description": "Optional comment about the cycle status"
+    },
+
+    "cycle": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Cycle number"
+    },
+
+    "grade": {
+      "type": "integer",
+      "enum": [7, 8],
+      "description": "Grade level"
+    },
+
+    "status": {
+      "type": "string",
+      "enum": ["not_started", "in_progress", "complete", "deployed", "legacy"],
+      "description": "Current overall status of the cycle"
+    },
+
+    "lastUpdated": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of last status update (YYYY-MM-DD)"
+    },
+
+    "topic": {
+      "type": "string",
+      "description": "Main topic/theme for this cycle"
+    },
+
+    "completion": {
+      "type": "object",
+      "required": ["overall"],
+      "properties": {
+        "overall": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Overall completion percentage"
+        },
+        "curriculumDesign": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "rubrics": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "week1": { "$ref": "#/definitions/weekCompletion" },
+        "week2": { "$ref": "#/definitions/weekCompletion" },
+        "week3": { "$ref": "#/definitions/weekCompletion" },
+        "week4": { "$ref": "#/definitions/weekCompletion" },
+        "week5": { "$ref": "#/definitions/weekCompletion" }
+      },
+      "additionalProperties": false
+    },
+
+    "deployed": {
+      "type": "object",
+      "description": "Deployment status per week",
+      "properties": {
+        "week1": { "type": "boolean" },
+        "week1_date": { "type": "string", "format": "date" },
+        "week2": { "type": "boolean" },
+        "week2_date": { "type": "string", "format": "date" },
+        "week3": { "type": "boolean" },
+        "week3_date": { "type": "string", "format": "date" },
+        "week4": { "type": "boolean" },
+        "week4_date": { "type": "string", "format": "date" },
+        "week5": { "type": "boolean" },
+        "week5_date": { "type": "string", "format": "date" }
+      },
+      "additionalProperties": false
+    },
+
+    "readonly": {
+      "type": "object",
+      "description": "Read-only protection status per week (for production content)",
+      "properties": {
+        "week1": { "type": "boolean" },
+        "week1_reason": { "type": "string" },
+        "week2": { "type": "boolean" },
+        "week2_reason": { "type": "string" },
+        "week3": { "type": "boolean" },
+        "week3_reason": { "type": "string" },
+        "week4": { "type": "boolean" },
+        "week4_reason": { "type": "string" },
+        "week5": { "type": "boolean" },
+        "week5_reason": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+
+    "formUrls": {
+      "type": "object",
+      "description": "Google Form URLs after deployment",
+      "properties": {
+        "week1": { "$ref": "#/definitions/weekFormUrls" },
+        "week2": { "$ref": "#/definitions/weekFormUrls" },
+        "week3": { "$ref": "#/definitions/weekFormUrls" }
+      }
+    },
+
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about cycle status"
+    }
+  },
+
+  "definitions": {
+    "weekCompletion": {
+      "type": "object",
+      "properties": {
+        "forms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "lessonPlan": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "studentPage": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "slides": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "weekFormUrls": {
+      "type": "object",
+      "properties": {
+        "hook": { "type": "string", "format": "uri" },
+        "station1": { "type": "string", "format": "uri" },
+        "station2": { "type": "string", "format": "uri" },
+        "station3": { "type": "string", "format": "uri" },
+        "exitTicket": { "type": "string", "format": "uri" }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "deployed" } }
+      },
+      "then": {
+        "required": ["deployed"],
+        "properties": {
+          "deployed": {
+            "anyOf": [
+              { "properties": { "week1": { "const": true } }, "required": ["week1"] },
+              { "properties": { "week2": { "const": true } }, "required": ["week2"] },
+              { "properties": { "week3": { "const": true } }, "required": ["week3"] }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

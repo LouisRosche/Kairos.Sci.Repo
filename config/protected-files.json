@@ -1,0 +1,55 @@
+{
+  "$schema": "./schema/protected-files-schema.json",
+  "$comment": "Production content that must not be modified. Enforced by pre-commit hook.",
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-12",
+
+  "protectedPaths": [
+    {
+      "pattern": "content/grade7/cycle03/**/*",
+      "reason": "Production content - deployed December 2025",
+      "protectedSince": "2025-12-01",
+      "allowedOperations": ["read"]
+    },
+    {
+      "pattern": "content/grade8/cycle03/**/*",
+      "reason": "Production content - deployed December 2025",
+      "protectedSince": "2025-12-01",
+      "allowedOperations": ["read"]
+    },
+    {
+      "pattern": "content/grade8/cycle04/week1/**/*",
+      "reason": "Production content - deployed December 2025",
+      "protectedSince": "2025-12-10",
+      "allowedOperations": ["read"]
+    }
+  ],
+
+  "protectedFiles": [
+    "config/master-config.json",
+    "shared/Config.gs",
+    "shared/Constants.gs"
+  ],
+
+  "exceptions": {
+    "allowedEditors": [],
+    "emergencyOverride": {
+      "enabled": false,
+      "requiresComment": true,
+      "commentPattern": "EMERGENCY:"
+    }
+  },
+
+  "enforcement": {
+    "preCommitHook": true,
+    "ciValidation": true,
+    "blockOnViolation": true,
+    "notifyOnAttempt": false
+  },
+
+  "_usage": {
+    "description": "This file defines production content that should not be modified",
+    "validation": "Run: node scripts/validate-protected-files.js",
+    "override": "Add EMERGENCY: prefix to commit message for critical fixes"
+  }
+}

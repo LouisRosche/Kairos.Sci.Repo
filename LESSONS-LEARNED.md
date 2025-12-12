@@ -335,4 +335,66 @@ When you discover something worth documenting:
 
 ---
 
+## Enforcement & Automation
+
+### [2025-12-12] Documentation Without Enforcement Is Theater
+**Context:** Extensive documentation existed (CONTENT-DESIGN-GUIDE.md, technical-reference.md) but implementation drifted significantly (5,047 inline styles vs. "100% CSS classes" documented).
+
+**Lesson:** Documentation alone doesn't prevent drift. Automated enforcement is required.
+
+**Action:**
+- Created `config/protected-files.json` to list production content
+- Created `.githooks/pre-commit` hook to block protected file edits
+- Created `scripts/validate-protected-files.js` for CI/CD integration
+- Created `scripts/validate-cycle-status.js` for schema validation
+- Enable hooks: `git config core.hooksPath .githooks`
+
+### [2025-12-12] Config.gs Was Documented But Missing
+**Context:** LESSONS-LEARNED.md stated "All configuration flows from master-config.json → shared/Config.gs → modules" but Config.gs didn't exist.
+
+**Lesson:** Document AND implement. Check that documented SST files actually exist.
+
+**Action:**
+- Created `shared/Config.gs` with centralized configuration methods
+- Use `Config.getPointsForStation('hook')` instead of hardcoding `12`
+- Use `Config.getTierForScore(percentage)` instead of inline thresholds
+- Use `Config.getMTSSThresholds()` for tier boundaries
+
+### [2025-12-12] MTSS Tiers Without Interventions Are Useless
+**Context:** Data pipeline assigned students to tiers (70%/50% thresholds) but no tier-specific intervention materials existed.
+
+**Lesson:** Diagnosis without treatment provides no value. Tiers must connect to actionable resources.
+
+**Action:**
+- Created `content/interventions/` directory structure
+- Created `tier2/templates/reteach-template.html` for targeted support
+- Created `tier3/templates/prerequisite-review.html` for intensive support
+- Created `shared/sentence-frames.md` for scaffolding across all tiers
+- Link interventions from student pages via `<details class="tier2-support">`
+
+### [2025-12-12] Cycle Status Schema Drift
+**Context:** cycle-status.json files used inconsistent schemas (some had `readonly`, others didn't; some used different `deployed` formats).
+
+**Lesson:** JSON without schema validation drifts. Define and enforce schemas.
+
+**Action:**
+- Created `config/schema/cycle-status-schema.json` defining canonical structure
+- Required fields: `cycle`, `grade`, `status`, `lastUpdated`, `completion`
+- Optional but standardized: `deployed`, `readonly`, `formUrls`
+- Validation script: `node scripts/validate-cycle-status.js`
+
+---
+
+## Session History
+
+| Date | Session Focus | Key Lessons Added |
+|------|---------------|-------------------|
+| 2025-12-07 | Repository Audit & Production Protection | Content lifecycle, legacy handling (C2), production content protection (C3.W2), version synchronization |
+| 2025-12-07 | Architectural Refactor v3.0 | Configuration centralization, trigger management, CSS design system |
+| 2025-12-10 | Tech Debt Audit & Remediation | setPoints(0) violations fixed, orphaned cycles archived, deploy-forms.gs documented, DataUtils duplicate functions removed |
+| 2025-12-10 | CSS Styling Migration | Canvas-compatible embedded CSS pattern, station header color system, template v3.1 update, G7 C4 migration complete |
+| 2025-12-12 | UX Infrastructure Overhaul | Config.gs created, protected-files enforcement, pre-commit hooks, MTSS intervention templates, cycle-status schema |
+
+---
+
 *This document is the institutional memory of the project. Keep it current.*
