@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foundation Review: [PREREQUISITE_CONCEPT] | KAMS Science</title>
+  <style>
+    :root {
+      --color-primary: #8B5CF6;
+      --color-tier3-bg: #FEF2F2;
+      --color-tier3-border: #EF4444;
+      --color-success: #10B981;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.8;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: var(--space-lg);
+      background: #fefefe;
+      font-size: 18px; /* Larger base font for readability */
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--color-primary), #7C3AED);
+      color: white;
+      padding: var(--space-xl);
+      border-radius: 16px;
+      margin-bottom: var(--space-lg);
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0 0 var(--space-sm) 0;
+      font-size: 1.75rem;
+    }
+
+    .header p {
+      margin: 0;
+      opacity: 0.9;
+      font-size: 1rem;
+    }
+
+    .progress-tracker {
+      background: white;
+      border: 2px solid var(--color-primary);
+      border-radius: 12px;
+      padding: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .progress-tracker h2 {
+      margin: 0 0 var(--space-sm) 0;
+      font-size: 1rem;
+      color: var(--color-primary);
+    }
+
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .progress-steps::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 30px;
+      right: 30px;
+      height: 4px;
+      background: #E5E7EB;
+      z-index: 0;
+    }
+
+    .step {
+      text-align: center;
+      z-index: 1;
+    }
+
+    .step-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-sm);
+      font-weight: bold;
+      color: white;
+    }
+
+    .step.active .step-circle {
+      background: var(--color-primary);
+    }
+
+    .step.complete .step-circle {
+      background: var(--color-success);
+    }
+
+    .step-label {
+      font-size: 0.75rem;
+      color: #6B7280;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: var(--space-xl);
+      margin-bottom: var(--space-lg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #1f2937;
+      font-size: 1.5rem;
+    }
+
+    .big-idea {
+      background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+      border-radius: 12px;
+      padding: var(--space-lg);
+      margin: var(--space-md) 0;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #3730A3;
+    }
+
+    .visual-first {
+      background: #F0FDF4;
+      border-radius: 12px;
+      padding: var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+
+    .visual-first h3 {
+      margin: 0 0 var(--space-md) 0;
+      color: #166534;
+    }
+
+    .visual-placeholder {
+      background: white;
+      border: 2px dashed #86EFAC;
+      border-radius: 8px;
+      padding: var(--space-xl);
+      text-align: center;
+      color: #166534;
+    }
+
+    .simple-example {
+      background: #FFFBEB;
+      border-left: 4px solid #F59E0B;
+      padding: var(--space-md) var(--space-lg);
+      margin: var(--space-md) 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .simple-example h3 {
+      margin: 0 0 var(--space-sm) 0;
+      color: #92400E;
+    }
+
+    .vocabulary-card {
+      display: flex;
+      background: white;
+      border: 2px solid #E5E7EB;
+      border-radius: 12px;
+      margin: var(--space-md) 0;
+      overflow: hidden;
+    }
+
+    .vocab-term {
+      background: var(--color-primary);
+      color: white;
+      padding: var(--space-md) var(--space-lg);
+      font-weight: bold;
+      min-width: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vocab-definition {
+      padding: var(--space-md) var(--space-lg);
+      flex: 1;
+    }
+
+    .vocab-example {
+      font-style: italic;
+      color: #6B7280;
+      margin-top: var(--space-sm);
+    }
+
+    .guided-practice {
+      background: var(--color-tier3-bg);
+      border: 2px solid var(--color-tier3-border);
+      border-radius: 12px;
+      padding: var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+
+    .guided-practice h3 {
+      margin: 0 0 var(--space-md) 0;
+      color: #991B1B;
+    }
+
+    .fill-blank {
+      background: white;
+      border: 2px dashed var(--color-tier3-border);
+      padding: var(--space-md);
+      border-radius: 8px;
+      margin: var(--space-md) 0;
+      font-size: 1.1rem;
+    }
+
+    .blank {
+      display: inline-block;
+      min-width: 150px;
+      border-bottom: 2px solid var(--color-primary);
+      margin: 0 4px;
+    }
+
+    .word-bank {
+      background: #F3F4F6;
+      padding: var(--space-md);
+      border-radius: 8px;
+      margin-top: var(--space-md);
+    }
+
+    .word-bank h4 {
+      margin: 0 0 var(--space-sm) 0;
+      font-size: 0.9rem;
+      color: #6B7280;
+    }
+
+    .word-bank-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .word-item {
+      background: white;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: 20px;
+      border: 1px solid #D1D5DB;
+      font-size: 0.95rem;
+    }
+
+    .check-answer {
+      background: var(--color-success);
+      color: white;
+      border: none;
+      padding: var(--space-md) var(--space-lg);
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: var(--space-md);
+      width: 100%;
+    }
+
+    .check-answer:hover {
+      background: #059669;
+    }
+
+    .success-message {
+      background: #D1FAE5;
+      color: #065F46;
+      padding: var(--space-md);
+      border-radius: 8px;
+      margin-top: var(--space-md);
+      display: none;
+    }
+
+    .connection-box {
+      background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+      border-radius: 12px;
+      padding: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .connection-box h3 {
+      margin: 0 0 var(--space-md) 0;
+      color: #92400E;
+    }
+
+    .next-steps {
+      background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+      padding: var(--space-xl);
+      border-radius: 16px;
+      margin-top: var(--space-lg);
+    }
+
+    .next-steps h2 {
+      margin-top: 0;
+      color: #1E40AF;
+    }
+
+    .action-button {
+      display: block;
+      background: var(--color-primary);
+      color: white;
+      padding: var(--space-md) var(--space-lg);
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      margin: var(--space-sm) 0;
+      font-weight: 500;
+    }
+
+    .action-button:hover {
+      background: #7C3AED;
+    }
+
+    .action-button.secondary {
+      background: white;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: var(--space-md);
+        font-size: 16px;
+      }
+      .vocabulary-card {
+        flex-direction: column;
+      }
+      .vocab-term {
+        min-width: unset;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>🔄 Foundation Review</h1>
+    <p>[PREREQUISITE_CONCEPT] | Before [CURRENT_TOPIC]</p>
+  </header>
+
+  <!-- Progress Tracker -->
+  <div class="progress-tracker">
+    <h2>Your Progress</h2>
+    <div class="progress-steps">
+      <div class="step active">
+        <div class="step-circle">1</div>
+        <div class="step-label">Big Idea</div>
+      </div>
+      <div class="step">
+        <div class="step-circle">2</div>
+        <div class="step-label">See It</div>
+      </div>
+      <div class="step">
+        <div class="step-circle">3</div>
+        <div class="step-label">Practice</div>
+      </div>
+      <div class="step">
+        <div class="step-circle">4</div>
+        <div class="step-label">Connect</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- STEP 1: The Big Idea -->
+    <section class="card">
+      <h2>Step 1: The Big Idea</h2>
+
+      <div class="big-idea">
+        [ONE_SENTENCE_BIG_IDEA]
+      </div>
+
+      <p><strong>Why this matters:</strong></p>
+      <p>[RELEVANCE_STATEMENT - Connect to current learning]</p>
+    </section>
+
+    <!-- STEP 2: Visual Explanation -->
+    <section class="card">
+      <h2>Step 2: See It</h2>
+
+      <div class="visual-first">
+        <h3>👁️ Visual Explanation</h3>
+        <div class="visual-placeholder">
+          [INSERT SIMPLE DIAGRAM, ANIMATION, OR VIDEO]
+          <p>A clear visual showing [CONCEPT] in action</p>
+        </div>
+      </div>
+
+      <div class="simple-example">
+        <h3>🌟 Everyday Example</h3>
+        <p>[RELATABLE_REAL_WORLD_EXAMPLE]</p>
+        <p><em>Example: "Heat transfer is like when a cold spoon in hot soup becomes warm - the energy moves from the hot soup to the cold spoon."</em></p>
+      </div>
+    </section>
+
+    <!-- Key Vocabulary -->
+    <section class="card">
+      <h2>🔤 Key Words You Need</h2>
+
+      <div class="vocabulary-card">
+        <div class="vocab-term">[TERM_1]</div>
+        <div class="vocab-definition">
+          [SIMPLE_DEFINITION_1]
+          <div class="vocab-example">Example: [EXAMPLE_1]</div>
+        </div>
+      </div>
+
+      <div class="vocabulary-card">
+        <div class="vocab-term">[TERM_2]</div>
+        <div class="vocab-definition">
+          [SIMPLE_DEFINITION_2]
+          <div class="vocab-example">Example: [EXAMPLE_2]</div>
+        </div>
+      </div>
+
+      <div class="vocabulary-card">
+        <div class="vocab-term">[TERM_3]</div>
+        <div class="vocab-definition">
+          [SIMPLE_DEFINITION_3]
+          <div class="vocab-example">Example: [EXAMPLE_3]</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: Guided Practice -->
+    <section class="card">
+      <h2>Step 3: Practice Together</h2>
+
+      <div class="guided-practice">
+        <h3>✏️ Fill in the Blanks</h3>
+        <p>Use the word bank to complete the sentence.</p>
+
+        <div class="fill-blank">
+          [SENTENCE_WITH_BLANKS]
+          <br><br>
+          Example: "When <span class="blank"></span> moves from a hot object to a cold object, we call this <span class="blank"></span>."
+        </div>
+
+        <div class="word-bank">
+          <h4>Word Bank:</h4>
+          <div class="word-bank-items">
+            <span class="word-item">[WORD_1]</span>
+            <span class="word-item">[WORD_2]</span>
+            <span class="word-item">[WORD_3]</span>
+            <span class="word-item">[DISTRACTOR_WORD]</span>
+          </div>
+        </div>
+
+        <button class="check-answer" onclick="showAnswer()">Check My Answer</button>
+
+        <div class="success-message" id="answer-feedback">
+          <strong>✅ Great job!</strong>
+          <p>The correct answer is: [CORRECT_ANSWER]</p>
+          <p>[BRIEF_EXPLANATION]</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 4: Connection to Current Learning -->
+    <section class="card">
+      <h2>Step 4: Connect to Today's Lesson</h2>
+
+      <div class="connection-box">
+        <h3>🔗 How This Connects</h3>
+        <p><strong>What you just reviewed:</strong> [PREREQUISITE_SUMMARY]</p>
+        <p><strong>What you're learning now:</strong> [CURRENT_TOPIC]</p>
+        <p><strong>The connection:</strong> [HOW_THEY_CONNECT]</p>
+      </div>
+
+      <p><strong>Now you're ready to:</strong></p>
+      <ul>
+        <li>[LEARNING_TARGET_1]</li>
+        <li>[LEARNING_TARGET_2]</li>
+      </ul>
+    </section>
+
+    <!-- Next Steps -->
+    <section class="next-steps">
+      <h2>📍 What's Next?</h2>
+
+      <a href="[STUDENT_PAGE_LINK]" class="action-button">
+        ✅ I'm ready! Return to the lesson
+      </a>
+
+      <a href="[TIER2_RETEACH_LINK]" class="action-button secondary">
+        📚 I need the Tier 2 reteach first
+      </a>
+
+      <p style="margin-top: var(--space-md); text-align: center; color: #64748B;">
+        <strong>Still struggling?</strong> Ask your teacher for 1:1 support.
+      </p>
+    </section>
+  </main>
+
+  <footer style="margin-top: 2rem; text-align: center; color: #6b7280; font-size: 0.875rem;">
+    <p>KAMS Science | Tier 3 Intervention | Prerequisite from Cycle [N]</p>
+  </footer>
+
+  <script>
+    function showAnswer() {
+      document.getElementById('answer-feedback').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
