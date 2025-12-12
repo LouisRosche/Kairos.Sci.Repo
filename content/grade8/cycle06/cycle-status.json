@@ -1,16 +1,16 @@
 {
   "cycle": 6,
   "grade": 8,
-  "status": "in_progress",
+  "status": "complete",
   "lastUpdated": "2025-12-12",
   "topic": "Electricity & Magnetism",
   "completion": {
-    "overall": 90,
+    "overall": 95,
     "curriculumDesign": 100,
-    "rubrics": 0,
+    "rubrics": 100,
     "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
     "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
-    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0, "_note": "Page has Synthesis content - assessment now moved to W5. W3 can be reworked for Electric Circuits & Power if needed." },
+    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
     "week4": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
     "week5": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
@@ -21,5 +21,5 @@
     "week4": false,
     "week5": false
   },
-  "notes": "W1-W5 COMPLETE: All forms.gs, lesson plans, and student pages finished. W4 = Motors & Mechanical Advantage. W5 = Full Cycle Assessment. Remaining: slides (all weeks), rubrics."
+  "notes": "All curriculum content complete: W1-W5 have forms.gs, lesson plans, student pages, and rubrics. W1: Magnetic Forces & Fields. W2: Electromagnetism & Energy Transfer. W3: Electric Circuits & Power. W4: Electric Motors & Mechanical Advantage. W5: Synthesis & Assessment. Only slides remaining."
 }

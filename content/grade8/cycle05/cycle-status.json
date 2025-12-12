@@ -2,7 +2,7 @@
   "cycle": 5,
   "grade": 8,
   "status": "complete",
-  "lastUpdated": "2025-12-09",
+  "lastUpdated": "2025-12-12",
   "topic": "Waves & Information Transfer",
   "completion": {
     "overall": 95,
@@ -17,5 +17,5 @@
     "week2": false,
     "week3": false
   },
-  "notes": "G8 C5 content development complete. All forms, rubrics, and student-pages finished. Only slides remaining (0%)."
+  "notes": "All curriculum content complete: W1-W3 have forms.gs, lesson plans, student pages, and rubrics. W1: Wave Properties & Behavior (WiFi vs Flashlight Mystery). W2: Waves & Material Interactions (Signal Blocker Mystery). W3: Synthesis & Assessment. Only slides remaining."
 }
