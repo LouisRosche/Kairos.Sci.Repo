@@ -425,6 +425,8 @@ These exist but are **not imported** into any student-page.html files.
 | Add configureQuizForm() helper | ✅ Done | Added to FormUtils.gs |
 | Deprecate duplicate functions | ✅ Done | Updated 4 data scripts |
 | Clarify analysis file status | ✅ Done | Added integration notes |
+| Create shared pptx_common.py | ✅ Done | New shared utilities module |
+| Refactor PPTX scripts | ✅ Done | 11 scripts now use pptx_common.py |
 
 ### Files Impacted
 
@@ -447,6 +449,24 @@ These exist but are **not imported** into any student-page.html files.
 - `data/mtss/InterventionGrouping.gs` - Deprecated local findMode
 - `data/analysis/MisconceptionTracker.gs` - Added integration docs
 - `data/analysis/SpiralEffectiveness.gs` - Added integration docs
+
+**Created:**
+- `scripts/pptx_common.py` - Shared PPTX utilities (colors, helpers, re-exports)
+- `scripts/PPTX_DESIGN_GUIDE.md` - Best practices documentation
+
+**Refactored (PPTX scripts now using shared module):**
+- `scripts/create_g7_c3_w2_pptx.py`
+- `scripts/create_g7_c3_w3_pptx.py`
+- `scripts/create_g7_c4_w1_pptx.py`
+- `scripts/create_g7_c4_w2_pptx.py`
+- `scripts/create_g7_c4_w3_pptx.py`
+- `scripts/create_g7_c5_w1_pptx.py`
+- `scripts/create_g8_c3_w2_pptx.py`
+- `scripts/create_g8_c3_w3_pptx.py`
+- `scripts/create_g8_c4_w1_pptx.py`
+- `scripts/create_g8_c4_w2_pptx.py`
+- `scripts/create_g8_c4_w3_pptx.py`
+- **Impact:** ~500 lines of duplicate code removed across 11 scripts
 
 ### Remaining Opportunities (Future Work)
 
