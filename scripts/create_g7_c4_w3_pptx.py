@@ -1,39 +1,45 @@
 #!/usr/bin/env python3
 """
-Create G7_C4_W3 Assessment - Human Impacts on Water Systems
-Following established patterns - blue/teal theme
-Assessment week structure: Parts 1-3 (20/60/20 pts)
+Create G7_C4_W3 Assessment - Human Impacts on Water Systems.
+Assessment week structure: Parts 1-3 (20/60/20 pts).
+
+See PPTX_DESIGN_GUIDE.md for best practices documentation.
 """
 
-from pptx import Presentation
-from pptx.util import Inches, Pt
-from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from pptx.enum.shapes import MSO_SHAPE
 import os
+from pptx.dml.color import RGBColor
+from pptx.enum.shapes import MSO_SHAPE
+from pptx_common import (
+    COLORS as BASE_COLORS,
+    create_base_presentation,
+    add_text_box,
+    Inches,
+    Pt,
+    PP_ALIGN,
+    MSO_ANCHOR,
+)
 
-COLORS = {
+# Blue/Teal assessment theme for C4 W3 - extend base colors
+COLORS = {**BASE_COLORS}
+COLORS.update({
     'primary_blue': RGBColor(0x25, 0x63, 0xEB),
-    'teal': RGBColor(0x08, 0x91, 0xB2),
-    'green': RGBColor(0x05, 0x96, 0x69),
     'warning_orange': RGBColor(0xD9, 0x77, 0x06),
     'pink': RGBColor(0xEC, 0x48, 0x99),
-    'dark_text': RGBColor(0x2D, 0x37, 0x48),
-    'gray_text': RGBColor(0x4A, 0x55, 0x68),
-    'white': RGBColor(0xFF, 0xFF, 0xFF),
     'light_bg': RGBColor(0xF7, 0xFA, 0xFC),
-    'light_blue_bg': RGBColor(0xEF, 0xF6, 0xFF),
-    'light_teal_bg': RGBColor(0xEC, 0xFE, 0xFF),
-    'light_green_bg': RGBColor(0xEC, 0xFD, 0xF5),
-    'light_orange_bg': RGBColor(0xFE, 0xF3, 0xC7),
-    'light_pink_bg': RGBColor(0xFD, 0xF2, 0xF8),
-    'red_alert': RGBColor(0xC5, 0x30, 0x30),
-}
+})
+
+
+def add_colored_shape(slide, left, top, width, height, color):
+    """Add a colored rectangle shape (uses RECTANGLE for C4 theme)"""
+    shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, height)
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = color
+    shape.line.fill.background()
+    return shape
+
 
 def create_presentation():
-    prs = Presentation()
-    prs.slide_width = Inches(10)
-    prs.slide_height = Inches(5.625)
+    prs = create_base_presentation()
 
     add_title_slide(prs)
     add_overview_slide(prs)
@@ -50,29 +56,6 @@ def create_presentation():
 
     return prs
 
-def add_colored_shape(slide, left, top, width, height, color):
-    shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, height)
-    shape.fill.solid()
-    shape.fill.fore_color.rgb = color
-    shape.line.fill.background()
-    return shape
-
-def add_text_box(slide, left, top, width, height, text, font_size=18, bold=False,
-                 color=None, align=PP_ALIGN.LEFT, font_name="Arial", anchor=None):
-    txBox = slide.shapes.add_textbox(left, top, width, height)
-    tf = txBox.text_frame
-    tf.word_wrap = True
-    if anchor:
-        tf.anchor = anchor
-    p = tf.paragraphs[0]
-    p.text = text
-    p.font.size = Pt(font_size)
-    p.font.bold = bold
-    p.font.name = font_name
-    if color:
-        p.font.color.rgb = color
-    p.alignment = align
-    return txBox
 
 def add_title_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])

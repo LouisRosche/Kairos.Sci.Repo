@@ -1,150 +1,26 @@
 #!/usr/bin/env python3
 """
-Create G7_C3_W2 Feedback Loops & Tipping Points presentation
-Following exemplar patterns from G7_C3_W1 and G8_C3_W1
-Colors matched to student-page.html
+Create G7_C3_W2 Feedback Loops & Tipping Points presentation.
 
-=============================================================================
-PPTX DESIGN BEST PRACTICES - SINGLE SOURCE OF TRUTH
-=============================================================================
-
-CYCLE STRUCTURE (All cycles follow this pattern):
--------------------------------------------------
-Week 1 (Intro): Hook (12pts) + Station 1 (20pts) + Station 2 (20pts) + Station 3 (25pts) + Exit Ticket (23pts) = 100 pts
-Week 2 (Deep Dive): Same structure as W1 - builds on W1 concepts
-Week 3 (Assessment): Part 1 Synthesis (20pts) + Part 2 Assessment (60pts) + Part 3 Misconceptions (20pts) = 100 pts
-
-EXCEPTION: Cycle 2 has Week 4 (extended cycle)
-
-SLIDE STRUCTURE PATTERNS:
--------------------------
-W1/W2 Standard (16 slides):
-  1. Title slide
-  2. Phenomenon slide
-  3. Driving Question slide
-  4. Prior Knowledge slide
-  5. Learning Targets slide
-  6. Vocabulary slide
-  7. Hook intro slide
-  8. Hook support slide
-  9. Station 1 intro slide
-  10. Station 1 support slide
-  11. Station 2 intro slide
-  12. Station 2 support slide
-  13. Station 3 intro slide
-  14. Station 3 support slide
-  15. Exit Ticket intro slide
-  16. Summary/What You Learned slide
-
-W3 Assessment (11-12 slides):
-  1. Title slide
-  2. Assessment overview slide
-  3. What you'll be assessed on slide
-  4. Part 1 intro slide
-  5. Part 1 support slide
-  6. Part 2 intro slide
-  7. Part 2 support slide
-  8. Part 3 intro slide
-  9. Part 3 support slide
-  10. Tips for success slide
-  11. Summary slide
-
-=============================================================================
-
-1. TEXT BOX POSITIONING:
-   - Text boxes do NOT visually show actual text boundaries
-   - Always add PADDING between text box edges and shape edges
-   - Use vertical anchor (MSO_ANCHOR.MIDDLE) for centering in constrained heights
-   - Horizontal centering via PP_ALIGN.CENTER affects text within box, not box position
-
-2. TITLE + METADATA PATTERN:
-   - Title text should NEVER share horizontal space with points/time indicators
-   - Pattern: Title on one line, metadata (points, mins) on SEPARATE line below
-   - OR: Place metadata as small text at far right of header bar, vertically centered
-
-3. TEXT WRAPPING PREVENTION:
-   - Calculate approximate text width: chars * font_size * 0.6 (rough estimate)
-   - For long titles, either reduce font size OR split into multiple lines manually
-   - Never let critical numbered items (1), 2), etc.) wrap to hidden positions
-
-4. VERTICAL CENTERING IN SHAPES:
-   - Set text_frame.paragraphs[0].alignment for horizontal
-   - Set text_frame.anchor = MSO_ANCHOR.MIDDLE for vertical centering
-   - Critical for small height boxes where text must appear centered
-
-5. COLOR CONTRAST:
-   - Dark text on light backgrounds, white text on dark backgrounds
-   - Always test: purple/blue text on purple/blue backgrounds = BAD
-
-6. STANDARD LAYOUT MEASUREMENTS:
-   - Slide: 10" x 5.625" (16:9)
-   - Header bar height: 0.6" - 0.75"
-   - Standard margin: 0.15" - 0.3"
-   - Standard padding inside shapes: 0.1" - 0.2"
-   - Footer/notecard bar height: 0.55" - 0.7"
-
-7. TABLE ROW TEXT ALIGNMENT (CRITICAL):
-   - ALWAYS use anchor=MSO_ANCHOR.MIDDLE for text in table rows
-   - Text box height should be ~0.45-0.5" for 0.55-0.65" row heights
-   - Position text box with small top offset (0.05-0.08") from row top
-   - This ensures text is vertically centered in each row cell
-   - Without vertical anchoring, text sits at TOP of box causing misalignment
-
-8. STAT/NUMBER DISPLAY BOXES:
-   - Large numbers (24pt+) need anchor=MSO_ANCHOR.MIDDLE
-   - Labels below numbers also need vertical centering
-   - This prevents numbers appearing offset within their containers
-=============================================================================
+See PPTX_DESIGN_GUIDE.md for best practices documentation.
 """
 
-from pptx import Presentation
-from pptx.util import Inches, Pt
-from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from pptx.enum.shapes import MSO_SHAPE
 import os
+from pptx_common import (
+    COLORS,
+    create_base_presentation,
+    add_colored_shape,
+    add_text_box,
+    Inches,
+    Pt,
+    PP_ALIGN,
+    MSO_ANCHOR,
+)
 
-# HTML Color Palette (matching student-page.html)
-COLORS = {
-    # Main gradients
-    'header_blue_start': RGBColor(0x42, 0x99, 0xE1),  # #4299E1
-    'header_blue_end': RGBColor(0x2B, 0x6C, 0xB0),    # #2B6CB0
-    'green_start': RGBColor(0x48, 0xBB, 0x78),        # #48BB78
-    'green_end': RGBColor(0x27, 0x67, 0x49),          # #276749
-    'purple_start': RGBColor(0x66, 0x7E, 0xEA),       # #667EEA (Hook)
-    'purple_end': RGBColor(0x76, 0x4B, 0xA2),         # #764BA2
-    'orange_start': RGBColor(0xF6, 0xAD, 0x55),       # #F6AD55 (Station 1)
-    'orange_end': RGBColor(0xDD, 0x6B, 0x20),         # #DD6B20
-    'exit_purple_start': RGBColor(0x9F, 0x7A, 0xEA),  # #9F7AEA
-    'exit_purple_end': RGBColor(0x6B, 0x46, 0xC1),    # #6B46C1
-    # Accents
-    'teal': RGBColor(0x38, 0xB2, 0xAC),               # #38B2AC
-    'teal_dark': RGBColor(0x23, 0x4E, 0x52),          # #234E52
-    'teal_light': RGBColor(0xE6, 0xFF, 0xFA),         # #E6FFFA
-    # Text colors
-    'dark_text': RGBColor(0x2D, 0x37, 0x48),          # #2D3748
-    'gray_text': RGBColor(0x4A, 0x55, 0x68),          # #4A5568
-    'white': RGBColor(0xFF, 0xFF, 0xFF),
-    # Background colors
-    'light_blue_bg': RGBColor(0xEB, 0xF8, 0xFF),      # #EBF8FF
-    'light_green_bg': RGBColor(0xF0, 0xFF, 0xF4),     # #F0FFF4
-    'light_orange_bg': RGBColor(0xFF, 0xFA, 0xF0),    # #FFFAF0
-    'light_purple_bg': RGBColor(0xFA, 0xF5, 0xFF),    # #FAF5FF
-    'light_pink_bg': RGBColor(0xFF, 0xF5, 0xF7),      # #FFF5F7
-    'light_teal_bg': RGBColor(0xE6, 0xFF, 0xFA),      # #E6FFFA
-    # Specific colors
-    'red_accent': RGBColor(0xC5, 0x30, 0x30),         # #C53030
-    'blue_accent': RGBColor(0x31, 0x82, 0xCE),        # #3182CE
-    'green_accent': RGBColor(0x38, 0xA1, 0x69),       # #38A169
-    'purple_accent': RGBColor(0x80, 0x5A, 0xD5),      # #805AD5
-    'orange_accent': RGBColor(0xC0, 0x56, 0x21),      # #C05621
-}
 
 def create_presentation():
     """Create the G7_C3_W2 presentation"""
-    prs = Presentation()
-    prs.slide_width = Inches(10)
-    prs.slide_height = Inches(5.625)  # 16:9 aspect ratio
+    prs = create_base_presentation()
 
     # Add all slides
     add_title_slide(prs)
@@ -165,45 +41,6 @@ def create_presentation():
     add_summary_slide(prs)
 
     return prs
-
-
-def add_colored_shape(slide, left, top, width, height, color, shape_type=MSO_SHAPE.ROUNDED_RECTANGLE):
-    """Add a colored shape to the slide"""
-    shape = slide.shapes.add_shape(shape_type, left, top, width, height)
-    shape.fill.solid()
-    shape.fill.fore_color.rgb = color
-    shape.line.fill.background()
-    return shape
-
-
-def add_text_box(slide, left, top, width, height, text, font_size=18, bold=False,
-                 color=None, align=PP_ALIGN.LEFT, font_name="Arial",
-                 anchor=None):
-    """
-    Add a text box with specified formatting.
-
-    IMPORTANT: Text boxes don't visually show text boundaries.
-    Always add padding when positioning text inside shapes.
-
-    Args:
-        anchor: MSO_ANCHOR.MIDDLE for vertical centering, MSO_ANCHOR.TOP (default),
-                MSO_ANCHOR.BOTTOM
-    """
-    txBox = slide.shapes.add_textbox(left, top, width, height)
-    tf = txBox.text_frame
-    tf.word_wrap = True
-    # Set vertical anchor if specified (critical for centering in small boxes)
-    if anchor:
-        tf.anchor = anchor
-    p = tf.paragraphs[0]
-    p.text = text
-    p.font.size = Pt(font_size)
-    p.font.bold = bold
-    p.font.name = font_name
-    p.alignment = align
-    if color:
-        p.font.color.rgb = color
-    return txBox
 
 
 def add_title_slide(prs):
