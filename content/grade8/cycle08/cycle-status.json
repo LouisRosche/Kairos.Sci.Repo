@@ -2,20 +2,20 @@
   "cycle": 8,
   "grade": 8,
   "status": "in_progress",
-  "lastUpdated": "2025-12-11",
+  "lastUpdated": "2025-12-12",
   "topic": "Thermal Energy & Heat Transfer",
   "completion": {
-    "overall": 65,
+    "overall": 85,
     "curriculumDesign": 100,
     "rubrics": 0,
-    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 },
-    "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 },
-    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 0, "slides": 0 }
+    "week1": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
+    "week2": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 },
+    "week3": { "forms": 100, "lessonPlan": 100, "studentPage": 100, "slides": 0 }
   },
   "deployed": {
     "week1": false,
     "week2": false,
     "week3": false
   },
-  "notes": "All 3 weeks forms.gs COMPLETE. W1: 5 forms (Thermal Conductivity - Hot Spoon Mystery). W2: 5 forms (Insulation Engineering - Super-Insulator Mystery). W3: 4 forms (Year-End Integration - Engineering Showcase + Assessment + CCC/Reflection). Lesson plans existed. Student pages pending."
+  "notes": "All 3 weeks COMPLETE except slides and rubrics. W1: Thermal Conductivity - Hot Spoon Mystery (5 forms + student page). W2: Insulation Engineering - Super-Insulator Mystery (5 forms + student page). W3: Year-End Integration - Engineering Showcase (4 forms + student page). All student pages created with CSS v3.1, thermal/engineering themes, full accessibility."
 }

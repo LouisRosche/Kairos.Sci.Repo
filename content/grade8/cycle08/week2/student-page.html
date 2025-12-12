@@ -3,35 +3,921 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G8 C8 W2: [Title TBD] - PLACEHOLDER</title>
+  <title>G8 C8 W2: Insulation Engineering & Energy Conservation</title>
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════════════
+       CSS Design System v3.1 - Thermal Engineering Theme
+       Based on shared/styles/design-system.css
+       ═══════════════════════════════════════════════════════════════════════════ */
+
+    :root {
+      --color-primary: #0369a1;
+      --color-secondary: #0891b2;
+      --color-accent: #06b6d4;
+      --color-background: #f0f9ff;
+      --color-text: #1e293b;
+      --color-text-light: #64748b;
+      --color-border: #e2e8f0;
+      --color-success: #16a34a;
+      --color-warning: #f59e0b;
+      --color-error: #dc2626;
+
+      /* Engineering theme colors */
+      --eng-cool: #0ea5e9;
+      --eng-frost: #38bdf8;
+      --eng-ice: #7dd3fc;
+      --eng-gradient: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 50%, #7dd3fc 100%);
+
+      /* Station gradients */
+      --hook-gradient: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      --station1-gradient: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+      --station2-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      --station3-gradient: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      --exit-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+
+      --font-primary: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --border-radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-primary);
+      line-height: 1.6;
+      color: var(--color-text);
+      background-color: var(--color-background);
+      margin: 0;
+      padding: var(--spacing-md);
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--color-primary);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      z-index: 100;
+      text-decoration: none;
+    }
+
+    .skip-link:focus { top: 0; }
+
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Week Header */
+    .week-header {
+      background: var(--hook-gradient);
+      color: white;
+      padding: var(--spacing-xl);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-xl);
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .week-header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      animation: frost-shine 4s ease-in-out infinite;
+    }
+
+    @keyframes frost-shine {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.05); opacity: 0.3; }
+    }
+
+    .week-header h1 {
+      margin: 0 0 var(--spacing-sm);
+      font-size: 1.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .week-header .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      margin-bottom: var(--spacing-md);
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge-container {
+      display: flex;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.2);
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    /* Phenomenon Box */
+    .phenomenon-box {
+      background: linear-gradient(135deg, #0c4a6e, #0369a1);
+      color: white;
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-xl);
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .phenomenon-box::after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 80px;
+      height: 80px;
+      background: var(--eng-gradient);
+      border-radius: 50%;
+      filter: blur(25px);
+      opacity: 0.6;
+      animation: frost-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes frost-glow {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(1.2); }
+    }
+
+    .phenomenon-box h2 {
+      margin-top: 0;
+      color: var(--eng-ice);
+    }
+
+    .driving-question {
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: var(--spacing-md);
+      background: rgba(255,255,255,0.1);
+      border-left: 4px solid var(--eng-frost);
+      margin-top: var(--spacing-md);
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+
+    /* Station Cards */
+    .station-card {
+      background: white;
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .station-header {
+      padding: var(--spacing-lg);
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .station-header.hook { background: var(--hook-gradient); }
+    .station-header.station1 { background: var(--station1-gradient); }
+    .station-header.station2 { background: var(--station2-gradient); }
+    .station-header.station3 { background: var(--station3-gradient); }
+    .station-header.exit { background: var(--exit-gradient); }
+
+    .station-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .station-title h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .station-title .meta {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .station-content {
+      padding: var(--spacing-lg);
+    }
+
+    /* Data Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--spacing-md) 0;
+      font-size: 0.95rem;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: var(--spacing-sm) var(--spacing-md);
+      text-align: left;
+      border: 1px solid var(--color-border);
+    }
+
+    .data-table th {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .data-table tr:nth-child(even) {
+      background: var(--color-background);
+    }
+
+    /* Formula Box */
+    .formula-box {
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      color: white;
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-md) 0;
+      text-align: center;
+    }
+
+    .formula-box .formula {
+      font-size: 1.5rem;
+      font-family: 'Times New Roman', serif;
+      margin: var(--spacing-sm) 0;
+    }
+
+    .formula-box .formula-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    /* Info Boxes */
+    .info-box {
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-md) 0;
+      border-left: 4px solid;
+    }
+
+    .info-box.concept {
+      background: #dbeafe;
+      border-color: var(--color-primary);
+    }
+
+    .info-box.warning {
+      background: #fee2e2;
+      border-color: var(--color-error);
+    }
+
+    .info-box.success {
+      background: #dcfce7;
+      border-color: var(--color-success);
+    }
+
+    .info-box.engineering {
+      background: #fef3c7;
+      border-color: var(--color-warning);
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    /* Cost Grid */
+    .cost-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--spacing-md);
+      margin: var(--spacing-md) 0;
+    }
+
+    .cost-card {
+      background: var(--color-background);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      border: 2px solid var(--color-border);
+      text-align: center;
+    }
+
+    .cost-card .material {
+      font-weight: 600;
+      color: var(--color-primary);
+      font-size: 1rem;
+    }
+
+    .cost-card .price {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--color-success);
+      margin: var(--spacing-xs) 0;
+    }
+
+    .cost-card .note {
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+    }
+
+    /* Vocabulary Section */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      margin: var(--spacing-md) 0;
+    }
+
+    .vocab-card {
+      background: var(--color-background);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--color-secondary);
+    }
+
+    .vocab-card .term {
+      font-weight: 600;
+      color: var(--color-primary);
+      font-size: 1rem;
+    }
+
+    .vocab-card .definition {
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      margin-top: var(--spacing-xs);
+    }
+
+    /* Form Embed */
+    .form-embed {
+      background: var(--color-background);
+      border: 2px dashed var(--color-border);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      text-align: center;
+      margin-top: var(--spacing-md);
+    }
+
+    .form-embed p {
+      color: var(--color-text-light);
+      margin: 0;
+    }
+
+    /* Engineering Cycle */
+    .design-cycle {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      margin: var(--spacing-md) 0;
+    }
+
+    .design-step {
+      background: var(--eng-gradient);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .design-arrow {
+      display: flex;
+      align-items: center;
+      color: var(--color-text-light);
+      font-size: 1.2rem;
+    }
+
+    /* MTSS Support */
+    .mtss-support {
+      margin-top: var(--spacing-lg);
+    }
+
+    .mtss-support summary {
+      cursor: pointer;
+      padding: var(--spacing-md);
+      background: var(--color-background);
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      color: var(--color-primary);
+      border: 1px solid var(--color-border);
+      list-style: none;
+    }
+
+    .mtss-support summary::-webkit-details-marker { display: none; }
+    .mtss-support summary::before { content: "▶ "; font-size: 0.8rem; }
+    .mtss-support[open] summary::before { content: "▼ "; }
+
+    .mtss-content {
+      padding: var(--spacing-md);
+      border: 1px solid var(--color-border);
+      border-top: none;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      background: white;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding: var(--spacing-lg);
+      color: var(--color-text-light);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--color-border);
+      margin-top: var(--spacing-xl);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .week-header { padding: var(--spacing-lg); }
+      .week-header h1 { font-size: 1.4rem; }
+      .station-header { flex-direction: column; text-align: center; }
+      .cost-grid { grid-template-columns: 1fr; }
+      .vocab-grid { grid-template-columns: 1fr; }
+      .design-cycle { flex-direction: column; align-items: center; }
+    }
+  </style>
 </head>
 <body>
-<!-- Skip to main content link for accessibility -->
-<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to main content</a>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 8 CYCLE 5 WEEK 2: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  Target Date: January 27-30, 2026
-  Topic: Thermal Energy & Heat Transfer
-  Primary Standard: MS-ESS2-5
+  <div class="page-container">
+    <!-- Week Header -->
+    <header class="week-header" role="banner">
+      <h1>Cycle 8 Week 2: Insulation Engineering</h1>
+      <p class="subtitle">The Super-Insulator Mystery</p>
+      <div class="badge-container">
+        <span class="badge">100 Total Points</span>
+        <span class="badge">MS-PS3-4</span>
+        <span class="badge">MS-ETS1-2</span>
+      </div>
+    </header>
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+    <main id="main-content" role="main">
+      <!-- Phenomenon Box -->
+      <section class="phenomenon-box" aria-labelledby="phenomenon-heading">
+        <h2 id="phenomenon-heading">The Super-Insulator Mystery</h2>
+        <p>Your friend brings hot coffee in a cheap cup - it's cold within 30 minutes. You bring the same coffee in a vacuum-insulated bottle - it stays hot for 12 hours. How can one container be 24 times better at keeping things hot? What engineering goes into making a "super-insulator"?</p>
+        <div class="driving-question">
+          <strong>Driving Question:</strong> How can some containers keep drinks cold for 24 hours?
+        </div>
+      </section>
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+      <!-- Learning Targets -->
+      <section class="station-card" aria-labelledby="targets-heading">
+        <div class="station-header hook">
+          <div class="station-icon" aria-hidden="true">🎯</div>
+          <div class="station-title">
+            <h2 id="targets-heading">Learning Targets</h2>
+            <div class="meta">What you'll be able to do by the end of this week</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <ol>
+            <li>Analyze insulation materials for thermal effectiveness</li>
+            <li>Calculate and predict heat transfer rates</li>
+            <li>Apply engineering design process to thermal challenge</li>
+            <li>Evaluate competing designs using systematic criteria</li>
+          </ol>
+        </div>
+      </section>
 
-  <main id="main-content">
-    <h1>Grade 8 Cycle 8 Week 2</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
-  </main>
+      <!-- Hook -->
+      <section class="station-card" aria-labelledby="hook-heading">
+        <div class="station-header hook">
+          <div class="station-icon" aria-hidden="true">🧊</div>
+          <div class="station-title">
+            <h2 id="hook-heading">Hook: The Super-Insulator Mystery</h2>
+            <div class="meta">12 points | ~10 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box concept">
+            <strong>What to Think About:</strong>
+            A vacuum-insulated bottle can keep drinks hot (or cold) for HOURS longer than a regular cup. What engineering goes into blocking all three heat transfer mechanisms?
+          </div>
+
+          <h3>Temperature Comparison</h3>
+          <table class="data-table" role="table" aria-label="Container temperature retention">
+            <thead>
+              <tr>
+                <th scope="col">Container Type</th>
+                <th scope="col">Start Temp</th>
+                <th scope="col">After 30 min</th>
+                <th scope="col">After 2 hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Paper cup</strong></td>
+                <td>90°C</td>
+                <td>~60°C</td>
+                <td>~30°C (room temp)</td>
+              </tr>
+              <tr>
+                <td><strong>Ceramic mug</strong></td>
+                <td>90°C</td>
+                <td>~70°C</td>
+                <td>~40°C</td>
+              </tr>
+              <tr>
+                <td><strong>Vacuum bottle</strong></td>
+                <td>90°C</td>
+                <td>~87°C</td>
+                <td>~82°C</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="info-box success">
+            <strong>Engineering Insight:</strong>
+            Vacuum bottles use MULTIPLE strategies: vacuum (no conduction/convection), reflective coating (blocks radiation), sealed lid (prevents steam loss). Each mechanism is addressed!
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Hook Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Station 1 -->
+      <section class="station-card" aria-labelledby="station1-heading">
+        <div class="station-header station1">
+          <div class="station-icon" aria-hidden="true">🔬</div>
+          <div class="station-title">
+            <h2 id="station1-heading">Station 1: Insulation Material Analysis</h2>
+            <div class="meta">20 points | ~18 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box concept">
+            <strong>Focus:</strong>
+            Test and compare how different insulation materials affect heat loss rate. Which combinations work best and why?
+          </div>
+
+          <h3>Investigation Protocol</h3>
+          <ol>
+            <li>Wrap identical containers with different insulation materials</li>
+            <li>Fill with hot water at same starting temperature (80°C)</li>
+            <li>Measure temperature at 5-minute intervals</li>
+            <li>Graph temperature vs time for each material</li>
+            <li>Calculate rate of temperature loss (°C per minute)</li>
+          </ol>
+
+          <h3>Data Collection Table</h3>
+          <table class="data-table" role="table" aria-label="Insulation test data">
+            <thead>
+              <tr>
+                <th scope="col">Material</th>
+                <th scope="col">Start</th>
+                <th scope="col">5 min</th>
+                <th scope="col">10 min</th>
+                <th scope="col">15 min</th>
+                <th scope="col">Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>No insulation</strong></td>
+                <td>80°C</td>
+                <td>___</td>
+                <td>___</td>
+                <td>___</td>
+                <td>___°C/min</td>
+              </tr>
+              <tr>
+                <td><strong>Newspaper</strong></td>
+                <td>80°C</td>
+                <td>___</td>
+                <td>___</td>
+                <td>___</td>
+                <td>___°C/min</td>
+              </tr>
+              <tr>
+                <td><strong>Foam</strong></td>
+                <td>80°C</td>
+                <td>___</td>
+                <td>___</td>
+                <td>___</td>
+                <td>___°C/min</td>
+              </tr>
+              <tr>
+                <td><strong>Foil + Foam</strong></td>
+                <td>80°C</td>
+                <td>___</td>
+                <td>___</td>
+                <td>___</td>
+                <td>___°C/min</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="info-box warning">
+            <strong>Key Question:</strong>
+            Why does combining foil + foam work better than either alone? (Hint: What mechanism does each block?)
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Station 1 Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Station 2 -->
+      <section class="station-card" aria-labelledby="station2-heading">
+        <div class="station-header station2">
+          <div class="station-icon" aria-hidden="true">🔢</div>
+          <div class="station-title">
+            <h2 id="station2-heading">Station 2: Energy Conservation Calculations</h2>
+            <div class="meta">20 points | ~15 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="formula-box">
+            <div class="formula-label">Heat Energy Formula</div>
+            <div class="formula">Q = m × c × ΔT</div>
+            <div class="formula-label">Energy = mass × specific heat × temperature change</div>
+          </div>
+
+          <h3>Variable Reference</h3>
+          <table class="data-table" role="table" aria-label="Formula variables">
+            <thead>
+              <tr>
+                <th scope="col">Variable</th>
+                <th scope="col">Symbol</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Energy</strong></td>
+                <td>Q</td>
+                <td>Joules (J)</td>
+                <td>Amount of heat transferred</td>
+              </tr>
+              <tr>
+                <td><strong>Mass</strong></td>
+                <td>m</td>
+                <td>grams (g)</td>
+                <td>Amount of water</td>
+              </tr>
+              <tr>
+                <td><strong>Specific heat</strong></td>
+                <td>c</td>
+                <td>J/(g·°C)</td>
+                <td>4.18 for water</td>
+              </tr>
+              <tr>
+                <td><strong>Temp change</strong></td>
+                <td>ΔT</td>
+                <td>°C</td>
+                <td>Start - End</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Practice Problems</h3>
+          <div class="info-box concept">
+            <strong>Problem 1:</strong>
+            500g of water cools from 80°C to 40°C. How much energy was lost?
+            <br><em>Q = 500g × 4.18 J/(g·°C) × 40°C = ?</em>
+          </div>
+
+          <div class="info-box concept">
+            <strong>Problem 2:</strong>
+            If a container loses 84,000 J of heat energy, and the water started at 90°C, what is the final temperature? (500g water)
+          </div>
+
+          <div class="info-box success">
+            <strong>Key Insight:</strong>
+            Energy is CONSERVED - the heat lost by the water goes into the surroundings. Better insulation = slower energy loss = temperature stays stable longer!
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Station 2 Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Station 3 -->
+      <section class="station-card" aria-labelledby="station3-heading">
+        <div class="station-header station3">
+          <div class="station-icon" aria-hidden="true">🏗️</div>
+          <div class="station-title">
+            <h2 id="station3-heading">Station 3: Design an Insulated Container</h2>
+            <div class="meta">25 points | ~20 minutes</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box engineering">
+            <strong>Engineering Challenge:</strong>
+            Design an insulated container that keeps ice frozen for the longest possible time. Your design will be tested in next week's Engineering Showcase!
+          </div>
+
+          <h3>Engineering Design Process</h3>
+          <div class="design-cycle">
+            <span class="design-step">1. Define</span>
+            <span class="design-arrow">→</span>
+            <span class="design-step">2. Brainstorm</span>
+            <span class="design-arrow">→</span>
+            <span class="design-step">3. Build</span>
+            <span class="design-arrow">→</span>
+            <span class="design-step">4. Test</span>
+            <span class="design-arrow">→</span>
+            <span class="design-step">5. Improve</span>
+          </div>
+
+          <h3>Design Constraints</h3>
+          <ul>
+            <li>Maximum material cost: <strong>$5.00</strong></li>
+            <li>Maximum size: 20cm × 20cm × 20cm</li>
+            <li>Must be able to open/close to check ice</li>
+            <li>No active cooling (no ice packs, electricity)</li>
+          </ul>
+
+          <h3>Material Costs</h3>
+          <div class="cost-grid">
+            <div class="cost-card">
+              <div class="material">Cardboard (1 sheet)</div>
+              <div class="price">$0.50</div>
+              <div class="note">Good insulator</div>
+            </div>
+            <div class="cost-card">
+              <div class="material">Aluminum Foil (30cm)</div>
+              <div class="price">$0.25</div>
+              <div class="note">Reflects radiation</div>
+            </div>
+            <div class="cost-card">
+              <div class="material">Foam Sheet (1 piece)</div>
+              <div class="price">$1.00</div>
+              <div class="note">Best insulator</div>
+            </div>
+            <div class="cost-card">
+              <div class="material">Cotton Batting (cup)</div>
+              <div class="price">$0.50</div>
+              <div class="note">Traps air</div>
+            </div>
+            <div class="cost-card">
+              <div class="material">Plastic Wrap (30cm)</div>
+              <div class="price">$0.25</div>
+              <div class="note">Moisture barrier</div>
+            </div>
+            <div class="cost-card">
+              <div class="material">Air Gap Design</div>
+              <div class="price">FREE</div>
+              <div class="note">Reduces conduction</div>
+            </div>
+          </div>
+
+          <h3>Design Plan Requirements</h3>
+          <ol>
+            <li>Sketch with labeled materials</li>
+            <li>Cost calculation (must be ≤$5.00)</li>
+            <li>How EACH mechanism is addressed (conduction, convection, radiation)</li>
+            <li>Predicted performance with reasoning</li>
+          </ol>
+
+          <div class="info-box success">
+            <strong>Engineering Tip:</strong>
+            The best designs address ALL THREE mechanisms with layered approaches. Think about order - what should be on the outside vs inside?
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Station 3 Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Exit Ticket -->
+      <section class="station-card" aria-labelledby="exit-heading">
+        <div class="station-header exit">
+          <div class="station-icon" aria-hidden="true">✓</div>
+          <div class="station-title">
+            <h2 id="exit-heading">Exit Ticket</h2>
+            <div class="meta">23 points | ~15 minutes | 2 NEW + 2 SPIRAL + 1 INTEGRATION + 1 SEP</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <h3>Exit Ticket Structure</h3>
+          <ul>
+            <li><strong>2 NEW questions:</strong> Insulation analysis, energy calculations</li>
+            <li><strong>2 SPIRAL questions:</strong> Week 1 (mechanisms), Cycle 7 (energy conservation)</li>
+            <li><strong>1 INTEGRATION:</strong> Connect all mechanisms to design optimization</li>
+            <li><strong>1 SEP-3:</strong> Design an investigation to test improvements</li>
+          </ul>
+
+          <div class="form-embed">
+            <p><strong>Exit Ticket Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Vocabulary -->
+      <section class="station-card" aria-labelledby="vocab-heading">
+        <div class="station-header station1">
+          <div class="station-icon" aria-hidden="true">📚</div>
+          <div class="station-title">
+            <h2 id="vocab-heading">Key Vocabulary</h2>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="vocab-grid">
+            <div class="vocab-card">
+              <div class="term">Insulation</div>
+              <div class="definition">Material that reduces heat transfer</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">R-value</div>
+              <div class="definition">Measure of insulation effectiveness (higher = better)</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Thermal Resistance</div>
+              <div class="definition">Material's ability to resist heat flow</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Heat Loss Rate</div>
+              <div class="definition">How fast temperature drops (°C per minute)</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Specific Heat</div>
+              <div class="definition">Energy needed to raise 1g by 1°C</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Energy Conservation</div>
+              <div class="definition">Energy cannot be created or destroyed, only transferred</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Design Constraints</div>
+              <div class="definition">Limits that your design must work within</div>
+            </div>
+            <div class="vocab-card">
+              <div class="term">Iteration</div>
+              <div class="definition">Improving a design through repeated testing</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MTSS Support -->
+      <details class="mtss-support" aria-label="Additional support resources">
+        <summary>Need Extra Support? Click Here</summary>
+        <div class="mtss-content">
+          <h3>Tier 2 Supports</h3>
+          <ul>
+            <li><strong>Energy calculation formula card</strong> - Step-by-step solving guide</li>
+            <li><strong>Material properties chart</strong> - Which blocks which mechanism</li>
+            <li><strong>Design checklist</strong> - Ensure all requirements are met</li>
+          </ul>
+
+          <h3>Sentence Starters</h3>
+          <ul>
+            <li>"This material blocks ___ because..."</li>
+            <li>"The energy lost was ___ joules because Q = m × c × ΔT = ..."</li>
+            <li>"My design addresses conduction by..."</li>
+            <li>"I would improve my design by..."</li>
+          </ul>
+
+          <h3>Tier 3 Supports</h3>
+          <ul>
+            <li><strong>One-on-one calculation support</strong> - Guided problem-solving</li>
+            <li><strong>Modified design challenge</strong> - Choose from pre-made options</li>
+            <li><strong>Visual calculation templates</strong> - Fill-in-the-blank format</li>
+          </ul>
+        </div>
+      </details>
+    </main>
+
+    <footer class="page-footer" role="contentinfo">
+      <p>Grade 8 | Cycle 8 Week 2 | Insulation Engineering & Energy Conservation</p>
+      <p>NGSS Standards: MS-PS3-4, MS-ETS1-2 | Spiral: MS-PS1-2, MS-PS2-3</p>
+      <p><small>Student Page v1.0 | CSS Design System v3.1</small></p>
+    </footer>
+  </div>
 </body>
 </html>

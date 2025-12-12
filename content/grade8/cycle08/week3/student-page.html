@@ -3,35 +3,849 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G8 C8 W3: [Title TBD] - PLACEHOLDER</title>
+  <title>G8 C8 W3: Year-End Integration & Engineering Showcase</title>
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════════════
+       CSS Design System v3.1 - Year-End Celebration Theme
+       Based on shared/styles/design-system.css
+       ═══════════════════════════════════════════════════════════════════════════ */
+
+    :root {
+      --color-primary: #7c3aed;
+      --color-secondary: #8b5cf6;
+      --color-accent: #a78bfa;
+      --color-background: #faf5ff;
+      --color-text: #1e1b4b;
+      --color-text-light: #6b7280;
+      --color-border: #e5e7eb;
+      --color-success: #16a34a;
+      --color-warning: #f59e0b;
+      --color-error: #dc2626;
+
+      /* Year-end celebration colors */
+      --grad-gold: #fbbf24;
+      --grad-silver: #94a3b8;
+      --grad-bronze: #f97316;
+      --celebration-gradient: linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #f97316 100%);
+
+      /* Station gradients */
+      --hook-gradient: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+      --station1-gradient: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      --station2-gradient: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+      --station3-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+      --exit-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+
+      --font-primary: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --border-radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-primary);
+      line-height: 1.6;
+      color: var(--color-text);
+      background-color: var(--color-background);
+      margin: 0;
+      padding: var(--spacing-md);
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--color-primary);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      z-index: 100;
+      text-decoration: none;
+    }
+
+    .skip-link:focus { top: 0; }
+
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Week Header */
+    .week-header {
+      background: var(--celebration-gradient);
+      color: white;
+      padding: var(--spacing-xl);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-xl);
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .week-header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      animation: sparkle 3s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+      50% { transform: scale(1.1) rotate(180deg); opacity: 0.3; }
+    }
+
+    .week-header h1 {
+      margin: 0 0 var(--spacing-sm);
+      font-size: 1.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .week-header .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      margin-bottom: var(--spacing-md);
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge-container {
+      display: flex;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.2);
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    .badge.gold {
+      background: var(--grad-gold);
+      color: #1c1917;
+    }
+
+    /* Overview Box */
+    .overview-box {
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      color: white;
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-xl);
+      box-shadow: var(--shadow-md);
+    }
+
+    .overview-box h2 {
+      margin-top: 0;
+      color: var(--color-accent);
+    }
+
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-md);
+    }
+
+    .day-card {
+      background: rgba(255,255,255,0.1);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      text-align: center;
+    }
+
+    .day-card .day-num {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--grad-gold);
+    }
+
+    .day-card .day-focus {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    /* Station Cards */
+    .station-card {
+      background: white;
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .station-header {
+      padding: var(--spacing-lg);
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .station-header.hook { background: var(--hook-gradient); }
+    .station-header.station1 { background: var(--station1-gradient); }
+    .station-header.station2 { background: var(--station2-gradient); }
+    .station-header.station3 { background: var(--station3-gradient); }
+    .station-header.exit { background: var(--exit-gradient); }
+
+    .station-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .station-title h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .station-title .meta {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .station-content {
+      padding: var(--spacing-lg);
+    }
+
+    /* Data Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--spacing-md) 0;
+      font-size: 0.95rem;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: var(--spacing-sm) var(--spacing-md);
+      text-align: left;
+      border: 1px solid var(--color-border);
+    }
+
+    .data-table th {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .data-table tr:nth-child(even) {
+      background: var(--color-background);
+    }
+
+    /* Info Boxes */
+    .info-box {
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-md) 0;
+      border-left: 4px solid;
+    }
+
+    .info-box.concept {
+      background: #ede9fe;
+      border-color: var(--color-primary);
+    }
+
+    .info-box.warning {
+      background: #fee2e2;
+      border-color: var(--color-error);
+    }
+
+    .info-box.success {
+      background: #dcfce7;
+      border-color: var(--color-success);
+    }
+
+    .info-box.celebration {
+      background: #fef3c7;
+      border-color: var(--grad-gold);
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    /* Rubric */
+    .rubric-grid {
+      display: grid;
+      gap: var(--spacing-sm);
+      margin: var(--spacing-md) 0;
+    }
+
+    .rubric-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--color-background);
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--color-primary);
+    }
+
+    .rubric-item .criteria {
+      font-weight: 600;
+    }
+
+    .rubric-item .points {
+      background: var(--color-primary);
+      color: white;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    /* CCC Grid */
+    .ccc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      margin: var(--spacing-md) 0;
+    }
+
+    .ccc-card {
+      background: var(--color-background);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      border-top: 4px solid var(--color-primary);
+    }
+
+    .ccc-card .ccc-name {
+      font-weight: 600;
+      color: var(--color-primary);
+      font-size: 0.95rem;
+    }
+
+    .ccc-card .ccc-example {
+      font-size: 0.85rem;
+      color: var(--color-text-light);
+      margin-top: var(--spacing-xs);
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: var(--spacing-md) 0;
+    }
+
+    .checklist li {
+      padding: var(--spacing-sm) 0;
+      padding-left: 2rem;
+      position: relative;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .checklist li::before {
+      content: "☐";
+      position: absolute;
+      left: 0;
+      color: var(--color-primary);
+      font-size: 1.2rem;
+    }
+
+    /* Reflection Box */
+    .reflection-box {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-md) 0;
+      border: 2px solid var(--grad-gold);
+    }
+
+    .reflection-box h4 {
+      margin-top: 0;
+      color: #92400e;
+    }
+
+    .reflection-prompts {
+      list-style: none;
+      padding: 0;
+    }
+
+    .reflection-prompts li {
+      padding: var(--spacing-sm) 0;
+      border-bottom: 1px dashed #d97706;
+    }
+
+    .reflection-prompts li:last-child {
+      border-bottom: none;
+    }
+
+    /* Form Embed */
+    .form-embed {
+      background: var(--color-background);
+      border: 2px dashed var(--color-border);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      text-align: center;
+      margin-top: var(--spacing-md);
+    }
+
+    .form-embed p {
+      color: var(--color-text-light);
+      margin: 0;
+    }
+
+    /* MTSS Support */
+    .mtss-support {
+      margin-top: var(--spacing-lg);
+    }
+
+    .mtss-support summary {
+      cursor: pointer;
+      padding: var(--spacing-md);
+      background: var(--color-background);
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      color: var(--color-primary);
+      border: 1px solid var(--color-border);
+      list-style: none;
+    }
+
+    .mtss-support summary::-webkit-details-marker { display: none; }
+    .mtss-support summary::before { content: "▶ "; font-size: 0.8rem; }
+    .mtss-support[open] summary::before { content: "▼ "; }
+
+    .mtss-content {
+      padding: var(--spacing-md);
+      border: 1px solid var(--color-border);
+      border-top: none;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      background: white;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding: var(--spacing-lg);
+      color: var(--color-text-light);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--color-border);
+      margin-top: var(--spacing-xl);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .week-header { padding: var(--spacing-lg); }
+      .week-header h1 { font-size: 1.4rem; }
+      .station-header { flex-direction: column; text-align: center; }
+      .day-grid { grid-template-columns: 1fr; }
+      .ccc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<!-- Skip to main content link for accessibility -->
-<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to main content</a>
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  GRADE 8 CYCLE 5 WEEK 3: [Title TBD]
-  STATUS: 🔴 NOT STARTED - PLACEHOLDER FILE
-  ═══════════════════════════════════════════════════════════════════════════
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  Target Date: January 27-30, 2026
-  Topic: Thermal Energy & Heat Transfer
-  Primary Standard: MS-ESS2-5
+  <div class="page-container">
+    <!-- Week Header -->
+    <header class="week-header" role="banner">
+      <h1>Cycle 8 Week 3: Year-End Integration</h1>
+      <p class="subtitle">Engineering Showcase & Science Celebration</p>
+      <div class="badge-container">
+        <span class="badge gold">YEAR-END</span>
+        <span class="badge">100 Total Points</span>
+        <span class="badge">MS-ETS1-2</span>
+      </div>
+    </header>
 
-  TODO:
-  - [ ] Design page layout following student-page-template.html
-  - [ ] Add vocabulary tables
-  - [ ] Embed form links
-  - [ ] Include station instructions
-  - [ ] Add MTSS support collapsibles
-  - [ ] Implement accessibility features
+    <main id="main-content" role="main">
+      <!-- Overview Box -->
+      <section class="overview-box" aria-labelledby="overview-heading">
+        <h2 id="overview-heading">Year-End Integration Week</h2>
+        <p>This is your final week of Grade 8 Science! You'll showcase your engineering designs, demonstrate what you've learned, and reflect on your scientific growth this year.</p>
+        <div class="day-grid">
+          <div class="day-card">
+            <div class="day-num">Day 1</div>
+            <div class="day-focus">Design Finalization & Prep</div>
+          </div>
+          <div class="day-card">
+            <div class="day-num">Day 2</div>
+            <div class="day-focus">Engineering Showcase</div>
+          </div>
+          <div class="day-card">
+            <div class="day-num">Day 3</div>
+            <div class="day-focus">Assessment & Reflection</div>
+          </div>
+        </div>
+      </section>
 
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
+      <!-- Learning Targets -->
+      <section class="station-card" aria-labelledby="targets-heading">
+        <div class="station-header hook">
+          <div class="station-icon" aria-hidden="true">🎯</div>
+          <div class="station-title">
+            <h2 id="targets-heading">Learning Targets</h2>
+            <div class="meta">What you'll demonstrate this week</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <ol>
+            <li>Present and defend engineering design using evidence</li>
+            <li>Evaluate competing designs using systematic criteria (MS-ETS1-2)</li>
+            <li>Demonstrate integrated understanding of year content</li>
+            <li>Reflect on scientific thinking development</li>
+          </ol>
+        </div>
+      </section>
 
-  <main id="main-content">
-    <h1>Grade 8 Cycle 8 Week 3</h1>
-    <p><strong>Status:</strong> This page is a placeholder. Content development will begin after Cycle 4.</p>
-  </main>
+      <!-- Day 1: Design Finalization -->
+      <section class="station-card" aria-labelledby="day1-heading">
+        <div class="station-header station1">
+          <div class="station-icon" aria-hidden="true">🔧</div>
+          <div class="station-title">
+            <h2 id="day1-heading">Day 1: Design Finalization & Preparation</h2>
+            <div class="meta">20 points | Complete testing and prepare presentation</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box concept">
+            <strong>Today's Focus:</strong>
+            Complete final testing of your insulated container design and prepare your Engineering Showcase presentation.
+          </div>
+
+          <h3>Final Testing Protocol (10 pts)</h3>
+          <table class="data-table" role="table" aria-label="Design testing data">
+            <thead>
+              <tr>
+                <th scope="col">Measurement</th>
+                <th scope="col">Your Data</th>
+                <th scope="col">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Total material cost</strong></td>
+                <td>$_____</td>
+                <td>Must be ≤$5.00</td>
+              </tr>
+              <tr>
+                <td><strong>Materials used</strong></td>
+                <td>_____</td>
+                <td>List all</td>
+              </tr>
+              <tr>
+                <td><strong>Ice mass (start)</strong></td>
+                <td>_____g</td>
+                <td>Record carefully</td>
+              </tr>
+              <tr>
+                <td><strong>Ice mass (30 min)</strong></td>
+                <td>_____g</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Ice mass (60 min)</strong></td>
+                <td>_____g</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Ice mass (120 min)</strong></td>
+                <td>_____g</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><strong>Performance score</strong></td>
+                <td>_____%</td>
+                <td>% remaining after 2 hrs</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Presentation Preparation (10 pts)</h3>
+          <p>Your 4-minute presentation must include:</p>
+          <ul class="checklist">
+            <li>Problem statement and constraints (30 sec)</li>
+            <li>Design explanation with visual diagram (1 min)</li>
+            <li>How each heat transfer mechanism is addressed (1 min)</li>
+            <li>Test results with data (1 min)</li>
+            <li>What you would improve (30 sec)</li>
+          </ul>
+
+          <div class="info-box success">
+            <strong>Preparation Tip:</strong>
+            Practice your presentation with a timer. 4 minutes goes faster than you think! Have your visual ready and data organized.
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Day 1 Form</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Day 2: Engineering Showcase -->
+      <section class="station-card" aria-labelledby="day2-heading">
+        <div class="station-header station2">
+          <div class="station-icon" aria-hidden="true">🏆</div>
+          <div class="station-title">
+            <h2 id="day2-heading">Day 2: Engineering Showcase Presentations</h2>
+            <div class="meta">40 points | Present and evaluate designs</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <div class="info-box celebration">
+            <strong>Showcase Day!</strong>
+            Today you present your engineering design to the class. Be confident - you've applied real thermal engineering principles to solve a real problem!
+          </div>
+
+          <h3>Presentation Format</h3>
+          <ul>
+            <li><strong>Time:</strong> 4 minutes per student</li>
+            <li><strong>Questions:</strong> 1-2 from peers after each presentation</li>
+            <li><strong>Evaluation:</strong> Teacher and peer evaluation using rubric below</li>
+          </ul>
+
+          <h3>Evaluation Rubric (MS-ETS1-2)</h3>
+          <div class="rubric-grid">
+            <div class="rubric-item">
+              <span class="criteria">Problem Definition - Clear statement of constraints</span>
+              <span class="points">5 pts</span>
+            </div>
+            <div class="rubric-item">
+              <span class="criteria">Design Explanation - Logical connection to thermal principles</span>
+              <span class="points">10 pts</span>
+            </div>
+            <div class="rubric-item">
+              <span class="criteria">Evidence Presentation - Data supports claims</span>
+              <span class="points">10 pts</span>
+            </div>
+            <div class="rubric-item">
+              <span class="criteria">Mechanism Coverage - Addresses all three mechanisms</span>
+              <span class="points">10 pts</span>
+            </div>
+            <div class="rubric-item">
+              <span class="criteria">Reflection/Improvement - Honest assessment and iteration ideas</span>
+              <span class="points">5 pts</span>
+            </div>
+          </div>
+
+          <h3>Peer Evaluation</h3>
+          <p>You will evaluate 3 peer presentations. For each, identify:</p>
+          <ul>
+            <li><strong>Strengths:</strong> What worked well in their design?</li>
+            <li><strong>Questions:</strong> What would you like to know more about?</li>
+            <li><strong>Suggestions:</strong> What could they improve?</li>
+          </ul>
+
+          <div class="info-box concept">
+            <strong>Discussion Questions:</strong>
+            After all presentations: What design features worked best? What common mistakes did we see? How does this connect to real engineering careers?
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Day 2 Form - Peer Evaluation</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Day 3: Assessment & Reflection -->
+      <section class="station-card" aria-labelledby="day3-heading">
+        <div class="station-header station3">
+          <div class="station-icon" aria-hidden="true">📝</div>
+          <div class="station-title">
+            <h2 id="day3-heading">Day 3: Cycle 8 Assessment & Year Reflection</h2>
+            <div class="meta">40 points | Demonstrate mastery and reflect on growth</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <h3>Cycle 8 Content Assessment (25 pts)</h3>
+          <table class="data-table" role="table" aria-label="Assessment sections">
+            <thead>
+              <tr>
+                <th scope="col">Section</th>
+                <th scope="col">Points</th>
+                <th scope="col">Focus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Section A: Thermal Conductivity</strong></td>
+                <td>8 pts</td>
+                <td>Conductors vs insulators, particle motion</td>
+              </tr>
+              <tr>
+                <td><strong>Section B: Heat Transfer Mechanisms</strong></td>
+                <td>8 pts</td>
+                <td>Conduction, convection, radiation</td>
+              </tr>
+              <tr>
+                <td><strong>Section C: Engineering Application</strong></td>
+                <td>9 pts</td>
+                <td>Design decisions, trade-offs, principles</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>CCC Synthesis (10 pts)</h3>
+          <p>Apply one Crosscutting Concept to thermal energy systems. Connect to at least one other cycle from this year.</p>
+
+          <div class="ccc-grid">
+            <div class="ccc-card">
+              <div class="ccc-name">Patterns</div>
+              <div class="ccc-example">Temperature decay patterns; cooling curves</div>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">Cause & Effect</div>
+              <div class="ccc-example">Material properties cause conductivity differences</div>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">Scale</div>
+              <div class="ccc-example">Particle motion → macroscopic temperature</div>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">Systems</div>
+              <div class="ccc-example">Thermal equilibrium in closed systems</div>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">Energy & Matter</div>
+              <div class="ccc-example">Energy flows from hot to cold; conserved</div>
+            </div>
+            <div class="ccc-card">
+              <div class="ccc-name">Structure & Function</div>
+              <div class="ccc-example">Molecular structure determines conductivity</div>
+            </div>
+          </div>
+
+          <h3>Year Reflection (5 pts)</h3>
+          <div class="reflection-box">
+            <h4>Reflect on Your Scientific Growth</h4>
+            <ol class="reflection-prompts">
+              <li>What was the <strong>most surprising thing</strong> you learned this year?</li>
+              <li>Which Science & Engineering Practice (SEP) did you <strong>improve the most</strong>? Provide evidence.</li>
+              <li>How has your understanding of <strong>energy</strong> changed from Cycle 4 to now?</li>
+              <li>What <strong>scientific questions</strong> do you still want to explore?</li>
+            </ol>
+          </div>
+
+          <div class="info-box celebration">
+            <strong>Congratulations!</strong>
+            You've completed Grade 8 Science! You've learned about forces, energy, waves, chemical reactions, ecosystems, and thermal engineering. You're ready for high school science!
+          </div>
+
+          <div class="form-embed">
+            <p><strong>Day 3 Form - Assessment & Reflection</strong></p>
+            <p>Form will be embedded here by your teacher</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Assessment Summary -->
+      <section class="station-card" aria-labelledby="summary-heading">
+        <div class="station-header exit">
+          <div class="station-icon" aria-hidden="true">📊</div>
+          <div class="station-title">
+            <h2 id="summary-heading">Week Points Summary</h2>
+            <div class="meta">100 Total Points</div>
+          </div>
+        </div>
+        <div class="station-content">
+          <table class="data-table" role="table" aria-label="Points breakdown">
+            <thead>
+              <tr>
+                <th scope="col">Component</th>
+                <th scope="col">Points</th>
+                <th scope="col">Day</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Design Finalization</strong></td>
+                <td>10</td>
+                <td>Day 1</td>
+              </tr>
+              <tr>
+                <td><strong>Presentation Preparation</strong></td>
+                <td>10</td>
+                <td>Day 1</td>
+              </tr>
+              <tr>
+                <td><strong>Engineering Showcase</strong></td>
+                <td>40</td>
+                <td>Day 2</td>
+              </tr>
+              <tr>
+                <td><strong>Cycle 8 Assessment</strong></td>
+                <td>25</td>
+                <td>Day 3</td>
+              </tr>
+              <tr>
+                <td><strong>CCC Synthesis</strong></td>
+                <td>10</td>
+                <td>Day 3</td>
+              </tr>
+              <tr>
+                <td><strong>Year Reflection</strong></td>
+                <td>5</td>
+                <td>Day 3</td>
+              </tr>
+              <tr>
+                <td><strong>TOTAL</strong></td>
+                <td><strong>100</strong></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- MTSS Support -->
+      <details class="mtss-support" aria-label="Additional support resources">
+        <summary>Need Extra Support? Click Here</summary>
+        <div class="mtss-content">
+          <h3>Tier 2 Supports</h3>
+          <ul>
+            <li><strong>Presentation template with prompts</strong> - Structured outline to follow</li>
+            <li><strong>Evaluation rubric with examples</strong> - Sample scored responses</li>
+            <li><strong>Sentence starters for reflection</strong> - Guided writing support</li>
+          </ul>
+
+          <h3>Presentation Sentence Starters</h3>
+          <ul>
+            <li>"My design addresses the problem of..."</li>
+            <li>"I used ___ to block conduction because..."</li>
+            <li>"My data shows that..."</li>
+            <li>"If I were to improve my design, I would..."</li>
+          </ul>
+
+          <h3>Tier 3 Supports</h3>
+          <ul>
+            <li><strong>One-on-one presentation option</strong> - Present to teacher only</li>
+            <li><strong>Modified assessment format</strong> - Reduced questions with scaffolds</li>
+            <li><strong>Oral reflection alternative</strong> - Discuss instead of write</li>
+          </ul>
+        </div>
+      </details>
+    </main>
+
+    <footer class="page-footer" role="contentinfo">
+      <p>Grade 8 | Cycle 8 Week 3 | Year-End Integration & Engineering Showcase</p>
+      <p>NGSS Standards: MS-PS3-4, MS-ETS1-2 | Year-End Synthesis</p>
+      <p><small>Student Page v1.0 | CSS Design System v3.1</small></p>
+    </footer>
+  </div>
 </body>
 </html>
