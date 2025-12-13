@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reteach: Bond Energy | KAMS Science</title>
+  <style>
+    :root {
+      --color-primary: #2563EB;
+      --color-success: #10B981;
+      --color-warning: #F59E0B;
+      --color-error: #EF4444;
+      --color-tier2-bg: #F0FFF4;
+      --color-tier2-border: #48BB78;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--space-lg);
+      background: #f9fafb;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--color-tier2-border), #38A169);
+      color: white;
+      padding: var(--space-lg);
+      border-radius: 12px;
+      margin-bottom: var(--space-lg);
+    }
+
+    .header h1 { margin: 0 0 var(--space-sm) 0; font-size: 1.5rem; }
+    .header p { margin: 0; opacity: 0.9; }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #1f2937;
+      border-bottom: 2px solid var(--color-tier2-border);
+      padding-bottom: var(--space-sm);
+    }
+
+    .misconception-box {
+      background: #FEF3C7;
+      border-left: 4px solid var(--color-warning);
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .misconception-box h3 { margin: 0 0 var(--space-sm) 0; color: #92400E; }
+
+    .correct-box {
+      background: var(--color-tier2-bg);
+      border-left: 4px solid var(--color-success);
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .correct-box h3 { margin: 0 0 var(--space-sm) 0; color: #065F46; }
+
+    .visual-support {
+      background: #EFF6FF;
+      padding: var(--space-lg);
+      border-radius: 8px;
+      text-align: center;
+      margin: var(--space-md) 0;
+    }
+
+    .analogy-box {
+      background: #F3E8FF;
+      border-left: 4px solid #8B5CF6;
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .practice-question {
+      background: #F3F4F6;
+      padding: var(--space-md);
+      border-radius: 8px;
+      margin: var(--space-md) 0;
+    }
+
+    .practice-question h4 { margin: 0 0 var(--space-sm) 0; }
+
+    .sentence-frame {
+      background: white;
+      border: 2px dashed var(--color-primary);
+      padding: var(--space-md);
+      border-radius: 8px;
+      margin: var(--space-md) 0;
+      font-style: italic;
+    }
+
+    .check-understanding {
+      background: var(--color-tier2-bg);
+      padding: var(--space-lg);
+      border-radius: 12px;
+      margin-top: var(--space-lg);
+    }
+
+    details { margin: var(--space-sm) 0; }
+    summary {
+      cursor: pointer;
+      padding: var(--space-sm);
+      background: white;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    details[open] summary { margin-bottom: var(--space-sm); }
+
+    .answer {
+      padding: var(--space-md);
+      background: white;
+      border-radius: 4px;
+      margin-left: var(--space-md);
+    }
+
+    .next-steps {
+      background: #DBEAFE;
+      padding: var(--space-lg);
+      border-radius: 12px;
+      margin-top: var(--space-lg);
+    }
+
+    .next-steps h2 { margin-top: 0; color: var(--color-primary); }
+    .next-steps ul { margin: 0; padding-left: var(--space-lg); }
+    .next-steps li { margin-bottom: var(--space-sm); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-md) 0;
+    }
+
+    th, td {
+      border: 1px solid #E5E7EB;
+      padding: var(--space-sm) var(--space-md);
+      text-align: left;
+    }
+
+    th { background: #F3F4F6; }
+
+    @media (max-width: 600px) {
+      body { padding: var(--space-md); }
+      .header, .card { padding: var(--space-md); }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>🔄 Reteach: Bond Energy (Breaking vs. Forming)</h1>
+    <p>Grade 7 | Cycle 3 | ~15 minutes | Misconception frequency: 60%</p>
+  </header>
+
+  <main>
+    <!-- SECTION 1: Common Misconception -->
+    <section class="card">
+      <h2>🤔 The Confusion</h2>
+
+      <div class="misconception-box">
+        <h3>❌ What many students think:</h3>
+        <p><strong>"Breaking bonds releases energy."</strong></p>
+        <p>This is one of the most common misconceptions in chemistry! About 60% of students hold this belief.</p>
+      </div>
+
+      <div class="correct-box">
+        <h3>✅ The scientific understanding:</h3>
+        <p><strong>"Breaking bonds REQUIRES energy (endothermic). Forming bonds RELEASES energy (exothermic)."</strong></p>
+        <p>Think of it like this: bonds are like connections that hold atoms together. You need to put in energy (work) to break them apart.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Why This Confusion Happens -->
+    <section class="card">
+      <h2>🧠 Why We Get Confused</h2>
+
+      <p>This misconception is sneaky because:</p>
+      <ul>
+        <li><strong>Word confusion:</strong> "Breaking" sounds destructive and explosive, which we associate with releasing energy</li>
+        <li><strong>Everyday experience:</strong> When we "break" something (like glass), it often makes noise and seems energetic</li>
+        <li><strong>Partial understanding:</strong> We know reactions release energy, and reactions involve breaking bonds, so we connect the wrong dots</li>
+      </ul>
+
+      <div class="analogy-box">
+        <h3>🔗 The Magnet Analogy (Bridging Concept)</h3>
+        <p>Think about two strong magnets stuck together:</p>
+        <ul>
+          <li><strong>To PULL THEM APART (break the connection):</strong> You need to put in effort (energy)</li>
+          <li><strong>When they SNAP TOGETHER (form connection):</strong> Energy is released (you hear the "click"!)</li>
+        </ul>
+        <p>Chemical bonds work the same way! Breaking requires energy input; forming releases energy.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Visual Explanation -->
+    <section class="card">
+      <h2>👁️ See It Clearly</h2>
+
+      <div class="visual-support">
+        <p><strong>Energy Diagram for a Chemical Reaction</strong></p>
+        <pre style="text-align: left; font-family: monospace; background: white; padding: 16px; border-radius: 8px;">
+Energy
+  ↑
+  │     ╭───────╮  ← Energy needed to BREAK bonds
+  │    ╱         ╲    (Activation energy)
+  │   ╱           ╲
+  │──╱ Reactants   ╲
+  │                 ╲
+  │                  ╲──────  ← Energy RELEASED when
+  │                   Products   new bonds FORM
+  │
+  └──────────────────────────→ Reaction Progress
+        </pre>
+        <p><em>The "hill" represents the energy needed to break reactant bonds. The drop represents energy released when product bonds form.</em></p>
+      </div>
+
+      <table>
+        <tr>
+          <th>Process</th>
+          <th>Energy Change</th>
+          <th>Remember It</th>
+        </tr>
+        <tr>
+          <td>Breaking bonds</td>
+          <td>ABSORBS energy (endothermic)</td>
+          <td>"Break = Take" (takes energy in)</td>
+        </tr>
+        <tr>
+          <td>Forming bonds</td>
+          <td>RELEASES energy (exothermic)</td>
+          <td>"Form = Warm" (releases warmth)</td>
+        </tr>
+      </table>
+
+      <p><strong>Try the PhET Simulation:</strong> <a href="https://phet.colorado.edu/en/simulations/molecules-and-light" target="_blank">Molecules and Light</a> - Watch how energy is absorbed when molecular bonds vibrate!</p>
+    </section>
+
+    <!-- SECTION 4: Worked Example -->
+    <section class="card">
+      <h2>📝 Worked Example</h2>
+
+      <div class="practice-question">
+        <h4>Question:</h4>
+        <p>In the reaction where hydrogen (H₂) and oxygen (O₂) form water (H₂O), energy is released overall. Why does this reaction release energy if breaking bonds requires energy?</p>
+      </div>
+
+      <p><strong>Step-by-step thinking:</strong></p>
+      <ol>
+        <li><strong>Identify what breaks:</strong> H-H bonds in H₂ and O=O bonds in O₂ must break first</li>
+        <li><strong>This requires energy:</strong> We must put IN energy to break these bonds</li>
+        <li><strong>Identify what forms:</strong> New O-H bonds form in the water molecules</li>
+        <li><strong>This releases energy:</strong> Energy comes OUT when new bonds form</li>
+        <li><strong>Calculate the net:</strong> If MORE energy is released forming bonds than was needed to break them, the reaction is exothermic overall</li>
+      </ol>
+
+      <div class="sentence-frame">
+        <strong>Answer frame:</strong><br>
+        "The reaction releases energy overall because the energy released when forming O-H bonds is GREATER than the energy required to break H-H and O=O bonds."
+      </div>
+
+      <details>
+        <summary>Click to see complete model answer</summary>
+        <div class="answer">
+          <p>When hydrogen and oxygen react to form water, we must first break the H-H bonds in hydrogen gas and the O=O bonds in oxygen gas. <strong>Breaking these bonds REQUIRES energy input.</strong></p>
+          <p>However, when the atoms rearrange to form O-H bonds in water, <strong>energy is RELEASED.</strong> Because O-H bonds are stronger than the original bonds, MORE energy is released when they form than was needed to break the original bonds.</p>
+          <p>The NET result is energy release, which is why hydrogen burning is exothermic - even though bond breaking (which requires energy) is part of the process.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- SECTION 5: Practice -->
+    <section class="card">
+      <h2>🎯 Your Turn</h2>
+
+      <div class="practice-question">
+        <h4>Practice Question 1:</h4>
+        <p>A student says: "The car gets hot inside because sunlight breaks molecular bonds in the air, releasing energy." Using what you learned about bond energy, explain why this is incorrect.</p>
+      </div>
+
+      <div class="sentence-frame">
+        <strong>Use this sentence starter:</strong><br>
+        "This explanation is incorrect because breaking bonds actually ________. The car gets hot because ________."
+      </div>
+
+      <details>
+        <summary>Check your thinking</summary>
+        <div class="answer">
+          <p><strong>Look for:</strong></p>
+          <ul>
+            <li>Did you explain that breaking bonds REQUIRES energy, not releases it?</li>
+            <li>Did you provide the correct mechanism (IR absorption causes molecular vibration)?</li>
+          </ul>
+          <p><strong>Sample response:</strong> "This explanation is incorrect because breaking bonds actually REQUIRES energy, not releases it. The car gets hot because sunlight (infrared radiation) is ABSORBED by molecules inside the car, causing them to vibrate faster. This increased molecular motion IS the heat - no bonds are being broken."</p>
+        </div>
+      </details>
+
+      <div class="practice-question">
+        <h4>Practice Question 2:</h4>
+        <p>Ice melting is endothermic (absorbs energy). Does this involve breaking bonds or forming bonds? Explain your reasoning.</p>
+      </div>
+
+      <details>
+        <summary>Check your thinking</summary>
+        <div class="answer">
+          <p><strong>Sample response:</strong> Ice melting involves breaking the hydrogen bonds between water molecules in the solid ice structure. Since breaking bonds REQUIRES energy, this is consistent with melting being endothermic - energy must be absorbed from the surroundings to break the bonds holding ice molecules in place.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- SECTION 6: Self-Check -->
+    <section class="check-understanding">
+      <h2>✅ Check Your Understanding</h2>
+
+      <p>Before moving on, can you:</p>
+      <ul>
+        <li>☐ Explain why breaking bonds requires energy (use the magnet analogy)?</li>
+        <li>☐ Explain why forming bonds releases energy?</li>
+        <li>☐ Explain why an exothermic reaction can still involve bond breaking?</li>
+        <li>☐ Correctly identify "Break = Take" and "Form = Warm"?</li>
+      </ul>
+
+      <p><strong>If you checked all boxes:</strong> Great! Return to the main lesson.</p>
+      <p><strong>If you're still unsure:</strong> Try the PhET simulation, or ask your teacher for Tier 3 support.</p>
+    </section>
+
+    <!-- SECTION 7: Next Steps -->
+    <section class="next-steps">
+      <h2>📍 Next Steps</h2>
+      <ul>
+        <li><strong>Return to lesson:</strong> <a href="../../../grade7/cycle03/week1/student-page.html">G7 C3 Week 1 Student Page</a></li>
+        <li><strong>Practice simulation:</strong> <a href="https://phet.colorado.edu/en/simulations/molecules-and-light" target="_blank">PhET Molecules and Light</a></li>
+        <li><strong>Still stuck?</strong> <a href="../tier3/g7-c3-bond-energy-prerequisite.html">Tier 3 Intensive Support: Energy Basics</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer style="margin-top: 2rem; text-align: center; color: #6b7280; font-size: 0.875rem;">
+    <p>KAMS Science | Tier 2 Intervention | Cycle 3: Climate Change & Energy Flow</p>
+    <p><em>Research basis: Refutational text (g=0.41), Bridging analogies (Clement, 1993)</em></p>
+  </footer>
+</body>
+</html>
